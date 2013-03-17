@@ -15,7 +15,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 public class RequirementManager implements IJanewayModule {
 
 	List<JanewayTabModel> tabs;
-	//cats
+
 	// Constructor
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
