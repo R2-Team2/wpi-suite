@@ -1,6 +1,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
+import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 
 /**
  * Basic Requirement class
@@ -16,6 +19,21 @@ public class Requirement extends AbstractModel {
 	private String description;
 	private int estimate;
 	private int effort; 
+	
+	public Requirement(String name, String release, RequirementStatus status, 
+					   String description, int estimate, int effort) {
+		this.name = name;
+		this.release = release;
+		this.status = status;
+		this.description = description;
+		this.estimate = estimate;
+		this.effort = effort;
+	}
+	
+	public static Requirement fromJson(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Requirement.class);
+	}
 	
 	/**
 	 * @return the id
@@ -129,9 +147,12 @@ public class Requirement extends AbstractModel {
 
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		//Gson
-		return null;
+		return new Gson().toJson(this, Requirement.class);
+	}
+	
+	public static Requirement[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Requirement[].class);
 	}
 
 	@Override
