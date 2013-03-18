@@ -14,13 +14,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.MainView;
 
 public class RequirementManager implements IJanewayModule {
 
-<<<<<<< HEAD
 	private List<JanewayTabModel> tabs;
-	
-=======
-	List<JanewayTabModel> tabs;
 
->>>>>>> developer-comm
 	// Constructor
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
