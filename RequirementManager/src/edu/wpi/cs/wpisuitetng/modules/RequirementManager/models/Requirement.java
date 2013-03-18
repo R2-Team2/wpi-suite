@@ -19,9 +19,10 @@ public class Requirement extends AbstractModel {
 	private String description;
 	private int estimate;
 	private int effort; 
-	
+		
 	public Requirement(String name, String release, RequirementStatus status, 
 					   String description, int estimate, int effort) {
+		this.id = 1; // need to increment
 		this.name = name;
 		this.release = release;
 		this.status = status;
