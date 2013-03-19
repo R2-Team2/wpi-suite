@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
 import javax.swing.JTable;
 
