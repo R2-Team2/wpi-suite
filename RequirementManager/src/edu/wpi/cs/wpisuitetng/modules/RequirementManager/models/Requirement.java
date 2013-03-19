@@ -1,7 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-
+import com.google.gson.Gson;
 /**
  * Basic Requirement class
  * 
@@ -16,6 +16,17 @@ public class Requirement extends AbstractModel {
 	private String description;
 	private int estimate;
 	private int effort;
+	
+	public Requirement(int id, String name, String release, RequirementStatus status, String description, int estimate, int effort){
+		this.id = id;
+		this.name = name;
+		this.release = release;
+		this.status = status;
+		this.description = description;
+		this.estimate = estimate;
+		this.effort = effort;
+		
+	}
 	
 	/**
 	 * @return the id
@@ -128,10 +139,14 @@ public class Requirement extends AbstractModel {
 	}
 
 	@Override
+	/**
+	 * This returns a Json encoded String representation of this message object.
+	 */
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Gson().toJson(this, Requirement.class);
 	}
+	
+	
 
 	@Override
 	public Boolean identify(Object o) {
