@@ -10,6 +10,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 
 
 public class RequirementManager implements IJanewayModule {
@@ -22,6 +23,8 @@ public class RequirementManager implements IJanewayModule {
 
 		ToolbarView toolBar = new ToolbarView();
 		MainView mainPanel = new MainView();
+		ViewEventController.getInstance().setMainView(mainPanel);
+		ViewEventController.getInstance().setToolBar(toolBar);
 
 		// Create a tab model that contains the toolbar panel and the main content panel
 		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolBar, mainPanel);
@@ -33,7 +36,7 @@ public class RequirementManager implements IJanewayModule {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "RequirementManager";
+		return "Requirement Manager";
 	}
 
 	@Override
