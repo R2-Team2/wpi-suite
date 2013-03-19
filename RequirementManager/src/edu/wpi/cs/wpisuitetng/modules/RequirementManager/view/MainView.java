@@ -14,6 +14,9 @@ public class MainView extends JTabbedPane {
 		this.addTab("Overview", overview);
 	}
 
+	/**
+	 * Overriden insertTab function to add the closable tab element.
+	 */
 	@Override
 	public void insertTab(String title, Icon icon, Component component,
 			String tip, int index) {
