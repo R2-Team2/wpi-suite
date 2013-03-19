@@ -11,9 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
-
 public class ToolbarView extends JPanel {
 
+	/**
+	 * Default Constructor for the ToolbarView. Is a cosntant size to above the tabs.
+	 * Creates a button that contains the actionlistener and creates the Requirements tab.
+	 */
 	public ToolbarView() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
 		
