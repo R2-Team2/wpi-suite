@@ -165,5 +165,10 @@ public class Requirement extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getDescription();
+	}
 
 }

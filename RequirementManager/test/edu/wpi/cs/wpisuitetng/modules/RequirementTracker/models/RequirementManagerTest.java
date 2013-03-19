@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -20,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.RequirementManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
@@ -114,10 +116,9 @@ public class RequirementManagerTest {
 	
 	@Test
 	public void testSave() {
-		/*Requirement newRequirement = new Requirement();
 		manager.save(defaultSession, newRequirement);
 		assertSame(newRequirement, db.retrieve(Requirement.class, "id", 3).get(0));
-		assertSame(testProject, newRequirement.getProject());*/
+		assertSame(testProject, newRequirement.getProject());
 	}
 	
 	@Test
