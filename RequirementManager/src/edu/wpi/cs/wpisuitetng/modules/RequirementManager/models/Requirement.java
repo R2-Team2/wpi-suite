@@ -31,6 +31,10 @@ public class Requirement extends AbstractModel {
 		this.effort = effort;
 	}
 	
+	public Requirement() {
+		
+	}
+
 	public static Requirement fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement.class);
