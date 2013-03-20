@@ -13,6 +13,7 @@ public class Requirement extends AbstractModel {
 	private String name;
 	private String release;
 	private RequirementStatus status;
+	private RequirementPriority priority;
 	private String description;
 	private int estimate;
 	private int effort;
@@ -124,6 +125,20 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setEffort(int effort) {
 		this.effort = effort;
+	}
+
+	/**
+	 * @return the priority
+	 */
+	public RequirementPriority getPriority() {
+		return priority;
+	}
+
+	/**
+	 * @param priority the priority to set
+	 */
+	public void setPriority(RequirementPriority priority) {
+		this.priority = priority;
 	}
 
 	@Override
