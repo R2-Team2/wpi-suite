@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 
 public class ViewEventController {
@@ -44,7 +45,7 @@ public class ViewEventController {
 	 * Opens a new tab for the creation of a requirement.
 	 */
 	public void createRequirement() {
-		NewRequirementPanel newReq = new NewRequirementPanel();
+		NewRequirementPanel newReq = new NewRequirementPanel(new RequirementModel());
 		main.addTab("Create Requirement", newReq);
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();

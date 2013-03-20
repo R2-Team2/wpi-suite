@@ -15,6 +15,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+
 public class NewRequirementPanel extends JPanel 
 {
 
@@ -30,10 +33,13 @@ public class NewRequirementPanel extends JPanel
 	private JRadioButton priorityMedium;
 	private JRadioButton priorityLow;
 	
+	private final RequirementModel requirementModel;
+	
 	/**
 	 * Default constructor.
 	 */
-	public NewRequirementPanel() {
+	public NewRequirementPanel(RequirementModel reqModel) {
+		this.requirementModel = reqModel;
 
 		setLayout(new GridLayout(1, 2));
 
@@ -141,12 +147,9 @@ public class NewRequirementPanel extends JPanel
 		JButton buttonUpdate = new JButton("Update");
 		JButton buttonCancel = new JButton("Cancel");
 		JButton buttonDelete = new JButton("Delete");
-
-		buttonUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				update();
-			}
-		});
+		
+		// Construct the add requirement controller and add it to the update button
+		buttonUpdate.addActionListener(new AddRequirementController(requirementModel, this));
 
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

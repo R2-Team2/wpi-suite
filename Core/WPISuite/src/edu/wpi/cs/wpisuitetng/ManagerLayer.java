@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementEntityManager;
 //import edu.wpi.cs.wpisuitetng.modules.RequirementManager.
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
@@ -76,7 +77,7 @@ public class ManagerLayer {
 		map.put("defecttrackerdefect", new DefectManager(data));
 		map.put("defecttrackercomment", new CommentManager(data));
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
-		//map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
+		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard"};
