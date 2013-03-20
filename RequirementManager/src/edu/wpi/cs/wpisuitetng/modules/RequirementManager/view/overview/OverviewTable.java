@@ -2,7 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
 import javax.swing.JTable;
 
-public class OverviewTable extends JTable {
+public class OverviewTable extends JTable 
+{
 	
 	public OverviewTable(Object[][] data, String[] columnNames)
 	{
@@ -10,4 +11,5 @@ public class OverviewTable extends JTable {
 		
 		setFillsViewportHeight(true);
 	}
+	
 }

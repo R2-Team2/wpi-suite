@@ -10,9 +10,7 @@ public class ViewEventController {
 	/**
 	 * Default constructor for ViewEventController.  Is protected to prevent instantiation.
 	 */
-	protected ViewEventController() {
-		// TODO Auto-generated constructor stub
-	}
+	protected ViewEventController() {}
 
 	/**
 	 * Returns the singleton instance of the vieweventcontroller.
@@ -29,8 +27,8 @@ public class ViewEventController {
 	 * Sets the main view to the given view.
 	 * @param main2 the main view to be set as active.
 	 */
-	public void setMainView(MainView main2) {
-		main = main2;
+	public void setMainView(MainView mainview) {
+		main = mainview;
 	}
 
 	/**
@@ -38,8 +36,8 @@ public class ViewEventController {
 	 * Sets the toolbarview to the given toolbar
 	 * @param tool2 the toolbar to be set as active.
 	 */
-	public void setToolBar(ToolbarView tool2) {
-		tool = tool2;
+	public void setToolBar(ToolbarView toolbar) {
+		tool = toolbar;
 	}
 
 	/**
