@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.RequirementManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
@@ -60,12 +61,12 @@ public class RequirementManagerTest {
 		adminSession = new Session(admin, testProject, mockSsid);
 		
 		existingUser = new User("joe", "joe", "1234", 2);
-		existingRequirement = new Requirement(1, "Bob", "1.0", RequirementStatus.NEW, "Desc", 1, 1);
+		existingRequirement = new Requirement(1, "Bob", "1.0", RequirementStatus.NEW, RequirementPriority.BLANK, "Desc", 1, 1);
 		
-		otherRequirement = new Requirement(2, "Joe", "2.0", RequirementStatus.NEW, "Description", 2, 2);
+		otherRequirement = new Requirement(2, "Joe", "2.0", RequirementStatus.NEW, RequirementPriority.LOW, "Description", 2, 2);
 				
 		defaultSession = new Session(existingUser, testProject, mockSsid);
-		newRequirement = new Requirement(3, "Jim", "3.0", RequirementStatus.NEW, "Desc", 1, 2);
+		newRequirement = new Requirement(3, "Jim", "3.0", RequirementStatus.NEW, RequirementPriority.HIGH, "Desc", 1, 2);
 		
 		db = new MockData(new HashSet<Object>());
 		db.save(existingRequirement, testProject);

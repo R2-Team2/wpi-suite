@@ -2,6 +2,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -44,7 +45,7 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		Requirement[] errorRequirement = { new Requirement(6, "Error", "0.0", RequirementStatus.NEW, "error desc", 0, 0) };
+		Requirement[] errorRequirement = { new Requirement(6, "Error", "0.0", RequirementStatus.NEW, RequirementPriority.BLANK, "error desc", 0, 0) };
 		controller.receivedRequirements(errorRequirement);
 	}
 
