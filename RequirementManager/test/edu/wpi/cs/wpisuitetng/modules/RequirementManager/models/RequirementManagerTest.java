@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.wpi.cs.wpisuitetng.modules.RequirementTracker.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import static org.junit.Assert.*;
 
