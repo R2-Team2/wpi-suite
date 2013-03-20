@@ -43,11 +43,53 @@ public class AddRequirementController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		Requirement someRequirement = new Requirement(7, "Name", "1.0", RequirementStatus.NEW, RequirementPriority.LOW, "Desc", 1, 1); // Create new requirement object based on field values in view
+		String stringName = view.getBoxName().getText();
+		String stringReleaseNum = view.getBoxReleaseNum().getText();
+		String stringDescription = view.getBoxDescription().getText();
+		RequirementPriority priority;
+		RequirementStatus status;
+		
+		boolean stateNew = view.getDropdownStatus().getSelectedItem() == "New";
+		boolean stateInProgress = view.getDropdownStatus().getSelectedItem() == "In Progress";
+		boolean stateOpen = view.getDropdownStatus().getSelectedItem() == "Open";
+		boolean stateComplete = view.getDropdownStatus().getSelectedItem() == "Complete";
+		boolean stateDeleted = view.getDropdownStatus().getSelectedItem() == "Deleted";
+		
+		if (stateNew)
+			status = RequirementStatus.NEW;
+		else if (stateInProgress)
+			status = RequirementStatus.INPROGRESS;
+		else if (stateOpen)
+			status = RequirementStatus.OPEN;
+		else if (stateComplete)
+			status = RequirementStatus.COMPLETE;
+		else if (stateDeleted)
+			status = RequirementStatus.DELETED;
+		else
+			status = RequirementStatus.NEW;
+
+		boolean stateHigh = view.getPriorityHigh().isSelected();
+		boolean stateMedium = view.getPriorityMedium().isSelected();
+		boolean stateLow = view.getPriorityLow().isSelected();
+
+		if (stateHigh)
+			priority = RequirementPriority.HIGH;
+		else if (stateMedium)
+			priority = RequirementPriority.MEDIUM;
+		else if (stateLow)
+			priority = RequirementPriority.LOW;
+		else
+			priority = RequirementPriority.BLANK;
+
+		Requirement newRequirement = new Requirement(1, stringName, stringReleaseNum, status, priority, stringDescription, 0, 0);
+
+		
+		//Requirement someRequirement = new Requirement();
+		//Requirement someRequirement = new Requirement(7, "Name", "1.0", RequirementStatus.NEW, RequirementPriority.LOW, "Desc", 1, 1); // Create new requirement object based on field values in view
 		// if (requirementIsFine) {
 		// Send a request to the core to save this requirement
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.PUT); // PUT == create
-		request.setBody(someRequirement.toJSON()); // put the new requirement in the body of the request
+		request.setBody(newRequirement.toJSON()); // put the new requirement in the body of the request
 		System.out.println("Body: " + request.getBody());
 		request.addObserver(new AddRequirementRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request

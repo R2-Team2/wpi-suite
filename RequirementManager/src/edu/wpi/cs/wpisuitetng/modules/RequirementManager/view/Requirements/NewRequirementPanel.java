@@ -16,10 +16,47 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
 
 public class NewRequirementPanel extends JPanel 
 {
+
+	public JTextField getBoxName() {
+		return boxName;
+	}
+
+
+	public JTextArea getBoxDescription() {
+		return boxDescription;
+	}
+
+
+	public JTextField getBoxReleaseNum() {
+		return boxReleaseNum;
+	}
+
+
+	public JComboBox<String> getDropdownStatus() {
+		return dropdownStatus;
+	}
+
+
+	public JRadioButton getPriorityHigh() {
+		return priorityHigh;
+	}
+
+
+	public JRadioButton getPriorityMedium() {
+		return priorityMedium;
+	}
+
+
+	public JRadioButton getPriorityLow() {
+		return priorityLow;
+	}
 
 	private JPanel leftPanel;
 	private JTextField boxName;
@@ -224,32 +261,52 @@ public class NewRequirementPanel extends JPanel
 	private void update()
 	{
 		String stringName = boxName.getText();
+		String stringReleaseNum = boxReleaseNum.getText();
 		String stringDescription = boxDescription.getText();
-		String stringStatus = (String) dropdownStatus.getSelectedItem();
-		String stringPriority;
+		RequirementPriority priority;
+		RequirementStatus status;
+		
+		boolean stateNew = dropdownStatus.getSelectedItem() == "New";
+		boolean stateInProgress = dropdownStatus.getSelectedItem() == "In Progress";
+		boolean stateOpen = dropdownStatus.getSelectedItem() == "Open";
+		boolean stateComplete = dropdownStatus.getSelectedItem() == "Complete";
+		boolean stateDeleted = dropdownStatus.getSelectedItem() == "Deleted";
+		
+		if (stateNew)
+			status = RequirementStatus.NEW;
+		else if (stateInProgress)
+			status = RequirementStatus.INPROGRESS;
+		else if (stateOpen)
+			status = RequirementStatus.OPEN;
+		else if (stateComplete)
+			status = RequirementStatus.COMPLETE;
+		else if (stateDeleted)
+			status = RequirementStatus.DELETED;
+		else
+			status = RequirementStatus.NEW;
 
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
 		boolean stateLow = priorityLow.isSelected();
 
 		if (stateHigh)
-			stringPriority = "High";
+			priority = RequirementPriority.HIGH;
 		else if (stateMedium)
-			stringPriority = "Medium";
+			priority = RequirementPriority.MEDIUM;
 		else if (stateLow)
-			stringPriority = "Low";
+			priority = RequirementPriority.LOW;
 		else
-			stringPriority = "Not selected";
+			priority = RequirementPriority.BLANK;
 
-		String stringReleaseNum = boxReleaseNum.getText();
+		Requirement newRequirement = new Requirement(1, stringName, stringReleaseNum, status, priority, stringDescription, 0, 0);
 
-		String entireData = stringName + "\n";
+		/*String entireData = stringName + "\n";
 		entireData = entireData + stringDescription + "\n";
 		entireData = entireData + stringStatus + "\n";
 		entireData = entireData + stringPriority + "\n";
-		entireData = entireData + stringReleaseNum + "\n";
+		entireData = entireData + stringReleaseNum + "\n";*/
 
-		resultField.setText(entireData);
+		//resultField.setText(entireData);
 	}
 	
 	/**
