@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
- ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import java.util.ArrayList;
@@ -18,49 +6,65 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-/**
- * This is a model for the requirements manager. It contains all of the requirements.
- * @author Dylan
+
+/**List of Requirements being pulled from the server
+ * 
+ * @author Gabriel McCormick
  *
  */
-@SuppressWarnings({"serial"})
-public class RequirementModel extends AbstractListModel {
+public class RequirementModel extends AbstractListModel{
 	
-	/** The list of requirements */
+	/**
+	 * The list in which all the requirements for a single project are contained
+	 */
 	private List<Requirement> requirements;
 	
 	/**
-	 * Constructs a new list with no requirements.
+	 * Constructs an empty list of requirements for the project
 	 */
-	public RequirementModel() {
+	public RequirementModel (){
 		requirements = new ArrayList<Requirement>();
+	}
+	
+	/**
+	 * adds a single requirement to the requirements of the project
+	 */
+	public void addRequirement(Requirement newReq){
+		// add the requirement
+		requirements.add(newReq);
+		//in the future we may have to update the GUI to reflect that the requirement was added
+	}
+	
+	/**
+	 * Removes the requirement with the given ID
+	 */
+	public void removeRequirement(int removeId){
+		// iterate through list of requirements until id of project is found
+		for (int i=0; i < this.requirements.size(); i++){
+			
+			if (requirements.get(i).getId() == removeId){
+				// remove the id
+				requirements.remove(i);
+				break;
+			}
+		}
+	}
+
+	
+	/**
+	 * returns the number of requirements in the project.
+	 */
+	public int getSize() {
+		return requirements.size();
 	}
 
 	/**
-	 * Adds the given requirement to the list
-	 * 
-	 * @param newRequirement the new requirement to add
+	 * returns the requirement at the provided index
 	 */
-	public void addRequirement(Requirement newRequirement) {
-		// Add the requirement
-		requirements.add(newRequirement);
-		
-		// Notify the model that it has changed so the GUI will be udpated
-		this.fireIntervalAdded(this, 0, 0);
+	public Object getElementAt(int index) {
+		return requirements.get(requirements.size() - 1 - index).toString();
 	}
-	
-	/**
-	 * Adds the given array of requirements to the list
-	 * 
-	 * @param requirements the array of requirements to add
-	 */
-	public void addRequirements(Requirement[] requirements) {
-		for (int i = 0; i < requirements.length; i++) {
-			this.requirements.add(requirements[i]);
-		}
-		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-	}
-	
+
 	/**
 	 * Removes all requirements from this model
 	 * 
@@ -80,25 +84,15 @@ public class RequirementModel extends AbstractListModel {
 	}
 	
 	/**
-	 * Returns the requirement at the given index. This method is called
-	 * internally by the JList in **RequirementPanel**. Note this method returns
-	 * elements in reverse order, so newest requirements are returned first.
+	 * Adds the given array of requirements to the list
 	 * 
-	 * @see javax.swing.ListModel#getElementAt(int)
+	 * @param requirements the array of requirements to add
 	 */
-	@Override
-	public Object getElementAt(int index) {
-		return requirements.get(requirements.size() - 1 - index).toString();
+	public void addRequirements(Requirement[] requirements) {
+		for (int i = 0; i < requirements.length; i++) {
+			this.requirements.add(requirements[i]);
+		}
+		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
-
-	/**
-	 * Returns the number of requirements in the model. Also used internally
-	 * by the JList in **RequirementPanel**.
-	 * 
-	 * @see javax.swing.ListModel#getSize()
-	 */
-	@Override
-	public int getSize() {
-		return requirements.size();
-	}
+	
 }

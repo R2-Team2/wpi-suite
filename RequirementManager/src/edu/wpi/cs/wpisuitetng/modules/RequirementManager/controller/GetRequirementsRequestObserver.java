@@ -44,7 +44,7 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		Requirement[] errorRequirement = { new Requirement("Error", "0.0", RequirementStatus.DUMMY, "error desc", 0, 0) };
+		Requirement[] errorRequirement = { new Requirement(6, "Error", "0.0", RequirementStatus.NEW, "error desc", 0, 0) };
 		controller.receivedRequirements(errorRequirement);
 	}
 

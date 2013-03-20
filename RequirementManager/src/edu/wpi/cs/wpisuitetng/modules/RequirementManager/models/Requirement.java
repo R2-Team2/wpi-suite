@@ -1,9 +1,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 
 /**
  * Basic Requirement class
@@ -20,9 +20,11 @@ public class Requirement extends AbstractModel {
 	private int estimate;
 	private int effort; 
 		
-	public Requirement(String name, String release, RequirementStatus status, 
-					   String description, int estimate, int effort) {
-		this.id = 1; // need to increment
+	private RequirementPriority priority;
+	
+	
+	public Requirement(int id, String name, String release, RequirementStatus status, String description, int estimate, int effort){
+		this.id = id;
 		this.name = name;
 		this.release = release;
 		this.status = status;
@@ -39,7 +41,7 @@ public class Requirement extends AbstractModel {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement.class);
 	}
-	
+
 	/**
 	 * @return the id
 	 */
@@ -138,6 +140,20 @@ public class Requirement extends AbstractModel {
 		this.effort = effort;
 	}
 
+	/**
+	 * @return the priority
+	 */
+	public RequirementPriority getPriority() {
+		return priority;
+	}
+
+	/**
+	 * @param priority the priority to set
+	 */
+	public void setPriority(RequirementPriority priority) {
+		this.priority = priority;
+	}
+
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -151,6 +167,10 @@ public class Requirement extends AbstractModel {
 	}
 
 	@Override
+
+	/**
+	 * This returns a Json encoded String representation of this message object.
+	 */
 	public String toJSON() {
 		return new Gson().toJson(this, Requirement.class);
 	}

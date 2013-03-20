@@ -60,15 +60,12 @@ public class RequirementManagerTest {
 		adminSession = new Session(admin, testProject, mockSsid);
 		
 		existingUser = new User("joe", "joe", "1234", 2);
-		existingRequirement = new Requirement("Bob", "1.0", RequirementStatus.DUMMY, "Desc", 1, 1);
-		existingRequirement.setId(1);
+		existingRequirement = new Requirement(1, "Bob", "1.0", RequirementStatus.NEW, "Desc", 1, 1);
 		
-		otherRequirement = new Requirement("Joe", "2.0", RequirementStatus.DUMMY, "Description", 2, 2);
-		otherRequirement.setId(2);
+		otherRequirement = new Requirement(2, "Joe", "2.0", RequirementStatus.NEW, "Description", 2, 2);
 				
 		defaultSession = new Session(existingUser, testProject, mockSsid);
-		newRequirement = new Requirement("Jim", "3.0", RequirementStatus.DUMMY, "Desc", 1, 2);
-		newRequirement.setId(3);
+		newRequirement = new Requirement(3, "Jim", "3.0", RequirementStatus.NEW, "Desc", 1, 2);
 		
 		db = new MockData(new HashSet<Object>());
 		db.save(existingRequirement, testProject);
@@ -84,7 +81,7 @@ public class RequirementManagerTest {
 		assertEquals(3, created.getId()); // IDs are unique across projects
 		assertEquals("Jim", created.getName());
 		assertEquals("3.0", created.getRelease());
-		assertEquals(RequirementStatus.DUMMY, created.getStatus());
+		assertEquals(RequirementStatus.NEW, created.getStatus());
 		assertEquals("Desc", created.getDescription());
 		assertEquals(1, created.getEstimate());
 		assertEquals(2, created.getEffort());
