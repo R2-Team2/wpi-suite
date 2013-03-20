@@ -1,44 +1,50 @@
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
-//package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
-//
-//import edu.wpi.cs.wpisuitetng.network.RequestObserver;
-//import edu.wpi.cs.wpisuitetng.network.models.IRequest;
-//import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
-//
-//public class AddMessageRequestObserver implements RequestObserver {
-//	
-//	private final AddMessageController controller;
-//
-//	public AddMessageRequestObserver(AddMessageController controller) {
-//		this.controller = controller;
-//	}
-//	
-//	/*
-//	 * Parse the message that was received from the server then pass them to
-//	 * the controller.
-//	 * 
-//	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-//	 */
-//	@Override
-//	public void responseSuccess(IRequest iReq) {
-//		// Get the response to the given request
-//		final ResponseModel response = iReq.getResponse();
-//
-//		// Parse the message out of the response body
-//		final RequirementManagerMessage message = RequirementManagerMessage.fromJson(response.getBody());
-//
-//		// Pass the message back to the controller
-//		controller.addMessageToModel(message);
-//	}
-//
-//	@Override
-//	public void responseError(IRequest iReq) {
-//		System.err.println("The request to add a message failed.");
-//	}
-//
-//	@Override
-//	public void fail(IRequest iReq, Exception exception) {
-//		System.err.println("The request to add a message failed.");
-//	}
-//
-//}
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+
+/**
+ * This observer is called when a response is received from a request
+ * to the server to add a requirement.
+ *
+ */
+public class AddRequirementRequestObserver implements RequestObserver {
+	
+	private final AddRequirementController controller;
+	
+	public AddRequirementRequestObserver(AddRequirementController controller) {
+		this.controller = controller;
+	}
+	
+	/*
+	 * Parse the requirement that was received from the server then pass them to
+	 * the controller.
+	 * 
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	@Override
+	public void responseSuccess(IRequest iReq) {
+		// Get the response to the given request
+		final ResponseModel response = iReq.getResponse();
+		
+		// Parse the requirement out of the response body
+		final Requirement requirement = Requirement.fromJson(response.getBody());
+		
+		// Pass the requirements back to the controller
+		controller.addRequirementToModel(requirement);
+	}
+
+	@Override
+	public void responseError(IRequest iReq) {
+		System.err.println("The request to add a requirement failed.");
+	}
+
+	@Override
+	public void fail(IRequest iReq, Exception exception) {
+		System.err.println("The request to add a requirement failed.");
+	}
+
+}
