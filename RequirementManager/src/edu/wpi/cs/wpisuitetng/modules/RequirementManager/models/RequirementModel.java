@@ -27,6 +27,8 @@ public class RequirementModel extends AbstractListModel{
 	
 	/**
 	 * adds a single requirement to the requirements of the project
+	 * 
+	 * @oaram newReq The requirement to be added to the list of requirements in the project
 	 */
 	public void addRequirement(Requirement newReq){
 		// add the requirement
@@ -36,6 +38,8 @@ public class RequirementModel extends AbstractListModel{
 	
 	/**
 	 * Removes the requirement with the given ID
+	 * 
+	 * @param removeId The ID number of the requirement to be removed from the list of requirements in the project
 	 */
 	public void removeRequirement(int removeId){
 		// iterate through list of requirements until id of project is found
@@ -51,14 +55,22 @@ public class RequirementModel extends AbstractListModel{
 
 	
 	/**
-	 * returns the number of requirements in the project.
+	 * Provides the number of elements in the list of requirements for the project. This
+	 * function is called internally by the JList in NewRequirementPanel. Returns elements
+	 * in reverse order, so the newest requirement is returned first.
+	 * 
+	 * @return the number of requirements in the project
 	 */
 	public int getSize() {
 		return requirements.size();
 	}
 
 	/**
-	 * returns the requirement at the provided index
+	 * This function takes an index and finds the requirement in the list of requirements
+	 * for the project. Used internally by the JList in NewRequirementModel.
+	 * 
+	 * @param index The index of the requirement to be returned
+	 * @return the requirement associated with the provided index
 	 */
 	public Object getElementAt(int index) {
 		return requirements.get(requirements.size() - 1 - index).toString();

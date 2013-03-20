@@ -4,7 +4,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 /**
- * Various states that a Requirement can have 
+ * Various status' that a Requirement can have 
  * @author david
  */
 public enum RequirementStatus {
