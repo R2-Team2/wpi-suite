@@ -25,7 +25,7 @@ public class NewRequirementPanel extends JPanel
 	
 	private JPanel rightPanel;
 	private JTextField boxReleaseNum;
-	private JComboBox dropdownStatus;
+	private JComboBox<String> dropdownStatus;
 	private JRadioButton priorityHigh;
 	private JRadioButton priorityMedium;
 	private JRadioButton priorityLow;
@@ -117,7 +117,7 @@ public class NewRequirementPanel extends JPanel
 		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
 
 		String[] statusString = { "Not Selected", "New", "In Progress", "Open", "Complete", "Delete" }; //TODO change to enum
-		dropdownStatus = new JComboBox(statusString);
+		dropdownStatus = new JComboBox<String>(statusString);
 
 		JPanel priorityPanel = new JPanel();
 
@@ -218,7 +218,7 @@ public class NewRequirementPanel extends JPanel
 	/**
 	 * Updates the requirement based on the inputted information.
 	 */
-	public void update()
+	private void update()
 	{
 		String stringName = boxName.getText();
 		String stringDescription = boxDescription.getText();
@@ -252,7 +252,7 @@ public class NewRequirementPanel extends JPanel
 	/**
 	 * Deletes the requirement.
 	 */
-	public void delete()
+	private void delete()
 	{
 		resultField.setText("Delete");
 	}
@@ -260,7 +260,7 @@ public class NewRequirementPanel extends JPanel
 	/**
 	 * Cancels the editing of the requirement.
 	 */
-	public void cancel() 
+	private void cancel() 
 	{
 		boxName.setText("");
 		boxDescription.setText("");
