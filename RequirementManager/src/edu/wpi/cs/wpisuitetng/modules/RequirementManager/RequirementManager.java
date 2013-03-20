@@ -17,7 +17,10 @@ public class RequirementManager implements IJanewayModule {
 
 	private List<JanewayTabModel> tabs;
 	
-	// Constructor
+	/** Constructor for Requirement Manager. Creates a main view that contains a
+	 *  toolbar on the top for each sub-tab. 
+	 * 
+	 */
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
 
