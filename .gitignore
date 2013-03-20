@@ -1,4 +1,5 @@
 *.class
+*.DS_Store
 .metadata
 .metadata\*
 .metadata/*
@@ -35,4 +36,8 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/DefectTracker.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
 
+Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
+
+Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar

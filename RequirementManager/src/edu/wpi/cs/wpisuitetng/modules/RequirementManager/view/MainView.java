@@ -1,33 +1,29 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
+ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Component;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.Icon;
+import javax.swing.JTabbedPane;
 
-public class MainView extends JPanel {
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewPanel;
 
-	public MainView()
-	{
-		JButton testButton = new JButton("Test");
-		testButton.addActionListener(new ActionListener()
-		{
+public class MainView extends JTabbedPane {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JLabel newFrame = new JLabel("Test");
-				add(newFrame);
-				repaint();
-			}
-		
-		});
-		add(testButton);
-		add(new JLabel("PostBoard placeholder"));
-		setBorder(BorderFactory.createLineBorder(Color.green, 2));
+	public MainView() {
+		OverviewPanel overview = new OverviewPanel();
+		this.addTab("Overview", overview);
 	}
+
+	/**
+	 * Overriden insertTab function to add the closable tab element.
+	 */
+	@Override
+	public void insertTab(String title, Icon icon, Component component,
+			String tip, int index) {
+		super.insertTab(title, icon, component, tip, index);
+		if (!(component instanceof OverviewPanel)) {
+			setTabComponentAt(index, new ClosableTabComponent(this));
+		}
+	}
+
 }
