@@ -28,7 +28,23 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		Requirement[] requirements = Requirement.fromJsonArray(iReq.getResponse().getBody());
 		controller.receivedRequirements(requirements);
-		System.out.println("Received requirement: " + iReq.getResponse().getBody());
+		
+		System.out.println("---------------------");
+		System.out.println("Requirements stored:");
+		for (int i = 0; i < requirements.length; i++) {
+			System.out.println("Requirement: ");
+			System.out.print(" id: " + requirements[i].getId());
+			System.out.print(", name: " + requirements[i].getName());
+			System.out.print(", release: " + requirements[i].getRelease());
+			System.out.print(", status: " + requirements[i].getStatus());
+			System.out.print(", priority: " + requirements[i].getPriority());
+			System.out.print(", description: " + requirements[i].getDescription());
+			System.out.print(", estimate: " + requirements[i].getEstimate());
+			System.out.print(", effort: " + requirements[i].getEffort());
+			System.out.println("\n");
+		}
+		System.out.println("---------------------");
+		
 	}
 
 	/*

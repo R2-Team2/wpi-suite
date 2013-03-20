@@ -38,7 +38,6 @@ public class AddRequirementRequestObserver implements RequestObserver {
 		
 		// Pass the requirements back to the controller
 		controller.addRequirementToModel(requirement);
-		System.out.println("Success");
 	}
 
 	@Override

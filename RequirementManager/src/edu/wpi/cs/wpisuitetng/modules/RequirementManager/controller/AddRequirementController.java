@@ -90,7 +90,6 @@ public class AddRequirementController implements ActionListener {
 		// Send a request to the core to save this requirement
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.PUT); // PUT == create
 		request.setBody(newRequirement.toJSON()); // put the new requirement in the body of the request
-		System.out.println("Body: " + request.getBody());
 		request.addObserver(new AddRequirementRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 		//}

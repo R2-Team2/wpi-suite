@@ -18,7 +18,7 @@ public class RequirementModel extends AbstractListModel{
 	 * The list in which all the requirements for a single project are contained
 	 */
 	private List<Requirement> requirements;
-	
+
 	/**
 	 * Constructs an empty list of requirements for the project
 	 */
@@ -106,5 +106,11 @@ public class RequirementModel extends AbstractListModel{
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
+
+	public List<Requirement> getRequirements() {
+		return requirements;
+	}
+	
+	
 	
 }

@@ -5,10 +5,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+
 
 
 public class OverviewPanel extends JPanel {
-
+	
 	public OverviewPanel()
 	{
 		SpringLayout overviewLayout = new SpringLayout();
@@ -20,7 +22,9 @@ public class OverviewPanel extends JPanel {
 		filterPanel.add(filterInfo);
 
 		String[] columnNames = {"ID", "Name", "Status", "Priority", "Release #"};
+				
 		Object[][] data = {};
+		
 		OverviewTable table = new OverviewTable(data, columnNames);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
