@@ -150,7 +150,7 @@ public class NewRequirementPanel extends JPanel {
 				else if (stateLow)
 					stringPriority = "Low";
 				else
-					stringPriority = "Not Selected";
+					stringPriority = "Not selected";
 
 				String stringReleaseNum = boxReleaseNum.getText();
 
