@@ -119,7 +119,7 @@ public class Requirement extends AbstractModel {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.substring(0, 100);
 	}
 
 	/**getter for the name
