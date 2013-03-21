@@ -88,6 +88,13 @@ public class Requirement extends AbstractModel {
 		this.effort = effort;
 	}
 
+	/**
+	 * Returns an instance of Requirement constructed using the given
+	 * Requirement encoded as a JSON string.
+	 * 
+	 * @param the JSON-encoded Requirement to deserialize
+	 * @return the Requirement contained in the given JSON
+	 */
 	public static Requirement fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement.class);
@@ -251,6 +258,13 @@ public class Requirement extends AbstractModel {
 		return new Gson().toJson(this, Requirement.class);
 	}
 	
+	/**
+	 * Returns an array of Requirements parsed from the given JSON-encoded
+	 * string.
+	 * 
+	 * @param a string containing a JSON-encoded array of Requirement
+	 * @return an array of Requirement deserialzied from the given JSON string
+	 */
 	public static Requirement[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement[].class);
