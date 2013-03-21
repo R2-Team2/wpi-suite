@@ -1,6 +1,5 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
@@ -9,7 +8,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewT
 public class ViewEventController {
 	private static ViewEventController instance = null;
 	private MainView main = null;
-	private ToolbarView tool = null;
 	private OverviewTable overviewTable = null;
 
 	public void setOverviewTable(OverviewTable overviewTable) {
@@ -46,7 +44,6 @@ public class ViewEventController {
 	 * @param tool2 the toolbar to be set as active.
 	 */
 	public void setToolBar(ToolbarView toolbar) {
-		tool = toolbar;
 	}
 
 	/**
@@ -59,6 +56,11 @@ public class ViewEventController {
 		main.repaint();
 	}
 
+	/**Tells the table to update its listings with the 
+	 * given array of Requirements
+	 * 
+	 * @param requirements Requirements to load the table with 
+	 */
 	public void updateTable(Requirement[] requirements) {
 		overviewTable.updateTable(requirements);
 	}

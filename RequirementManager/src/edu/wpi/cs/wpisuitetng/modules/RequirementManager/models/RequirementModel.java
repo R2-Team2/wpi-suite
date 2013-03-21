@@ -12,6 +12,7 @@ import javax.swing.AbstractListModel;
  * @author Gabriel McCormick
  *
  */
+@SuppressWarnings("serial")
 public class RequirementModel extends AbstractListModel{
 	
 	/**
@@ -27,7 +28,7 @@ public class RequirementModel extends AbstractListModel{
 	}
 	
 	/**
-	 * adds a single requirement to the requirements of the project
+	 * Adds a single requirement to the requirements of the project
 	 * 
 	 * @oaram newReq The requirement to be added to the list of requirements in the project
 	 */
@@ -45,7 +46,6 @@ public class RequirementModel extends AbstractListModel{
 	public void removeRequirement(int removeId){
 		// iterate through list of requirements until id of project is found
 		for (int i=0; i < this.requirements.size(); i++){
-			
 			if (requirements.get(i).getId() == removeId){
 				// remove the id
 				requirements.remove(i);
@@ -54,7 +54,6 @@ public class RequirementModel extends AbstractListModel{
 		}
 	}
 
-	
 	/**
 	 * Provides the number of elements in the list of requirements for the project. This
 	 * function is called internally by the JList in NewRequirementPanel. Returns elements
@@ -110,7 +109,5 @@ public class RequirementModel extends AbstractListModel{
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
-	
-	
 	
 }

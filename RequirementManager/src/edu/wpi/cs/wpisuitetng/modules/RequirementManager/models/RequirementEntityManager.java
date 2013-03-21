@@ -35,7 +35,7 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		this.db = db; 
 	}
 
-	/*
+	/**
 	 * Saves a Requirement when it is received from a client
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)

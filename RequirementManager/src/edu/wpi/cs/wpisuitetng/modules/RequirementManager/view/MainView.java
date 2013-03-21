@@ -1,10 +1,8 @@
  package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
 import java.awt.Component;
-
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewPanel;
 
 public class MainView extends JTabbedPane {
@@ -15,7 +13,7 @@ public class MainView extends JTabbedPane {
 	}
 
 	/**
-	 * Overriden insertTab function to add the closable tab element.
+	 * Overridden insertTab function to add the closable tab element.
 	 */
 	@Override
 	public void insertTab(String title, Icon icon, Component component,

@@ -33,25 +33,29 @@ public class AddRequirementController implements ActionListener {
 		this.view = view;
 	}
 
-	/* 
+	/**
 	 * This method is called when the user clicks the Update button
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		// Extract the name, release number, and description from the GUI fields
 		String stringName = view.getBoxName().getText();
 		String stringReleaseNum = view.getBoxReleaseNum().getText();
 		String stringDescription = view.getBoxDescription().getText();
+		
 		RequirementPriority priority;
 		RequirementStatus status;
 		
+		// Extract the status from the GUI
 		boolean stateNew = view.getDropdownStatus().getSelectedItem() == "New";
 		boolean stateInProgress = view.getDropdownStatus().getSelectedItem() == "In Progress";
 		boolean stateOpen = view.getDropdownStatus().getSelectedItem() == "Open";
 		boolean stateComplete = view.getDropdownStatus().getSelectedItem() == "Complete";
 		boolean stateDeleted = view.getDropdownStatus().getSelectedItem() == "Deleted";
 		
+		// Convert the status string to its corresponding enum
 		if (stateNew)
 			status = RequirementStatus.NEW;
 		else if (stateInProgress)
@@ -65,10 +69,12 @@ public class AddRequirementController implements ActionListener {
 		else
 			status = RequirementStatus.NEW;
 
+		// Extract which radio is selected for the priority
 		boolean stateHigh = view.getPriorityHigh().isSelected();
 		boolean stateMedium = view.getPriorityMedium().isSelected();
 		boolean stateLow = view.getPriorityLow().isSelected();
 
+		// Convert the priority string to its corresponding enum
 		if (stateHigh)
 			priority = RequirementPriority.HIGH;
 		else if (stateMedium)
@@ -78,6 +84,7 @@ public class AddRequirementController implements ActionListener {
 		else
 			priority = RequirementPriority.BLANK;
 
+		// Create a new requirement object based on the extracted info
 		Requirement newRequirement = new Requirement(1, stringName, stringDescription);
 		newRequirement.setRelease(stringReleaseNum);
 		newRequirement.setStatus(status);

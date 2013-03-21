@@ -1,8 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
-
 import com.google.gson.Gson;
-
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
@@ -14,18 +12,22 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 public class Requirement extends AbstractModel {
 	/**  the ID of the requirement */
 	private int id;
+	
 	/**  the name of the requirement */
 	private String name;
+	
 	/**  the release number of the requirement */
 	private String release;
+	
 	/**  the project status of the requirement */
 	private RequirementStatus status;
 
 	/**  the priority of the requirement */
 	private RequirementPriority priority;
+	
 	/**  a short description of the requirement */
-
 	private String description;
+	
 	/**  the estimated amount of time to complete the requirement */
 	private int estimate;
 	

@@ -3,7 +3,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -41,7 +40,7 @@ public class GetRequirementsController implements ActionListener {
 	 * Add the given requirements to the local model (they were received from the core).
 	 * This method is called by the GetRequirementsRequestObserver
 	 * 
-	 * @param requirements an array of requirements received from the server
+	 * @param an array of requirements received from the server
 	 */
 	public void receivedRequirements(Requirement[] requirements) {
 		// Empty the local model to eliminate duplications

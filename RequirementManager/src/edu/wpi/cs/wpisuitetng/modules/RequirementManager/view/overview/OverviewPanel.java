@@ -5,10 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
-
-
-
 public class OverviewPanel extends JPanel {
 	
 	public OverviewPanel()
@@ -16,7 +12,6 @@ public class OverviewPanel extends JPanel {
 		SpringLayout overviewLayout = new SpringLayout();
 		this.setLayout(overviewLayout);
 
-		
 		JPanel filterPanel = new JPanel();
 		JLabel filterInfo = new JLabel("Filter Options Go Here.");
 		filterPanel.add(filterInfo);
@@ -43,6 +38,5 @@ public class OverviewPanel extends JPanel {
 		
 		this.add(filterPanel);
 		this.add(tablePanel);
-
 	}
 }

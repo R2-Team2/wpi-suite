@@ -28,31 +28,25 @@ public class NewRequirementPanel extends JPanel
 		return boxName;
 	}
 
-
 	public JTextArea getBoxDescription() {
 		return boxDescription;
 	}
-
 
 	public JTextField getBoxReleaseNum() {
 		return boxReleaseNum;
 	}
 
-
 	public JComboBox<String> getDropdownStatus() {
 		return dropdownStatus;
 	}
-
 
 	public JRadioButton getPriorityHigh() {
 		return priorityHigh;
 	}
 
-
 	public JRadioButton getPriorityMedium() {
 		return priorityMedium;
 	}
-
 
 	public JRadioButton getPriorityLow() {
 		return priorityLow;
@@ -253,60 +247,6 @@ public class NewRequirementPanel extends JPanel
 		rightPanel.add(buttonPanel);
 		
 		return rightPanel;
-	}
-
-	/**
-	 * Updates the requirement based on the inputted information.
-	 */
-	private void update()
-	{
-		String stringName = boxName.getText();
-		String stringReleaseNum = boxReleaseNum.getText();
-		String stringDescription = boxDescription.getText();
-		RequirementPriority priority;
-		RequirementStatus status;
-		
-		boolean stateNew = dropdownStatus.getSelectedItem() == "New";
-		boolean stateInProgress = dropdownStatus.getSelectedItem() == "In Progress";
-		boolean stateOpen = dropdownStatus.getSelectedItem() == "Open";
-		boolean stateComplete = dropdownStatus.getSelectedItem() == "Complete";
-		boolean stateDeleted = dropdownStatus.getSelectedItem() == "Deleted";
-		
-		if (stateNew)
-			status = RequirementStatus.NEW;
-		else if (stateInProgress)
-			status = RequirementStatus.INPROGRESS;
-		else if (stateOpen)
-			status = RequirementStatus.OPEN;
-		else if (stateComplete)
-			status = RequirementStatus.COMPLETE;
-		else if (stateDeleted)
-			status = RequirementStatus.DELETED;
-		else
-			status = RequirementStatus.NEW;
-
-		boolean stateHigh = priorityHigh.isSelected();
-		boolean stateMedium = priorityMedium.isSelected();
-		boolean stateLow = priorityLow.isSelected();
-
-		if (stateHigh)
-			priority = RequirementPriority.HIGH;
-		else if (stateMedium)
-			priority = RequirementPriority.MEDIUM;
-		else if (stateLow)
-			priority = RequirementPriority.LOW;
-		else
-			priority = RequirementPriority.BLANK;
-
-		Requirement newRequirement = new Requirement(1, stringName, stringReleaseNum, status, priority, stringDescription, 0, 0);
-
-		/*String entireData = stringName + "\n";
-		entireData = entireData + stringDescription + "\n";
-		entireData = entireData + stringStatus + "\n";
-		entireData = entireData + stringPriority + "\n";
-		entireData = entireData + stringReleaseNum + "\n";*/
-
-		//resultField.setText(entireData);
 	}
 	
 	/**

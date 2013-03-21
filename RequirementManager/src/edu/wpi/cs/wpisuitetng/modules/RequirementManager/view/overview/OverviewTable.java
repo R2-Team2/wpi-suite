@@ -3,14 +3,11 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 
 public class OverviewTable extends JTable 
 {
-	
 	private DefaultTableModel tableModel = null;
 	
 	public OverviewTable(Object[][] data, String[] columnNames)
@@ -23,7 +20,6 @@ public class OverviewTable extends JTable
 	
 	public void updateTable(Requirement[] requirements) {
 		tableModel.setRowCount(0);
-		//for (int i = 0; i < requirements.length; i++) {
 		for (int i = 0; i < requirements.length; i++) {
 			if (!requirements[i].isDeleted()) {
 				tableModel.addRow(new Object[]{ requirements[i].getId(), 

@@ -2,10 +2,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
@@ -22,7 +19,7 @@ public class AddRequirementRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 	
-	/*
+	/**
 	 * Parse the requirement that was received from the server then pass them to
 	 * the controller.
 	 * 
