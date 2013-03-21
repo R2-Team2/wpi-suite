@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+
 public class ToolbarView extends JPanel {
 
 	/**
@@ -30,9 +33,22 @@ public class ToolbarView extends JPanel {
 			}
 		});
 		
+		JButton refreshButton = new JButton("Refresh");
+		refreshButton.addActionListener(new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GetRequirementsController grController = new GetRequirementsController(new RequirementModel());
+				grController.retrieveRequirements();
+			}
+		});
+		
 		
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 25,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
+		toolbarLayout.putConstraint(SpringLayout.NORTH, refreshButton, 25,SpringLayout.NORTH, this);
+		toolbarLayout.putConstraint(SpringLayout.WEST, refreshButton, 50, SpringLayout.EAST, createButton);
 		this.add(createButton);
+		this.add(refreshButton);
 	}
 }

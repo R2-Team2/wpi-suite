@@ -31,6 +31,12 @@ public class GetRequirementsController implements ActionListener {
 		request.send(); // send the request
 	}
 	
+	public void retrieveRequirements() {
+		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
+		request.addObserver(new GetRequirementsRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+	}
+	
 	/**
 	 * Add the given requirements to the local model (they were received from the core).
 	 * This method is called by the GetRequirementsRequestObserver

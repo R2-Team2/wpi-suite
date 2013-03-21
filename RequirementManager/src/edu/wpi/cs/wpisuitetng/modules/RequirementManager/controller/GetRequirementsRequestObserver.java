@@ -4,6 +4,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -29,6 +30,8 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 		Requirement[] requirements = Requirement.fromJsonArray(iReq.getResponse().getBody());
 		controller.receivedRequirements(requirements);
 		
+		ViewEventController.getInstance().updateTable(requirements);
+		
 		System.out.println("---------------------");
 		System.out.println("Requirements stored:");
 		for (int i = 0; i < requirements.length; i++) {
@@ -44,6 +47,8 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 			System.out.println("\n");
 		}
 		System.out.println("---------------------");
+		
+		
 		
 	}
 
