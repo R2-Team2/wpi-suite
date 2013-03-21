@@ -32,6 +32,9 @@ public class Requirement extends AbstractModel {
 	/**  the estimated effort of completing the requirement */
 	private int effort;
 	
+	/** a flag indicating if the requirement is active or deleted */
+	private boolean activeStatus;
+	
 	
 	/**
 	 * Constructs a Requirement with default characteristics
@@ -44,6 +47,7 @@ public class Requirement extends AbstractModel {
 		status = RequirementStatus.NEW;
 		priority = RequirementPriority.BLANK;
 		estimate = effort = 0;
+		activeStatus = true;
 	}
 
 	/**
@@ -217,7 +221,13 @@ public class Requirement extends AbstractModel {
 	public void setPriority(RequirementPriority priority) {
 		this.priority = priority;
 	}
-
+	
+	/**Sets a flag in the requirement to indicate it's deleted
+	 */
+	public void remove() {
+		this.activeStatus = false;
+	}
+	
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -255,6 +265,10 @@ public class Requirement extends AbstractModel {
 	@Override
 	public String toString() {
 		return this.getDescription();
+	}
+
+	public boolean isDeleted() {
+		return !activeStatus;
 	}
 
 }

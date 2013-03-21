@@ -25,11 +25,13 @@ public class OverviewTable extends JTable
 		tableModel.setRowCount(0);
 		//for (int i = 0; i < requirements.length; i++) {
 		for (int i = 0; i < requirements.length; i++) {
-			tableModel.addRow(new Object[]{ requirements[i].getId(), 
-											requirements[i].getName(),
-											requirements[i].getStatus(),
-											requirements[i].getPriority(),
-											requirements[i].getRelease() });	
+			if (!requirements[i].isDeleted()) {
+				tableModel.addRow(new Object[]{ requirements[i].getId(), 
+												requirements[i].getName(),
+												requirements[i].getStatus(),
+												requirements[i].getPriority(),
+												requirements[i].getRelease() });
+			}
 		}
 			
 	}
