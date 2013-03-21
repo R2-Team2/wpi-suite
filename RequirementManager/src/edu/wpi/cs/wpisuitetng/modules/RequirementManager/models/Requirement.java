@@ -32,6 +32,34 @@ public class Requirement extends AbstractModel {
 	/**  the estimated effort of completing the requirement */
 	private int effort;
 	
+	
+	/**
+	 * Constructs a Requirement with default characteristics
+	 */
+	public Requirement() {
+		super();
+		id = -1;
+		name = description = "";
+		release = "";
+		status = RequirementStatus.NEW;
+		priority = RequirementPriority.BLANK;
+		estimate = effort = 0;
+	}
+
+	/**
+	 * Construct a Requirement with required properties provided and others set to default
+	 * 
+	 * @param id The ID number of the requirement
+	 * @param name The name of the requirement
+	 * @param description A short description of the requirement
+	 */
+	public Requirement(int id, String name, String description) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
 	/**
 	 * Constructs a requirement from the provided characteristics
 	 * 
@@ -42,7 +70,9 @@ public class Requirement extends AbstractModel {
 	 * @param description A short description of the requirement
 	 * @param estimate The estimated time required by the task. This is in a point system decided by the user
 	 * @param effort The estimated amount of work required by the requirement.
+	 * @deprecated
 	 */
+	@Deprecated
 	public Requirement(int id, String name, String release, RequirementStatus status, RequirementPriority priority, String description, int estimate, int effort){
 		this.id = id;
 		this.name = name;
@@ -52,10 +82,6 @@ public class Requirement extends AbstractModel {
 		this.description = description;
 		this.estimate = estimate;
 		this.effort = effort;
-	}
-	
-	public Requirement() {
-		
 	}
 
 	public static Requirement fromJson(String json) {
@@ -93,7 +119,7 @@ public class Requirement extends AbstractModel {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.substring(0, 100);
 	}
 
 	/**getter for the name

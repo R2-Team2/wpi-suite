@@ -73,8 +73,8 @@ public class RequirementModel extends AbstractListModel{
 	 * @param index The index of the requirement to be returned
 	 * @return the requirement associated with the provided index
 	 */
-	public Object getElementAt(int index) {
-		return requirements.get(requirements.size() - 1 - index).toString();
+	public Requirement getElementAt(int index) {
+		return requirements.get(requirements.size() - 1 - index);
 	}
 
 	/**
