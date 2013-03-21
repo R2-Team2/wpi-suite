@@ -14,11 +14,9 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the Submit button by
- * adding the contents of the requirement text field to the model as a new
+ * This controller responds when the user clicks the Update button by
+ * adding the contents of the requirement text fields to the model as a new
  * requirement.
- * 
- *
  */
 public class AddRequirementController implements ActionListener {
 	
@@ -36,11 +34,10 @@ public class AddRequirementController implements ActionListener {
 	}
 
 	/* 
-	 * This method is called when the user clicks the Submit button
+	 * This method is called when the user clicks the Update button
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String stringName = view.getBoxName().getText();
@@ -81,11 +78,11 @@ public class AddRequirementController implements ActionListener {
 		else
 			priority = RequirementPriority.BLANK;
 
-		Requirement newRequirement = new Requirement(1, stringName, stringReleaseNum, status, priority, stringDescription, 0, 0);
-
+		Requirement newRequirement = new Requirement(1, stringName, stringDescription);
+		newRequirement.setRelease(stringReleaseNum);
+		newRequirement.setStatus(status);
+		newRequirement.setPriority(priority);
 		
-		//Requirement someRequirement = new Requirement();
-		//Requirement someRequirement = new Requirement(7, "Name", "1.0", RequirementStatus.NEW, RequirementPriority.LOW, "Desc", 1, 1); // Create new requirement object based on field values in view
 		// if (requirementIsFine) {
 		// Send a request to the core to save this requirement
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.PUT); // PUT == create
@@ -93,11 +90,6 @@ public class AddRequirementController implements ActionListener {
 		request.addObserver(new AddRequirementRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 		//}
-		
-		// Send a request to the core to save this requirement
-		final Request request2 = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
-		request2.addObserver(new GetRequirementsRequestObserver(new GetRequirementsController(model))); // add an observer to process the response
-		request2.send(); // send the request
 	}
 
 	/**
