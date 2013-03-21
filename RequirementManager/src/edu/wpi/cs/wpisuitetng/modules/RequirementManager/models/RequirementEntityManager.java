@@ -21,7 +21,6 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 
 	/** The database */
 	Data db;
-
 	
 	/**
 	 * Constructs the entity manager. This constructor is called by
@@ -49,6 +48,12 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		return newRequirement;
 	}
 	
+	/**
+	 * Retrieves a single requirement from the database
+	 * @param s the session
+	 * @param id the id number of the requirement to retrieve
+	 * @return the requirement matching the given id
+	 */
 	@Override
 	public Requirement[] getEntity(Session s, String id) throws NotFoundException {
 		final int intId = Integer.parseInt(id);
@@ -67,16 +72,32 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		return requirements;
 	}
 
+	/**
+	 * Retrieves all requirements from the database
+	 * @param s the session
+	 * @return array of all stored requirements
+	 */
 	@Override
 	public Requirement[] getAll(Session s) {
 		return db.retrieveAll(new Requirement(), s.getProject()).toArray(new Requirement[0]);
 	}
 
+	/**
+	 * Saves a data model to the database
+	 * @param s the session
+	 * @param model the model to be saved
+	 */
 	@Override
 	public void save(Session s, Requirement model) {
 		db.save(model, s.getProject());
 	}
 	
+	/**
+	 * Ensures that a user is of the specified role
+	 * @param session the session
+	 * @param role the role being verified
+	 * @throws WPISuiteException user isn't authorized for the given role
+	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
@@ -84,17 +105,35 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		}
 	}
 	
+	/**
+	 * Deletes a requirement from the database
+	 * @param s the session
+	 * @param id the id of the requirement to delete
+	 * @return true if the deletion was successful
+	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-		// TODO: are nested objects deleted?  Dates should be, but Users shouldn't!
 		ensureRole(s, Role.ADMIN);
 		return (db.delete(getEntity(s, id)[0]) != null) ? true : false;
 	}
 	
+	/**
+	 * Deletes all requirements from the database
+	 * @param s the session
+	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new Requirement(), s.getProject());
+	}
+	
+	/**
+	 * Returns the number of requirements in the database
+	 * @return number of requirements stored
+	 */
+	@Override
+	public int Count() throws WPISuiteException {
+		return db.retrieveAll(new Requirement()).size();
 	}
 
 	@Override
@@ -115,11 +154,6 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	@Override
 	public String advancedPut(Session arg0, String[] arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();
-	}
-
-	@Override
-	public int Count() throws WPISuiteException {
-		return db.retrieveAll(new Requirement()).size();
 	}
 
 }
