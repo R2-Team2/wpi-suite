@@ -20,34 +20,68 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
-
+/**
+ * 
+ * @author Pi 
+ * @author Chris
+ * @author Brian
+ *
+ */
 public class NewRequirementPanel extends JPanel 
 {
-
+	
+	/**
+	 * Gets name of requirement from GUI
+	 * @return Name of requirement
+	 */
 	public JTextField getBoxName() {
 		return boxName;
 	}
 
+	/**
+	 * Gets description of requirement from GUI
+	 * @return Description of requirement
+	 */
 	public JTextArea getBoxDescription() {
 		return boxDescription;
 	}
-
+	
+	/**
+	 * Gets release number of requirement from GUI
+	 * @return Release number of requirement
+	 */
 	public JTextField getBoxReleaseNum() {
 		return boxReleaseNum;
 	}
 
+	/**
+	 * Gets status of requirement from GUI
+	 * @return Status of requirement
+	 */
 	public JComboBox<String> getDropdownStatus() {
 		return dropdownStatus;
 	}
 
+	/**
+	 * Gets priority of requirement from GUI if it is set to high
+	 * @return High priority
+	 */
 	public JRadioButton getPriorityHigh() {
 		return priorityHigh;
 	}
 
+	/**
+	 * Gets priority of requirement from GUI if it is set to medium
+	 * @return Medium priority
+	 */
 	public JRadioButton getPriorityMedium() {
 		return priorityMedium;
 	}
 
+	/**
+	 * Gets priority of requirement from GUI if it is set to low
+	 * @return Low priority
+	 */
 	public JRadioButton getPriorityLow() {
 		return priorityLow;
 	}
@@ -66,8 +100,10 @@ public class NewRequirementPanel extends JPanel
 	
 	private final RequirementModel requirementModel;
 	
+	
 	/**
-	 * Default constructor.
+	 * Constructor for a new requirement panel
+	 * @param reqModel Local requirement model for containing data
 	 */
 	public NewRequirementPanel(RequirementModel reqModel) {
 		this.requirementModel = reqModel;
