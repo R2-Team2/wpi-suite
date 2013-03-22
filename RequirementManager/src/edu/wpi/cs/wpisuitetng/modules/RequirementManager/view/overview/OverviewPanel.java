@@ -7,6 +7,9 @@ import javax.swing.SpringLayout;
 
 public class OverviewPanel extends JPanel {
 	
+	/**
+	 * Sets up directory table of requirements in system
+	 */
 	public OverviewPanel()
 	{
 		SpringLayout overviewLayout = new SpringLayout();

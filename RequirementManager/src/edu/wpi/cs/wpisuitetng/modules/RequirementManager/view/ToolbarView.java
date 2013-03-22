@@ -12,10 +12,16 @@ import javax.swing.border.EtchedBorder;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 
+/**
+ * Sets up upper toolbar of RequirementManager tab
+ * 
+ * @author Arianna
+ *
+ */
 public class ToolbarView extends JPanel {
 
 	/**
-	 * Default Constructor for the ToolbarView.
+	 * Creates and positions option buttons in upper toolbar
 	 */
 	public ToolbarView() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
