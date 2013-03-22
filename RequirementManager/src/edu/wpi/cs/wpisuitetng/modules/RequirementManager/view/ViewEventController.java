@@ -10,6 +10,10 @@ public class ViewEventController {
 	private MainView main = null;
 	private OverviewTable overviewTable = null;
 
+	/**
+	 * Sets the OverviewTable for the controller
+	 * @param overviewTable a given OverviewTable
+	 */
 	public void setOverviewTable(OverviewTable overviewTable) {
 		this.overviewTable = overviewTable;
 	}

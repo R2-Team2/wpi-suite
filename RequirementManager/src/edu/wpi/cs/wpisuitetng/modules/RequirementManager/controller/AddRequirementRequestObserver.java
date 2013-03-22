@@ -15,6 +15,10 @@ public class AddRequirementRequestObserver implements RequestObserver {
 	
 	private final AddRequirementController controller;
 	
+	/**
+	 * Constructs the observer given an AddRequirementController
+	 * @param controller the controller used to add requirements
+	 */
 	public AddRequirementRequestObserver(AddRequirementController controller) {
 		this.controller = controller;
 	}

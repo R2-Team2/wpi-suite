@@ -14,6 +14,10 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 	
 	public GetRequirementsController controller;
 	
+	/**
+	 * Constructs the observer given a GetRequirementsController
+	 * @param controller the controller used to retrieve requirements
+	 */
 	public GetRequirementsRequestObserver(GetRequirementsController controller) {
 		this.controller = controller;
 	}

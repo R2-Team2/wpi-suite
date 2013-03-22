@@ -18,10 +18,18 @@ public class GetRequirementsController implements ActionListener {
 
 	private final RequirementModel model;
 
+	/**
+	 * Constructs the controller given a RequirementModel
+	 * @param model the model holding the requirements data
+	 */
 	public GetRequirementsController(RequirementModel model) {
 		this.model = model;
 	}
 
+	/**
+	 * Sends an HTTP request to store a requirement when the
+	 * update button is pressed
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this requirement
@@ -30,6 +38,9 @@ public class GetRequirementsController implements ActionListener {
 		request.send(); // send the request
 	}
 	
+	/**
+	 * Sends an HTTP request to retrieve all requirements
+	 */
 	public void retrieveRequirements() {
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
 		request.addObserver(new GetRequirementsRequestObserver(this)); // add an observer to process the response

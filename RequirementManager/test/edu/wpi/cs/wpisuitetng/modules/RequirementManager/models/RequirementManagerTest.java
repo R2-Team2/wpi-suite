@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
+ * Testing of the RequirementEntityManager
  * @author Dylan
  *
  */
@@ -28,18 +29,21 @@ public class RequirementManagerTest {
 
 	MockData db;
 	User existingUser;
-	Requirement existingRequirement;
+	Requirement req1;
 	Session defaultSession;
 	String mockSsid;
 	RequirementEntityManager manager;
-	Requirement newRequirement;
+	Requirement req3;
 	User bob;
 	Requirement goodUpdatedRequirement;
 	Session adminSession;
 	Project testProject;
 	Project otherProject;
-	Requirement otherRequirement;
+	Requirement req2;
 	
+	/**
+	 * Set up objects and create a mock session for testing
+	 */
 	@Before
 	public void setUp() throws Exception {
 		User admin = new User("admin", "admin", "1234", 27);
@@ -50,24 +54,27 @@ public class RequirementManagerTest {
 		adminSession = new Session(admin, testProject, mockSsid);
 		
 		existingUser = new User("joe", "joe", "1234", 2);
-		existingRequirement = new Requirement(1, "Bob", "1.0", RequirementStatus.NEW, RequirementPriority.BLANK, "Desc", 1, 1);
+		req1 = new Requirement(1, "Bob", "1.0", RequirementStatus.NEW, RequirementPriority.BLANK, "Desc", 1, 1);
 		
-		otherRequirement = new Requirement(2, "Joe", "2.0", RequirementStatus.NEW, RequirementPriority.LOW, "Description", 2, 2);
+		req2 = new Requirement(2, "Joe", "2.0", RequirementStatus.NEW, RequirementPriority.LOW, "Description", 2, 2);
 				
 		defaultSession = new Session(existingUser, testProject, mockSsid);
-		newRequirement = new Requirement(3, "Jim", "3.0", RequirementStatus.NEW, RequirementPriority.HIGH, "Desc", 1, 2);
+		req3 = new Requirement(3, "Jim", "3.0", RequirementStatus.NEW, RequirementPriority.HIGH, "Desc", 1, 2);
 		
 		db = new MockData(new HashSet<Object>());
-		db.save(existingRequirement, testProject);
+		db.save(req1, testProject);
 		db.save(existingUser);
-		db.save(otherRequirement, otherProject);
+		db.save(req2, otherProject);
 		db.save(admin);
 		manager = new RequirementEntityManager(db);
 	}
 
+	/**
+	 * Stores a new requirement and ensures the correct data was stored
+	 */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Requirement created = manager.makeEntity(defaultSession, newRequirement.toJSON());
+		Requirement created = manager.makeEntity(defaultSession, req3.toJSON());
 		assertEquals(3, created.getId()); // IDs are unique across projects
 		assertEquals("Jim", created.getName());
 		assertEquals("3.0", created.getRelease());
@@ -78,53 +85,58 @@ public class RequirementManagerTest {
 		assertSame(db.retrieve(Requirement.class, "id", 3).get(0), created);
 	}
 	
+	/**
+	 * Ensures a requirement can be retrieved from the database
+	 * @throws NotFoundException
+	 */
 	@Test
 	public void testGetEntity() throws NotFoundException {
 		Requirement[] gotten = manager.getEntity(defaultSession, "1");
-		assertSame(existingRequirement, gotten[0]);
+		assertSame(req1, gotten[0]);
 	}
 
+	/**
+	 * Ensures a NotFoundException is thrown when trying to
+	 * retrieve an invalid requirement
+	 */
 	@Test(expected=NotFoundException.class)
 	public void testGetBadId() throws NotFoundException {
 		manager.getEntity(defaultSession, "-1");
 	}
 
-	@Test(expected=NotFoundException.class)
-	public void testGetMissingEntity() throws NotFoundException {
-		manager.getEntity(defaultSession, "2");
-	}
-	
-	@Test
-	public void testGetAll() {
-		Requirement[] gotten = manager.getAll(defaultSession);
-		assertEquals(1, gotten.length);
-		assertSame(existingRequirement, gotten[0]);
-	}
-	
-	@Test
-	public void testSave() {
-		manager.save(defaultSession, newRequirement);
-		assertSame(newRequirement, db.retrieve(Requirement.class, "id", 3).get(0));
-		assertSame(testProject, newRequirement.getProject());
-	}
-	
+	/**
+	 * Ensures that requirements can be deleted
+	 */
 	@Test
 	public void testDelete() throws WPISuiteException {
-		assertSame(existingRequirement, db.retrieve(Requirement.class, "id", 1).get(0));
+		assertSame(req1, db.retrieve(Requirement.class, "id", 1).get(0));
 		assertTrue(manager.deleteEntity(adminSession, "1"));
 		assertEquals(0, db.retrieve(Requirement.class, "id", 1).size());
 	}
 	
+	/**
+	 * Ensures a NotFoundException is thrown when trying to delete
+	 * an invalid requirement
+	 */
 	@Test(expected=NotFoundException.class)
 	public void testDeleteMissing() throws WPISuiteException {
 		manager.deleteEntity(adminSession, "4534");
 	}
 	
+	/**
+	 * Ensures an UnauthorizedException is thrown when trying
+	 * to delete an entity while not authorized
+	 * @throws WPISuiteException
+	 */
 	@Test(expected=UnauthorizedException.class)
 	public void testDeleteNotAllowed() throws WPISuiteException {
-		manager.deleteEntity(defaultSession, Integer.toString(existingRequirement.getId()));
+		manager.deleteEntity(defaultSession, Integer.toString(req1.getId()));
 	}
 	
+	/**
+	 * Ensures the deletion of all requirements funtions properly
+	 * @throws WPISuiteException
+	 */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
 		Requirement anotherRequirement = new Requirement();
