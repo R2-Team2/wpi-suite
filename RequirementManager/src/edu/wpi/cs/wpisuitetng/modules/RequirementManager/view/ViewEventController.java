@@ -5,9 +5,15 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewTable;
 
+
+/**
+ * Provides an interface for interaction with the main GUI elements
+ * All actions on GUI elements should be conducted through this controller.
+ */
 public class ViewEventController {
 	private static ViewEventController instance = null;
 	private MainView main = null;
+	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
 
 	/**
@@ -43,11 +49,11 @@ public class ViewEventController {
 	}
 
 	/**
-	 * 
 	 * Sets the toolbarview to the given toolbar
 	 * @param tool2 the toolbar to be set as active.
 	 */
 	public void setToolBar(ToolbarView toolbar) {
+		this.toolbar = toolbar;
 	}
 
 	/**

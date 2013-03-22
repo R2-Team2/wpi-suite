@@ -7,5 +7,20 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
  *
  */
 public enum RequirementPriority {
-	BLANK, LOW, MEDIUM, HIGH
+	/**
+	 * The user has not assigned a priority to the requirement
+	 */
+	BLANK,
+	/**
+	 * Indicates the Requirement has a high priority
+	 */
+	LOW,
+	/**
+	 * Indicates the Requirement has a medium priority
+	 */
+	MEDIUM,
+	/**
+	 * Indicates the Requirement has a high priority
+	 */
+	HIGH
 }
