@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;

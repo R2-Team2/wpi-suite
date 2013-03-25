@@ -7,6 +7,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
+
 /**
  * Tests the jSON conversion functions and all the getters and setters
  * 

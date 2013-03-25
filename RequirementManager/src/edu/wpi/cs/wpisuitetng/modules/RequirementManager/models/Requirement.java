@@ -1,7 +1,18 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 
 /**
  * Basic Requirement class
@@ -31,12 +42,38 @@ public class Requirement extends AbstractModel {
 	/**  the estimated amount of time to complete the requirement */
 	private int estimate;
 	
-	/**  the estimated effort of completing the requirement */
-	private int effort;
+	/**  the actual effort of completing the requirement */
+	private int actualEffort;
 	
 	/** a flag indicating if the requirement is active or deleted */
 	private boolean activeStatus;
 	
+	/** the type of the requirement */
+	private RequirementType type;
+	
+	/** subrequirements that must be completed before the current requirement is considered complete */
+	private List<Requirement> subRequirements;
+	
+	/** notes associated with the requirement */
+	private List<Note> notes;
+	
+	/** iteration the requirement is assigned to */
+	private Iteration iteration;
+	
+	/** team members the requirement is assigned to */
+	//private List<TeamMembers> assignedTo;
+	
+	/** development tasks associated with the requirement */
+	private List<DevelopmentTask> tasks;
+	
+	/** acceptance tests associated with the requirement */
+	private List<AcceptanceTest> tests;
+	
+	/** attachments associated with the requirement */
+	private List<Attachment> attachments;
+	
+	/** history log for the requirement */
+	//private TransactionHistory history;
 	
 	/**
 	 * Constructs a Requirement with default characteristics
@@ -48,8 +85,13 @@ public class Requirement extends AbstractModel {
 		release = "";
 		status = RequirementStatus.NEW;
 		priority = RequirementPriority.BLANK;
-		estimate = effort = 0;
+		estimate = actualEffort = 0;
 		activeStatus = true;
+		type = RequirementType.BLANK;
+		notes = new ArrayList<Note>();
+		tasks = new ArrayList<DevelopmentTask>();
+		tests = new ArrayList<AcceptanceTest>();
+		attachments = new ArrayList<Attachment>(); 
 	}
 
 	/**
@@ -87,7 +129,7 @@ public class Requirement extends AbstractModel {
 		this.priority = priority;
 		this.description = description;
 		this.estimate = estimate;
-		this.effort = effort;
+		this.actualEffort = effort;
 	}
 
 	/**
@@ -204,7 +246,7 @@ public class Requirement extends AbstractModel {
 	 * @return the effort
 	 */
 	public int getEffort() {
-		return effort;
+		return actualEffort;
 	}
 
 	/**Setter for the effort
@@ -212,7 +254,7 @@ public class Requirement extends AbstractModel {
 	 * @param effort the effort to set
 	 */
 	public void setEffort(int effort) {
-		this.effort = effort;
+		this.actualEffort = effort;
 	}
 
 	/**Getter for the priority
@@ -231,8 +273,41 @@ public class Requirement extends AbstractModel {
 		this.priority = priority;
 	}
 	
-	/**Sets a flag in the requirement to indicate it's deleted
+	/**Getter for the type
+	 * 
+	 * @return the type
 	 */
+	public RequirementType getType() {
+		return type;
+	}
+
+	/**Setter for the type
+	 * 
+	 * @param type the type to set the requirement to
+	 */
+	public void setType(RequirementType type) {
+		this.type = type;
+	}
+	
+	/**Getter for the sub-requirements
+	 * 
+	 * @return a list of the sub-requirements
+	 */
+	public List<Requirement> getSubRequirements(){
+		return subRequirements;
+	}
+	
+	/**Method to add a requirement to the list of sub-requirements
+	 * 
+	 * @param requirement Requirement to add
+	 */
+	public void addSubRequirement(Requirement subRequirement){
+		this.subRequirements.add(subRequirement);
+	}
+	
+	
+	
+	/**Sets a flag in the requirement to indicate it's deleted */
 	public void remove() {
 		this.activeStatus = false;
 	}
@@ -250,7 +325,6 @@ public class Requirement extends AbstractModel {
 	}
 
 	@Override
-
 	/**This returns a Json encoded String representation of this requirement object.
 	 * 
 	 * @return a Json encoded String representation of this requirement

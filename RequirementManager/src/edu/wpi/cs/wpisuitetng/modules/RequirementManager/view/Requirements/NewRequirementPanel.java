@@ -18,8 +18,8 @@ import javax.swing.SpringLayout;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 /**
  * 
  * @author Pi 
