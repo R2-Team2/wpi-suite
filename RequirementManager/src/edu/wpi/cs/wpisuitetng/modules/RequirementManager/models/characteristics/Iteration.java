@@ -6,4 +6,20 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics
  */
 public class Iteration {
 
+	private String name;
+	
+	public Iteration(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 }
