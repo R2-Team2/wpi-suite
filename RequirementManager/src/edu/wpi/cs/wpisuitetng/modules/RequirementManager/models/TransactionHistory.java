@@ -5,8 +5,9 @@ import java.util.ListIterator;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-/*
- * author: Kevin Kell 
+/**
+ * History of transactions for a requirement
+ * @author Kevin Kell 
  * 3/25/13
  * get work done
  */
@@ -14,6 +15,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class TransactionHistory {
 	
 	private LinkedList<Transaction> history;
+	
+	/**
+	 * Constructs an empty transaction history
+	 */
+	public TransactionHistory()
+	{
+		this.history = new LinkedList<Transaction>();
+	}
 	
 	/**
 	 * use this function to get a list iterator that you can use to cycle through the elements of the list
@@ -24,7 +33,8 @@ public class TransactionHistory {
 		return this.history.listIterator(index);
 	}
 	
-	/**getter for the linked list of transaction history
+	/**
+	 * getter for the linked list of transaction history
 	 * @return the linked list of transactions
 	 */
 	public LinkedList<Transaction> getHistory(){
@@ -41,6 +51,7 @@ public class TransactionHistory {
 	public Transaction add(User user, String msg){
 		long time = System.currentTimeMillis();
 		Transaction newTransaction = new Transaction(user, time, msg);
+		history.add(newTransaction);
 		return newTransaction;
 	}
 	
@@ -49,7 +60,7 @@ public class TransactionHistory {
 	 * @param index the index at which the desired Transaction resides
 	 * @return the Transaction at the index given by the parameter
 	 */
-	public Transaction get(int index){
+	public Transaction getItem(int index){
 		return this.history.get(index);
 	}
 

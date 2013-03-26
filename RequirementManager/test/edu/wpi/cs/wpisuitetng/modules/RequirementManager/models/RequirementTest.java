@@ -40,5 +40,9 @@ public class RequirementTest {
 	    assertEquals(origObject.getDescription(), "A test");
 	    assertEquals(origObject.getEstimate(), 1);
 	    assertEquals(origObject.getEffort(), 10);
+	    
+	    TransactionHistory history = origObject.getHistory();
+	    assertEquals(history.getItem(0).getMessage(),"REQUIREMENT CREATED");
+	    assertEquals(history.getItem(0).getTS(),System.currentTimeMillis(), 100);
 	}
 }
