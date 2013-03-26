@@ -38,10 +38,14 @@ public class NewRequirementPanel extends JPanel
 	
 	private JPanel rightPanel;
 	private JTextField boxReleaseNum;
-	private JComboBox<RequirementStatus> dropdownStatus;
+	private JComboBox dropdownStatus;
 	private JRadioButton priorityHigh;
 	private JRadioButton priorityMedium;
-	private JRadioButton priorityLow;	
+	private JRadioButton priorityLow;
+	
+	private JLabel errorName; 
+	private JLabel errorDescription;
+	private JLabel errorPriority;
 	
 	/**
 	 * Constructor for a new requirement panel
@@ -80,6 +84,9 @@ public class NewRequirementPanel extends JPanel
 
 		resultField = new JTextArea(); // For testing purpose
 		resultField.setPreferredSize(new Dimension(200, 200));
+		
+		errorName = new JLabel();
+		errorDescription = new JLabel();
 
 		SpringLayout leftLayout = new SpringLayout();
 
@@ -110,13 +117,24 @@ public class NewRequirementPanel extends JPanel
 		leftLayout.putConstraint(SpringLayout.WEST, resultField, 15,
 				SpringLayout.WEST, leftPanel);
 		
+		leftLayout.putConstraint(SpringLayout.NORTH, errorName, 0,
+				SpringLayout.NORTH, boxName);
+		leftLayout.putConstraint(SpringLayout.WEST, errorName, 15,
+				SpringLayout.EAST, boxName);
+		leftLayout.putConstraint(SpringLayout.NORTH, errorDescription, 0,
+				SpringLayout.NORTH, boxDescription);
+		leftLayout.putConstraint(SpringLayout.WEST, errorDescription, 15,
+				SpringLayout.EAST, boxDescription);
+		
 		leftPanel.add(labelName);
 		leftPanel.add(boxName);
 		leftPanel.add(labelDescription);
 		leftPanel.add(boxDescription);
-		leftPanel.add(Iteration);
-		leftPanel.add(Estimate);
+//		leftPanel.add(Iteration);
+//		leftPanel.add(Estimate);
 		leftPanel.add(resultField);
+		leftPanel.add(errorName);
+		leftPanel.add(errorDescription);
 		
 		return leftPanel;
 	}
@@ -136,9 +154,12 @@ public class NewRequirementPanel extends JPanel
 		boxReleaseNum = new JTextField();
 		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
 		
-		dropdownStatus = new JComboBox<RequirementStatus>(RequirementStatus.values());
+		dropdownStatus = new JComboBox(RequirementStatus.values());
+		dropdownStatus.setEditable(false);
+		dropdownStatus.setEnabled(false);
 
 		JPanel priorityPanel = new JPanel();
+		
 
 		// Radio buttons
 
@@ -150,6 +171,8 @@ public class NewRequirementPanel extends JPanel
 		group.add(priorityHigh);
 		group.add(priorityMedium);
 		group.add(priorityLow);
+		
+		errorPriority = new JLabel();
 
 		priorityPanel.add(priorityLow);
 		priorityPanel.add(priorityMedium);
@@ -157,33 +180,82 @@ public class NewRequirementPanel extends JPanel
 
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
-		JButton buttonUpdate = new JButton("Update");
+		JButton buttonUpdate = new JButton("Create");
 		JButton buttonCancel = new JButton("Cancel");
-		JButton buttonDelete = new JButton("Delete");
+//		JButton buttonDelete = new JButton("Delete");
 		
 		// Construct the add requirement controller and add it to the update button
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				update();
+				boolean isNameValid;
+				boolean isDescriptionValid;
+				boolean isPriorityValid;
+				
+				if (boxName.getText().length() >= 8)
+				{
+					isNameValid = false;
+					errorName.setText("No more than 8 chars");
+				}
+				else if(boxName.getText().trim().length() <= 0)
+				{
+					isNameValid = false;
+					errorName.setText("Name is REQUIRED");
+				}
+				else
+				{
+					errorName.setText(null);
+					isNameValid = true;
+					
+				}
+				if (boxDescription.getText().trim().length() <= 0)
+				{
+					isDescriptionValid = false;
+					errorDescription.setText("Description is REQUIRED");
+				}
+				else
+				{	
+					errorDescription.setText(null);
+					isDescriptionValid = true;
+				}
+				
+				if (!(priorityHigh.isSelected() || priorityMedium.isSelected() || priorityLow.isSelected()))
+				{
+					isPriorityValid = false;
+					errorPriority.setText("Priority selection is REQUIRED");
+				}
+				else
+				{	
+					errorPriority.setText(null);
+					isPriorityValid = true;
+				}
+				
+				
+				if(isNameValid && isDescriptionValid && isPriorityValid)
+				{
+					// TODO: Asking someone about this
+					update();
+				}
 			}
 		});
-
+		
+		
+		
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancel();
 			}
 		});
 
-		buttonDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				delete();
-			}
-		});
+//		buttonDelete.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				delete();
+//			}
+//		});
 
 		buttonPanel.add(buttonUpdate);
 		buttonPanel.add(buttonCancel);
-		buttonPanel.add(buttonDelete);
+//		buttonPanel.add(buttonDelete);
 
 		SpringLayout rightLayout = new SpringLayout();
 
@@ -224,6 +296,10 @@ public class NewRequirementPanel extends JPanel
 				SpringLayout.SOUTH, boxReleaseNum);
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
+		rightLayout.putConstraint(SpringLayout.NORTH, errorPriority, 0,
+				SpringLayout.NORTH, priorityPanel);
+		rightLayout.putConstraint(SpringLayout.WEST, errorPriority, 15,
+				SpringLayout.EAST, priorityPanel);
 		
 		rightPanel.add(labelStatus);
 		rightPanel.add(dropdownStatus);
@@ -232,6 +308,7 @@ public class NewRequirementPanel extends JPanel
 		rightPanel.add(labelReleaseNum);
 		rightPanel.add(boxReleaseNum);
 		rightPanel.add(buttonPanel);
+		rightPanel.add(errorPriority);
 		
 		return rightPanel;
 	}
@@ -278,24 +355,27 @@ public class NewRequirementPanel extends JPanel
 	/**
 	 * Deletes the requirement.
 	 */
-	private void delete()
-	{
-		resultField.setText("Delete");
-	}
+//	private void delete()
+//	{
+//		resultField.setText("Delete");
+//	}
 	
 	/**
 	 * Cancels the editing of the requirement.
 	 */
 	private void cancel() 
 	{
-		boxName.setText("");
-		boxDescription.setText("");
+		boxName.setText(null);
+		boxDescription.setText(null);
 		dropdownStatus.setSelectedItem("Not Selected");
 		priorityLow.setSelected(false);
 		priorityMedium.setSelected(false);
 		priorityHigh.setSelected(false);
-		boxReleaseNum.setText("");
-		resultField.setText("");
+		boxReleaseNum.setText(null);
+		resultField.setText(null);
+		errorName.setText(null);
+		errorDescription.setText(null);
+		errorPriority.setText(null);
 		repaint(); //repaint the entire panel.
 	}
  
