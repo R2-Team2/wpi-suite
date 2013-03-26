@@ -6,4 +6,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics
  */
 public class Attachment {
 
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

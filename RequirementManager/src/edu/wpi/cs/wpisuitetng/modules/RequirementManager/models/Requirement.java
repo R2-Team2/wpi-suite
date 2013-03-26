@@ -60,8 +60,10 @@ public class Requirement extends AbstractModel {
 	/** iteration the requirement is assigned to */
 	private Iteration iteration;
 	
-	/** team members the requirement is assigned to */
-	//private List<TeamMembers> assignedTo;
+	/** team members the requirement is assigned to 
+	 *  need to figure out the class of a username, then use that instead of TeamMember 
+	 */
+	//private List<TeamMember> assignedTo; 
 	
 	/** development tasks associated with the requirement */
 	private List<DevelopmentTask> tasks;
@@ -305,7 +307,160 @@ public class Requirement extends AbstractModel {
 		this.subRequirements.add(subRequirement);
 	}
 	
+	/** Method to remove a requirement to the list of sub-requirements
+	 * 
+	 * @param id The id of the requirement to be remove from the list of sub-requirements
+	 */
+	public void removeSubRequirement (int id){
+		// iterate through the list looking for the requirement to remove
+		for (int i=0; i < this.subRequirements.size(); i++){
+			if (subRequirements.get(i).getId() == id){
+				// remove the id
+				subRequirements.remove(i);
+				break;
+			}
+		}
+	}
 	
+	/** Getter for the notes
+	 * 
+	 * @return the list of notes associated with the requirement
+	 */
+	public List<Note> getNotes(){
+		return notes;
+	}
+	
+	/** Method to add a note to the list of notes
+	 * 
+	 * @param note The note to add to the list
+	 */
+	public void addNote(Note note){
+		notes.add(note);
+	}
+	
+	/** Method to remove a note from a list of notes
+	 * 
+	 * @param id The id of the note to be deleted
+	 */
+	public void removeNote(int id){
+		// iterate through the list looking for the note to remove
+		for (int i=0; i < this.notes.size(); i++){
+			if (notes.get(i).getId() == id){
+				// remove the id
+				notes.remove(i);
+				break;
+			}
+		}
+	}
+	
+	/** Getter for the iteration
+	 * 
+	 * @return the iteration of the requirement
+	 */
+	public Iteration getIteration(){
+		return iteration;
+	}
+	
+	/** Setter for iteration
+	 * 
+	 * @param iteration The iteration to change to
+	 */
+	public void setIteration(Iteration iteration){
+		this.iteration = iteration;
+	}
+	
+	/** Getter for the list of development tasks
+	 * 
+	 * @return the list of development tasks
+	 */
+	public List<DevelopmentTask> getTasks(){
+		return tasks;
+	}
+	
+	/** Method to add a development task
+	 * 
+	 * @param task the task to be added to the list of development tasks
+	 */
+	public void addTask(DevelopmentTask task){
+		tasks.add(task);
+	}
+	
+	/** Method to remove a development task
+	 * 
+	 * @param 
+	 */
+	public void removeTask(int id){
+		// iterate through the list looking for the note to remove
+		for (int i=0; i < this.tasks.size(); i++){
+			if (tasks.get(i).getId() == id){
+				// remove the id
+				tasks.remove(i);
+				break;
+			}
+		}
+	}
+	
+	/** Getter for AcceptanceTests
+	 * 
+	 * @return the list of acceptance tests for the requirement
+	 */
+	public List<AcceptanceTest> getTests(){
+		return tests;
+	}
+	
+	/** Method for adding an Acceptance Test
+	 * 
+	 * @param test the acceptance test to implement
+	 */
+	public void addTest(AcceptanceTest test){
+		tests.add(test);
+	}
+	
+	/** Method for removing an Acceptance Test
+	 * 
+	 * @param id the id of the test to remove
+	 */
+	public void removeTest(int id){
+		// iterate through the list looking for the note to remove
+		for (int i=0; i < this.tests.size(); i++){
+			if (tests.get(i).getId() == id){
+				// remove the id
+				tests.remove(i);
+				break;
+			}
+		}
+	}
+	
+	/** Getter for attachments
+	 * 
+	 * @return the list of attachments
+	 */
+	public List<Attachment> getAttachments(){
+		return attachments;
+	}
+	
+	/** Method to add an attachment
+	 * 
+	 * @param attachment Attachment to add
+	 */
+	public void addAttachment(Attachment attachment){
+		attachments.add(attachment);
+	}
+	
+	/** Method to remove an attachment
+	 * 
+	 * @param id ID of the attachment to be removed
+	 */
+	public void removeAttachment(int id){
+		// iterate through the list looking for the note to remove
+		for (int i=0; i < this.attachments.size(); i++){
+			if (attachments.get(i).getId() == id){
+				// remove the id
+				attachments.remove(i);
+				break;
+			}
+		}
+	}
 	
 	/**Sets a flag in the requirement to indicate it's deleted */
 	public void remove() {
