@@ -37,8 +37,7 @@ abstract public class RequirementPanel extends JPanel
 	
 	protected JLabel errorName; 
 	protected JLabel errorDescription;
-	protected JLabel errorPriority;
-	
+	protected JLabel errorPriority;	
 	
 	/**
 	 * Builds the left panel.
@@ -47,8 +46,8 @@ abstract public class RequirementPanel extends JPanel
 	protected JPanel buildLeftPanel()
 	{
 		leftPanel = new JPanel();
-		JLabel labelName = new JLabel("Name");
-		JLabel labelDescription = new JLabel("Description");
+		JLabel labelName = new JLabel("Name *");
+		JLabel labelDescription = new JLabel("Description *");
 		
 		boxName = new JTextField();
 		boxDescription = new JTextArea();
@@ -58,7 +57,7 @@ abstract public class RequirementPanel extends JPanel
 		estimate.setPreferredSize(new Dimension(200, 20));
 
 		boxName.setPreferredSize(new Dimension(200, 20));
-		boxDescription.setPreferredSize(new Dimension(200, 100));
+		boxDescription.setPreferredSize(new Dimension(200, 200));
 		
 		errorName = new JLabel();
 		errorDescription = new JLabel();
@@ -76,9 +75,15 @@ abstract public class RequirementPanel extends JPanel
 				SpringLayout.SOUTH, labelName);
 		leftLayout.putConstraint(SpringLayout.WEST, boxName, 15, SpringLayout.WEST,
 				leftPanel);
-
-		leftLayout.putConstraint(SpringLayout.NORTH, labelDescription, 15,
+		
+		leftLayout.putConstraint(SpringLayout.NORTH, errorName, 5,
 				SpringLayout.SOUTH, boxName);
+		leftLayout.putConstraint(SpringLayout.WEST, errorName, 15,
+				SpringLayout.WEST, leftPanel);
+		
+
+		leftLayout.putConstraint(SpringLayout.NORTH, labelDescription, 5,
+				SpringLayout.SOUTH, errorName);
 		leftLayout.putConstraint(SpringLayout.WEST, labelDescription, 15,
 				SpringLayout.WEST, leftPanel);
 
@@ -87,14 +92,11 @@ abstract public class RequirementPanel extends JPanel
 		leftLayout.putConstraint(SpringLayout.WEST, boxDescription, 15,
 				SpringLayout.WEST, leftPanel);
 		
-		leftLayout.putConstraint(SpringLayout.NORTH, errorName, 0,
-				SpringLayout.NORTH, boxName);
-		leftLayout.putConstraint(SpringLayout.WEST, errorName, 15,
-				SpringLayout.EAST, boxName);
-		leftLayout.putConstraint(SpringLayout.NORTH, errorDescription, 0,
-				SpringLayout.NORTH, boxDescription);
+		
+		leftLayout.putConstraint(SpringLayout.NORTH, errorDescription, 5,
+				SpringLayout.SOUTH, boxDescription);
 		leftLayout.putConstraint(SpringLayout.WEST, errorDescription, 15,
-				SpringLayout.EAST, boxDescription);
+				SpringLayout.WEST, leftPanel);
 		
 		leftPanel.add(labelName);
 		leftPanel.add(boxName);
@@ -139,8 +141,6 @@ abstract public class RequirementPanel extends JPanel
 		group.add(priorityHigh);
 		group.add(priorityMedium);
 		group.add(priorityLow);
-		
-		errorPriority = new JLabel();
 
 		priorityPanel.add(priorityLow);
 		priorityPanel.add(priorityMedium);
@@ -181,10 +181,7 @@ abstract public class RequirementPanel extends JPanel
 				SpringLayout.SOUTH, labelReleaseNum);
 		rightLayout.putConstraint(SpringLayout.WEST, boxReleaseNum, 15,
 				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, errorPriority, 0,
-				SpringLayout.NORTH, priorityPanel);
-		rightLayout.putConstraint(SpringLayout.WEST, errorPriority, 15,
-				SpringLayout.EAST, priorityPanel);
+
 		
 		rightPanel.add(labelStatus);
 		rightPanel.add(dropdownStatus);
@@ -192,7 +189,6 @@ abstract public class RequirementPanel extends JPanel
 		rightPanel.add(priorityPanel);
 		rightPanel.add(labelReleaseNum);
 		rightPanel.add(boxReleaseNum);
-		rightPanel.add(errorPriority);
 		
 		return rightPanel;
 	}

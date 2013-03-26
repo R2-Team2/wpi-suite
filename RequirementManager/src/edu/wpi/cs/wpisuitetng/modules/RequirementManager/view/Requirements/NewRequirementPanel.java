@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
+//
 public class NewRequirementPanel extends RequirementPanel 
 {	
 	/**
@@ -56,17 +58,18 @@ public class NewRequirementPanel extends RequirementPanel
 			{
 				boolean isNameValid;
 				boolean isDescriptionValid;
-				boolean isPriorityValid;
 				
 				if (boxName.getText().length() >= 8)
 				{
 					isNameValid = false;
 					errorName.setText("No more than 8 chars");
+					errorName.setFont(new Font("Serif", Font.PLAIN, 8));
 				}
 				else if(boxName.getText().trim().length() <= 0)
 				{
 					isNameValid = false;
-					errorName.setText("Name is REQUIRED");
+					errorName.setText("** Name is REQUIRED");
+					errorName.setFont(new Font("Serif", Font.PLAIN, 8));
 				}
 				else
 				{
@@ -77,7 +80,8 @@ public class NewRequirementPanel extends RequirementPanel
 				if (boxDescription.getText().trim().length() <= 0)
 				{
 					isDescriptionValid = false;
-					errorDescription.setText("Description is REQUIRED");
+					errorDescription.setText("** Description is REQUIRED");
+					errorDescription.setFont(new Font("Serif", Font.PLAIN, 8));
 				}
 				else
 				{	
@@ -85,19 +89,7 @@ public class NewRequirementPanel extends RequirementPanel
 					isDescriptionValid = true;
 				}
 				
-				if (!(priorityHigh.isSelected() || priorityMedium.isSelected() || priorityLow.isSelected()))
-				{
-					isPriorityValid = false;
-					errorPriority.setText("Priority selection is REQUIRED");
-				}
-				else
-				{	
-					errorPriority.setText(null);
-					isPriorityValid = true;
-				}
-				
-				
-				if(isNameValid && isDescriptionValid && isPriorityValid)
+				if(isNameValid && isDescriptionValid)
 				{
 					update();
 				}
