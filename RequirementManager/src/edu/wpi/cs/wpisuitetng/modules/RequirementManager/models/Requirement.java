@@ -509,7 +509,7 @@ public class Requirement extends AbstractModel {
 	
 	@Override
 	public String toString() {
-		return this.getDescription();
+		return this.getName();
 	}
 
 	public boolean isDeleted() {

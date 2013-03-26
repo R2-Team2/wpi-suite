@@ -44,7 +44,7 @@ public class OverviewTable extends JTable
 			Requirement req = requirements.get(i);
 			if (!req.isDeleted()) {
 				tableModel.addRow(new Object[]{ req.getId(), 
-												req.getName(),
+												req,
 												req.getStatus(),
 												req.getPriority(),
 												req.getRelease() }
