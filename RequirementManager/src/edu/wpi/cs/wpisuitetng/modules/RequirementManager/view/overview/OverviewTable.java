@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
+import java.awt.Graphics;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -13,7 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 public class OverviewTable extends JTable
 {
 	private DefaultTableModel tableModel = null;
-	
+	private boolean initialized;
 	/**
 	 * Sets initial table view
 	 * 
@@ -26,6 +27,7 @@ public class OverviewTable extends JTable
 		this.setModel(tableModel);
 		setFillsViewportHeight(true);
 		ViewEventController.getInstance().setOverviewTable(this);
+		initialized = false;
 	}
 	
 	/**
@@ -48,5 +50,24 @@ public class OverviewTable extends JTable
 			}
 		}
 			
+	}
+	
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		if(!initialized)
+		{
+			try 
+			{
+				GetRequirementsController.getInstance().retrieveRequirements();
+				initialized = true;
+			}
+			catch (Exception e)
+			{
+
+			}
+		}
+
+		super.paintComponent(g);
 	}
 }

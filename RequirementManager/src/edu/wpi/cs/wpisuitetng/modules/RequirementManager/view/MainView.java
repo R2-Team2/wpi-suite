@@ -3,6 +3,8 @@
 import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewPanel;
 
 /**
@@ -33,5 +35,4 @@ public class MainView extends JTabbedPane {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}
-
 }
