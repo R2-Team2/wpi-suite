@@ -35,10 +35,7 @@ public class AddRequirementRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		// Parse the requirement out of the response body
-		final Requirement requirement = Requirement.fromJson(response.getBody());
-		
-		// Pass the requirements back to the controller
-		controller.addRequirementToModel(requirement);
+		final Requirement requirement = Requirement.fromJson(response.getBody());		
 	}
 
 	@Override

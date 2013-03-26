@@ -34,9 +34,6 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 		
 		// Pass these Requirements to the controller
 		controller.receivedRequirements(requirements);
-		
-		// Have the controller update the table with the fresh list
-		ViewEventController.getInstance().updateTable(requirements);
 	}
 
 	/*

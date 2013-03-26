@@ -29,85 +29,25 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  */
 public class NewRequirementPanel extends JPanel 
 {
-	
-	/**
-	 * Gets name of requirement from GUI
-	 * @return Name of requirement
-	 */
-	public JTextField getBoxName() {
-		return boxName;
-	}
-
-	/**
-	 * Gets description of requirement from GUI
-	 * @return Description of requirement
-	 */
-	public JTextArea getBoxDescription() {
-		return boxDescription;
-	}
-	
-	/**
-	 * Gets release number of requirement from GUI
-	 * @return Release number of requirement
-	 */
-	public JTextField getBoxReleaseNum() {
-		return boxReleaseNum;
-	}
-
-	/**
-	 * Gets status of requirement from GUI
-	 * @return Status of requirement
-	 */
-	public JComboBox<String> getDropdownStatus() {
-		return dropdownStatus;
-	}
-
-	/**
-	 * Gets priority of requirement from GUI if it is set to high
-	 * @return High priority
-	 */
-	public JRadioButton getPriorityHigh() {
-		return priorityHigh;
-	}
-
-	/**
-	 * Gets priority of requirement from GUI if it is set to medium
-	 * @return Medium priority
-	 */
-	public JRadioButton getPriorityMedium() {
-		return priorityMedium;
-	}
-
-	/**
-	 * Gets priority of requirement from GUI if it is set to low
-	 * @return Low priority
-	 */
-	public JRadioButton getPriorityLow() {
-		return priorityLow;
-	}
-
 	private JPanel leftPanel;
 	private JTextField boxName;
 	private JTextArea boxDescription;
 	private JTextArea resultField;
+	private JTextField Iteration;
+	private JTextField Estimate;
 	
 	private JPanel rightPanel;
 	private JTextField boxReleaseNum;
-	private JComboBox<String> dropdownStatus;
+	private JComboBox<RequirementStatus> dropdownStatus;
 	private JRadioButton priorityHigh;
 	private JRadioButton priorityMedium;
-	private JRadioButton priorityLow;
-	
-	private final RequirementModel requirementModel;
-	
+	private JRadioButton priorityLow;	
 	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
 	 */
-	public NewRequirementPanel(RequirementModel reqModel) {
-		this.requirementModel = reqModel;
-
+	public NewRequirementPanel() {
 		setLayout(new GridLayout(1, 2));
 
 
@@ -129,6 +69,11 @@ public class NewRequirementPanel extends JPanel
 		boxName = new JTextField();
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
+		
+		Iteration = new JTextField();
+		Estimate = new JTextField();
+		Iteration.setPreferredSize(new Dimension(200, 20));
+		Estimate.setPreferredSize(new Dimension(200, 20));
 
 		boxName.setPreferredSize(new Dimension(200, 20));
 		boxDescription.setPreferredSize(new Dimension(200, 100));
@@ -169,6 +114,8 @@ public class NewRequirementPanel extends JPanel
 		leftPanel.add(boxName);
 		leftPanel.add(labelDescription);
 		leftPanel.add(boxDescription);
+		leftPanel.add(Iteration);
+		leftPanel.add(Estimate);
 		leftPanel.add(resultField);
 		
 		return leftPanel;
@@ -188,9 +135,8 @@ public class NewRequirementPanel extends JPanel
 
 		boxReleaseNum = new JTextField();
 		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
-
-		String[] statusString = { "Not Selected", "New", "In Progress", "Open", "Complete", "Delete" }; //TODO change to enum
-		dropdownStatus = new JComboBox<String>(statusString);
+		
+		dropdownStatus = new JComboBox<RequirementStatus>(RequirementStatus.values());
 
 		JPanel priorityPanel = new JPanel();
 
@@ -216,7 +162,12 @@ public class NewRequirementPanel extends JPanel
 		JButton buttonDelete = new JButton("Delete");
 		
 		// Construct the add requirement controller and add it to the update button
-		buttonUpdate.addActionListener(new AddRequirementController(requirementModel, this));
+		buttonUpdate.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				update();
+			}
+		});
 
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -283,6 +234,45 @@ public class NewRequirementPanel extends JPanel
 		rightPanel.add(buttonPanel);
 		
 		return rightPanel;
+	}
+	
+	/**
+	 * Updates the requirement.
+	 */
+	private void update()
+	{
+		// Extract the name, release number, and description from the GUI fields
+		String stringName = this.boxName.getText();
+		String stringReleaseNum = this.boxReleaseNum.getText();
+		String stringDescription = this.boxDescription.getText();
+		
+		RequirementPriority priority;
+		RequirementStatus status;
+		
+		// Extract the status from the GUI
+		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+
+		// Extract which radio is selected for the priority
+		boolean stateHigh = priorityHigh.isSelected();
+		boolean stateMedium = priorityMedium.isSelected();
+		boolean stateLow = priorityLow.isSelected();
+
+		// Convert the priority string to its corresponding enum
+		if (stateHigh)
+			priority = RequirementPriority.HIGH;
+		else if (stateMedium)
+			priority = RequirementPriority.MEDIUM;
+		else if (stateLow)
+			priority = RequirementPriority.LOW;
+		else
+			priority = RequirementPriority.BLANK;
+
+		// Create a new requirement object based on the extracted info
+		Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), stringName, stringDescription);
+		newRequirement.setRelease(stringReleaseNum);
+		newRequirement.setStatus(status);
+		newRequirement.setPriority(priority);
+		RequirementModel.getInstance().addRequirement(newRequirement);
 	}
 	
 	/**

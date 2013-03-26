@@ -16,14 +16,29 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetRequirementsController implements ActionListener {
 
-	private final RequirementModel model;
+	private GetRequirementsRequestObserver observer;
+	private static GetRequirementsController instance;
 
 	/**
 	 * Constructs the controller given a RequirementModel
-	 * @param model the model holding the requirements data
 	 */
-	public GetRequirementsController(RequirementModel model) {
-		this.model = model;
+	public GetRequirementsController() {
+		
+		observer = new GetRequirementsRequestObserver(this);
+	}
+	
+	/**
+	 * Returns the instance of the GetRequirementController or creates one if it does not
+	 * exist.
+	 */
+	public static GetRequirementsController getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new GetRequirementsController();
+		}
+		
+		return instance;
 	}
 
 	/**
@@ -34,7 +49,7 @@ public class GetRequirementsController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this requirement
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
-		request.addObserver(new GetRequirementsRequestObserver(this)); // add an observer to process the response
+		request.addObserver(observer); // add an observer to process the response
 		request.send(); // send the request
 	}
 	
@@ -43,7 +58,7 @@ public class GetRequirementsController implements ActionListener {
 	 */
 	public void retrieveRequirements() {
 		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
-		request.addObserver(new GetRequirementsRequestObserver(this)); // add an observer to process the response
+		request.addObserver(observer); // add an observer to process the response
 		request.send(); // send the request
 	}
 
@@ -55,13 +70,13 @@ public class GetRequirementsController implements ActionListener {
 	 */
 	public void receivedRequirements(Requirement[] requirements) {
 		// Empty the local model to eliminate duplications
-		model.emptyModel();
+		RequirementModel.getInstance().emptyModel();
 		
 		// Make sure the response was not null
 		if (requirements != null) {
 			
 			// add the requirements to the local model
-			model.addRequirements(requirements);
+			RequirementModel.getInstance().addRequirements(requirements);
 		}
 	}
 }

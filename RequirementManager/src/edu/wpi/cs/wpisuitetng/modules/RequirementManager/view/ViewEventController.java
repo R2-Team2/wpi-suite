@@ -60,18 +60,16 @@ public class ViewEventController {
 	 * Opens a new tab for the creation of a requirement.
 	 */
 	public void createRequirement() {
-		NewRequirementPanel newReq = new NewRequirementPanel(new RequirementModel());
+		NewRequirementPanel newReq = new NewRequirementPanel();
 		main.addTab("Create Requirement", newReq);
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
 	}
 
-	/**Tells the table to update its listings with the 
-	 * given array of Requirements
+	/**Tells the table to update its listings based on the data in the requirement model
 	 * 
-	 * @param requirements Requirements to load the table with 
 	 */
-	public void updateTable(Requirement[] requirements) {
-		overviewTable.updateTable(requirements);
+	public void refreshTable() {
+		overviewTable.refresh();
 	}
 }

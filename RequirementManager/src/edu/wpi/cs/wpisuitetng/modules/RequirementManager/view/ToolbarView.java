@@ -42,8 +42,7 @@ public class ToolbarView extends JPanel {
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GetRequirementsController grController = new GetRequirementsController(new RequirementModel());
-				grController.retrieveRequirements();
+				GetRequirementsController.getInstance().retrieveRequirements();
 			}
 		});
 		

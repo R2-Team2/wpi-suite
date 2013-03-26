@@ -8,7 +8,7 @@ public class RequirementModelTest {
 
 	@Test
 	public void addRequirementTests(){
-		RequirementModel model = new RequirementModel();
+		RequirementModel model = RequirementModel.getInstance();
 		assertEquals(model.getSize(), 0);
 		Requirement object = new Requirement(4, "requirement a", "A requirement used for testing.");
 		model.addRequirement(object);
