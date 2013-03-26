@@ -20,6 +20,8 @@ public class OverviewTable extends JTable
 	{
 		this.tableModel = new DefaultTableModel(columnNames, 0);
 		this.setModel(tableModel);
+		this.getTableHeader().setReorderingAllowed(false);
+		this.setAutoCreateRowSorter(true);
 		setFillsViewportHeight(true);
 		ViewEventController.getInstance().setOverviewTable(this);
 	}
@@ -41,6 +43,15 @@ public class OverviewTable extends JTable
 			}
 		}
 			
+	}
+	
+	/**
+	 * Overrides isCellEditable to ensure that no cells are editable.
+	 */
+	@Override
+	public boolean isCellEditable(int row, int col)
+	{
+		return false;
 	}
 	
 }
