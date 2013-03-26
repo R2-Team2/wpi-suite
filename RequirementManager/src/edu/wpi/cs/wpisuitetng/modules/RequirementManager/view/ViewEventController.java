@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
+import javax.swing.JComponent;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewTable;
 
@@ -62,6 +64,16 @@ public class ViewEventController {
 		main.addTab("Create Requirement", newReq);
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
+		main.setSelectedComponent(newReq);
+	}
+	
+	/**
+	 * Removes the tab for the given JComponent
+	 */
+	
+	public void removeTab(JComponent comp)
+	{
+		main.remove(comp);
 	}
 
 	/**Tells the table to update its listings based on the data in the requirement model
