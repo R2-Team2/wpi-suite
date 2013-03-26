@@ -25,7 +25,9 @@ public class OverviewTable extends JTable
 	{
 		this.tableModel = new DefaultTableModel(columnNames, 0);
 		this.setModel(tableModel);
-		setFillsViewportHeight(true);
+		this.setFillsViewportHeight(true);
+		this.setAutoCreateRowSorter(true);
+		this.tableHeader.setReorderingAllowed(false);
 		ViewEventController.getInstance().setOverviewTable(this);
 		initialized = false;
 	}
@@ -52,6 +54,19 @@ public class OverviewTable extends JTable
 			
 	}
 	
+	/**
+	 * Overrides the isCellEditable method to ensure no cells are editable.
+	 */
+	@Override
+	public boolean isCellEditable(int row, int col)
+	{
+		return false;
+	}
+	
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 */
 	@Override
 	public void paintComponent(Graphics g)
 	{
