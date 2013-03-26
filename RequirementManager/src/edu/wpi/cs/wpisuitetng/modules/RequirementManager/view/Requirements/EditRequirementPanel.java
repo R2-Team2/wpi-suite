@@ -47,7 +47,7 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		boxName.setText(requirementBeingEdited.getName());
 		boxDescription.setText(requirementBeingEdited.getDescription());
-		estimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
+		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
 		boxReleaseNum.setText(requirementBeingEdited.getRelease());
 		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
 		
@@ -74,8 +74,6 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		super.buildRightPanel();
 
-		dropdownStatus.setEnabled(false);
-
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
@@ -89,7 +87,7 @@ public class EditRequirementPanel extends RequirementPanel
 				boolean isNameValid;
 				boolean isDescriptionValid;
 				
-				if (boxName.getText().length() >= 8)
+				if (boxName.getText().length() >= 100)
 				{
 					isNameValid = false;
 					errorName.setText("No more than 8 chars");
@@ -116,8 +114,12 @@ public class EditRequirementPanel extends RequirementPanel
 					isDescriptionValid = true;
 				}
 				
+<<<<<<< HEAD
 				
 				if(isNameValid && isDescriptionValid)
+=======
+				if(isNameValid && isDescriptionValid )
+>>>>>>> Updated New GUI with the rest of the field (estimate ,type, and iteration)
 				{
 					update();
 				}
@@ -145,7 +147,7 @@ public class EditRequirementPanel extends RequirementPanel
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
 		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, boxReleaseNum);
+				SpringLayout.SOUTH, errorEstimate);
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
 		

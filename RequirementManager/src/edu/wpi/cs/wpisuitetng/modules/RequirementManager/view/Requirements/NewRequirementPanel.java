@@ -11,8 +11,10 @@ import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -29,7 +31,7 @@ public class NewRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public NewRequirementPanel() {
-		setLayout(new GridLayout(1, 2));
+		setLayout(new GridLayout(1, 3));
 
 
 		this.add(buildLeftPanel()); //add left panel
@@ -45,7 +47,7 @@ public class NewRequirementPanel extends RequirementPanel
 		super.buildRightPanel();
 
 		dropdownStatus.setEnabled(false);
-
+		boxIteration.setEnabled(false);
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Create");
@@ -58,18 +60,19 @@ public class NewRequirementPanel extends RequirementPanel
 			{
 				boolean isNameValid;
 				boolean isDescriptionValid;
+				boolean isEstimateValid;
 				
-				if (boxName.getText().length() >= 8)
+				if (boxName.getText().length() >= 100)
 				{
 					isNameValid = false;
 					errorName.setText("No more than 8 chars");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 8));
+					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
 				}
 				else if(boxName.getText().trim().length() <= 0)
 				{
 					isNameValid = false;
 					errorName.setText("** Name is REQUIRED");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 8));
+					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
 				}
 				else
 				{
@@ -81,7 +84,7 @@ public class NewRequirementPanel extends RequirementPanel
 				{
 					isDescriptionValid = false;
 					errorDescription.setText("** Description is REQUIRED");
-					errorDescription.setFont(new Font("Serif", Font.PLAIN, 8));
+					errorDescription.setFont(new Font("Serif", Font.PLAIN, 10));
 				}
 				else
 				{	
@@ -89,7 +92,29 @@ public class NewRequirementPanel extends RequirementPanel
 					isDescriptionValid = true;
 				}
 				
-				if(isNameValid && isDescriptionValid)
+				if (boxEstimate.getText().trim().length() <= 0)
+				{
+					boxEstimate.setText(null);
+					errorEstimate.setText(null);
+					isEstimateValid = true;
+				}
+				else if(!(isInteger(boxEstimate.getText())))
+				{
+					errorEstimate.setText("** Please enter a non-negative integer");
+					isEstimateValid = false;
+				}
+				else if(Integer.parseInt(boxEstimate.getText())<0)
+				{
+					errorEstimate.setText("** Please enter a non-negative integer");
+					isEstimateValid = false;
+				}
+				else
+				{
+					errorEstimate.setText(null);
+					isEstimateValid = true;
+				}
+				
+				if(isNameValid && isDescriptionValid && isEstimateValid)
 				{
 					update();
 				}
@@ -117,7 +142,7 @@ public class NewRequirementPanel extends RequirementPanel
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
 		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, boxReleaseNum);
+				SpringLayout.SOUTH, errorEstimate);
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
 		
@@ -135,17 +160,24 @@ public class NewRequirementPanel extends RequirementPanel
 		String stringName = this.boxName.getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
 		String stringDescription = this.boxDescription.getText();
+		String stringIteration = this.boxIteration.getText();
+		String stringEstimate = this.boxEstimate.getText();
 		
 		RequirementPriority priority;
 		RequirementStatus status;
+		RequirementType type;
+		int estimate = Integer.parseInt(stringEstimate);
+		
+		Iteration iteration = new Iteration(stringIteration);
 		
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-
+		type = (RequirementType)this.dropdownType.getSelectedItem();
 		// Extract which radio is selected for the priority
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
 		boolean stateLow = priorityLow.isSelected();
+		boolean stateBlank = priorityBlank.isSelected();
 
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
@@ -154,6 +186,8 @@ public class NewRequirementPanel extends RequirementPanel
 			priority = RequirementPriority.MEDIUM;
 		else if (stateLow)
 			priority = RequirementPriority.LOW;
+		else if(stateBlank)
+			priority = RequirementPriority.BLANK;
 		else
 			priority = RequirementPriority.BLANK;
 
@@ -162,6 +196,9 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setRelease(stringReleaseNum);
 		newRequirement.setStatus(status);
 		newRequirement.setPriority(priority);
+		newRequirement.setType(type);
+		newRequirement.setEstimate(estimate);
+		newRequirement.setIteration(iteration);
 		RequirementModel.getInstance().addRequirement(newRequirement);
 		ViewEventController.getInstance().removeTab(this);
 	}
@@ -178,7 +215,6 @@ public class NewRequirementPanel extends RequirementPanel
 		boxReleaseNum.setText(null);
 		errorName.setText(null);
 		errorDescription.setText(null);
-		errorPriority.setText(null);
 		repaint(); //repaint the entire panel.
 	}
 	
@@ -189,5 +225,16 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		ViewEventController.getInstance().removeTab(this);
 	}
+	
+	public boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
+	}
+	
  
 }
