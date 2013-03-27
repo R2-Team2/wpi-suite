@@ -145,7 +145,6 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	public Requirement update(Session session, String content) throws WPISuiteException {
 		
 		Requirement updatedRequirement = Requirement.fromJson(content);
-		
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
 		 * We have to get the original defect from db4o, copy properties from updatedDefect,
@@ -156,19 +155,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 			throw new BadRequestException("Requirement with ID does not exist.");
 		}
 				
-		Requirement existingRequirement = (Requirement)oldRequirements.get(0);
-		
-		
+		Requirement existingRequirement = (Requirement)oldRequirements.get(0);		
+
 		// copy values to old requirement and fill in our changeset appropriately
-		existingRequirement.setDescription(updatedRequirement.getDescription());
-		existingRequirement.setName(updatedRequirement.getName());
-		existingRequirement.setEffort(updatedRequirement.getEffort());
-		existingRequirement.setEstimate(updatedRequirement.getEstimate());
-		existingRequirement.setIteration(updatedRequirement.getIteration());
-		existingRequirement.setPriority(updatedRequirement.getPriority());
-		existingRequirement.setRelease(updatedRequirement.getRelease());
-		existingRequirement.setStatus(updatedRequirement.getStatus());
-		existingRequirement.setType(updatedRequirement.getType());
+		existingRequirement.copyFrom(updatedRequirement);
 		
 		if(!db.save(existingRequirement, session.getProject())) {
 			throw new WPISuiteException();

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
@@ -217,6 +218,7 @@ public class Requirement extends AbstractModel {
 			String newStatus = status.name();
 			String message = ("Changed status from " + originalStatus + " to " + newStatus);
 			this.history.add(message);
+			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
 
 		this.status = status;
@@ -289,6 +291,7 @@ public class Requirement extends AbstractModel {
 			String newPriority = priority.name();
 			String message = ("Changed priority from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
+			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
 		
 		this.priority = priority;
@@ -578,4 +581,21 @@ public class Requirement extends AbstractModel {
 		this.history = history;
 	}
 
+	/**
+	 * Copies all of the values from the given requirement to this requirement.
+	 * @param toCopyFrom the requirement to copy from.
+	 */
+	public void copyFrom(Requirement toCopyFrom)
+	{
+		this.description = toCopyFrom.description;
+		this.name = toCopyFrom.name;
+		this.actualEffort = toCopyFrom.actualEffort;
+		this.estimate = toCopyFrom.estimate;
+		this.iteration = toCopyFrom.iteration;
+		this.priority = toCopyFrom.priority;
+		this.release = toCopyFrom.release;
+		this.status = toCopyFrom.status;
+		this.type = toCopyFrom.type;
+		this.history = toCopyFrom.history;
+	}
 }
