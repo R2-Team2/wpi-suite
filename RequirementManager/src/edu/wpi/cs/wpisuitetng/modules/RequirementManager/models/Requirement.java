@@ -37,6 +37,9 @@ public class Requirement extends AbstractModel {
 	/** a flag indicating if the requirement is active or deleted */
 	private boolean activeStatus;
 	
+	/** history of transactions of the requirement */
+	private TransactionHistory history;
+	
 	
 	/**
 	 * Constructs a Requirement with default characteristics
@@ -50,6 +53,8 @@ public class Requirement extends AbstractModel {
 		priority = RequirementPriority.BLANK;
 		estimate = effort = 0;
 		activeStatus = true;
+		history = new TransactionHistory();
+		history.add(null, "REQUIREMENT CREATED");
 	}
 
 	/**
@@ -229,6 +234,22 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setPriority(RequirementPriority priority) {
 		this.priority = priority;
+	}
+	
+	/**
+	 * Getter for the transaction history
+	 * @return Transaction history
+	 */
+	public TransactionHistory getHistory() {
+		return history;
+	}
+	
+	/**
+	 * Setter for the transaction history
+	 * @param history Transaction history
+	 */
+	public void setHistory(TransactionHistory history) {
+		this.history = history;
 	}
 	
 	/**Sets a flag in the requirement to indicate it's deleted

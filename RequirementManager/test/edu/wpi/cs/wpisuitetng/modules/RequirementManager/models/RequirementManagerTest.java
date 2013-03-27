@@ -159,5 +159,11 @@ public class RequirementManagerTest {
 	public void testCount() throws WPISuiteException {
 		assertEquals(2, manager.Count());
 	}
-}
 
+
+	/*@Test
+	public void testCreateRequirement() {
+		assertNotNull(new Requirement("Bob", "1.0", RequirementStatus.NEW, "Desc", 1, 1));
+	}*/
+
+}
