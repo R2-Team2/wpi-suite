@@ -12,41 +12,41 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * adding the contents of the requirement text fields to the model as a new
  * requirement.
  */
-public class AddRequirementController{
+public class UpdateRequirementController{
 	
-	private static AddRequirementController instance;
-	private AddRequirementRequestObserver observer;
+	private static UpdateRequirementController instance;
+	private UpdateRequirementRequestObserver observer;
 	
 	/**
-	 * Construct an AddRequirementController for the given model, view pair
+	 * Construct an UpdateRequirementController for the given model, view pair
 	 * @param model the model containing the requirements
 	 * @param view the view where the user enters new requirements
 	 */
-	private AddRequirementController() {
-		observer = new AddRequirementRequestObserver(this);
+	private UpdateRequirementController() {
+		observer = new UpdateRequirementRequestObserver(this);
 	}
 	
 	/**
-	 * Returns the instance of the AddRequirementController or creates one if it does not
+	 * Returns the instance of the UpdateRequirementController or creates one if it does not
 	 * exist.
 	 */
-	public static AddRequirementController getInstance()
+	public static UpdateRequirementController getInstance()
 	{
 		if(instance == null)
 		{
-			instance = new AddRequirementController();
+			instance = new UpdateRequirementController();
 		}
 		
 		return instance;
 	}
 
 	/**
-	 * This method adds a requirement to the server.
-	 * @param newRequirement is the requirement to be added to the server.
+	 * This method updates a requirement to the server.
+	 * @param newRequirement is the requirement to be updated to the server.
 	 */
-	public void addRequirement(Requirement newRequirement) 
+	public void updateRequirement(Requirement newRequirement) 
 	{
-		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.PUT); // PUT == create
+		Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.POST); // POST == update
 		request.setBody(newRequirement.toJSON()); // put the new requirement in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 

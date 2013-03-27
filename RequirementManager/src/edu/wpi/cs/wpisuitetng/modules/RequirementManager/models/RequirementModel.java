@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
+
 
 /**List of Requirements being pulled from the server
  * 
@@ -19,12 +22,30 @@ public class RequirementModel extends AbstractListModel{
 	 * The list in which all the requirements for a single project are contained
 	 */
 	private List<Requirement> requirements;
+	private int nextID; // the next available ID number for the requirements that are added.
+	
+	//the static object to allow the requirement model to be 
+	private static RequirementModel instance; 
 
 	/**
 	 * Constructs an empty list of requirements for the project
 	 */
-	public RequirementModel (){
+	private RequirementModel (){
 		requirements = new ArrayList<Requirement>();
+		nextID = 0;
+	}
+	
+	/**
+	 * Returns the instance of the requirement model singleton.
+	 */
+	public static RequirementModel getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new RequirementModel();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -35,7 +56,8 @@ public class RequirementModel extends AbstractListModel{
 	public void addRequirement(Requirement newReq){
 		// add the requirement
 		requirements.add(newReq);
-		//in the future we may have to update the GUI to reflect that the requirement was added
+		AddRequirementController.getInstance().addRequirement(newReq);
+		ViewEventController.getInstance().refreshTable();
 	}
 	
 	/**
@@ -52,6 +74,8 @@ public class RequirementModel extends AbstractListModel{
 				break;
 			}
 		}
+		
+		ViewEventController.getInstance().refreshTable();
 	}
 
 	/**
@@ -63,6 +87,18 @@ public class RequirementModel extends AbstractListModel{
 	 */
 	public int getSize() {
 		return requirements.size();
+	}
+	
+	/**
+	 * 
+	 * Provides the next ID number that should be used for a new requirement that is created.
+	 * 
+	 * @return the next open id number
+	 */
+	public int getNextID()
+	{
+		
+		return this.nextID++;
 	}
 
 	/**
@@ -92,6 +128,7 @@ public class RequirementModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
+		ViewEventController.getInstance().refreshTable();
 	}
 	
 	/**
@@ -102,8 +139,10 @@ public class RequirementModel extends AbstractListModel{
 	public void addRequirements(Requirement[] requirements) {
 		for (int i = 0; i < requirements.length; i++) {
 			this.requirements.add(requirements[i]);
+			if(requirements[i].getId() >= nextID) nextID = requirements[i].getId() + 1;
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		ViewEventController.getInstance().refreshTable();
 	}
 
 	public List<Requirement> getRequirements() {

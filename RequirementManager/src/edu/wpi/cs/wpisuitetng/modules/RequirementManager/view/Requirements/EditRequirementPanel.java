@@ -1,17 +1,17 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
@@ -24,19 +24,60 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
-//
-public class NewRequirementPanel extends RequirementPanel 
+public class EditRequirementPanel extends RequirementPanel 
 {	
+	private Requirement requirementBeingEdited;
+	private JTextField iteration;
+	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
 	 */
-	public NewRequirementPanel() {
-		setLayout(new GridLayout(1, 3));
+	public EditRequirementPanel(Requirement req) {
+		setLayout(new GridLayout(1, 2));
 
-
+		requirementBeingEdited = req;
 		this.add(buildLeftPanel()); //add left panel
 		this.add(buildRightPanel()); //add right panel
+		
+		fillFieldsForRequirement();
+	}
+	
+	/**
+	 * Fills the fields of the edit requirement panel based on the current settings of the
+	 * edited requirement.
+	 */
+	private void fillFieldsForRequirement()
+	{
+		boxName.setText(requirementBeingEdited.getName());
+		boxDescription.setText(requirementBeingEdited.getDescription());
+		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
+		boxReleaseNum.setText(requirementBeingEdited.getRelease());
+		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
+		boxIteration.setText(requirementBeingEdited.getIteration().toString());
+		
+		switch(requirementBeingEdited.getPriority())
+		{
+		case BLANK:
+			group.clearSelection();
+			break;
+		case LOW:
+			priorityLow.setSelected(true);
+			break;
+		case MEDIUM:
+			priorityMedium.setSelected(true);
+		case HIGH:
+			priorityHigh.setSelected(true);
+		}
+		
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS || requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
+		{
+			boxEstimate.setEnabled(false);
+		}
+		else
+		{
+			boxEstimate.setEnabled(true);
+		}
 	}
 	
 	/**
@@ -47,13 +88,11 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		super.buildRightPanel();
 
-		dropdownStatus.setEnabled(false);
-		boxIteration.setEnabled(false);
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
-		JButton buttonUpdate = new JButton("Create");
+		JButton buttonUpdate = new JButton("Update");
 		JButton buttonCancel = new JButton("Cancel");
-		JButton buttonClear = new JButton("Clear");
+		JButton buttonClear = new JButton("Undo Changes");
 		
 		// Construct the add requirement controller and add it to the update button
 		buttonUpdate.addActionListener(new ActionListener(){
@@ -67,14 +106,12 @@ public class NewRequirementPanel extends RequirementPanel
 				{
 					isNameValid = false;
 					errorName.setText("No more than 100 chars");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
 					errorName.setForeground(Color.RED);
 				}
 				else if(boxName.getText().trim().length() <= 0)
 				{
 					isNameValid = false;
-					errorName.setText("** Name is REQUIRED");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
+					errorName.setText("Name is REQUIRED");
 					errorName.setForeground(Color.RED);
 				}
 				else
@@ -86,8 +123,7 @@ public class NewRequirementPanel extends RequirementPanel
 				if (boxDescription.getText().trim().length() <= 0)
 				{
 					isDescriptionValid = false;
-					errorDescription.setText("** Description is REQUIRED");
-					errorDescription.setFont(new Font("Serif", Font.PLAIN, 10));
+					errorDescription.setText("Description is REQUIRED");
 					errorDescription.setForeground(Color.RED);
 				}
 				else
@@ -119,8 +155,8 @@ public class NewRequirementPanel extends RequirementPanel
 					errorEstimate.setText("");
 					isEstimateValid = true;
 				}
-				
-				if(isNameValid && isDescriptionValid && isEstimateValid)
+			
+				if(isNameValid && isDescriptionValid && isEstimateValid )
 				{
 					update();
 				}
@@ -131,7 +167,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clear();
+				fillFieldsForRequirement();
 			}
 		
 		});
@@ -166,24 +202,22 @@ public class NewRequirementPanel extends RequirementPanel
 		String stringName = this.boxName.getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
 		String stringDescription = this.boxDescription.getText();
-		String stringIteration = this.boxIteration.getText();
 		String stringEstimate = this.boxEstimate.getText();
-		
+		String stringIteration = this.boxIteration.getText();
+
+
 		RequirementPriority priority;
 		RequirementStatus status;
-		RequirementType type;
+		RequirementType type = (RequirementType)dropdownType.getSelectedItem();
+		
 		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
-		
-		Iteration iteration = new Iteration(stringIteration);
-		
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-		type = (RequirementType)this.dropdownType.getSelectedItem();
+		Iteration iteration = new Iteration(stringIteration);
 		// Extract which radio is selected for the priority
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
 		boolean stateLow = priorityLow.isSelected();
-		boolean stateBlank = priorityBlank.isSelected();
 
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
@@ -192,36 +226,21 @@ public class NewRequirementPanel extends RequirementPanel
 			priority = RequirementPriority.MEDIUM;
 		else if (stateLow)
 			priority = RequirementPriority.LOW;
-		else if(stateBlank)
-			priority = RequirementPriority.BLANK;
 		else
 			priority = RequirementPriority.BLANK;
 
 		// Create a new requirement object based on the extracted info
-		Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), stringName, stringDescription);
-		newRequirement.setRelease(stringReleaseNum);
-		newRequirement.setStatus(status);
-		newRequirement.setPriority(priority);
-		newRequirement.setType(type);
-		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration(iteration);
-		RequirementModel.getInstance().addRequirement(newRequirement);
+		requirementBeingEdited.setName(stringName);
+		requirementBeingEdited.setRelease(stringReleaseNum);
+		requirementBeingEdited.setDescription(stringDescription);
+		requirementBeingEdited.setStatus(status);
+		requirementBeingEdited.setPriority(priority);
+		requirementBeingEdited.setEstimate(estimate);
+		requirementBeingEdited.setIteration(iteration);
+		requirementBeingEdited.setType(type);
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
-	}
-	
-	/**
-	 * Clears the editing of the requirement.
-	 */
-	private void clear() 
-	{
-		boxName.setText(null);
-		boxDescription.setText(null);
-		dropdownStatus.setSelectedItem("Not Selected");
-		group.clearSelection();
-		boxReleaseNum.setText(null);
-		errorName.setText(null);
-		errorDescription.setText(null);
-		repaint(); //repaint the entire panel.
 	}
 	
 	/**
@@ -231,6 +250,7 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		ViewEventController.getInstance().removeTab(this);
 	}
+ 
 	
 	public boolean isInteger( String input ) {
 	    try {
@@ -241,6 +261,4 @@ public class NewRequirementPanel extends RequirementPanel
 	        return false;
 	    }
 	}
-	
- 
 }

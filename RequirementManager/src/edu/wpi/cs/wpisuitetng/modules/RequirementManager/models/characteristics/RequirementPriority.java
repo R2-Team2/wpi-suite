@@ -1,5 +1,5 @@
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
 
 /**
  * Various Priorities a requirement can have

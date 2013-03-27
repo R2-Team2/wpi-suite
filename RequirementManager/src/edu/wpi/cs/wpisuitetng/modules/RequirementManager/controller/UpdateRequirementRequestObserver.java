@@ -11,15 +11,15 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * to the server to add a requirement.
  *
  */
-public class AddRequirementRequestObserver implements RequestObserver {
+public class UpdateRequirementRequestObserver implements RequestObserver {
 	
-	private final AddRequirementController controller;
+	private final UpdateRequirementController controller;
 	
 	/**
 	 * Constructs the observer given an AddRequirementController
 	 * @param controller the controller used to add requirements
 	 */
-	public AddRequirementRequestObserver(AddRequirementController controller) {
+	public UpdateRequirementRequestObserver(UpdateRequirementController controller) {
 		this.controller = controller;
 	}
 	
@@ -40,12 +40,13 @@ public class AddRequirementRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a requirement failed.");
+		System.err.println(iReq.getResponse().getStatusMessage());
+		System.err.println("The request to update a requirement failed.");
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a requirement failed.");
+		System.err.println("The request to update a requirement failed.");
 	}
 
 }

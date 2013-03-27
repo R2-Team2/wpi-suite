@@ -1,13 +1,18 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
+import java.util.Date;
+import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
+import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
@@ -138,7 +143,38 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 
 	@Override
 	public Requirement update(Session session, String content) throws WPISuiteException {
-		throw new NotImplementedException();
+		
+		Requirement updatedRequirement = Requirement.fromJson(content);
+		
+		/*
+		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
+		 * We have to get the original defect from db4o, copy properties from updatedDefect,
+		 * then save the original defect again.
+		 */
+		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", updatedRequirement.getId(), session.getProject());
+		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
+			throw new BadRequestException("Requirement with ID does not exist.");
+		}
+				
+		Requirement existingRequirement = (Requirement)oldRequirements.get(0);
+		
+		
+		// copy values to old requirement and fill in our changeset appropriately
+		existingRequirement.setDescription(updatedRequirement.getDescription());
+		existingRequirement.setName(updatedRequirement.getName());
+		existingRequirement.setEffort(updatedRequirement.getEffort());
+		existingRequirement.setEstimate(updatedRequirement.getEstimate());
+		existingRequirement.setIteration(updatedRequirement.getIteration());
+		existingRequirement.setPriority(updatedRequirement.getPriority());
+		existingRequirement.setRelease(updatedRequirement.getRelease());
+		existingRequirement.setStatus(updatedRequirement.getStatus());
+		existingRequirement.setType(updatedRequirement.getType());
+		
+		if(!db.save(existingRequirement, session.getProject())) {
+			throw new WPISuiteException();
+		}
+		
+		return existingRequirement;
 	}
 
 	@Override
