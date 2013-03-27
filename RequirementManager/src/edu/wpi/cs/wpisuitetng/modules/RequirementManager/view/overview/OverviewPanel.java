@@ -21,7 +21,7 @@ public class OverviewPanel extends JPanel {
 
 		OverviewFilterPanel filterPanel = new OverviewFilterPanel();
 		
-		String[] columnNames = {"ID", "Name", "Status", "Priority", "Release #"};
+		String[] columnNames = {"ID", "Name", "Release #", "Iteration", "Type", "Status", "Priority", "Estimate"};
 				
 		Object[][] data = {};
 		

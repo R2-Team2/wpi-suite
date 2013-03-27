@@ -56,9 +56,13 @@ public class OverviewTable extends JTable
 			if (!req.isDeleted()) {
 				tableModel.addRow(new Object[]{ req.getId(), 
 												req,
+												req.getRelease(),
+												req.getIteration(),
+												req.getType(),
 												req.getStatus(),
 												req.getPriority(),
-												req.getRelease() }
+												req.getEstimate()
+												 }
 				);
 			}
 		}
