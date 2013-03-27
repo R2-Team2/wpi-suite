@@ -27,9 +27,11 @@ public class OverviewTable extends JTable
 	{
 		this.tableModel = new DefaultTableModel(columnNames, 0);
 		this.setModel(tableModel);
-		this.setFillsViewportHeight(true);
+
+		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
-		this.tableHeader.setReorderingAllowed(false);
+		setFillsViewportHeight(true);
+
 		ViewEventController.getInstance().setOverviewTable(this);
 		initialized = false;
 		
