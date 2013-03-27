@@ -11,6 +11,7 @@ public class Iteration {
 	public Iteration(String name)
 	{
 		this.name = name;
+		if(name.trim().length() == 0) this.name = "Backlog";
 	}
 	
 	public String getName()
@@ -21,5 +22,10 @@ public class Iteration {
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return name;
 	}
 }

@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
 import javax.swing.JComponent;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.EditRequirementPanel;
@@ -118,6 +119,7 @@ public class ViewEventController {
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
 			toSendToBacklog.setIteration(new Iteration("Backlog"));
+			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 	}
 	

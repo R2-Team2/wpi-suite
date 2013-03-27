@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
@@ -51,6 +53,7 @@ public class EditRequirementPanel extends RequirementPanel
 		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
 		boxReleaseNum.setText(requirementBeingEdited.getRelease());
 		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
+		boxIteration.setText(requirementBeingEdited.getIteration().toString());
 		
 		switch(requirementBeingEdited.getPriority())
 		{
@@ -64,6 +67,15 @@ public class EditRequirementPanel extends RequirementPanel
 			priorityMedium.setSelected(true);
 		case HIGH:
 			priorityHigh.setSelected(true);
+		}
+		
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS || requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
+		{
+			boxEstimate.setEnabled(false);
+		}
+		else
+		{
+			boxEstimate.setEnabled(true);
 		}
 	}
 	
@@ -87,16 +99,19 @@ public class EditRequirementPanel extends RequirementPanel
 			{
 				boolean isNameValid;
 				boolean isDescriptionValid;
+				boolean isEstimateValid;
 				
 				if (boxName.getText().length() >= 100)
 				{
 					isNameValid = false;
-					errorName.setText("No more than 8 chars");
+					errorName.setText("No more than 100 chars");
+					errorName.setForeground(Color.RED);
 				}
 				else if(boxName.getText().trim().length() <= 0)
 				{
 					isNameValid = false;
 					errorName.setText("Name is REQUIRED");
+					errorName.setForeground(Color.RED);
 				}
 				else
 				{
@@ -108,14 +123,39 @@ public class EditRequirementPanel extends RequirementPanel
 				{
 					isDescriptionValid = false;
 					errorDescription.setText("Description is REQUIRED");
+					errorDescription.setForeground(Color.RED);
 				}
 				else
 				{	
 					errorDescription.setText("");
 					isDescriptionValid = true;
 				}
+				
+				if (boxEstimate.getText().trim().length() <= 0)
+				{
+					boxEstimate.setText("");
+					errorEstimate.setText("");
+					isEstimateValid = true;
+				}
+				else if(!(isInteger(boxEstimate.getText())))
+				{
+					errorEstimate.setText("** Please enter a non-negative integer");
+					isEstimateValid = false;
+					errorEstimate.setForeground(Color.RED);
+				}
+				else if(Integer.parseInt(boxEstimate.getText())<0)
+				{
+					errorEstimate.setText("** Please enter a non-negative integer");
+					isEstimateValid = false;
+					errorEstimate.setForeground(Color.RED);
+				}
+				else
+				{
+					errorEstimate.setText("");
+					isEstimateValid = true;
+				}
 			
-				if(isNameValid && isDescriptionValid )
+				if(isNameValid && isDescriptionValid && isEstimateValid )
 				{
 					update();
 				}
@@ -161,13 +201,17 @@ public class EditRequirementPanel extends RequirementPanel
 		String stringName = this.boxName.getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
 		String stringDescription = this.boxDescription.getText();
-		
+		String stringEstimate = this.boxEstimate.getText();
+		String stringIteration = this.boxIteration.getText();
+
+
 		RequirementPriority priority;
 		RequirementStatus status;
 		
+		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-
+		Iteration iteration = new Iteration(stringIteration);
 		// Extract which radio is selected for the priority
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
@@ -189,6 +233,8 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setDescription(stringDescription);
 		requirementBeingEdited.setStatus(status);
 		requirementBeingEdited.setPriority(priority);
+		requirementBeingEdited.setEstimate(estimate);
+		requirementBeingEdited.setIteration(iteration);
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
@@ -202,4 +248,14 @@ public class EditRequirementPanel extends RequirementPanel
 		ViewEventController.getInstance().removeTab(this);
 	}
  
+	
+	public boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
+	}
 }

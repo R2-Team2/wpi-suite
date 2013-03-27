@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -65,18 +66,20 @@ public class NewRequirementPanel extends RequirementPanel
 				if (boxName.getText().length() >= 100)
 				{
 					isNameValid = false;
-					errorName.setText("No more than 8 chars");
+					errorName.setText("No more than 100 chars");
 					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
+					errorName.setForeground(Color.RED);
 				}
 				else if(boxName.getText().trim().length() <= 0)
 				{
 					isNameValid = false;
 					errorName.setText("** Name is REQUIRED");
 					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
+					errorName.setForeground(Color.RED);
 				}
 				else
 				{
-					errorName.setText(null);
+					errorName.setText("");
 					isNameValid = true;
 					
 				}
@@ -85,32 +88,35 @@ public class NewRequirementPanel extends RequirementPanel
 					isDescriptionValid = false;
 					errorDescription.setText("** Description is REQUIRED");
 					errorDescription.setFont(new Font("Serif", Font.PLAIN, 10));
+					errorDescription.setForeground(Color.RED);
 				}
 				else
 				{	
-					errorDescription.setText(null);
+					errorDescription.setText("");
 					isDescriptionValid = true;
 				}
 				
 				if (boxEstimate.getText().trim().length() <= 0)
 				{
-					boxEstimate.setText(null);
-					errorEstimate.setText(null);
+					boxEstimate.setText("");
+					errorEstimate.setText("");
 					isEstimateValid = true;
 				}
 				else if(!(isInteger(boxEstimate.getText())))
 				{
 					errorEstimate.setText("** Please enter a non-negative integer");
 					isEstimateValid = false;
+					errorEstimate.setForeground(Color.RED);
 				}
 				else if(Integer.parseInt(boxEstimate.getText())<0)
 				{
 					errorEstimate.setText("** Please enter a non-negative integer");
 					isEstimateValid = false;
+					errorEstimate.setForeground(Color.RED);
 				}
 				else
 				{
-					errorEstimate.setText(null);
+					errorEstimate.setText("");
 					isEstimateValid = true;
 				}
 				
@@ -166,7 +172,7 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementPriority priority;
 		RequirementStatus status;
 		RequirementType type;
-		int estimate = Integer.parseInt(stringEstimate);
+		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
 		
 		Iteration iteration = new Iteration(stringIteration);
 		
