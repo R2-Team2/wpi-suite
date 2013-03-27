@@ -26,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 //CATS!!
 @SuppressWarnings("serial")
 public class NewRequirementPanel extends JPanel {
@@ -167,7 +169,8 @@ public class NewRequirementPanel extends JPanel {
                             entireData = entireData + stringReleaseNum+ "\n";
                             
                             
-                            testField.setText(entireData);
+                            testField.setText(entireData); 
+                           
                     }
             });
             
