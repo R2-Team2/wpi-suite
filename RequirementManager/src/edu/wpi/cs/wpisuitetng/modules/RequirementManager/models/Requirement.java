@@ -212,7 +212,15 @@ public class Requirement extends AbstractModel {
 	 * @param status the status to set
 	 */
 	public void setStatus(RequirementStatus status) {
+		if (status != this.status){
+			String originalStatus = this.status.name();
+			String newStatus = status.name();
+			String message = ("Changed status from " + originalStatus + " to " + newStatus);
+			this.history.add(message);
+		}
+
 		this.status = status;
+		
 	}
 
 	/**Getter for the description
@@ -276,6 +284,13 @@ public class Requirement extends AbstractModel {
 	 * @param priority the priority to set
 	 */
 	public void setPriority(RequirementPriority priority) {
+		if (priority != this.priority){
+			String originalPriority = this.priority.name();
+			String newPriority = priority.name();
+			String message = ("Changed priority from " + originalPriority + " to " + newPriority);
+			this.history.add(message);
+		}
+		
 		this.priority = priority;
 	}
 	
@@ -461,8 +476,15 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param iteration the iteration to assign the requirement to
 	 */
-	public void setIteration(Iteration iteration) {
-		this.iteration = iteration;
+	public void setIteration(Iteration newIteration) {
+		if (!this.iteration.equals(newIteration)){
+			String originalIteration = this.iteration.toString();
+			String newIterationString = newIteration.toString();
+			String message = ("Moved from " + originalIteration + " to " + newIterationString);
+			this.history.add(message);
+		}
+		
+		this.iteration = newIteration;
 	}
 	
 	/** Getter for AssignedTo
