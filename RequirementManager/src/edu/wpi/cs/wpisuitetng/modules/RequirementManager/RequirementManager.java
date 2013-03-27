@@ -18,9 +18,9 @@ public class RequirementManager implements IJanewayModule {
 
 	private List<JanewayTabModel> tabs;
 	
-	/** Constructor for Requirement Manager. Creates a main view that contains a
+	/** 
+	 * Constructor for Requirement Manager. Creates a main view that contains a
 	 *  toolbar on the top for each sub-tab. 
-	 * 
 	 */
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
@@ -38,15 +38,19 @@ public class RequirementManager implements IJanewayModule {
 		tabs.add(tab1);
 	}
 	
+	/**
+	 * Returns the name of the Requirement manager tab.
+	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Requirement Manager";
 	}
 
+	/**
+	 * Returns the tabs that make up the requirement manager.
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
-		// TODO Auto-generated method stub
 		return tabs;
 	}
 

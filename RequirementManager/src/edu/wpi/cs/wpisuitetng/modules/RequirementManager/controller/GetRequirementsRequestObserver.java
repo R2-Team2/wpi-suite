@@ -36,7 +36,7 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 		controller.receivedRequirements(requirements);
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -44,7 +44,7 @@ public class GetRequirementsRequestObserver implements RequestObserver {
 		fail(iReq, null);
 	}
 
-	/*
+	/**
 	 * Put an error requirement in the PostBoardPanel if the request fails.
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)

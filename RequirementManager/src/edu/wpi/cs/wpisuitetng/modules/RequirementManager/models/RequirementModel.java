@@ -145,6 +145,10 @@ public class RequirementModel extends AbstractListModel{
 		ViewEventController.getInstance().refreshTable();
 	}
 
+	/**
+	 * Returns the list of the requirements
+	 * @return the requirements held within the requirementmodel.
+	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}

@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  */
 public class Requirement extends AbstractModel {
 	/**  the ID of the requirement */
-	private int id;
+	private int id; //TODO: move ID stuff to server side?
 	
 	/**  the name of the requirement */
 	private String name;
@@ -553,6 +553,10 @@ public class Requirement extends AbstractModel {
 		return this.getName();
 	}
 
+	/**
+	 * Returns whether the requirement has been deleted.
+	 * @return delete status of the requirement.
+	 */
 	public boolean isDeleted() {
 		return !activeStatus;
 	}

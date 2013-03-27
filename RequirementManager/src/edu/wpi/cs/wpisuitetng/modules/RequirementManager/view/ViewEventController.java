@@ -121,6 +121,8 @@ public class ViewEventController {
 			toSendToBacklog.setIteration(new Iteration("Backlog"));
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
+		
+		this.refreshTable();
 	}
 	
 	/**

@@ -38,11 +38,19 @@ public class AddRequirementRequestObserver implements RequestObserver {
 		final Requirement requirement = Requirement.fromJson(response.getBody());		
 	}
 
+	/**
+	 * Takes an action if the response results in an error.
+	 * Specifically, outputs that the request failed.
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println("The request to add a requirement failed.");
 	}
 
+	/**
+	 * Takes an action if the response fails.
+	 * Specifically, outputs that the request failed.
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a requirement failed.");

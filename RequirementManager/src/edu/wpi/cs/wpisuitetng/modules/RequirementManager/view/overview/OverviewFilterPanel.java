@@ -3,7 +3,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -17,6 +16,9 @@ public class OverviewFilterPanel extends JPanel implements ListSelectionListener
 	private JButton editButton;
 	private JButton backLogButton;
 	
+	/**
+	 * Sets up the left hand panel of the overview
+	 */
 	public OverviewFilterPanel()
 	{
 		editButton = new JButton("Edit Requirement");

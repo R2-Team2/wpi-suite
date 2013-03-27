@@ -1,7 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
@@ -250,5 +249,20 @@ abstract public class RequirementPanel extends JPanel
 		rightPanel.add(errorEstimate);
 		
 		return rightPanel;
+	}
+	
+	/**
+	 * Checks if the input string is an integer
+	 * @param input the string to test
+	 * @return true if input is an integer, false otherwise
+	 */
+	public boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
 	}
 }

@@ -54,6 +54,7 @@ public class EditRequirementPanel extends RequirementPanel
 		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
 		boxReleaseNum.setText(requirementBeingEdited.getRelease());
 		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
+		dropdownType.setSelectedItem(requirementBeingEdited.getType());
 		boxIteration.setText(requirementBeingEdited.getIteration().toString());
 		
 		switch(requirementBeingEdited.getPriority())
@@ -249,16 +250,5 @@ public class EditRequirementPanel extends RequirementPanel
 	private void cancel()
 	{
 		ViewEventController.getInstance().removeTab(this);
-	}
- 
-	
-	public boolean isInteger( String input ) {
-	    try {
-	        Integer.parseInt( input );
-	        return true;
-	    }
-	    catch( Exception e ) {
-	        return false;
-	    }
 	}
 }
