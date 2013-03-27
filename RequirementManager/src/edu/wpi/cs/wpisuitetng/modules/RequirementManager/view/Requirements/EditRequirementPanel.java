@@ -54,6 +54,7 @@ public class EditRequirementPanel extends RequirementPanel
 		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
 		boxReleaseNum.setText(requirementBeingEdited.getRelease());
 		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
+		dropdownType.setSelectedItem(requirementBeingEdited.getType());
 		boxIteration.setText(requirementBeingEdited.getIteration().toString());
 		
 		switch(requirementBeingEdited.getPriority())
