@@ -14,7 +14,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 
 /**
  * Basic Requirement class
@@ -91,7 +90,6 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		history.add("REQUIREMENT CREATED");
 		setIteration(new Iteration("Backlog"));
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
@@ -479,6 +477,7 @@ public class Requirement extends AbstractModel {
 	 * @param iteration the iteration to assign the requirement to
 	 */
 	public void setIteration(Iteration newIteration) {
+		if(this.iteration == null) this.iteration = newIteration;
 		if (!this.iteration.equals(newIteration)){
 			String originalIteration = this.iteration.toString();
 			String newIterationString = newIteration.toString();

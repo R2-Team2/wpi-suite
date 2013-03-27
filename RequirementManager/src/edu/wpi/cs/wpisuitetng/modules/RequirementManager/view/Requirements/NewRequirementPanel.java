@@ -205,6 +205,8 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
 		newRequirement.setIteration(iteration);
+		newRequirement.getHistory().add("REQUIREMENT CREATED");
+
 		RequirementModel.getInstance().addRequirement(newRequirement);
 		ViewEventController.getInstance().removeTab(this);
 	}
