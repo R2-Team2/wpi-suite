@@ -56,8 +56,15 @@ public class RequirementModel extends AbstractListModel{
 	public void addRequirement(Requirement newReq){
 		// add the requirement
 		requirements.add(newReq);
-		AddRequirementController.getInstance().addRequirement(newReq);
-		ViewEventController.getInstance().refreshTable();
+		try 
+		{
+			AddRequirementController.getInstance().addRequirement(newReq);
+			ViewEventController.getInstance().refreshTable();
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
 	
 	/**
