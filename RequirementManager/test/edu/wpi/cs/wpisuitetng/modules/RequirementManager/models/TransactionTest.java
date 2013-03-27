@@ -15,7 +15,7 @@ public class TransactionTest {
 
 	@Test
 	public void testCreateTransaction() {
-		User u = new User("joe", "joe", "1234", 2);
+		String u = "joe";
 		Transaction t = new Transaction(u, 1234567, "changed priority from LOW to HIGH");
 		assertNotNull(t);
 		assertSame(t.getUser(), u);
