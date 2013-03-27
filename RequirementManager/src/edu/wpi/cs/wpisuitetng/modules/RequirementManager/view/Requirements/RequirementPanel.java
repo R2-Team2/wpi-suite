@@ -251,4 +251,19 @@ abstract public class RequirementPanel extends JPanel
 		
 		return rightPanel;
 	}
+	
+	/**
+	 * Checks if the input string is an integer
+	 * @param input the string to test
+	 * @return true if input is an integer, false otherwise
+	 */
+	public boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
+	}
 }

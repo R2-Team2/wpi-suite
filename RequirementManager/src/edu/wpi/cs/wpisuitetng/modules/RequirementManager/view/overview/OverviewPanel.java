@@ -1,13 +1,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.network.Network;
 
 public class OverviewPanel extends JPanel {
 	
