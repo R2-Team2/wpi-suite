@@ -43,6 +43,6 @@ public class RequirementTest {
 	    
 	    TransactionHistory history = origObject.getHistory();
 	    assertEquals(history.getItem(0).getMessage(),"REQUIREMENT CREATED");
-	    assertEquals(history.getItem(0).getTS(),System.currentTimeMillis(), 100);
+	    assertEquals(history.getItem(0).getTS(),System.currentTimeMillis(), 500);
 	}
 }
