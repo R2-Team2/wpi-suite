@@ -15,6 +15,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -207,6 +208,7 @@ public class EditRequirementPanel extends RequirementPanel
 
 		RequirementPriority priority;
 		RequirementStatus status;
+		RequirementType type = (RequirementType)dropdownType.getSelectedItem();
 		
 		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
@@ -235,6 +237,7 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setPriority(priority);
 		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(iteration);
+		requirementBeingEdited.setType(type);
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
