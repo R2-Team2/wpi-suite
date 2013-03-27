@@ -90,7 +90,7 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		setIteration(new Iteration("Backlog"));
+		iteration = (new Iteration("Backlog"));
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
