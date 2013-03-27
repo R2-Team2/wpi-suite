@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
@@ -193,7 +194,7 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setDescription(stringDescription);
 		requirementBeingEdited.setStatus(status);
 		requirementBeingEdited.setPriority(priority);
-		
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
 	}
