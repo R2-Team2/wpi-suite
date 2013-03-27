@@ -13,6 +13,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
 /**
  * Basic Requirement class
@@ -22,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  */
 public class Requirement extends AbstractModel {
 	/**  the ID of the requirement */
-	private int id;
+	private int id = 1;
 	
 	/**  the name of the requirement */
 	private String name;
@@ -61,9 +62,9 @@ public class Requirement extends AbstractModel {
 	private Iteration iteration;
 	
 	/** team members the requirement is assigned to 
-	 *  need to figure out the class of a username, then use that instead of TeamMember 
+	 *  need to figure out the class of a user name, then use that instead of TeamMember 
 	 */
-	//private List<TeamMember> assignedTo; 
+	private List<String> assignedTo; 
 	
 	/** development tasks associated with the requirement */
 	private List<DevelopmentTask> tasks;
@@ -75,21 +76,21 @@ public class Requirement extends AbstractModel {
 	private List<Attachment> attachments;
 	
 	/** history log for the requirement */
-	//private TransactionHistory history;
+	private TransactionHistory history;
 	
 	/**
 	 * Constructs a Requirement with default characteristics
 	 */
 	public Requirement() {
 		super();
-		id = -1;
+		id = id + 1;
 		name = description = "";
 		release = "";
 		status = RequirementStatus.NEW;
 		priority = RequirementPriority.BLANK;
 		estimate = actualEffort = 0;
 		activeStatus = true;
-		iteration = new Iteration("Backlog");
+		setIteration(new Iteration("Backlog"));
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
@@ -104,9 +105,9 @@ public class Requirement extends AbstractModel {
 	 * @param name The name of the requirement
 	 * @param description A short description of the requirement
 	 */
+	// need to phase out supplying the ID
 	public Requirement(int id, String name, String description) {
 		this();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
@@ -355,22 +356,6 @@ public class Requirement extends AbstractModel {
 		}
 	}
 	
-	/** Getter for the iteration
-	 * 
-	 * @return the iteration of the requirement
-	 */
-	public Iteration getIteration(){
-		return iteration;
-	}
-	
-	/** Setter for iteration
-	 * 
-	 * @param iteration The iteration to change to
-	 */
-	public void setIteration(Iteration iteration){
-		this.iteration = iteration;
-	}
-	
 	/** Getter for the list of development tasks
 	 * 
 	 * @return the list of development tasks
@@ -463,7 +448,38 @@ public class Requirement extends AbstractModel {
 			}
 		}
 	}
+	/** Getter for Iteration. Currently deals in Strings, but will deal with Iterations in the future
+	 * 
+	 * @return a string representing the iteration it has been assigned to
+	 */
+	public Iteration getIteration() {
+		return iteration;
+	}
+
+	/** Setter for iteration. Currently deals with strings, but will deal with Iterations in the future.
+	 * 
+	 * @param iteration the iteration to assign the requirement to
+	 */
+	public void setIteration(Iteration iteration) {
+		this.iteration = iteration;
+	}
 	
+	/** Getter for AssignedTo
+	 * 
+	 * @return the list of strings representing the users for whom the requirement has been assigned to.
+	 */ 
+	public List<String> getAssignedTo() {
+		return assignedTo;
+	}
+
+	/**Setter for assignedTo
+	 * 
+	 * @param assignedTo the list of strings representing the people who the requirement is assigned to.
+	 */
+	public void setAssignedTo(List<String> assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
 	/**Sets a flag in the requirement to indicate it's deleted */
 	public void remove() {
 		this.activeStatus = false;
@@ -516,6 +532,22 @@ public class Requirement extends AbstractModel {
 
 	public boolean isDeleted() {
 		return !activeStatus;
+	}
+	
+	/** The getter for Transaction History
+	 * 
+	 * @return a TransdactionHistory for this requirement
+	 */
+	public TransactionHistory getHistory() {
+		return history;
+	}
+	
+	/** The Setter for TransactionHistory
+	 * 
+	 * @param history The history to assign to the requirement
+	 */
+	public void setHistory(TransactionHistory history) {
+		this.history = history;
 	}
 
 }
