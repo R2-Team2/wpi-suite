@@ -114,13 +114,8 @@ public class EditRequirementPanel extends RequirementPanel
 					errorDescription.setText("");
 					isDescriptionValid = true;
 				}
-				
-<<<<<<< HEAD
-				
-				if(isNameValid && isDescriptionValid)
-=======
+			
 				if(isNameValid && isDescriptionValid )
->>>>>>> Updated New GUI with the rest of the field (estimate ,type, and iteration)
 				{
 					update();
 				}
