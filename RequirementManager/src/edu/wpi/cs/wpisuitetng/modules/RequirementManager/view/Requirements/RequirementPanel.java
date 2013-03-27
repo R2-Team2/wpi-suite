@@ -1,7 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
