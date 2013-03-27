@@ -54,7 +54,7 @@ public class Requirement extends AbstractModel {
 		estimate = effort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		history.add(null, "REQUIREMENT CREATED");
+		history.add("REQUIREMENT CREATED");
 	}
 
 	/**
