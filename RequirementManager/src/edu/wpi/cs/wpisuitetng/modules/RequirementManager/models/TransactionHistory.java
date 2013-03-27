@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -48,8 +49,9 @@ public class TransactionHistory {
 	 * @return the transaction that was just added to the history
 	 */
 	
-	public Transaction add(User user, String msg){
+	public Transaction add(String msg){
 		long time = System.currentTimeMillis();
+		String user = ConfigManager.getConfig().getUserName();
 		Transaction newTransaction = new Transaction(user, time, msg);
 		history.add(newTransaction);
 		return newTransaction;

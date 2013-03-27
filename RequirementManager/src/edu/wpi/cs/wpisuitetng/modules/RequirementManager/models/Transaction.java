@@ -9,7 +9,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class Transaction {
 	
-	User user;
+	String user;
 	long timestamp;
 	String message;
 	
@@ -19,7 +19,7 @@ public class Transaction {
 	 * @param timestamp Time at which transaction occurred
 	 * @param message Message detailing transaction that occurred
 	 */
-	Transaction (User user, long timestamp, String message){
+	Transaction (String user, long timestamp, String message){
 		this.user = user;
 		this.timestamp = timestamp;
 		this.message = message;
@@ -29,7 +29,7 @@ public class Transaction {
 	 * Getter for the transaction user
 	 * @return Transaction user
 	 */
-	public User getUser() {
+	public String getUser() {
 		return user;
 	}
 	
@@ -37,7 +37,7 @@ public class Transaction {
 	 * Setter for the transaction user
 	 * @param user Transaction user
 	 */
-	public void setUser(User user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 	
