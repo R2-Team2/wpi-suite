@@ -1,6 +1,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -30,6 +32,15 @@ public class OverviewTable extends JTable
 		this.tableHeader.setReorderingAllowed(false);
 		ViewEventController.getInstance().setOverviewTable(this);
 		initialized = false;
+		
+		/* Create double-click event listener */
+		this.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				if (e.getClickCount()==2){
+					ViewEventController.getInstance().editSelectedRequirement();
+				}
+			}
+		});
 	}
 	
 	/**
