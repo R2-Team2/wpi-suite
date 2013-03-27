@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,16 +28,24 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 //
 public class NewRequirementPanel extends RequirementPanel 
 {	
+	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public NewRequirementPanel() {
-		setLayout(new GridLayout(1, 3));
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(1, 3));
 
 
-		this.add(buildLeftPanel()); //add left panel
-		this.add(buildRightPanel()); //add right panel
+		contentPanel.add(buildLeftPanel()); //add left panel
+		contentPanel.add(buildRightPanel()); //add right panel
+		rightPanel.setMinimumSize(new Dimension(600,600));
+
+		JPanel dummyPanel = new JPanel();
+		contentPanel.add(dummyPanel);
+		
+		this.setViewportView(contentPanel);
 	}
 	
 	/**
@@ -223,6 +232,8 @@ public class NewRequirementPanel extends RequirementPanel
 		boxReleaseNum.setText(null);
 		errorName.setText(null);
 		errorDescription.setText(null);
+		boxEstimate.setText(null);
+		errorEstimate.setText(null);
 		repaint(); //repaint the entire panel.
 	}
 	

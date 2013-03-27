@@ -30,7 +30,7 @@ public class Iteration {
 	}
 	
 	public boolean equals(Iteration that){
-		if (this.name == that.getName())
+		if (this.name.equals(that.getName()))
 			return true;
 		else 
 			return false;

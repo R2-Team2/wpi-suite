@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,11 +35,19 @@ public class EditRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
-		setLayout(new GridLayout(1, 2));
 
 		requirementBeingEdited = req;
-		this.add(buildLeftPanel()); //add left panel
-		this.add(buildRightPanel()); //add right panel
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(1, 3));
+
+
+		contentPanel.add(buildLeftPanel()); //add left panel
+		contentPanel.add(buildRightPanel()); //add right panel
+		rightPanel.setMinimumSize(new Dimension(600,600));
+		JPanel dummyPanel = new JPanel();
+		contentPanel.add(dummyPanel);
+		
+		this.setViewportView(contentPanel);
 		
 		fillFieldsForRequirement();
 	}
@@ -60,15 +69,17 @@ public class EditRequirementPanel extends RequirementPanel
 		switch(requirementBeingEdited.getPriority())
 		{
 		case BLANK:
-			group.clearSelection();
+			priorityBlank.setSelected(true);
 			break;
 		case LOW:
 			priorityLow.setSelected(true);
 			break;
 		case MEDIUM:
 			priorityMedium.setSelected(true);
+			break;
 		case HIGH:
 			priorityHigh.setSelected(true);
+			break;
 		}
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS || requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
@@ -79,6 +90,10 @@ public class EditRequirementPanel extends RequirementPanel
 		{
 			boxEstimate.setEnabled(true);
 		}
+		
+		errorEstimate.setText(null);
+		this.errorDescription.setText(null);
+		this.errorName.setText(null);
 	}
 	
 	/**
@@ -211,7 +226,7 @@ public class EditRequirementPanel extends RequirementPanel
 		RequirementStatus status;
 		RequirementType type = (RequirementType)dropdownType.getSelectedItem();
 		
-		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
+		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 		Iteration iteration = new Iteration(stringIteration);
