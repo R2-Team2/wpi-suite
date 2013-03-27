@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  */
 public class Requirement extends AbstractModel {
 	/**  the ID of the requirement */
-	private int id = 1;
+	private int id;
 	
 	/**  the name of the requirement */
 	private String name;
@@ -83,7 +83,6 @@ public class Requirement extends AbstractModel {
 	 */
 	public Requirement() {
 		super();
-		id = id + 1;
 		name = description = "";
 		release = "";
 		status = RequirementStatus.NEW;
@@ -91,7 +90,6 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		history.add("REQUIREMENT CREATED");
 		setIteration(new Iteration("Backlog"));
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
@@ -110,6 +108,7 @@ public class Requirement extends AbstractModel {
 	// need to phase out supplying the ID
 	public Requirement(int id, String name, String description) {
 		this();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 	}

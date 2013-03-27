@@ -172,7 +172,7 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementPriority priority;
 		RequirementStatus status;
 		RequirementType type;
-		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
+		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		
 		Iteration iteration = new Iteration(stringIteration);
 		
