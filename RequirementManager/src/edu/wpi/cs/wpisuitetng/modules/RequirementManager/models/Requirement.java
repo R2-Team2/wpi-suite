@@ -567,7 +567,7 @@ public class Requirement extends AbstractModel {
 	
 	/** The getter for Transaction History
 	 * 
-	 * @return a TransdactionHistory for this requirement
+	 * @return a TransactionHistory for this requirement
 	 */
 	public TransactionHistory getHistory() {
 		return history;
