@@ -8,6 +8,9 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 
 import org.junit.Test;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**

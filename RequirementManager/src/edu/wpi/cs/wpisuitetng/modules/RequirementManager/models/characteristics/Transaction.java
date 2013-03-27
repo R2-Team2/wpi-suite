@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
@@ -19,7 +19,7 @@ public class Transaction {
 	 * @param timestamp Time at which transaction occurred
 	 * @param message Message detailing transaction that occurred
 	 */
-	Transaction (String user, long timestamp, String message){
+	public Transaction (String user, long timestamp, String message){
 		this.user = user;
 		this.timestamp = timestamp;
 		this.message = message;

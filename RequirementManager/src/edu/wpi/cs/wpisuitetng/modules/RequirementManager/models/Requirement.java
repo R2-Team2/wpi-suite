@@ -78,9 +78,6 @@ public class Requirement extends AbstractModel {
 	/** attachments associated with the requirement */
 	private List<Attachment> attachments;
 	
-	/** history log for the requirement */
-	private TransactionHistory history;
-	
 	/**
 	 * Constructs a Requirement with default characteristics
 	 */
@@ -283,24 +280,6 @@ public class Requirement extends AbstractModel {
 		this.priority = priority;
 	}
 	
-	/**
-	 * Getter for the transaction history
-	 * @return Transaction history
-	 */
-	public TransactionHistory getHistory() {
-		return history;
-	}
-	
-	/**
-	 * Setter for the transaction history
-	 * @param history Transaction history
-	 */
-	public void setHistory(TransactionHistory history) {
-		this.history = history;
-	}
-	
-	/**Sets a flag in the requirement to indicate it's deleted
-=======
 	/**Getter for the type
 	 * 
 	 * @return the type
