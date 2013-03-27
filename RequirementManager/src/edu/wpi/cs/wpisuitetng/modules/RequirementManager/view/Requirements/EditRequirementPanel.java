@@ -88,7 +88,6 @@ public class EditRequirementPanel extends RequirementPanel
 			{
 				boolean isNameValid;
 				boolean isDescriptionValid;
-				boolean isPriorityValid;
 				
 				if (boxName.getText().length() >= 8)
 				{
@@ -102,7 +101,7 @@ public class EditRequirementPanel extends RequirementPanel
 				}
 				else
 				{
-					errorName.setText(null);
+					errorName.setText("");
 					isNameValid = true;
 					
 				}
@@ -113,23 +112,12 @@ public class EditRequirementPanel extends RequirementPanel
 				}
 				else
 				{	
-					errorDescription.setText(null);
+					errorDescription.setText("");
 					isDescriptionValid = true;
 				}
 				
-				if (!(priorityHigh.isSelected() || priorityMedium.isSelected() || priorityLow.isSelected()))
-				{
-					isPriorityValid = false;
-					errorPriority.setText("Priority selection is REQUIRED");
-				}
-				else
-				{	
-					errorPriority.setText(null);
-					isPriorityValid = true;
-				}
 				
-				
-				if(isNameValid && isDescriptionValid && isPriorityValid)
+				if(isNameValid && isDescriptionValid)
 				{
 					update();
 				}
