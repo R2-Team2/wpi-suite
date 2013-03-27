@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,15 +19,14 @@ public class OverviewPanel extends JPanel {
 		SpringLayout overviewLayout = new SpringLayout();
 		this.setLayout(overviewLayout);
 
-		JPanel filterPanel = new JPanel();
-		JLabel filterInfo = new JLabel("Filter Options Go Here.");
-		filterPanel.add(filterInfo);
-
+		OverviewFilterPanel filterPanel = new OverviewFilterPanel();
+		
 		String[] columnNames = {"ID", "Name", "Status", "Priority", "Release #"};
 				
 		Object[][] data = {};
 		
 		OverviewTable table = new OverviewTable(data, columnNames);
+		table.getSelectionModel().addListSelectionListener(filterPanel);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
 		

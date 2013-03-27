@@ -89,6 +89,7 @@ public class Requirement extends AbstractModel {
 		priority = RequirementPriority.BLANK;
 		estimate = actualEffort = 0;
 		activeStatus = true;
+		iteration = new Iteration("Backlog");
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
@@ -176,7 +177,8 @@ public class Requirement extends AbstractModel {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name.substring(0, 100);
+		this.name = name;
+		if(name.length() > 100) this.name = name.substring(0, 100);
 	}
 
 	/**getter for the name
