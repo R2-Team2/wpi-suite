@@ -62,7 +62,9 @@ public class RequirementTest {
 	    assertEquals(origObject.getEffort(), 10);
 	    
 	    TransactionHistory history = origObject.getHistory();
-	    assertEquals(history.getItem(0).getMessage(),"Changed status from NEW to INPROGRESS");
-	    assertEquals(history.getItem(1).getTS(),System.currentTimeMillis(), 500);
+	    // History has to be created in GUI side
+//	    assertEquals(history.getItem(0).getMessage(),"Changed status from NEW to INPROGRESS");
+	    
+	    
 	}
 }
