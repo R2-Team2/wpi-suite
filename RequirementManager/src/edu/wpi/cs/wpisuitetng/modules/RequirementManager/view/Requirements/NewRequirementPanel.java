@@ -1,14 +1,13 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
@@ -25,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
-//
+
 public class NewRequirementPanel extends RequirementPanel 
 {	
 	
@@ -34,16 +33,13 @@ public class NewRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public NewRequirementPanel() {
-		contentPanel = new JPanel();
-		contentPanel.setLayout(new GridLayout(1, 3));
-
+		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 		contentPanel.add(buildLeftPanel()); //add left panel
 		contentPanel.add(buildRightPanel()); //add right panel
-		rightPanel.setMinimumSize(new Dimension(600,600));
-
-		JPanel dummyPanel = new JPanel();
-		contentPanel.add(dummyPanel);
+		
+		contentPanel.setMinimumSize(new Dimension(500,465));
+		contentPanel.setPreferredSize(new Dimension(500,465));
 		
 		this.setViewportView(contentPanel);
 	}
@@ -68,72 +64,8 @@ public class NewRequirementPanel extends RequirementPanel
 		//
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
-			{
-				boolean isNameValid;
-				boolean isDescriptionValid;
-				boolean isEstimateValid;
-				
-				if (boxName.getText().length() >= 100)
-				{
-					isNameValid = false;
-					errorName.setText("No more than 100 chars");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
-					errorName.setForeground(Color.RED);
-				}
-				else if(boxName.getText().trim().length() <= 0)
-				{
-					isNameValid = false;
-					errorName.setText("** Name is REQUIRED");
-					errorName.setFont(new Font("Serif", Font.PLAIN, 10));
-					errorName.setForeground(Color.RED);
-				}
-				else
-				{
-					errorName.setText("");
-					isNameValid = true;
-					
-				}
-				if (boxDescription.getText().trim().length() <= 0)
-				{
-					isDescriptionValid = false;
-					errorDescription.setText("** Description is REQUIRED");
-					errorDescription.setFont(new Font("Serif", Font.PLAIN, 10));
-					errorDescription.setForeground(Color.RED);
-				}
-				else
-				{	
-					errorDescription.setText("");
-					isDescriptionValid = true;
-				}
-				
-				if (boxEstimate.getText().trim().length() <= 0)
-				{
-					boxEstimate.setText("");
-					errorEstimate.setText("");
-					isEstimateValid = true;
-				}
-				else if(!(isInteger(boxEstimate.getText())))
-				{
-					errorEstimate.setText("** Please enter a non-negative integer");
-					isEstimateValid = false;
-					errorEstimate.setForeground(Color.RED);
-				}
-				else if(Integer.parseInt(boxEstimate.getText())<0)
-				{
-					errorEstimate.setText("** Please enter a non-negative integer");
-					isEstimateValid = false;
-					errorEstimate.setForeground(Color.RED);
-				}
-				else
-				{
-					errorEstimate.setText("");
-					isEstimateValid = true;
-				}
-				
-				if(isNameValid && isDescriptionValid && isEstimateValid)
-				{
-					update();
-				}
+			{				
+				if(validateFields()) update();
 			}
 		});
 		
@@ -155,6 +87,7 @@ public class NewRequirementPanel extends RequirementPanel
 		buttonPanel.add(buttonUpdate);
 		buttonPanel.add(buttonClear);
 		buttonPanel.add(buttonCancel);
+		
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
 		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
@@ -226,15 +159,19 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	private void clear() 
 	{
-		boxName.setText(null);
-		boxDescription.setText(null);
-		dropdownStatus.setSelectedItem("Not Selected");
-		group.clearSelection();
-		boxReleaseNum.setText(null);
-		errorName.setText(null);
-		errorDescription.setText(null);
-		boxEstimate.setText(null);
-		errorEstimate.setText(null);
+		boxName.setText("");
+		boxDescription.setText("");
+		this.priorityBlank.setSelected(true);
+		dropdownType.setSelectedItem(RequirementType.BLANK);
+		boxReleaseNum.setText("");
+		boxEstimate.setText("");
+		
+		this.errorEstimate.setText("");
+		boxEstimate.setBorder(defaultBorder);
+		this.errorDescription.setText("");
+		boxDescription.setBorder(defaultBorder);
+		this.errorName.setText("");
+		boxName.setBorder(defaultBorder);
 		repaint(); //repaint the entire panel.
 	}
 	

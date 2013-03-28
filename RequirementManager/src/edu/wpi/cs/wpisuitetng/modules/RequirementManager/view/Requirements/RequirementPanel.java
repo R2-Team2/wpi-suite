@@ -1,7 +1,10 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,16 +14,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 
 /**
- * 
  * @author Pi 
  * @author Chris
  * @author Brian
- *
  */
 abstract public class RequirementPanel extends JScrollPane 
 {
@@ -30,7 +32,8 @@ abstract public class RequirementPanel extends JScrollPane
 	protected JTextField boxReleaseNum;
 	protected JTextArea boxDescription;
 	protected JTextField boxIteration;
-	
+	final protected Border defaultBorder = (new JTextField()).getBorder();
+	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
 	protected JPanel rightPanel;
 	protected JComboBox dropdownType;
@@ -66,6 +69,7 @@ abstract public class RequirementPanel extends JScrollPane
 		
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
+		boxDescription.setBorder(defaultBorder);
 		boxDescription.setPreferredSize(new Dimension(200, 200));
 		
 		boxIteration = new JTextField();
@@ -142,6 +146,9 @@ abstract public class RequirementPanel extends JScrollPane
 		
 		leftPanel.add(labelIteration);
 		leftPanel.add(boxIteration);
+		
+		leftPanel.setMinimumSize(new Dimension(250,500));
+		leftPanel.setPreferredSize(new Dimension(250,500));
 		
 		return leftPanel;
 	}
@@ -251,7 +258,88 @@ abstract public class RequirementPanel extends JScrollPane
 		rightPanel.add(boxEstimate);
 		rightPanel.add(errorEstimate);
 		
+		//restrict size of these elements .
+		rightPanel.setMinimumSize(new Dimension(315,500));
+		rightPanel.setPreferredSize(new Dimension(315,500));
+		
 		return rightPanel;
+	}
+	
+	/**
+	 * Validates the values of the fields in the requirement panel to ensure they are valid
+	 */
+	public boolean validateFields()
+	{
+		boolean isNameValid;
+		boolean isDescriptionValid;
+		boolean isEstimateValid;
+		
+		if (boxName.getText().length() >= 100)
+		{
+			isNameValid = false;
+			errorName.setText("No more than 100 chars");
+			boxName.setBorder(errorBorder);
+			errorName.setForeground(Color.RED);
+		}
+		else if(boxName.getText().trim().length() <= 0)
+		{
+			isNameValid = false;
+			errorName.setText("** Name is REQUIRED");
+			boxName.setBorder(errorBorder);
+			errorName.setForeground(Color.RED);
+		}
+		else
+		{
+			errorName.setText("");
+			boxName.setBorder(defaultBorder);
+			isNameValid = true;
+			
+		}
+		if (boxDescription.getText().trim().length() <= 0)
+		{
+			isDescriptionValid = false;
+			errorDescription.setText("** Description is REQUIRED");
+			errorDescription.setForeground(Color.RED);
+			boxDescription.setBorder(errorBorder);
+		}
+		else
+		{	
+			errorDescription.setText("");
+			boxDescription.setBorder(defaultBorder);
+			isDescriptionValid = true;
+		}
+		
+		if (boxEstimate.getText().trim().length() <= 0)
+		{
+			boxEstimate.setText("");
+			errorEstimate.setText("");
+			boxEstimate.setBorder(defaultBorder);
+			isEstimateValid = true;
+		}
+		else if(!(isInteger(boxEstimate.getText())))
+		{
+			errorEstimate.setText("** Please enter a non-negative integer");
+			boxEstimate.setBorder(errorBorder);
+			boxEstimate.setBorder((new JTextField()).getBorder());
+
+			isEstimateValid = false;
+			errorEstimate.setForeground(Color.RED);
+		}
+		else if(Integer.parseInt(boxEstimate.getText())<0)
+		{
+			errorEstimate.setText("** Please enter a non-negative integer");
+			boxEstimate.setBorder(errorBorder);
+			isEstimateValid = false;
+			errorEstimate.setForeground(Color.RED);
+		}
+		else
+		{
+			errorEstimate.setText("");
+			boxEstimate.setBorder(defaultBorder);
+			isEstimateValid = true;
+		}
+		
+		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
 	
 	/**
