@@ -60,7 +60,8 @@ public class TransactionTest {
 		Requirement r = new Requirement(1, "Edit estimate", "Allow user to add estimates to requirements.");
 		r.getHistory().add("changed priority from LOW to HIGH");
 		r.getHistory().add("changed priority from HIGH to LOW");
-		assertEquals(r.getHistory().getItem(0).getMessage(), "REQUIREMENT CREATED");
+		
+		assertEquals(r.getHistory().getItem(0).getMessage(),  "REQUIREMENT CREATED");
 		assertEquals(r.getHistory().getItem(1).getMessage(), "changed priority from LOW to HIGH");
 		assertEquals(r.getHistory().getItem(2).getMessage(), "changed priority from HIGH to LOW");
 	}
