@@ -3,13 +3,19 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockNetwork;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
  * Tests the jSON conversion functions and all the getters and setters
@@ -17,6 +23,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  * @author Benjamin Senecal
  */
 public class RequirementTest {
+
+	GetRequirementsController controller;
+
+	
+	@Before
+	public void setUp() throws Exception {
+		Network.initNetwork(new MockNetwork());
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+		
+	}
 
 	@Test
 	  public void jSONConversionTests() {
@@ -46,7 +62,7 @@ public class RequirementTest {
 	    assertEquals(origObject.getEffort(), 10);
 	    
 	    TransactionHistory history = origObject.getHistory();
-	    assertEquals(history.getItem(0).getMessage(),"REQUIREMENT CREATED");
-	    assertEquals(history.getItem(0).getTS(),System.currentTimeMillis(), 500);
+	    assertEquals(history.getItem(0).getMessage(),"Changed status from NEW to INPROGRESS");
+	    assertEquals(history.getItem(1).getTS(),System.currentTimeMillis(), 500);
 	}
 }
