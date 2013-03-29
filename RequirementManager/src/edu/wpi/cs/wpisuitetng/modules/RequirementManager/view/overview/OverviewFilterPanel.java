@@ -21,7 +21,7 @@ public class OverviewFilterPanel extends JPanel implements ListSelectionListener
 	 */
 	public OverviewFilterPanel()
 	{
-		editButton = new JButton("Edit Requirement");
+		/*editButton = new JButton("Edit Requirement");
 		
 		editButton.addActionListener(new ActionListener()
 		{
@@ -31,7 +31,7 @@ public class OverviewFilterPanel extends JPanel implements ListSelectionListener
 				ViewEventController.getInstance().editSelectedRequirement();
 			}
 			
-		});
+		});*/
 		
 		
 		backLogButton = new JButton("Assign to Backlog");
@@ -47,9 +47,9 @@ public class OverviewFilterPanel extends JPanel implements ListSelectionListener
 		});
 		
 		
-		editButton.setEnabled(false);
+		//editButton.setEnabled(false);
 		backLogButton.setEnabled(false);
-		this.add(editButton);
+		//this.add(editButton);
 		this.add(backLogButton);
 	}
 	
@@ -60,14 +60,14 @@ public class OverviewFilterPanel extends JPanel implements ListSelectionListener
 	public void valueChanged(ListSelectionEvent e) {
 		ListSelectionModel model = (ListSelectionModel)e.getSource();
 		
-		if(ViewEventController.getInstance().getTableSelection().length != 1)
+		/*if(ViewEventController.getInstance().getTableSelection().length != 1)
 		{
 			editButton.setEnabled(false);
 		}
 		else
 		{
 			editButton.setEnabled(true);
-		}
+		}*/
 		
 		if(ViewEventController.getInstance().getTableSelection().length > 0)
 		{
