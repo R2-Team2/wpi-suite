@@ -140,14 +140,17 @@ public class NewRequirementPanel extends RequirementPanel
 		else
 			priority = RequirementPriority.BLANK;
 
+		// Set to true to indicate the requirement is being newly created
+		boolean created = true;
+		
 		// Create a new requirement object based on the extracted info
 		Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), stringName, stringDescription);
 		newRequirement.setRelease(stringReleaseNum);
-		newRequirement.setStatus(status);
-		newRequirement.setPriority(priority);
+		newRequirement.setStatus(status, created);
+		newRequirement.setPriority(priority, created);
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration(iteration);
+		newRequirement.setIteration(iteration, created);
 		newRequirement.getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(newRequirement);

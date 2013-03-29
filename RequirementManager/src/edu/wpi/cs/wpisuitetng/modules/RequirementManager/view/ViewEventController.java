@@ -115,10 +115,13 @@ public class ViewEventController {
 	{
 		int[] selection = overviewTable.getSelectedRows();
 		
+		// Set to false to indicate the requirement is being newly created
+		boolean created = false;
+		
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration(new Iteration("Backlog"));
+			toSendToBacklog.setIteration(new Iteration("Backlog"), created);
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 		

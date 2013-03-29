@@ -26,8 +26,8 @@ public class RequirementTest {
 	    assertEquals(object.getPriority(),RequirementPriority.BLANK);
 	    
 	    object.setRelease("1.1.01");
-	    object.setStatus(RequirementStatus.INPROGRESS);
-	    object.setPriority(RequirementPriority.MEDIUM);
+	    object.setStatus(RequirementStatus.INPROGRESS, true);
+	    object.setPriority(RequirementPriority.MEDIUM, true);
 	    object.setEffort(10);
 	    object.setEstimate(1);
 	    

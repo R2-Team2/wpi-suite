@@ -187,14 +187,17 @@ public class EditRequirementPanel extends RequirementPanel
 		else
 			priority = RequirementPriority.BLANK;
 
+		// Set to false to indicate the requirement is being newly created
+		boolean created = false;
+		
 		// Create a new requirement object based on the extracted info
 		requirementBeingEdited.setName(stringName);
 		requirementBeingEdited.setRelease(stringReleaseNum);
 		requirementBeingEdited.setDescription(stringDescription);
-		requirementBeingEdited.setStatus(status);
-		requirementBeingEdited.setPriority(priority);
+		requirementBeingEdited.setStatus(status, created);
+		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
-		requirementBeingEdited.setIteration(iteration);
+		requirementBeingEdited.setIteration(iteration, created);
 		requirementBeingEdited.setType(type);
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
