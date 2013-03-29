@@ -87,6 +87,8 @@ public class EditRequirementPanel extends RequirementPanel
 			boxEstimate.setEnabled(true);
 		}
 		
+		if(!(requirementBeingEdited.getEstimate() > 0)) boxIteration.setEnabled(false);
+		
 		//reset the error messages.
 		this.errorEstimate.setText("");
 		boxEstimate.setBorder(defaultBorder);
