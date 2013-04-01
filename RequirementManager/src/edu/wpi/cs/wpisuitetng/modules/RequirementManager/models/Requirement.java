@@ -11,6 +11,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -60,7 +61,7 @@ public class Requirement extends AbstractModel {
 	private List<Requirement> subRequirements;
 	
 	/** notes associated with the requirement */
-	private List<Note> notes;
+	private NoteList notes;
 	
 	/** iteration the requirement is assigned to */
 	private Iteration iteration;
@@ -93,7 +94,7 @@ public class Requirement extends AbstractModel {
 		history = new TransactionHistory();
 		iteration = (new Iteration("Backlog"));
 		type = RequirementType.BLANK;
-		notes = new ArrayList<Note>();
+		notes = new NoteList();
 		tasks = new ArrayList<DevelopmentTask>();
 		tests = new ArrayList<AcceptanceTest>();
 		attachments = new ArrayList<Attachment>(); 
@@ -357,31 +358,8 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @return the list of notes associated with the requirement
 	 */
-	public List<Note> getNotes(){
+	public NoteList getNotes(){
 		return notes;
-	}
-	
-	/** Method to add a note to the list of notes
-	 * 
-	 * @param note The note to add to the list
-	 */
-	public void addNote(Note note){
-		notes.add(note);
-	}
-	
-	/** Method to remove a note from a list of notes
-	 * 
-	 * @param id The id of the note to be deleted
-	 */
-	public void removeNote(int id){
-		// iterate through the list looking for the note to remove
-		for (int i=0; i < this.notes.size(); i++){
-			if (notes.get(i).getId() == id){
-				// remove the id
-				notes.remove(i);
-				break;
-			}
-		}
 	}
 	
 	/** Getter for the list of development tasks

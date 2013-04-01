@@ -4,11 +4,91 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics
  * A Note for a requirement;
  * need an id, a username, timestamp, and a string for the note
  * @author Gabriel McCormick
+ * @author Brian Froehlich
  */
 public class Note {
+	
+	private int id;
+	private String user;
+	private long timestamp;
+	private String message;
+	
+	/**
+	 * Basic constructor for a note
+	 * @param id ID of the note
+	 * @param user Name of user who created the note
+	 * @param timestamp Time at which note was created
+	 * @param message Message to be stored within the note
+	 */
+	public Note (int id, String user, long timestamp, String message){
+		this.id = id;
+		this.user = user;
+		this.timestamp = timestamp;
+		this.message = message;
+		
+	}
 
+	/**
+	 * Getter for the ID
+	 * @return The ID
+	 */
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
+	}
+
+	/**
+	 * Setter for the ID
+	 * @param ID The ID to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter for the user
+	 * @return The user
+	 */
+	public String getUser() {
+		return user;
+	}
+
+	/**
+	 * Setter for the user
+	 * @param user The user to set
+	 */
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	/**
+	 * Getter for the timestamp
+	 * @return The timestamp
+	 */
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * Setter for the timestamp
+	 * @param timestamp the timestamp to set
+	 */
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	/**
+	 * Getter for the message
+	 * @return The message
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * Setter for the message
+	 * @param message The message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
