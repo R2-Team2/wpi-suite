@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
+@SuppressWarnings("serial")
 public class EditRequirementPanel extends RequirementPanel 
 {	
 	private Requirement requirementBeingEdited;
@@ -175,6 +176,8 @@ public class EditRequirementPanel extends RequirementPanel
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 		Iteration iteration = new Iteration(stringIteration);
 		// Extract which radio is selected for the priority
+		//		If requirement deleted {}		
+		//		estimate = iteration.getEstimate()- estimate;
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
 		boolean stateLow = priorityLow.isSelected();
