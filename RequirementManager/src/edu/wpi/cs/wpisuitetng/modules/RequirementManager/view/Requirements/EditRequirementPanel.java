@@ -41,8 +41,12 @@ public class EditRequirementPanel extends RequirementPanel
 
 		JPanel left = buildLeftPanel();
 		JPanel right = buildRightPanel();
+		
 		JTabbedPane tabs = new JTabbedPane();
-		tabs.add("test", new JPanel());
+		JPanel notes = buildNotePanel();
+		JPanel history = buildHistoryPanel();
+		tabs.add("Notes", notes);
+		tabs.add("Transaction History", history);
 		
 		contentPanel.add(left); //add left panel
 		contentPanel.add(right); //add right panel
@@ -220,6 +224,16 @@ public class EditRequirementPanel extends RequirementPanel
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
+	}
+	
+	private JPanel buildNotePanel()
+	{
+		return new JPanel();
+	}
+	
+	private JPanel buildHistoryPanel()
+	{
+		return new JPanel();
 	}
 	
 	/**
