@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
@@ -34,10 +35,25 @@ public class EditRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
-		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		SpringLayout layout = new SpringLayout();
+		contentPanel = new JPanel(layout);
 
-		contentPanel.add(buildLeftPanel()); //add left panel
-		contentPanel.add(buildRightPanel()); //add right panel
+		JPanel left = buildLeftPanel();
+		JPanel right = buildRightPanel();
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.add("test", new JPanel());
+		
+		contentPanel.add(left); //add left panel
+		contentPanel.add(right); //add right panel
+		contentPanel.add(tabs);
+		
+		layout.putConstraint(SpringLayout.WEST, left, 5, SpringLayout.WEST, contentPanel);
+		layout.putConstraint(SpringLayout.WEST, right, 5, SpringLayout.EAST, left);
+		layout.putConstraint(SpringLayout.WEST, tabs, 5, SpringLayout.EAST, right);
+		layout.putConstraint(SpringLayout.EAST, tabs, 35, SpringLayout.EAST, contentPanel);
+		layout.putConstraint(SpringLayout.NORTH, tabs, 5, SpringLayout.NORTH, contentPanel);
+		layout.putConstraint(SpringLayout.SOUTH, tabs, 5, SpringLayout.SOUTH, contentPanel);
 		
 		contentPanel.setMinimumSize(new Dimension(500,465));
 		contentPanel.setPreferredSize(new Dimension(500,465));
