@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,18 @@ public class NewRequirementPanel extends RequirementPanel
 	}
 	
 	/**
+	 * Builds the left panel
+	 */
+	@Override
+	protected JPanel buildLeftPanel()
+	{
+		super.buildLeftPanel();
+		boxIteration.setEnabled(false);
+		boxIteration.setBackground(leftPanel.getBackground());
+		return leftPanel;
+	}
+	
+	/**
 	 * Builds the right panel
 	 */
 	@Override
@@ -53,7 +66,7 @@ public class NewRequirementPanel extends RequirementPanel
 		super.buildRightPanel();
 
 		dropdownStatus.setEnabled(false);
-		boxIteration.setEnabled(false);
+		
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Create");
