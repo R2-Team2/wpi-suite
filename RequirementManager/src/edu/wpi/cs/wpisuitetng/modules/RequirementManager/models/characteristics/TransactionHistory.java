@@ -13,9 +13,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * get work done
  */
 
+/**
+ * @author Raphael
+ *
+ */
 public class TransactionHistory {
 	
 	private LinkedList<Transaction> history;
+	private long TimeStamp;
 	
 	/**
 	 * Constructs an empty transaction history
@@ -50,7 +55,7 @@ public class TransactionHistory {
 	 */
 	
 	public Transaction add(String msg){
-		long time = System.currentTimeMillis();
+		long time = this.TimeStamp;
 		String user = ConfigManager.getConfig().getUserName();
 		Transaction newTransaction = new Transaction(user, time, msg);
 		history.add(newTransaction);
@@ -69,4 +74,12 @@ public class TransactionHistory {
 	public Transaction getItem(int index){
 		return this.history.get(index);
 	}
+	
+	/**
+	 * set the timestamp
+	 * @param ts
+	 */
+	public void setTimestamp (long ts) {
+		this.TimeStamp = ts;
+	}	
 }
