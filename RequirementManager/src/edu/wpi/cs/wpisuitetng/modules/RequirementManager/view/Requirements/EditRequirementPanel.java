@@ -1,24 +1,25 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
+import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -36,10 +37,13 @@ public class EditRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
+		super();
 		
-		SpringLayout layout = new SpringLayout();
+		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
-
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
 		JPanel left = buildLeftPanel();
 		JPanel right = buildRightPanel();
 		
@@ -49,20 +53,33 @@ public class EditRequirementPanel extends RequirementPanel
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		
-		contentPanel.add(left); //add left panel
-		contentPanel.add(right); //add right panel
-		contentPanel.add(tabs);
+		JPanel bottom = buildBottom();
 		
-		layout.putConstraint(SpringLayout.WEST, left, 5, SpringLayout.WEST, contentPanel);
-		layout.putConstraint(SpringLayout.WEST, right, 5, SpringLayout.EAST, left);
-		layout.putConstraint(SpringLayout.WEST, tabs, 5, SpringLayout.EAST, right);
-		layout.putConstraint(SpringLayout.EAST, tabs, 35, SpringLayout.EAST, contentPanel);
-		layout.putConstraint(SpringLayout.NORTH, tabs, 5, SpringLayout.NORTH, contentPanel);
-		layout.putConstraint(SpringLayout.SOUTH, tabs, 5, SpringLayout.SOUTH, contentPanel);
+		c.gridx = 0; // Column 0
+		c.gridy = 0; // Row 0
+		c.weighty = 1; // Row is elastic
+		contentPanel.add(left,c); //add left panel
+		
+		c.gridx = 1; // Column 1
+		contentPanel.add(right,c); //add right panel
+		
+		c.gridx = 2; //Column 2
+		c.weightx = 1; //Column is elastic
+		c.fill = GridBagConstraints.BOTH; // Stretch contents
+		contentPanel.add(tabs,c); // add tabs
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridy = 1; // Row 1
+		c.gridx = 1; // Column 1
+		c.gridwidth = 2; // Fill the rest of the row
+		c.weighty = 0; // Row is not elastic
+		c.weightx = 0; // Column is not elastic
+		c.anchor = GridBagConstraints.LINE_END;
+		contentPanel.add(bottom,c); // Add bottom
 		
 		contentPanel.setMinimumSize(new Dimension(500,465));
 		contentPanel.setPreferredSize(new Dimension(500,465));
-		
+
 		this.setViewportView(contentPanel);
 		
 		requirementBeingEdited = req;
@@ -128,7 +145,11 @@ public class EditRequirementPanel extends RequirementPanel
 	protected JPanel buildRightPanel()
 	{
 		super.buildRightPanel();
-
+		
+		return rightPanel;
+	}
+	public JPanel buildBottom()
+	{
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
@@ -162,16 +183,7 @@ public class EditRequirementPanel extends RequirementPanel
 		buttonPanel.add(buttonClear);
 		buttonPanel.add(buttonCancel);
 		
-		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
-		
-		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, errorEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
-				SpringLayout.WEST, rightPanel);
-		
-		rightPanel.add(buttonPanel);
-		
-		return rightPanel;
+		return buttonPanel;
 	}
 	
 	/**
@@ -213,6 +225,11 @@ public class EditRequirementPanel extends RequirementPanel
 		// Set to false to indicate the requirement is being newly created
 		boolean created = false;
 		
+		// Set the time stamp so that all transaction messages from this update 
+		// will have the same time stamp
+		TransactionHistory requirementHistory = requirementBeingEdited.getHistory();	
+		requirementHistory.setTimestamp(System.currentTimeMillis());
+				
 		// Create a new requirement object based on the extracted info
 		requirementBeingEdited.setName(stringName);
 		requirementBeingEdited.setRelease(stringReleaseNum);
@@ -221,15 +238,44 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);
+		requirementBeingEdited.setType(type);		
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
 	}
 	
+	/**
+	 * Constructs a panel with a scolling list of notes for the requirement, as well as the elements to add new notes
+	 * @return panel for displaying and creating notes
+	 */
 	private JPanel buildNotePanel()
 	{
-		return new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 0.8; // Fill 80% of vertical space
+		panel.add(scroll,c);
+		
+		c.gridy = 1; // Row 1
+		c.weighty = 0.2; // Fill 20% of vertical space
+		panel.add(new JTextArea(),c);
+		
+		c.weighty = 0; // Do not stretch
+		c.gridy = 2; // Row 2
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		panel.add(new JButton("Add Note"),c);
+		
+		NoteList list = new NoteList();
+		list.add("Test message");
+		scroll.setViewportView(NotePanel.createList(list));
+		
+		return panel;
 	}
 	
 	private JPanel buildHistoryPanel()
