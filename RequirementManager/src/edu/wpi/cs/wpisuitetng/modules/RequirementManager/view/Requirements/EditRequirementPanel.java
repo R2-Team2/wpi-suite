@@ -356,7 +356,12 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildHistoryPanel()
 	{
-		return new JPanel();
+		JPanel requirementHistoryPanel = new JPanel();
+		TransactionHistoryPanel reqHistoryPanel = new TransactionHistoryPanel();
+		
+		requirementHistoryPanel.add(reqHistoryPanel);
+		
+		return requirementHistoryPanel;
 	}
 	
 	/**
