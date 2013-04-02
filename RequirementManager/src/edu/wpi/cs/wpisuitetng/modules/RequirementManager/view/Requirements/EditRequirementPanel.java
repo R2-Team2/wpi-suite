@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -233,7 +234,12 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildHistoryPanel()
 	{
-		return new JPanel();
+		JPanel requirementHistoryPanel = new JPanel();
+		TransactionHistoryPanel reqHistoryPanel = new TransactionHistoryPanel();
+		
+		requirementHistoryPanel.add(reqHistoryPanel);
+		
+		return requirementHistoryPanel;
 	}
 	
 	/**
