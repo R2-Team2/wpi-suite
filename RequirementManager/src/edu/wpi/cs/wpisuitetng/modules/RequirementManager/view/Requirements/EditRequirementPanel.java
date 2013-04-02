@@ -1,17 +1,14 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
@@ -35,10 +32,13 @@ public class EditRequirementPanel extends RequirementPanel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
+		super();
 		
-		SpringLayout layout = new SpringLayout();
+		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
-
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
 		JPanel left = buildLeftPanel();
 		JPanel right = buildRightPanel();
 		
@@ -48,20 +48,29 @@ public class EditRequirementPanel extends RequirementPanel
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		
-		contentPanel.add(left); //add left panel
-		contentPanel.add(right); //add right panel
-		contentPanel.add(tabs);
+		JPanel bottom = buildBottom();
 		
-		layout.putConstraint(SpringLayout.WEST, left, 5, SpringLayout.WEST, contentPanel);
-		layout.putConstraint(SpringLayout.WEST, right, 5, SpringLayout.EAST, left);
-		layout.putConstraint(SpringLayout.WEST, tabs, 5, SpringLayout.EAST, right);
-		layout.putConstraint(SpringLayout.EAST, tabs, 35, SpringLayout.EAST, contentPanel);
-		layout.putConstraint(SpringLayout.NORTH, tabs, 5, SpringLayout.NORTH, contentPanel);
-		layout.putConstraint(SpringLayout.SOUTH, tabs, 5, SpringLayout.SOUTH, contentPanel);
+		c.gridx = 0; // Column 0
+		c.gridy = 0; // Row 0
+		c.weighty = 1; // Row is elastic
+		contentPanel.add(left,c); //add left panel
+		c.gridx = 1; // Column 1
+		contentPanel.add(right,c); //add right panel
+		c.gridx = 2; //Column 2
+		c.weightx = 1; //Column is elastic
+		c.fill = GridBagConstraints.BOTH; // Stretch contents
+		contentPanel.add(tabs,c); // add tabs
+		c.gridy = 1; // Row 1
+		c.gridx = 1; // Column 1
+		c.gridwidth = 2; // Fill the rest of the row
+		c.weighty = 0; // Row is not elastic
+		c.weightx = 0; // Column is not elastic
+		c.anchor = GridBagConstraints.LINE_END;
+		contentPanel.add(bottom,c); // Add bottom
 		
 		contentPanel.setMinimumSize(new Dimension(500,465));
 		contentPanel.setPreferredSize(new Dimension(500,465));
-		
+
 		this.setViewportView(contentPanel);
 		
 		requirementBeingEdited = req;
@@ -127,7 +136,11 @@ public class EditRequirementPanel extends RequirementPanel
 	protected JPanel buildRightPanel()
 	{
 		super.buildRightPanel();
-
+		
+		return rightPanel;
+	}
+	public JPanel buildBottom()
+	{
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
@@ -161,16 +174,7 @@ public class EditRequirementPanel extends RequirementPanel
 		buttonPanel.add(buttonClear);
 		buttonPanel.add(buttonCancel);
 		
-		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
-		
-		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, errorEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
-				SpringLayout.WEST, rightPanel);
-		
-		rightPanel.add(buttonPanel);
-		
-		return rightPanel;
+		return buttonPanel;
 	}
 	
 	/**
@@ -228,7 +232,14 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildNotePanel()
 	{
-		return new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		
+		JScrollPane scroll = new JScrollPane();
+		
+		panel.add(scroll);
+		
+		return panel;
 	}
 	
 	private JPanel buildHistoryPanel()
