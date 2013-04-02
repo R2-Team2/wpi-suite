@@ -15,6 +15,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -270,9 +271,9 @@ public class EditRequirementPanel extends RequirementPanel
 		c.fill = GridBagConstraints.NONE; // Do not fill cell
 		panel.add(new JButton("Add Note"),c);
 		
-		Note testNote = new Note(0,"test",0,"Test message");
-		JPanel testNotePanel = new NotePanel(testNote);
-		scroll.add(testNotePanel);
+		NoteList list = new NoteList();
+		list.add("Test message");
+		scroll.setViewportView(NotePanel.createList(list));
 		
 		return panel;
 	}
