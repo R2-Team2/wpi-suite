@@ -55,12 +55,16 @@ public class EditRequirementPanel extends RequirementPanel
 		c.gridy = 0; // Row 0
 		c.weighty = 1; // Row is elastic
 		contentPanel.add(left,c); //add left panel
+		
 		c.gridx = 1; // Column 1
 		contentPanel.add(right,c); //add right panel
+		
 		c.gridx = 2; //Column 2
 		c.weightx = 1; //Column is elastic
 		c.fill = GridBagConstraints.BOTH; // Stretch contents
 		contentPanel.add(tabs,c); // add tabs
+		
+		c.fill = GridBagConstraints.NONE;
 		c.gridy = 1; // Row 1
 		c.gridx = 1; // Column 1
 		c.gridwidth = 2; // Fill the rest of the row
