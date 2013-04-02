@@ -34,27 +34,11 @@ public class Transaction {
 	}
 	
 	/**
-	 * Setter for the transaction user
-	 * @param user Transaction user
-	 */
-	public void setUser(String user) {
-		this.user = user;
-	}
-	
-	/**
 	 * Getter for the transaction time stamp
 	 * @return Transaction time stamp
 	 */
 	public long getTS() {
 		return timestamp;
-	}
-	
-	/**
-	 * Setter for the transaction time stamp
-	 * @param timestamp Transaction time stamp
-	 */
-	public void setTS(long timestamp) {
-		this.timestamp = timestamp;
 	}
 	
 	/**
@@ -64,12 +48,5 @@ public class Transaction {
 	public String getMessage() {
 		return message;
 	}
-	
-	/**
-	 * Setter for the transaction message
-	 * @param message Transaction message
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
+
 }
