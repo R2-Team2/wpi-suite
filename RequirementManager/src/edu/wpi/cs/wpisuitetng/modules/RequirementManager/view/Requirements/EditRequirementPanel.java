@@ -15,6 +15,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -216,6 +217,11 @@ public class EditRequirementPanel extends RequirementPanel
 		// Set to false to indicate the requirement is being newly created
 		boolean created = false;
 		
+		// Set the time stamp so that all transaction messages from this update 
+		// will have the same time stamp
+		TransactionHistory requirementHistory = requirementBeingEdited.getHistory();	
+		requirementHistory.setTimestamp(System.currentTimeMillis());
+				
 		// Create a new requirement object based on the extracted info
 		requirementBeingEdited.setName(stringName);
 		requirementBeingEdited.setRelease(stringReleaseNum);
@@ -224,7 +230,7 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);
+		requirementBeingEdited.setType(type);		
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
