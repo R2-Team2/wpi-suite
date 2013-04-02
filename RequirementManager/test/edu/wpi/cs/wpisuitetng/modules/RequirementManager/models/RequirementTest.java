@@ -3,8 +3,11 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ListIterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
@@ -86,19 +90,27 @@ public class RequirementTest {
 		object.setName("01234567890123456789012345678901234567890123456789012345678901234567890123545678901234567890123456789this is extra and should not be included");
 		assertEquals(object.getName(), "0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678");
 		
-		// TODO: setStatus
 		//if requirement was just created
 		object.setStatus(RequirementStatus.OPEN, true);
 		assertEquals(object.getStatus(), RequirementStatus.OPEN);
+		ListIterator<Transaction> iter = object.getHistory().getIterator(0);
+		assertFalse(iter.hasNext());
 		//normal status setting
+		object.setName("Name");	// makes checking the transaction history easier
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
+		iter = object.getHistory().getIterator(0);
+		assertEquals(iter.next().getMessage(), "Changed status of Name from OPEN to INPROGRESS");
 		//if the you change it to the current status
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
+		iter = object.getHistory().getIterator(1);
+		assertFalse(iter.hasNext());
 		//if you change it to the current status upon creation
 		object.setStatus(RequirementStatus.NEW, true);
 		assertEquals(object.getStatus(), RequirementStatus.NEW);
+		iter = object.getHistory().getIterator(1);
+		assertFalse(iter.hasNext());
 		
 		object.setDescription("Changed the description too");
 		assertEquals(object.getDescription(), "Changed the description too");
