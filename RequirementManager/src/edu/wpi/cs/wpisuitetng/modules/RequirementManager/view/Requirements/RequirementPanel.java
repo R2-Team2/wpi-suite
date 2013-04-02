@@ -74,6 +74,7 @@ abstract public class RequirementPanel extends JScrollPane
 		
 		boxIteration = new JTextField();
 		boxIteration.setPreferredSize(new Dimension(200, 20));
+		boxIteration.setBackground(Color.WHITE);
 		
 		errorName = new JLabel();
 		errorDescription = new JLabel();
@@ -168,10 +169,12 @@ abstract public class RequirementPanel extends JScrollPane
 
 		dropdownType = new JComboBox(RequirementType.values());
 		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
+		
 		
 		dropdownStatus = new JComboBox(RequirementStatus.values());
 		dropdownStatus.setEditable(false);
-
+		dropdownStatus.setBackground(Color.WHITE);
 		// Radio buttons
 
 		priorityHigh = new JRadioButton("High");

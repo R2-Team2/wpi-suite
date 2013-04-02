@@ -29,6 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 public class EditRequirementPanel extends RequirementPanel 
 {	
 	private Requirement requirementBeingEdited;
+	private JButton buttonDelete;
+	
 	
 	/**
 	 * Constructor for a new requirement panel
@@ -88,6 +90,8 @@ public class EditRequirementPanel extends RequirementPanel
 			boxEstimate.setEnabled(true);
 		}
 		
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
+		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
 		if(!(requirementBeingEdited.getEstimate() > 0)) boxIteration.setEnabled(false);
 		
 		//reset the error messages.
@@ -97,6 +101,7 @@ public class EditRequirementPanel extends RequirementPanel
 		boxDescription.setBorder(defaultBorder);
 		this.errorName.setText("");
 		boxName.setBorder(defaultBorder);
+		
 		
 		repaint();
 	}
@@ -111,9 +116,11 @@ public class EditRequirementPanel extends RequirementPanel
 
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
+		JPanel buttonPanel2 = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
-		JButton buttonCancel = new JButton("Cancel");
 		JButton buttonClear = new JButton("Undo Changes");
+		buttonDelete = new JButton("Delete");
+		JButton buttonCancel = new JButton("Cancel");
 		
 		// Construct the add requirement controller and add it to the update button
 		buttonUpdate.addActionListener(new ActionListener(){
@@ -137,10 +144,18 @@ public class EditRequirementPanel extends RequirementPanel
 				cancel();
 			}
 		});
+		
+		buttonDelete.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				deleteRequirement();
+			}
+		});
 
 		buttonPanel.add(buttonUpdate);
 		buttonPanel.add(buttonClear);
-		buttonPanel.add(buttonCancel);
+		buttonPanel2.add(buttonDelete);
+		buttonPanel2.add(buttonCancel);
 		
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
@@ -149,7 +164,13 @@ public class EditRequirementPanel extends RequirementPanel
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
 		
+		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel2, 15,
+				SpringLayout.SOUTH, buttonPanel);
+		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel2, 15,
+				SpringLayout.WEST, rightPanel);
+		
 		rightPanel.add(buttonPanel);
+		rightPanel.add(buttonPanel2);
 		
 		return rightPanel;
 	}
@@ -216,4 +237,43 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		ViewEventController.getInstance().removeTab(this);
 	}
+	
+	/**
+	 * Deletes the requirement.  Sets all fields uneditable, sets status to deleted and 
+	 */
+	private void deleteRequirement()
+	{
+		if(this.requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) return;
+		
+		this.dropdownStatus.setSelectedItem(RequirementStatus.DELETED);
+		
+		requirementBeingEdited.setStatus(RequirementStatus.DELETED, false);	
+		
+		
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		
+		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().removeTab(this);
+	}
+	
+	
+	/**
+	 * Disables all the components of the editing panel besides the status dropdown.
+	 */
+	private void disableComponents()
+	{
+		this.boxName.setEnabled(false);
+		this.boxDescription.setEnabled(false);
+		this.boxEstimate.setEnabled(false);
+		this.boxReleaseNum.setEnabled(false);
+		this.dropdownType.setEnabled(false);
+		this.boxIteration.setEnabled(false);
+		this.priorityHigh.setEnabled(false);
+		this.priorityMedium.setEnabled(false);
+		this.priorityLow.setEnabled(false);
+		this.priorityBlank.setEnabled(false);
+		
+		this.buttonDelete.setEnabled(false);
+	}
+	
 }
