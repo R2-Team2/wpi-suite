@@ -242,6 +242,10 @@ public class EditRequirementPanel extends RequirementPanel
 		ViewEventController.getInstance().removeTab(this);
 	}
 	
+	/**
+	 * Constructs a panel with a scolling list of notes for the requirement, as well as the elements to add new notes
+	 * @return panel for displaying and creating notes
+	 */
 	private JPanel buildNotePanel()
 	{
 		GridBagLayout layout = new GridBagLayout();
@@ -251,18 +255,18 @@ public class EditRequirementPanel extends RequirementPanel
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.weighty = 0.8;
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 0.8; // Fill 80% of vertical space
 		panel.add(scroll,c);
 		
-		c.gridy = 1;
-		c.weighty = 0.2;
+		c.gridy = 1; // Row 1
+		c.weighty = 0.2; // Fill 20% of vertical space
 		panel.add(new JTextArea(),c);
 		
-		c.weighty = 0;
-		c.gridy = 2;
-		c.fill = GridBagConstraints.NONE;
+		c.weighty = 0; // Do not stretch
+		c.gridy = 2; // Row 2
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
 		panel.add(new JButton("Add Note"),c);
 		
 		return panel;
