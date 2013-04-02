@@ -20,18 +20,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  */
 public class NotePanel extends JPanel {
 	
-	private Note note;
-	
 	/**
 	 * Basic constructor for a NotePanel
 	 * @param note Note to be displayed
 	 */
 	public NotePanel(Note note)
 	{
-		super();
-		
-		this.note = note;
-		
 		JLabel message = new JLabel(note.getMessage());
 		String user = note.getUser();
 		
@@ -43,8 +37,7 @@ public class NotePanel extends JPanel {
 		JLabel noteInfo = new JLabel(info);
 		
 		SpringLayout noteLayout = new SpringLayout();
-		JPanel panel = new JPanel();
-		panel.setLayout(noteLayout);
+		this.setLayout(noteLayout);
 		
 		SpringLayout messageLayout = new SpringLayout();
 		JPanel messagePanel = new JPanel();
@@ -56,12 +49,16 @@ public class NotePanel extends JPanel {
 				SpringLayout.NORTH, messagePanel);
 		
 		noteLayout.putConstraint(SpringLayout.WEST, messagePanel, 5,
-				SpringLayout.WEST, panel);
+				SpringLayout.WEST, this);
 		noteLayout.putConstraint(SpringLayout.NORTH, messagePanel, 5,
-				SpringLayout.NORTH, panel);
+				SpringLayout.NORTH, this);
 		noteLayout.putConstraint(SpringLayout.EAST, noteInfo, 5,
-				SpringLayout.EAST, panel);
+				SpringLayout.EAST, this);
 		noteLayout.putConstraint(SpringLayout.NORTH, noteInfo, 5,
 				SpringLayout.SOUTH, messagePanel);
+		
+		messagePanel.add(message);
+		this.add(messagePanel);
+		this.add(noteInfo);
 	}
 }
