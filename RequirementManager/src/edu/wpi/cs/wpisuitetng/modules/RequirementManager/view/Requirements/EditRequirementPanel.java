@@ -342,6 +342,7 @@ public class EditRequirementPanel extends RequirementPanel
 		c.weighty = 0.2; // Fill 20% of vertical space
 		panel.add(new JTextArea(),c);
 		
+		
 		c.weighty = 0; // Do not stretch
 		c.gridy = 2; // Row 2
 		c.fill = GridBagConstraints.NONE; // Do not fill cell

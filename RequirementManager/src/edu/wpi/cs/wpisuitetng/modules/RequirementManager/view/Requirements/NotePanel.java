@@ -85,6 +85,7 @@ public class NotePanel extends JPanel {
 		noteConstraints.weighty = 0; // Fill 80% of vertical space
 		this.add(messagePanel, noteConstraints);
 		
+		noteConstraints.anchor = GridBagConstraints.SOUTHEAST;
 		noteConstraints.fill = GridBagConstraints.NONE;
 		noteConstraints.gridy = 1;
 		noteConstraints.weighty = 0; // Fill 80% of vertical space
