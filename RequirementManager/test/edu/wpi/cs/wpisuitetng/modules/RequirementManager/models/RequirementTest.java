@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -148,4 +149,28 @@ public class RequirementTest {
 		// TODO: setIteration
 		
 	}
+	
+	@Test
+	public void testCopyFromRequirement() {
+		Requirement r = new Requirement(0, "name", "desc");
+		r.setEffort(4);
+		r.setEstimate(4);
+		r.setIteration(new Iteration(""), true);
+		r.setPriority(RequirementPriority.HIGH, true);
+		r.setRelease("release 1");
+		r.setStatus(RequirementStatus.INPROGRESS, true);
+		r.setType(RequirementType.USERSTORY);
+		
+		Requirement r2 = new Requirement(0, "", "");
+		r2.copyFrom(r);
+		
+		assertEquals(r.getId(), 0);
+		assertEquals(r.getName(), "name");
+		assertEquals(r.getDescription(), "desc");
+		assertEquals(r.getPriority(), RequirementPriority.HIGH);
+		assertEquals(r.getRelease(), "release 1");
+		assertEquals(r.getStatus(), RequirementStatus.INPROGRESS);
+		assertEquals(r.getType(), RequirementType.USERSTORY);
+	}
+	
 }
