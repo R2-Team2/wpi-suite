@@ -82,14 +82,17 @@ public class RequirementTest {
 	public void settingRequirementFieldsTest () {
 		Requirement object = new Requirement(5, "Test", "This is a test");
 		
+		// setId
 		object.setId(10);
 		assertEquals(object.getId(), 10);
 		
+		// setName
 		object.setName("Changed");
 		assertEquals(object.getName(), "Changed");
 		object.setName("01234567890123456789012345678901234567890123456789012345678901234567890123545678901234567890123456789this is extra and should not be included");
 		assertEquals(object.getName(), "0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678");
 		
+		// setStatus
 		//if requirement was just created
 		object.setStatus(RequirementStatus.OPEN, true);
 		assertEquals(object.getStatus(), RequirementStatus.OPEN);
@@ -112,23 +115,33 @@ public class RequirementTest {
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
 		
+		// setDescription
 		object.setDescription("Changed the description too");
 		assertEquals(object.getDescription(), "Changed the description too");
 
-		// TODO: setPriority
+		// setPriority
 		//if you change it to the current priority upon creation
 		object.setPriority(RequirementPriority.BLANK, true);
 		assertEquals(object.getPriority(), RequirementPriority.BLANK);
+		iter = object.getHistory().getIterator(1);
+		assertFalse(iter.hasNext());
 		//if requirement was just created
 		object.setPriority(RequirementPriority.HIGH, true);
 		assertEquals(object.getPriority(), RequirementPriority.HIGH);
+		iter = object.getHistory().getIterator(1);
+		assertFalse(iter.hasNext());
 		//normal priority setting
 		object.setPriority(RequirementPriority.HIGH, false);
 		assertEquals(object.getPriority(), RequirementPriority.HIGH);
+		iter = object.getHistory().getIterator(1);
+		assertFalse(iter.hasNext());
 		//if the you change it to the current priority
 		object.setPriority(RequirementPriority.LOW, false);
 		assertEquals(object.getPriority(), RequirementPriority.LOW);
+		iter = object.getHistory().getIterator(1);
+		assertEquals(iter.next().getMessage(), "Changed priority of Name from HIGH to LOW");
 		
+		// setType
 		object.setType(RequirementType.USERSTORY);
 		assertEquals(object.getType(), RequirementType.USERSTORY);
 		
