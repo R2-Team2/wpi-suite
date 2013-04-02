@@ -22,6 +22,8 @@ import javax.swing.JTextArea;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -344,6 +346,10 @@ public class EditRequirementPanel extends RequirementPanel
 		c.gridy = 2; // Row 2
 		c.fill = GridBagConstraints.NONE; // Do not fill cell
 		panel.add(new JButton("Add Note"),c);
+		
+		NoteList list = new NoteList();
+		list.add("Test message");
+		scroll.setViewportView(NotePanel.createList(list));
 		
 		return panel;
 	}
