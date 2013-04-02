@@ -6,12 +6,15 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ListIterator;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 
 /**
  * Class to display a note inside the EditRequirementPanel
@@ -63,5 +66,19 @@ public class NotePanel extends JPanel {
 				SpringLayout.EAST, panel);
 		noteLayout.putConstraint(SpringLayout.NORTH, noteInfo, 5,
 				SpringLayout.SOUTH, messagePanel);
+	}
+	
+	public static JPanel createList(NoteList list)
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+		
+		ListIterator<Note> itt = list.getIterator(0);
+		while(itt.hasNext())
+		{
+			panel.add(new NotePanel(itt.next()));
+		}
+		
+		return panel;
 	}
 }
