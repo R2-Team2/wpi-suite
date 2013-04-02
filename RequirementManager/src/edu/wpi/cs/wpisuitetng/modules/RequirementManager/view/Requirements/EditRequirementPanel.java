@@ -252,6 +252,7 @@ public class EditRequirementPanel extends RequirementPanel
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
 		c.weighty = 0.8;
 		panel.add(scroll,c);
 		
@@ -261,6 +262,7 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		c.weighty = 0;
 		c.gridy = 2;
+		c.fill = GridBagConstraints.NONE;
 		panel.add(new JButton("Add Note"),c);
 		
 		return panel;
