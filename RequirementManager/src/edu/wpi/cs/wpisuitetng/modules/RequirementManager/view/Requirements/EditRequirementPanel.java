@@ -5,6 +5,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
@@ -238,7 +247,74 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);		
+		requirementBeingEdited.setType(type);	
+		
+		/* 
+		 * author Raphael
+		 * TODO: remove after transaction history is viewable in GUI
+		 * displays transaction history in console
+		 */
+		System.out.println("");		
+		System.out.println("Udpdated Transaction History for " + stringName + " :");
+		
+		ListIterator<Transaction> historyIterator = requirementHistory.getIterator(0);
+		
+		// initialize lastTimeStamp at 0
+		long lastTimeStamp = 0;
+		
+		// iterate through the transaction history of the requirement
+		while(historyIterator.hasNext()) {
+			// extract the next transaction
+			Transaction thisTransaction = historyIterator.next();
+			
+			// extract time stamp of this transaction 
+			long thisTimeStamp = thisTransaction.getTS();
+			
+			//store the next index
+			int nextIndex = historyIterator.nextIndex();
+			
+			// if this is the first transaction, display a new user and time stamp
+			if (nextIndex == 1) {
+				// convert the time stamp to date and time
+				Date date = new Date(thisTimeStamp);
+			    Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm aaa");
+			    String thisDateTime = format.format(date).toString();
+			    
+			    // extract user
+			    String thisUser = thisTransaction.getUser();
+			    
+				System.out.println("");
+				System.out.println(thisUser + " on " + thisDateTime);
+			}
+			
+			// if this is not the first transaction, and
+			// if the time stamp of this transaction does not match the time stamp of
+			// the last transaction, skip a line and display a new user and time stamp
+			else {				
+				if (!(thisTimeStamp == lastTimeStamp)) {
+					
+					// convert the time stamp to date and time
+					Date date = new Date(thisTimeStamp);
+				    Format format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm aaa"));
+				    String thisDateTime = format.format(date).toString();
+				    
+				    // extract user
+				    String thisUser = thisTransaction.getUser();
+				    
+					System.out.println("");
+					System.out.println(thisUser + " on " + thisDateTime);
+				}			
+			}	
+			
+			// extract and display this transaction's message
+			String thisMessage = thisTransaction.getMessage();
+			System.out.println(thisMessage);
+			
+			// store current time stamp for comparison during next iteration 
+			lastTimeStamp = thisTimeStamp;
+		}		
+		
+			    
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
@@ -280,7 +356,12 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildHistoryPanel()
 	{
-		return new JPanel();
+		JPanel requirementHistoryPanel = new JPanel();
+		TransactionHistoryPanel reqHistoryPanel = new TransactionHistoryPanel();
+		
+		requirementHistoryPanel.add(reqHistoryPanel);
+		
+		return requirementHistoryPanel;
 	}
 	
 	/**

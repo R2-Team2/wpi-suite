@@ -59,10 +59,6 @@ public class TransactionHistory {
 		String user = ConfigManager.getConfig().getUserName();
 		Transaction newTransaction = new Transaction(user, time, msg);
 		history.add(newTransaction);
-		System.out.println("Added Transaction:");
-		System.out.println("  User: " + user);
-		System.out.println("  Message: " + msg);
-		System.out.println("  Time: " + time);
 		return newTransaction;
 	}
 	
