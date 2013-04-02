@@ -87,11 +87,35 @@ public class RequirementTest {
 		assertEquals(object.getName(), "0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678");
 		
 		// TODO: setStatus
+		//if requirement was just created
+		object.setStatus(RequirementStatus.OPEN, true);
+		assertEquals(object.getStatus(), RequirementStatus.OPEN);
+		//normal status setting
+		object.setStatus(RequirementStatus.INPROGRESS, false);
+		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
+		//if the you change it to the current status
+		object.setStatus(RequirementStatus.INPROGRESS, false);
+		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
+		//if you change it to the current status upon creation
+		object.setStatus(RequirementStatus.NEW, true);
+		assertEquals(object.getStatus(), RequirementStatus.NEW);
 		
 		object.setDescription("Changed the description too");
 		assertEquals(object.getDescription(), "Changed the description too");
 
 		// TODO: setPriority
+		//if you change it to the current priority upon creation
+		object.setPriority(RequirementPriority.BLANK, true);
+		assertEquals(object.getPriority(), RequirementPriority.BLANK);
+		//if requirement was just created
+		object.setPriority(RequirementPriority.HIGH, true);
+		assertEquals(object.getPriority(), RequirementPriority.HIGH);
+		//normal priority setting
+		object.setPriority(RequirementPriority.HIGH, false);
+		assertEquals(object.getPriority(), RequirementPriority.HIGH);
+		//if the you change it to the current priority
+		object.setPriority(RequirementPriority.LOW, false);
+		assertEquals(object.getPriority(), RequirementPriority.LOW);
 		
 		object.setType(RequirementType.USERSTORY);
 		assertEquals(object.getType(), RequirementType.USERSTORY);
