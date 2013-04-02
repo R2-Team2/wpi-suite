@@ -3,15 +3,20 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ListIterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
@@ -29,6 +34,8 @@ public class NotePanel extends JPanel {
 	 */
 	public NotePanel(Note note)
 	{
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		JLabel message = new JLabel(note.getMessage());
 		String user = note.getUser();
 		
@@ -39,13 +46,18 @@ public class NotePanel extends JPanel {
 		String info = user + " on " + noteDate;
 		JLabel noteInfo = new JLabel(info);
 		
-		SpringLayout noteLayout = new SpringLayout();
+		// SpringLayout noteLayout = new SpringLayout();
+		GridBagLayout noteLayout = new GridBagLayout();
 		this.setLayout(noteLayout);
+		GridBagConstraints noteConstraints = new GridBagConstraints();
 		
-		SpringLayout messageLayout = new SpringLayout();
+		// SpringLayout messageLayout = new SpringLayout();
+		GridBagLayout messageLayout = new GridBagLayout();
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(messageLayout);
-		
+		messagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		GridBagConstraints msgConstraints = new GridBagConstraints();
+		/*
 		messageLayout.putConstraint(SpringLayout.WEST, message, 5,
 				SpringLayout.WEST, messagePanel);
 		messageLayout.putConstraint(SpringLayout.NORTH, message, 5,
@@ -55,14 +67,28 @@ public class NotePanel extends JPanel {
 				SpringLayout.WEST, this);
 		noteLayout.putConstraint(SpringLayout.NORTH, messagePanel, 5,
 				SpringLayout.NORTH, this);
+		noteLayout.putConstraint(SpringLayout.EAST, messagePanel, 5,
+				SpringLayout.EAST, this);
+		noteLayout.putConstraint(SpringLayout.SOUTH, messagePanel, 85,
+				SpringLayout.NORTH, this);
 		noteLayout.putConstraint(SpringLayout.EAST, noteInfo, 5,
 				SpringLayout.EAST, this);
 		noteLayout.putConstraint(SpringLayout.NORTH, noteInfo, 5,
 				SpringLayout.SOUTH, messagePanel);
+		*/
+		msgConstraints.weightx = 1; // Fill horizontal space
+		msgConstraints.weighty = 0; // Fill vertical space
+		messagePanel.add(message, msgConstraints);
 		
-		messagePanel.add(message);
-		this.add(messagePanel);
-		this.add(noteInfo);
+		noteConstraints.fill = GridBagConstraints.HORIZONTAL;
+		noteConstraints.weightx = 1; // Fill horizontal space
+		noteConstraints.weighty = 0; // Fill 80% of vertical space
+		this.add(messagePanel, noteConstraints);
+		
+		noteConstraints.fill = GridBagConstraints.NONE;
+		noteConstraints.gridy = 1;
+		noteConstraints.weighty = 0; // Fill 80% of vertical space
+		this.add(noteInfo, noteConstraints);
 	}
 	
 	public static JPanel createList(NoteList list)
