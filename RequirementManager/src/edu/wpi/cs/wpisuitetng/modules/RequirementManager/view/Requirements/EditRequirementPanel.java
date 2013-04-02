@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
@@ -244,10 +246,22 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
 		
 		JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 0.8;
+		panel.add(scroll,c);
 		
-		panel.add(scroll);
+		c.gridy = 1;
+		c.weighty = 0.2;
+		panel.add(new JTextArea(),c);
+		
+		c.weighty = 0;
+		c.gridy = 2;
+		panel.add(new JButton("Add Note"),c);
 		
 		return panel;
 	}
