@@ -3,9 +3,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.internal.matchers.StringContains;
-
 import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
