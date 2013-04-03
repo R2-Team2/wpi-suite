@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
@@ -36,7 +37,10 @@ public class NotePanel extends JPanel {
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		JLabel message = new JLabel(note.getMessage());
+		JTextArea message = new JTextArea(note.getMessage());
+		message.setEditable(false);
+		message.setBorder(BorderFactory.createLineBorder(Color.black));
+		//JLabel message = new JLabel(note.getMessage());
 		String user = note.getUser();
 		
 		Date date = new Date(note.getTimestamp());
@@ -47,61 +51,37 @@ public class NotePanel extends JPanel {
 		JLabel noteInfo = new JLabel(info);
 		
 		// SpringLayout noteLayout = new SpringLayout();
-		GridBagLayout noteLayout = new GridBagLayout();
-		this.setLayout(noteLayout);
+		this.setLayout(new GridBagLayout());
 		GridBagConstraints noteConstraints = new GridBagConstraints();
 		
-		// SpringLayout messageLayout = new SpringLayout();
-		GridBagLayout messageLayout = new GridBagLayout();
-		JPanel messagePanel = new JPanel();
-		messagePanel.setLayout(messageLayout);
-		messagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		GridBagConstraints msgConstraints = new GridBagConstraints();
-		/*
-		messageLayout.putConstraint(SpringLayout.WEST, message, 5,
-				SpringLayout.WEST, messagePanel);
-		messageLayout.putConstraint(SpringLayout.NORTH, message, 5,
-				SpringLayout.NORTH, messagePanel);
-		
-		noteLayout.putConstraint(SpringLayout.WEST, messagePanel, 5,
-				SpringLayout.WEST, this);
-		noteLayout.putConstraint(SpringLayout.NORTH, messagePanel, 5,
-				SpringLayout.NORTH, this);
-		noteLayout.putConstraint(SpringLayout.EAST, messagePanel, 5,
-				SpringLayout.EAST, this);
-		noteLayout.putConstraint(SpringLayout.SOUTH, messagePanel, 85,
-				SpringLayout.NORTH, this);
-		noteLayout.putConstraint(SpringLayout.EAST, noteInfo, 5,
-				SpringLayout.EAST, this);
-		noteLayout.putConstraint(SpringLayout.NORTH, noteInfo, 5,
-				SpringLayout.SOUTH, messagePanel);
-		*/
-		msgConstraints.weightx = 1; // Fill horizontal space
-		msgConstraints.weighty = 0; // Fill vertical space
-		messagePanel.add(message, msgConstraints);
-		
 		noteConstraints.fill = GridBagConstraints.HORIZONTAL;
-		noteConstraints.weightx = 1; // Fill horizontal space
-		noteConstraints.weighty = 0; // Fill 80% of vertical space
-		this.add(messagePanel, noteConstraints);
+		noteConstraints.gridy = 0;
+		this.add(message, noteConstraints);
 		
 		noteConstraints.anchor = GridBagConstraints.SOUTHEAST;
 		noteConstraints.fill = GridBagConstraints.NONE;
 		noteConstraints.gridy = 1;
-		noteConstraints.weighty = 0; // Fill 80% of vertical space
 		this.add(noteInfo, noteConstraints);
 	}
 	
 	public static JPanel createList(NoteList list)
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+		panel.setBackground(Color.WHITE);
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridy = GridBagConstraints.RELATIVE;
+		c.anchor = GridBagConstraints.NORTH;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		ListIterator<Note> itt = list.getIterator(0);
 		while(itt.hasNext())
 		{
-			panel.add(new NotePanel(itt.next()));
+			panel.add(new NotePanel(itt.next()),c);
 		}
+		c.weightx = 1;
+		c.weighty = 1;
+		panel.add(new JPanel(),c);
 		
 		return panel;
 	}
