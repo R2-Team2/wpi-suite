@@ -2,21 +2,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.internal.matchers.StringContains;
-
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
 
 /**
  * Basic Requirement class
@@ -43,7 +32,7 @@ public class Requirement extends AbstractModel {
 	/** a short description of the requirement */
 	private String description;
 
-	/** the estimated amount of time to complete the requirement */
+	/** the estimated amount of effort to complete the requirement */
 	private int estimate;
 
 	/** the actual effort of completing the requirement */
@@ -59,7 +48,7 @@ public class Requirement extends AbstractModel {
 	private RequirementType type;
 
 	/**
-	 * subrequirements that must be completed before the current requirement is
+	 * sub-requirements that must be completed before the current requirement is
 	 * considered complete
 	 */
 	private List<Requirement> subRequirements;
@@ -97,7 +86,7 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		iteration = (new Iteration("Backlog"));
+		iteration = (new Iteration());
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
@@ -172,7 +161,7 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * /**Getter for id
+	 * /**Getter for the id
 	 * 
 	 * @return the id
 	 */
@@ -185,16 +174,13 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param id
 	 *            the id to set
-	 * 
-	 * 
 	 */
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * getter for the id
+	 * getter for the name
 	 * 
 	 * @return the name
 	 */
@@ -215,8 +201,8 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * getter for the name
-	 * 
+	 * getter for the release number
+	 *  
 	 * @return the release
 	 */
 	public String getRelease() {
@@ -234,7 +220,7 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * Getter for the release number
+	 * Getter for the status
 	 * 
 	 * @return the status
 	 */
@@ -305,7 +291,7 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * Getter for the estimate
+	 * Getter for the effort
 	 * 
 	 * @return the effort
 	 */

@@ -124,7 +124,7 @@ public class ViewEventController {
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration(new Iteration("Backlog"), created);
+			toSendToBacklog.setIteration(new Iteration(), created);
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 		
