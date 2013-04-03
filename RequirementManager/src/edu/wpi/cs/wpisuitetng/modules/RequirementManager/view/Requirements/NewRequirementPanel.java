@@ -131,8 +131,6 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementType type;
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		
-		Iteration iteration = new Iteration(IterationModel.getInstance().getNextID(), stringIteration);
-		
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 		type = (RequirementType)this.dropdownType.getSelectedItem();
@@ -164,7 +162,7 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setPriority(priority, created);
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration(iteration, created);
+		newRequirement.setIteration("Backlog", created);
 		newRequirement.getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(newRequirement);

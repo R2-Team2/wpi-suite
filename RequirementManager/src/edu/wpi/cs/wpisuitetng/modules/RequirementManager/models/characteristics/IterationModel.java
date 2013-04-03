@@ -24,6 +24,8 @@ public class IterationModel extends AbstractListModel {
 	private ArrayList<Iteration> Iterations;
 	private int nextID; // the next available ID number for the Iterations that
 						// are added.
+	
+	private Iteration backlog;
 
 	// the static object to allow the Iteration model to be
 	private static IterationModel instance;
@@ -53,12 +55,11 @@ public class IterationModel extends AbstractListModel {
 	 * @param newReq The Iteration to be added to the list of Iterations in the
 	 *        project
 	 */
-	public void addIteration(Iteration newIter) {
+	private void addIteration(Iteration newIter) {
 		// add the Iteration
 		Iterations.add(newIter);
 		try {
 			AddIterationController.getInstance().addIteration(newIter);
-			ViewEventController.getInstance().refreshTable();
 		} catch (Exception e) {
 
 		}
@@ -71,7 +72,7 @@ public class IterationModel extends AbstractListModel {
 	 *            The ID number of the Iteration to be removed from the list of
 	 *            Iterations in the project
 	 */
-	public void removeIteration(int removeId) {
+	private void removeIteration(int removeId) {
 		// iterate through list of Iterations until id of project is found
 		for (int i = 0; i < this.Iterations.size(); i++) {
 			if (Iterations.get(i).getId() == removeId){
@@ -101,7 +102,7 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	 * @return the next open id number
 	 */
-	public int getNextID() {
+	private int getNextID() {
 
 		return this.nextID++;
 	}
@@ -145,9 +146,15 @@ public class IterationModel extends AbstractListModel {
 	 */
 	public void addIterations(Iteration[] Iterations) {
 		for (int i = 0; i < Iterations.length; i++) {
+			if(Iterations[i].getName().equals("Backlog")) backlog = Iterations[i];
 			this.Iterations.add(Iterations[i]);
-			if (Iterations[i].getId() >= nextID)
-			nextID = Iterations[i].getId() + 1;
+			if (Iterations[i].getId() >= nextID) nextID = Iterations[i].getId() + 1;
+		}
+		
+		if(backlog == null)
+		{
+			backlog = new Iteration(getNextID(), "Backlog");
+			addIteration(backlog);
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
@@ -159,6 +166,27 @@ public class IterationModel extends AbstractListModel {
 	 */
 	public List<Iteration> getIterations() {
 		return Iterations;
+	}
+	
+	/**
+	 * Return the iteration with the specified name
+	 * @param the name of the iteration
+	 * @return the iteration
+	 */
+	public Iteration getIteration(String forName)
+	{
+		
+		if(forName.equals("") || forName.equals("Backlog")) return backlog;
+		for(Iteration iter : Iterations)
+		{
+			if(iter.getName().equals(forName)) return iter;
+		}
+		
+		Iteration newIteration = new Iteration(getNextID(), forName);
+		
+		addIteration(newIteration);
+		
+		return newIteration;
 	}
 
 }

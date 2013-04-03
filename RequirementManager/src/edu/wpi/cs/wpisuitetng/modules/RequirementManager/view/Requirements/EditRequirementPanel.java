@@ -185,6 +185,8 @@ public class EditRequirementPanel extends RequirementPanel
 		String stringDescription = this.boxDescription.getText();
 		String stringEstimate = this.boxEstimate.getText();
 		String stringIteration = this.boxIteration.getText();
+		
+		if(stringIteration.trim().equals("")) stringIteration = "Backlog";
 
 
 		RequirementPriority priority;
@@ -194,7 +196,6 @@ public class EditRequirementPanel extends RequirementPanel
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-		Iteration iteration = new Iteration(IterationModel.getInstance().getNextID(), stringIteration);
 		// Extract which radio is selected for the priority
 		//		If requirement deleted {}		
 		//		estimate = iteration.getEstimate()- estimate;
@@ -222,7 +223,7 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setStatus(status, created);
 		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
-		requirementBeingEdited.setIteration(iteration, created);
+		requirementBeingEdited.setIteration(stringIteration.trim(), created);
 		requirementBeingEdited.setType(type);
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();

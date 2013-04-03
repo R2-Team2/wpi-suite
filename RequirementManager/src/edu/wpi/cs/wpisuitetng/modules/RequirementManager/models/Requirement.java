@@ -59,7 +59,7 @@ public class Requirement extends AbstractModel {
 	private List<Note> notes;
 
 	/** iteration the requirement is assigned to */
-	private Iteration iteration;
+	private String iteration;
 
 	/**
 	 * team members the requirement is assigned to need to figure out the class
@@ -88,7 +88,7 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		iteration = (new Iteration());
+		iteration = null;
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
@@ -548,7 +548,7 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @return a string representing the iteration it has been assigned to
 	 */
-	public Iteration getIteration() {
+	public String getIteration() {
 		return iteration;
 	}
 
@@ -563,21 +563,28 @@ public class Requirement extends AbstractModel {
 	 *            prevent a bug that occurs when the requirement is first
 	 *            created and stores a transaction in the history
 	 */
-	public void setIteration(Iteration newIteration, boolean created) {
-		if (this.iteration == null) {
-			this.iteration = newIteration;
-			this.iteration.setEstimate(this.iteration.getEstimate() + estimate);
-		}
-		if (!this.iteration.equals(newIteration) && !created) {
-			this.iteration.setEstimate(this.iteration.getEstimate() - estimate);
-			newIteration.setEstimate(newIteration.getEstimate() + estimate);
-			String originalIteration = this.iteration.toString();
-			String newIterationString = newIteration.toString();
+	public void setIteration(String newIterationName, boolean created) {
+		String curIter = this.iteration;
+
+		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
+		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
+		
+		//create the transaction history.
+		if(!this.iteration.equals(newIterationName) && !created)
+		{
 			String message = ("Moved " + this.name + " from "
-					+ originalIteration + " to " + newIterationString);
+					+ curIter + " to " + newIteration);
 			this.history.add(message);
-			}
-		this.iteration = newIteration;
+		}
+		
+		//update estimates as needed
+		if(!this.iteration.equals(newIterationName))
+		{
+			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
+			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
+		}
+		
+		this.iteration = newIterationName;
 	}
 
 	/**

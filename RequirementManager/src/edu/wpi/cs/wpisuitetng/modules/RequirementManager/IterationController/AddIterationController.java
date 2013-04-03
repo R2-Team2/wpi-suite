@@ -46,9 +46,9 @@ public class AddIterationController{
 	 */
 	public void addIteration(Iteration newIteration) 
 	{
-		final Request request = Network.getInstance().makeRequest("Iterationmanager/Iteration", HttpMethod.PUT); // PUT == create
+		final Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.PUT); // PUT == create
 		request.setBody(newIteration.toJSON()); // put the new Iteration in the body of the request
 		request.addObserver(observer); // add an observer to process the response
-		request.send(); 
+		//request.send(); 
 	}
 }

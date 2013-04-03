@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.UpdateIterationController;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
@@ -17,13 +18,7 @@ public class Iteration extends AbstractModel {
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
 
-	/**
-	 * Constructs an Iteration with default characteristics
-	 */
-	public Iteration() {
-		this.name = "Backlog";
-		this.estimate = 0;
-	}
+	public Iteration(){}
 	
 	/**
 	 * Construct an Iteration with required properties provided and others set
@@ -36,7 +31,6 @@ public class Iteration extends AbstractModel {
 	 * 
 	 */
 	public Iteration(int id, String name) {
-		this();
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
@@ -98,7 +92,9 @@ public class Iteration extends AbstractModel {
 	 *            the estimate to set
 	 */
 	public void setEstimate(int estimate) {
+		System.out.println("Changed iteration " + name + " estimate from " + this.estimate + " to " + estimate);
 		this.estimate = estimate;
+		UpdateIterationController.getInstance().updateIteration(this);
 	}
 	
 	/**

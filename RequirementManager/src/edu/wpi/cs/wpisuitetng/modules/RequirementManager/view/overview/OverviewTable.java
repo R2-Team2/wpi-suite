@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
@@ -117,6 +118,7 @@ public class OverviewTable extends JTable
 			try 
 			{
 				GetRequirementsController.getInstance().retrieveRequirements();
+				//GetIterationController.getInstance().retrieveIterations();
 				initialized = true;
 			}
 			catch (Exception e)
