@@ -101,7 +101,7 @@ public class HistoryPanel extends JPanel {
 			if (nextIndex == 1) {
 				// convert the time stamp to date and time
 				date = new Date(thisTimeStamp);
-			    format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm aaa");
+			    format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
 			    thisDateTime = format.format(date).toString();
 			    
 			    // extract user
@@ -131,7 +131,7 @@ public class HistoryPanel extends JPanel {
 					
 					// convert the time stamp to date and time
 					date = new Date(thisTimeStamp);
-				    format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm aaa"));
+				    format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm:ss aaa"));
 				    thisDateTime = format.format(date).toString();
 				    
 				    // extract user

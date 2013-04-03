@@ -362,6 +362,14 @@ public class Requirement extends AbstractModel {
 		return notes;
 	}
 	
+	/**
+	 * Adds a note to the requirement's NoteList
+	 * @param msg
+	 */
+	public void addNote(String msg){
+		notes.add(msg);
+	}
+	
 	/** Getter for the list of development tasks
 	 * 
 	 * @return the list of development tasks
@@ -587,5 +595,6 @@ public class Requirement extends AbstractModel {
 		this.status = toCopyFrom.status;
 		this.type = toCopyFrom.type;
 		this.history = toCopyFrom.history;
+		this.notes = toCopyFrom.notes;
 	}
 }

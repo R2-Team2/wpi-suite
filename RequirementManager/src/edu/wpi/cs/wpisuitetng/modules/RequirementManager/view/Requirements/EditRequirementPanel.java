@@ -273,7 +273,7 @@ public class EditRequirementPanel extends RequirementPanel
 		JPanel bottomPanel = new JPanel(bottomLayout);
 		GridBagConstraints bc = new GridBagConstraints();
 		
-		JScrollPane scroll = new JScrollPane();
+		final JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
@@ -307,14 +307,15 @@ public class EditRequirementPanel extends RequirementPanel
 			{
 				if(noteMessage.getText().length() <= 0) 
 				{
-					errorMsg.setText("Error: Must add text to create note.");
+					errorMsg.setText(" Error: Must add text to create note.");
 				}
 				else
 				{
-					errorMsg.setText("Note added to requirement.");
 					String msg = noteMessage.getText();
 					noteMessage.setText("");
-					requirementBeingEdited.getNotes().add(msg);
+					requirementBeingEdited.addNote(msg);
+					scroll.setViewportView(NotePanel.createList(requirementBeingEdited.getNotes()));
+					UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 				}
 			}
 		});
