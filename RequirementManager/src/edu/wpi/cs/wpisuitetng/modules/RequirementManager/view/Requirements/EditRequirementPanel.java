@@ -380,8 +380,9 @@ public class EditRequirementPanel extends RequirementPanel
 				}
 				else
 				{
-					errorMsg.setText("");
+					errorMsg.setText("Note added to requirement.");
 					String msg = noteMessage.getText();
+					noteMessage.setText("");
 					requirementBeingEdited.getNotes().add(msg);
 				}
 			}
@@ -391,6 +392,7 @@ public class EditRequirementPanel extends RequirementPanel
 			public void actionPerformed(ActionEvent e)
 			{
 				noteMessage.setText("");
+				errorMsg.setText("");
 			}
 		});
 		/*
