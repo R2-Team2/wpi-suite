@@ -5,7 +5,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -19,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
@@ -38,7 +48,8 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	public EditRequirementPanel(Requirement req) {
 		super();
-		
+
+		requirementBeingEdited = req;
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -82,7 +93,6 @@ public class EditRequirementPanel extends RequirementPanel
 
 		this.setViewportView(contentPanel);
 		
-		requirementBeingEdited = req;
 		fillFieldsForRequirement();
 	}
 	
@@ -238,7 +248,74 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setPriority(priority, created);
 		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);		
+		requirementBeingEdited.setType(type);	
+		
+		/* 
+		 * author Raphael
+		 * TODO: remove after transaction history is viewable in GUI
+		 * displays transaction history in console
+		 */
+		System.out.println("");		
+		System.out.println("Udpdated Transaction History for " + stringName + " :");
+		
+		ListIterator<Transaction> historyIterator = requirementHistory.getIterator(0);
+		
+		// initialize lastTimeStamp at 0
+		long lastTimeStamp = 0;
+		
+		// iterate through the transaction history of the requirement
+		while(historyIterator.hasNext()) {
+			// extract the next transaction
+			Transaction thisTransaction = historyIterator.next();
+			
+			// extract time stamp of this transaction 
+			long thisTimeStamp = thisTransaction.getTS();
+			
+			//store the next index
+			int nextIndex = historyIterator.nextIndex();
+			
+			// if this is the first transaction, display a new user and time stamp
+			if (nextIndex == 1) {
+				// convert the time stamp to date and time
+				Date date = new Date(thisTimeStamp);
+			    Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm aaa");
+			    String thisDateTime = format.format(date).toString();
+			    
+			    // extract user
+			    String thisUser = thisTransaction.getUser();
+			    
+				System.out.println("");
+				System.out.println(thisUser + " on " + thisDateTime);
+			}
+			
+			// if this is not the first transaction, and
+			// if the time stamp of this transaction does not match the time stamp of
+			// the last transaction, skip a line and display a new user and time stamp
+			else {				
+				if (!(thisTimeStamp == lastTimeStamp)) {
+					
+					// convert the time stamp to date and time
+					Date date = new Date(thisTimeStamp);
+				    Format format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm aaa"));
+				    String thisDateTime = format.format(date).toString();
+				    
+				    // extract user
+				    String thisUser = thisTransaction.getUser();
+				    
+					System.out.println("");
+					System.out.println(thisUser + " on " + thisDateTime);
+				}			
+			}	
+			
+			// extract and display this transaction's message
+			String thisMessage = thisTransaction.getMessage();
+			System.out.println(thisMessage);
+			
+			// store current time stamp for comparison during next iteration 
+			lastTimeStamp = thisTimeStamp;
+		}		
+		
+			    
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
@@ -250,9 +327,18 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private JPanel buildNotePanel()
 	{
+		JButton buttonAddNote = new JButton("Add Note");
+		JButton buttonClear = new JButton("Clear");
+		final JTextArea noteMessage = new JTextArea();
+		final JLabel errorMsg = new JLabel();
+		
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
+		
+		GridBagLayout bottomLayout = new GridBagLayout();
+		JPanel bottomPanel = new JPanel(bottomLayout);
+		GridBagConstraints bc = new GridBagConstraints();
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -264,17 +350,54 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		c.gridy = 1; // Row 1
 		c.weighty = 0.2; // Fill 20% of vertical space
-		panel.add(new JTextArea(),c);
+		panel.add(noteMessage,c);
+		
+		bc.anchor = GridBagConstraints.WEST;
+		bottomPanel.add(buttonAddNote, bc);
+		
+		bc.gridx = 1;
+		bottomPanel.add(buttonClear, bc);
+		
+		bc.gridx = 2;
+		bottomPanel.add(errorMsg, bc);
 		
 		c.weighty = 0; // Do not stretch
 		c.gridy = 2; // Row 2
 		c.fill = GridBagConstraints.NONE; // Do not fill cell
-		panel.add(new JButton("Add Note"),c);
+		c.anchor = GridBagConstraints.WEST;
+		panel.add(bottomPanel,c);
 		
-		NoteList list = new NoteList();
-		list.add("Test message");
-		scroll.setViewportView(NotePanel.createList(list));
+		scroll.setViewportView(NotePanel.createList(this.requirementBeingEdited.getNotes()));
 		
+		buttonAddNote.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				if(noteMessage.getText().length() <= 0) 
+				{
+					errorMsg.setText("Error: Must add text to create note.");
+				}
+				else
+				{
+					errorMsg.setText("Note added to requirement.");
+					String msg = noteMessage.getText();
+					noteMessage.setText("");
+					requirementBeingEdited.getNotes().add(msg);
+				}
+			}
+		});
+		
+		buttonClear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				noteMessage.setText("");
+				errorMsg.setText("");
+			}
+		});
+		/*
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().removeTab(this);
+		*/
 		return panel;
 	}
 	
