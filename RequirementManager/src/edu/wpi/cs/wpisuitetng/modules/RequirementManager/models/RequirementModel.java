@@ -51,7 +51,7 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Adds a single requirement to the requirements of the project
 	 * 
-	 * @oaram newReq The requirement to be added to the list of requirements in the project
+	 * @param newReq The requirement to be added to the list of requirements in the project
 	 */
 	public void addRequirement(Requirement newReq){
 		// add the requirement

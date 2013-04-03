@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.AddIterationController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 
 /**
@@ -51,14 +50,14 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Adds a single Iteration to the Iterations of the project
 	 * 
-	 * @oaram newReq The Iteration to be added to the list of Iterations in the
+	 * @param newReq The Iteration to be added to the list of Iterations in the
 	 *        project
 	 */
-	public void addIteration(Iteration newReq) {
+	public void addIteration(Iteration newIter) {
 		// add the Iteration
-		// Iterations.add(Iterations);
+		Iterations.add(newIter);
 		try {
-			AddIterationController.getInstance().addIteration(newReq);
+			AddIterationController.getInstance().addIteration(newIter);
 			ViewEventController.getInstance().refreshTable();
 		} catch (Exception e) {
 
@@ -75,14 +74,12 @@ public class IterationModel extends AbstractListModel {
 	public void removeIteration(int removeId) {
 		// iterate through list of Iterations until id of project is found
 		for (int i = 0; i < this.Iterations.size(); i++) {
-			// if (Iterations.get(i).getId() == removeId){
+			if (Iterations.get(i).getId() == removeId){
 			// remove the id
-			// Iterations.remove(i);
-			// break;
-			// }
+			Iterations.remove(i);
+			break;
+			}
 		}
-
-		ViewEventController.getInstance().refreshTable();
 	}
 
 	/**
@@ -148,13 +145,11 @@ public class IterationModel extends AbstractListModel {
 	 */
 	public void addIterations(Iteration[] Iterations) {
 		for (int i = 0; i < Iterations.length; i++) {
-			// this.Iterations.add(Iterations[i]);
-			// if (Iterations[i].getId() >= nextID)
-			// nextID = Iterations[i].getId() + 1;
-			// }
-			// this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-			// ViewEventController.getInstance().refreshTable();
+			this.Iterations.add(Iterations[i]);
+			if (Iterations[i].getId() >= nextID)
+			nextID = Iterations[i].getId() + 1;
 		}
+		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
 
 	/**
