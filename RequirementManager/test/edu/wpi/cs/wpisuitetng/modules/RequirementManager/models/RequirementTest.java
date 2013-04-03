@@ -7,10 +7,14 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
@@ -171,6 +175,21 @@ public class RequirementTest {
 		assertEquals(r.getRelease(), "release 1");
 		assertEquals(r.getStatus(), RequirementStatus.INPROGRESS);
 		assertEquals(r.getType(), RequirementType.USERSTORY);
+	}
+	
+	@Test
+	public void testToString() {
+		Requirement r = new Requirement(0, "name", "desc");
+		assertEquals("name", r.toString());
+		assertEquals(r.toString(), r.getName());
+	}
+	
+	@Test
+	public void testAssigningRequirementsToPeople() {
+		List<String> peopleAssignedTo = Arrays.asList("Gabe", "Ben");
+		Requirement r = new Requirement(0, "name", "desc");
+		r.setAssignedTo(peopleAssignedTo);
+		assertEquals(r.getAssignedTo(), peopleAssignedTo);
 	}
 	
 }

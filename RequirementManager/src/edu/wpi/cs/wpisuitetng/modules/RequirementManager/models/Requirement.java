@@ -518,11 +518,6 @@ public class Requirement extends AbstractModel {
 	public void setAssignedTo(List<String> assignedTo) {
 		this.assignedTo = assignedTo;
 	}
-
-	/**Sets a flag in the requirement to indicate it's deleted */
-	public void remove() {
-		this.activeStatus = false;
-	}
 	
 	@Override
 	public void save() {
