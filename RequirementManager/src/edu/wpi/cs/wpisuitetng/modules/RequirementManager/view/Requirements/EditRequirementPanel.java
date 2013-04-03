@@ -403,12 +403,36 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildHistoryPanel()
 	{
-		JPanel requirementHistoryPanel = new JPanel();
-		TransactionHistoryPanel reqHistoryPanel = new TransactionHistoryPanel();
 		
-		requirementHistoryPanel.add(reqHistoryPanel);
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
 		
-		return requirementHistoryPanel;
+		GridBagLayout bottomLayout = new GridBagLayout();
+		JPanel bottomPanel = new JPanel(bottomLayout);
+		GridBagConstraints bc = new GridBagConstraints();
+		
+		JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 0.8; // Fill 80% of vertical space
+		panel.add(scroll,c);
+		
+		c.weighty = 0; // Do not stretch
+		c.gridy = 2; // Row 2
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		c.anchor = GridBagConstraints.WEST;
+		
+		scroll.setViewportView(HistoryPanel.createList(this.requirementBeingEdited.getHistory()));
+
+		/*
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().removeTab(this);
+		*/
+		return panel;
 	}
 	
 	/**
