@@ -1,14 +1,17 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations;
+
+import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.UpdateIterationController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
  * @author Gabriel McCormick, David Iglesias, Nick Mollica
  */
-public class Iteration extends AbstractModel {
+public class RequirementIteration extends AbstractModel {
 	/** the ID of the iteration */
 	private int id; // TODO: move ID stuff to server side? (copied from requirement impl.)
 	
@@ -18,7 +21,7 @@ public class Iteration extends AbstractModel {
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
 
-	public Iteration(){}
+	public RequirementIteration(){}
 	
 	/**
 	 * Construct an Iteration with required properties provided and others set
@@ -30,7 +33,7 @@ public class Iteration extends AbstractModel {
 	 *            The name of the iteration
 	 * 
 	 */
-	public Iteration(int id, String name) {
+	public RequirementIteration(int id, String name) {
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
@@ -114,7 +117,7 @@ public class Iteration extends AbstractModel {
 	 * @return boolean for equality
 	 */
 	// should this also be extended for the other fields?
-	public boolean equals(Iteration that) {
+	public boolean equals(RequirementIteration that) {
 		if (this.name.equals(that.getName()))
 			return true;
 		else
@@ -127,25 +130,32 @@ public class Iteration extends AbstractModel {
 	 * @param toCopyFrom
 	 *            the iteration to copy from.
 	 */
-	public void copyFrom(Iteration toCopyFrom) {
+	public void copyFrom(RequirementIteration toCopyFrom) {
 		this.name = toCopyFrom.name;
 		this.estimate = toCopyFrom.estimate;
 	}
 
-	public static Iteration[] fromJsonArray(String body) {
-		// TODO Auto-generated method stub
-		return null;
+	public static RequirementIteration[] fromJsonArray(String body) {
+		final Gson parser = new Gson();
+		return parser.fromJson(body, RequirementIteration[].class);
 	}
 
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Gson().toJson(this, RequirementIteration.class);
 	}
 
-	public static Iteration fromJson(
-			String body) {
-		// TODO Auto-generated method stub
-		return null;
+	public static RequirementIteration fromJson(String body) {
+		final Gson parser = new Gson();
+		RequirementIteration test = parser.fromJson(body, RequirementIteration.class);
+		
+		if(test == null)
+		{
+			System.out.println("Test was null");
+			
+			return new RequirementIteration(0,"Backlog");
+		}
+		
+		return test;
 	}
 	
 	@Override

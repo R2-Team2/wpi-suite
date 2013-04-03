@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
 
 /**
@@ -88,7 +90,7 @@ public class Requirement extends AbstractModel {
 		estimate = actualEffort = 0;
 		activeStatus = true;
 		history = new TransactionHistory();
-		iteration = null;
+		iteration = "Backlog";
 		type = RequirementType.BLANK;
 		notes = new ArrayList<Note>();
 		tasks = new ArrayList<DevelopmentTask>();
@@ -289,7 +291,11 @@ public class Requirement extends AbstractModel {
 	 *            the estimate to set
 	 */
 	public void setEstimate(int estimate) {
+		int diff = estimate - this.estimate;
 		this.estimate = estimate;
+		
+		RequirementIteration iter = IterationModel.getInstance().getIteration(iteration);
+		iter.setEstimate(iter.getEstimate() + diff);		
 	}
 
 	/**
@@ -566,8 +572,8 @@ public class Requirement extends AbstractModel {
 	public void setIteration(String newIterationName, boolean created) {
 		String curIter = this.iteration;
 
-		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
-		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
+		RequirementIteration oldIteration = IterationModel.getInstance().getIteration(curIter);
+		RequirementIteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
 		//create the transaction history.
 		if(!this.iteration.equals(newIterationName) && !created)
@@ -578,9 +584,13 @@ public class Requirement extends AbstractModel {
 		}
 		
 		//update estimates as needed
-		if(!this.iteration.equals(newIterationName))
+		if(!this.iteration.equals(newIterationName) && !created)
 		{
 			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
+			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
+		}
+		else if(created)
+		{
 			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		}
 		

@@ -3,8 +3,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.IterationModel;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -59,7 +60,7 @@ public class GetIterationController implements ActionListener {
 	public void retrieveIterations() {
 		final Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
-		//request.send(); // send the request
+		request.send(); // send the request
 	}
 
 	/**
@@ -68,10 +69,7 @@ public class GetIterationController implements ActionListener {
 	 * 
 	 * @param an array of Iterations received from the server
 	 */
-	public void receivedIterations(Iteration[] Iterations) {
-		// Empty the local model to eliminate duplications
-		IterationModel.getInstance().emptyModel();
-		
+	public void receivedIterations(RequirementIteration[] Iterations) {
 		// Make sure the response was not null
 		if (Iterations != null) 
 		{	

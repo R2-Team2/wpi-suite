@@ -2,7 +2,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
 
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -44,11 +44,11 @@ public class UpdateIterationController{
 	 * This method updates a Iteration to the server.
 	 * @param newIteration is the Iteration to be updated to the server.
 	 */
-	public void updateIteration(Iteration newIteration) 
+	public void updateIteration(RequirementIteration newIteration) 
 	{
 		Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.POST); // POST == update
 		request.setBody(newIteration.toJSON()); // put the new Iteration in the body of the request
 		request.addObserver(observer); // add an observer to process the response
-		//request.send(); 
+		request.send(); 
 	}
 }

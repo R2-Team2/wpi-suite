@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
+package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations;
 
 import java.util.Date;
 import java.util.List;
@@ -14,14 +14,13 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 
 /**
  * This is the entity manager for the Iteration in the
  * IterationManager module.
  *
  */
-public class IterationEntityManager implements EntityManager<Iteration> {
+public class IterationEntityManager implements EntityManager<RequirementIteration> {
 
 	/** The database */
 	Data db;
@@ -44,8 +43,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Iteration makeEntity(Session s, String content) throws WPISuiteException {
-		final Iteration newIteration = Iteration.fromJson(content);
+	public RequirementIteration makeEntity(Session s, String content) throws WPISuiteException {
+		final RequirementIteration newIteration = RequirementIteration.fromJson(content);
+		System.out.println(s.getProject());
 		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -59,14 +59,14 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @return the Iteration matching the given id
 	 */
 	@Override
-	public Iteration[] getEntity(Session s, String id) throws NotFoundException {
+	public RequirementIteration[] getEntity(Session s, String id) throws NotFoundException {
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
 			throw new NotFoundException();
 		}
-		Iteration[] Iterations = null;
+		RequirementIteration[] Iterations = null;
 		try {
-			Iterations = db.retrieve(Iteration.class, "id", intId, s.getProject()).toArray(new Iteration[0]);
+			Iterations = db.retrieve(RequirementIteration.class, "id", intId, s.getProject()).toArray(new RequirementIteration[0]);
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
@@ -82,8 +82,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @return array of all stored Iterations
 	 */
 	@Override
-	public Iteration[] getAll(Session s) {
-		return db.retrieveAll(new Iteration(), s.getProject()).toArray(new Iteration[0]);
+	public RequirementIteration[] getAll(Session s) {
+		return db.retrieveAll(new RequirementIteration(), s.getProject()).toArray(new RequirementIteration[0]);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @param model the model to be saved
 	 */
 	@Override
-	public void save(Session s, Iteration model) {
+	public void save(Session s, RequirementIteration model) {
 		db.save(model, s.getProject());
 	}
 	
@@ -128,7 +128,7 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Iteration(), s.getProject());
+		db.deleteAll(new RequirementIteration(), s.getProject());
 	}
 	
 	/**
@@ -137,24 +137,24 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
-		return db.retrieveAll(new Iteration()).size();
+		return db.retrieveAll(new RequirementIteration()).size();
 	}
 
 	@Override
-	public Iteration update(Session session, String content) throws WPISuiteException {
+	public RequirementIteration update(Session session, String content) throws WPISuiteException {
 		
-		Iteration updatedIteration = Iteration.fromJson(content);
+		RequirementIteration updatedIteration = RequirementIteration.fromJson(content);
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
 		 * We have to get the original defect from db4o, copy properties from updatedDefect,
 		 * then save the original defect again.
 		 */
-		List<Model> oldIterations = db.retrieve(Iteration.class, "id", updatedIteration.getId(), session.getProject());
+		List<Model> oldIterations = db.retrieve(RequirementIteration.class, "id", updatedIteration.getId(), session.getProject());
 		if(oldIterations.size() < 1 || oldIterations.get(0) == null) {
 			throw new BadRequestException("Iteration with ID does not exist.");
 		}
 				
-		Iteration existingIteration = (Iteration)oldIterations.get(0);		
+		RequirementIteration existingIteration = (RequirementIteration)oldIterations.get(0);		
 
 		// copy values to old Iteration and fill in our changeset appropriately
 		existingIteration.copyFrom(updatedIteration);
