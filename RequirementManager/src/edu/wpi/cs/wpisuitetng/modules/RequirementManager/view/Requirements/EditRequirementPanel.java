@@ -48,7 +48,8 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	public EditRequirementPanel(Requirement req) {
 		super();
-		
+
+		requirementBeingEdited = req;
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -92,7 +93,6 @@ public class EditRequirementPanel extends RequirementPanel
 
 		this.setViewportView(contentPanel);
 		
-		requirementBeingEdited = req;
 		fillFieldsForRequirement();
 	}
 	
@@ -367,9 +367,7 @@ public class EditRequirementPanel extends RequirementPanel
 		c.anchor = GridBagConstraints.WEST;
 		panel.add(bottomPanel,c);
 		
-		NoteList list = new NoteList();
-		list.add("Test message");
-		scroll.setViewportView(NotePanel.createList(list));
+		scroll.setViewportView(NotePanel.createList(this.requirementBeingEdited.getNotes()));
 		
 		buttonAddNote.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
