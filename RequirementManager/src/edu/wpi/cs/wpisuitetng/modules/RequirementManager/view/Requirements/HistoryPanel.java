@@ -94,7 +94,7 @@ public class HistoryPanel extends JPanel {
 			// extract time stamp of this transaction 
 			thisTimeStamp = thisTransaction.getTS();
 			
-			//store the next index
+			// store the next index
 			int nextIndex = historyIterator.nextIndex();
 			
 			// if this is the first transaction, store a new user and time stamp for display
@@ -120,11 +120,10 @@ public class HistoryPanel extends JPanel {
 			// transactions and store a new user and time stamp for display in next panel
 			else {				
 				if (!(thisTimeStamp == lastTimeStamp)) {
-					// create a new panel using newPanelString for user & date
-					// and CREATED REQUIREMENT message of the transaction
-					//Create a new NotePanel for each Note and add it to the panel
+					// Create a new HistoryPanel for the transactions and add it to the panel
 					panel.add(new HistoryPanel(UserTime, transactionMsgs), c);
-					c.gridy++; //Next Row
+					// Next Row
+					c.gridy++; 
 					
 					// set transaction string combination
 					transactionMsgs = thisTransaction.getMessage();
@@ -148,10 +147,17 @@ public class HistoryPanel extends JPanel {
 				// extract this transaction's message
 				thisMessage = thisTransaction.getMessage();
 				
-				//append
+				// append
 				transactionMsgs = transactionMsgs + "\n" + thisMessage;
 			}
 						
+			if (!(historyIterator.hasNext())) {
+				// Create a new HistoryPanel for the transactions and add it to the panel
+				panel.add(new HistoryPanel(UserTime, transactionMsgs), c);
+				// Next Row
+				c.gridy++; 
+			}
+			
 			// store current time stamp for comparison during next iteration 
 			lastTimeStamp = thisTimeStamp;
 		}		
