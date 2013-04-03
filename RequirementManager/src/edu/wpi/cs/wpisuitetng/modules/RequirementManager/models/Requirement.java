@@ -562,19 +562,19 @@ public class Requirement extends AbstractModel {
 	 *            created and stores a transaction in the history
 	 */
 	public void setIteration(Iteration newIteration, boolean created) {
-		if (this.iteration == null)
+		if (this.iteration == null) {
 			this.iteration = newIteration;
-//		if (this.iteration.getName().contains("iteration")){
-//			
-//		}
-			if (!this.iteration.equals(newIteration) && !created) {
-				String originalIteration = this.iteration.toString();
-				String newIterationString = newIteration.toString();
-				String message = ("Moved " + this.name + " from "
-						+ originalIteration + " to " + newIterationString);
-				this.history.add(message);
+			this.iteration.setEstimate(this.iteration.getEstimate() + estimate);
+		}
+		if (!this.iteration.equals(newIteration) && !created) {
+			this.iteration.setEstimate(this.iteration.getEstimate() - estimate);
+			newIteration.setEstimate(newIteration.getEstimate() + estimate);
+			String originalIteration = this.iteration.toString();
+			String newIterationString = newIteration.toString();
+			String message = ("Moved " + this.name + " from "
+					+ originalIteration + " to " + newIterationString);
+			this.history.add(message);
 			}
-
 		this.iteration = newIteration;
 	}
 
@@ -632,7 +632,7 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param a
 	 *            string containing a JSON-encoded array of Requirement
-	 * @return an array of Requirement deserialzied from the given JSON string
+	 * @return an array of Requirement deserialized from the given JSON string
 	 */
 	public static Requirement[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
