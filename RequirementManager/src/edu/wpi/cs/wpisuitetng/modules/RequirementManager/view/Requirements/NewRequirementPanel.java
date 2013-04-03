@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,6 +15,7 @@ import javax.swing.SpringLayout;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -129,7 +131,7 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementType type;
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		
-		Iteration iteration = new Iteration(stringIteration);
+		Iteration iteration = new Iteration(IterationModel.getInstance().getNextID(), stringIteration);
 		
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();

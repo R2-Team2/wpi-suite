@@ -50,7 +50,7 @@ public class GetIterationRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		Iteration[] errorIteration = { new Iteration("Error") };
+		Iteration[] errorIteration = { new Iteration(-1, "Error") };
 		controller.receivedIterations(errorIteration);
 	}
 
