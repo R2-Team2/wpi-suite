@@ -74,7 +74,6 @@ public class NewRequirementPanel extends RequirementPanel
 		JButton buttonClear = new JButton("Clear");
 		
 		// Construct the add requirement controller and add it to the update button
-		//
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{				

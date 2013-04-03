@@ -32,7 +32,7 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	/**
 	 * Constructor for a new requirement panel
-	 * @param reqModel Local requirement model for containing data
+	 * @param req	Model Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -237,7 +237,7 @@ public class EditRequirementPanel extends RequirementPanel
 	}
 	
 	/**
-	 * Deletes the requirement.  Sets all fields uneditable, sets status to deleted and 
+	 * Deletes the requirement.  Sets all fields uneditable, sets status to deleted and closes the tab.
 	 */
 	private void deleteRequirement()
 	{

@@ -93,6 +93,9 @@ public class OverviewTable extends JTable
 	
 	/**
 	 * Overrides the isCellEditable method to ensure no cells are editable.
+	 * 
+	 * @param row	row of OverviewTable cell is located
+	 * @param col	column of OverviewTable cell is located
 	 */
 	@Override
 	public boolean isCellEditable(int row, int col)
@@ -103,6 +106,8 @@ public class OverviewTable extends JTable
 	
 	/**
 	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 * 
+	 * @param g	The component object to paint
 	 */
 	@Override
 	public void paintComponent(Graphics g)
@@ -125,6 +130,10 @@ public class OverviewTable extends JTable
 	
 	/**
 	 * Overrides the table cell renderer to set the background of deleted requirements to grey.
+	 * 
+	 * @param renderer	Prepares the table renderer
+	 * @param row	Determining row to be edited
+	 * @param col	Determining column to be edited
 	 */
 	@Override
 	public Component prepareRenderer(TableCellRenderer renderer, int row, int col)
