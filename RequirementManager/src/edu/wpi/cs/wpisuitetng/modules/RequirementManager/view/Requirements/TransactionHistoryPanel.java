@@ -6,6 +6,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,6 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
 public class TransactionHistoryPanel extends JScrollPane {
 
@@ -58,30 +65,4 @@ public class TransactionHistoryPanel extends JScrollPane {
 		
 		this.setViewportView(historyPanel);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	 * -need a function that will run through the list of transactions
-	 * ----put together
-	 * ----compile into string to text
-	 * ----create a new JPanel and add text to it
-	 * ----  .add(/the new panel/)
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	
-	
-	
-	
-	
-
 }

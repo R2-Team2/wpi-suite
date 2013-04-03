@@ -22,11 +22,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 
 public class HistoryPanel extends JPanel {
 
-	public HistoryPanel(Transaction transaction) {
+	public HistoryPanel(String userNtime, String transactionMsgs) {
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.black)); //Set note border
-		
-		JTextArea message = new JTextArea(transaction.getMessage());
+			
+		JTextArea message = new JTextArea(transactionMsgs);
 		message.setEditable(false);
 		// Give the message a black border with 2px padding inside
 		Border b = BorderFactory.createCompoundBorder(
@@ -34,13 +34,7 @@ public class HistoryPanel extends JPanel {
 	            BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		message.setBorder(b);
 
-		String user = transaction.getUser();
-		
-		Date date = new Date(transaction.getTS());
-		Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
-		String transactionDate = format.format(date).toString();
-		
-		JLabel transactionInfo = new JLabel(user + " on " + transactionDate);
+		JLabel transactionInfo = new JLabel(userNtime);
 		
 		// SpringLayout noteLayout = new SpringLayout();
 		this.setLayout(new GridBagLayout());
@@ -51,7 +45,7 @@ public class HistoryPanel extends JPanel {
 		noteConstraints.weightx = 1; //Fill the width
 		noteConstraints.insets = new Insets(2,2,2,2); //2px margin
 		this.add(message, noteConstraints);
-		
+	
 		noteConstraints.anchor = GridBagConstraints.SOUTHEAST;
 		noteConstraints.fill = GridBagConstraints.NONE;
 		noteConstraints.gridy = 1; //Row 2
@@ -72,13 +66,95 @@ public class HistoryPanel extends JPanel {
 		c.gridy = 0; //Row 0
 		c.insets = new Insets(5,5,5,5);
 		
-		ListIterator<Transaction> itt = list.getIterator(0);
-		while(itt.hasNext())
-		{
-			//Create a new NotePanel for each Note and add it to the panel
-			panel.add(new HistoryPanel(itt.next()),c);
-			c.gridy++; //Next Row
-		}
+		// create iterator for transaction history
+		ListIterator<Transaction> historyIterator = list.getIterator(0);
+		
+		// initialize thisTimeStamp, lastTimeStamp and thisDateTime
+		long thisTimeStamp;
+		long lastTimeStamp = 0;
+		String thisDateTime;
+		
+		// initialize thisMessage and transactionMsgs
+		String thisMessage;
+		String transactionMsgs = "";
+		
+		// initialize thisUser and UserTime
+		String thisUser;
+		String UserTime = "";
+		
+		// initialize date and format
+		Date date;
+		Format format;
+		
+		// iterate through the transaction history of the requirement
+		while(historyIterator.hasNext()) {
+			// extract the next transaction
+			Transaction thisTransaction = historyIterator.next();
+			
+			// extract time stamp of this transaction 
+			thisTimeStamp = thisTransaction.getTS();
+			
+			//store the next index
+			int nextIndex = historyIterator.nextIndex();
+			
+			// if this is the first transaction, store a new user and time stamp for display
+			if (nextIndex == 1) {
+				// convert the time stamp to date and time
+				date = new Date(thisTimeStamp);
+			    format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm aaa");
+			    thisDateTime = format.format(date).toString();
+			    
+			    // extract user
+			    thisUser = thisTransaction.getUser();
+			    
+			    // combine user and date&time into single string
+				UserTime = (thisUser + " on " + thisDateTime);		
+				
+				// extract this transaction's message
+				transactionMsgs = thisTransaction.getMessage();				
+			}
+			
+			// if this is not the first transaction, and
+			// if the time stamp of this transaction does not match the time stamp of
+			// the last transaction, create a new history panel for the last set of 
+			// transactions and store a new user and time stamp for display in next panel
+			else {				
+				if (!(thisTimeStamp == lastTimeStamp)) {
+					// create a new panel using newPanelString for user & date
+					// and CREATED REQUIREMENT message of the transaction
+					//Create a new NotePanel for each Note and add it to the panel
+					panel.add(new HistoryPanel(UserTime, transactionMsgs), c);
+					c.gridy++; //Next Row
+					
+					// set transaction string combination
+					transactionMsgs = thisTransaction.getMessage();
+					
+					// convert the time stamp to date and time
+					date = new Date(thisTimeStamp);
+				    format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm aaa"));
+				    thisDateTime = format.format(date).toString();
+				    
+				    // extract user
+				    thisUser = thisTransaction.getUser();
+				    
+				    // combine user and date&time into single string
+					UserTime = (thisUser + " on " + thisDateTime);					
+				}			
+			}	
+			
+			// append this transaction's message to the transaction string combination
+			// with a line break first if there is a new addition 
+			if (thisTimeStamp == lastTimeStamp) {				
+				// extract this transaction's message
+				thisMessage = thisTransaction.getMessage();
+				
+				//append
+				transactionMsgs = transactionMsgs + "\n" + thisMessage;
+			}
+						
+			// store current time stamp for comparison during next iteration 
+			lastTimeStamp = thisTimeStamp;
+		}		
 		
 		//Create a dummy panel to take up space at the bottom
 		c.weighty = 1;
