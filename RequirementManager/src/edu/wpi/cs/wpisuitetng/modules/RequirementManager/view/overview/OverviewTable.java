@@ -118,7 +118,7 @@ public class OverviewTable extends JTable
 			try 
 			{
 				GetRequirementsController.getInstance().retrieveRequirements();
-				//GetIterationController.getInstance().retrieveIterations();
+				GetIterationController.getInstance().retrieveIterations();
 				initialized = true;
 			}
 			catch (Exception e)
