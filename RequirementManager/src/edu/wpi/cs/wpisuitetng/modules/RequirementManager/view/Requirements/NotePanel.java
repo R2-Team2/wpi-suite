@@ -79,9 +79,6 @@ public class NotePanel extends JPanel {
 		{
 			panel.add(new NotePanel(itt.next()),c);
 		}
-		c.weightx = 1;
-		c.weighty = 1;
-		panel.add(new JPanel(),c);
 		
 		return panel;
 	}

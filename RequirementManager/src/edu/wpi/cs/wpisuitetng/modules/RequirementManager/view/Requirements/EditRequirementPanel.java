@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -326,9 +327,18 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private JPanel buildNotePanel()
 	{
+		JButton buttonAddNote = new JButton("Add Note");
+		JButton buttonClear = new JButton("Clear");
+		final JTextArea noteMessage = new JTextArea();
+		final JLabel errorMsg = new JLabel();
+		
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
+		
+		GridBagLayout bottomLayout = new GridBagLayout();
+		JPanel bottomPanel = new JPanel(bottomLayout);
+		GridBagConstraints bc = new GridBagConstraints();
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -340,18 +350,54 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		c.gridy = 1; // Row 1
 		c.weighty = 0.2; // Fill 20% of vertical space
-		panel.add(new JTextArea(),c);
+		panel.add(noteMessage,c);
 		
+		bc.anchor = GridBagConstraints.WEST;
+		bottomPanel.add(buttonAddNote, bc);
+		
+		bc.gridx = 1;
+		bottomPanel.add(buttonClear, bc);
+		
+		bc.gridx = 2;
+		bottomPanel.add(errorMsg, bc);
 		
 		c.weighty = 0; // Do not stretch
 		c.gridy = 2; // Row 2
 		c.fill = GridBagConstraints.NONE; // Do not fill cell
-		panel.add(new JButton("Add Note"),c);
+		c.anchor = GridBagConstraints.WEST;
+		panel.add(bottomPanel,c);
 		
 		NoteList list = new NoteList();
 		list.add("Test message");
 		scroll.setViewportView(NotePanel.createList(list));
 		
+		buttonAddNote.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				if(noteMessage.getText().length() <= 0) 
+				{
+					errorMsg.setText("Error: Must add text to create note.");
+				}
+				else
+				{
+					errorMsg.setText("");
+					String msg = noteMessage.getText();
+					requirementBeingEdited.getNotes().add(msg);
+				}
+			}
+		});
+		
+		buttonClear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				noteMessage.setText("");
+			}
+		});
+		/*
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().removeTab(this);
+		*/
 		return panel;
 	}
 	
