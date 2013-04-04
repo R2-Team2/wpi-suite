@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * IterationManager module.
  *
  */
-public class IterationEntityManager implements EntityManager<RequirementIteration> {
+public class IterationEntityManager implements EntityManager<Iteration> {
 
 	/** The database */
 	Data db;
@@ -42,8 +42,8 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public RequirementIteration makeEntity(Session s, String content) throws WPISuiteException {
-		final RequirementIteration newIteration = RequirementIteration.fromJson(content);
+	public Iteration makeEntity(Session s, String content) throws WPISuiteException {
+		final Iteration newIteration = Iteration.fromJson(content);
 		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -57,14 +57,14 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	 * @return the Iteration matching the given id
 	 */
 	@Override
-	public RequirementIteration[] getEntity(Session s, String id) throws NotFoundException {
+	public Iteration[] getEntity(Session s, String id) throws NotFoundException {
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
 			throw new NotFoundException();
 		}
-		RequirementIteration[] Iterations = null;
+		Iteration[] Iterations = null;
 		try {
-			Iterations = db.retrieve(RequirementIteration.class, "id", intId, s.getProject()).toArray(new RequirementIteration[0]);
+			Iterations = db.retrieve(Iteration.class, "id", intId, s.getProject()).toArray(new Iteration[0]);
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
@@ -80,8 +80,8 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	 * @return array of all stored Iterations
 	 */
 	@Override
-	public RequirementIteration[] getAll(Session s) {
-		return db.retrieveAll(new RequirementIteration(), s.getProject()).toArray(new RequirementIteration[0]);
+	public Iteration[] getAll(Session s) {
+		return db.retrieveAll(new Iteration(), s.getProject()).toArray(new Iteration[0]);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	 * @param model the model to be saved
 	 */
 	@Override
-	public void save(Session s, RequirementIteration model) {
+	public void save(Session s, Iteration model) {
 		db.save(model, s.getProject());
 	}
 	
@@ -126,7 +126,7 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new RequirementIteration(), s.getProject());
+		db.deleteAll(new Iteration(), s.getProject());
 	}
 	
 	/**
@@ -135,24 +135,24 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
-		return db.retrieveAll(new RequirementIteration()).size();
+		return db.retrieveAll(new Iteration()).size();
 	}
 
 	@Override
-	public RequirementIteration update(Session session, String content) throws WPISuiteException {
+	public Iteration update(Session session, String content) throws WPISuiteException {
 		
-		RequirementIteration updatedIteration = RequirementIteration.fromJson(content);
+		Iteration updatedIteration = Iteration.fromJson(content);
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
 		 * We have to get the original defect from db4o, copy properties from updatedDefect,
 		 * then save the original defect again.
 		 */
-		List<Model> oldIterations = db.retrieve(RequirementIteration.class, "id", updatedIteration.getId(), session.getProject());
+		List<Model> oldIterations = db.retrieve(Iteration.class, "id", updatedIteration.getId(), session.getProject());
 		if(oldIterations.size() < 1 || oldIterations.get(0) == null) {
 			throw new BadRequestException("Iteration with ID does not exist.");
 		}
 				
-		RequirementIteration existingIteration = (RequirementIteration)oldIterations.get(0);		
+		Iteration existingIteration = (Iteration)oldIterations.get(0);		
 
 		// copy values to old Iteration and fill in our changeset appropriately
 		existingIteration.copyFrom(updatedIteration);

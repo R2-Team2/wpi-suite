@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewTable;

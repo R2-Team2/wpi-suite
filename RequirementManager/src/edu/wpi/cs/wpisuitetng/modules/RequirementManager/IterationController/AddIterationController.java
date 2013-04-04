@@ -5,7 +5,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 
 /**
  * This controller responds when the user clicks the Update button by
@@ -44,7 +44,7 @@ public class AddIterationController{
 	 * This method adds a Iteration to the server.
 	 * @param newIteration is the Iteration to be added to the server.
 	 */
-	public void addIteration(RequirementIteration newIteration) 
+	public void addIteration(Iteration newIteration) 
 	{
 		final Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.PUT); // PUT == create
 		request.setBody(newIteration.toJSON()); // put the new Iteration in the body of the request		

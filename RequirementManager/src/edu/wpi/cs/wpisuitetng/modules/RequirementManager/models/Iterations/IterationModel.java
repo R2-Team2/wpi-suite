@@ -21,11 +21,11 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * The list in which all the Iterations for a single project are contained
 	 */
-	private ArrayList<RequirementIteration> listOfIterations;
+	private ArrayList<Iteration> listOfIterations;
 	private int nextID; // the next available ID number for the Iterations that
 						// are added.
 	
-	private RequirementIteration backlog;
+	private Iteration backlog;
 
 	// the static object to allow the Iteration model to be
 	private static IterationModel instance;
@@ -35,7 +35,7 @@ public class IterationModel extends AbstractListModel {
 	 */
 	private IterationModel() {
 		backlog = null;
-		listOfIterations = new ArrayList<RequirementIteration>();
+		listOfIterations = new ArrayList<Iteration>();
 		nextID = 0;
 	}
 
@@ -56,7 +56,7 @@ public class IterationModel extends AbstractListModel {
 	 * @param newReq The Iteration to be added to the list of Iterations in the
 	 *        project
 	 */
-	private void addIteration(RequirementIteration newIter) {
+	private void addIteration(Iteration newIter) {
 		// add the Iteration
 		listOfIterations.add(newIter);
 		try {
@@ -117,7 +117,7 @@ public class IterationModel extends AbstractListModel {
 	 *            The index of the Iteration to be returned
 	 * @return the Iteration associated with the provided index
 	 */
-	public RequirementIteration getElementAt(int index) {
+	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
 	}
 
@@ -130,7 +130,7 @@ public class IterationModel extends AbstractListModel {
 	 */
 	public void emptyModel() {
 		int oldSize = getSize();
-		Iterator<RequirementIteration> iterator = listOfIterations.iterator();
+		Iterator<Iteration> iterator = listOfIterations.iterator();
 		while (iterator.hasNext()) {
 			iterator.next();
 			iterator.remove();
@@ -145,7 +145,7 @@ public class IterationModel extends AbstractListModel {
 	 * @param Iterations
 	 *            the array of Iterations to add
 	 */
-	public void addIterations(RequirementIteration[] Iterations) {
+	public void addIterations(Iteration[] Iterations) {
 		System.out.println("Got iterations.." + Iterations.length);
 		for (int i = 0; i < Iterations.length; i++) {
 			if(Iterations[i].getName().equals("Backlog")) backlog = Iterations[i];
@@ -155,7 +155,7 @@ public class IterationModel extends AbstractListModel {
 		
 		if(backlog == null)
 		{
-			backlog = new RequirementIteration(getNextID(), "Backlog");
+			backlog = new Iteration(getNextID(), "Backlog");
 			addIteration(backlog);
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
@@ -166,7 +166,7 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	 * @return the Iterations held within the Iterationmodel.
 	 */
-	public List<RequirementIteration> getIterations() {
+	public List<Iteration> getIterations() {
 		return listOfIterations;
 	}
 	
@@ -175,16 +175,16 @@ public class IterationModel extends AbstractListModel {
 	 * @param the name of the iteration
 	 * @return the iteration
 	 */
-	public RequirementIteration getIteration(String forName)
+	public Iteration getIteration(String forName)
 	{
 		if(forName == null) return backlog;
 		if(forName.equals("") || forName.equals("Backlog")) return backlog;
-		for(RequirementIteration iter : listOfIterations)
+		for(Iteration iter : listOfIterations)
 		{
 			if(iter.getName().equals(forName)) return iter;
 		}
 		
-		RequirementIteration newIteration = new RequirementIteration(getNextID(), forName);
+		Iteration newIteration = new Iteration(getNextID(), forName);
 		
 		addIteration(newIteration);
 

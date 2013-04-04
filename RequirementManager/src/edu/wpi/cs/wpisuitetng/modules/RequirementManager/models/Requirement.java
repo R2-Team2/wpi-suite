@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
 
 /**
@@ -294,7 +294,7 @@ public class Requirement extends AbstractModel {
 		int diff = estimate - this.estimate;
 		this.estimate = estimate;
 		
-		RequirementIteration iter = IterationModel.getInstance().getIteration(iteration);
+		Iteration iter = IterationModel.getInstance().getIteration(iteration);
 		iter.setEstimate(iter.getEstimate() + diff);		
 	}
 
@@ -572,8 +572,8 @@ public class Requirement extends AbstractModel {
 	public void setIteration(String newIterationName, boolean created) {
 		String curIter = this.iteration;
 
-		RequirementIteration oldIteration = IterationModel.getInstance().getIteration(curIter);
-		RequirementIteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
+		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
+		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
 		//create the transaction history.
 		if(!this.iteration.equals(newIterationName) && !created)

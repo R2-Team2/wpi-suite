@@ -1,7 +1,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -29,7 +29,7 @@ public class GetIterationRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Convert the JSON array of Iterations to a Iteration object array
-		RequirementIteration[] Iterations = RequirementIteration.fromJsonArray(iReq.getResponse().getBody());
+		Iteration[] Iterations = Iteration.fromJsonArray(iReq.getResponse().getBody());
 		
 		// Pass these Iterations to the controller
 		controller.receivedIterations(Iterations);
@@ -50,7 +50,7 @@ public class GetIterationRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		RequirementIteration[] errorIteration = { new RequirementIteration(-1, "Error") };
+		Iteration[] errorIteration = { new Iteration(-1, "Error") };
 		controller.receivedIterations(errorIteration);
 	}
 

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -69,7 +69,7 @@ public class GetIterationController implements ActionListener {
 	 * 
 	 * @param an array of Iterations received from the server
 	 */
-	public void receivedIterations(RequirementIteration[] Iterations) {
+	public void receivedIterations(Iteration[] Iterations) {
 		// Make sure the response was not null
 		if (Iterations != null) 
 		{	

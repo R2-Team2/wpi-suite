@@ -11,7 +11,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
  * 
  * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish
  */
-public class RequirementIteration extends AbstractModel {
+public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
 	private int id; // TODO: move ID stuff to server side? (copied from requirement impl.)
 	
@@ -21,7 +21,7 @@ public class RequirementIteration extends AbstractModel {
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
 
-	public RequirementIteration(){}
+	public Iteration(){}
 	
 	/**
 	 * Construct an Iteration with required properties provided and others set
@@ -33,7 +33,7 @@ public class RequirementIteration extends AbstractModel {
 	 *            The name of the iteration
 	 * 
 	 */
-	public RequirementIteration(int id, String name) {
+	public Iteration(int id, String name) {
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
@@ -117,7 +117,7 @@ public class RequirementIteration extends AbstractModel {
 	 * @return boolean for equality
 	 */
 	// should this also be extended for the other fields?
-	public boolean equals(RequirementIteration that) {
+	public boolean equals(Iteration that) {
 		if (this.name.equals(that.getName()))
 			return true;
 		else
@@ -130,23 +130,23 @@ public class RequirementIteration extends AbstractModel {
 	 * @param toCopyFrom
 	 *            the iteration to copy from.
 	 */
-	public void copyFrom(RequirementIteration toCopyFrom) {
+	public void copyFrom(Iteration toCopyFrom) {
 		this.name = toCopyFrom.name;
 		this.estimate = toCopyFrom.estimate;
 	}
 
-	public static RequirementIteration[] fromJsonArray(String body) {
+	public static Iteration[] fromJsonArray(String body) {
 		final Gson parser = new Gson();
-		return parser.fromJson(body, RequirementIteration[].class);
+		return parser.fromJson(body, Iteration[].class);
 	}
 
 	public String toJSON() {
-		return new Gson().toJson(this, RequirementIteration.class);
+		return new Gson().toJson(this, Iteration.class);
 	}
 
-	public static RequirementIteration fromJson(String body) {
+	public static Iteration fromJson(String body) {
 		final Gson parser = new Gson();
-		RequirementIteration test = parser.fromJson(body, RequirementIteration.class);
+		Iteration test = parser.fromJson(body, Iteration.class);
 
 		return test;
 	}
