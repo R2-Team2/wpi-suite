@@ -279,11 +279,11 @@ public class EditRequirementPanel extends RequirementPanel
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.weightx = 1; // Fill horizontal space
-		c.weighty = 0.8; // Fill 80% of vertical space
+		c.weighty = 1; // Fill all the vertical space
 		panel.add(scroll,c);
 		
 		c.gridy = 1; // Row 1
-		c.weighty = 0.2; // Fill 20% of vertical space
+		c.weighty = 0; // Fill 0% of vertical space
 		panel.add(noteMessage,c);
 		
 		bc.anchor = GridBagConstraints.WEST;
@@ -328,11 +328,6 @@ public class EditRequirementPanel extends RequirementPanel
 				errorMsg.setText("");
 			}
 		});
-		/*
-		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().removeTab(this);
-		*/
 		return panel;
 	}
 	
@@ -343,10 +338,6 @@ public class EditRequirementPanel extends RequirementPanel
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		GridBagLayout bottomLayout = new GridBagLayout();
-		JPanel bottomPanel = new JPanel(bottomLayout);
-		GridBagConstraints bc = new GridBagConstraints();
-		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -355,18 +346,8 @@ public class EditRequirementPanel extends RequirementPanel
 		c.weighty = 0.8; // Fill 80% of vertical space
 		panel.add(scroll,c);
 		
-		c.weighty = 0; // Do not stretch
-		c.gridy = 2; // Row 2
-		c.fill = GridBagConstraints.NONE; // Do not fill cell
-		c.anchor = GridBagConstraints.WEST;
-		
 		scroll.setViewportView(HistoryPanel.createList(this.requirementBeingEdited.getHistory()));
 
-		/*
-		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().removeTab(this);
-		*/
 		return panel;
 	}
 	
