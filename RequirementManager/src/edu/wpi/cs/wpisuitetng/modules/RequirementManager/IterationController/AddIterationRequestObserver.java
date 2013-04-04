@@ -1,7 +1,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -35,7 +35,7 @@ public class AddIterationRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		// Parse the Iteration out of the response body
-		final RequirementIteration iteration = RequirementIteration.fromJson(response.getBody());		
+		final Iteration iteration = Iteration.fromJson(response.getBody());		
 	}
 
 	/**
