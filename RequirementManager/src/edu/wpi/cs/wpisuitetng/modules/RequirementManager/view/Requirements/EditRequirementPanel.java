@@ -69,6 +69,7 @@ public class EditRequirementPanel extends RequirementPanel
 		c.gridx = 0; // Column 0
 		c.gridy = 0; // Row 0
 		c.weighty = 1; // Row is elastic
+		c.gridheight = 2;
 		contentPanel.add(left,c); //add left panel
 		
 		c.gridx = 1; // Column 1
@@ -76,13 +77,13 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		c.gridx = 2; //Column 2
 		c.weightx = 1; //Column is elastic
+		c.gridheight = 1;
 		c.fill = GridBagConstraints.BOTH; // Stretch contents
 		contentPanel.add(tabs,c); // add tabs
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridy = 1; // Row 1
-		c.gridx = 1; // Column 1
-		c.gridwidth = 2; // Fill the rest of the row
+		c.gridx = 2; // Column 1
 		c.weighty = 0; // Row is not elastic
 		c.weightx = 0; // Column is not elastic
 		c.anchor = GridBagConstraints.LINE_END;
