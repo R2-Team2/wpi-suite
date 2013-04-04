@@ -38,10 +38,10 @@ abstract public class RequirementPanel extends JScrollPane
 	protected JPanel rightPanel;
 	private JComboBox dropdownType;
 	private JComboBox dropdownStatus;
-	protected JRadioButton priorityHigh;
-	protected JRadioButton priorityMedium;
-	protected JRadioButton priorityLow;
-	protected JRadioButton priorityBlank;
+	private JRadioButton priorityHigh;
+	private JRadioButton priorityMedium;
+	private JRadioButton priorityLow;
+	private JRadioButton priorityBlank;
 	private JTextField boxEstimate;
 	protected ButtonGroup group;
 	
@@ -174,25 +174,25 @@ abstract public class RequirementPanel extends JScrollPane
 
 		// Radio buttons
 
-		priorityHigh = new JRadioButton("High");
-		priorityMedium = new JRadioButton("Medium");
-		priorityLow = new JRadioButton("Low");
-		priorityBlank = new JRadioButton("Undecided");
-		priorityBlank.setSelected(true);
+		priorityHigh = (new JRadioButton("High"));
+		priorityMedium = (new JRadioButton("Medium"));
+		priorityLow = (new JRadioButton("Low"));
+		priorityBlank = (new JRadioButton("Undecided"));
+		getPriorityBlank().setSelected(true);
 		
 		group = new ButtonGroup();
-		group.add(priorityBlank);
-		group.add(priorityHigh);
-		group.add(priorityMedium);
-		group.add(priorityLow);
+		group.add(getPriorityBlank());
+		group.add(getPriorityHigh());
+		group.add(getPriorityMedium());
+		group.add(getPriorityLow());
 		
 
 		JPanel priorityPanel = new JPanel();
 		
-		priorityPanel.add(priorityLow);
-		priorityPanel.add(priorityMedium);
-		priorityPanel.add(priorityHigh);
-		priorityPanel.add(priorityBlank);
+		priorityPanel.add(getPriorityLow());
+		priorityPanel.add(getPriorityMedium());
+		priorityPanel.add(getPriorityHigh());
+		priorityPanel.add(getPriorityBlank());
 
 		setBoxEstimate(new JTextField());
 		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
@@ -482,4 +482,23 @@ abstract public class RequirementPanel extends JScrollPane
 	public void setBoxName(JTextField boxName) {
 		this.boxName = boxName;
 	}
+
+	public JRadioButton getPriorityHigh() {
+		return priorityHigh;
+	}
+
+
+
+	public JRadioButton getPriorityMedium() {
+		return priorityMedium;
+	}
+
+	public JRadioButton getPriorityLow() {
+		return priorityLow;
+	}
+
+	public JRadioButton getPriorityBlank() {
+		return priorityBlank;
+	}
+
 }

@@ -65,16 +65,16 @@ public class EditRequirementPanel extends RequirementPanel
 		switch(requirementBeingEdited.getPriority())
 		{
 		case BLANK:
-			priorityBlank.setSelected(true);
+			getPriorityBlank().setSelected(true);
 			break;
 		case LOW:
-			priorityLow.setSelected(true);
+			getPriorityLow().setSelected(true);
 			break;
 		case MEDIUM:
-			priorityMedium.setSelected(true);
+			getPriorityMedium().setSelected(true);
 			break;
 		case HIGH:
-			priorityHigh.setSelected(true);
+			getPriorityHigh().setSelected(true);
 			break;
 		}
 		
@@ -175,9 +175,9 @@ public class EditRequirementPanel extends RequirementPanel
 		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
 		Iteration iteration = new Iteration(stringIteration);
 		// Extract which radio is selected for the priority
-		boolean stateHigh = priorityHigh.isSelected();
-		boolean stateMedium = priorityMedium.isSelected();
-		boolean stateLow = priorityLow.isSelected();
+		boolean stateHigh = getPriorityHigh().isSelected();
+		boolean stateMedium = getPriorityMedium().isSelected();
+		boolean stateLow = getPriorityLow().isSelected();
 
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
