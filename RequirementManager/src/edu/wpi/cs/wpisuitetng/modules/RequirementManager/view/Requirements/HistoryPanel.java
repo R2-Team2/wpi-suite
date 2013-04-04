@@ -69,100 +69,90 @@ public class HistoryPanel extends JPanel {
 		// create iterator for transaction history
 		ListIterator<Transaction> historyIterator = list.getIterator(0);
 		
-		// initialize thisTimeStamp, lastTimeStamp and thisDateTime
-		long thisTimeStamp;
-		long lastTimeStamp = 0;
-		String thisDateTime;
+		// initialize appended message holder and panel creation flag
+		String appendedMessages = "";
+		boolean panelWasCreated = false;
 		
-		// initialize thisMessage and transactionMsgs
-		String thisMessage;
-		String transactionMsgs = "";
-		
-		// initialize thisUser and UserTime
-		String thisUser;
-		String UserTime = "";
-		
-		// initialize date and format
-		Date date;
-		Format format;
+		// set Date and Time format
+		Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
 		
 		// iterate through the transaction history of the requirement
 		while(historyIterator.hasNext()) {
-			// extract the next transaction
-			Transaction thisTransaction = historyIterator.next();
-			
-			// extract time stamp of this transaction 
-			thisTimeStamp = thisTransaction.getTS();
-			
-			// store the next index
-			int nextIndex = historyIterator.nextIndex();
-			
-			// if this is the first transaction, store a new user and time stamp for display
-			if (nextIndex == 1) {
+			// check to see if this is the first transaction by checking to see if 
+			// there is a previous transaction
+			if (!historyIterator.hasPrevious()) {
+				// if this is the first transaction, iterate and extract the transaction
+				Transaction thisTransaction = historyIterator.next();
+				
 				// convert the time stamp to date and time
-				date = new Date(thisTimeStamp);
-			    format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
-			    thisDateTime = format.format(date).toString();
-			    
-			    // extract user
-			    thisUser = thisTransaction.getUser();
+				Date date = new Date(thisTransaction.getTS());
 			    
 			    // combine user and date&time into single string
-				UserTime = (thisUser + " on " + thisDateTime);		
+				String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
 				
-				// extract this transaction's message
-				transactionMsgs = thisTransaction.getMessage();				
-			}
-			
-			// if this is not the first transaction, and
-			// if the time stamp of this transaction does not match the time stamp of
-			// the last transaction, create a new history panel for the last set of 
-			// transactions and store a new user and time stamp for display in next panel
-			else {				
-				if (!(thisTimeStamp == lastTimeStamp)) {
-					// Create a new HistoryPanel for the transactions and add it to the panel
-					panel.add(new HistoryPanel(UserTime, transactionMsgs), c);
-					// Next Row
-					c.gridy++; 
-					
-					// set transaction string combination
-					transactionMsgs = thisTransaction.getMessage();
-					
-					// convert the time stamp to date and time
-					date = new Date(thisTimeStamp);
-				    format = new SimpleDateFormat(("MMMMM d, yyyy 'at' hh:mm:ss aaa"));
-				    thisDateTime = format.format(date).toString();
-				    
-				    // extract user
-				    thisUser = thisTransaction.getUser();
-				    
-				    // combine user and date&time into single string
-					UserTime = (thisUser + " on " + thisDateTime);					
-				}			
-			}	
-			
-			// append this transaction's message to the transaction string combination
-			// with a line break first if there is a new addition 
-			if (thisTimeStamp == lastTimeStamp) {				
-				// extract this transaction's message
-				thisMessage = thisTransaction.getMessage();
-				
-				// append
-				transactionMsgs = transactionMsgs + "\n" + thisMessage;
-			}
-						
-			if (!(historyIterator.hasNext())) {
-				// Create a new HistoryPanel for the transactions and add it to the panel
-				panel.add(new HistoryPanel(UserTime, transactionMsgs), c);
+				// Create a new history panel for the transaction and add it to the panel
+				panel.add(new HistoryPanel(UserTime, thisTransaction.getMessage()), c);
 				// Next Row
 				c.gridy++; 
+				
+				// confirm that a panel was just created
+				panelWasCreated = true;
+			}			
+			// if this is not the first transaction
+			else {
+				// iterate and extract transaction
+				Transaction thisTransaction = historyIterator.next();
+				
+				if (panelWasCreated) {
+					// set appended message holder to the message of this transaction if
+					// a panel was created more recently than a message was last appended
+					appendedMessages = thisTransaction.getMessage();
+					
+					// confirm that a panel was not just created
+					panelWasCreated = false;
+				}				
+				else {
+					// append message of this transaction if a panel was not created more
+					// recently than a message was last appended
+					appendedMessages += ("\n" + thisTransaction.getMessage());
+				}
+				
+				// if there is a subsequent transaction in the transaction history
+				if (historyIterator.hasNext()) {
+					// if this transaction's time stamp is the different from the subsequent
+					// transaction's time stamp 					
+					if (!(thisTransaction.getTS() == list.getItem(historyIterator.nextIndex()).getTS())){
+						// convert the time stamp to date and time
+						Date date = new Date(thisTransaction.getTS());
+					    
+					    // combine user and date&time into single string
+						String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
+						
+						// Create a new history panel for the transaction and add it to the panel
+						panel.add(new HistoryPanel(UserTime, appendedMessages), c);
+						// Next Row
+						c.gridy++; 
+						
+						// confirm that a panel was just created
+						panelWasCreated = true;						
+					}
+				}
+				// if there is no subsequent transaction in the history
+				else {
+					// convert the time stamp to date and time
+					Date date = new Date(thisTransaction.getTS());
+				    
+				    // combine user and date&time into single string
+					String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
+					
+					// Create a new history panel for the transaction and add it to the panel
+					panel.add(new HistoryPanel(UserTime, appendedMessages), c);
+					// Next Row
+					c.gridy++; 
+				}				
 			}
-			
-			// store current time stamp for comparison during next iteration 
-			lastTimeStamp = thisTimeStamp;
-		}		
-		
-		//Create a dummy panel to take up space at the bottom
+		}
+
 		c.weighty = 1;
 		JPanel dummy = new JPanel();
 		dummy.setBackground(Color.WHITE);
