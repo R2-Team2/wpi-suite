@@ -28,26 +28,26 @@ abstract public class RequirementPanel extends JScrollPane
 {
 	protected JPanel contentPanel;
 	protected JPanel leftPanel;
-	protected JTextField boxName;
+	private JTextField boxName;
 	protected JTextField boxReleaseNum;
-	protected JTextArea boxDescription;
-	protected JTextField boxIteration;
+	private JTextArea boxDescription;
+	private JTextField boxIteration;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
 	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
 	protected JPanel rightPanel;
-	protected JComboBox dropdownType;
-	protected JComboBox dropdownStatus;
+	private JComboBox dropdownType;
+	private JComboBox dropdownStatus;
 	protected JRadioButton priorityHigh;
 	protected JRadioButton priorityMedium;
 	protected JRadioButton priorityLow;
 	protected JRadioButton priorityBlank;
-	protected JTextField boxEstimate;
+	private JTextField boxEstimate;
 	protected ButtonGroup group;
 	
-	protected JLabel errorName; 
-	protected JLabel errorDescription;
-	protected JLabel errorEstimate;	
+	private JLabel errorName; 
+	private JLabel errorDescription;
+	private JLabel errorEstimate;	
 	
 	/**
 	 * Builds the left panel.
@@ -61,22 +61,22 @@ abstract public class RequirementPanel extends JScrollPane
 		JLabel labelDescription = new JLabel("Description *");
 		JLabel labelIteration = new JLabel("Iteration");
 		
-		boxName = new JTextField();
-		boxName.setPreferredSize(new Dimension(200, 20));
+		setBoxName(new JTextField());
+		getBoxName().setPreferredSize(new Dimension(200, 20));
 		
 		boxReleaseNum = new JTextField();
 		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
 		
-		boxDescription = new JTextArea();
-		boxDescription.setLineWrap(true);
-		boxDescription.setBorder(defaultBorder);
-		boxDescription.setPreferredSize(new Dimension(200, 200));
+		setBoxDescription(new JTextArea());
+		getBoxDescription().setLineWrap(true);
+		getBoxDescription().setBorder(defaultBorder);
+		getBoxDescription().setPreferredSize(new Dimension(200, 200));
 		
-		boxIteration = new JTextField();
-		boxIteration.setPreferredSize(new Dimension(200, 20));
+		setBoxIteration(new JTextField());
+		getBoxIteration().setPreferredSize(new Dimension(200, 20));
 		
-		errorName = new JLabel();
-		errorDescription = new JLabel();
+		setErrorName(new JLabel());
+		setErrorDescription(new JLabel());
 
 		SpringLayout leftLayout = new SpringLayout();
 
@@ -88,18 +88,18 @@ abstract public class RequirementPanel extends JScrollPane
 		leftLayout.putConstraint(SpringLayout.WEST, labelName, 15,
 				SpringLayout.WEST, leftPanel);
 
-		leftLayout.putConstraint(SpringLayout.NORTH, boxName, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getBoxName(), 15,
 				SpringLayout.SOUTH, labelName);
-		leftLayout.putConstraint(SpringLayout.WEST, boxName, 15, SpringLayout.WEST,
+		leftLayout.putConstraint(SpringLayout.WEST, getBoxName(), 15, SpringLayout.WEST,
 				leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, errorName, 5,
-				SpringLayout.SOUTH, boxName);
-		leftLayout.putConstraint(SpringLayout.WEST, errorName, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getErrorName(), 5,
+				SpringLayout.SOUTH, getBoxName());
+		leftLayout.putConstraint(SpringLayout.WEST, getErrorName(), 15,
 				SpringLayout.WEST, leftPanel);
 		
 		// Release Field
 		leftLayout.putConstraint(SpringLayout.NORTH, labelReleaseNum, 15,
-				SpringLayout.SOUTH, errorName);
+				SpringLayout.SOUTH, getErrorName());
 		leftLayout.putConstraint(SpringLayout.WEST, labelReleaseNum, 15,
 				SpringLayout.WEST, leftPanel);
 		leftLayout.putConstraint(SpringLayout.NORTH, boxReleaseNum, 15,
@@ -113,39 +113,39 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.SOUTH, boxReleaseNum);
 		leftLayout.putConstraint(SpringLayout.WEST, labelDescription, 15,
 				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, boxDescription, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getBoxDescription(), 15,
 				SpringLayout.SOUTH, labelDescription);
-		leftLayout.putConstraint(SpringLayout.WEST, boxDescription, 15,
+		leftLayout.putConstraint(SpringLayout.WEST, getBoxDescription(), 15,
 				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, errorDescription, 5,
-				SpringLayout.SOUTH, boxDescription);
-		leftLayout.putConstraint(SpringLayout.WEST, errorDescription, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getErrorDescription(), 5,
+				SpringLayout.SOUTH, getBoxDescription());
+		leftLayout.putConstraint(SpringLayout.WEST, getErrorDescription(), 15,
 				SpringLayout.WEST, leftPanel);
 		
 		// Iteration Field
 		leftLayout.putConstraint(SpringLayout.NORTH, labelIteration, 15,
-				SpringLayout.SOUTH, errorDescription);
+				SpringLayout.SOUTH, getErrorDescription());
 		leftLayout.putConstraint(SpringLayout.WEST, labelIteration, 15,
 				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, boxIteration, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getBoxIteration(), 15,
 				SpringLayout.SOUTH, labelIteration);
-		leftLayout.putConstraint(SpringLayout.WEST, boxIteration, 15,
+		leftLayout.putConstraint(SpringLayout.WEST, getBoxIteration(), 15,
 				SpringLayout.WEST, leftPanel);
 		
 		
 		leftPanel.add(labelName);
-		leftPanel.add(boxName);
-		leftPanel.add(errorName);
+		leftPanel.add(getBoxName());
+		leftPanel.add(getErrorName());
 		
 		leftPanel.add(labelReleaseNum);
 		leftPanel.add(boxReleaseNum);
 		
 		leftPanel.add(labelDescription);
-		leftPanel.add(boxDescription);
-		leftPanel.add(errorDescription);
+		leftPanel.add(getBoxDescription());
+		leftPanel.add(getErrorDescription());
 		
 		leftPanel.add(labelIteration);
-		leftPanel.add(boxIteration);
+		leftPanel.add(getBoxIteration());
 		
 		leftPanel.setMinimumSize(new Dimension(250,500));
 		leftPanel.setPreferredSize(new Dimension(250,500));
@@ -166,11 +166,11 @@ abstract public class RequirementPanel extends JScrollPane
 		JLabel labelPriority = new JLabel("Priority");
 		JLabel labelEstimate = new JLabel("Estimate");
 
-		dropdownType = new JComboBox(RequirementType.values());
-		dropdownType.setEditable(false);
+		setDropdownType(new JComboBox(RequirementType.values()));
+		getDropdownType().setEditable(false);
 		
-		dropdownStatus = new JComboBox(RequirementStatus.values());
-		dropdownStatus.setEditable(false);
+		setDropdownStatus(new JComboBox(RequirementStatus.values()));
+		getDropdownStatus().setEditable(false);
 
 		// Radio buttons
 
@@ -194,9 +194,9 @@ abstract public class RequirementPanel extends JScrollPane
 		priorityPanel.add(priorityHigh);
 		priorityPanel.add(priorityBlank);
 
-		boxEstimate = new JTextField();
-		boxEstimate.setPreferredSize(new Dimension(200, 20));
-		errorEstimate = new JLabel();
+		setBoxEstimate(new JTextField());
+		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
+		setErrorEstimate(new JLabel());
 		
 		SpringLayout rightLayout = new SpringLayout();
 
@@ -209,24 +209,24 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.NORTH, rightPanel);
 		rightLayout.putConstraint(SpringLayout.WEST, labelType, 15,
 				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, dropdownType, 15,
+		rightLayout.putConstraint(SpringLayout.NORTH, getDropdownType(), 15,
 				SpringLayout.SOUTH, labelType);
-		rightLayout.putConstraint(SpringLayout.WEST, dropdownType, 15,
+		rightLayout.putConstraint(SpringLayout.WEST, getDropdownType(), 15,
 				SpringLayout.WEST, rightPanel);
 		
 		// Status Field
 		rightLayout.putConstraint(SpringLayout.NORTH, labelStatus, 15,
-				SpringLayout.SOUTH, dropdownType);
+				SpringLayout.SOUTH, getDropdownType());
 		rightLayout.putConstraint(SpringLayout.WEST, labelStatus, 15,
 				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, dropdownStatus, 15,
+		rightLayout.putConstraint(SpringLayout.NORTH, getDropdownStatus(), 15,
 				SpringLayout.SOUTH, labelStatus);
-		rightLayout.putConstraint(SpringLayout.WEST, dropdownStatus, 15,
+		rightLayout.putConstraint(SpringLayout.WEST, getDropdownStatus(), 15,
 				SpringLayout.WEST, rightPanel);
 		
 		// Priority Field
 		rightLayout.putConstraint(SpringLayout.NORTH, labelPriority, 15,
-				SpringLayout.SOUTH, dropdownStatus);
+				SpringLayout.SOUTH, getDropdownStatus());
 		rightLayout.putConstraint(SpringLayout.WEST, labelPriority, 15,
 				SpringLayout.WEST, rightPanel);
 		rightLayout.putConstraint(SpringLayout.NORTH, priorityPanel, 15,
@@ -239,24 +239,24 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.SOUTH, priorityPanel);
 		rightLayout.putConstraint(SpringLayout.WEST, labelEstimate, 15,
 				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, boxEstimate, 15,
+		rightLayout.putConstraint(SpringLayout.NORTH, getBoxEstimate(), 15,
 				SpringLayout.SOUTH, labelEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, boxEstimate, 15,
+		rightLayout.putConstraint(SpringLayout.WEST, getBoxEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, errorEstimate, 5,
-				SpringLayout.SOUTH, boxEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, errorEstimate, 15,
+		rightLayout.putConstraint(SpringLayout.NORTH, getErrorEstimate(), 5,
+				SpringLayout.SOUTH, getBoxEstimate());
+		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
 
 		rightPanel.add(labelType);
-		rightPanel.add(dropdownType);
+		rightPanel.add(getDropdownType());
 		rightPanel.add(labelStatus);
-		rightPanel.add(dropdownStatus);
+		rightPanel.add(getDropdownStatus());
 		rightPanel.add(labelPriority);
 		rightPanel.add(priorityPanel);
 		rightPanel.add(labelEstimate);
-		rightPanel.add(boxEstimate);
-		rightPanel.add(errorEstimate);
+		rightPanel.add(getBoxEstimate());
+		rightPanel.add(getErrorEstimate());
 		
 		//restrict size of these elements .
 		rightPanel.setMinimumSize(new Dimension(315,500));
@@ -274,68 +274,68 @@ abstract public class RequirementPanel extends JScrollPane
 		boolean isDescriptionValid;
 		boolean isEstimateValid;
 		
-		if (boxName.getText().length() >= 100)
+		if (getBoxName().getText().length() >= 100)
 		{
 			isNameValid = false;
-			errorName.setText("No more than 100 chars");
-			boxName.setBorder(errorBorder);
-			errorName.setForeground(Color.RED);
+			getErrorName().setText("No more than 100 chars");
+			getBoxName().setBorder(errorBorder);
+			getErrorName().setForeground(Color.RED);
 		}
-		else if(boxName.getText().trim().length() <= 0)
+		else if(getBoxName().getText().trim().length() <= 0)
 		{
 			isNameValid = false;
-			errorName.setText("** Name is REQUIRED");
-			boxName.setBorder(errorBorder);
-			errorName.setForeground(Color.RED);
+			getErrorName().setText("** Name is REQUIRED");
+			getBoxName().setBorder(errorBorder);
+			getErrorName().setForeground(Color.RED);
 		}
 		else
 		{
-			errorName.setText("");
-			boxName.setBorder(defaultBorder);
+			getErrorName().setText("");
+			getBoxName().setBorder(defaultBorder);
 			isNameValid = true;
 			
 		}
-		if (boxDescription.getText().trim().length() <= 0)
+		if (getBoxDescription().getText().trim().length() <= 0)
 		{
 			isDescriptionValid = false;
-			errorDescription.setText("** Description is REQUIRED");
-			errorDescription.setForeground(Color.RED);
-			boxDescription.setBorder(errorBorder);
+			getErrorDescription().setText("** Description is REQUIRED");
+			getErrorDescription().setForeground(Color.RED);
+			getBoxDescription().setBorder(errorBorder);
 		}
 		else
 		{	
-			errorDescription.setText("");
-			boxDescription.setBorder(defaultBorder);
+			getErrorDescription().setText("");
+			getBoxDescription().setBorder(defaultBorder);
 			isDescriptionValid = true;
 		}
 		
-		if (boxEstimate.getText().trim().length() <= 0)
+		if (getBoxEstimate().getText().trim().length() <= 0)
 		{
-			boxEstimate.setText("");
-			errorEstimate.setText("");
-			boxEstimate.setBorder(defaultBorder);
+			getBoxEstimate().setText("");
+			getErrorEstimate().setText("");
+			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
-		else if(!(isInteger(boxEstimate.getText())))
+		else if(!(isInteger(getBoxEstimate().getText())))
 		{
-			errorEstimate.setText("** Please enter a non-negative integer");
-			boxEstimate.setBorder(errorBorder);
-			boxEstimate.setBorder((new JTextField()).getBorder());
+			getErrorEstimate().setText("** Please enter a non-negative integer");
+			getBoxEstimate().setBorder(errorBorder);
+			getBoxEstimate().setBorder((new JTextField()).getBorder());
 
 			isEstimateValid = false;
-			errorEstimate.setForeground(Color.RED);
+			getErrorEstimate().setForeground(Color.RED);
 		}
-		else if(Integer.parseInt(boxEstimate.getText())<0)
+		else if(Integer.parseInt(getBoxEstimate().getText())<0)
 		{
-			errorEstimate.setText("** Please enter a non-negative integer");
-			boxEstimate.setBorder(errorBorder);
+			getErrorEstimate().setText("** Please enter a non-negative integer");
+			getBoxEstimate().setBorder(errorBorder);
 			isEstimateValid = false;
-			errorEstimate.setForeground(Color.RED);
+			getErrorEstimate().setForeground(Color.RED);
 		}
 		else
 		{
-			errorEstimate.setText("");
-			boxEstimate.setBorder(defaultBorder);
+			getErrorEstimate().setText("");
+			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
 		
@@ -355,5 +355,131 @@ abstract public class RequirementPanel extends JScrollPane
 	    catch( Exception e ) {
 	        return false;
 	    }
+	}
+
+	/**
+	 * @return the dropdownStatus
+	 */
+	public JComboBox getDropdownStatus() {
+		return dropdownStatus;
+	}
+
+	/**
+	 * @param dropdownStatus the dropdownStatus to set
+	 */
+	public void setDropdownStatus(JComboBox dropdownStatus) {
+		this.dropdownStatus = dropdownStatus;
+	}
+
+	/**
+	 * @return the dropdownType
+	 */
+	public JComboBox getDropdownType() {
+		return dropdownType;
+	}
+
+	/**
+	 * @param dropdownType the dropdownType to set
+	 */
+	public void setDropdownType(JComboBox dropdownType) {
+		this.dropdownType = dropdownType;
+	}
+
+	/**
+	 * @return the boxEstimate
+	 */
+	public JTextField getBoxEstimate() {
+		return boxEstimate;
+	}
+
+	/**
+	 * @param boxEstimate the boxEstimate to set
+	 */
+	public void setBoxEstimate(JTextField boxEstimate) {
+		this.boxEstimate = boxEstimate;
+	}
+
+	/**
+	 * @return the boxDescription
+	 */
+	public JTextArea getBoxDescription() {
+		return boxDescription;
+	}
+
+	/**
+	 * @param boxDescription the boxDescription to set
+	 */
+	public void setBoxDescription(JTextArea boxDescription) {
+		this.boxDescription = boxDescription;
+	}
+
+	/**
+	 * @return the errorEstimate
+	 */
+	public JLabel getErrorEstimate() {
+		return errorEstimate;
+	}
+
+	/**
+	 * @param errorEstimate the errorEstimate to set
+	 */
+	public void setErrorEstimate(JLabel errorEstimate) {
+		this.errorEstimate = errorEstimate;
+	}
+
+	/**
+	 * @return the errorName
+	 */
+	public JLabel getErrorName() {
+		return errorName;
+	}
+
+	/**
+	 * @param errorName the errorName to set
+	 */
+	public void setErrorName(JLabel errorName) {
+		this.errorName = errorName;
+	}
+
+	/**
+	 * @return the errorDescription
+	 */
+	public JLabel getErrorDescription() {
+		return errorDescription;
+	}
+
+	/**
+	 * @param errorDescription the errorDescription to set
+	 */
+	public void setErrorDescription(JLabel errorDescription) {
+		this.errorDescription = errorDescription;
+	}
+
+	/**
+	 * @return the boxIteration
+	 */
+	public JTextField getBoxIteration() {
+		return boxIteration;
+	}
+
+	/**
+	 * @param boxIteration the boxIteration to set
+	 */
+	public void setBoxIteration(JTextField boxIteration) {
+		this.boxIteration = boxIteration;
+	}
+
+	/**
+	 * @return the boxName
+	 */
+	public JTextField getBoxName() {
+		return boxName;
+	}
+
+	/**
+	 * @param boxName the boxName to set
+	 */
+	public void setBoxName(JTextField boxName) {
+		this.boxName = boxName;
 	}
 }

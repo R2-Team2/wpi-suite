@@ -28,6 +28,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 public class NewRequirementPanel extends RequirementPanel 
 {	
 	
+	private JButton buttonUpdate = new JButton("Create");
+	private JButton buttonCancel = new JButton("Cancel");
+	private JButton buttonClear = new JButton("Clear");
+	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
@@ -52,13 +56,10 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		super.buildRightPanel();
 
-		dropdownStatus.setEnabled(false);
-		boxIteration.setEnabled(false);
+		getDropdownStatus().setEnabled(false);
+		getBoxIteration().setEnabled(false);
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
-		JButton buttonUpdate = new JButton("Create");
-		JButton buttonCancel = new JButton("Cancel");
-		JButton buttonClear = new JButton("Clear");
 		
 		// Construct the add requirement controller and add it to the update button
 		//
@@ -91,7 +92,7 @@ public class NewRequirementPanel extends RequirementPanel
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
 		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, errorEstimate);
+				SpringLayout.SOUTH, getErrorEstimate());
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
 		
@@ -106,11 +107,11 @@ public class NewRequirementPanel extends RequirementPanel
 	private void update()
 	{
 		// Extract the name, release number, and description from the GUI fields
-		String stringName = this.boxName.getText();
+		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
-		String stringDescription = this.boxDescription.getText();
-		String stringIteration = this.boxIteration.getText();
-		String stringEstimate = this.boxEstimate.getText();
+		String stringDescription = this.getBoxDescription().getText();
+		String stringIteration = this.getBoxIteration().getText();
+		String stringEstimate = this.getBoxEstimate().getText();
 		
 		RequirementPriority priority;
 		RequirementStatus status;
@@ -120,8 +121,8 @@ public class NewRequirementPanel extends RequirementPanel
 		Iteration iteration = new Iteration(stringIteration);
 		
 		// Extract the status from the GUI
-		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-		type = (RequirementType)this.dropdownType.getSelectedItem();
+		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
+		type = (RequirementType)this.getDropdownType().getSelectedItem();
 		// Extract which radio is selected for the priority
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
@@ -162,19 +163,19 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	private void clear() 
 	{
-		boxName.setText("");
-		boxDescription.setText("");
+		getBoxName().setText("");
+		getBoxDescription().setText("");
 		this.priorityBlank.setSelected(true);
-		dropdownType.setSelectedItem(RequirementType.BLANK);
+		getDropdownType().setSelectedItem(RequirementType.BLANK);
 		boxReleaseNum.setText("");
-		boxEstimate.setText("");
+		getBoxEstimate().setText("");
 		
-		this.errorEstimate.setText("");
-		boxEstimate.setBorder(defaultBorder);
-		this.errorDescription.setText("");
-		boxDescription.setBorder(defaultBorder);
-		this.errorName.setText("");
-		boxName.setBorder(defaultBorder);
+		this.getErrorEstimate().setText("");
+		getBoxEstimate().setBorder(defaultBorder);
+		this.getErrorDescription().setText("");
+		getBoxDescription().setBorder(defaultBorder);
+		this.getErrorName().setText("");
+		getBoxName().setBorder(defaultBorder);
 		repaint(); //repaint the entire panel.
 	}
 	
@@ -184,5 +185,47 @@ public class NewRequirementPanel extends RequirementPanel
 	private void cancel()
 	{
 		ViewEventController.getInstance().removeTab(this);
+	}
+
+	/**
+	 * @return the buttonUpdate
+	 */
+	public JButton getButtonUpdate() {
+		return buttonUpdate;
+	}
+
+	/**
+	 * @param buttonUpdate the buttonUpdate to set
+	 */
+	public void setButtonUpdate(JButton buttonUpdate) {
+		this.buttonUpdate = buttonUpdate;
+	}
+
+	/**
+	 * @return the buttonCancel
+	 */
+	public JButton getButtonCancel() {
+		return buttonCancel;
+	}
+
+	/**
+	 * @param buttonCancel the buttonCancel to set
+	 */
+	public void setButtonCancel(JButton buttonCancel) {
+		this.buttonCancel = buttonCancel;
+	}
+
+	/**
+	 * @return the buttonClear
+	 */
+	public JButton getButtonClear() {
+		return buttonClear;
+	}
+
+	/**
+	 * @param buttonClear the buttonClear to set
+	 */
+	public void setButtonClear(JButton buttonClear) {
+		this.buttonClear = buttonClear;
 	}
 }

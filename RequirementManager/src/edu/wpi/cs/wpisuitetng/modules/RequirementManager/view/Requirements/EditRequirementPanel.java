@@ -54,13 +54,13 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private void fillFieldsForRequirement()
 	{
-		boxName.setText(requirementBeingEdited.getName());
-		boxDescription.setText(requirementBeingEdited.getDescription());
-		boxEstimate.setText(String.valueOf(requirementBeingEdited.getEstimate()));
+		getBoxName().setText(requirementBeingEdited.getName());
+		getBoxDescription().setText(requirementBeingEdited.getDescription());
+		getBoxEstimate().setText(String.valueOf(requirementBeingEdited.getEstimate()));
 		boxReleaseNum.setText(requirementBeingEdited.getRelease());
-		dropdownStatus.setSelectedItem(requirementBeingEdited.getStatus());
-		dropdownType.setSelectedItem(requirementBeingEdited.getType());
-		boxIteration.setText(requirementBeingEdited.getIteration().toString());
+		getDropdownStatus().setSelectedItem(requirementBeingEdited.getStatus());
+		getDropdownType().setSelectedItem(requirementBeingEdited.getType());
+		getBoxIteration().setText(requirementBeingEdited.getIteration().toString());
 		
 		switch(requirementBeingEdited.getPriority())
 		{
@@ -80,22 +80,22 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS || requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
 		{
-			boxEstimate.setEnabled(false);
+			getBoxEstimate().setEnabled(false);
 		}
 		else
 		{
-			boxEstimate.setEnabled(true);
+			getBoxEstimate().setEnabled(true);
 		}
 		
-		if(!(requirementBeingEdited.getEstimate() > 0)) boxIteration.setEnabled(false);
+		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
 		
 		//reset the error messages.
-		this.errorEstimate.setText("");
-		boxEstimate.setBorder(defaultBorder);
-		this.errorDescription.setText("");
-		boxDescription.setBorder(defaultBorder);
-		this.errorName.setText("");
-		boxName.setBorder(defaultBorder);
+		this.getErrorEstimate().setText("");
+		getBoxEstimate().setBorder(defaultBorder);
+		this.getErrorDescription().setText("");
+		getBoxDescription().setBorder(defaultBorder);
+		this.getErrorName().setText("");
+		getBoxName().setBorder(defaultBorder);
 		
 		repaint();
 	}
@@ -144,7 +144,7 @@ public class EditRequirementPanel extends RequirementPanel
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
 		
 		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, errorEstimate);
+				SpringLayout.SOUTH, getErrorEstimate());
 		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
 				SpringLayout.WEST, rightPanel);
 		
@@ -159,20 +159,20 @@ public class EditRequirementPanel extends RequirementPanel
 	private void update()
 	{
 		// Extract the name, release number, and description from the GUI fields
-		String stringName = this.boxName.getText();
+		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
-		String stringDescription = this.boxDescription.getText();
-		String stringEstimate = this.boxEstimate.getText();
-		String stringIteration = this.boxIteration.getText();
+		String stringDescription = this.getBoxDescription().getText();
+		String stringEstimate = this.getBoxEstimate().getText();
+		String stringIteration = this.getBoxIteration().getText();
 
 
 		RequirementPriority priority;
 		RequirementStatus status;
-		RequirementType type = (RequirementType)dropdownType.getSelectedItem();
+		RequirementType type = (RequirementType)getDropdownType().getSelectedItem();
 		
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
-		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
 		Iteration iteration = new Iteration(stringIteration);
 		// Extract which radio is selected for the priority
 		boolean stateHigh = priorityHigh.isSelected();
