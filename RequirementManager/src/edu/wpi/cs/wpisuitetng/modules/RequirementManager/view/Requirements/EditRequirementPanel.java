@@ -267,7 +267,7 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		// Create text area for note to be added
 		final JTextArea noteMessage = new JTextArea();
-		noteMessage.setLineWrap(true);
+		noteMessage.setLineWrap(true); // If right of box is reach, goes down a line
 		
 		// Error message label in case no note was included
 		final JLabel errorMsg = new JLabel();
