@@ -264,6 +264,7 @@ public class EditRequirementPanel extends RequirementPanel
 		JButton buttonAddNote = new JButton("Add Note");
 		JButton buttonClear = new JButton("Clear");
 		final JTextArea noteMessage = new JTextArea();
+		noteMessage.setLineWrap(true);
 		final JLabel errorMsg = new JLabel();
 		
 		GridBagLayout layout = new GridBagLayout();
