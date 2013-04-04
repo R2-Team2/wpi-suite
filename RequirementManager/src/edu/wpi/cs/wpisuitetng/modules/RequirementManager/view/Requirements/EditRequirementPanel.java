@@ -261,21 +261,31 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private JPanel buildNotePanel()
 	{
+		// Buttons to be added to the bottom of the NotePanel
 		JButton buttonAddNote = new JButton("Add Note");
 		JButton buttonClear = new JButton("Clear");
+		
+		// Create text area for note to be added
 		final JTextArea noteMessage = new JTextArea();
+		noteMessage.setLineWrap(true);
+		
+		// Error message label in case no note was included
 		final JLabel errorMsg = new JLabel();
 		
+		// Layout manager for entire note panel
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// Layout manager for panel that contains the buttons
 		GridBagLayout bottomLayout = new GridBagLayout();
 		JPanel bottomPanel = new JPanel(bottomLayout);
 		GridBagConstraints bc = new GridBagConstraints();
 		
+		// Create new scroll pane for notes
 		final JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			// Always show scroll bar
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.weightx = 1; // Fill horizontal space
@@ -286,48 +296,64 @@ public class EditRequirementPanel extends RequirementPanel
 		c.weighty = 0; // Fill 0% of vertical space
 		panel.add(noteMessage,c);
 		
-		bc.anchor = GridBagConstraints.WEST;
-		bottomPanel.add(buttonAddNote, bc);
+		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom panel
+		bottomPanel.add(buttonAddNote, bc); // Include "Add note" button to bottom panel
 		
-		bc.gridx = 1;
-		bottomPanel.add(buttonClear, bc);
+		bc.gridx = 1; // Column 1
+		bottomPanel.add(buttonClear, bc); // Include "Clear" button to bottom panel
 		
-		bc.gridx = 2;
-		bottomPanel.add(errorMsg, bc);
+		bc.gridx = 2; // Column 2
+		bottomPanel.add(errorMsg, bc); // Add error message label to bottom panel
 		
 		c.weighty = 0; // Do not stretch
 		c.gridy = 2; // Row 2
 		c.fill = GridBagConstraints.NONE; // Do not fill cell
-		c.anchor = GridBagConstraints.WEST;
-		panel.add(bottomPanel,c);
+		c.anchor = GridBagConstraints.WEST; // Anchor buttons to west of panel
+		panel.add(bottomPanel,c); // Add buttons to the panel
 		
+		// Set scroll pane to display notes associated with edited requirement
 		scroll.setViewportView(NotePanel.createList(this.requirementBeingEdited.getNotes()));
 		
+		// Listener for add note button
 		buttonAddNote.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Display error message if there is no text in noteMessage
 				if(noteMessage.getText().length() <= 0) 
 				{
 					errorMsg.setText(" Error: Must add text to create note.");
 				}
 				else
 				{
-					String msg = noteMessage.getText();
+					
+					String msg = noteMessage.getText(); // Get text from noteMessage
+					
+					// Clear all text areas
 					noteMessage.setText("");
+					errorMsg.setText("");
+					
+					// Add note to requirement
 					requirementBeingEdited.addNote(msg);
+					
+					// Update panel to show new note
 					scroll.setViewportView(NotePanel.createList(requirementBeingEdited.getNotes()));
+					
+					// Update database so requirement stores new note
 					UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 				}
 			}
 		});
 		
+		// Listener for the Clear button
 		buttonClear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Clear all text fields
 				noteMessage.setText("");
 				errorMsg.setText("");
 			}
 		});
+		
 		return panel;
 	}
 	
