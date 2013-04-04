@@ -11,8 +11,6 @@ import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -222,8 +220,8 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setDescription(stringDescription);
 		requirementBeingEdited.setStatus(status, created);
 		requirementBeingEdited.setPriority(priority, created);
-		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setIteration(stringIteration.trim(), created);
+		requirementBeingEdited.setEstimate(estimate);
 		requirementBeingEdited.setType(type);
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
