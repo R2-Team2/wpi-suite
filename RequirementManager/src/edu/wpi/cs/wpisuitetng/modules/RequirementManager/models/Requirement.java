@@ -589,10 +589,6 @@ public class Requirement extends AbstractModel {
 			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
 			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		}
-		else if(created)
-		{
-			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
-		}
 		
 		this.iteration = newIterationName;
 	}
