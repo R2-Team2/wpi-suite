@@ -158,7 +158,9 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setPriority(priority, created);
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration("Backlog", created);
+		newRequirement.setIteration(iteration, created);
+		// set time stamp
+		newRequirement.getHistory().setTimestamp(System.currentTimeMillis());
 		newRequirement.getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(newRequirement);

@@ -7,9 +7,16 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
 /**
  * Basic Requirement class
@@ -58,8 +65,8 @@ public class Requirement extends AbstractModel {
 	private List<Requirement> subRequirements;
 
 	/** notes associated with the requirement */
-	private List<Note> notes;
-
+	private NoteList notes;
+	
 	/** iteration the requirement is assigned to */
 	private String iteration;
 
@@ -92,7 +99,7 @@ public class Requirement extends AbstractModel {
 		history = new TransactionHistory();
 		iteration = "Backlog";
 		type = RequirementType.BLANK;
-		notes = new ArrayList<Note>();
+		notes = new NoteList();
 		tasks = new ArrayList<DevelopmentTask>();
 		tests = new ArrayList<AcceptanceTest>();
 		attachments = new ArrayList<Attachment>();
@@ -246,8 +253,7 @@ public class Requirement extends AbstractModel {
 		if ((status != this.status) && !created) {
 			String originalStatus = this.status.name();
 			String newStatus = status.name();
-			String message = ("Changed status of " + this.name + " from "
-					+ originalStatus + " to " + newStatus);
+			String message = ("Changed status from " + originalStatus + " to " + newStatus);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -340,8 +346,7 @@ public class Requirement extends AbstractModel {
 		if ((priority != this.priority) && !created) {
 			String originalPriority = this.priority.name();
 			String newPriority = priority.name();
-			String message = ("Changed priority of " + this.name + " from "
-					+ originalPriority + " to " + newPriority);
+			String message = ("Changed priority from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -410,39 +415,19 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @return the list of notes associated with the requirement
 	 */
-	public List<Note> getNotes() {
+	public NoteList getNotes(){
 		return notes;
 	}
-
+	
 	/**
-	 * Method to add a note to the list of notes
-	 * 
-	 * @param note
-	 *            The note to add to the list
+	 * Adds a note to the requirement's NoteList
+	 * @param msg
 	 */
-	public void addNote(Note note) {
-		notes.add(note);
+	public void addNote(String msg){
+		notes.add(msg);
 	}
-
-	/**
-	 * Method to remove a note from a list of notes
-	 * 
-	 * @param id
-	 *            The id of the note to be deleted
-	 */
-	public void removeNote(int id) {
-		// iterate through the list looking for the note to remove
-		for (int i = 0; i < this.notes.size(); i++) {
-			if (notes.get(i).getId() == id) {
-				// remove the id
-				notes.remove(i);
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Getter for the list of development tasks
+	
+	/** Getter for the list of development tasks
 	 * 
 	 * @return the list of development tasks
 	 */
@@ -569,17 +554,12 @@ public class Requirement extends AbstractModel {
 	 *            prevent a bug that occurs when the requirement is first
 	 *            created and stores a transaction in the history
 	 */
-	public void setIteration(String newIterationName, boolean created) {
-		String curIter = this.iteration;
-
-		RequirementIteration oldIteration = IterationModel.getInstance().getIteration(curIter);
-		RequirementIteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
-		
-		//create the transaction history.
-		if(!this.iteration.equals(newIterationName) && !created)
-		{
-			String message = ("Moved " + this.name + " from "
-					+ curIter + " to " + newIteration);
+	public void setIteration(Iteration newIteration, boolean created) {
+		if(this.iteration == null) this.iteration = newIteration;
+		if (!this.iteration.equals(newIteration) && !created){
+			String originalIteration = this.iteration.toString();
+			String newIterationString = newIteration.toString();
+			String message = ("Moved from " + originalIteration + " to " + newIterationString);
 			this.history.add(message);
 		}
 		
@@ -710,5 +690,6 @@ public class Requirement extends AbstractModel {
 		this.status = toCopyFrom.status;
 		this.type = toCopyFrom.type;
 		this.history = toCopyFrom.history;
+		this.notes = toCopyFrom.notes;
 	}
 }
