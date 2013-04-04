@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.RequirementIteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
 
 /**
@@ -58,7 +58,7 @@ public class Requirement extends AbstractModel {
 	private List<Requirement> subRequirements;
 
 	/** notes associated with the requirement */
-	private List<Note> notes;
+	private NoteList notes;
 
 	/** iteration the requirement is assigned to */
 	private String iteration;
@@ -412,30 +412,6 @@ public class Requirement extends AbstractModel {
 	 */
 	public NoteList getNotes(){
 		return notes;
-	}
-	
-	/**
-	 * Adds a note to the requirement's NoteList
-	 * @param msg
-	 */
-	public void addNote(String msg){
-		notes.add(msg);
-	}
-	
-	/** Getter for the list of development tasks
-	 * 
-	 * @param id
-	 *            The id of the note to be deleted
-	 */
-	public void removeNote(int id) {
-		// iterate through the list looking for the note to remove
-		for (int i = 0; i < this.notes.size(); i++) {
-			if (notes.get(i).getId() == id) {
-				// remove the id
-				notes.remove(i);
-				break;
-			}
-		}
 	}
 
 	/**

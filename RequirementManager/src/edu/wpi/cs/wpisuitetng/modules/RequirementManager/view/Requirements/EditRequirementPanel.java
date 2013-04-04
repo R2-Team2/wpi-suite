@@ -22,7 +22,7 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
@@ -266,9 +266,8 @@ public class EditRequirementPanel extends RequirementPanel
 		requirementBeingEdited.setDescription(stringDescription);
 		requirementBeingEdited.setStatus(status, created);
 		requirementBeingEdited.setPriority(priority, created);
-		requirementBeingEdited.setIteration(stringIteration.trim(), created);
+		requirementBeingEdited.setIteration(stringIteration, created);
 		requirementBeingEdited.setEstimate(estimate);
-		requirementBeingEdited.setIteration(iteration, created);
 		requirementBeingEdited.setType(type);					
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
@@ -354,7 +353,7 @@ public class EditRequirementPanel extends RequirementPanel
 					errorMsg.setText("");
 					
 					// Add note to requirement
-					requirementBeingEdited.addNote(msg);
+					requirementBeingEdited.getNotes().add(msg);
 					
 					// Update panel to show new note
 					scroll.setViewportView(NotePanel.createList(requirementBeingEdited.getNotes()));
