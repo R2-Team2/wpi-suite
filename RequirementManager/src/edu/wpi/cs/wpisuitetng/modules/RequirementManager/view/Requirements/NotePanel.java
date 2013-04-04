@@ -41,6 +41,7 @@ public class NotePanel extends JPanel {
 		// Create a text area containing the note's message
 		JTextArea message = new JTextArea(note.getMessage());
 		message.setLineWrap(true);
+		message.setWrapStyleWord(true);
 		message.setEditable(false); // Do not allow to be edited
 		
 		// Give the message a black border with 2px padding inside
