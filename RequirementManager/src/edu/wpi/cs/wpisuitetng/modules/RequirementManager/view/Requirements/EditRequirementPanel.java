@@ -359,19 +359,21 @@ public class EditRequirementPanel extends RequirementPanel
 	
 	private JPanel buildHistoryPanel()
 	{
-		
+		// Layout manager for transaction history panel
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// Create scroll pane for window, set scroll bar to always be on
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.weightx = 1; // Fill horizontal space
 		c.weighty = 0.8; // Fill 80% of vertical space
-		panel.add(scroll,c);
+		panel.add(scroll,c); // Add scroll pane to panel
 		
+		// Show the requirement's transaction history in the scroll pane
 		scroll.setViewportView(HistoryPanel.createList(this.requirementBeingEdited.getHistory()));
 
 		return panel;
