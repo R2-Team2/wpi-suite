@@ -1,6 +1,5 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations;
 
-import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -45,7 +44,6 @@ public class IterationEntityManager implements EntityManager<RequirementIteratio
 	@Override
 	public RequirementIteration makeEntity(Session s, String content) throws WPISuiteException {
 		final RequirementIteration newIteration = RequirementIteration.fromJson(content);
-		System.out.println(s.getProject());
 		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
 		}

@@ -9,7 +9,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
- * @author Gabriel McCormick, David Iglesias, Nick Mollica
+ * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish
  */
 public class RequirementIteration extends AbstractModel {
 	/** the ID of the iteration */
@@ -147,14 +147,7 @@ public class RequirementIteration extends AbstractModel {
 	public static RequirementIteration fromJson(String body) {
 		final Gson parser = new Gson();
 		RequirementIteration test = parser.fromJson(body, RequirementIteration.class);
-		
-		if(test == null)
-		{
-			System.out.println("Test was null");
-			
-			return new RequirementIteration(0,"Backlog");
-		}
-		
+
 		return test;
 	}
 	

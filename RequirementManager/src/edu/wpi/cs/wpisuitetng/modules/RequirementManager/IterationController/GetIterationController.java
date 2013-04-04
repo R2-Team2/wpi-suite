@@ -49,7 +49,7 @@ public class GetIterationController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this Iteration
-		final Request request = Network.getInstance().makeRequest("Iterationmanager/Iteration", HttpMethod.GET); // GET == read
+		final Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); // send the request
 	}

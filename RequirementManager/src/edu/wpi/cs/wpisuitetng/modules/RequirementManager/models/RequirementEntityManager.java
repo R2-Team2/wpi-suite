@@ -1,7 +1,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
-import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
