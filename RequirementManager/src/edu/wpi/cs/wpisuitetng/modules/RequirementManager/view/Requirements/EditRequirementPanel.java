@@ -28,6 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 public class EditRequirementPanel extends RequirementPanel 
 {	
 	private Requirement requirementBeingEdited;
+	private JButton buttonUpdate = new JButton("Update");
+	private JButton buttonCancel = new JButton("Cancel");
+	private JButton buttonClear = new JButton("Undo Changes");
 	
 	/**
 	 * Constructor for a new requirement panel
@@ -54,15 +57,15 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private void fillFieldsForRequirement()
 	{
-		getBoxName().setText(requirementBeingEdited.getName());
-		getBoxDescription().setText(requirementBeingEdited.getDescription());
-		getBoxEstimate().setText(String.valueOf(requirementBeingEdited.getEstimate()));
-		boxReleaseNum.setText(requirementBeingEdited.getRelease());
-		getDropdownStatus().setSelectedItem(requirementBeingEdited.getStatus());
-		getDropdownType().setSelectedItem(requirementBeingEdited.getType());
-		getBoxIteration().setText(requirementBeingEdited.getIteration().toString());
+		getBoxName().setText(getRequirementBeingEdited().getName());
+		getBoxDescription().setText(getRequirementBeingEdited().getDescription());
+		getBoxEstimate().setText(String.valueOf(getRequirementBeingEdited().getEstimate()));
+		getBoxReleaseNum().setText(getRequirementBeingEdited().getRelease());
+		getDropdownStatus().setSelectedItem(getRequirementBeingEdited().getStatus());
+		getDropdownType().setSelectedItem(getRequirementBeingEdited().getType());
+		getBoxIteration().setText(getRequirementBeingEdited().getIteration().toString());
 		
-		switch(requirementBeingEdited.getPriority())
+		switch(getRequirementBeingEdited().getPriority())
 		{
 		case BLANK:
 			getPriorityBlank().setSelected(true);
@@ -78,7 +81,7 @@ public class EditRequirementPanel extends RequirementPanel
 			break;
 		}
 		
-		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS || requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
+		if(getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS || getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE)
 		{
 			getBoxEstimate().setEnabled(false);
 		}
@@ -87,7 +90,7 @@ public class EditRequirementPanel extends RequirementPanel
 			getBoxEstimate().setEnabled(true);
 		}
 		
-		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
+		if(!(getRequirementBeingEdited().getEstimate() > 0)) getBoxIteration().setEnabled(false);
 		
 		//reset the error messages.
 		this.getErrorEstimate().setText("");
@@ -110,19 +113,20 @@ public class EditRequirementPanel extends RequirementPanel
 
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
-		JButton buttonUpdate = new JButton("Update");
-		JButton buttonCancel = new JButton("Cancel");
-		JButton buttonClear = new JButton("Undo Changes");
-		
+	
 		// Construct the add requirement controller and add it to the update button
-		buttonUpdate.addActionListener(new ActionListener(){
+		getButtonUpdate().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				if(validateFields()) update();
+				if(validateFields())
+				{
+					update();
+					cancel();
+				}
 			}
 		});
 		
-		buttonClear.addActionListener(new ActionListener(){
+		getButtonClear().addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -137,8 +141,8 @@ public class EditRequirementPanel extends RequirementPanel
 			}
 		});
 
-		buttonPanel.add(buttonUpdate);
-		buttonPanel.add(buttonClear);
+		buttonPanel.add(getButtonUpdate());
+		buttonPanel.add(getButtonClear());
 		buttonPanel.add(buttonCancel);
 		
 		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
@@ -156,11 +160,11 @@ public class EditRequirementPanel extends RequirementPanel
 	/**
 	 * Updates the requirement.
 	 */
-	private void update()
+	public void update()
 	{
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
-		String stringReleaseNum = this.boxReleaseNum.getText();
+		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
 		String stringIteration = this.getBoxIteration().getText();
@@ -193,17 +197,16 @@ public class EditRequirementPanel extends RequirementPanel
 		boolean created = false;
 		
 		// Create a new requirement object based on the extracted info
-		requirementBeingEdited.setName(stringName);
-		requirementBeingEdited.setRelease(stringReleaseNum);
-		requirementBeingEdited.setDescription(stringDescription);
-		requirementBeingEdited.setStatus(status, created);
-		requirementBeingEdited.setPriority(priority, created);
-		requirementBeingEdited.setEstimate(estimate);
-		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);
-		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().removeTab(this);
+		getRequirementBeingEdited().setName(stringName);
+		getRequirementBeingEdited().setRelease(stringReleaseNum);
+		getRequirementBeingEdited().setDescription(stringDescription);
+		getRequirementBeingEdited().setStatus(status, created);
+		getRequirementBeingEdited().setPriority(priority, created);
+		getRequirementBeingEdited().setEstimate(estimate);
+		getRequirementBeingEdited().setIteration(iteration, created);
+		getRequirementBeingEdited().setType(type);
+		UpdateRequirementController.getInstance().updateRequirement(getRequirementBeingEdited());
+		
 	}
 	
 	/**
@@ -211,6 +214,23 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private void cancel()
 	{
+		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
 	}
+
+	public JButton getButtonUpdate() {
+		return buttonUpdate;
+	}
+
+	public JButton getButtonClear() {
+		return buttonClear;
+	}
+
+	public Requirement getRequirementBeingEdited() {
+		return requirementBeingEdited;
+	}
+
+
+
+
 }

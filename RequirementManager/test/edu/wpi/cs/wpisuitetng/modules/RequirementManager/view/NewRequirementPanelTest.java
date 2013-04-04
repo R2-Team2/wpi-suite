@@ -88,8 +88,7 @@ public class NewRequirementPanelTest {
 		NewRequirementPanel testNew = new NewRequirementPanel();
 		String testName = "testName";
 		String testDescription = "testDescription";
-		
-		// set to each field random stuffs to test clear functionality
+
 		
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);

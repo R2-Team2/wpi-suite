@@ -29,7 +29,7 @@ abstract public class RequirementPanel extends JScrollPane
 	protected JPanel contentPanel;
 	protected JPanel leftPanel;
 	private JTextField boxName;
-	protected JTextField boxReleaseNum;
+	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
@@ -64,8 +64,8 @@ abstract public class RequirementPanel extends JScrollPane
 		setBoxName(new JTextField());
 		getBoxName().setPreferredSize(new Dimension(200, 20));
 		
-		boxReleaseNum = new JTextField();
-		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
+		boxReleaseNum = (new JTextField());
+		getBoxReleaseNum().setPreferredSize(new Dimension(200, 20));
 		
 		setBoxDescription(new JTextArea());
 		getBoxDescription().setLineWrap(true);
@@ -102,15 +102,15 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.SOUTH, getErrorName());
 		leftLayout.putConstraint(SpringLayout.WEST, labelReleaseNum, 15,
 				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, boxReleaseNum, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getBoxReleaseNum(), 15,
 				SpringLayout.SOUTH, labelReleaseNum);
-		leftLayout.putConstraint(SpringLayout.WEST, boxReleaseNum, 15,
+		leftLayout.putConstraint(SpringLayout.WEST, getBoxReleaseNum(), 15,
 				SpringLayout.WEST, leftPanel);
 		
 		
 		// Description Field
 		leftLayout.putConstraint(SpringLayout.NORTH, labelDescription, 15,
-				SpringLayout.SOUTH, boxReleaseNum);
+				SpringLayout.SOUTH, getBoxReleaseNum());
 		leftLayout.putConstraint(SpringLayout.WEST, labelDescription, 15,
 				SpringLayout.WEST, leftPanel);
 		leftLayout.putConstraint(SpringLayout.NORTH, getBoxDescription(), 15,
@@ -138,7 +138,7 @@ abstract public class RequirementPanel extends JScrollPane
 		leftPanel.add(getErrorName());
 		
 		leftPanel.add(labelReleaseNum);
-		leftPanel.add(boxReleaseNum);
+		leftPanel.add(getBoxReleaseNum());
 		
 		leftPanel.add(labelDescription);
 		leftPanel.add(getBoxDescription());
@@ -500,5 +500,10 @@ abstract public class RequirementPanel extends JScrollPane
 	public JRadioButton getPriorityBlank() {
 		return priorityBlank;
 	}
+
+	public JTextField getBoxReleaseNum() {
+		return boxReleaseNum;
+	}
+
 
 }

@@ -114,7 +114,7 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
-		String stringReleaseNum = this.boxReleaseNum.getText();
+		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringIteration = this.getBoxIteration().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
@@ -178,7 +178,7 @@ public class NewRequirementPanel extends RequirementPanel
 		getBoxDescription().setText("");
 		this.getPriorityBlank().setSelected(true);
 		getDropdownType().setSelectedItem(RequirementType.BLANK);
-		boxReleaseNum.setText("");
+		getBoxReleaseNum().setText("");
 		getBoxEstimate().setText("");
 		
 		this.getErrorEstimate().setText("");
