@@ -169,7 +169,6 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
-		JPanel buttonPanel2 = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
 		JButton buttonClear = new JButton("Undo Changes");
 		buttonDelete = new JButton("Delete");
@@ -207,8 +206,8 @@ public class EditRequirementPanel extends RequirementPanel
 
 		buttonPanel.add(buttonUpdate);
 		buttonPanel.add(buttonClear);
-		buttonPanel2.add(buttonDelete);
-		buttonPanel2.add(buttonCancel);
+		buttonPanel.add(buttonDelete);
+		buttonPanel.add(buttonCancel);
 		
 		return buttonPanel;
 	}
