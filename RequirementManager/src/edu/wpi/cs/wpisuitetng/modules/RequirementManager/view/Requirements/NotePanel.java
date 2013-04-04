@@ -75,21 +75,29 @@ public class NotePanel extends JPanel {
 		this.add(noteInfo, noteConstraints); // Add info to notePanel
 	}
 	
+	/**
+	 * Creates a panel containing all of the notes passed to it in the list
+	 * @param list List of note used to create panel
+	 * @return Panel containing all of the notes given to the method
+	 */
 	public static JPanel createList(NoteList list)
 	{
 		// Create a panel to hold all of the notes
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE); // Background color is white
 		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridy = GridBagConstraints.RELATIVE;
-		c.anchor = GridBagConstraints.NORTH;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+		c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
+		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
+		c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
 		c.weightx = 1;//Fill horizontally
 		c.gridy = 0; //Row 0
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(5,5,5,5); // Creates margins between notes
 		
+		// Get iterator of the list of notes
 		ListIterator<Note> itt = list.getIterator(0);
+		
+		// Add each note to panel individually
 		while(itt.hasNext())
 		{
 			//Create a new NotePanel for each Note and add it to the panel
