@@ -21,16 +21,18 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
  */
 public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
-	private int id; // TODO: move ID stuff to server side? (copied from requirement impl.)
-	
+	private int id; // TODO: move ID stuff to server side? (copied from
+					// requirement impl.)
+
 	/** the name of the iteration */
 	private String name;
-	
+
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
 
-	public Iteration(){}
-	
+	public Iteration() {
+	}
+
 	/**
 	 * Construct an Iteration with required properties provided and others set
 	 * to default
@@ -67,7 +69,7 @@ public class Iteration extends AbstractModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * getter for the name
 	 * 
@@ -84,6 +86,9 @@ public class Iteration extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			this.name = "Backlog";
+		}
 		this.name = name;
 	}
 
@@ -103,11 +108,12 @@ public class Iteration extends AbstractModel {
 	 *            the estimate to set
 	 */
 	public void setEstimate(int estimate) {
-		System.out.println("Changed iteration " + name + " estimate from " + this.estimate + " to " + estimate);
+		System.out.println("Changed iteration " + name + " estimate from "
+				+ this.estimate + " to " + estimate);
 		this.estimate = estimate;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
-	
+
 	/**
 	 * represents iteration as a string which is currently just the name
 	 * 
@@ -118,10 +124,11 @@ public class Iteration extends AbstractModel {
 		return name;
 	}
 
-	/** 
+	/**
 	 * compares two iterations for equality based on name
+	 * 
 	 * @param that
-	 * 			iteration to compare to
+	 *            iteration to compare to
 	 * @return boolean for equality
 	 */
 	// should this also be extended for the other fields?
@@ -131,7 +138,7 @@ public class Iteration extends AbstractModel {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Copies all of the values from the given iteration to this iteration.
 	 * 
@@ -173,13 +180,13 @@ public class Iteration extends AbstractModel {
 
 		return test;
 	}
-	
+
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -191,6 +198,5 @@ public class Iteration extends AbstractModel {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }

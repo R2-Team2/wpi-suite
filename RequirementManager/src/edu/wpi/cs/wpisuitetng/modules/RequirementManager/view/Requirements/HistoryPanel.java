@@ -20,8 +20,18 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
+/**
+ * @author paul
+ *
+ */
 public class HistoryPanel extends JPanel {
 
+	
+	/**
+	 * Basic constructor for HistoryPanel
+	 * @param userNtime The time stamp of the transaction
+	 * @param transactionMsgs The transaction message to be displayed
+	 */
 	public HistoryPanel(String userNtime, String transactionMsgs) {
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.black)); //Set note border
@@ -53,6 +63,11 @@ public class HistoryPanel extends JPanel {
 	}
 	
 	
+	/**
+	 * Displays the list of all transactions of the requirement
+	 * @param list List of transactions of requirement
+	 * @return The panel with all the transaction panels
+	 */
 	public static JPanel createList(TransactionHistory list)
 	{
 		JPanel panel = new JPanel();
