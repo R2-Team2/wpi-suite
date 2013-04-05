@@ -141,7 +141,7 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
 		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
-		if(!(requirementBeingEdited.getEstimate() > 0)) boxIteration.setEnabled(false);
+		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
 		
 		//reset the error messages.
 		this.getErrorEstimate().setText("");
@@ -220,9 +220,9 @@ public class EditRequirementPanel extends RequirementPanel
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
-		String stringDescription = this.boxDescription.getText();
-		String stringEstimate = this.boxEstimate.getText();
-		String stringIteration = this.boxIteration.getText();
+		String stringDescription = this.getBoxDescription().getText();
+		String stringEstimate = this.getBoxEstimate().getText();
+		String stringIteration = this.getBoxIteration().getText();
 		
 		if(stringIteration.trim().equals("")) stringIteration = "Backlog";
 
@@ -233,7 +233,7 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
-		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
 		// Extract which radio is selected for the priority
 		//		If requirement deleted {}		
 		//		estimate = iteration.getEstimate()- estimate;
@@ -413,7 +413,7 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		if(this.requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) return;
 		
-		this.dropdownStatus.setSelectedItem(RequirementStatus.DELETED);
+		this.getDropdownStatus().setSelectedItem(RequirementStatus.DELETED);
 		
 		requirementBeingEdited.setStatus(RequirementStatus.DELETED, false);	
 		
@@ -430,12 +430,12 @@ public class EditRequirementPanel extends RequirementPanel
 	 */
 	private void disableComponents()
 	{
-		this.boxName.setEnabled(false);
-		this.boxDescription.setEnabled(false);
-		this.boxEstimate.setEnabled(false);
+		this.getBoxName().setEnabled(false);
+		this.getBoxDescription().setEnabled(false);
+		this.getBoxEstimate().setEnabled(false);
 		this.boxReleaseNum.setEnabled(false);
-		this.dropdownType.setEnabled(false);
-		this.boxIteration.setEnabled(false);
+		this.getDropdownType().setEnabled(false);
+		this.getBoxIteration().setEnabled(false);
 		this.priorityHigh.setEnabled(false);
 		this.priorityMedium.setEnabled(false);
 		this.priorityLow.setEnabled(false);

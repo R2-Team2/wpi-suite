@@ -54,8 +54,8 @@ public class NewRequirementPanel extends RequirementPanel
 	protected JPanel buildLeftPanel()
 	{
 		super.buildLeftPanel();
-		boxIteration.setEnabled(false);
-		boxIteration.setBackground(leftPanel.getBackground());
+		getBoxIteration().setEnabled(false);
+		getBoxIteration().setBackground(leftPanel.getBackground());
 		return leftPanel;
 	}
 	
@@ -67,7 +67,7 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		super.buildRightPanel();
 
-		dropdownStatus.setEnabled(false);
+		getDropdownStatus().setEnabled(false);
 		
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
