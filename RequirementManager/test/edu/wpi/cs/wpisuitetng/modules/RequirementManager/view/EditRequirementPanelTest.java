@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -167,7 +166,7 @@ public class EditRequirementPanelTest {
 		testRequirement.setPriority(RequirementPriority.LOW,true);
 		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
-		testRequirement.setIteration(new Iteration("Backlog"),true);
+		testRequirement.setIteration("Backlog",true);
 		//testRequirement.setEstimate(testActualEffort);
 		
 		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
@@ -184,7 +183,7 @@ public class EditRequirementPanelTest {
 		assertEquals(updateTestName,testEdit.getRequirementBeingEdited().getName());
 		assertEquals(updateTestDescription,testEdit.getRequirementBeingEdited().getDescription());
 		assertEquals(RequirementType.THEME,testEdit.getRequirementBeingEdited().getType());
-		assertEquals("Iteration test",testEdit.getRequirementBeingEdited().getIteration().getName());
+		assertEquals("Iteration test",testEdit.getRequirementBeingEdited().getIteration());
 		assertEquals(RequirementStatus.COMPLETE,testEdit.getRequirementBeingEdited().getStatus());
 		assertEquals(RequirementPriority.HIGH,testEdit.getRequirementBeingEdited().getPriority());
 		assertEquals(4,testEdit.getRequirementBeingEdited().getEstimate());
