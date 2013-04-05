@@ -100,7 +100,7 @@ public class NewRequirementPanelTest {
 		assertEquals(testName,testNew.getNewRequirement().getName());
 		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
 		assertEquals(RequirementType.THEME,testNew.getNewRequirement().getType());
-		assertEquals("Backlog",testNew.getNewRequirement().getIteration().getName());
+		assertEquals("Backlog",testNew.getNewRequirement().getIteration());
 		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
 		assertEquals(RequirementPriority.HIGH,testNew.getNewRequirement().getPriority());
 		assertEquals(4,testNew.getNewRequirement().getEstimate());
@@ -136,7 +136,7 @@ public class NewRequirementPanelTest {
 		assertEquals(testName,testNew.getNewRequirement().getName());
 		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
 		assertEquals(RequirementType.SCENARIO,testNew.getNewRequirement().getType());
-		assertEquals("Backlog",testNew.getNewRequirement().getIteration().getName());
+		assertEquals("Backlog",testNew.getNewRequirement().getIteration());
 		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
 		assertEquals(RequirementPriority.MEDIUM,testNew.getNewRequirement().getPriority());
 		assertEquals(0,testNew.getNewRequirement().getEstimate());
