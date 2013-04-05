@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewTable;
@@ -124,7 +124,7 @@ public class ViewEventController {
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration(new Iteration("Backlog"), created);
+			toSendToBacklog.setIteration("Backlog", created);
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 		

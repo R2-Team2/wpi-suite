@@ -1,22 +1,35 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -25,26 +38,65 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
+@SuppressWarnings("serial")
 public class EditRequirementPanel extends RequirementPanel 
 {	
 	private Requirement requirementBeingEdited;
+	private JButton buttonDelete;
+	
 	
 	/**
 	 * Constructor for a new requirement panel
-	 * @param reqModel Local requirement model for containing data
+	 * @param req	Model Local requirement model for containing data
 	 */
 	public EditRequirementPanel(Requirement req) {
-		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		super();
 
-		contentPanel.add(buildLeftPanel()); //add left panel
-		contentPanel.add(buildRightPanel()); //add right panel
+		requirementBeingEdited = req;
+		GridBagLayout layout = new GridBagLayout();
+		contentPanel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
+		JPanel left = buildLeftPanel();
+		JPanel right = buildRightPanel();
+		
+		JTabbedPane tabs = new JTabbedPane();
+		JPanel notes = buildNotePanel();
+		JPanel history = buildHistoryPanel();
+		tabs.add("Notes", notes);
+		tabs.add("Transaction History", history);
+		
+		JPanel bottom = buildBottom();
+		
+		c.gridx = 0; // Column 0
+		c.gridy = 0; // Row 0
+		c.weighty = 1; // Row is elastic
+		c.gridheight = 2;
+		contentPanel.add(left,c); //add left panel
+		
+		c.gridx = 1; // Column 1
+		contentPanel.add(right,c); //add right panel
+		
+		c.gridx = 2; //Column 2
+		c.weightx = 1; //Column is elastic
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.BOTH; // Stretch contents
+		contentPanel.add(tabs,c); // add tabs
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridy = 1; // Row 1
+		c.gridx = 2; // Column 1
+		c.weighty = 0; // Row is not elastic
+		c.weightx = 0; // Column is not elastic
+		c.anchor = GridBagConstraints.LINE_END;
+		contentPanel.add(bottom,c); // Add bottom
 		
 		contentPanel.setMinimumSize(new Dimension(500,465));
 		contentPanel.setPreferredSize(new Dimension(500,465));
-		
+
 		this.setViewportView(contentPanel);
 		
-		requirementBeingEdited = req;
 		fillFieldsForRequirement();
 	}
 	
@@ -87,7 +139,9 @@ public class EditRequirementPanel extends RequirementPanel
 			getBoxEstimate().setEnabled(true);
 		}
 		
-		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
+		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
+		if(!(requirementBeingEdited.getEstimate() > 0)) boxIteration.setEnabled(false);
 		
 		//reset the error messages.
 		this.getErrorEstimate().setText("");
@@ -96,6 +150,7 @@ public class EditRequirementPanel extends RequirementPanel
 		getBoxDescription().setBorder(defaultBorder);
 		this.getErrorName().setText("");
 		getBoxName().setBorder(defaultBorder);
+		
 		
 		repaint();
 	}
@@ -107,12 +162,17 @@ public class EditRequirementPanel extends RequirementPanel
 	protected JPanel buildRightPanel()
 	{
 		super.buildRightPanel();
-
+		
+		return rightPanel;
+	}
+	public JPanel buildBottom()
+	{
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		JButton buttonUpdate = new JButton("Update");
-		JButton buttonCancel = new JButton("Cancel");
 		JButton buttonClear = new JButton("Undo Changes");
+		buttonDelete = new JButton("Delete");
+		JButton buttonCancel = new JButton("Cancel");
 		
 		// Construct the add requirement controller and add it to the update button
 		buttonUpdate.addActionListener(new ActionListener(){
@@ -136,21 +196,20 @@ public class EditRequirementPanel extends RequirementPanel
 				cancel();
 			}
 		});
+		
+		buttonDelete.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				deleteRequirement();
+			}
+		});
 
 		buttonPanel.add(buttonUpdate);
 		buttonPanel.add(buttonClear);
+		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 		
-		SpringLayout rightLayout = (SpringLayout)rightPanel.getLayout();
-		
-		rightLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 15,
-				SpringLayout.SOUTH, getErrorEstimate());
-		rightLayout.putConstraint(SpringLayout.WEST, buttonPanel, 15,
-				SpringLayout.WEST, rightPanel);
-		
-		rightPanel.add(buttonPanel);
-		
-		return rightPanel;
+		return buttonPanel;
 	}
 	
 	/**
@@ -161,9 +220,11 @@ public class EditRequirementPanel extends RequirementPanel
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.boxReleaseNum.getText();
-		String stringDescription = this.getBoxDescription().getText();
-		String stringEstimate = this.getBoxEstimate().getText();
-		String stringIteration = this.getBoxIteration().getText();
+		String stringDescription = this.boxDescription.getText();
+		String stringEstimate = this.boxEstimate.getText();
+		String stringIteration = this.boxIteration.getText();
+		
+		if(stringIteration.trim().equals("")) stringIteration = "Backlog";
 
 
 		RequirementPriority priority;
@@ -172,9 +233,10 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		// Extract the status from the GUI
-		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
-		Iteration iteration = new Iteration(stringIteration);
+		status = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 		// Extract which radio is selected for the priority
+		//		If requirement deleted {}		
+		//		estimate = iteration.getEstimate()- estimate;
 		boolean stateHigh = priorityHigh.isSelected();
 		boolean stateMedium = priorityMedium.isSelected();
 		boolean stateLow = priorityLow.isSelected();
@@ -192,18 +254,148 @@ public class EditRequirementPanel extends RequirementPanel
 		// Set to false to indicate the requirement is being newly created
 		boolean created = false;
 		
+		// Set the time stamp so that all transaction messages from this update 
+		// will have the same time stamp
+		TransactionHistory requirementHistory = requirementBeingEdited.getHistory();	
+		requirementHistory.setTimestamp(System.currentTimeMillis());
+				
 		// Create a new requirement object based on the extracted info
 		requirementBeingEdited.setName(stringName);
 		requirementBeingEdited.setRelease(stringReleaseNum);
 		requirementBeingEdited.setDescription(stringDescription);
 		requirementBeingEdited.setStatus(status, created);
 		requirementBeingEdited.setPriority(priority, created);
+		requirementBeingEdited.setIteration(stringIteration, created);
 		requirementBeingEdited.setEstimate(estimate);
-		requirementBeingEdited.setIteration(iteration, created);
-		requirementBeingEdited.setType(type);
+		requirementBeingEdited.setType(type);					
 		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);
+	}
+	
+	/**
+	 * Constructs a panel with a scolling list of notes for the requirement, as well as the elements to add new notes
+	 * @return panel for displaying and creating notes
+	 */
+	private JPanel buildNotePanel()
+	{
+		// Buttons to be added to the bottom of the NotePanel
+		JButton buttonAddNote = new JButton("Add Note");
+		JButton buttonClear = new JButton("Clear");
+		
+		// Create text area for note to be added
+		final JTextArea noteMessage = new JTextArea();
+		noteMessage.setLineWrap(true); // If right of box is reach, goes down a line
+		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
+		
+		// Error message label in case no note was included
+		final JLabel errorMsg = new JLabel();
+		
+		// Layout manager for entire note panel
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		// Layout manager for panel that contains the buttons
+		GridBagLayout bottomLayout = new GridBagLayout();
+		JPanel bottomPanel = new JPanel(bottomLayout);
+		GridBagConstraints bc = new GridBagConstraints();
+		
+		// Create new scroll pane for notes
+		final JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			// Always show scroll bar
+
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 1; // Fill all the vertical space
+		panel.add(scroll,c);
+		
+		c.gridy = 1; // Row 1
+		c.weighty = 0; // Fill 0% of vertical space
+		panel.add(noteMessage,c);
+		
+		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom panel
+		bottomPanel.add(buttonAddNote, bc); // Include "Add note" button to bottom panel
+		
+		bc.gridx = 1; // Column 1
+		bottomPanel.add(buttonClear, bc); // Include "Clear" button to bottom panel
+		
+		bc.gridx = 2; // Column 2
+		bottomPanel.add(errorMsg, bc); // Add error message label to bottom panel
+		
+		c.weighty = 0; // Do not stretch
+		c.gridy = 2; // Row 2
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		c.anchor = GridBagConstraints.WEST; // Anchor buttons to west of panel
+		panel.add(bottomPanel,c); // Add buttons to the panel
+		
+		// Set scroll pane to display notes associated with edited requirement
+		scroll.setViewportView(NotePanel.createList(this.requirementBeingEdited.getNotes()));
+		
+		// Listener for add note button
+		buttonAddNote.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				// Display error message if there is no text in noteMessage
+				if(noteMessage.getText().length() <= 0) 
+				{
+					errorMsg.setText(" Error: Must add text to create note.");
+				}
+				else
+				{
+					
+					String msg = noteMessage.getText(); // Get text from noteMessage
+					
+					// Clear all text areas
+					noteMessage.setText("");
+					errorMsg.setText("");
+					
+					// Add note to requirement
+					requirementBeingEdited.getNotes().add(msg);
+					
+					// Update panel to show new note
+					scroll.setViewportView(NotePanel.createList(requirementBeingEdited.getNotes()));
+					
+					// Update database so requirement stores new note
+					UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+				}
+			}
+		});
+		
+		// Listener for the Clear button
+		buttonClear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				// Clear all text fields
+				noteMessage.setText("");
+				errorMsg.setText("");
+			}
+		});
+		
+		return panel;
+	}
+	
+	private JPanel buildHistoryPanel()
+	{
+		// Layout manager for transaction history panel
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		// Create scroll pane for window, set scroll bar to always be on
+		JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 0.8; // Fill 80% of vertical space
+		panel.add(scroll,c); // Add scroll pane to panel
+		
+		// Show the requirement's transaction history in the scroll pane
+		scroll.setViewportView(HistoryPanel.createList(this.requirementBeingEdited.getHistory()));
+
+		return panel;
 	}
 	
 	/**
@@ -213,4 +405,43 @@ public class EditRequirementPanel extends RequirementPanel
 	{
 		ViewEventController.getInstance().removeTab(this);
 	}
+	
+	/**
+	 * Deletes the requirement.  Sets all fields uneditable, sets status to deleted and closes the tab.
+	 */
+	private void deleteRequirement()
+	{
+		if(this.requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) return;
+		
+		this.dropdownStatus.setSelectedItem(RequirementStatus.DELETED);
+		
+		requirementBeingEdited.setStatus(RequirementStatus.DELETED, false);	
+		
+		
+		UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+		
+		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().removeTab(this);
+	}
+	
+	
+	/**
+	 * Disables all the components of the editing panel besides the status dropdown.
+	 */
+	private void disableComponents()
+	{
+		this.boxName.setEnabled(false);
+		this.boxDescription.setEnabled(false);
+		this.boxEstimate.setEnabled(false);
+		this.boxReleaseNum.setEnabled(false);
+		this.dropdownType.setEnabled(false);
+		this.boxIteration.setEnabled(false);
+		this.priorityHigh.setEnabled(false);
+		this.priorityMedium.setEnabled(false);
+		this.priorityLow.setEnabled(false);
+		this.priorityBlank.setEnabled(false);
+		
+		this.buttonDelete.setEnabled(false);
+	}
+	
 }

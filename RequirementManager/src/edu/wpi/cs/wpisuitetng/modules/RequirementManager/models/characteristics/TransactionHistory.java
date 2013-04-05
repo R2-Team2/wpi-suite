@@ -13,9 +13,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * get work done
  */
 
+/**
+ * @author Raphael
+ *
+ */
 public class TransactionHistory {
 	
 	private LinkedList<Transaction> history;
+	private long TimeStamp;
 	
 	/**
 	 * Constructs an empty transaction history
@@ -45,19 +50,15 @@ public class TransactionHistory {
 	/**
 	 * allows you to add to the records of transactions
 	 * always adds to the new transaction to the end of the list
-	 * @param newTransaction the transaction to be added
+	 * @param msg the message of the transaction to be added
 	 * @return the transaction that was just added to the history
 	 */
 	
 	public Transaction add(String msg){
-		long time = System.currentTimeMillis();
+		long time = this.TimeStamp;
 		String user = ConfigManager.getConfig().getUserName();
 		Transaction newTransaction = new Transaction(user, time, msg);
 		history.add(newTransaction);
-		System.out.println("Added Transaction:");
-		System.out.println("  User: " + user);
-		System.out.println("  Message: " + msg);
-		System.out.println("  Time: " + time);
 		return newTransaction;
 	}
 	
@@ -69,5 +70,12 @@ public class TransactionHistory {
 	public Transaction getItem(int index){
 		return this.history.get(index);
 	}
-
+	
+	/**
+	 * set the timestamp
+	 * @param ts
+	 */
+	public void setTimestamp (long ts) {
+		this.TimeStamp = ts;
+	}	
 }

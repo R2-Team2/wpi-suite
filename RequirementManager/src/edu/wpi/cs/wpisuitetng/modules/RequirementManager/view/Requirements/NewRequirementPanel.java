@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -7,12 +8,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -49,6 +48,18 @@ public class NewRequirementPanel extends RequirementPanel
 	}
 	
 	/**
+	 * Builds the left panel
+	 */
+	@Override
+	protected JPanel buildLeftPanel()
+	{
+		super.buildLeftPanel();
+		boxIteration.setEnabled(false);
+		boxIteration.setBackground(leftPanel.getBackground());
+		return leftPanel;
+	}
+	
+	/**
 	 * Builds the right panel
 	 */
 	@Override
@@ -56,13 +67,12 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		super.buildRightPanel();
 
-		getDropdownStatus().setEnabled(false);
-		getBoxIteration().setEnabled(false);
+		dropdownStatus.setEnabled(false);
+		
 		//setup the buttons
 		JPanel buttonPanel = new JPanel();
 		
 		// Construct the add requirement controller and add it to the update button
-		//
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{				
@@ -118,8 +128,6 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementType type;
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		
-		Iteration iteration = new Iteration(stringIteration);
-		
 		// Extract the status from the GUI
 		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
 		type = (RequirementType)this.getDropdownType().getSelectedItem();
@@ -151,7 +159,9 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setPriority(priority, created);
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration(iteration, created);
+		newRequirement.setIteration(stringIteration, created);
+		// set time stamp
+		newRequirement.getHistory().setTimestamp(System.currentTimeMillis());
 		newRequirement.getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(newRequirement);
