@@ -38,6 +38,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
  * @author Brian
  *
  */
+/**
+ * @author paul
+ *
+ */
 @SuppressWarnings("serial")
 public class EditRequirementPanel extends RequirementPanel 
 {	
@@ -376,6 +380,12 @@ public class EditRequirementPanel extends RequirementPanel
 		return panel;
 	}
 	
+	
+	/**
+	 * Builds the Transaction History Panel
+	 * 
+	 * @return The built panel for the transaction history tab
+	 */
 	private JPanel buildHistoryPanel()
 	{
 		// Layout manager for transaction history panel
