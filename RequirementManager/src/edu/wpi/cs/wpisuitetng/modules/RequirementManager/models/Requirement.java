@@ -543,6 +543,7 @@ public class Requirement extends AbstractModel {
 	 *            created and stores a transaction in the history
 	 */
 	public void setIteration(String newIterationName, boolean created) {
+		if(newIterationName.trim().length() == 0) newIterationName = "Backlog";
 		String curIter = this.iteration;
 
 		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
