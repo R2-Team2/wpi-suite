@@ -45,7 +45,7 @@ public class EditRequirementPanel extends RequirementPanel
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
 	private JButton buttonClear = new JButton("Undo Changes");
-	
+	private JButton buttonDelete = new JButton("Delete");
 	
 	/**
 	 * Constructor for a new requirement panel
@@ -209,6 +209,7 @@ public class EditRequirementPanel extends RequirementPanel
 
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
+		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 		
 		return buttonPanel;
@@ -239,9 +240,9 @@ public class EditRequirementPanel extends RequirementPanel
 		// Extract which radio is selected for the priority
 		//		If requirement deleted {}		
 		//		estimate = iteration.getEstimate()- estimate;
-		boolean stateHigh = priorityHigh.isSelected();
-		boolean stateMedium = priorityMedium.isSelected();
-		boolean stateLow = priorityLow.isSelected();
+		boolean stateHigh = getPriorityHigh().isSelected();
+		boolean stateMedium = getPriorityMedium().isSelected();
+		boolean stateLow = getPriorityLow().isSelected();
 
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
@@ -268,7 +269,7 @@ public class EditRequirementPanel extends RequirementPanel
 		getRequirementBeingEdited().setStatus(status, created);
 		getRequirementBeingEdited().setPriority(priority, created);
 		getRequirementBeingEdited().setEstimate(estimate);
-		getRequirementBeingEdited().setIteration(iteration, created);
+		getRequirementBeingEdited().setIteration(stringIteration, created);
 		getRequirementBeingEdited().setType(type);
 		UpdateRequirementController.getInstance().updateRequirement(getRequirementBeingEdited());
 		
@@ -451,13 +452,13 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getBoxName().setEnabled(false);
 		this.getBoxDescription().setEnabled(false);
 		this.getBoxEstimate().setEnabled(false);
-		this.boxReleaseNum.setEnabled(false);
+		this.getBoxReleaseNum().setEnabled(false);
 		this.getDropdownType().setEnabled(false);
 		this.getBoxIteration().setEnabled(false);
-		this.priorityHigh.setEnabled(false);
-		this.priorityMedium.setEnabled(false);
-		this.priorityLow.setEnabled(false);
-		this.priorityBlank.setEnabled(false);
+		this.getPriorityHigh().setEnabled(false);
+		this.getPriorityMedium().setEnabled(false);
+		this.getPriorityLow().setEnabled(false);
+		this.getPriorityBlank().setEnabled(false);
 		
 		this.buttonDelete.setEnabled(false);
 	}

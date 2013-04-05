@@ -165,7 +165,7 @@ public class NewRequirementPanel extends RequirementPanel
 		getNewRequirement().setPriority(priority, created);
 		getNewRequirement().setType(type);
 		getNewRequirement().setEstimate(estimate);
-		getNewRequirement().setIteration(iteration, created);
+		getNewRequirement().setIteration(stringIteration, created);
 		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
