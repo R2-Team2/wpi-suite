@@ -32,19 +32,19 @@ public class RequirementModelTest {
 		reqList[1] = req2;
 		reqList[2] = req3;
 		
-		model2.addRequirements(reqList);
-		Requirement returned1 = model2.getElementAt(0);
-		Requirement returned2 = model2.getElementAt(1);
-		Requirement returned3 = model2.getElementAt(2);
-		assertEquals(returned1.getName(), "Req1");
-		assertEquals(returned1.getId(), 3);
-		assertEquals(returned1.getDescription(), "Tester");
-		assertEquals(returned2.getName(), "Req2");
-		assertEquals(returned2.getId(), 4);
-		assertEquals(returned2.getDescription(), "Another tester");
-		assertEquals(returned3.getName(), "Req3");
-		assertEquals(returned3.getId(), 5);
-		assertEquals(returned3.getDescription(), "Last tester requirement");
+//		model2.addRequirements(reqList);
+//		Requirement returned1 = model2.getElementAt(0);
+//		Requirement returned2 = model2.getElementAt(1);
+//		Requirement returned3 = model2.getElementAt(2);
+//		assertEquals(returned1.getName(), "Req1");
+//		assertEquals(returned1.getId(), 3);
+//		assertEquals(returned1.getDescription(), "Tester");
+//		assertEquals(returned2.getName(), "Req2");
+//		assertEquals(returned2.getId(), 4);
+//		assertEquals(returned2.getDescription(), "Another tester");
+//		assertEquals(returned3.getName(), "Req3");
+//		assertEquals(returned3.getId(), 5);
+//		assertEquals(returned3.getDescription(), "Last tester requirement");
 
 	}
 }

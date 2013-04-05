@@ -31,6 +31,8 @@ public class NewRequirementPanel extends RequirementPanel
 	private JButton buttonCancel = new JButton("Cancel");
 	private JButton buttonClear = new JButton("Clear");
 	
+	private Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "", "");
+	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
@@ -76,7 +78,11 @@ public class NewRequirementPanel extends RequirementPanel
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{				
-				if(validateFields()) update();
+				if(validateFields())
+					{
+						update();
+						removeNewReqTab();
+					}
 			}
 		});
 		
@@ -91,7 +97,7 @@ public class NewRequirementPanel extends RequirementPanel
 		
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cancel();
+				removeNewReqTab();
 			}
 		});
 
@@ -114,11 +120,11 @@ public class NewRequirementPanel extends RequirementPanel
 	/**
 	 * Updates the requirement.
 	 */
-	private void update()
+	public void update()
 	{
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
-		String stringReleaseNum = this.boxReleaseNum.getText();
+		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringIteration = this.getBoxIteration().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
@@ -132,10 +138,10 @@ public class NewRequirementPanel extends RequirementPanel
 		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
 		type = (RequirementType)this.getDropdownType().getSelectedItem();
 		// Extract which radio is selected for the priority
-		boolean stateHigh = priorityHigh.isSelected();
-		boolean stateMedium = priorityMedium.isSelected();
-		boolean stateLow = priorityLow.isSelected();
-		boolean stateBlank = priorityBlank.isSelected();
+		boolean stateHigh = getPriorityHigh().isSelected();
+		boolean stateMedium = getPriorityMedium().isSelected();
+		boolean stateLow = getPriorityLow().isSelected();
+		boolean stateBlank = getPriorityBlank().isSelected();
 
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
@@ -144,27 +150,30 @@ public class NewRequirementPanel extends RequirementPanel
 			priority = RequirementPriority.MEDIUM;
 		else if (stateLow)
 			priority = RequirementPriority.LOW;
-		else if(stateBlank)
+		else 
 			priority = RequirementPriority.BLANK;
-		else
-			priority = RequirementPriority.BLANK;
+
 
 		// Set to true to indicate the requirement is being newly created
 		boolean created = true;
 		
 		// Create a new requirement object based on the extracted info
-		Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), stringName, stringDescription);
-		newRequirement.setRelease(stringReleaseNum);
-		newRequirement.setStatus(status, created);
-		newRequirement.setPriority(priority, created);
-		newRequirement.setType(type);
-		newRequirement.setEstimate(estimate);
-		newRequirement.setIteration(stringIteration, created);
-		// set time stamp
-		newRequirement.getHistory().setTimestamp(System.currentTimeMillis());
-		newRequirement.getHistory().add("REQUIREMENT CREATED");
+		getNewRequirement().setName(stringName);
+		getNewRequirement().setDescription(stringDescription);		
+		getNewRequirement().setRelease(stringReleaseNum);
+		getNewRequirement().setStatus(status, created);
+		getNewRequirement().setPriority(priority, created);
+		getNewRequirement().setType(type);
+		getNewRequirement().setEstimate(estimate);
+		getNewRequirement().setIteration(iteration, created);
+		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
 
-		RequirementModel.getInstance().addRequirement(newRequirement);
+		RequirementModel.getInstance().addRequirement(getNewRequirement());
+		
+	}
+	
+	private void removeNewReqTab()
+	{
 		ViewEventController.getInstance().removeTab(this);
 	}
 	
@@ -175,9 +184,9 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		getBoxName().setText("");
 		getBoxDescription().setText("");
-		this.priorityBlank.setSelected(true);
+		this.getPriorityBlank().setSelected(true);
 		getDropdownType().setSelectedItem(RequirementType.BLANK);
-		boxReleaseNum.setText("");
+		getBoxReleaseNum().setText("");
 		getBoxEstimate().setText("");
 		
 		this.getErrorEstimate().setText("");
@@ -189,13 +198,7 @@ public class NewRequirementPanel extends RequirementPanel
 		repaint(); //repaint the entire panel.
 	}
 	
-	/**
-	 * Cancels the editing of the requirement.
-	 */
-	private void cancel()
-	{
-		ViewEventController.getInstance().removeTab(this);
-	}
+
 
 	/**
 	 * @return the buttonUpdate
@@ -204,12 +207,7 @@ public class NewRequirementPanel extends RequirementPanel
 		return buttonUpdate;
 	}
 
-	/**
-	 * @param buttonUpdate the buttonUpdate to set
-	 */
-	public void setButtonUpdate(JButton buttonUpdate) {
-		this.buttonUpdate = buttonUpdate;
-	}
+
 
 	/**
 	 * @return the buttonCancel
@@ -218,12 +216,7 @@ public class NewRequirementPanel extends RequirementPanel
 		return buttonCancel;
 	}
 
-	/**
-	 * @param buttonCancel the buttonCancel to set
-	 */
-	public void setButtonCancel(JButton buttonCancel) {
-		this.buttonCancel = buttonCancel;
-	}
+
 
 	/**
 	 * @return the buttonClear
@@ -232,10 +225,11 @@ public class NewRequirementPanel extends RequirementPanel
 		return buttonClear;
 	}
 
-	/**
-	 * @param buttonClear the buttonClear to set
-	 */
-	public void setButtonClear(JButton buttonClear) {
-		this.buttonClear = buttonClear;
+
+
+	public Requirement getNewRequirement() {
+		return newRequirement;
 	}
+
+
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.NewRequirementPanel;
@@ -40,7 +41,9 @@ public class NewRequirementPanelTest {
 		
 		testNew.getBoxEstimate().setText("-134");
 		testNew.getBoxDescription().setText("   ");
+		
 		testNew.getButtonUpdate().doClick();
+		
 		// has to be nonnegative, has to have name, has to have description
 		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
 		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
@@ -78,6 +81,83 @@ public class NewRequirementPanelTest {
 		
 		
 	}
+	
+	@Test
+	public void updateButtonTest()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		String testName = "testName";
+		String testDescription = "testDescription";
 
+		
+		testNew.getBoxName().setText(testName);
+		testNew.getBoxDescription().setText(testDescription);
+		testNew.getDropdownType().setSelectedItem(RequirementType.THEME);
+		testNew.getPriorityHigh().doClick();
+		testNew.getBoxEstimate().setText("4");
+		testNew.update();
+		
+		assertEquals(testName,testNew.getNewRequirement().getName());
+		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
+		assertEquals(RequirementType.THEME,testNew.getNewRequirement().getType());
+		assertEquals("Backlog",testNew.getNewRequirement().getIteration().getName());
+		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
+		assertEquals(RequirementPriority.HIGH,testNew.getNewRequirement().getPriority());
+		assertEquals(4,testNew.getNewRequirement().getEstimate());
+	}
+	
+	@Test
+	public void errorThenUpdate()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		String errorMessageRequiredName = "** Name is REQUIRED";
+		String errorMessageRequiredDescription = "** Description is REQUIRED";
+		String testName = "testName";
+		String testDescription = "testDescription";
+		
+		testNew.getBoxEstimate().setText(" ");
+		testNew.getBoxDescription().setText("   ");
+		testNew.getBoxName().setText("");
+		testNew.getButtonUpdate().doClick();
+		
+		assertEquals("",testNew.getErrorEstimate().getText());
+		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
+		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
+		
+		testNew.getBoxName().setText(testName);
+		testNew.getBoxDescription().setText(testDescription);
+		testNew.getDropdownType().setSelectedItem(RequirementType.SCENARIO);
+		testNew.getPriorityMedium().doClick();
+		testNew.getBoxEstimate().setText("0");
+		testNew.validateFields();
+		
+		testNew.update();
+		
+		assertEquals(testName,testNew.getNewRequirement().getName());
+		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
+		assertEquals(RequirementType.SCENARIO,testNew.getNewRequirement().getType());
+		assertEquals("Backlog",testNew.getNewRequirement().getIteration().getName());
+		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
+		assertEquals(RequirementPriority.MEDIUM,testNew.getNewRequirement().getPriority());
+		assertEquals(0,testNew.getNewRequirement().getEstimate());
+		
+		testNew.getDropdownType().setSelectedItem(RequirementType.EPIC);
+		testNew.getPriorityLow().doClick();
+		testNew.validateFields();
+		testNew.update();
+
+		assertEquals(RequirementType.EPIC,testNew.getNewRequirement().getType());
+		assertEquals(RequirementPriority.LOW,testNew.getNewRequirement().getPriority());
+		
+		testNew.getDropdownType().setSelectedItem(RequirementType.NONFUNCTIONAL);
+		testNew.getPriorityBlank().doClick();
+		testNew.validateFields();
+		testNew.update();
+
+		assertEquals(RequirementType.NONFUNCTIONAL,testNew.getNewRequirement().getType());
+		assertEquals(RequirementPriority.BLANK,testNew.getNewRequirement().getPriority());
+
+		
+	}
 
 }

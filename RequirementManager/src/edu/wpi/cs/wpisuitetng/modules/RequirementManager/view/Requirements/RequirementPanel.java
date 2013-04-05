@@ -28,7 +28,7 @@ abstract public class RequirementPanel extends JScrollPane
 	protected JPanel contentPanel;
 	protected JPanel leftPanel;
 	private JTextField boxName;
-	protected JTextField boxReleaseNum;
+	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
@@ -37,10 +37,10 @@ abstract public class RequirementPanel extends JScrollPane
 	protected JPanel rightPanel;
 	private JComboBox dropdownType;
 	private JComboBox dropdownStatus;
-	protected JRadioButton priorityHigh;
-	protected JRadioButton priorityMedium;
-	protected JRadioButton priorityLow;
-	protected JRadioButton priorityBlank;
+	private JRadioButton priorityHigh;
+	private JRadioButton priorityMedium;
+	private JRadioButton priorityLow;
+	private JRadioButton priorityBlank;
 	private JTextField boxEstimate;
 	protected ButtonGroup group;
 	
@@ -63,8 +63,8 @@ abstract public class RequirementPanel extends JScrollPane
 		setBoxName(new JTextField());
 		getBoxName().setPreferredSize(new Dimension(200, 20));
 		
-		boxReleaseNum = new JTextField();
-		boxReleaseNum.setPreferredSize(new Dimension(200, 20));
+		boxReleaseNum = (new JTextField());
+		getBoxReleaseNum().setPreferredSize(new Dimension(200, 20));
 		
 		setBoxDescription(new JTextArea());
 		getBoxDescription().setLineWrap(true);
@@ -101,15 +101,15 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.SOUTH, getErrorName());
 		leftLayout.putConstraint(SpringLayout.WEST, labelReleaseNum, 15,
 				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, boxReleaseNum, 15,
+		leftLayout.putConstraint(SpringLayout.NORTH, getBoxReleaseNum(), 15,
 				SpringLayout.SOUTH, labelReleaseNum);
-		leftLayout.putConstraint(SpringLayout.WEST, boxReleaseNum, 15,
+		leftLayout.putConstraint(SpringLayout.WEST, getBoxReleaseNum(), 15,
 				SpringLayout.WEST, leftPanel);
 		
 		
 		// Description Field
 		leftLayout.putConstraint(SpringLayout.NORTH, labelDescription, 15,
-				SpringLayout.SOUTH, boxReleaseNum);
+				SpringLayout.SOUTH, getBoxReleaseNum());
 		leftLayout.putConstraint(SpringLayout.WEST, labelDescription, 15,
 				SpringLayout.WEST, leftPanel);
 		leftLayout.putConstraint(SpringLayout.NORTH, getBoxDescription(), 15,
@@ -137,7 +137,7 @@ abstract public class RequirementPanel extends JScrollPane
 		leftPanel.add(getErrorName());
 		
 		leftPanel.add(labelReleaseNum);
-		leftPanel.add(boxReleaseNum);
+		leftPanel.add(getBoxReleaseNum());
 		
 		leftPanel.add(labelDescription);
 		leftPanel.add(getBoxDescription());
@@ -173,25 +173,25 @@ abstract public class RequirementPanel extends JScrollPane
 
 		// Radio buttons
 
-		priorityHigh = new JRadioButton("High");
-		priorityMedium = new JRadioButton("Medium");
-		priorityLow = new JRadioButton("Low");
-		priorityBlank = new JRadioButton("Undecided");
-		priorityBlank.setSelected(true);
+		priorityHigh = (new JRadioButton("High"));
+		priorityMedium = (new JRadioButton("Medium"));
+		priorityLow = (new JRadioButton("Low"));
+		priorityBlank = (new JRadioButton("Undecided"));
+		getPriorityBlank().setSelected(true);
 		
 		group = new ButtonGroup();
-		group.add(priorityBlank);
-		group.add(priorityHigh);
-		group.add(priorityMedium);
-		group.add(priorityLow);
+		group.add(getPriorityBlank());
+		group.add(getPriorityHigh());
+		group.add(getPriorityMedium());
+		group.add(getPriorityLow());
 		
 
 		JPanel priorityPanel = new JPanel();
 		
-		priorityPanel.add(priorityLow);
-		priorityPanel.add(priorityMedium);
-		priorityPanel.add(priorityHigh);
-		priorityPanel.add(priorityBlank);
+		priorityPanel.add(getPriorityLow());
+		priorityPanel.add(getPriorityMedium());
+		priorityPanel.add(getPriorityHigh());
+		priorityPanel.add(getPriorityBlank());
 
 		setBoxEstimate(new JTextField());
 		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
@@ -481,4 +481,28 @@ abstract public class RequirementPanel extends JScrollPane
 	public void setBoxName(JTextField boxName) {
 		this.boxName = boxName;
 	}
+
+	public JRadioButton getPriorityHigh() {
+		return priorityHigh;
+	}
+
+
+
+	public JRadioButton getPriorityMedium() {
+		return priorityMedium;
+	}
+
+	public JRadioButton getPriorityLow() {
+		return priorityLow;
+	}
+
+	public JRadioButton getPriorityBlank() {
+		return priorityBlank;
+	}
+
+	public JTextField getBoxReleaseNum() {
+		return boxReleaseNum;
+	}
+
+
 }
