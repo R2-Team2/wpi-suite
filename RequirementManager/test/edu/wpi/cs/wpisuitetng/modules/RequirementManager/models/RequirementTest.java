@@ -18,7 +18,8 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
@@ -41,7 +42,7 @@ public class RequirementTest {
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
-
+		IterationModel.getInstance().setBacklog(new Iteration(1, "Backlog"));
 	}
 
 	@Test
@@ -159,7 +160,7 @@ public class RequirementTest {
 		Requirement r = new Requirement(0, "name", "desc");
 		r.setEffort(4);
 		r.setEstimate(4);
-		r.setIteration(new Iteration(""), true);
+		r.setIteration("",false);
 		r.setPriority(RequirementPriority.HIGH, true);
 		r.setRelease("release 1");
 		r.setStatus(RequirementStatus.INPROGRESS, true);

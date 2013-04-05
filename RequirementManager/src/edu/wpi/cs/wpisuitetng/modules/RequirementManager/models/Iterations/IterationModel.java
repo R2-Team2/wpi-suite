@@ -49,6 +49,15 @@ public class IterationModel extends AbstractListModel {
 
 		return instance;
 	}
+	
+	/**
+	 * Sets the backlog iteration for the iteration model
+	 * @param iteration to be used as the backlog
+	 */
+	public void setBacklog(Iteration iter)
+	{
+		this.backlog = iter;
+	}
 
 	/**
 	 * Adds a single Iteration to the Iterations of the project

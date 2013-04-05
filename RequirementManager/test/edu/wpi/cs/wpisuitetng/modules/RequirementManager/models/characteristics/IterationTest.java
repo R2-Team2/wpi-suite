@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
+
 /**
  * 
  */
@@ -18,26 +20,26 @@ public class IterationTest {
 
 	@Test
 	public void createNewIterationWithNoName() {
-		assertEquals(new Iteration("").getName(), "Backlog");
-		assertEquals(new Iteration("").toString(), new Iteration("").getName());
+		assertEquals(new Iteration(0,"").getName(), "Backlog");
+		assertEquals(new Iteration(0,"").toString(), new Iteration(0,"").getName());
 	}
 	
 	@Test
 	public void testRenameIteration() {
-		Iteration i = new Iteration("Iteration 1");
+		Iteration i = new Iteration(0,"Iteration 1");
 		i.setName("Iteration 2");
 		assertEquals("Iteration 2", i.getName());
 	}
 
 	@Test
 	public void testEqualityWithEqualIterations() {
-		assertTrue(new Iteration("Iteration 1").equals(new Iteration("Iteration 1")));
-		assertTrue(new Iteration("").equals(new Iteration("")));
+		assertTrue(new Iteration(0,"Iteration 1").equals(new Iteration(0,"Iteration 1")));
+		assertTrue(new Iteration(0,"").equals(new Iteration(0,"")));
 	}
 	
 	@Test
 	public void testEqualityWithDifferentIterations() {
-		assertFalse(new Iteration("Iteration 1").equals(new Iteration("Iteration 2")));
+		assertFalse(new Iteration(0,"Iteration 1").equals(new Iteration(0,"Iteration 2")));
 	}
 	
 }
