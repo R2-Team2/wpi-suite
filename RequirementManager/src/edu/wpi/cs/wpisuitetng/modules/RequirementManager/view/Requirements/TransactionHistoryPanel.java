@@ -23,8 +23,18 @@ import javax.swing.SpringLayout;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
+/**
+ * @author paul
+ *
+ */
 public class TransactionHistoryPanel extends JScrollPane {
 
+	
+	/**
+	 * Constructor to build the Transaction History panel that is viewed when editing a requirement
+	 * 
+	 * THIS IS CURRENTLY NOT USED and will be used in the future (when re-factoring the code).
+	 */
 	public TransactionHistoryPanel() {
 		
 		
@@ -32,36 +42,6 @@ public class TransactionHistoryPanel extends JScrollPane {
 		BoxLayout layout = new BoxLayout(historyPanel, BoxLayout.PAGE_AXIS);
 		historyPanel.setLayout(layout);
 		
-	
-		
-		JPanel trans = new JPanel();
-		trans.setLayout(new GridLayout(2,2));
-		trans.setBackground(Color.WHITE);
-		trans.add(new JLabel("test"));
-		//trans.setAlignmentY(Component.LEFT_ALIGNMENT);
-		
-		JPanel trans2 = new JPanel();
-		trans2.setLayout(new GridLayout(2,2));
-		trans2.add(new JLabel("test2"));
-		
-		JPanel trans3 = new JPanel();
-		trans3.setLayout(new GridLayout(2,2));
-		trans3.add(new JLabel("test3"));
-		
-		JPanel trans4 = new JPanel();
-		trans4.setLayout(new GridLayout(2,2));
-		trans4.add(new JLabel("test4"));
-		
-		JPanel trans5 = new JPanel();
-		trans5.setLayout(new GridLayout(2,2));
-		trans5.add(new JLabel("test5"));
-		
-		
-		historyPanel.add(trans);
-		historyPanel.add(trans2);
-		historyPanel.add(trans3);
-		historyPanel.add(trans4);
-		historyPanel.add(trans5);
 		
 		this.setViewportView(historyPanel);
 	}
