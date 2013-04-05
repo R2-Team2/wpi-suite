@@ -11,6 +11,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
  * 
  * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish
  */
+/**
+ * @author Arianna
+ *
+ */
+/**
+ * @author Arianna
+ *
+ */
 public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
 	private int id; // TODO: move ID stuff to server side? (copied from requirement impl.)
@@ -135,6 +143,13 @@ public class Iteration extends AbstractModel {
 		this.estimate = toCopyFrom.estimate;
 	}
 
+	/**
+	 * Returns an array of Iterations parsed from the given JSON-encoded
+	 * string.
+	 * 
+	 * @param body	string containing a JSON-encoded array of Iteration
+	 * @return an array of Requirement deserialized from the given JSON string
+	 */
 	public static Iteration[] fromJsonArray(String body) {
 		final Gson parser = new Gson();
 		return parser.fromJson(body, Iteration[].class);
@@ -144,6 +159,14 @@ public class Iteration extends AbstractModel {
 		return new Gson().toJson(this, Iteration.class);
 	}
 
+	/**
+	 * Returns an instance of Iteration constructed using the given
+	 * Iteration encoded as a JSON string.
+	 * 
+	 * @param the
+	 *            JSON-encoded Iteration to deserialize
+	 * @return the Iteration contained in the given JSON
+	 */
 	public static Iteration fromJson(String body) {
 		final Gson parser = new Gson();
 		Iteration test = parser.fromJson(body, Iteration.class);
