@@ -1,10 +1,18 @@
  package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewPanel;
 
 /**
@@ -20,8 +28,31 @@ public class MainView extends JTabbedPane {
 	 * Adds main subtab when user goes to RequirementManager
 	 */
 	public MainView() {
+		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		OverviewPanel overview = new OverviewPanel();
 		this.addTab("Overview", overview);
+		
+		JMenuItem closeAll = new JMenuItem("Close All Tabs");
+		closeAll.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventController.getInstance().closeAllTabs();
+				
+			}	
+		});		
+		
+		final JPopupMenu popup = new JPopupMenu();
+		popup.add(closeAll);
+		
+		this.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				if(e.isPopupTrigger()) popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 
 	/**
@@ -39,6 +70,28 @@ public class MainView extends JTabbedPane {
 		super.insertTab(title, icon, component, tip, index);
 		if (!(component instanceof OverviewPanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
+		}
+	}
+	
+	/**
+	 * Overridden remove function to ensure that we are not discarding edited changes.
+	 * @param the index to remove.
+	 */
+	@Override 
+	public void remove(int index)
+	{
+		JComponent toRemove = (JComponent)this.getComponentAt(index);
+		
+		if(toRemove instanceof EditRequirementPanel)
+		{
+			if(((EditRequirementPanel)toRemove).readyToRemove())
+			{
+				super.remove(index);
+			}
+		}
+		else
+		{
+			super.remove(index);
 		}
 	}
 }

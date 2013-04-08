@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -230,6 +233,69 @@ public class NewRequirementPanel extends RequirementPanel
 	public Requirement getNewRequirement() {
 		return newRequirement;
 	}
+	
+	/**
+	 * Returns whether any field in the panel has been changed
+	 */
+	public boolean anythingChanged()
+	{
+		boolean nameChanged = !(getBoxName().getText().trim().equals(""));
+		boolean descriptionChanged = !(getBoxDescription().getText().trim().equals(""));
+		boolean releaseChanged = !(getBoxReleaseNum().getText().trim().equals(""));
+		boolean iterationChanged = !(getBoxIteration().getText().trim().equals(""));
+		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK);
 
+		boolean priorityChanged = !getPriorityBlank().isSelected();
+		
+		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(""));
+
+		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
+				typeChanged || priorityChanged || estimateChanged;
+		
+		return anythingChanged;
+	}
+	
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
+		this.buttonClear.setEnabled(anythingChanged());
+		
+		//check that estimate is valid to enable iterations.
+		boolean validEstimate = true;
+		
+		try
+		{
+			int estimate = Integer.parseInt(getBoxEstimate().getText().trim());
+			validEstimate = estimate > 0;
+		}
+		catch (Exception ex)
+		{
+			validEstimate = false;
+		}
+		
+		this.getBoxIteration().setEnabled(validEstimate);
+		
+		this.repaint();				
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		this.buttonUpdate.setEnabled(anythingChanged());	
+		this.buttonClear.setEnabled(anythingChanged());		
+		this.repaint();				
+	}
 
 }

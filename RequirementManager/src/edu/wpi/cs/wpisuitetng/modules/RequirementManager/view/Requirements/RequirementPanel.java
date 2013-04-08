@@ -2,6 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -23,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  * @author Chris
  * @author Brian
  */
-abstract public class RequirementPanel extends JScrollPane 
+abstract public class RequirementPanel extends JScrollPane implements KeyListener, ItemListener
 {
 	protected JPanel contentPanel;
 	protected JPanel leftPanel;
@@ -62,17 +64,21 @@ abstract public class RequirementPanel extends JScrollPane
 		
 		setBoxName(new JTextField());
 		getBoxName().setPreferredSize(new Dimension(200, 20));
+		getBoxName().addKeyListener(this);
 		
 		boxReleaseNum = (new JTextField());
 		getBoxReleaseNum().setPreferredSize(new Dimension(200, 20));
+		boxReleaseNum.addKeyListener(this);
 		
 		setBoxDescription(new JTextArea());
 		getBoxDescription().setLineWrap(true);
 		getBoxDescription().setBorder(defaultBorder);
 		getBoxDescription().setPreferredSize(new Dimension(200, 200));
+		getBoxDescription().addKeyListener(this);
 		
 		setBoxIteration(new JTextField());
 		getBoxIteration().setPreferredSize(new Dimension(200, 20));
+		getBoxIteration().addKeyListener(this);
 		
 		setErrorName(new JLabel());
 		setErrorDescription(new JLabel());
@@ -167,17 +173,24 @@ abstract public class RequirementPanel extends JScrollPane
 
 		setDropdownType(new JComboBox(RequirementType.values()));
 		getDropdownType().setEditable(false);
+		getDropdownType().setBackground(Color.WHITE);
+		getDropdownType().addItemListener(this);
 		
 		setDropdownStatus(new JComboBox(RequirementStatus.values()));
 		getDropdownStatus().setEditable(false);
+		getDropdownStatus().setBackground(Color.WHITE);
+		getDropdownStatus().addItemListener(this);
 
 		// Radio buttons
 
 		priorityHigh = (new JRadioButton("High"));
+		priorityHigh.addItemListener(this);
 		priorityMedium = (new JRadioButton("Medium"));
+		priorityMedium.addItemListener(this);
 		priorityLow = (new JRadioButton("Low"));
+		priorityLow.addItemListener(this);
 		priorityBlank = (new JRadioButton("Undecided"));
-		getPriorityBlank().setSelected(true);
+		priorityBlank.addItemListener(this);
 		
 		group = new ButtonGroup();
 		group.add(getPriorityBlank());
@@ -195,12 +208,14 @@ abstract public class RequirementPanel extends JScrollPane
 
 		setBoxEstimate(new JTextField());
 		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
+		getBoxEstimate().addKeyListener(this);
 		setErrorEstimate(new JLabel());
 		
 		SpringLayout rightLayout = new SpringLayout();
 
 		rightPanel.setLayout(rightLayout);
- 
+		getPriorityBlank().setSelected(true);
+
 		//setup the constraints for the layout.
 		
 		// Type Field

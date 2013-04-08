@@ -66,7 +66,7 @@ public class ViewEventController {
 	 */
 	public void createRequirement() {
 		NewRequirementPanel newReq = new NewRequirementPanel();
-		main.addTab("Create Requirement", newReq);
+		main.addTab("New Req.", newReq);
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
 		main.setSelectedComponent(newReq);
@@ -78,7 +78,15 @@ public class ViewEventController {
 	public void editRequirement(Requirement toEdit)
 	{
 		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
-		main.addTab("Edit Requirement", editPanel);
+		
+		StringBuilder tabName = new StringBuilder();
+		tabName.append(toEdit.getId()); 
+		tabName.append(". ");
+		int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
+		tabName.append(toEdit.getName().substring(0,subStringLength));
+		if(toEdit.getName().length() > 6) tabName.append("..");
+		
+		main.addTab(tabName.toString(), editPanel);
 		this.editingPanel = editPanel;
 		main.invalidate();
 		main.repaint();
@@ -148,5 +156,20 @@ public class ViewEventController {
 		}
 		
 		editRequirement(toEdit);
+	}
+
+	/**
+	 * Closes all of the tabs besides the overview tab in the main view.
+	 */
+	public void closeAllTabs() {
+
+		int tabCount = main.getTabCount();
+		
+		for(int i = tabCount - 1; i != 0; i--)
+		{
+			main.removeTabAt(i);
+		}
+		
+		main.repaint();
 	}
 }
