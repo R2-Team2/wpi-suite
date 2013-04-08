@@ -78,7 +78,7 @@ public class AcceptanceTest {
 	 * Getter for the status
 	 * @return status of the acceptance test
 	 */
-	public TestStatus getStatus() {
+	public String getStatus() {
 		return this.testStatus.toString();
 	}
 	
