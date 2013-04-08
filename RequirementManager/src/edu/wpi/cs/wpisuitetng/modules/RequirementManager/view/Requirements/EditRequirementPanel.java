@@ -163,6 +163,7 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getErrorName().setText("");
 		getBoxName().setBorder(defaultBorder);
 		this.buttonUpdate.setEnabled(false);
+		getButtonClear().setEnabled(false);
 		
 		repaint();
 	}
@@ -218,7 +219,6 @@ public class EditRequirementPanel extends RequirementPanel
 
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		getButtonClear().setEnabled(false);
 		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 		
@@ -480,6 +480,25 @@ public class EditRequirementPanel extends RequirementPanel
 	}
 	
 	/**
+	 * Enables all of the components of the editing panel.
+	 */
+	private void enableComponents()
+	{
+		this.getBoxName().setEnabled(true);
+		this.getBoxDescription().setEnabled(true);
+		this.getBoxEstimate().setEnabled(true);
+		this.getBoxReleaseNum().setEnabled(true);
+		this.getDropdownType().setEnabled(true);
+		if(requirementBeingEdited.getEstimate() > 0) this.getBoxIteration().setEnabled(true);
+		this.getPriorityHigh().setEnabled(true);
+		this.getPriorityMedium().setEnabled(true);
+		this.getPriorityLow().setEnabled(true);
+		this.getPriorityBlank().setEnabled(true);
+		
+		this.buttonDelete.setEnabled(true);
+	}
+	
+	/**
 	 * Returns whether the panel is ready to be removed or not based on if there are changes that havent been
 	 * saved.
 	 * 
@@ -571,7 +590,16 @@ public class EditRequirementPanel extends RequirementPanel
 	public void itemStateChanged(ItemEvent e) {
 		this.buttonUpdate.setEnabled(anythingChanged());
 		this.buttonClear.setEnabled(anythingChanged());		
+		
+		if(getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED)
+		{
+			enableComponents();
+		}
+		else
+		{
+			disableComponents();
+		}
+		
 		this.repaint();
 	}
-	
 }

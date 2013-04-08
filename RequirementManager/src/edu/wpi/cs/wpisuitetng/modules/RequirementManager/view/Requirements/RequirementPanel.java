@@ -346,6 +346,13 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 			isEstimateValid = false;
 			getErrorEstimate().setForeground(Color.RED);
 		}
+		else if(Integer.parseInt(getBoxEstimate().getText()) == 0 && !(getBoxIteration().getText().trim().equals("Backlog") || getBoxIteration().getText().trim().equals("")))
+		{
+			getErrorEstimate().setText("<html>** Cannot have an estimate of 0<br>and be assigned to an iteration.</html>");
+			getBoxEstimate().setBorder(errorBorder);
+			isEstimateValid = false;
+			getErrorEstimate().setForeground(Color.RED);
+		}
 		else
 		{
 			getErrorEstimate().setText("");
