@@ -12,13 +12,24 @@ public enum TestStatus {
 	/**
 	 * The user has not assigned a status to the acceptance test
 	 */
-	STATUS_BLANK,
+	STATUS_BLANK(""),
 	/**
 	 * Indicates the acceptance test has passed
 	 */
-	STATUS_PASSED,
+	STATUS_PASSED("Passed"),
 	/**
 	 * Indicates the acceptance test has failed
 	 */
-	STATUS_FAILED,
+	STATUS_FAILED("Failed");
+	
+	private String desc;
+	TestStatus(String desc) {
+		this.desc = desc;
+	}
+	
+	public String toString() {
+		return desc;
+	}
+	
 }
+

@@ -79,7 +79,7 @@ public class AcceptanceTest {
 	 * @return status of the acceptance test
 	 */
 	public TestStatus getStatus() {
-		return this.testStatus;
+		return this.testStatus.toString();
 	}
 	
 	/**

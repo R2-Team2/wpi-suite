@@ -18,7 +18,7 @@ public class AcceptanceTestTest {
 		AcceptanceTest at = new AcceptanceTest("name", "description");
 		assertEquals(at.getName(), "name");
 		assertEquals(at.getDescription(), "description");
-		assertEquals(at.getStatus(), TestStatus.STATUS_BLANK);
+		assertEquals(at.getStatus(), "");
 		
 		AcceptanceTest at2 = new AcceptanceTest("a", "b");
 		at2.setName("name");
@@ -26,7 +26,7 @@ public class AcceptanceTestTest {
 		at2.setStatus(TestStatus.STATUS_PASSED);
 		assertEquals(at2.getName(), "name");
 		assertEquals(at2.getDescription(), "desc");
-		assertEquals(at2.getStatus(), TestStatus.STATUS_PASSED);
+		assertEquals(at2.getStatus(), "Passed");
 	}
 	
 	@Test
