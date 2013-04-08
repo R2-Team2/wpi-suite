@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
@@ -428,6 +429,7 @@ public class EditRequirementPanel extends RequirementPanel
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
 		c.weightx = 1; // Fill horizontal space
 		c.weighty = 1; // Fill all the vertical space
 		panel.add(scroll,c); // Add scroll pane to panel
@@ -438,6 +440,10 @@ public class EditRequirementPanel extends RequirementPanel
 		c.weightx = 0; // Do not stretch horizontally...
 		c.weighty = 0; // ...or vertically
 		panel.add(buttonAddTest,c); // Add button to panel
+		
+		// Fill scroll pane
+		AcceptanceTest test = new AcceptanceTest("Test", "This is a test.");
+		scroll.setViewportView(new TestPanel(test));
 		
 		return panel;
 	}
