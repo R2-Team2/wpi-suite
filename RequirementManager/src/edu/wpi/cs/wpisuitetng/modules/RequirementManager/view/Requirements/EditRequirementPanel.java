@@ -70,8 +70,10 @@ public class EditRequirementPanel extends RequirementPanel
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel notes = buildNotePanel();
 		JPanel history = buildHistoryPanel();
+		JPanel tests = buildTestPanel();
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
+		tabs.add("Acceptance Tests", tests);
 		
 		JPanel bottom = buildBottom();
 		
@@ -407,6 +409,36 @@ public class EditRequirementPanel extends RequirementPanel
 		// Show the requirement's transaction history in the scroll pane
 		scroll.setViewportView(HistoryPanel.createList(this.requirementBeingEdited.getHistory()));
 
+		return panel;
+	}
+	
+	private JPanel buildTestPanel()
+	{
+		// Button used to add a test
+		JButton buttonAddTest = new JButton("Add Test");
+		
+		// Create new scroll pane for notes
+		final JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			// Always show scroll bar
+				
+		// Layout manager for acceptance test panel
+		GridBagLayout layout = new GridBagLayout();
+		JPanel panel = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = 1; // Fill horizontal space
+		c.weighty = 1; // Fill all the vertical space
+		panel.add(scroll,c); // Add scroll pane to panel
+		
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		c.anchor = GridBagConstraints.WEST; // Anchor to left of panel
+		c.gridy = 1; // Row 1
+		c.weightx = 0; // Do not stretch horizontally...
+		c.weighty = 0; // ...or vertically
+		panel.add(buttonAddTest,c); // Add button to panel
+		
 		return panel;
 	}
 	
