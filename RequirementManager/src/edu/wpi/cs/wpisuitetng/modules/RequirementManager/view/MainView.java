@@ -72,26 +72,4 @@ public class MainView extends JTabbedPane {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}
-	
-	/**
-	 * Overridden remove function to ensure that we are not discarding edited changes.
-	 * @param the index to remove.
-	 */
-	@Override 
-	public void remove(int index)
-	{
-		JComponent toRemove = (JComponent)this.getComponentAt(index);
-		
-		if(toRemove instanceof EditRequirementPanel)
-		{
-			if(((EditRequirementPanel)toRemove).readyToRemove())
-			{
-				super.remove(index);
-			}
-		}
-		else
-		{
-			super.remove(index);
-		}
-	}
 }

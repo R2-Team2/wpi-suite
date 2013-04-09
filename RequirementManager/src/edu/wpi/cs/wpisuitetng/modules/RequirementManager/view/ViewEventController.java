@@ -101,8 +101,12 @@ public class ViewEventController {
 	
 	public void removeTab(JComponent comp)
 	{
-		boolean edit = comp instanceof EditRequirementPanel;
-		if(comp instanceof EditRequirementPanel) this.listOfEditingPanels.remove(comp);
+		if(comp instanceof EditRequirementPanel)
+		{
+			if(!((EditRequirementPanel)comp).readyToRemove()) return;
+			this.listOfEditingPanels.remove(comp);
+			
+		}
 		main.remove(comp);
 	}
 
