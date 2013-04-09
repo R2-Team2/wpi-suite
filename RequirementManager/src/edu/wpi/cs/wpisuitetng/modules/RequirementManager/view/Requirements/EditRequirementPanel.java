@@ -6,14 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -23,17 +15,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 
@@ -471,7 +460,11 @@ public class EditRequirementPanel extends RequirementPanel {
 		buttonAddTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JTextField title = new JTextField();
-				JTextField description = new JTextField();
+				JTextArea description = new JTextArea(6, 6);
+				description.setWrapStyleWord(true);
+				description.setLineWrap(true);
+				JScrollPane scroll = new JScrollPane (description);
+				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				int response = 1;
 
 				// Options for dialog box
@@ -479,7 +472,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 				final JComponent[] inputs = new JComponent[] {
 						new JLabel("Title"), title, new JLabel("Description"),
-						description };
+						scroll };
 				response = JOptionPane.showOptionDialog(null, inputs,
 						"Add Acceptance Test", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
