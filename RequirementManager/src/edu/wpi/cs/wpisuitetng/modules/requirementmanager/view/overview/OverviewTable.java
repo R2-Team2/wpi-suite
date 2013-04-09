@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,12 +13,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.GetIterationController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class OverviewTable extends JTable
 {

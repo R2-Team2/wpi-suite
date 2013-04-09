@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.AddRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
 /**List of Requirements being pulled from the server

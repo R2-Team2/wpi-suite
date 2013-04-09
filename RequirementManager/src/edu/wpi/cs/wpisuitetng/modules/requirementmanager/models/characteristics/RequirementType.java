@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
  * Various types that a Requirement can be

@@ -1,11 +1,11 @@
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller;
 
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 
 /**
  * This controller responds when the user clicks the Update button by

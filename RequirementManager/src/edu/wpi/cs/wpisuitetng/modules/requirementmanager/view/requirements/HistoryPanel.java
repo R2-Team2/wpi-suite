@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -17,8 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Transaction;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 
 /**
  * @author paul

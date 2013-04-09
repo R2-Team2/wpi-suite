@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
  * Sets up upper toolbar of RequirementManager tab

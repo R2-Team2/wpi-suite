@@ -1,11 +1,11 @@
- package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
+ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview.OverviewPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
 /**
  * This class sets the main view when user goes to the RequirementManager tab

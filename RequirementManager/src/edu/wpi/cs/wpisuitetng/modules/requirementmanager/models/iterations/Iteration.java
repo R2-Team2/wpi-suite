@@ -1,10 +1,10 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.IterationController.UpdateIterationController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.

@@ -1,5 +1,5 @@
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ToolbarView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ToolbarView;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
 public class RequirementManager implements IJanewayModule {

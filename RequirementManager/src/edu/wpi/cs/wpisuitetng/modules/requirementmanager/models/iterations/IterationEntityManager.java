@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.List;
 

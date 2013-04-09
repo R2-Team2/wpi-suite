@@ -1,10 +1,11 @@
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.RequirementModel;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;

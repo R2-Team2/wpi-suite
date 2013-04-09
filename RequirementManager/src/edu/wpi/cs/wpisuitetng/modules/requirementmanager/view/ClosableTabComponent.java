@@ -10,7 +10,7 @@
  *    Andrew Hurle
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.FlowLayout;
 import java.awt.Insets;

@@ -1,8 +1,8 @@
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller;
 
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;

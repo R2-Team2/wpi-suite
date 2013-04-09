@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.*;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.*;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 /**
  * Basic Requirement class

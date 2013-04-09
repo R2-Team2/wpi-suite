@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
