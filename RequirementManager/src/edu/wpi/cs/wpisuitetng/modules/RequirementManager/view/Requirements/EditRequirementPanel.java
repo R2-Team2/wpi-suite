@@ -48,6 +48,7 @@ public class EditRequirementPanel extends RequirementPanel
 	private Requirement requirementBeingEdited;
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
+	private JButton buttonAddChild = new JButton("Add Child Requirement");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	
@@ -211,8 +212,15 @@ public class EditRequirementPanel extends RequirementPanel
 			}
 		});
 
+		buttonAddChild.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
+		buttonPanel.add(buttonAddChild);
 		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 		
@@ -469,7 +477,7 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getPriorityMedium().setEnabled(false);
 		this.getPriorityLow().setEnabled(false);
 		this.getPriorityBlank().setEnabled(false);
-		
+		this.buttonAddChild.setEnabled(false);
 		this.buttonDelete.setEnabled(false);
 	}
 	
