@@ -66,7 +66,24 @@ public class RequirementModel extends AbstractListModel{
 			
 		}
 	}
-	
+	/**
+	 * Returns the Requirement with the given ID
+	 * 
+	 * @param id The ID number of the requirement to be returned
+	 * @return
+	 */
+	public Requirement getRequirement(int id)
+	{
+		Requirement temp = null;
+		// iterate through list of requirements until id is found
+		for (int i=0; i < this.requirements.size(); i++){
+			temp = requirements.get(i);
+			if (temp.getId() == id){
+				break;
+			}
+		}
+		return temp;
+	}
 	/**
 	 * Removes the requirement with the given ID
 	 * 
