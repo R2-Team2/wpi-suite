@@ -18,6 +18,9 @@ public class NewRequirementPanelTest {
 		 
 	}
 
+	/**
+	 * check whether the field is enabled or not as default
+	 */
 	@Test 
 	public void defaultEnability()
 	{
@@ -52,14 +55,6 @@ public class NewRequirementPanelTest {
 		NewRequirementPanel testNew = new NewRequirementPanel();
 		String errorMessageNoninterger = "** Please enter a non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
-		String testName = "testName";
-		String testDescription = "testDescription";
-		
-		// initial set up
-		assertEquals(RequirementStatus.NEW,testNew.getDropdownStatus().getSelectedItem());
-		assertEquals(RequirementType.BLANK,testNew.getDropdownType().getSelectedItem());
 		
 		String hundredCharText = "0";
 		
@@ -67,26 +62,21 @@ public class NewRequirementPanelTest {
 		{
 			hundredCharText = hundredCharText +"0";
 		}
-		// defualt buttons for no field
-		assertEquals(false, testNew.getButtonUpdate().isEnabled());
-		assertEquals(false, testNew.getButtonClear().isEnabled());
-		assertEquals(true, testNew.getButtonCancel().isEnabled());
 		
+		// a field is added correctly but both name and description are filled with blanks
 		testNew.getBoxEstimate().setText("-134");
 		testNew.getBoxName().setText("  ");
 		testNew.getBoxDescription().setText("   ");
+		// release pressed key
+		testNew.keyReleased(null);
 		
+		// can't create because no name/description, but a field has been changed
 		assertEquals(false, testNew.getButtonUpdate().isEnabled());
-		assertEquals(false, testNew.getButtonClear().isEnabled());
-		assertEquals(true, testNew.getButtonCancel().isEnabled());
-		
-		testNew.getBoxEstimate().setText("4");
-		testNew.getBoxName().setText(testName);
-		testNew.getDropdownType().setSelectedItem(RequirementType.EPIC);
-		
-		assertEquals(true, testNew.getButtonUpdate().isEnabled());
 		assertEquals(true, testNew.getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+		// 
+		
 //		
 //		testNew.getButtonUpdate().doClick();
 //		
@@ -107,6 +97,23 @@ public class NewRequirementPanelTest {
 //		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
 //		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
 		
+	}
+	
+	@Test
+	public void validRequirementCreation()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		String testName = "testName";
+		String testDescription = "testDescription";
+		
+		testNew.getBoxName().setText(testName);
+		testNew.getBoxDescription().setText(testDescription);
+		
+		testNew.keyReleased(null);
+		
+		assertEquals(true, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
 	}
 	
 	@Test
