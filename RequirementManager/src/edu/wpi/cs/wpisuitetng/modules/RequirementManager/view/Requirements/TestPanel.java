@@ -77,7 +77,9 @@ public class TestPanel extends JPanel
 		this.add(dropdownStatus, testConstraints); // Add status to panel
 		
 		testConstraints.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
+		testConstraints.gridx = 0; // Column 0
 		testConstraints.gridy = 1; //Row 1
+		testConstraints.gridwidth = 2; // Fill 2 columns
 		testConstraints.weightx = 1; //Fill the width
 		testConstraints.insets = new Insets(2,2,2,2); //2px margin
 		this.add(description, testConstraints); // Add description to testPanel

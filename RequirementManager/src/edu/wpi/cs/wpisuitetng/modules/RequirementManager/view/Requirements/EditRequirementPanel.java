@@ -420,6 +420,9 @@ public class EditRequirementPanel extends RequirementPanel {
 		JButton buttonAddTest = new JButton("Add Test");
 		JButton buttonUpdate = new JButton("Update");
 
+		// Error message field
+		final JLabel error = new JLabel("");
+
 		// Create new scroll pane for notes
 		final JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -429,7 +432,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		// Layout manager for button panel
 		GridBagLayout bl = new GridBagLayout();
 		JPanel buttons = new JPanel(bl);
@@ -440,20 +443,24 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.weightx = 1; // Fill horizontal space
 		c.weighty = 1; // Fill all the vertical space
 		panel.add(scroll, c); // Add scroll pane to panel
-		
+
 		bc.anchor = GridBagConstraints.WEST; // Anchor to left
 		buttons.add(buttonAddTest, bc);
-		
+
 		bc.gridx = 1; // Column 1
 		buttons.add(buttonUpdate, bc);
+
+		bc.gridx = 2; // Column 2
+		buttons.add(error, bc);
 
 		c.fill = GridBagConstraints.NONE; // Don't fill cell
 		c.anchor = GridBagConstraints.WEST; // Anchor to left of panel
 		c.gridy = 1; // Row 1
 		c.weighty = 0; // Do not stretch vertically
 		panel.add(buttons, c); // Add buttons to panel
-		
-		JPanel tests = TestPanel.createList(this.requirementBeingEdited.getTests());
+
+		JPanel tests = TestPanel.createList(this.requirementBeingEdited
+				.getTests());
 		scroll.setViewportView(tests);
 
 		// Listener for addTest button
@@ -463,8 +470,8 @@ public class EditRequirementPanel extends RequirementPanel {
 				JTextArea description = new JTextArea(6, 6);
 				description.setWrapStyleWord(true);
 				description.setLineWrap(true);
-				JScrollPane scroll = new JScrollPane (description);
-				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				JScrollPane dScroll = new JScrollPane(description);
+				dScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				int response = 1;
 
 				// Options for dialog box
@@ -472,32 +479,48 @@ public class EditRequirementPanel extends RequirementPanel {
 
 				final JComponent[] inputs = new JComponent[] {
 						new JLabel("Title"), title, new JLabel("Description"),
-						scroll };
+						dScroll };
 				response = JOptionPane.showOptionDialog(null, inputs,
 						"Add Acceptance Test", JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+						JOptionPane.PLAIN_MESSAGE, null, options, null);
 
-				if (response == 0) 
-				{
-					// Add test to requirement
-					AcceptanceTest addTest = new AcceptanceTest(
-							title.getText(), description.getText());
-					requirementBeingEdited.addTest(addTest);
-					
-					// Update panel to show new test
-					scroll.setViewportView(TestPanel
-							.createList(requirementBeingEdited.getTests()));
+				if (response == 0) {
+					if (title.getText().length() <= 0) 
+					{
+						error.setText(" Title can not be blank");
+					} 
+					else if (title.getText().length() > 100) 
+					{
+						error.setText(" Title is too long: Max 100 characters");
+					} 
+					else 
+					{
+						error.setText("");
+						
+						// Add test to requirement
+						AcceptanceTest addTest = new AcceptanceTest(title
+								.getText(), description.getText());
+						requirementBeingEdited.addTest(addTest);
+						
+						// Add to transaction history
+						String msg = ("Acceptance test " + title.getText() + " added.");
+						requirementBeingEdited.getHistory().add(msg);
 
-					// Update database so requirement stores new test
-					UpdateRequirementController.getInstance()
-							.updateRequirement(requirementBeingEdited);
+						// Update panel to show new test
+						scroll.setViewportView(TestPanel
+								.createList(requirementBeingEdited.getTests()));
+
+						// Update database so requirement stores new test
+						UpdateRequirementController.getInstance()
+								.updateRequirement(requirementBeingEdited);
+					}
 				}
 			}
 		});
-		
+
 		buttonAddTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Update status of tests
+				// TODO: Update status of tests
 			}
 		});
 
