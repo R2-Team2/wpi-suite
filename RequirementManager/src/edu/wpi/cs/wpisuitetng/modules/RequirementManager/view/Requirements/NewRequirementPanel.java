@@ -294,7 +294,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		this.buttonUpdate.setEnabled(anythingChanged());	
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0 );	
 		this.buttonClear.setEnabled(anythingChanged());		
 		this.repaint();				
 	}
