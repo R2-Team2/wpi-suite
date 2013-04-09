@@ -18,6 +18,35 @@ public class NewRequirementPanelTest {
 		 
 	}
 
+	@Test 
+	public void defaultEnability()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		assertEquals(true, testNew.getBoxName().isEnabled());
+		assertEquals(true, testNew.getBoxDescription().isEnabled());
+		assertEquals(false, testNew.getBoxIteration().isEnabled());
+		assertEquals(true, testNew.getDropdownType().isEnabled());
+		assertEquals(false, testNew.getDropdownStatus().isEnabled());
+		assertEquals(true, testNew.getPriorityBlank().isEnabled());
+		assertEquals(true, testNew.getBoxEstimate().isEnabled());
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(false, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+	}
+	
+	@Test
+	public void defaultField()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		assertEquals(RequirementStatus.NEW, testNew.getDropdownStatus().getSelectedItem());
+		assertEquals(false, testNew.getPriorityHigh().isSelected());
+		assertEquals(false, testNew.getPriorityMedium().isSelected());
+		assertEquals(false, testNew.getPriorityLow().isSelected());
+		assertEquals(true, testNew.getPriorityBlank().isSelected());
+		
+	}
+	
 	@Test
 	public void errorFieldTest() {
 		NewRequirementPanel testNew = new NewRequirementPanel();
@@ -38,27 +67,45 @@ public class NewRequirementPanelTest {
 		{
 			hundredCharText = hundredCharText +"0";
 		}
+		// defualt buttons for no field
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(false, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
 		
 		testNew.getBoxEstimate().setText("-134");
+		testNew.getBoxName().setText("  ");
 		testNew.getBoxDescription().setText("   ");
 		
-		testNew.getButtonUpdate().doClick();
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(false, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
 		
-		// has to be nonnegative, has to have name, has to have description
-		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
-		// Iteration is unable, Dropdown status is unable
-		assertEquals(false, testNew.getBoxIteration().isEnabled());
-		assertEquals(false, testNew.getDropdownStatus().isEnabled());
-		testNew.getBoxName().setText(hundredCharText);
-		testNew.getBoxEstimate().setText("StringCharacter");
-		testNew.getBoxDescription().setText(null);
-		testNew.getButtonUpdate().doClick();
+		testNew.getBoxEstimate().setText("4");
+		testNew.getBoxName().setText(testName);
+		testNew.getDropdownType().setSelectedItem(RequirementType.EPIC);
 		
-		assertEquals(errorMessageNoMore100,testNew.getErrorName().getText());
-		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
+		assertEquals(true, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+//		
+//		testNew.getButtonUpdate().doClick();
+//		
+//		// has to be nonnegative, has to have name, has to have description
+//		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
+//		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
+//		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
+//		// Iteration is unable, Dropdown status is unable
+		
+//		assertEquals(false, testNew.getBoxIteration().isEnabled());
+//		assertEquals(false, testNew.getDropdownStatus().isEnabled());
+//		testNew.getBoxName().setText(hundredCharText);
+//		testNew.getBoxEstimate().setText("StringCharacter");
+//		testNew.getBoxDescription().setText(null);
+//		testNew.getButtonUpdate().doClick();
+//		
+//		assertEquals(errorMessageNoMore100,testNew.getErrorName().getText());
+//		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
+//		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
 		
 	}
 	

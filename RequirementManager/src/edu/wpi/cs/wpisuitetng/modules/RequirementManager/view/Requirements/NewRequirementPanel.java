@@ -242,14 +242,14 @@ public class NewRequirementPanel extends RequirementPanel
 		boolean nameChanged = !(getBoxName().getText().trim().equals(""));
 		boolean descriptionChanged = !(getBoxDescription().getText().trim().equals(""));
 		boolean releaseChanged = !(getBoxReleaseNum().getText().trim().equals(""));
-		boolean iterationChanged = !(getBoxIteration().getText().trim().equals(""));
+		//boolean iterationChanged = !(getBoxIteration().getText().trim().equals(""));
 		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK);
 
 		boolean priorityChanged = !getPriorityBlank().isSelected();
 		
 		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(""));
 
-		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
+		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged ||  
 				typeChanged || priorityChanged || estimateChanged;
 		
 		return anythingChanged;
@@ -270,6 +270,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO change the boolean expression // test case fail because of this
 		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
 		this.buttonClear.setEnabled(anythingChanged());
 		
