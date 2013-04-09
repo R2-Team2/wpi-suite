@@ -51,17 +51,14 @@ public class Requirement extends AbstractModel {
 	/** the type of the requirement */
 	private RequirementType type;
 
-	/**
-	 * sub-requirements that must be completed before the current requirement is
-	 * considered complete
-	 */
-	private List<Requirement> subRequirements;
-
 	/** notes associated with the requirement */
 	private NoteList notes;
 
 	/** iteration the requirement is assigned to */
 	private String iteration;
+	
+	/** the ID of the requirement that this requirement is a sub-requirement of */
+	private int parentID;
 
 	/**
 	 * team members the requirement is assigned to need to figure out the class
@@ -368,43 +365,7 @@ public class Requirement extends AbstractModel {
 		this.type = type;
 	}
 
-	/**
-	 * Getter for the sub-requirements
-	 * 
-	 * @return a list of the sub-requirements
-	 */
-	public List<Requirement> getSubRequirements() {
-		return subRequirements;
-	}
-
-	/**
-	 * Method to add a requirement to the list of sub-requirements
-	 * 
-	 * @param requirement
-	 *            Requirement to add
-	 */
-	public void addSubRequirement(Requirement subRequirement) {
-		this.subRequirements.add(subRequirement);
-	}
-
-	/**
-	 * Method to remove a requirement to the list of sub-requirements
-	 * 
-	 * @param id
-	 *            The id of the requirement to be remove from the list of
-	 *            sub-requirements
-	 */
-	public void removeSubRequirement(int id) {
-		// iterate through the list looking for the requirement to remove
-		for (int i = 0; i < this.subRequirements.size(); i++) {
-			if (subRequirements.get(i).getId() == id) {
-				// remove the id
-				subRequirements.remove(i);
-				break;
-			}
-		}
-	}
-
+	
 	/**
 	 * Getter for the notes
 	 * 
@@ -565,6 +526,25 @@ public class Requirement extends AbstractModel {
 		}
 		
 		this.iteration = newIterationName;
+	}
+
+	/**
+	 * Getter for parent IDs
+	 * 
+	 * @return the parent ID, which is the ID of the parent of the requirement 
+	 */
+	public int getParentID() {
+		return parentID;
+	}
+	
+	/**
+	 * Setter for parentID
+	 * extracts the ID of parentReq and assign it to parentID 
+	 * 
+	 * @param parentReq            
+	 */
+	public void setParentID(Requirement parentReq) {
+		this.parentID = parentReq.getId();
 	}
 
 	/**
