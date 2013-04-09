@@ -73,7 +73,7 @@ public class Requirement extends AbstractModel {
 	private List<DevelopmentTask> tasks;
 
 	/** acceptance tests associated with the requirement */
-	private List<AcceptanceTest> tests;
+	private ArrayList<AcceptanceTest> tests;
 
 	/** attachments associated with the requirement */
 	private List<Attachment> attachments;
@@ -454,7 +454,7 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @return the list of acceptance tests for the requirement
 	 */
-	public List<AcceptanceTest> getTests() {
+	public ArrayList<AcceptanceTest> getTests() {
 		return tests;
 	}
 
@@ -685,5 +685,6 @@ public class Requirement extends AbstractModel {
 		this.type = toCopyFrom.type;
 		this.history = toCopyFrom.history;
 		this.notes = toCopyFrom.notes;
+		this.tests = toCopyFrom.tests;
 	}
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -426,8 +427,9 @@ public class EditRequirementPanel extends RequirementPanel {
 	}
 
 	private JPanel buildTestPanel() {
-		// Button used to add a test
+		// Button used to add a test and update status
 		JButton buttonAddTest = new JButton("Add Test");
+		JButton buttonUpdate = new JButton("Update");
 
 		// Create new scroll pane for notes
 		final JScrollPane scroll = new JScrollPane();
@@ -438,39 +440,71 @@ public class EditRequirementPanel extends RequirementPanel {
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
+		
+		// Layout manager for button panel
+		GridBagLayout bl = new GridBagLayout();
+		JPanel buttons = new JPanel(bl);
+		GridBagConstraints bc = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
 		c.weightx = 1; // Fill horizontal space
 		c.weighty = 1; // Fill all the vertical space
 		panel.add(scroll, c); // Add scroll pane to panel
+		
+		bc.anchor = GridBagConstraints.WEST; // Anchor to left
+		buttons.add(buttonAddTest, bc);
+		
+		bc.gridx = 1; // Column 1
+		buttons.add(buttonUpdate, bc);
 
-		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		c.fill = GridBagConstraints.NONE; // Don't fill cell
 		c.anchor = GridBagConstraints.WEST; // Anchor to left of panel
 		c.gridy = 1; // Row 1
-		c.weightx = 0; // Do not stretch horizontally...
-		c.weighty = 0; // ...or vertically
-		panel.add(buttonAddTest, c); // Add button to panel
-
-		// Fill scroll pane
-		AcceptanceTest test = new AcceptanceTest("Test", "This is a test.");
-		scroll.setViewportView(new TestPanel(test));
+		c.weighty = 0; // Do not stretch vertically
+		panel.add(buttons, c); // Add buttons to panel
+		
+		JPanel tests = TestPanel.createList(this.requirementBeingEdited.getTests());
+		scroll.setViewportView(tests);
 
 		// Listener for addTest button
 		buttonAddTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JTextField title = new JTextField();
 				JTextField description = new JTextField();
-				description.setSize(100,8);
-				
+				int response = 1;
+
 				// Options for dialog box
-				Object[] options = {"OK", "Cancel"};
-				
+				Object[] options = { "OK", "Cancel" };
+
 				final JComponent[] inputs = new JComponent[] {
 						new JLabel("Title"), title, new JLabel("Description"),
 						description };
-				JOptionPane.showOptionDialog(null, inputs,
-						"Add Acceptance Test", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+				response = JOptionPane.showOptionDialog(null, inputs,
+						"Add Acceptance Test", JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+
+				if (response == 0) 
+				{
+					// Add test to requirement
+					AcceptanceTest addTest = new AcceptanceTest(
+							title.getText(), description.getText());
+					requirementBeingEdited.addTest(addTest);
+					
+					// Update panel to show new test
+					scroll.setViewportView(TestPanel
+							.createList(requirementBeingEdited.getTests()));
+
+					// Update database so requirement stores new test
+					UpdateRequirementController.getInstance()
+							.updateRequirement(requirementBeingEdited);
+				}
+			}
+		});
+		
+		buttonAddTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Update status of tests
 			}
 		});
 
