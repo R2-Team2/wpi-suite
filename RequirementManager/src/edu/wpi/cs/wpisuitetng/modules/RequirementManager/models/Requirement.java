@@ -465,6 +465,8 @@ public class Requirement extends AbstractModel {
 	 *            the acceptance test to implement
 	 */
 	public void addTest(AcceptanceTest test) {
+		String msg = "Acceptance test '" + test.getName() + "' added.";
+		this.history.add(msg);
 		tests.add(test);
 	}
 	

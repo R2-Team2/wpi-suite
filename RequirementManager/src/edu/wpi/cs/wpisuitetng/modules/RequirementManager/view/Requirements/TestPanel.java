@@ -68,13 +68,14 @@ public class TestPanel extends JPanel
 		description.setBorder(b);
 		
 		// Get the title and place it in a label
-		JLabel testName = new JLabel(test.getName());
+		JLabel testName = new JLabel(" "+test.getName());
 		
 		// Get status and set drop down box to correct status
 		JComboBox dropdownStatus = new JComboBox(TestStatus.values());
 		dropdownStatus.setBackground(Color.WHITE);
 		dropdownStatus.setSelectedItem(test.getStatus());
 		
+
 		final Requirement finalReq = requirement;
 		final AcceptanceTest finalTest = test;
 		ItemListener itemListener = new ItemListener() {
@@ -83,12 +84,17 @@ public class TestPanel extends JPanel
 		      }
 		    };
 		dropdownStatus.addItemListener(itemListener);
+
+		// Create panel for dropdown status
+		JPanel statusPanel = new JPanel();
+		statusPanel.add(new JLabel("Status: "));
+		statusPanel.add(dropdownStatus);
 		
 		// Create a layout manager for this test panel
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints testConstraints = new GridBagConstraints();
 		
-		testConstraints.anchor = GridBagConstraints.NORTHWEST; // Display title in top-left
+		testConstraints.anchor = GridBagConstraints.WEST; // Display title in top-left
 		testConstraints.fill = GridBagConstraints.NONE; // Don't fill elements
 		testConstraints.gridy = 0; // Row 0
 		testConstraints.gridx = 0; // Column 0
@@ -96,7 +102,7 @@ public class TestPanel extends JPanel
 		
 		testConstraints.gridx = 1; // Column 1
 		testConstraints.anchor = GridBagConstraints.NORTHEAST; // Display status in top-right
-		this.add(dropdownStatus, testConstraints); // Add status to panel
+		this.add(statusPanel, testConstraints); // Add status to panel
 		
 		testConstraints.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
 		testConstraints.gridx = 0; // Column 0
