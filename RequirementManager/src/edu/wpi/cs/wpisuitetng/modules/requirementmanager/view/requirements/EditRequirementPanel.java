@@ -140,6 +140,12 @@ public class EditRequirementPanel extends RequirementPanel
 		{
 			getBoxEstimate().setEnabled(true);
 		}
+		if(getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE || getRequirementBeingEdited().getStatus() == RequirementStatus.DELETED){
+			buttonAddChild.setEnabled(false);
+		}
+		else{
+			buttonAddChild.setEnabled(true);
+		}
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
 		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 

@@ -81,6 +81,14 @@ public class TransactionHistory {
 	}
 	
 	/**
+	 * getter for Transaction History time stamp
+	 * @return TimeStamp
+	 */
+	public long getTimestamp() {
+		return this.TimeStamp;
+	}	
+	
+	/**
 	 * set the timestamp
 	 * @param ts
 	 */

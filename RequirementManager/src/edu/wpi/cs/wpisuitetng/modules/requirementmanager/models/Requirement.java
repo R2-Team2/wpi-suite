@@ -555,9 +555,18 @@ public class Requirement extends AbstractModel {
 	public void setParentID(int parentReq) {
 		this.parentID = parentReq;
 	}
+	
+	/**
+	 * Getter for parent
+	 * @return the parent requirement of the sub-requirement
+	 */
+	public Requirement getParent() {		
+		return RequirementModel.getInstance().getRequirement(parentID);
+	}
+	
 	/**
 	 * Setter for parent
-	 * extracts the ID of parentReq and assign it to parentID 
+	 * extracts the ID of parentReq and assigns it to parentID 
 	 * 
 	 * @param parentReq            
 	 */
