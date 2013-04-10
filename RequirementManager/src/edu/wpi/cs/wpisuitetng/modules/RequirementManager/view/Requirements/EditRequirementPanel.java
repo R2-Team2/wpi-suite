@@ -459,8 +459,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.weighty = 0; // Do not stretch vertically
 		panel.add(buttons, c); // Add buttons to panel
 
-		JPanel tests = TestPanel.createList(this.requirementBeingEdited
-				.getTests());
+		JPanel tests = TestPanel.createList(this.requirementBeingEdited);
 		scroll.setViewportView(tests);
 
 		// Listener for addTest button
@@ -508,7 +507,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 						// Update panel to show new test
 						scroll.setViewportView(TestPanel
-								.createList(requirementBeingEdited.getTests()));
+								.createList(requirementBeingEdited));
 
 						// Update database so requirement stores new test
 						UpdateRequirementController.getInstance()
@@ -517,13 +516,6 @@ public class EditRequirementPanel extends RequirementPanel {
 				}
 			}
 		});
-
-		buttonAddTest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO: Update status of tests
-			}
-		});
-
 		return panel;
 	}
 
