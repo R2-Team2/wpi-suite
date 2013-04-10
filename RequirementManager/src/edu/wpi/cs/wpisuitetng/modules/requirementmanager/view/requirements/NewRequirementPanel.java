@@ -10,11 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import java.util.Date;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 /**
  * 
@@ -156,7 +159,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 		// Set to true to indicate the requirement is being newly created
 		boolean created = true;
-		
+				
 		// Create a new requirement object based on the extracted info
 		getNewRequirement().setName(stringName);
 		getNewRequirement().setDescription(stringDescription);		
@@ -166,6 +169,9 @@ public class NewRequirementPanel extends RequirementPanel
 		getNewRequirement().setType(type);
 		getNewRequirement().setEstimate(estimate);
 		getNewRequirement().setIteration(stringIteration, created);
+		// Set the time stamp for the transaction for the creation of the requirement
+        getNewRequirement().getHistory().setTimestamp(System.currentTimeMillis());
+        System.out.println("The Time Stamp is now :" + getNewRequirement().getHistory().getTimestamp());
 		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
