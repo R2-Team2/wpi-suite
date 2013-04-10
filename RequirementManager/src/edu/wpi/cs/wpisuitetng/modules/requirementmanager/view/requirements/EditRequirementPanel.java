@@ -68,7 +68,7 @@ public class EditRequirementPanel extends RequirementPanel
 	public EditRequirementPanel(Requirement req) {
 		super();
 
-		requirementBeingEdited = req;
+		requirementBeingEdited = this.displayRequirement = req;
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -130,21 +130,7 @@ public class EditRequirementPanel extends RequirementPanel
 		getDropdownType().setSelectedItem(getRequirementBeingEdited().getType());
 		getBoxIteration().setText(getRequirementBeingEdited().getIteration().toString());
 		
-		switch(getRequirementBeingEdited().getPriority())
-		{
-		case BLANK:
-			getPriorityBlank().setSelected(true);
-			break;
-		case LOW:
-			getPriorityLow().setSelected(true);
-			break;
-		case MEDIUM:
-			getPriorityMedium().setSelected(true);
-			break;
-		case HIGH:
-			getPriorityHigh().setSelected(true);
-			break;
-		}
+		this.setPriorityDropdown(getRequirementBeingEdited().getPriority());
 		
 		if(getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS || getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE)
 		{
@@ -157,8 +143,8 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
 		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
-		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
-		if(!(getRequirementBeingEdited().getEstimate() > 0)) getBoxIteration().setEnabled(false);
+		if(requirementBeingEdited.getEstimate() <= 0) getBoxIteration().setEnabled(false);
+		if(getRequirementBeingEdited().getEstimate() <= 0) getBoxIteration().setEnabled(false);
 		
 		//reset the error messages.
 		this.getErrorEstimate().setText("");
@@ -224,7 +210,7 @@ public class EditRequirementPanel extends RequirementPanel
 		buttonAddChild.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				ViewEventController.getInstance().createChildRequirement(requirementBeingEdited.getId());
 			}
 		});
 		buttonPanel.add(getButtonUpdate());

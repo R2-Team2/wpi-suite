@@ -684,4 +684,12 @@ public class Requirement extends AbstractModel {
 		this.history = toCopyFrom.history;
 		this.notes = toCopyFrom.notes;
 	}
+
+	//TODO: Javadoc
+	/**
+	 * @return
+	 */
+	public Requirement getParent() {
+		return RequirementModel.getInstance().getRequirement(this.getParentID());
+	}
 }

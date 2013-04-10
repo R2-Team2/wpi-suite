@@ -39,15 +39,22 @@ public class NewRequirementPanel extends RequirementPanel
 	private JButton buttonUpdate = new JButton("Create");
 	private JButton buttonCancel = new JButton("Cancel");
 	private JButton buttonClear = new JButton("Clear");
-	
-	private Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "", "");
-	
+		
 	/**
-	 * Constructor for a new requirement panel
-	 * @param reqModel Local requirement model for containing data
+	 * Constructor for a new requirement panel with a parent
 	 */
-	public NewRequirementPanel() {
+	public NewRequirementPanel()
+	{
+		this(0);
+	}
+	/**
+	 * Constructor for a new requirement panel with a parent
+	 */
+	public NewRequirementPanel(int parentID) {
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		this.displayRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "","");
+		this.displayRequirement.setParentID(parentID);
 
 		contentPanel.add(buildLeftPanel()); //add left panel
 		contentPanel.add(buildRightPanel()); //add right panel
@@ -237,7 +244,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 
 	public Requirement getNewRequirement() {
-		return newRequirement;
+		return this.displayRequirement;
 	}
 
 

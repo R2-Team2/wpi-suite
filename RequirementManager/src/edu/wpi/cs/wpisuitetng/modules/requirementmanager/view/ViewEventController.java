@@ -80,7 +80,14 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newReq);
 	}
-	
+	//TODO: javadoc
+	public void createChildRequirement(int parentID) {
+		NewRequirementPanel newReq = new NewRequirementPanel(parentID);
+		main.addTab("Create Requirement", newReq);
+		main.invalidate(); //force the tabbedpane to redraw.
+		main.repaint();
+		main.setSelectedComponent(newReq);
+	}
 	/**
 	 * Opens a new tab for the editing of a requirement
 	 */
