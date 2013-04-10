@@ -44,6 +44,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonCancel = new JButton("Cancel");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
+	private JScrollPane historyScrollPane = new JScrollPane();
 
 	/**
 	 * Constructor for a new requirement panel
@@ -400,16 +401,15 @@ public class EditRequirementPanel extends RequirementPanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		// Create scroll pane for window, set scroll bar to always be on
-		JScrollPane scroll = new JScrollPane();
-		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		historyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.weightx = 1; // Fill horizontal space
 		c.weighty = 0.8; // Fill 80% of vertical space
-		panel.add(scroll, c); // Add scroll pane to panel
+		panel.add(historyScrollPane, c); // Add scroll pane to panel
 
 		// Show the requirement's transaction history in the scroll pane
-		scroll.setViewportView(HistoryPanel
+		historyScrollPane.setViewportView(HistoryPanel
 				.createList(this.requirementBeingEdited.getHistory()));
 
 		return panel;
@@ -508,6 +508,10 @@ public class EditRequirementPanel extends RequirementPanel {
 						// Update panel to show new test
 						scroll.setViewportView(TestPanel
 								.createList(requirementBeingEdited.getTests()));
+						
+						// Update history panel
+						historyScrollPane.setViewportView(HistoryPanel
+								.createList(requirementBeingEdited.getHistory()));
 
 						// Update database so requirement stores new test
 						UpdateRequirementController.getInstance()
