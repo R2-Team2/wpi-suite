@@ -482,7 +482,7 @@ public class EditRequirementPanel extends RequirementPanel {
 						dScroll };
 				response = JOptionPane.showOptionDialog(null, inputs,
 						"Add Acceptance Test", JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.PLAIN_MESSAGE, null, options, null);
+						JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 				if (response == 0) {
 					if (title.getText().length() <= 0) 
