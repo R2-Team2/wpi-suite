@@ -81,8 +81,10 @@ public class RequirementModel extends AbstractListModel{
 				break;
 			}
 		}
-		
-		ViewEventController.getInstance().refreshTable();
+		try {
+			ViewEventController.getInstance().refreshTable();
+		}
+		catch(Exception e) {}
 	}
 
 	/**
@@ -135,7 +137,10 @@ public class RequirementModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-		ViewEventController.getInstance().refreshTable();
+		try{
+			ViewEventController.getInstance().refreshTable();
+		}
+		catch (Exception e) {}
 	}
 	
 	/**
@@ -145,11 +150,12 @@ public class RequirementModel extends AbstractListModel{
 	 */
 	public void addRequirements(Requirement[] requirements) {
 		for (int i = 0; i < requirements.length; i++) {
-			this.requirements.add(requirements[i]);
-			if(requirements[i].getId() >= nextID) nextID = requirements[i].getId() + 1;
+			this.addRequirement(requirements[i]);
+			//this.requirements.add(requirements[i]);
+			//if(requirements[i].getId() >= nextID) nextID = requirements[i].getId() + 1;
 		}
-		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		ViewEventController.getInstance().refreshTable();
+		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		//ViewEventController.getInstance().refreshTable();
 	}
 
 	/**
