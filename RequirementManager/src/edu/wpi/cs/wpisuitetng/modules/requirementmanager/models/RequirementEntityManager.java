@@ -145,9 +145,9 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		
 		Requirement updatedRequirement = Requirement.fromJson(content);
 		/*
-		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
-		 * We have to get the original defect from db4o, copy properties from updatedDefect,
-		 * then save the original defect again.
+		 * Because of the disconnected objects problem in db4o, we can't just save Requirements.
+		 * We have to get the original defect from db4o, copy properties from updatedRequirement,
+		 * then save the original Requirement again.
 		 */
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", updatedRequirement.getId(), session.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
