@@ -167,7 +167,7 @@ public class RequirementManagerTest {
 		assertEquals(req1.getName(), updatedRequirement.getName());
 		assertEquals(req1.getId(), updatedRequirement.getId());
 	}
-	
+	/*
 	@Test
 	public void getAllTest() {
 		Requirement reqList[] = new Requirement[2];
@@ -180,5 +180,5 @@ public class RequirementManagerTest {
 		assertEquals(reqList[1].getName(), returnedReqList[1].getName());
 		assertEquals(reqList[1].getId(), returnedReqList[1].getId());
 	}
-
+*/
 }
