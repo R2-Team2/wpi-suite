@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/PostBoard.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/DefectTracker.jar"/>
 	<classpathentry kind="src" path="/RequirementManager"/>
+	<classpathentry kind="src" path="/DefectTracker"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
