@@ -497,14 +497,13 @@ public class EditRequirementPanel extends RequirementPanel {
 					{
 						error.setText("");
 						
+						// Set timestamp for transaction history
+						requirementBeingEdited.getHistory().setTimestamp(System.currentTimeMillis());
+						
 						// Add test to requirement
 						AcceptanceTest addTest = new AcceptanceTest(title
 								.getText(), description.getText());
 						requirementBeingEdited.addTest(addTest);
-						
-						// Add to transaction history
-						String msg = ("Acceptance test " + title.getText() + " added.");
-						requirementBeingEdited.getHistory().add(msg);
 
 						// Update panel to show new test
 						scroll.setViewportView(TestPanel
@@ -518,7 +517,7 @@ public class EditRequirementPanel extends RequirementPanel {
 			}
 		});
 
-		buttonAddTest.addActionListener(new ActionListener() {
+		buttonUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Update status of tests
 			}
