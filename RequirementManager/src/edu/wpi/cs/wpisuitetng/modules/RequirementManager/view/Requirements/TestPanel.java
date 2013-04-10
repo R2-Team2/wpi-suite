@@ -73,14 +73,19 @@ public class TestPanel extends JPanel
 		// Get status and set drop down box to correct status
 		JComboBox dropdownStatus = new JComboBox(TestStatus.values());
 		dropdownStatus.setBackground(Color.WHITE);
-		dropdownStatus.setSelectedItem(test.getStatus());
-		
+		if (test.getStatus().equals("")) {
+			dropdownStatus.setSelectedItem(TestStatus.STATUS_BLANK);
+		} else if (test.getStatus().equals("Passed")) {
+			dropdownStatus.setSelectedItem(TestStatus.STATUS_PASSED);
+		} else if (test.getStatus().equals("Failed")) {
+			dropdownStatus.setSelectedItem(TestStatus.STATUS_FAILED);
+		}
 
 		final Requirement finalReq = requirement;
 		final AcceptanceTest finalTest = test;
 		ItemListener itemListener = new ItemListener() {
 		      public void itemStateChanged(ItemEvent itemEvent) {
-		    	  updateRequirementTests((TestStatus)itemEvent.getItem());
+		    	  updateRequirementTest((TestStatus)itemEvent.getItem());
 		      }
 		    };
 		dropdownStatus.addItemListener(itemListener);
@@ -113,8 +118,7 @@ public class TestPanel extends JPanel
 		this.add(description, testConstraints); // Add description to testPanel
 	}
 	
-	private void updateRequirementTests(TestStatus newStatus) {
-		System.out.println(test.getDescription() + " 1111");
+	private void updateRequirementTest(TestStatus newStatus) {
   	  	requirement.updateTestStatus(test.getId(), newStatus);
   	  	UpdateRequirementController.getInstance().updateRequirement(requirement);
 	}
