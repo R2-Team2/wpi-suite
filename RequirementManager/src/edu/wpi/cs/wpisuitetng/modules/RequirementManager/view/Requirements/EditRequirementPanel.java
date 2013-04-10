@@ -499,8 +499,15 @@ public class EditRequirementPanel extends RequirementPanel {
 						// Set timestamp for transaction history
 						requirementBeingEdited.getHistory().setTimestamp(System.currentTimeMillis());
 						
+						int maxTestId = 0;
+						for (int i = 0; i < requirementBeingEdited.getTests().size(); i++) {
+							if (requirementBeingEdited.getTests().get(i).getId() > maxTestId) {
+								maxTestId = requirementBeingEdited.getTests().get(i).getId();
+							}
+						}
+						
 						// Add test to requirement
-						AcceptanceTest addTest = new AcceptanceTest(title
+						AcceptanceTest addTest = new AcceptanceTest(maxTestId + 1, title
 								.getText(), description.getText());
 						requirementBeingEdited.addTest(addTest);
 

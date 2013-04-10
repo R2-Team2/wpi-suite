@@ -15,12 +15,12 @@ public class AcceptanceTestTest {
 
 	@Test
 	public void createTestAndRetrieveAttributes() {
-		AcceptanceTest at = new AcceptanceTest("name", "description");
+		AcceptanceTest at = new AcceptanceTest(0, "name", "description");
 		assertEquals(at.getName(), "name");
 		assertEquals(at.getDescription(), "description");
 		assertEquals(at.getStatus(), "");
 		
-		AcceptanceTest at2 = new AcceptanceTest("a", "b");
+		AcceptanceTest at2 = new AcceptanceTest(1, "a", "b");
 		at2.setName("name");
 		at2.setDescription("desc");
 		at2.setStatus(TestStatus.STATUS_PASSED);
@@ -28,17 +28,10 @@ public class AcceptanceTestTest {
 		assertEquals(at2.getDescription(), "desc");
 		assertEquals(at2.getStatus(), "Passed");
 	}
-	
-	@Test
-	public void testThatIdsIncrement() {
-		AcceptanceTest at = new AcceptanceTest("test 1", "test 1");
-		AcceptanceTest at2 = new AcceptanceTest("test2", "test 2");
-		assertTrue(at2.getId() == at.getId() + 1);
-	}
 
 	@Test
 	public void testNameLongerThan100Chars() {
-		AcceptanceTest at = new AcceptanceTest("name", "desc");
+		AcceptanceTest at = new AcceptanceTest(2, "name", "desc");
 		// 101 characters
 		at.setName("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901");
 		assertEquals(at.getName().length(), 100);
@@ -47,7 +40,7 @@ public class AcceptanceTestTest {
 	@Test(expected=NullPointerException.class)
 	public void testNullName() {
 		// Assert an error is thrown when a name is not given
-		AcceptanceTest at = new AcceptanceTest("", "desc");
+		AcceptanceTest at = new AcceptanceTest(3, "", "desc");
 	}
 	
 }
