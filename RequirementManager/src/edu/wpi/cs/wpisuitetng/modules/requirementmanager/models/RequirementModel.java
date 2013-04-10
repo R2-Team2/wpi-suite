@@ -159,12 +159,11 @@ public class RequirementModel extends AbstractListModel{
 	 */
 	public void addRequirements(Requirement[] requirements) {
 		for (int i = 0; i < requirements.length; i++) {
-			this.addRequirement(requirements[i]);
-			//this.requirements.add(requirements[i]);
-			//if(requirements[i].getId() >= nextID) nextID = requirements[i].getId() + 1;
+			this.requirements.add(requirements[i]);
+			if(requirements[i].getId() >= nextID) nextID = requirements[i].getId() + 1;
 		}
-		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		//ViewEventController.getInstance().refreshTable();
+		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		ViewEventController.getInstance().refreshTable();
 	}
 
 	/**
