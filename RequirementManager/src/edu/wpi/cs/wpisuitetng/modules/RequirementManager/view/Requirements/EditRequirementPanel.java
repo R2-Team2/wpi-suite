@@ -471,8 +471,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.weighty = 0; // Do not stretch vertically
 		panel.add(buttons, c); // Add buttons to panel
 
-		JPanel tests = TestPanel.createList(this.requirementBeingEdited
-				.getTests());
+		JPanel tests = TestPanel.createList(this.requirementBeingEdited);
 		scroll.setViewportView(tests);
 
 		// Listener for addTest button
@@ -519,7 +518,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 						// Update panel to show new test
 						scroll.setViewportView(TestPanel
-								.createList(requirementBeingEdited.getTests()));
+								.createList(requirementBeingEdited));
 						
 						// Update history panel
 						historyScrollPane.setViewportView(HistoryPanel

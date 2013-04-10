@@ -469,6 +469,14 @@ public class Requirement extends AbstractModel {
 		this.history.add(msg);
 		tests.add(test);
 	}
+	
+	public void updateTestStatus(int testID, TestStatus status) {
+		for (int i = 0; i < this.tests.size(); i++) {
+			if (this.tests.get(i).getId() == testID) {
+				this.tests.get(i).setStatus(status);
+			}
+		}
+	}
 
 	/**
 	 * Method for removing an Acceptance Test
@@ -674,6 +682,13 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setHistory(TransactionHistory history) {
 		this.history = history;
+	}
+
+	/**
+	 * @param tests the tests to set
+	 */
+	public void setTests(ArrayList<AcceptanceTest> tests) {
+		this.tests = tests;
 	}
 
 	/**

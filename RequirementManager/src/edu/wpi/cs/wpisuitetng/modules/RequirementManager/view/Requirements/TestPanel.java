@@ -7,8 +7,11 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +26,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
@@ -37,9 +42,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 @SuppressWarnings("serial")
 public class TestPanel extends JPanel 
 {
+	
+	private AcceptanceTest test;
+	private Requirement requirement;
+
 	@SuppressWarnings("unchecked")
-	public TestPanel(AcceptanceTest test)
+	public TestPanel(Requirement req, AcceptanceTest test)
 	{
+		this.requirement = req;
+		this.test = test;
+		
 		// Set border to black
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		
@@ -60,8 +72,19 @@ public class TestPanel extends JPanel
 		
 		// Get status and set drop down box to correct status
 		JComboBox dropdownStatus = new JComboBox(TestStatus.values());
+		dropdownStatus.setBackground(Color.WHITE);
 		dropdownStatus.setSelectedItem(test.getStatus());
 		
+
+		final Requirement finalReq = requirement;
+		final AcceptanceTest finalTest = test;
+		ItemListener itemListener = new ItemListener() {
+		      public void itemStateChanged(ItemEvent itemEvent) {
+		    	  updateRequirementTests((TestStatus)itemEvent.getItem());
+		      }
+		    };
+		dropdownStatus.addItemListener(itemListener);
+
 		// Create panel for dropdown status
 		JPanel statusPanel = new JPanel();
 		statusPanel.add(new JLabel("Status: "));
@@ -90,12 +113,18 @@ public class TestPanel extends JPanel
 		this.add(description, testConstraints); // Add description to testPanel
 	}
 	
+	private void updateRequirementTests(TestStatus newStatus) {
+		System.out.println(test.getDescription() + " 1111");
+  	  	requirement.updateTestStatus(test.getId(), newStatus);
+  	  	UpdateRequirementController.getInstance().updateRequirement(requirement);
+	}
+	
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
 	 * @param list List of note used to create panel
 	 * @return Panel containing all of the notes given to the method
 	 */
-	public static JPanel createList(ArrayList<AcceptanceTest> list)
+	public static JPanel createList(Requirement req)
 	{
 		// Create a panel to hold all of the notes
 		JPanel panel = new JPanel();
@@ -110,13 +139,13 @@ public class TestPanel extends JPanel
 		c.insets = new Insets(5,5,5,5); // Creates margins between notes
 		
 		// Get iterator of the list of notes
-		Iterator<AcceptanceTest> itt = list.iterator();
+		Iterator<AcceptanceTest> itt = req.getTests().iterator();
 		
 		// Add each note to panel individually
 		while(itt.hasNext())
 		{
 			//Create a new NotePanel for each Note and add it to the panel
-			panel.add(new TestPanel(itt.next()),c);
+			panel.add(new TestPanel(req, itt.next()), c);
 			c.gridy++; //Next Row
 		}
 		
@@ -127,5 +156,13 @@ public class TestPanel extends JPanel
 		panel.add(dummy,c);
 		
 		return panel;
+	}
+	
+	public AcceptanceTest getTest() {
+		return test;
+	}
+
+	public void setTest(AcceptanceTest test) {
+		this.test = test;
 	}
 }
