@@ -559,17 +559,24 @@ public class Requirement extends AbstractModel {
 		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
 		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
-		//create the transaction history.
+		
 		if(!this.iteration.equals(newIterationName) && !created)
 		{
+			//create the transaction history
 			String message = ("Moved " + this.name + " from "
 					+ curIter + " to " + newIteration);
 			this.history.add(message);
-		}
-		
-		//update estimates as needed
-		if(!this.iteration.equals(newIterationName) && !created)
-		{
+			//update status as needed
+			if(this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN)) 
+			{
+				this.setStatus(RequirementStatus.INPROGRESS, created);
+			}
+			else if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
+			{
+				this.setStatus(RequirementStatus.OPEN, created);
+			}
+			
+			//update estimates as needed
 			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
 			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		}

@@ -143,6 +143,18 @@ public class EditRequirementPanel extends RequirementPanel {
 		} else {
 			getBoxEstimate().setEnabled(true);
 		}
+		
+		if (getRequirementBeingEdited().getStatus() == RequirementStatus.NEW
+				|| getRequirementBeingEdited().getStatus() == RequirementStatus.OPEN
+				|| getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS) {
+			
+		}
+		// For above:
+		// if complete, have complete, inprogress and open, seteditable = true
+		// if deleted, have deleted, complete, inprogress and open, seteditable = true
+		// else, have only current status, seteditable = false
+		// also, need accept button for customer; if button pressed, status changes to delete
+			// (permissions to be added)
 
 		if (requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS)
 			buttonDelete.setEnabled(false);
