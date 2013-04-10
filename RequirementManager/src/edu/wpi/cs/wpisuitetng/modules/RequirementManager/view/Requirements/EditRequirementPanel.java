@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -108,6 +109,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	 * Fills the fields of the edit requirement panel based on the current
 	 * settings of the edited requirement.
 	 */
+	@SuppressWarnings("unchecked")
 	private void fillFieldsForRequirement() {
 		getBoxName().setText(getRequirementBeingEdited().getName());
 		getBoxDescription().setText(
@@ -115,8 +117,39 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxEstimate().setText(
 				String.valueOf(getRequirementBeingEdited().getEstimate()));
 		getBoxReleaseNum().setText(getRequirementBeingEdited().getRelease());
+		
+		if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.NEW))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.NEW);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.INPROGRESS))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
+			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.OPEN))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.OPEN);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.COMPLETE)
+				|| getRequirementBeingEdited().getStatus().equals(RequirementStatus.DELETED))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
+			getDropdownStatus().addItem(RequirementStatus.OPEN);
+			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
 		getDropdownStatus().setSelectedItem(
 				getRequirementBeingEdited().getStatus());
+		
+		
 		getDropdownType()
 				.setSelectedItem(getRequirementBeingEdited().getType());
 		getBoxIteration().setText(
@@ -143,18 +176,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		} else {
 			getBoxEstimate().setEnabled(true);
 		}
-		
-		if (getRequirementBeingEdited().getStatus() == RequirementStatus.NEW
-				|| getRequirementBeingEdited().getStatus() == RequirementStatus.OPEN
-				|| getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS) {
-			
-		}
-		// For above:
-		// if complete, have complete, inprogress and open, seteditable = true
-		// if deleted, have deleted, complete, inprogress and open, seteditable = true
-		// else, have only current status, seteditable = false
-		// also, need accept button for customer; if button pressed, status changes to delete
-			// (permissions to be added)
 
 		if (requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS)
 			buttonDelete.setEnabled(false);
