@@ -140,10 +140,17 @@ public class EditRequirementPanel extends RequirementPanel
 		if(getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS || getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE)
 		{
 			getBoxEstimate().setEnabled(false);
+			
 		}
 		else
 		{
 			getBoxEstimate().setEnabled(true);
+		}
+		if(getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE || getRequirementBeingEdited().getStatus() == RequirementStatus.DELETED){
+			buttonAddChild.setEnabled(false);
+		}
+		else{
+			buttonAddChild.setEnabled(true);
 		}
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
@@ -215,7 +222,7 @@ public class EditRequirementPanel extends RequirementPanel
 		buttonAddChild.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				//TODO: call function to add a child
 			}
 		});
 		buttonPanel.add(getButtonUpdate());
