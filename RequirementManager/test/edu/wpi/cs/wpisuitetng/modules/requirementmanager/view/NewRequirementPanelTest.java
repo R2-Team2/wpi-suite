@@ -27,11 +27,17 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 public class NewRequirementPanelTest {
 
+	/**
+	 * Setting up using Network and Iteration
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
+		// Mock Network
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
+		// Mock Iteration
 		Iteration iterationTest = new Iteration(0,"Backlog");
 		IterationModel.getInstance().setBacklog(iterationTest);
 		 
@@ -43,7 +49,10 @@ public class NewRequirementPanelTest {
 	@Test 
 	public void defaultEnability()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
+		// Check
 		assertEquals(true, testNew.getBoxName().isEnabled());
 		assertEquals(true, testNew.getBoxDescription().isEnabled());
 		assertEquals(false, testNew.getBoxIteration().isEnabled());
@@ -57,10 +66,16 @@ public class NewRequirementPanelTest {
 		
 	}
 	
+	/**
+	 * check for the default case when starting a new requirement panel
+	 */
 	@Test
 	public void defaultField()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
+		// Check
 		assertEquals(RequirementStatus.NEW, testNew.getDropdownStatus().getSelectedItem());
 		assertEquals(false, testNew.getPriorityHigh().isSelected());
 		assertEquals(false, testNew.getPriorityMedium().isSelected());
@@ -69,14 +84,20 @@ public class NewRequirementPanelTest {
 		
 	}
 	
+	
+	/**
+	 * check for enability when required fields are not filled in
+	 */
 	@Test
 	public void errorRequiredFieldTest() {
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
 		
 		// a field is added correctly but both name and description are filled with blanks
 		testNew.getBoxEstimate().setText("-134");
 		testNew.getBoxName().setText("  ");
 		testNew.getBoxDescription().setText("Desc.");
+		
 		// release pressed key
 		testNew.keyReleased(null);
 		
@@ -85,8 +106,10 @@ public class NewRequirementPanelTest {
 		assertEquals(true, testNew.getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonCancel().isEnabled());
 		
+		// blank description
 		testNew.getBoxName().setText("Name");
 		testNew.getBoxDescription().setText(" ");
+		
 		// release pressed key
 		testNew.keyReleased(null);
 		
@@ -98,10 +121,16 @@ public class NewRequirementPanelTest {
 
 	}
 	
+	/**
+	 * check the error when extreme cases occur
+	 */
 	@Test
 	public void invalidFieldTest()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
+		// pre-defined variable
 		String errorMessageNoninterger = "** Please enter a non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String testDescription = "testDescription";
@@ -112,9 +141,11 @@ public class NewRequirementPanelTest {
 			hundredCharText = hundredCharText +"0";
 		}
 		
+		// fill in invalid field
 		testNew.getBoxName().setText(hundredCharText);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getBoxEstimate().setText("-134");
+		
 		// release pressed key
 		testNew.keyReleased(null);
 		
@@ -122,8 +153,9 @@ public class NewRequirementPanelTest {
 		assertEquals(true, testNew.getButtonUpdate().isEnabled());
 		assertEquals(true, testNew.getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonCancel().isEnabled());
-		
 		testNew.getButtonUpdate().doClick();
+		
+		// error messages are shown
 		assertEquals(errorMessageNoMore100,testNew.getErrorName().getText());
 		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
 		
@@ -131,13 +163,19 @@ public class NewRequirementPanelTest {
 	}
 
 	
+	/**
+	 * Check enability when valid fields are filled
+	 */
 	@Test
 	public void validRequirementCreation()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
+		// add fields
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		
@@ -148,9 +186,15 @@ public class NewRequirementPanelTest {
 		assertEquals(true, testNew.getButtonCancel().isEnabled());
 	}
 	
+	/**
+	 * Testing clear button
+	 */
 	@Test
-	public void clearButtonTest() {
+	public void clearButtonTest() 
+	{	
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
@@ -161,7 +205,7 @@ public class NewRequirementPanelTest {
 		
 		// set to each field random stuffs to test clear functionality
 		assertEquals(true, testNew.getButtonClear().isEnabled());
-		
+		// clear fields
 		testNew.getButtonClear().doClick();
 		
 		assertEquals("",testNew.getBoxName().getText());
@@ -171,14 +215,20 @@ public class NewRequirementPanelTest {
 		
 	}
 	
+	
+	/**
+	 * Testing update button
+	 */
 	@Test
 	public void updateButtonTest()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
+		
 		String testName = "testName";
 		String testDescription = "testDescription";
 
-		
+		// adding fields
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getDropdownType().setSelectedItem(RequirementType.THEME);
@@ -193,17 +243,23 @@ public class NewRequirementPanelTest {
 		
 		testNew.update();
 		
+		
+		
 	}
 	
+	/**
+	 * Testing multiple updates
+	 */
 	@Test
 	public void allTestUpdate()
 	{
+		// Create new requirement panel
 		NewRequirementPanel testNew = new NewRequirementPanel();
 		
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
-		
+		// adding fields
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getDropdownType().setSelectedItem(RequirementType.SCENARIO);
@@ -211,9 +267,10 @@ public class NewRequirementPanelTest {
 		testNew.getBoxEstimate().setText("0");
 		testNew.keyReleased(null);
 		testNew.validateFields();
-		
+		// click update (without closing in order to retrieve information)
 		testNew.update();
 		
+		// Check 
 		assertEquals(testName,testNew.getNewRequirement().getName());
 		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
 		assertEquals(RequirementType.SCENARIO,testNew.getNewRequirement().getType());
@@ -222,14 +279,18 @@ public class NewRequirementPanelTest {
 		assertEquals(RequirementPriority.MEDIUM,testNew.getNewRequirement().getPriority());
 		assertEquals(0,testNew.getNewRequirement().getEstimate());
 		
+		
+		// add more fields
 		testNew.getDropdownType().setSelectedItem(RequirementType.EPIC);
 		testNew.getPriorityLow().doClick();
 		testNew.validateFields();
 		testNew.update();
 
+		// check more results
 		assertEquals(RequirementType.EPIC,testNew.getNewRequirement().getType());
 		assertEquals(RequirementPriority.LOW,testNew.getNewRequirement().getPriority());
 		
+		// add different fields
 		testNew.getDropdownType().setSelectedItem(RequirementType.NONFUNCTIONAL);
 		testNew.getPriorityBlank().doClick();
 		testNew.validateFields();
