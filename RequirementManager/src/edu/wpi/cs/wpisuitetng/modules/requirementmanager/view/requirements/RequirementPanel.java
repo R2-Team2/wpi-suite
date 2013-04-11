@@ -95,10 +95,10 @@ abstract public class RequirementPanel extends JScrollPane
 			Requirement parent = this.displayRequirement.getParent();
 			
 			getBoxIteration().setText(parent.getIteration());
-			getBoxIteration().setEnabled(false);
+			//getBoxIteration().setEnabled(false);
 			
 			getBoxReleaseNum().setText(parent.getRelease());
-			getBoxReleaseNum().setEnabled(false);
+			//getBoxReleaseNum().setEnabled(false);
 			
 			System.out.println("Parent: "+this.displayRequirement.getParentID());
 		}
@@ -228,10 +228,10 @@ abstract public class RequirementPanel extends JScrollPane
 			Requirement parent = this.displayRequirement.getParent();
 			
 			getDropdownStatus().setSelectedItem(parent.getStatus());
-			getDropdownStatus().setEnabled(false);
+			//getDropdownStatus().setEnabled(false);
 			
 			getDropdownType().setSelectedItem(parent.getType());
-			getDropdownType().setEnabled(false);
+			//getDropdownType().setEnabled(false);
 		}
 		
 		SpringLayout rightLayout = new SpringLayout();
@@ -283,6 +283,12 @@ abstract public class RequirementPanel extends JScrollPane
 				SpringLayout.SOUTH, getBoxEstimate());
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
+		
+		if(this.displayRequirement.getParentID()!=0)
+		{
+			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
+			rightPanel.add(parent);
+		}
 
 		rightPanel.add(labelType);
 		rightPanel.add(getDropdownType());
