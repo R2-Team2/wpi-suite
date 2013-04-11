@@ -23,10 +23,10 @@ import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteList;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TestStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
 
 /**
  * Class that creates a panel that is used to represent an acceptance test

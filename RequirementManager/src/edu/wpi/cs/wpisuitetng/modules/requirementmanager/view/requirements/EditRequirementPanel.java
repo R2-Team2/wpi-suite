@@ -26,8 +26,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements.TestPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
