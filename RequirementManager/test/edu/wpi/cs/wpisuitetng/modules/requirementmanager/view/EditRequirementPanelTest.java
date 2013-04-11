@@ -31,11 +31,12 @@ public class EditRequirementPanelTest {
 
 	@Before
 	public void setUp() throws Exception {
+		// Mock network
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
-		//IterationModel.getInstance().setBacklog(new Iteration(1, "testIter"));
-
+		
+		// Mock Iteration
 		Iteration iterationTest = new Iteration(0,"Backlog");
 		IterationModel.getInstance().setBacklog(iterationTest);
 	}
@@ -46,6 +47,7 @@ public class EditRequirementPanelTest {
 	@Test 
 	public void defaultEnabilityAndField()
 	{
+		// Create a mock requirement
 		Requirement testRequirement = new Requirement();
 		String testName = "test: Name";
 		String testDescription = "test: Description";
@@ -53,6 +55,7 @@ public class EditRequirementPanelTest {
 		int testEstimate = 0;
 		//int testActualEffort = 0;
 		
+		// Set fields of the mock requirement
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
@@ -62,8 +65,10 @@ public class EditRequirementPanelTest {
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort);
 		
+		// Create an editRequirementPanel
 		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
 		
+		// Check enability of all fields
 		assertEquals(true, testEdit.getBoxName().isEnabled());
 		assertEquals(true, testEdit.getBoxDescription().isEnabled());
 		assertEquals(false, testEdit.getBoxIteration().isEnabled());
@@ -79,6 +84,7 @@ public class EditRequirementPanelTest {
 		assertEquals(true, testEdit.getButtonCancel().isEnabled());
 		assertEquals(true, testEdit.getButtonDelete().isEnabled());
 		
+		// Check for default values in each field
 		assertEquals(testName,testEdit.getBoxName().getText());
 		assertEquals(testDescription,testEdit.getBoxDescription().getText());
 		assertEquals(testRelease,testEdit.getBoxReleaseNum().getText());
@@ -89,13 +95,15 @@ public class EditRequirementPanelTest {
 		
 	}
 
+	/**
+	 * Check the error messages when invalid fields are filled
+	 */
 	@Test
-	public void errorFieldTest() {
+	public void errorFieldTest() 
+	{
+		// Create mock requirement
 		Requirement testRequirement = new Requirement();
-		String testName = "test: Name";
-		String testDescription = "test: Description";
-		String testRelease = "1.0.2";
-		int testEstimate = 0;
+		
 		//int testActualEffort = 0;
 		
 		//testRequirement.setEstimate(testActualEffort);
@@ -104,17 +112,16 @@ public class EditRequirementPanelTest {
 		
 		String errorMessageNoninterger = "** Please enter a non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
-		String errorMessageRequiredName = "** Name is REQUIRED";
 		String errorMessageRequiredDescription = "** Description is REQUIRED";
-
 		
 		String hundredCharText = "0";
-		
+		// Generate Hundred character string
 		for(int i = 0; i<100; i++)
 		{
 			hundredCharText = hundredCharText +"0";
 		}
 		
+		// adding invalid fields
 		testEdit.getBoxName().setText(hundredCharText);
 		testEdit.getBoxEstimate().setText("-134");
 		testEdit.getBoxDescription().setText("Desc.");
@@ -141,15 +148,19 @@ public class EditRequirementPanelTest {
 	}
 	
 	
+	/**
+	 * Check when required fields are not filled
+	 */
 	@Test
 	public void errorRequiredFieldTest() {
+		
+		// Moc requirement
 		Requirement testRequirement = new Requirement();
 		String testName = "test: Name";
 		String testDescription = "test: Description";
 		String testRelease = "1.0.2";
 		int testEstimate = 0;
 		//int testActualEffort = 0;
-		
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
@@ -157,7 +168,7 @@ public class EditRequirementPanelTest {
 		testRequirement.setPriority(RequirementPriority.HIGH,true);
 		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
-		//testRequirement.setEstimate(testActualEffort);
+		//testRequirement.setEstimate(testActualEffort)/;
 		
 		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
 		// a field is added correctly but both name and description are filled with blanks
@@ -185,6 +196,9 @@ public class EditRequirementPanelTest {
 
 	}
 	
+	/**
+	 * Check when undo the change
+	 */
 	@Test
 	public void undoChangeButtonTest() {
 		
@@ -230,6 +244,9 @@ public class EditRequirementPanelTest {
 		
 	}
 	
+	/**
+	 * test fifferent fields
+	 */
 	@Test
 	public void updateButtonTest2()
 	{
@@ -260,7 +277,7 @@ public class EditRequirementPanelTest {
 		testEdit.getBoxName().setText(updateTestName);
 		testEdit.getBoxDescription().setText(updateTestDescription);
 		testEdit.getDropdownType().setSelectedItem(RequirementType.THEME);
-		testEdit.getDropdownStatus().setSelectedItem(RequirementStatus.COMPLETE);
+		testEdit.getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
 		testEdit.getPriorityHigh().doClick();
 		testEdit.getBoxEstimate().setText("4");
 		testEdit.getBoxIteration().setText("Iteration test");
@@ -270,7 +287,7 @@ public class EditRequirementPanelTest {
 		assertEquals(updateTestDescription,testEdit.getRequirementBeingEdited().getDescription());
 		assertEquals(RequirementType.THEME,testEdit.getRequirementBeingEdited().getType());
 		assertEquals("Iteration test",testEdit.getRequirementBeingEdited().getIteration());
-		assertEquals(RequirementStatus.COMPLETE,testEdit.getRequirementBeingEdited().getStatus());
+		assertEquals(RequirementStatus.INPROGRESS,testEdit.getRequirementBeingEdited().getStatus());
 		assertEquals(RequirementPriority.HIGH,testEdit.getRequirementBeingEdited().getPriority());
 		assertEquals(4,testEdit.getRequirementBeingEdited().getEstimate());
 	}
