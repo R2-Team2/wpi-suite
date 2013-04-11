@@ -51,16 +51,17 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	public NewRequirementPanel()
 	{
-		this(0);
+		this(-1);
 	}
+	
 	/**
 	 * Constructor for a new requirement panel with a parent
 	 */
-	public NewRequirementPanel(int parentID) {
+	public NewRequirementPanel(int parentRequirement) {
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
-		this.displayRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "","");
-		this.displayRequirement.setParentID(parentID);
+		this.displayRequirement = new Requirement();
+		displayRequirement.setParentID(parentRequirement);
 
 		contentPanel.add(buildLeftPanel()); //add left panel
 		contentPanel.add(buildRightPanel()); //add right panel
@@ -68,7 +69,37 @@ public class NewRequirementPanel extends RequirementPanel
 		contentPanel.setMinimumSize(new Dimension(500,465));
 		contentPanel.setPreferredSize(new Dimension(500,465));
 		
+		if(displayRequirement.getParentID() != -1) fillFieldsForParent();
+		
 		this.setViewportView(contentPanel);
+	}
+	
+	private void fillFieldsForParent()
+	{
+		getBoxIteration().setText(displayRequirement.getIteration());
+		getBoxEstimate().setText(String.valueOf(displayRequirement.getEstimate()));
+		getBoxReleaseNum().setText(displayRequirement.getRelease());
+		getDropdownStatus().setSelectedItem(displayRequirement.getStatus());
+		getDropdownType().setSelectedItem(displayRequirement.getType());
+		
+		switch(displayRequirement.getPriority())
+		{
+			case BLANK:
+				getPriorityBlank().setSelected(true);
+				break;
+			case LOW:
+				getPriorityLow().setSelected(true);
+				break;
+			case MEDIUM:
+				getPriorityMedium().setSelected(true);
+				break;
+			case HIGH:
+				getPriorityHigh().setSelected(true);
+				break;
+		}
+		
+		this.disableNonChildFields();
+
 	}
 	
 	/**
@@ -144,6 +175,7 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	public void update()
 	{
+		getNewRequirement().setId(RequirementModel.getInstance().getNextID());
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.getBoxReleaseNum().getText();
@@ -179,15 +211,24 @@ public class NewRequirementPanel extends RequirementPanel
 		// Set to true to indicate the requirement is being newly created
 		boolean created = true;
 				
-		// Create a new requirement object based on the extracted info
-		getNewRequirement().setName(stringName);
-		getNewRequirement().setDescription(stringDescription);		
-		getNewRequirement().setRelease(stringReleaseNum);
-		getNewRequirement().setStatus(status, created);
-		getNewRequirement().setPriority(priority, created);
-		getNewRequirement().setType(type);
-		getNewRequirement().setEstimate(estimate);
-		getNewRequirement().setIteration(stringIteration, created);
+		if(getNewRequirement().getParentID() != -1)
+		{
+			getNewRequirement().setName(stringName);
+			getNewRequirement().setDescription(stringDescription);
+		}
+		else
+		{
+			// Create a new requirement object based on the extracted info
+			getNewRequirement().setName(stringName);
+			getNewRequirement().setDescription(stringDescription);		
+			getNewRequirement().setRelease(stringReleaseNum);
+			getNewRequirement().setStatus(status, created);
+			getNewRequirement().setPriority(priority, created);
+			getNewRequirement().setType(type);
+			getNewRequirement().setEstimate(estimate);
+			getNewRequirement().setIteration(stringIteration, created);
+		}
+		
 		// Set the time stamp for the transaction for the creation of the requirement
         getNewRequirement().getHistory().setTimestamp(System.currentTimeMillis());
         System.out.println("The Time Stamp is now :" + getNewRequirement().getHistory().getTimestamp());
@@ -261,15 +302,15 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	public boolean anythingChanged()
 	{
-		boolean nameChanged = !(getBoxName().getText().trim().equals(""));
-		boolean descriptionChanged = !(getBoxDescription().getText().trim().equals(""));
-		boolean releaseChanged = !(getBoxReleaseNum().getText().trim().equals(""));
-		//boolean iterationChanged = !(getBoxIteration().getText().trim().equals(""));
+		boolean nameChanged = !(getBoxName().getText().equals(""));
+		boolean descriptionChanged = !(getBoxDescription().getText().equals(""));
+		boolean releaseChanged = !(getBoxReleaseNum().getText().equals(""));
+		//boolean iterationChanged = !(getBoxIteration().getText().equals(""));
 		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK);
 
 		boolean priorityChanged = !getPriorityBlank().isSelected();
 		
-		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(""));
+		boolean estimateChanged = !(getBoxEstimate().getText().equals(""));
 
 		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged ||  
 				typeChanged || priorityChanged || estimateChanged;
@@ -310,6 +351,7 @@ public class NewRequirementPanel extends RequirementPanel
 		}
 		
 		this.getBoxIteration().setEnabled(validEstimate);
+		if(getNewRequirement().getParentID() != -1) this.disableNonChildFields();
 		
 		this.repaint();				
 	}

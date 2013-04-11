@@ -64,6 +64,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
+	private boolean readyToClose = false;
 
 	/**
 	 * Constructor for a new requirement panel
@@ -205,6 +206,11 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.buttonUpdate.setEnabled(false);
 		getButtonClear().setEnabled(false);
 		
+		if(getRequirementBeingEdited().getParentID() != -1)
+		{
+			this.disableNonChildFields();
+		}
+		
 		repaint();
 	}
 
@@ -228,7 +234,8 @@ public class EditRequirementPanel extends RequirementPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (validateFields()) {
 					update();
-					cancel();
+					readyToClose = true;
+					ViewEventController.getInstance().removeTab(EditRequirementPanel.this);
 				}
 			}
 		});
@@ -244,6 +251,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				readyToClose = true;
 				cancel();
 			}
 		});
@@ -320,17 +328,28 @@ public class EditRequirementPanel extends RequirementPanel {
 		requirementHistory.setTimestamp(System.currentTimeMillis());
 
 		// Create a new requirement object based on the extracted info
-		getRequirementBeingEdited().setName(stringName);
-		getRequirementBeingEdited().setRelease(stringReleaseNum);
-		getRequirementBeingEdited().setDescription(stringDescription);
-		getRequirementBeingEdited().setStatus(status, created);
-		getRequirementBeingEdited().setPriority(priority, created);
-		getRequirementBeingEdited().setEstimate(estimate);
-		getRequirementBeingEdited().setIteration(stringIteration, created);
-		getRequirementBeingEdited().setType(type);
+		if(getRequirementBeingEdited().getParentID() != -1)
+		{
+			getRequirementBeingEdited().setName(stringName);
+			getRequirementBeingEdited().setDescription(stringDescription);
+
+		}
+		else
+		{
+			getRequirementBeingEdited().setName(stringName);
+			getRequirementBeingEdited().setRelease(stringReleaseNum);
+			getRequirementBeingEdited().setDescription(stringDescription);
+			getRequirementBeingEdited().setStatus(status, created);
+			getRequirementBeingEdited().setPriority(priority, created);
+			getRequirementBeingEdited().setEstimate(estimate);
+			getRequirementBeingEdited().setIteration(stringIteration, created);
+			getRequirementBeingEdited().setType(type);
+		}
+		
 		UpdateRequirementController.getInstance().updateRequirement(
 				getRequirementBeingEdited());
 
+		ViewEventController.getInstance().refreshTable();
 	}
 
 	/**
@@ -651,8 +670,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getPriorityMedium().setEnabled(true);
 		this.getPriorityLow().setEnabled(true);
 		this.getPriorityBlank().setEnabled(true);
-		
-		this.getButtonDelete().setEnabled(true);
+		this.getButtonDelete().setEnabled(true);		
 	}
 	
 	/**
@@ -663,6 +681,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	 */
 	public boolean readyToRemove()
 	{
+		if(readyToClose) return true;
 		if(anythingChanged())
 		{
 			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -680,10 +699,10 @@ public class EditRequirementPanel extends RequirementPanel {
 	 */
 	public boolean anythingChanged()
 	{
-		boolean nameChanged = !(getBoxName().getText().trim().equals(requirementBeingEdited.getName()));
-		boolean descriptionChanged = !(getBoxDescription().getText().trim().equals(requirementBeingEdited.getDescription()));
-		boolean releaseChanged = !(getBoxReleaseNum().getText().trim().equals(requirementBeingEdited.getRelease()));
-		boolean iterationChanged = !(getBoxIteration().getText().trim().equals(requirementBeingEdited.getIteration()));
+		boolean nameChanged = !(getBoxName().getText().equals(requirementBeingEdited.getName()));
+		boolean descriptionChanged = !(getBoxDescription().getText().equals(requirementBeingEdited.getDescription()));
+		boolean releaseChanged = !(getBoxReleaseNum().getText().equals(requirementBeingEdited.getRelease()));
+		boolean iterationChanged = !(getBoxIteration().getText().equals(requirementBeingEdited.getIteration()));
 		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType());
 		boolean statusChanged = !(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus());
 
@@ -739,10 +758,11 @@ public class EditRequirementPanel extends RequirementPanel {
 		}
 		
 		this.getBoxIteration().setEnabled(validEstimate);
-		
-		this.repaint();		
+		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
+
 		this.buttonAddChild.setEnabled(false);
 		this.buttonDelete.setEnabled(false);
+		this.repaint();		
 	}
 
 	@Override
@@ -759,6 +779,17 @@ public class EditRequirementPanel extends RequirementPanel {
 			disableComponents();
 		}
 		
+		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
+		{
+			this.buttonAddChild.setEnabled(false);
+		}
+		else
+		{
+			this.buttonAddChild.setEnabled(true);
+		}
+		
+		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
+
 		this.repaint();
 	}
 

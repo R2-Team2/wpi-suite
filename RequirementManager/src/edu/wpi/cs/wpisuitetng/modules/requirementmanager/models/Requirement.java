@@ -67,7 +67,7 @@ public class Requirement extends AbstractModel {
 	private String iteration;
 	
 	/** the ID of the requirement that this requirement is a sub-requirement of */
-	private int parentID;
+	private int parentID = -1;
 
 	/**
 	 * team members the requirement is assigned to need to figure out the class
@@ -98,6 +98,7 @@ public class Requirement extends AbstractModel {
 		history = new TransactionHistory();
 		iteration = "Backlog";
 		type = RequirementType.BLANK;
+		this.parentID = -1;
 		notes = new NoteList();
 		tasks = new ArrayList<DevelopmentTask>();
 		tests = new ArrayList<AcceptanceTest>();
@@ -121,6 +122,7 @@ public class Requirement extends AbstractModel {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.parentID = -1;
 	}
 
 	/**
@@ -155,6 +157,7 @@ public class Requirement extends AbstractModel {
 		this.description = description;
 		this.estimate = estimate;
 		this.actualEffort = effort;
+		this.parentID = -1;
 	}
 
 	/**
@@ -216,6 +219,7 @@ public class Requirement extends AbstractModel {
 	 * @return the release
 	 */
 	public String getRelease() {
+		if(parentID != -1) return getParent().getRelease();
 		return release;
 	}
 
@@ -235,6 +239,7 @@ public class Requirement extends AbstractModel {
 	 * @return the status
 	 */
 	public RequirementStatus getStatus() {
+		if(parentID != -1) return getParent().getStatus();
 		return status;
 	}
 
@@ -287,6 +292,7 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
+		if(parentID != -1) return getParent().getEstimate();
 		return estimate;
 	}
 
@@ -310,6 +316,7 @@ public class Requirement extends AbstractModel {
 	 * @return the effort
 	 */
 	public int getEffort() {
+		if(parentID != -1) return getParent().getEffort();
 		return actualEffort;
 	}
 
@@ -329,6 +336,7 @@ public class Requirement extends AbstractModel {
 	 * @return the priority
 	 */
 	public RequirementPriority getPriority() {
+		if(parentID != -1) return getParent().getPriority();
 		return priority;
 	}
 
@@ -361,6 +369,7 @@ public class Requirement extends AbstractModel {
 	 * @return the type
 	 */
 	public RequirementType getType() {
+		if(parentID != -1) return getParent().getType();
 		return type;
 	}
 
@@ -508,6 +517,7 @@ public class Requirement extends AbstractModel {
 	 * @return a string representing the iteration it has been assigned to
 	 */
 	public String getIteration() {
+		if(parentID != -1) return getParent().getIteration();
 		return iteration;
 	}
 
@@ -536,20 +546,29 @@ public class Requirement extends AbstractModel {
 			String message = ("Moved " + this.name + " from "
 					+ curIter + " to " + newIteration);
 			this.history.add(message);
-			//update status as needed
-			if(this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN)) 
+		}
+		
+		//update status as needed
+		if(this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN)) 
+		{
+			this.setStatus(RequirementStatus.INPROGRESS, created);
+		}
+		
+		if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
+		{
+			if(created)
 			{
-				this.setStatus(RequirementStatus.INPROGRESS, created);
+				this.setStatus(RequirementStatus.NEW, created);
 			}
-			else if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
+			else
 			{
 				this.setStatus(RequirementStatus.OPEN, created);
 			}
-			
-			//update estimates as needed
-			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
-			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		}
+		
+		//update estimates as needed
+		oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
+		newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		
 		this.iteration = newIterationName;
 	}
@@ -697,6 +716,8 @@ public class Requirement extends AbstractModel {
 	public void setTests(ArrayList<AcceptanceTest> tests) {
 		this.tests = tests;
 	}
+	
+	
 
 	/**
 	 * Copies all of the values from the given requirement to this requirement.

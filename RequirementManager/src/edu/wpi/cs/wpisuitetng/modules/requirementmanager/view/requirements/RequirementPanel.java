@@ -98,16 +98,8 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		setErrorName(new JLabel());
 		setErrorDescription(new JLabel());
 
-		if(this.displayRequirement.getParentID()!=0)
+		if(this.displayRequirement.getParentID()!=-1)
 		{
-			Requirement parent = this.displayRequirement.getParent();
-			
-			getBoxIteration().setText(parent.getIteration());
-			//getBoxIteration().setEnabled(false);
-			
-			getBoxReleaseNum().setText(parent.getRelease());
-			//getBoxReleaseNum().setEnabled(false);
-			
 			System.out.println("Parent: "+this.displayRequirement.getParentID());
 		}
 		
@@ -239,17 +231,6 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		getBoxEstimate().addKeyListener(this);
 		setErrorEstimate(new JLabel());
 		
-		if(this.displayRequirement.getParentID()!=0)
-		{
-			Requirement parent = this.displayRequirement.getParent();
-			
-			getDropdownStatus().setSelectedItem(parent.getStatus());
-			//getDropdownStatus().setEnabled(false);
-			
-			getDropdownType().setSelectedItem(parent.getType());
-			//getDropdownType().setEnabled(false);
-		}
-		
 		SpringLayout rightLayout = new SpringLayout();
 
 		rightPanel.setLayout(rightLayout);
@@ -301,7 +282,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
 		
-		if(this.displayRequirement.getParentID()!=0)
+		if(this.displayRequirement.getParentID()!=-1)
 		{
 			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
 			rightPanel.add(parent);
@@ -425,6 +406,24 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		
 		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
+	
+	/**
+	 * Disables all fields that are not editable in a child requirement.
+	 */
+	protected void disableNonChildFields()
+	{
+		
+		this.getPriorityBlank().setEnabled(false);
+		this.getPriorityHigh().setEnabled(false);
+		this.getPriorityLow().setEnabled(false);
+		this.getPriorityMedium().setEnabled(false);
+		getDropdownType().setEnabled(false);
+		getDropdownStatus().setEnabled(false);
+		getBoxReleaseNum().setEnabled(false);
+		getBoxEstimate().setEnabled(false);
+		getBoxIteration().setEnabled(false);
+	}
+
 	
 	/**
 	 * Checks if the input string is an integer
