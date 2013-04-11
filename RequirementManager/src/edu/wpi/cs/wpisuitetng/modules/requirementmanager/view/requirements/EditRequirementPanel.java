@@ -14,11 +14,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +30,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ChangeEvent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -162,6 +167,10 @@ public class EditRequirementPanel extends RequirementPanel {
 		getDropdownStatus().setSelectedItem(
 				getRequirementBeingEdited().getStatus());
 		
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) getButtonDelete().setEnabled(false);
+		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
+		if(requirementBeingEdited.getEstimate() <= 0) getBoxIteration().setEnabled(false);
+		if(getRequirementBeingEdited().getEstimate() <= 0) getBoxIteration().setEnabled(false);
 		
 		getDropdownType()
 				.setSelectedItem(getRequirementBeingEdited().getType());
@@ -193,7 +202,9 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxDescription().setBorder(defaultBorder);
 		this.getErrorName().setText("");
 		getBoxName().setBorder(defaultBorder);
-
+		this.buttonUpdate.setEnabled(false);
+		getButtonClear().setEnabled(false);
+		
 		repaint();
 	}
 
@@ -230,15 +241,16 @@ public class EditRequirementPanel extends RequirementPanel {
 			}
 
 		});
-
+		
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancel();
 			}
 		});
-
-		buttonDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		
+		buttonDelete.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
 				deleteRequirement();
 			}
 		});
@@ -337,7 +349,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
 										// line
 		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
-
+		
 		// Error message label in case no note was included
 		final JLabel errorMsg = new JLabel();
 
@@ -363,13 +375,11 @@ public class EditRequirementPanel extends RequirementPanel {
 
 		c.gridy = 1; // Row 1
 		c.weighty = 0; // Fill 0% of vertical space
-		panel.add(noteMessage, c);
-
-		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom
-												// panel
-		bottomPanel.add(buttonAddNote, bc); // Include "Add note" button to
-											// bottom panel
-
+		panel.add(noteMessage,c);
+		
+		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom panel
+		bottomPanel.add(buttonAddNote, bc); // Include "Add note" button to bottom panel
+		
 		bc.gridx = 1; // Column 1
 		bottomPanel.add(buttonClear, bc); // Include "Clear" button to bottom
 											// panel
@@ -630,8 +640,143 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getPriorityMedium().setEnabled(false);
 		this.getPriorityLow().setEnabled(false);
 		this.getPriorityBlank().setEnabled(false);
+		this.getButtonDelete().setEnabled(false);
+	}
+	
+	/**
+	 * Enables all of the components of the editing panel.
+	 */
+	private void enableComponents()
+	{
+		this.getBoxName().setEnabled(true);
+		this.getBoxDescription().setEnabled(true);
+		this.getBoxEstimate().setEnabled(true);
+		this.getBoxReleaseNum().setEnabled(true);
+		this.getDropdownType().setEnabled(true);
+		if(requirementBeingEdited.getEstimate() > 0) this.getBoxIteration().setEnabled(true);
+		this.getPriorityHigh().setEnabled(true);
+		this.getPriorityMedium().setEnabled(true);
+		this.getPriorityLow().setEnabled(true);
+		this.getPriorityBlank().setEnabled(true);
+		
+		this.getButtonDelete().setEnabled(true);
+	}
+	
+	/**
+	 * Returns whether the panel is ready to be removed or not based on if there are changes that havent been
+	 * saved.
+	 * 
+	 * @return whether the panel can be removed.
+	 */
+	public boolean readyToRemove()
+	{
+		if(anythingChanged())
+		{
+			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			
+			return result == 0;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	/**
+	 * Returns whether any field in the panel has been changed
+	 */
+	public boolean anythingChanged()
+	{
+		boolean nameChanged = !(getBoxName().getText().trim().equals(requirementBeingEdited.getName()));
+		boolean descriptionChanged = !(getBoxDescription().getText().trim().equals(requirementBeingEdited.getDescription()));
+		boolean releaseChanged = !(getBoxReleaseNum().getText().trim().equals(requirementBeingEdited.getRelease()));
+		boolean iterationChanged = !(getBoxIteration().getText().trim().equals(requirementBeingEdited.getIteration()));
+		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType());
+		boolean statusChanged = !(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus());
+
+		RequirementPriority reqPriority = requirementBeingEdited.getPriority();
+		boolean priorityChanged = false;
+		switch(reqPriority)
+		{
+			case BLANK:
+				priorityChanged = !getPriorityBlank().isSelected();
+				break;
+			case LOW:
+				priorityChanged = !getPriorityLow().isSelected();
+				break;
+			case MEDIUM:
+				priorityChanged = !getPriorityMedium().isSelected();
+				break;
+			case HIGH:
+				priorityChanged = !getPriorityHigh().isSelected();
+				break;
+		}
+		
+		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
+
+		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
+				typeChanged || statusChanged || priorityChanged || estimateChanged;
+		
+		return anythingChanged;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
+		this.buttonClear.setEnabled(anythingChanged());
+		
+		
+		//check that estimate is valid to enable iterations.
+		boolean validEstimate = true;
+		
+		try
+		{
+			int estimate = Integer.parseInt(getBoxEstimate().getText().trim());
+			validEstimate = estimate > 0;
+		}
+		catch (Exception ex)
+		{
+			validEstimate = false;
+		}
+		
+		this.getBoxIteration().setEnabled(validEstimate);
+		
+		this.repaint();		
 		this.buttonAddChild.setEnabled(false);
 		this.buttonDelete.setEnabled(false);
 	}
 
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);
+		this.buttonClear.setEnabled(anythingChanged());		
+		
+		if(getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED)
+		{
+			enableComponents();
+		}
+		else
+		{
+			disableComponents();
+		}
+		
+		this.repaint();
+	}
+
+	public JButton getButtonCancel() {
+		return buttonCancel;
+	}
+
+	public JButton getButtonDelete() {
+		return buttonDelete;
+	}
+
+
+	
 }

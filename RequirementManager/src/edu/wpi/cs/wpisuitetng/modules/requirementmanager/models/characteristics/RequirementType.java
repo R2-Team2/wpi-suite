@@ -15,15 +15,27 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  */
 public enum RequirementType {
 	/** Indicates that the Requirement does not have an associated type */
-	BLANK,
+	BLANK(""),
 	/** Indicates that the Requirement is an Epic */
-	EPIC,
+	EPIC("Epic"),
 	/** Indicates that the Requirement is a theme */
-	THEME,
+	THEME("Theme"),
 	/** Indicates that the Requirement is a user story */
-	USERSTORY,
+	USERSTORY("User Story"),
 	/** Indicates that the Requirement is a non-functional requirement */
-	NONFUNCTIONAL,
+	NONFUNCTIONAL("Non-Functional"),
 	/** Indicates that the Requirement is a scenario */
-	SCENARIO
+	SCENARIO("Scenario");
+	
+	private final String name;
+	
+	private RequirementType(String s)
+	{
+		name = s;
+	}
+	
+	public String toString()
+	{
+		return name;
+	}
 }

@@ -9,11 +9,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
+import java.awt.Component;
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
@@ -28,7 +30,7 @@ public class ViewEventController {
 	private MainView main = null;
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
-	private EditRequirementPanel editingPanel = null;
+	private ArrayList<EditRequirementPanel> listOfEditingPanels = new ArrayList<EditRequirementPanel>();
 	
 	/**
 	 * Sets the OverviewTable for the controller
@@ -75,7 +77,7 @@ public class ViewEventController {
 	 */
 	public void createRequirement() {
 		NewRequirementPanel newReq = new NewRequirementPanel();
-		main.addTab("Create Requirement", newReq);
+		main.addTab("New Req.", newReq);
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
 		main.setSelectedComponent(newReq);
@@ -94,8 +96,16 @@ public class ViewEventController {
 	public void editRequirement(Requirement toEdit)
 	{
 		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
-		main.addTab("Edit Requirement", editPanel);
-		this.editingPanel = editPanel;
+		
+		StringBuilder tabName = new StringBuilder();
+		tabName.append(toEdit.getId()); 
+		tabName.append(". ");
+		int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
+		tabName.append(toEdit.getName().substring(0,subStringLength));
+		if(toEdit.getName().length() > 6) tabName.append("..");
+		
+		main.addTab(tabName.toString(), editPanel);
+		this.listOfEditingPanels.add(editPanel);
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(editPanel);
@@ -107,7 +117,12 @@ public class ViewEventController {
 	
 	public void removeTab(JComponent comp)
 	{
-		if(comp instanceof EditRequirementPanel) editingPanel = null;
+		if(comp instanceof EditRequirementPanel)
+		{
+			if(!((EditRequirementPanel)comp).readyToRemove()) return;
+			this.listOfEditingPanels.remove(comp);
+			
+		}
 		main.remove(comp);
 	}
 
@@ -158,11 +173,47 @@ public class ViewEventController {
 		
 		Requirement toEdit = (Requirement)overviewTable.getValueAt(selection[0],1);
 		
-		if(editingPanel != null)
+		EditRequirementPanel exists = null;
+		
+		for(EditRequirementPanel panel : listOfEditingPanels)
 		{
-			this.removeTab(editingPanel);
+			if(panel.getRequirementBeingEdited() == toEdit)
+			{
+				exists = panel;
+				break;
+			}
+		}	
+		
+		if(exists == null)
+		{
+			editRequirement(toEdit);
+		}
+		else
+		{
+			main.setSelectedComponent(exists);
+		}
+	}
+
+	/**
+	 * Closes all of the tabs besides the overview tab in the main view.
+	 */
+	public void closeAllTabs() {
+
+		int tabCount = main.getTabCount();
+		
+		for(int i = tabCount - 1; i != 0; i--)
+		{
+			Component toBeRemoved = main.getComponentAt(i);
+			
+			if(toBeRemoved instanceof EditRequirementPanel)
+			{
+				if(!((EditRequirementPanel)toBeRemoved).readyToRemove()) break;
+				this.listOfEditingPanels.remove(toBeRemoved);
+			}
+			
+			main.removeTabAt(i);
 		}
 		
-		editRequirement(toEdit);
+		main.repaint();
 	}
 }

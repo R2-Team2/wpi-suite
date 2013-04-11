@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -65,7 +66,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		// close this tab when close button is clicked
 		final int index = tabbedPane.indexOfTabComponent(this);
 		if(index > -1) {
-			tabbedPane.remove(index);
+			ViewEventController.getInstance().removeTab((JComponent)tabbedPane.getComponentAt(index));
 		}
 	}
 	

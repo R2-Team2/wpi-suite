@@ -17,21 +17,33 @@ public enum RequirementStatus {
 	/**
 	 * Indicates that the Requirement has only been created
 	 */
-	NEW,
+	NEW("New"),
 	/**
 	 * Indicates that the Requirement has been assigned to an iteration
 	 */
-	INPROGRESS,
+	INPROGRESS("In Progress"),
 	/**
 	 * Indicates that the Requirement has been removed from an iteration and returned to the backlog
 	 */
-	OPEN,
+	OPEN("Open"),
 	/**
 	 * Indicates that the Requirement has been accepted by the customer
 	 */
-	COMPLETE,
+	COMPLETE("Complete"),
 	/**
 	 * Indicates that the Requirement has been deleted
 	 */
-	DELETED
+	DELETED("Deleted");
+	
+	private final String name;
+	
+	private RequirementStatus(String stat)
+	{
+		name = stat;
+	}
+	
+	public String toString()
+	{
+		return name;
+	}
 }

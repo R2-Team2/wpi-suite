@@ -34,13 +34,18 @@ public class EditRequirementPanelTest {
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
-		IterationModel.getInstance().setBacklog(new Iteration(1, "testIter"));
+		//IterationModel.getInstance().setBacklog(new Iteration(1, "testIter"));
 
+		Iteration iterationTest = new Iteration(0,"Backlog");
+		IterationModel.getInstance().setBacklog(iterationTest);
 	}
 
-
-	@Test
-	public void errorFieldTest() {
+	/**
+	 * check whether the field is enabled or not as default
+	 */
+	@Test 
+	public void defaultEnabilityAndField()
+	{
 		Requirement testRequirement = new Requirement();
 		String testName = "test: Name";
 		String testDescription = "test: Description";
@@ -59,13 +64,21 @@ public class EditRequirementPanelTest {
 		
 		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
 		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
-		String errorMessageNoMore100 = "No more than 100 chars";
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
-
+		assertEquals(true, testEdit.getBoxName().isEnabled());
+		assertEquals(true, testEdit.getBoxDescription().isEnabled());
+		assertEquals(false, testEdit.getBoxIteration().isEnabled());
+		assertEquals(true, testEdit.getDropdownType().isEnabled());
+		assertEquals(true, testEdit.getDropdownStatus().isEnabled());
+		assertEquals(true, testEdit.getPriorityHigh().isEnabled());
+		assertEquals(true, testEdit.getPriorityMedium().isEnabled());
+		assertEquals(true, testEdit.getPriorityLow().isEnabled());
+		assertEquals(true, testEdit.getPriorityBlank().isEnabled());
+		assertEquals(true, testEdit.getBoxEstimate().isEnabled());
+		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
+		assertEquals(false, testEdit.getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonCancel().isEnabled());
+		assertEquals(true, testEdit.getButtonDelete().isEnabled());
 		
-		// initial edit field
 		assertEquals(testName,testEdit.getBoxName().getText());
 		assertEquals(testDescription,testEdit.getBoxDescription().getText());
 		assertEquals(testRelease,testEdit.getBoxReleaseNum().getText());
@@ -74,6 +87,27 @@ public class EditRequirementPanelTest {
 		assertEquals("0",testEdit.getBoxEstimate().getText());
 		assertEquals(RequirementType.EPIC,testEdit.getDropdownType().getSelectedItem());
 		
+	}
+
+	@Test
+	public void errorFieldTest() {
+		Requirement testRequirement = new Requirement();
+		String testName = "test: Name";
+		String testDescription = "test: Description";
+		String testRelease = "1.0.2";
+		int testEstimate = 0;
+		//int testActualEffort = 0;
+		
+		//testRequirement.setEstimate(testActualEffort);
+		
+		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		
+		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoMore100 = "No more than 100 chars";
+		String errorMessageRequiredName = "** Name is REQUIRED";
+		String errorMessageRequiredDescription = "** Description is REQUIRED";
+
+		
 		String hundredCharText = "0";
 		
 		for(int i = 0; i<100; i++)
@@ -81,16 +115,16 @@ public class EditRequirementPanelTest {
 			hundredCharText = hundredCharText +"0";
 		}
 		
-		testEdit.getBoxName().setText("  ");
+		testEdit.getBoxName().setText(hundredCharText);
 		testEdit.getBoxEstimate().setText("-134");
-		testEdit.getBoxDescription().setText("   ");
-		
+		testEdit.getBoxDescription().setText("Desc.");
+		testEdit.keyReleased(null);
 		testEdit.getButtonUpdate().doClick();
 		
 		// has to be nonnegative, has to have name, has to have description
 		assertEquals(errorMessageNoninterger,testEdit.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredName,testEdit.getErrorName().getText());
-		assertEquals(errorMessageRequiredDescription,testEdit.getErrorDescription().getText());
+		assertEquals(errorMessageNoMore100,testEdit.getErrorName().getText());
+
 		// Iteration is unable, Dropdown status is enable
 		assertEquals(false, testEdit.getBoxIteration().isEnabled());
 		assertEquals(true, testEdit.getDropdownStatus().isEnabled());
@@ -104,6 +138,51 @@ public class EditRequirementPanelTest {
 		assertEquals(errorMessageNoninterger,testEdit.getErrorEstimate().getText());
 		assertEquals(errorMessageRequiredDescription,testEdit.getErrorDescription().getText());
 		
+	}
+	
+	
+	@Test
+	public void errorRequiredFieldTest() {
+		Requirement testRequirement = new Requirement();
+		String testName = "test: Name";
+		String testDescription = "test: Description";
+		String testRelease = "1.0.2";
+		int testEstimate = 0;
+		//int testActualEffort = 0;
+		
+		testRequirement.setName(testName);
+		testRequirement.setDescription(testDescription);
+		testRequirement.setRelease(testRelease);
+		testRequirement.setStatus(RequirementStatus.NEW, true);
+		testRequirement.setPriority(RequirementPriority.HIGH,true);
+		testRequirement.setEstimate(testEstimate);
+		testRequirement.setType(RequirementType.EPIC);
+		//testRequirement.setEstimate(testActualEffort);
+		
+		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		// a field is added correctly but both name and description are filled with blanks
+		testEdit.getBoxEstimate().setText("-134");
+		testEdit.getBoxName().setText("  ");
+		testEdit.getBoxDescription().setText("Desc.");
+		// release pressed key
+		testEdit.keyReleased(null);
+		
+		// can't create because no name/description, but a field has been changed
+		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
+		assertEquals(true, testEdit.getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonCancel().isEnabled());
+		
+		testEdit.getBoxName().setText("Name");
+		testEdit.getBoxDescription().setText(" ");
+		// release pressed key
+		testEdit.keyReleased(null);
+		
+		// can't create because no name/description, but a field has been changed
+		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
+		assertEquals(true, testEdit.getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonCancel().isEnabled());
+		
+
 	}
 	
 	@Test
@@ -120,17 +199,12 @@ public class EditRequirementPanelTest {
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
 		testRequirement.setStatus(RequirementStatus.NEW, true);
-		testRequirement.setPriority(RequirementPriority.LOW,true);
+		testRequirement.setPriority(RequirementPriority.MEDIUM,true);
 		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort);
 		
 		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
-		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
-		String errorMessageNoMore100 = "No more than 100 chars";
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
 		
 		// set to each field random stuffs to test clear functionality
 		
@@ -149,7 +223,7 @@ public class EditRequirementPanelTest {
 		assertEquals(testDescription,testEdit.getBoxDescription().getText());
 		assertEquals(testRelease,testEdit.getBoxReleaseNum().getText());
 		assertEquals(RequirementStatus.NEW,testEdit.getDropdownStatus().getSelectedItem());
-		assertEquals(true,testEdit.getPriorityLow().isSelected());
+		assertEquals(true,testEdit.getPriorityMedium().isSelected());
 		assertEquals("0",testEdit.getBoxEstimate().getText());
 		assertEquals(RequirementType.EPIC,testEdit.getDropdownType().getSelectedItem());
 		
@@ -157,7 +231,7 @@ public class EditRequirementPanelTest {
 	}
 	
 	@Test
-	public void updateButtonTest()
+	public void updateButtonTest2()
 	{
 		Requirement testRequirement = new Requirement();
 		String testName = "test: Name";
@@ -201,5 +275,6 @@ public class EditRequirementPanelTest {
 		assertEquals(4,testEdit.getRequirementBeingEdited().getEstimate());
 	}
 	
-	
 }
+	
+	

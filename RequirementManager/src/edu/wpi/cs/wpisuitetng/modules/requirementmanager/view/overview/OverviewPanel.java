@@ -30,7 +30,6 @@ public class OverviewPanel extends JPanel {
 		Object[][] data = {};
 		
 		OverviewTable table = new OverviewTable(data, columnNames);
-		table.getSelectionModel().addListSelectionListener(filterPanel);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
 		
