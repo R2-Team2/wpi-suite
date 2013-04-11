@@ -374,7 +374,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		panel.add(scroll, c);
 
 		c.gridy = 1; // Row 1
-		c.weighty = 0; // Fill 0% of vertical space
+		c.weighty = .2; // Fill 0% of vertical space
 		panel.add(noteMessage,c);
 		
 		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom panel
@@ -468,7 +468,6 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JPanel buildTestPanel() {
 		// Button used to add a test and update status
 		JButton buttonAddTest = new JButton("Add Test");
-		JButton buttonUpdate = new JButton("Update");
 
 		// Error message field
 		final JLabel error = new JLabel("");
@@ -574,12 +573,6 @@ public class EditRequirementPanel extends RequirementPanel {
 								.updateRequirement(requirementBeingEdited);
 					}
 				}
-			}
-		});
-
-		buttonUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO: Update status of tests
 			}
 		});
 
