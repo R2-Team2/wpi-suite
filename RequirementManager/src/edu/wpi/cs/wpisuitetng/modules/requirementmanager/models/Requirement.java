@@ -439,6 +439,14 @@ public class Requirement extends AbstractModel {
 		this.history.add(msg);
 		tests.add(test);
 	}
+	
+	public void updateTestStatus(int testID, TestStatus status) {
+		for (int i = 0; i < this.tests.size(); i++) {
+			if (this.tests.get(i).getId() == testID) {
+				this.tests.get(i).setStatus(status);
+			}
+		}
+	}
 
 	/**
 	 * Method for removing an Acceptance Test
@@ -521,17 +529,24 @@ public class Requirement extends AbstractModel {
 		Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
 		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
-		//create the transaction history.
+		
 		if(!this.iteration.equals(newIterationName) && !created)
 		{
+			//create the transaction history
 			String message = ("Moved " + this.name + " from "
 					+ curIter + " to " + newIteration);
 			this.history.add(message);
-		}
-		
-		//update estimates as needed
-		if(!this.iteration.equals(newIterationName) && !created)
-		{
+			//update status as needed
+			if(this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN)) 
+			{
+				this.setStatus(RequirementStatus.INPROGRESS, created);
+			}
+			else if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
+			{
+				this.setStatus(RequirementStatus.OPEN, created);
+			}
+			
+			//update estimates as needed
 			oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
 			newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		}
@@ -674,6 +689,13 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setHistory(TransactionHistory history) {
 		this.history = history;
+	}
+
+	/**
+	 * @param tests the tests to set
+	 */
+	public void setTests(ArrayList<AcceptanceTest> tests) {
+		this.tests = tests;
 	}
 
 	/**

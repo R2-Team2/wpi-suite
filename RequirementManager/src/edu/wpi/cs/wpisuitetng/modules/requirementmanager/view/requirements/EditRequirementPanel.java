@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -122,6 +123,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	 * Fills the fields of the edit requirement panel based on the current
 	 * settings of the edited requirement.
 	 */
+	@SuppressWarnings("unchecked")
 	private void fillFieldsForRequirement() {
 		getBoxName().setText(getRequirementBeingEdited().getName());
 		getBoxDescription().setText(
@@ -129,14 +131,48 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxEstimate().setText(
 				String.valueOf(getRequirementBeingEdited().getEstimate()));
 		getBoxReleaseNum().setText(getRequirementBeingEdited().getRelease());
-		getDropdownStatus().setSelectedItem(getRequirementBeingEdited().getStatus());
-		getDropdownType().setSelectedItem(getRequirementBeingEdited().getType());
-		getBoxIteration().setText(getRequirementBeingEdited().getIteration().toString());
 		
-		this.setPriorityDropdown(getRequirementBeingEdited().getPriority());
-		
-		if(getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS || getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE)
+		if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.NEW))
 		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.NEW);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.INPROGRESS))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
+			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.OPEN))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.OPEN);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.COMPLETE)
+				|| getRequirementBeingEdited().getStatus().equals(RequirementStatus.DELETED))
+		{
+			getDropdownStatus().removeAllItems();
+			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
+			getDropdownStatus().addItem(RequirementStatus.OPEN);
+			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+			getDropdownStatus().addItem(RequirementStatus.DELETED);
+		}
+		getDropdownStatus().setSelectedItem(
+				getRequirementBeingEdited().getStatus());
+		
+		
+		getDropdownType()
+				.setSelectedItem(getRequirementBeingEdited().getType());
+		getBoxIteration().setText(
+				getRequirementBeingEdited().getIteration().toString());
+
+        this.setPriorityDropdown(getRequirementBeingEdited().getPriority());
+
+		if (getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS
+				|| getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE) {
 			getBoxEstimate().setEnabled(false);
 		} else {
 			getBoxEstimate().setEnabled(true);
@@ -464,8 +500,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.weighty = 0; // Do not stretch vertically
 		panel.add(buttons, c); // Add buttons to panel
 
-		JPanel tests = TestPanel.createList(this.requirementBeingEdited
-				.getTests());
+		JPanel tests = TestPanel.createList(this.requirementBeingEdited);
 		scroll.setViewportView(tests);
 
 		// Listener for addTest button
@@ -505,14 +540,21 @@ public class EditRequirementPanel extends RequirementPanel {
 						// Set timestamp for transaction history
 						requirementBeingEdited.getHistory().setTimestamp(System.currentTimeMillis());
 						
+						int maxTestId = 0;
+						for (int i = 0; i < requirementBeingEdited.getTests().size(); i++) {
+							if (requirementBeingEdited.getTests().get(i).getId() > maxTestId) {
+								maxTestId = requirementBeingEdited.getTests().get(i).getId();
+							}
+						}
+						
 						// Add test to requirement
-						AcceptanceTest addTest = new AcceptanceTest(title
+						AcceptanceTest addTest = new AcceptanceTest(maxTestId + 1, title
 								.getText(), description.getText());
 						requirementBeingEdited.addTest(addTest);
 
 						// Update panel to show new test
 						scroll.setViewportView(TestPanel
-								.createList(requirementBeingEdited.getTests()));
+								.createList(requirementBeingEdited));
 						
 						// Update history panel
 						historyScrollPane.setViewportView(HistoryPanel

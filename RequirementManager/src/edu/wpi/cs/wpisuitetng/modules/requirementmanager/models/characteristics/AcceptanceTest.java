@@ -1,12 +1,13 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Acceptance test for a specific requirement
  * @author Dylan Kirby
  */
 public class AcceptanceTest {
-		
-	private static int testCount;
+	
 	private final int testId;
 	private String testName;
 	private String testDescription;
@@ -17,11 +18,11 @@ public class AcceptanceTest {
 	 * @param testName Name of the acceptance test
 	 * @param testDescription Description of the test
 	 */
-	public AcceptanceTest(String testName, String testDescription) {
+	public AcceptanceTest(int id, String testName, String testDescription) {
 		this.setName(testName);
 		this.testDescription = testDescription;
-		this.testId = testCount++;
 		this.testStatus = TestStatus.STATUS_BLANK;
+		this.testId = id;
 	}
 	
 	/**
