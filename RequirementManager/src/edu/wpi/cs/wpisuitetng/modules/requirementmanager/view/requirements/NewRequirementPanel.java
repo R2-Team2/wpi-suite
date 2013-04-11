@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 
@@ -13,11 +22,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import java.util.Date;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 /**
  * 
@@ -33,15 +45,22 @@ public class NewRequirementPanel extends RequirementPanel
 	private JButton buttonUpdate = new JButton("Create");
 	private JButton buttonCancel = new JButton("Cancel");
 	private JButton buttonClear = new JButton("Clear");
-	
-	private Requirement newRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "", "");
-	
+		
 	/**
-	 * Constructor for a new requirement panel
-	 * @param reqModel Local requirement model for containing data
+	 * Constructor for a new requirement panel with a parent
 	 */
-	public NewRequirementPanel() {
+	public NewRequirementPanel()
+	{
+		this(0);
+	}
+	/**
+	 * Constructor for a new requirement panel with a parent
+	 */
+	public NewRequirementPanel(int parentID) {
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		this.displayRequirement = new Requirement(RequirementModel.getInstance().getNextID(), "","");
+		this.displayRequirement.setParentID(parentID);
 
 		contentPanel.add(buildLeftPanel()); //add left panel
 		contentPanel.add(buildRightPanel()); //add right panel
@@ -159,7 +178,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 		// Set to true to indicate the requirement is being newly created
 		boolean created = true;
-		
+				
 		// Create a new requirement object based on the extracted info
 		getNewRequirement().setName(stringName);
 		getNewRequirement().setDescription(stringDescription);		
@@ -169,6 +188,9 @@ public class NewRequirementPanel extends RequirementPanel
 		getNewRequirement().setType(type);
 		getNewRequirement().setEstimate(estimate);
 		getNewRequirement().setIteration(stringIteration, created);
+		// Set the time stamp for the transaction for the creation of the requirement
+        getNewRequirement().getHistory().setTimestamp(System.currentTimeMillis());
+        System.out.println("The Time Stamp is now :" + getNewRequirement().getHistory().getTimestamp());
 		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
@@ -231,7 +253,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 
 	public Requirement getNewRequirement() {
-		return newRequirement;
+		return this.displayRequirement;
 	}
 	
 	/**

@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Dimension;
@@ -53,7 +62,8 @@ public class EditRequirementPanel extends RequirementPanel
 	private Requirement requirementBeingEdited;
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
-	private JButton buttonClear = new JButton("Reset");
+	private JButton buttonAddChild = new JButton("Add Child Requirement");
+	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	
 	/**
@@ -63,7 +73,7 @@ public class EditRequirementPanel extends RequirementPanel
 	public EditRequirementPanel(Requirement req) {
 		super();
 
-		requirementBeingEdited = req;
+		requirementBeingEdited = this.displayRequirement = req;
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -125,21 +135,7 @@ public class EditRequirementPanel extends RequirementPanel
 		getDropdownType().setSelectedItem(getRequirementBeingEdited().getType());
 		getBoxIteration().setText(getRequirementBeingEdited().getIteration().toString());
 		
-		switch(getRequirementBeingEdited().getPriority())
-		{
-		case BLANK:
-			getPriorityBlank().setSelected(true);
-			break;
-		case LOW:
-			getPriorityLow().setSelected(true);
-			break;
-		case MEDIUM:
-			getPriorityMedium().setSelected(true);
-			break;
-		case HIGH:
-			getPriorityHigh().setSelected(true);
-			break;
-		}
+		this.setPriorityDropdown(getRequirementBeingEdited().getPriority());
 		
 		if(getRequirementBeingEdited().getStatus() == RequirementStatus.INPROGRESS || getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE)
 		{
@@ -149,11 +145,17 @@ public class EditRequirementPanel extends RequirementPanel
 		{
 			getBoxEstimate().setEnabled(true);
 		}
+		if(getRequirementBeingEdited().getStatus() == RequirementStatus.COMPLETE || getRequirementBeingEdited().getStatus() == RequirementStatus.DELETED){
+			buttonAddChild.setEnabled(false);
+		}
+		else{
+			buttonAddChild.setEnabled(true);
+		}
 		
 		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) getButtonDelete().setEnabled(false);
 		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
-		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
-		if(!(getRequirementBeingEdited().getEstimate() > 0)) getBoxIteration().setEnabled(false);
+		if(requirementBeingEdited.getEstimate() <= 0) getBoxIteration().setEnabled(false);
+		if(getRequirementBeingEdited().getEstimate() <= 0) getBoxIteration().setEnabled(false);
 		
 		//reset the error messages.
 		this.getErrorEstimate().setText("");
@@ -217,10 +219,17 @@ public class EditRequirementPanel extends RequirementPanel
 			}
 		});
 
+		buttonAddChild.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				ViewEventController.getInstance().createChildRequirement(requirementBeingEdited.getId());
+			}
+		});
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		buttonPanel.add(getButtonDelete());
-		buttonPanel.add(getButtonCancel());
+		buttonPanel.add(buttonAddChild);
+		buttonPanel.add(buttonDelete);
+		buttonPanel.add(buttonCancel);
 		
 		return buttonPanel;
 	}
@@ -475,7 +484,6 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getPriorityMedium().setEnabled(false);
 		this.getPriorityLow().setEnabled(false);
 		this.getPriorityBlank().setEnabled(false);
-		
 		this.getButtonDelete().setEnabled(false);
 	}
 	
@@ -584,6 +592,8 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getBoxIteration().setEnabled(validEstimate);
 		
 		this.repaint();		
+		this.buttonAddChild.setEnabled(false);
+		this.buttonDelete.setEnabled(false);
 	}
 
 	@Override

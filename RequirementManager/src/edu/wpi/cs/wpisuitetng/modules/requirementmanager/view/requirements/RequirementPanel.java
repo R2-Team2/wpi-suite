@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
@@ -17,6 +26,8 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
 
@@ -27,6 +38,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  */
 abstract public class RequirementPanel extends JScrollPane implements KeyListener, ItemListener
 {
+	protected Requirement displayRequirement;
+	
 	protected JPanel contentPanel;
 	protected JPanel leftPanel;
 	private JTextField boxName;
@@ -83,6 +96,19 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		setErrorName(new JLabel());
 		setErrorDescription(new JLabel());
 
+		if(this.displayRequirement.getParentID()!=0)
+		{
+			Requirement parent = this.displayRequirement.getParent();
+			
+			getBoxIteration().setText(parent.getIteration());
+			//getBoxIteration().setEnabled(false);
+			
+			getBoxReleaseNum().setText(parent.getRelease());
+			//getBoxReleaseNum().setEnabled(false);
+			
+			System.out.println("Parent: "+this.displayRequirement.getParentID());
+		}
+		
 		SpringLayout leftLayout = new SpringLayout();
 
 		leftPanel.setLayout(leftLayout);
@@ -211,6 +237,17 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		getBoxEstimate().addKeyListener(this);
 		setErrorEstimate(new JLabel());
 		
+		if(this.displayRequirement.getParentID()!=0)
+		{
+			Requirement parent = this.displayRequirement.getParent();
+			
+			getDropdownStatus().setSelectedItem(parent.getStatus());
+			//getDropdownStatus().setEnabled(false);
+			
+			getDropdownType().setSelectedItem(parent.getType());
+			//getDropdownType().setEnabled(false);
+		}
+		
 		SpringLayout rightLayout = new SpringLayout();
 
 		rightPanel.setLayout(rightLayout);
@@ -261,6 +298,12 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 				SpringLayout.SOUTH, getBoxEstimate());
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
+		
+		if(this.displayRequirement.getParentID()!=0)
+		{
+			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
+			rightPanel.add(parent);
+		}
 
 		rightPanel.add(labelType);
 		rightPanel.add(getDropdownType());
@@ -277,6 +320,24 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		rightPanel.setPreferredSize(new Dimension(315,500));
 		
 		return rightPanel;
+	}
+	public void setPriorityDropdown(RequirementPriority priority)
+	{
+		switch(priority)
+		{
+		case BLANK:
+			getPriorityBlank().setSelected(true);
+			break;
+		case LOW:
+			getPriorityLow().setSelected(true);
+			break;
+		case MEDIUM:
+			getPriorityMedium().setSelected(true);
+			break;
+		case HIGH:
+			getPriorityHigh().setSelected(true);
+			break;
+		}
 	}
 	
 	/**

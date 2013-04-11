@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
@@ -73,7 +82,14 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newReq);
 	}
-	
+	//TODO: javadoc
+	public void createChildRequirement(int parentID) {
+		NewRequirementPanel newReq = new NewRequirementPanel(parentID);
+		main.addTab("Create Requirement", newReq);
+		main.invalidate(); //force the tabbedpane to redraw.
+		main.repaint();
+		main.setSelectedComponent(newReq);
+	}
 	/**
 	 * Opens a new tab for the editing of a requirement
 	 */

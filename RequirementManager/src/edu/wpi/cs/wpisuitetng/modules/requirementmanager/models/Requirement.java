@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import java.util.ArrayList;
@@ -51,17 +60,14 @@ public class Requirement extends AbstractModel {
 	/** the type of the requirement */
 	private RequirementType type;
 
-	/**
-	 * sub-requirements that must be completed before the current requirement is
-	 * considered complete
-	 */
-	private List<Requirement> subRequirements;
-
 	/** notes associated with the requirement */
 	private NoteList notes;
 
 	/** iteration the requirement is assigned to */
 	private String iteration;
+	
+	/** the ID of the requirement that this requirement is a sub-requirement of */
+	private int parentID;
 
 	/**
 	 * team members the requirement is assigned to need to figure out the class
@@ -368,43 +374,7 @@ public class Requirement extends AbstractModel {
 		this.type = type;
 	}
 
-	/**
-	 * Getter for the sub-requirements
-	 * 
-	 * @return a list of the sub-requirements
-	 */
-	public List<Requirement> getSubRequirements() {
-		return subRequirements;
-	}
-
-	/**
-	 * Method to add a requirement to the list of sub-requirements
-	 * 
-	 * @param requirement
-	 *            Requirement to add
-	 */
-	public void addSubRequirement(Requirement subRequirement) {
-		this.subRequirements.add(subRequirement);
-	}
-
-	/**
-	 * Method to remove a requirement to the list of sub-requirements
-	 * 
-	 * @param id
-	 *            The id of the requirement to be remove from the list of
-	 *            sub-requirements
-	 */
-	public void removeSubRequirement(int id) {
-		// iterate through the list looking for the requirement to remove
-		for (int i = 0; i < this.subRequirements.size(); i++) {
-			if (subRequirements.get(i).getId() == id) {
-				// remove the id
-				subRequirements.remove(i);
-				break;
-			}
-		}
-	}
-
+	
 	/**
 	 * Getter for the notes
 	 * 
@@ -568,6 +538,43 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
+	 * Getter for parent IDs
+	 * 
+	 * @return the parent ID, which is the ID of the parent of the requirement 
+	 */
+	public int getParentID() {
+		return parentID;
+	}
+
+	/**
+	 * Setter for parentID
+	 * Assign the parent ID for this requirement
+	 * 
+	 * @param parentReq            
+	 */
+	public void setParentID(int parentReq) {
+		this.parentID = parentReq;
+	}
+	
+	/**
+	 * Getter for parent
+	 * @return the parent requirement of the sub-requirement
+	 */
+	public Requirement getParent() {		
+		return RequirementModel.getInstance().getRequirement(parentID);
+	}
+	
+	/**
+	 * Setter for parent
+	 * extracts the ID of parentReq and assigns it to parentID 
+	 * 
+	 * @param parentReq            
+	 */
+	public void setParent(Requirement parentReq) {
+		this.parentID = parentReq.getId();
+	}
+
+	/**
 	 * Getter for AssignedTo
 	 * 
 	 * @return the list of strings representing the users for whom the
@@ -685,5 +692,5 @@ public class Requirement extends AbstractModel {
 		this.type = toCopyFrom.type;
 		this.history = toCopyFrom.history;
 		this.notes = toCopyFrom.notes;
-	}
+	}	
 }
