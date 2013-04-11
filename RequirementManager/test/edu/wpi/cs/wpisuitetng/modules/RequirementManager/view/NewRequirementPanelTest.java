@@ -184,38 +184,23 @@ public class NewRequirementPanelTest {
 		
 		testNew.update();
 		
-//		assertEquals(testName,testNew.getNewRequirement().getName());
-//		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
-//		assertEquals(RequirementType.THEME,testNew.getNewRequirement().getType());
-//		assertEquals("Backlog",testNew.getNewRequirement().getIteration());
-//		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
-//		assertEquals(RequirementPriority.HIGH,testNew.getNewRequirement().getPriority());
-//		assertEquals(4,testNew.getNewRequirement().getEstimate());
 	}
 	
 	@Test
-	public void errorThenUpdate()
+	public void allTestUpdate()
 	{
 		NewRequirementPanel testNew = new NewRequirementPanel();
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
+		
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
-		testNew.getBoxEstimate().setText(" ");
-		testNew.getBoxDescription().setText("   ");
-		testNew.getBoxName().setText("");
-		testNew.getButtonUpdate().doClick();
-		
-		assertEquals("",testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
 		
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getDropdownType().setSelectedItem(RequirementType.SCENARIO);
 		testNew.getPriorityMedium().doClick();
 		testNew.getBoxEstimate().setText("0");
+		testNew.keyReleased(null);
 		testNew.validateFields();
 		
 		testNew.update();

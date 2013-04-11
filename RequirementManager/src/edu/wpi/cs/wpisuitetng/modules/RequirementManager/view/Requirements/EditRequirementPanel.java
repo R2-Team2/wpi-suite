@@ -150,7 +150,7 @@ public class EditRequirementPanel extends RequirementPanel
 			getBoxEstimate().setEnabled(true);
 		}
 		
-		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) buttonDelete.setEnabled(false);
+		if(requirementBeingEdited.getStatus() == RequirementStatus.INPROGRESS) getButtonDelete().setEnabled(false);
 		if(requirementBeingEdited.getStatus() == RequirementStatus.DELETED) disableComponents(); 
 		if(!(requirementBeingEdited.getEstimate() > 0)) getBoxIteration().setEnabled(false);
 		if(!(getRequirementBeingEdited().getEstimate() > 0)) getBoxIteration().setEnabled(false);
@@ -204,13 +204,13 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		});
 		
-		buttonCancel.addActionListener(new ActionListener() {
+		getButtonCancel().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancel();
 			}
 		});
 		
-		buttonDelete.addActionListener(new ActionListener(){
+		getButtonDelete().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
 				deleteRequirement();
@@ -219,8 +219,8 @@ public class EditRequirementPanel extends RequirementPanel
 
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		buttonPanel.add(buttonDelete);
-		buttonPanel.add(buttonCancel);
+		buttonPanel.add(getButtonDelete());
+		buttonPanel.add(getButtonCancel());
 		
 		return buttonPanel;
 	}
@@ -476,7 +476,7 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getPriorityLow().setEnabled(false);
 		this.getPriorityBlank().setEnabled(false);
 		
-		this.buttonDelete.setEnabled(false);
+		this.getButtonDelete().setEnabled(false);
 	}
 	
 	/**
@@ -495,7 +495,7 @@ public class EditRequirementPanel extends RequirementPanel
 		this.getPriorityLow().setEnabled(true);
 		this.getPriorityBlank().setEnabled(true);
 		
-		this.buttonDelete.setEnabled(true);
+		this.getButtonDelete().setEnabled(true);
 	}
 	
 	/**
@@ -564,7 +564,7 @@ public class EditRequirementPanel extends RequirementPanel
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.buttonUpdate.setEnabled(anythingChanged());	
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
 		this.buttonClear.setEnabled(anythingChanged());
 		
 		
@@ -588,7 +588,7 @@ public class EditRequirementPanel extends RequirementPanel
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		this.buttonUpdate.setEnabled(anythingChanged());
+		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);
 		this.buttonClear.setEnabled(anythingChanged());		
 		
 		if(getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED)
@@ -602,4 +602,15 @@ public class EditRequirementPanel extends RequirementPanel
 		
 		this.repaint();
 	}
+
+	public JButton getButtonCancel() {
+		return buttonCancel;
+	}
+
+	public JButton getButtonDelete() {
+		return buttonDelete;
+	}
+
+
+	
 }
