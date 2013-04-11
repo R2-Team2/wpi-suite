@@ -10,28 +10,92 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.MockNetwork;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
+
 public class NewRequirementPanelTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
+		Network.initNetwork(new MockNetwork());
+		Network.getInstance().setDefaultNetworkConfiguration(
+				new NetworkConfiguration("http://wpisuitetng"));
+		Iteration iterationTest = new Iteration(0,"Backlog");
+		IterationModel.getInstance().setBacklog(iterationTest);
 		 
 	}
 
+	/**
+	 * check whether the field is enabled or not as default
+	 */
+	@Test 
+	public void defaultEnability()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		assertEquals(true, testNew.getBoxName().isEnabled());
+		assertEquals(true, testNew.getBoxDescription().isEnabled());
+		assertEquals(false, testNew.getBoxIteration().isEnabled());
+		assertEquals(true, testNew.getDropdownType().isEnabled());
+		assertEquals(false, testNew.getDropdownStatus().isEnabled());
+		assertEquals(true, testNew.getPriorityBlank().isEnabled());
+		assertEquals(true, testNew.getBoxEstimate().isEnabled());
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(false, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+	}
+	
 	@Test
-	public void errorFieldTest() {
+	public void defaultField()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		assertEquals(RequirementStatus.NEW, testNew.getDropdownStatus().getSelectedItem());
+		assertEquals(false, testNew.getPriorityHigh().isSelected());
+		assertEquals(false, testNew.getPriorityMedium().isSelected());
+		assertEquals(false, testNew.getPriorityLow().isSelected());
+		assertEquals(true, testNew.getPriorityBlank().isSelected());
+		
+	}
+	
+	@Test
+	public void errorRequiredFieldTest() {
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		
+		// a field is added correctly but both name and description are filled with blanks
+		testNew.getBoxEstimate().setText("-134");
+		testNew.getBoxName().setText("  ");
+		testNew.getBoxDescription().setText("Desc.");
+		// release pressed key
+		testNew.keyReleased(null);
+		
+		// can't create because no name/description, but a field has been changed
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+		testNew.getBoxName().setText("Name");
+		testNew.getBoxDescription().setText(" ");
+		// release pressed key
+		testNew.keyReleased(null);
+		
+		// can't create because no name/description, but a field has been changed
+		assertEquals(false, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+
+	}
+	
+	@Test
+	public void invalidFieldTest()
+	{
 		NewRequirementPanel testNew = new NewRequirementPanel();
 		String errorMessageNoninterger = "** Please enter a non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
-		String testName = "testName";
 		String testDescription = "testDescription";
-		
-		// initial set up
-		assertEquals(RequirementStatus.NEW,testNew.getDropdownStatus().getSelectedItem());
-		assertEquals(RequirementType.BLANK,testNew.getDropdownType().getSelectedItem());
-		
 		String hundredCharText = "0";
 		
 		for(int i = 0; i<100; i++)
@@ -39,27 +103,40 @@ public class NewRequirementPanelTest {
 			hundredCharText = hundredCharText +"0";
 		}
 		
-		testNew.getBoxEstimate().setText("-134");
-		testNew.getBoxDescription().setText("   ");
-		
-		testNew.getButtonUpdate().doClick();
-		
-		// has to be nonnegative, has to have name, has to have description
-		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
-		// Iteration is unable, Dropdown status is unable
-		assertEquals(false, testNew.getBoxIteration().isEnabled());
-		assertEquals(false, testNew.getDropdownStatus().isEnabled());
 		testNew.getBoxName().setText(hundredCharText);
-		testNew.getBoxEstimate().setText("StringCharacter");
-		testNew.getBoxDescription().setText(null);
-		testNew.getButtonUpdate().doClick();
+		testNew.getBoxDescription().setText(testDescription);
+		testNew.getBoxEstimate().setText("-134");
+		// release pressed key
+		testNew.keyReleased(null);
 		
+		// can't create because no name/description, but a field has been changed
+		assertEquals(true, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
+		testNew.getButtonUpdate().doClick();
 		assertEquals(errorMessageNoMore100,testNew.getErrorName().getText());
 		assertEquals(errorMessageNoninterger,testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
 		
+		
+	}
+
+	
+	@Test
+	public void validRequirementCreation()
+	{
+		NewRequirementPanel testNew = new NewRequirementPanel();
+		String testName = "testName";
+		String testDescription = "testDescription";
+		
+		testNew.getBoxName().setText(testName);
+		testNew.getBoxDescription().setText(testDescription);
+		
+		testNew.keyReleased(null);
+		
+		assertEquals(true, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
 	}
 	
 	@Test
@@ -68,11 +145,14 @@ public class NewRequirementPanelTest {
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
-		// set to each field random stuffs to test clear functionality
-		
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getBoxEstimate().setText("4");
+		testNew.keyReleased(null);
+		
+		// set to each field random stuffs to test clear functionality
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		
 		testNew.getButtonClear().doClick();
 		
 		assertEquals("",testNew.getBoxName().getText());
@@ -95,40 +175,32 @@ public class NewRequirementPanelTest {
 		testNew.getDropdownType().setSelectedItem(RequirementType.THEME);
 		testNew.getPriorityHigh().doClick();
 		testNew.getBoxEstimate().setText("4");
+		testNew.getBoxIteration().setText("Backlog");
+		testNew.keyReleased(null);
+		
+		assertEquals(true, testNew.getButtonUpdate().isEnabled());
+		assertEquals(true, testNew.getButtonClear().isEnabled());
+		assertEquals(true, testNew.getButtonCancel().isEnabled());
+		
 		testNew.update();
 		
-		assertEquals(testName,testNew.getNewRequirement().getName());
-		assertEquals(testDescription,testNew.getNewRequirement().getDescription());
-		assertEquals(RequirementType.THEME,testNew.getNewRequirement().getType());
-		assertEquals("Backlog",testNew.getNewRequirement().getIteration());
-		assertEquals(RequirementStatus.NEW,testNew.getNewRequirement().getStatus());
-		assertEquals(RequirementPriority.HIGH,testNew.getNewRequirement().getPriority());
-		assertEquals(4,testNew.getNewRequirement().getEstimate());
 	}
 	
 	@Test
-	public void errorThenUpdate()
+	public void allTestUpdate()
 	{
 		NewRequirementPanel testNew = new NewRequirementPanel();
-		String errorMessageRequiredName = "** Name is REQUIRED";
-		String errorMessageRequiredDescription = "** Description is REQUIRED";
+		
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
-		testNew.getBoxEstimate().setText(" ");
-		testNew.getBoxDescription().setText("   ");
-		testNew.getBoxName().setText("");
-		testNew.getButtonUpdate().doClick();
-		
-		assertEquals("",testNew.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredName,testNew.getErrorName().getText());
-		assertEquals(errorMessageRequiredDescription,testNew.getErrorDescription().getText());
 		
 		testNew.getBoxName().setText(testName);
 		testNew.getBoxDescription().setText(testDescription);
 		testNew.getDropdownType().setSelectedItem(RequirementType.SCENARIO);
 		testNew.getPriorityMedium().doClick();
 		testNew.getBoxEstimate().setText("0");
+		testNew.keyReleased(null);
 		testNew.validateFields();
 		
 		testNew.update();
