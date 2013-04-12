@@ -257,8 +257,7 @@ public class Requirement extends AbstractModel {
 		if ((status != this.status) && !created) {
 			String originalStatus = this.status.name();
 			String newStatus = status.name();
-			String message = ("Changed status of " + this.name + " from "
-					+ originalStatus + " to " + newStatus);
+			String message = ("Status changed from " + originalStatus.toString() + " to " + newStatus.toString());
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -353,8 +352,7 @@ public class Requirement extends AbstractModel {
 		if ((priority != this.priority) && !created) {
 			String originalPriority = this.priority.name();
 			String newPriority = priority.name();
-			String message = ("Changed priority of " + this.name + " from "
-					+ originalPriority + " to " + newPriority);
+			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -542,8 +540,7 @@ public class Requirement extends AbstractModel {
 		if(!this.iteration.equals(newIterationName) && !created)
 		{
 			//create the transaction history
-			String message = ("Moved " + this.name + " from "
-					+ curIter + " to " + newIteration);
+			String message = ("Moved from "	+ curIter + " to " + newIteration);
 			this.history.add(message);
 		}
 		
