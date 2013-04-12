@@ -255,9 +255,9 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setStatus(RequirementStatus status, boolean created) {
 		if ((status != this.status) && !created) {
-			String originalStatus = this.status.name();
-			String newStatus = status.name();
-			String message = ("Status changed from " + originalStatus.toString() + " to " + newStatus.toString());
+			String originalStatus = this.status.toString();
+			String newStatus = status.toString();
+			String message = ("Status changed from " + originalStatus + " to " + newStatus);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -350,8 +350,8 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setPriority(RequirementPriority priority, boolean created) {
 		if ((priority != this.priority) && !created) {
-			String originalPriority = this.priority.name();
-			String newPriority = priority.name();
+			String originalPriority = this.priority.toString();
+			String newPriority = priority.toString();
 			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);

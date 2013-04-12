@@ -110,7 +110,7 @@ public class RequirementTest {
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
 		iter = object.getHistory().getIterator(0);
-		assertEquals(iter.next().getMessage(), "Status changed from OPEN to INPROGRESS");
+		assertEquals(iter.next().getMessage(), "Status changed from Open to In Progress");
 		//if the you change it to the current status
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
@@ -146,7 +146,7 @@ public class RequirementTest {
 		object.setPriority(RequirementPriority.LOW, false);
 		assertEquals(object.getPriority(), RequirementPriority.LOW);
 		iter = object.getHistory().getIterator(1);
-		assertEquals(iter.next().getMessage(), "Priority changed from HIGH to LOW");
+		assertEquals(iter.next().getMessage(), "Priority changed from High to Low");
 		
 		// setType
 		object.setType(RequirementType.USERSTORY);
