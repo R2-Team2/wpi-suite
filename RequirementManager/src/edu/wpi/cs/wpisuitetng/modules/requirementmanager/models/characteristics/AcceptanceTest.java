@@ -9,7 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Acceptance test for a specific requirement
