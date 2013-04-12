@@ -125,7 +125,7 @@ public class MainView extends JTabbedPane {
 			public void mousePressed(MouseEvent e)
 			{
 				indexOfTab = indexAtLocation(e.getX(), e.getY());
-				System.out.println(indexOfTab+"\n");
+				//System.out.println(indexOfTab+"\n");
 				if(e.isPopupTrigger()) popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 			

@@ -688,7 +688,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	}
 	
 	/**
-	 * Returns whether the panel is ready to be removed or not based on if there are changes that havent been
+	 * Returns whether the panel is ready to be removed or not based on if there are changes that haven't been
 	 * saved.
 	 * 
 	 * @return whether the panel can be removed.

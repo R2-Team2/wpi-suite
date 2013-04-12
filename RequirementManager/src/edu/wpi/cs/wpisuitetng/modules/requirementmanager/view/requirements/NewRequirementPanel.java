@@ -366,4 +366,9 @@ public class NewRequirementPanel extends RequirementPanel
 		this.repaint();				
 	}
 
+	@Override
+	public boolean readyToRemove() {
+		return true;
+	}
+
 }

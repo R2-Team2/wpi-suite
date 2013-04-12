@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 
 /**
@@ -209,9 +210,9 @@ public class ViewEventController {
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 			
-			if(toBeRemoved instanceof EditRequirementPanel)
+			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((EditRequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 			
@@ -234,16 +235,16 @@ public class ViewEventController {
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 			
+			if(toBeRemoved == compAtIndex) continue;
 			
-			if(toBeRemoved instanceof EditRequirementPanel)
+			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((EditRequirementPanel)toBeRemoved).readyToRemove() || toBeRemoved.equals(compAtIndex) ) break;
-				this.listOfEditingPanels.remove(toBeRemoved);
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+					this.listOfEditingPanels.remove(toBeRemoved);
 			}
-			
+
 			main.removeTabAt(i);
 		}
-		
 		main.repaint();
 		
 	}
