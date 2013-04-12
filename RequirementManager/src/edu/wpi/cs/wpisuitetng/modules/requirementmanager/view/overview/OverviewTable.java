@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
@@ -43,6 +43,7 @@ public class OverviewTable extends JTable
 	{
 		this.tableModel = new DefaultTableModel(columnNames, 0);
 		this.setModel(tableModel);
+		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -137,43 +138,5 @@ public class OverviewTable extends JTable
 		}
 
 		super.paintComponent(g);
-	}
-	
-	/**
-	 * Overrides the table cell renderer to set the background of deleted requirements to grey.
-	 * 
-	 * @param renderer	Prepares the table renderer
-	 * @param row	Determining row to be edited
-	 * @param col	Determining column to be edited
-	 */
-	@Override
-	public Component prepareRenderer(TableCellRenderer renderer, int row, int col)
-	{
-		JLabel renderLabel = (JLabel)super.prepareRenderer(renderer, row, col);
-		
-		boolean isSelected = false;
-		for(int i = 0; i < this.getSelectedRows().length; i++)
-		{
-			if(row == this.getSelectedRows()[i]) {
-				isSelected = true;
-				break;
-			}
-		}
-		
-		Requirement currentRequirement = (Requirement)tableModel.getValueAt(row, 1);
-		
-		if(!isSelected)
-		{
-			if(currentRequirement.getStatus() == RequirementStatus.DELETED)
-			{
-				renderLabel.setBackground(Color.LIGHT_GRAY);
-			}
-			else
-			{
-				renderLabel.setBackground(Color.WHITE);
-			}
-		}
-		
-		return renderLabel;
 	}
 }

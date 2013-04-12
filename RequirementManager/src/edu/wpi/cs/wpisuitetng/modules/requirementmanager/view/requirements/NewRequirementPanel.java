@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
@@ -145,6 +145,7 @@ public class NewRequirementPanel extends RequirementPanel
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clear();
+				getButtonClear().setEnabled(false);
 			}
 		
 		});
@@ -251,6 +252,14 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	private void clear() 
 	{
+		if(getNewRequirement().getParentID() != -1)
+		{
+			getBoxName().setText("");
+			getBoxDescription().setText("");
+			getBoxEstimate().setText("");
+			repaint();
+			return;
+		}
 		getBoxName().setText("");
 		getBoxDescription().setText("");
 		this.getPriorityBlank().setSelected(true);
