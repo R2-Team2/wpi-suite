@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
@@ -18,17 +18,29 @@ public enum RequirementPriority {
 	/**
 	 * The user has not assigned a priority to the requirement
 	 */
-	BLANK,
+	BLANK("Blank"),
 	/**
 	 * Indicates the Requirement has a high priority
 	 */
-	LOW,
+	LOW("Low"),
 	/**
 	 * Indicates the Requirement has a medium priority
 	 */
-	MEDIUM,
+	MEDIUM("Medium"),
 	/**
 	 * Indicates the Requirement has a high priority
 	 */
-	HIGH
+	HIGH("High");
+	
+	private final String name;
+	
+	private RequirementPriority(String prio)
+	{
+		name = prio;
+	}
+	
+	public String toString()
+	{
+		return name;
+	}
 }

@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
@@ -16,9 +16,11 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 
 /**
@@ -205,13 +207,15 @@ public class ViewEventController {
 
 		int tabCount = main.getTabCount();
 		
-		for(int i = tabCount - 1; i != 0; i--)
+		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
+
+			if(toBeRemoved instanceof OverviewPanel) continue;
 			
-			if(toBeRemoved instanceof EditRequirementPanel)
+			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((EditRequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 			
@@ -219,5 +223,34 @@ public class ViewEventController {
 		}
 		
 		main.repaint();
+	}
+
+	/**
+	 * Closes all the tabs except for the one that was clicked.
+	 * 
+	 * @param indexOfTab Index of the tab that was clicked
+	 */
+	public void closeOthers(int indexOfTab) {
+		int tabCount = main.getTabCount();
+		Component compAtIndex = main.getComponentAt(indexOfTab);
+		
+		for(int i = tabCount - 1; i >= 0; i--)
+		{
+			Component toBeRemoved = main.getComponentAt(i);
+			
+			if(toBeRemoved instanceof OverviewPanel) continue;
+			
+			if(toBeRemoved == compAtIndex) continue;
+			
+			if(toBeRemoved instanceof RequirementPanel)
+			{
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+					this.listOfEditingPanels.remove(toBeRemoved);
+			}
+
+			main.removeTabAt(i);
+		}
+		main.repaint();
+		
 	}
 }

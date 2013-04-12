@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Rolling Thunder
+ ******************************************************************************/
 /**
  * 
  */
@@ -110,7 +119,7 @@ public class RequirementTest {
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
 		iter = object.getHistory().getIterator(0);
-		assertEquals(iter.next().getMessage(), "Changed status of Name from OPEN to INPROGRESS");
+		assertEquals(iter.next().getMessage(), "Status changed from Open to In Progress");
 		//if the you change it to the current status
 		object.setStatus(RequirementStatus.INPROGRESS, false);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
@@ -146,7 +155,7 @@ public class RequirementTest {
 		object.setPriority(RequirementPriority.LOW, false);
 		assertEquals(object.getPriority(), RequirementPriority.LOW);
 		iter = object.getHistory().getIterator(1);
-		assertEquals(iter.next().getMessage(), "Changed priority of Name from HIGH to LOW");
+		assertEquals(iter.next().getMessage(), "Priority changed from High to Low");
 		
 		// setType
 		object.setType(RequirementType.USERSTORY);

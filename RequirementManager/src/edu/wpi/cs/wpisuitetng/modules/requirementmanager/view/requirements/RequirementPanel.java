@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
@@ -20,6 +20,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -63,7 +64,13 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	
 	private JLabel errorName; 
 	private JLabel errorDescription;
-	private JLabel errorEstimate;	
+	private JLabel errorEstimate;
+	
+	private boolean readyToClose = false;
+	
+	public RequirementPanel() {
+
+	}
 	
 	/**
 	 * Builds the left panel.
@@ -418,7 +425,6 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		this.getPriorityLow().setEnabled(false);
 		this.getPriorityMedium().setEnabled(false);
 		getDropdownType().setEnabled(false);
-		getDropdownStatus().setEnabled(false);
 		getBoxReleaseNum().setEnabled(false);
 		getBoxIteration().setEnabled(false);
 	}
@@ -587,5 +593,17 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		return boxReleaseNum;
 	}
 
+	
+	/**
+	 * Returns whether the panel is ready to be removed or not based on if there are changes that haven't been
+	 * saved.
+	 * 
+	 * @return whether the panel can be removed.
+	 */
+	abstract public boolean readyToRemove();	
+	
+	
+	
+	
 
 }

@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
@@ -99,6 +99,7 @@ public class NewRequirementPanel extends RequirementPanel
 		}
 		
 		this.disableNonChildFields();
+		this.getDropdownStatus().setEnabled(false);
 
 	}
 	
@@ -144,6 +145,7 @@ public class NewRequirementPanel extends RequirementPanel
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clear();
+				getButtonClear().setEnabled(false);
 			}
 		
 		});
@@ -215,6 +217,8 @@ public class NewRequirementPanel extends RequirementPanel
 		{
 			getNewRequirement().setName(stringName);
 			getNewRequirement().setDescription(stringDescription);
+			getNewRequirement().setStatus(status, created);
+			getNewRequirement().setEstimate(estimate);
 		}
 		else
 		{
@@ -232,7 +236,7 @@ public class NewRequirementPanel extends RequirementPanel
 		// Set the time stamp for the transaction for the creation of the requirement
         getNewRequirement().getHistory().setTimestamp(System.currentTimeMillis());
         System.out.println("The Time Stamp is now :" + getNewRequirement().getHistory().getTimestamp());
-		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
+		getNewRequirement().getHistory().add("Requirement created");
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
 		
@@ -248,6 +252,14 @@ public class NewRequirementPanel extends RequirementPanel
 	 */
 	private void clear() 
 	{
+		if(getNewRequirement().getParentID() != -1)
+		{
+			getBoxName().setText("");
+			getBoxDescription().setText("");
+			getBoxEstimate().setText("");
+			repaint();
+			return;
+		}
 		getBoxName().setText("");
 		getBoxDescription().setText("");
 		this.getPriorityBlank().setSelected(true);
@@ -361,6 +373,11 @@ public class NewRequirementPanel extends RequirementPanel
 		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0 );	
 		this.buttonClear.setEnabled(anythingChanged());		
 		this.repaint();				
+	}
+
+	@Override
+	public boolean readyToRemove() {
+		return true;
 	}
 
 }

@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -92,13 +93,12 @@ public class EditRequirementPanel extends RequirementPanel {
 		tabs.add("Acceptance Tests", tests);
 
 		JPanel bottom = buildBottom();
-
 		c.gridx = 0; // Column 0
 		c.gridy = 0; // Row 0
 		c.weighty = 1; // Row is elastic
-		c.gridheight = 2;
+		c.gridheight = 1;
 		contentPanel.add(left, c); // add left panel
-
+		
 		c.gridx = 1; // Column 1
 		contentPanel.add(right, c); // add right panel
 
@@ -108,6 +108,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.fill = GridBagConstraints.BOTH; // Stretch contents
 		contentPanel.add(tabs, c); // add tabs
 
+		
 		c.fill = GridBagConstraints.NONE;
 		c.gridy = 1; // Row 1
 		c.gridx = 2; // Column 1
@@ -116,6 +117,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		c.anchor = GridBagConstraints.LINE_END;
 		contentPanel.add(bottom, c); // Add bottom
 
+		
 		contentPanel.setMinimumSize(new Dimension(500, 465));
 		contentPanel.setPreferredSize(new Dimension(500, 465));
 
@@ -343,7 +345,8 @@ public class EditRequirementPanel extends RequirementPanel {
 		{
 			getRequirementBeingEdited().setName(stringName);
 			getRequirementBeingEdited().setDescription(stringDescription);
-
+			getRequirementBeingEdited().setStatus(status, created);
+			getRequirementBeingEdited().setEstimate(estimate);
 		}
 		else
 		{
@@ -685,7 +688,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	}
 	
 	/**
-	 * Returns whether the panel is ready to be removed or not based on if there are changes that havent been
+	 * Returns whether the panel is ready to be removed or not based on if there are changes that haven't been
 	 * saved.
 	 * 
 	 * @return whether the panel can be removed.
