@@ -159,11 +159,20 @@ public class EditRequirementPanel extends RequirementPanel {
 		else if (getRequirementBeingEdited().getStatus().equals(RequirementStatus.COMPLETE)
 				|| getRequirementBeingEdited().getStatus().equals(RequirementStatus.DELETED))
 		{
-			getDropdownStatus().removeAllItems();
-			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
-			getDropdownStatus().addItem(RequirementStatus.OPEN);
-			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
-			getDropdownStatus().addItem(RequirementStatus.DELETED);
+			if (getRequirementBeingEdited().getIteration().equals("Backlog"))
+			{
+				getDropdownStatus().removeAllItems();
+				getDropdownStatus().addItem(RequirementStatus.OPEN);
+				getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+				getDropdownStatus().addItem(RequirementStatus.DELETED);
+			}
+			else
+			{
+				getDropdownStatus().removeAllItems();
+				getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
+				getDropdownStatus().addItem(RequirementStatus.COMPLETE);
+				getDropdownStatus().addItem(RequirementStatus.DELETED);
+			}
 		}
 		getDropdownStatus().setSelectedItem(
 				getRequirementBeingEdited().getStatus());
@@ -191,6 +200,8 @@ public class EditRequirementPanel extends RequirementPanel {
 			buttonDelete.setEnabled(false);
 		if (requirementBeingEdited.getStatus() == RequirementStatus.DELETED)
 			disableComponents();
+		if (requirementBeingEdited.getStatus() == RequirementStatus.COMPLETE)
+			this.getBoxIteration().setEnabled(false);
 		if (!(requirementBeingEdited.getEstimate() > 0))
 			getBoxIteration().setEnabled(false);
 		if (!(getRequirementBeingEdited().getEstimate() > 0))
