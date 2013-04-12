@@ -99,6 +99,7 @@ public class NewRequirementPanel extends RequirementPanel
 		}
 		
 		this.disableNonChildFields();
+		this.getDropdownStatus().setEnabled(false);
 
 	}
 	
@@ -215,6 +216,8 @@ public class NewRequirementPanel extends RequirementPanel
 		{
 			getNewRequirement().setName(stringName);
 			getNewRequirement().setDescription(stringDescription);
+			getNewRequirement().setStatus(status, created);
+			getNewRequirement().setEstimate(estimate);
 		}
 		else
 		{

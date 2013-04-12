@@ -239,7 +239,6 @@ public class Requirement extends AbstractModel {
 	 * @return the status
 	 */
 	public RequirementStatus getStatus() {
-		if(parentID != -1) return getParent().getStatus();
 		return status;
 	}
 
