@@ -292,7 +292,6 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
-		if(parentID != -1) return getParent().getEstimate();
 		return estimate;
 	}
 
@@ -306,7 +305,7 @@ public class Requirement extends AbstractModel {
 		int diff = estimate - this.estimate;
 		this.estimate = estimate;
 		
-		Iteration iter = IterationModel.getInstance().getIteration(iteration);
+		Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
 		iter.setEstimate(iter.getEstimate() + diff);		
 	}
 
