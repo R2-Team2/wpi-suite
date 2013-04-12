@@ -420,7 +420,6 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		getDropdownType().setEnabled(false);
 		getDropdownStatus().setEnabled(false);
 		getBoxReleaseNum().setEnabled(false);
-		getBoxEstimate().setEnabled(false);
 		getBoxIteration().setEnabled(false);
 	}
 
