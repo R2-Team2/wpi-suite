@@ -57,7 +57,7 @@ public class NotePanel extends JPanel {
 		Date date = new Date(note.getTimestamp());
 		Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
 		String noteDate = format.format(date).toString();
-		JLabel noteInfo = new JLabel(user + " on " + noteDate);
+		JLabel noteInfo = new JLabel("by " + user + " on " + noteDate);
 		
 		// Create a layout manager for this note panel
 		this.setLayout(new GridBagLayout());

@@ -255,10 +255,9 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setStatus(RequirementStatus status, boolean created) {
 		if ((status != this.status) && !created) {
-			String originalStatus = this.status.name();
-			String newStatus = status.name();
-			String message = ("Changed status of " + this.name + " from "
-					+ originalStatus + " to " + newStatus);
+			String originalStatus = this.status.toString();
+			String newStatus = status.toString();
+			String message = ("Status changed from " + originalStatus + " to " + newStatus);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -292,7 +291,6 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
-		if(parentID != -1) return getParent().getEstimate();
 		return estimate;
 	}
 
@@ -306,7 +304,7 @@ public class Requirement extends AbstractModel {
 		int diff = estimate - this.estimate;
 		this.estimate = estimate;
 		
-		Iteration iter = IterationModel.getInstance().getIteration(iteration);
+		Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
 		iter.setEstimate(iter.getEstimate() + diff);		
 	}
 
@@ -352,10 +350,9 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setPriority(RequirementPriority priority, boolean created) {
 		if ((priority != this.priority) && !created) {
-			String originalPriority = this.priority.name();
-			String newPriority = priority.name();
-			String message = ("Changed priority of " + this.name + " from "
-					+ originalPriority + " to " + newPriority);
+			String originalPriority = this.priority.toString();
+			String newPriority = priority.toString();
+			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -543,8 +540,7 @@ public class Requirement extends AbstractModel {
 		if(!this.iteration.equals(newIterationName) && !created)
 		{
 			//create the transaction history
-			String message = ("Moved " + this.name + " from "
-					+ curIter + " to " + newIteration);
+			String message = ("Moved from "	+ curIter + " to " + newIteration);
 			this.history.add(message);
 		}
 		

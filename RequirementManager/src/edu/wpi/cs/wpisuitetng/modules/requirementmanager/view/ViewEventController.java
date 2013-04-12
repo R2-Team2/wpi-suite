@@ -77,7 +77,7 @@ public class ViewEventController {
 	 */
 	public void createRequirement() {
 		NewRequirementPanel newReq = new NewRequirementPanel();
-		main.addTab("New Req.", newReq);
+		main.addTab("New Req.", null, newReq, "New Requirement");
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
 		main.setSelectedComponent(newReq);
@@ -89,7 +89,7 @@ public class ViewEventController {
 	 */
 	public void createChildRequirement(int parentID) {
 		NewRequirementPanel newReq = new NewRequirementPanel(parentID);
-		main.addTab("New Child Req.", newReq);
+		main.addTab("Add Child Req.", null, newReq, "Add Child Requirement");
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
 		main.setSelectedComponent(newReq);
@@ -108,7 +108,7 @@ public class ViewEventController {
 		tabName.append(toEdit.getName().substring(0,subStringLength));
 		if(toEdit.getName().length() > 6) tabName.append("..");
 		
-		main.addTab(tabName.toString(), editPanel);
+		main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
 		this.listOfEditingPanels.add(editPanel);
 		main.invalidate();
 		main.repaint();

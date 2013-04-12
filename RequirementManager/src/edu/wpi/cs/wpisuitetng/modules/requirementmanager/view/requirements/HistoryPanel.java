@@ -112,7 +112,7 @@ public class HistoryPanel extends JPanel {
 				Date date = new Date(thisTransaction.getTS());
 			    
 			    // combine user and date&time into single string
-				String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
+				String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 				
 				// Create a new history panel for the transaction and add it to the panel
 				panel.add(new HistoryPanel(UserTime, thisTransaction.getMessage()), c);
@@ -150,7 +150,7 @@ public class HistoryPanel extends JPanel {
 						Date date = new Date(thisTransaction.getTS());
 					    
 					    // combine user and date&time into single string
-						String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
+						String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 						
 						// Create a new history panel for the transaction and add it to the panel
 						panel.add(new HistoryPanel(UserTime, appendedMessages), c);
@@ -167,7 +167,7 @@ public class HistoryPanel extends JPanel {
 					Date date = new Date(thisTransaction.getTS());
 				    
 				    // combine user and date&time into single string
-					String UserTime = (thisTransaction.getUser() + " on " + format.format(date).toString());		
+					String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 					
 					// Create a new history panel for the transaction and add it to the panel
 					panel.add(new HistoryPanel(UserTime, appendedMessages), c);

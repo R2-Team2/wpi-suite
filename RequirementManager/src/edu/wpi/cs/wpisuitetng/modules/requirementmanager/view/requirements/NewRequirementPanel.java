@@ -232,7 +232,7 @@ public class NewRequirementPanel extends RequirementPanel
 		// Set the time stamp for the transaction for the creation of the requirement
         getNewRequirement().getHistory().setTimestamp(System.currentTimeMillis());
         System.out.println("The Time Stamp is now :" + getNewRequirement().getHistory().getTimestamp());
-		getNewRequirement().getHistory().add("REQUIREMENT CREATED");
+		getNewRequirement().getHistory().add("Requirement created");
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
 		
