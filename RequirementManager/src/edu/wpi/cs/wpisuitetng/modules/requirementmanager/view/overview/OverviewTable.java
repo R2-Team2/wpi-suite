@@ -33,6 +33,7 @@ public class OverviewTable extends JTable
 {
 	private DefaultTableModel tableModel = null;
 	private boolean initialized;
+	private boolean isInEditMode;
 	/**
 	 * Sets initial table view
 	 * 
@@ -48,6 +49,7 @@ public class OverviewTable extends JTable
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
 		setFillsViewportHeight(true);
+		isInEditMode = false;
 
 		ViewEventController.getInstance().setOverviewTable(this);
 		initialized = false;
@@ -111,7 +113,28 @@ public class OverviewTable extends JTable
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return false;
+		// if the column contains the estimate and the table is in edit mode, make the cell editable
+		if ((col == 7) && (isInEditMode == true)) return true;
+		
+		else return false;
+	}
+	
+	/**
+	 * Used to toggle the isInEditMode to indicate whether the requirements in the Overview table are 
+	 * being edited or not 
+	 * 
+	 * @param beingEditted
+	 */
+	public void setEditFlag(boolean beingEditted) {
+		isInEditMode = beingEditted;
+	}
+	
+	
+	/**
+	 * @return isInEditMode
+	 */
+	public boolean getEditFlag(){
+		return isInEditMode;
 	}
 	
 	

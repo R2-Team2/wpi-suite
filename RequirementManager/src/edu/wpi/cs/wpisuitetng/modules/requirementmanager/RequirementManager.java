@@ -33,8 +33,8 @@ public class RequirementManager implements IJanewayModule {
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
 
+		MainView mainPanel = new MainView();
 		ToolbarView toolBar = new ToolbarView();
-		MainView mainPanel = new MainView();		
 
 		ViewEventController.getInstance().setMainView(mainPanel);
 		ViewEventController.getInstance().setToolBar(toolBar);

@@ -38,17 +38,40 @@ public class ToolbarView extends JPanel {
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
+		// initialize the main view toolbar buttons
 		JButton createButton = new JButton("Create Requirement");
+		final JButton createEditButton = new JButton("Edit Estimates");
+		
+		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewEventController.getInstance().createRequirement();
-				
+				// set the Edit Estimates button invisible and bring up a create requirement pane
+				createEditButton.setVisible(false);
+				ViewEventController.getInstance().createRequirement();				
+			}
+		});		
+		
+		// the action listener for the Edit Estimates button
+		createEditButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// toggle the editing overview table mode
+				ViewEventController.getInstance().toggleEditingTable();
+				// edits the Edit Button text based on whether in editing overview table mode or not
+				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+					createEditButton.setText("Stop Editing");
+				}	
+				else createEditButton.setText("Edit Estimates");
 			}
 		});
 		
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 25,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
 		this.add(createButton);
+		
+		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 25,SpringLayout.NORTH, this);
+		toolbarLayout.putConstraint(SpringLayout.WEST, createEditButton, 200, SpringLayout.WEST, this);
+		this.add(createEditButton);
 	}
 }

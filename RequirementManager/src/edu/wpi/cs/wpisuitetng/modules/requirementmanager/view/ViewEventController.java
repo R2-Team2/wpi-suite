@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
  */
+
 public class ViewEventController {
 	private static ViewEventController instance = null;
 	private MainView main = null;
@@ -115,6 +116,23 @@ public class ViewEventController {
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(editPanel);
+	}
+	
+	
+	/**
+	 * Toggles the Overview Table multiple requirement editing mode
+	 */
+	public void toggleEditingTable(){
+		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
+	}
+	
+	
+	/** 
+	 * @return overviewTable
+	 */
+	public OverviewTable getOverviewTable(){
+		return overviewTable;
+		
 	}
 	
 	/**
