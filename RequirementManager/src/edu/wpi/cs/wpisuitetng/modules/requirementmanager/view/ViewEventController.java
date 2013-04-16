@@ -123,6 +123,9 @@ public class ViewEventController {
 	 * Toggles the Overview Table multiple requirement editing mode
 	 */
 	public void toggleEditingTable(){
+		if (this.overviewTable.getEditFlag()) {
+			this.overviewTable.getCellEditor().stopCellEditing();
+		}
 		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
 	}
 	
