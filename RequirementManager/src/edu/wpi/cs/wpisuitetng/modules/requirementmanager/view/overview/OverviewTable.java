@@ -13,16 +13,21 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -161,5 +166,27 @@ public class OverviewTable extends JTable
 		}
 
 		super.paintComponent(g);
+	}
+	
+	/**
+	 * saves the changes made to the Overview Table
+	 */
+	public void saveChanges() {
+		// retrieve the array of requirements
+		List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
+		
+		// iterate through the array of requirements
+		for (int reqIndex = 0; reqIndex < requirements.size(); reqIndex++) {
+			// retrieve the requirement at the index
+			Requirement req = requirements.get(reqIndex);
+									
+			// update the estimate with the value in the cell at row reqIndex, column 7			
+			String cellEstimateStr = this.tableModel.getValueAt(reqIndex, 7).toString();
+			int cellEstimate = Integer.parseInt(cellEstimateStr);
+			req.setEstimate(cellEstimate);
+			
+			// updates requirement on the server
+			UpdateRequirementController.getInstance().updateRequirement(req);
+		}		
 	}
 }
