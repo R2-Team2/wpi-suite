@@ -25,6 +25,8 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
@@ -130,10 +132,8 @@ public class MainView extends JTabbedPane {
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-
 		        if(dragging) {
-		          int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
-
+		        int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
 		          if(tabNumber >= 0) {
 		            Component comp = getComponentAt(draggedTabIndex);
 		            String title = getTitleAt(draggedTabIndex);
@@ -145,9 +145,19 @@ public class MainView extends JTabbedPane {
 		        dragging = false;
 		        tabImage = null;
 		      }
-			
-			
 		});
+		
+		final MainView panel = this;
+		this.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	            if (panel.getTitleAt(panel.getSelectedIndex()) == "Overview") {
+	            	ViewEventController.getInstance().getToolbar().getEditButton().setVisible(true);
+	            }
+	            else {
+	            	ViewEventController.getInstance().getToolbar().getEditButton().setVisible(false);
+	            }
+	        }
+	    });
 	}
 	
 	

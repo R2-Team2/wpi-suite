@@ -69,10 +69,11 @@ public class ViewEventController {
 
 	/**
 	 * Sets the toolbarview to the given toolbar
-	 * @param tool2 the toolbar to be set as active.
+	 * @param tb the toolbar to be set as active.
 	 */
-	public void setToolBar(ToolbarView toolbar) {
-		this.toolbar = toolbar;
+	public void setToolBar(ToolbarView tb) {
+		toolbar = tb;
+		toolbar.repaint();
 	}
 
 	/**
@@ -144,6 +145,13 @@ public class ViewEventController {
 	public OverviewTable getOverviewTable(){
 		return overviewTable;
 		
+	}
+	
+	/**
+	 * @return toolbar
+	 */
+	public ToolbarView getToolbar() {
+		return toolbar;
 	}
 	
 	/**

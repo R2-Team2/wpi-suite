@@ -128,10 +128,10 @@ public class OverviewTable extends JTable
 	 * Used to toggle the isInEditMode to indicate whether the requirements in the Overview table are 
 	 * being edited or not 
 	 * 
-	 * @param beingEditted
+	 * @param beingEdited
 	 */
-	public void setEditFlag(boolean beingEditted) {
-		isInEditMode = beingEditted;
+	public void setEditFlag(boolean beingEdited) {
+		isInEditMode = beingEdited;
 	}
 	
 	
