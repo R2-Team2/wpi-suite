@@ -28,11 +28,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
  *
  */
 public class ToolbarView extends JPanel {
-
+	final JButton createEditButton = new JButton("Edit Estimates");
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
-	public ToolbarView() {
+	public ToolbarView(boolean visible) {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
 		
 		SpringLayout toolbarLayout = new SpringLayout();
@@ -40,18 +40,18 @@ public class ToolbarView extends JPanel {
 		
 		// initialize the main view toolbar buttons
 		JButton createButton = new JButton("Create Requirement");
-		final JButton createEditButton = new JButton("Edit Estimates");
-		
+
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// set the Edit Estimates button invisible and bring up a create requirement pane
-				createEditButton.setVisible(false);
+				// createEditButton.setVisible(false);
 				ViewEventController.getInstance().createRequirement();				
 			}
 		});		
 		
+		this.createEditButton.setVisible(visible);
 		// the action listener for the Edit Estimates button
 		createEditButton.addActionListener(new ActionListener() {
 			@Override
@@ -73,5 +73,9 @@ public class ToolbarView extends JPanel {
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 25,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createEditButton, 200, SpringLayout.WEST, this);
 		this.add(createEditButton);
+	}
+	
+	public JButton getEditButton() {
+		return this.createEditButton;
 	}
 }
