@@ -61,7 +61,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private Requirement requirementBeingEdited;
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
-	private JButton buttonAddChild = new JButton("Add Child Requirement");
+	private JButton buttonModifyFromParent = new JButton("Add Child Requirement");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
@@ -88,9 +88,11 @@ public class EditRequirementPanel extends RequirementPanel {
 		JPanel notes = buildNotePanel();
 		JPanel history = buildHistoryPanel();
 		JPanel tests = buildTestPanel();
+		JPanel subRequirements = new SubrequirementPanel(requirementBeingEdited);
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		tabs.add("Acceptance Tests", tests);
+		tabs.add("Subrequirements", subRequirements);
 
 		JPanel bottom = buildBottom();
 		c.gridx = 0; // Column 0
@@ -218,9 +220,10 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxName().setBorder(defaultBorder);
 		this.buttonUpdate.setEnabled(false);
 		getButtonClear().setEnabled(false);
-		
+		this.buttonModifyFromParent.setText("Attach To Parent");
 		if(getRequirementBeingEdited().getParentID() != -1)
 		{
+			this.buttonModifyFromParent.setText("Remove From Parent");
 			this.disableNonChildFields();
 		}
 		
@@ -276,15 +279,25 @@ public class EditRequirementPanel extends RequirementPanel {
 			}
 		});
 
-		buttonAddChild.addActionListener(new ActionListener(){
+		buttonModifyFromParent.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				ViewEventController.getInstance().createChildRequirement(requirementBeingEdited.getId());
+				if(requirementBeingEdited.getParentID() == -1)
+				{
+					//TODO: add to parent
+					buttonModifyFromParent.setText("Remove From Parent");
+				}
+				else
+				{
+					requirementBeingEdited.setParentID(-1);
+					buttonModifyFromParent.setText("Attach To Parent");
+				}
 			}
 		});
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		buttonPanel.add(buttonAddChild);
+		buttonPanel.add(buttonModifyFromParent);
+		
 		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 
@@ -774,7 +787,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getBoxIteration().setEnabled(validEstimate);
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
 
-		this.buttonAddChild.setEnabled(false);
+		this.buttonModifyFromParent.setEnabled(false);
 		this.buttonDelete.setEnabled(false);
 		this.repaint();		
 	}
@@ -795,11 +808,11 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
 		{
-			this.buttonAddChild.setEnabled(false);
+			this.buttonModifyFromParent.setEnabled(false);
 		}
 		else
 		{
-			this.buttonAddChild.setEnabled(true);
+			this.buttonModifyFromParent.setEnabled(true);
 		}
 		
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();

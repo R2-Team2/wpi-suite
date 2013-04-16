@@ -190,5 +190,21 @@ public class RequirementModel extends AbstractListModel{
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
+
+	/**
+	 * Returns the list of children for the given requirement.
+	 * @param requirement the parent requirement to find children for.
+	 * @return The list of children.
+	 */
+	public List<Requirement> getChildren(Requirement requirement) {
+		List<Requirement> children = new ArrayList<Requirement>();
+		
+		for(Requirement possibleChild : requirements)
+		{
+			if(possibleChild.getParentID() == requirement.getId()) children.add(possibleChild);
+		}
+		
+		return children;
+	}
 	
 }

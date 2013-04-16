@@ -53,7 +53,8 @@ public class RequirementTest {
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
 		IterationModel.getInstance().setBacklog(new Iteration(1, "Backlog"));
-	}
+		RequirementModel.getInstance().emptyModel();
+	}	
 
 	@Test
 	public void jSONConversionTests() {
@@ -201,6 +202,54 @@ public class RequirementTest {
 		Requirement r = new Requirement(0, "name", "desc");
 		r.setAssignedTo(peopleAssignedTo);
 		assertEquals(r.getAssignedTo(), peopleAssignedTo);
+	}
+	
+	@Test
+	public void testSubRequirementEstimateSumming()
+	{
+		Requirement parentRequirement = new Requirement(0, "", "");
+		parentRequirement.setEstimate(1);
+		
+		Requirement childRequirement = new Requirement(1, "", "");
+		childRequirement.setEstimate(32);
+		childRequirement.setParent(parentRequirement);
+		
+		Requirement childRequirement2 = new Requirement(2, "", "");
+		childRequirement2.setEstimate(7);
+		childRequirement2.setParent(parentRequirement);
+		
+		Requirement grandChildRequirement = new Requirement(3, "","");
+		grandChildRequirement.setEstimate(12);
+		grandChildRequirement.setParent(childRequirement);
+		
+		RequirementModel.getInstance().addRequirement(parentRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement2);
+		RequirementModel.getInstance().addRequirement(grandChildRequirement);
+
+		
+		assertEquals(parentRequirement.getEstimate(), 19);
+		assertEquals(childRequirement.getEstimate(), 12);
+		assertEquals(childRequirement2.getEstimate(), 7);
+		assertEquals(grandChildRequirement.getEstimate(), 12);
+		
+	}
+	
+	@Test
+	public void testZeroEstimate()
+	{
+		Requirement parentRequirement = new Requirement(0,"","");
+		
+		assertEquals(parentRequirement.getEstimate(), 0);
+	}
+	
+	@Test
+	public void testNoChildEstimate()
+	{
+		Requirement parentRequirement = new Requirement(0,"","");
+		parentRequirement.setEstimate(3);
+		
+		assertEquals(parentRequirement.getEstimate(),3);
 	}
 	
 }

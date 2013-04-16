@@ -290,7 +290,17 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
-		return estimate;
+		List<Requirement> children = getChildren();
+		if(children.size() == 0) return estimate;
+		
+		int childEstimates = 0;
+		
+		for(Requirement child : children)
+		{
+			childEstimates += child.getEstimate();
+		}
+		
+		return childEstimates;
 	}
 
 	/**
@@ -585,6 +595,14 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setParentID(int parentReq) {
 		this.parentID = parentReq;
+	}
+	
+	/**
+	 * Getter for children
+	 * @return the children requirements of the requirement
+	 */
+	public List<Requirement> getChildren() {		
+		return RequirementModel.getInstance().getChildren(this);
 	}
 	
 	/**
