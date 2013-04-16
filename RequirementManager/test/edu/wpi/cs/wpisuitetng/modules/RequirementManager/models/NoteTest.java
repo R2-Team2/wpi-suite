@@ -19,7 +19,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NoteP
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
+/**
+ * Tests the Note.java, NoteList.java, and NotePanel.java source files
+ * @author Rolling Thunder
+ *
+ */
 public class NoteTest {
 	
 	//===== Note.java tests =====

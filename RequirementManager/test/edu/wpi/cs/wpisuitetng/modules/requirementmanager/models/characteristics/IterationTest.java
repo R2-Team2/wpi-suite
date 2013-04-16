@@ -18,10 +18,6 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 
 /**
- * 
- */
-
-/**
  * @author Dylan
  *
  */
