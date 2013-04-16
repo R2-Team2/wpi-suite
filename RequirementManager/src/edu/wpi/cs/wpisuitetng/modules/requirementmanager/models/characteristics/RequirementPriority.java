@@ -18,7 +18,7 @@ public enum RequirementPriority {
 	/**
 	 * The user has not assigned a priority to the requirement
 	 */
-	BLANK("Blank"),
+	BLANK("None"),
 	/**
 	 * Indicates the Requirement has a high priority
 	 */
