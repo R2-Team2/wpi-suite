@@ -14,11 +14,14 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import org.jfree.ui.RefineryUtilities;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -85,6 +88,22 @@ public class ViewEventController {
 		main.setSelectedComponent(newReq);
 	}
 	
+	/**
+	 * Opens a new tab for the creation of a requirement.
+	 */
+	public void createPieChart(){
+		NewPieChartPanel newPie = new NewPieChartPanel("Stuff");   
+		main.addTab("Pie Chart", null, newPie, "PieChart");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newPie);
+		newPie.pack();
+        RefineryUtilities.centerFrameOnScreen(newPie);
+        newPie.setVisible(true);
+	}
+	
+
+
 	/**
 	 * Opens a child requirement panel to create the child requirement for the given parent.
 	 * @param parentID

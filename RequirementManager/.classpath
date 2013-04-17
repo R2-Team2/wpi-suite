@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Janeway"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Network"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite-Interfaces"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Westley/Downloads/jcommon-1.0.18/jcommon-1.0.18/jcommon-1.0.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Westley/Downloads/jcommon-1.0.18/jcommon-1.0.18/jcommon-1.0.18-junit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Westley/Downloads/jcommon-1.0.18/jcommon-1.0.18/jcommon-xml-1.0.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Westley/Downloads/jfreechart-1.0.14/jfreechart-1.0.14/lib/jfreechart-1.0.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

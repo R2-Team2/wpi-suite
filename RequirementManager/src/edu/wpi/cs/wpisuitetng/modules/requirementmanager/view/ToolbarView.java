@@ -46,9 +46,17 @@ public class ToolbarView extends JPanel {
 				
 			}
 		});
+		JButton pieChart = new JButton("Pie Chart");
+		pieChart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ViewEventController.getInstance().createPieChart();
+			}
+		});
 		
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 25,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
 		this.add(createButton);
+		this.add(pieChart);
 	}
 }
