@@ -60,7 +60,7 @@ public class ToolbarView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable();
+				ViewEventController.getInstance().toggleEditingTable(false);
 				// edits the Edit Button text based on whether in editing overview table mode or not
 				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 					createEditButton.setText("Save Changes");
@@ -77,7 +77,7 @@ public class ToolbarView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable();
+				ViewEventController.getInstance().toggleEditingTable(true);
 				
 				createEditButton.setText("Edit Estimates");
 				createCancelButton.setVisible(false);
