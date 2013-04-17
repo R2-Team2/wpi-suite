@@ -751,7 +751,7 @@ public class EditRequirementPanel extends RequirementPanel {
 				break;
 		}
 		
-		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
+		boolean estimateChanged = !(getBoxEstimate().getText().equals(String.valueOf(requirementBeingEdited.getEstimate())));
 
 		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
 				typeChanged || statusChanged || priorityChanged || estimateChanged;
@@ -767,7 +767,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
+		this.buttonUpdate.setEnabled(anythingChanged());	
 		this.buttonClear.setEnabled(anythingChanged());
 		
 		
@@ -787,8 +787,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getBoxIteration().setEnabled(validEstimate);
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
 
-		this.buttonModifyFromParent.setEnabled(false);
-		this.buttonDelete.setEnabled(false);
 		this.repaint();		
 	}
 
