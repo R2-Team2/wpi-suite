@@ -590,13 +590,46 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Setter for parentID
 	 * Assign the parent ID for this requirement
-	 * 
-	 * @param parentReq            
+	 * @param parentReq ID of the parent          
+	 * @throws Exception if the parent is an ancestor of the child already
 	 */
-	public void setParentID(int parentReq) {
-		this.parentID = parentReq;
+	public void setParentID(int parentReq) throws Exception {
+		if (!RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
+			this.parentID = parentReq;
+		} else {
+			throw new Exception("Cannot add ancestor as parent");
+		}
+	}
+
+	/**
+	 * Checks if a parent requirement is an ancestor of itself
+	 * @param parentId The ID of the parent requirement
+	 * @return true if the parent is an ancestor
+	 */
+	private boolean hasAsAncestor(int parentId) {
+		Requirement req = this;
+		while (req.getParentID() != -1) {
+			if (this.getId() == parentId)
+				return true;
+			req = RequirementModel.getInstance().getRequirement(req.getParentID());
+		}
+		return false;
 	}
 	
+	/**
+	 * Checks if a requirement is an ancestor of a given child
+	 * @param childId ID of the child
+	 * @return true if it is an ancestor of the child
+	 */
+	private boolean isAncestor(int childId) {
+		List<Requirement> children = this.getChildren();
+		for (int i = 0; i < children.size(); i++ ) {
+			if (children.get(i).getId() == childId || children.get(i).isAncestor(childId))
+				return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Getter for children
 	 * @return the children requirements of the requirement
