@@ -91,6 +91,7 @@ public class IterationModel extends AbstractListModel {
 	 *            The ID number of the Iteration to be removed from the list of
 	 *            Iterations in the project
 	 */
+	@Deprecated
 	private void removeIteration(int removeId) {
 		// iterate through list of Iterations until id of project is found
 		for (int i = 0; i < this.listOfIterations.size(); i++) {
