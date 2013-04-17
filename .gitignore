@@ -13,6 +13,7 @@ dist
 # Package Files #
 *.war
 *.ear
+*.eml
 
 # Module jar files #
 Janeway/modules/*.jar
@@ -37,10 +38,6 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
-<<<<<<< HEAD
 
-
-=======
-
-Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
->>>>>>> a8ee407a3ca695b3b4b794e1a20721d6e8c66c9d
+.idea
+.idea/*
