@@ -66,6 +66,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
 	private boolean readyToClose = false;
+	private JTextArea noteMessage = new JTextArea();
 
 	/**
 	 * Constructor for a new requirement panel
@@ -378,7 +379,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		JButton buttonClear = new JButton("Clear");
 
 		// Create text area for note to be added
-		final JTextArea noteMessage = new JTextArea();
 		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
 										// line
 		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
@@ -713,12 +713,27 @@ public class EditRequirementPanel extends RequirementPanel {
 	 */
 	public boolean anythingChanged()
 	{
-		boolean nameChanged = !(getBoxName().getText().equals(requirementBeingEdited.getName()));
-		boolean descriptionChanged = !(getBoxDescription().getText().equals(requirementBeingEdited.getDescription()));
-		boolean releaseChanged = !(getBoxReleaseNum().getText().equals(requirementBeingEdited.getRelease()));
-		boolean iterationChanged = !(getBoxIteration().getText().equals(requirementBeingEdited.getIteration()));
-		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType());
-		boolean statusChanged = !(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus());
+		// Check if the user has changed the name
+		if (!(getBoxName().getText().equals(requirementBeingEdited.getName()))){
+			return true;}
+		// Check if the user has changed the description
+		if (!(getBoxDescription().getText().equals(requirementBeingEdited.getDescription()))){
+			return true;}
+		// Check if the user has changed the release number
+		if (!(getBoxReleaseNum().getText().equals(requirementBeingEdited.getRelease()))){
+			return true;}
+		// Check if the user has changed the iteration number
+		if (!(getBoxIteration().getText().equals(requirementBeingEdited.getIteration()))){
+			return true;}
+		// Check if the user has changed the type
+		if (!(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType())){
+			return true;}
+		// Check if the user has changed the status
+		if (!(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus())){
+			return true;}
+		// Check if the user has changed the estimate
+		if (!(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())))){
+			return true;}
 
 		RequirementPriority reqPriority = requirementBeingEdited.getPriority();
 		boolean priorityChanged = false;
@@ -737,13 +752,15 @@ public class EditRequirementPanel extends RequirementPanel {
 				priorityChanged = !getPriorityHigh().isSelected();
 				break;
 		}
+		if (priorityChanged){
+			return true;
+		}
 		
-		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
-
-		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
-				typeChanged || statusChanged || priorityChanged || estimateChanged;
+		// Check if the user has entered anything into the note panel
+		if (noteMessage.getText().length()>0){
+			return true;}
 		
-		return anythingChanged;
+		return false;
 	}
 
 	@Override
