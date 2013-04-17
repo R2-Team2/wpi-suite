@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -81,6 +82,8 @@ public class RequirementSelector extends JPanel
 		this.addButton(okButton);
 		
 		if(showBorder) this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		this.fillList();
 	}
 	
 	public void addButton(JButton button)
@@ -94,7 +97,7 @@ public class RequirementSelector extends JPanel
 	
 	private void fillList()
 	{
-		ListModel<Requirement> reqList;
+		ListModel<Requirement> reqList = new DefaultListModel<Requirement>();
 		
 		switch(mode)
 		{
@@ -113,21 +116,31 @@ public class RequirementSelector extends JPanel
 	{
 		if(mode == RequirementSelectorMode.POSSIBLE_CHILDREN)
 		{
-			List<Requirement> selectedList = requirementList.getSelectedValuesList();
-			for(Requirement newChild : selectedList)
+			Object[] selectedList = requirementList.getSelectedValues();
+			for(Object obj : selectedList)
 			{
-				newChild.setParent(activeRequirement);
-				UpdateRequirementController.getInstance().updateRequirement(newChild);
+				Requirement newChild = (Requirement) obj;
+				try {
+					newChild.setParent(activeRequirement);
+					UpdateRequirementController.getInstance().updateRequirement(newChild);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 			}
 		}
 		else
 		{
 			Requirement parentRequirement = requirementList.getSelectedValue();
-			activeRequirement.setParent(parentRequirement);
+			try {
+				activeRequirement.setParent(parentRequirement);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 			UpdateRequirementController.getInstance().updateRequirement(activeRequirement);
 		}
 		
 		listener.requirementSelected();
+		this.fillList();
 	}
 }
 

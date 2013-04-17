@@ -57,7 +57,11 @@ public class NewRequirementPanel extends RequirementPanel
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		this.displayRequirement = new Requirement();
-		displayRequirement.setParentID(parentRequirement);
+		try {
+			displayRequirement.setParentID(parentRequirement);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 		contentPanel.add(buildLeftPanel()); //add left panel
 		contentPanel.add(buildRightPanel()); //add right panel

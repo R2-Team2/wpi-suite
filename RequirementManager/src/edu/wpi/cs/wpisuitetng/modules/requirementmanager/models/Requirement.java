@@ -614,7 +614,7 @@ public class Requirement extends AbstractModel {
 	 * @param parentId The ID of the parent requirement
 	 * @return true if the parent is an ancestor
 	 */
-	private boolean hasAsAncestor(int parentId) {
+	public boolean hasAncestor(int parentId) {
 		Requirement req = this;
 		while (req.getParentID() != -1) {
 			if (this.getId() == parentId)
@@ -629,7 +629,7 @@ public class Requirement extends AbstractModel {
 	 * @param childId ID of the child
 	 * @return true if it is an ancestor of the child
 	 */
-	private boolean isAncestor(int childId) {
+	public boolean isAncestor(int childId) {
 		List<Requirement> children = this.getChildren();
 		for (int i = 0; i < children.size(); i++ ) {
 			if (children.get(i).getId() == childId || children.get(i).isAncestor(childId))
@@ -659,9 +659,10 @@ public class Requirement extends AbstractModel {
 	 * extracts the ID of parentReq and assigns it to parentID 
 	 * 
 	 * @param parentReq            
+	 * @throws Exception if invalid parent
 	 */
-	public void setParent(Requirement parentReq) {
-		this.parentID = parentReq.getId();
+	public void setParent(Requirement parentReq) throws Exception {
+		setParentID(parentReq.getId());
 	}
 
 	/**

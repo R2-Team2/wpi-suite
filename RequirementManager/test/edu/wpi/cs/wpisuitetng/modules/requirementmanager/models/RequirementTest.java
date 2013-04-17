@@ -209,15 +209,32 @@ public class RequirementTest {
 		
 		Requirement childRequirement = new Requirement(1, "", "");
 		childRequirement.setEstimate(32);
-		childRequirement.setParent(parentRequirement);
+		
+		try {
+			childRequirement.setParent(parentRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Requirement childRequirement2 = new Requirement(2, "", "");
 		childRequirement2.setEstimate(7);
-		childRequirement2.setParent(parentRequirement);
+		
+		try {
+			childRequirement2.setParent(parentRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Requirement grandChildRequirement = new Requirement(3, "","");
 		grandChildRequirement.setEstimate(12);
-		grandChildRequirement.setParent(childRequirement);
+		try {
+			grandChildRequirement.setParent(childRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		RequirementModel.getInstance().addRequirement(parentRequirement);
 		RequirementModel.getInstance().addRequirement(childRequirement);

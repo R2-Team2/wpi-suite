@@ -280,7 +280,12 @@ public class EditRequirementPanel extends RequirementPanel {
 				}
 				else
 				{
-					requirementBeingEdited.setParentID(-1);
+					try {
+						requirementBeingEdited.setParentID(-1);
+						UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+					} catch (Exception e1) {
+						System.out.println(e1.getMessage());
+					}
 					buttonModifyFromParent.setText("Attach To Parent");
 				}
 			}
