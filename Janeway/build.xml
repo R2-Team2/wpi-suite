@@ -5,8 +5,27 @@
 	<path id="classpath">
 		<pathelement path="../Network/build"/>
 		<pathelement path="../Core/WPISuite-Interfaces/build"/>
+		<pathelement path="../Janeway/lib"/>
 		<fileset dir="${core-lib}">
 			<include name="commons-codec-1.7.jar"/>
+		</fileset>
+		<fileset dir="./lib/jfreechart-1.0.14/lib">
+			<include name="jfreechart-*.jar"/>
+		</fileset>
+		<fileset dir="./lib/jcommon-1.0.18">
+			<include name="jcommon-*.jar"/>
+		</fileset>
+		<fileset dir="./lib/jfreechart-1.0.14/lib">
+			<include name="swtgraphics2d.jar"/>
+		</fileset>
+		<fileset dir="./lib/jfreechart-1.0.14/lib">
+			<include name="jcommon-*.jar"/>
+		</fileset>
+		<fileset dir="./lib/jfreechart-1.0.14/lib">
+			<include name="gnujaxp.jar"/>
+		</fileset>
+		<fileset dir="./lib/jfreechart-1.0.14/lib">
+			<include name="iText-*.jar"/>
 		</fileset>
 		<pathelement path="build"/>
 	</path>
