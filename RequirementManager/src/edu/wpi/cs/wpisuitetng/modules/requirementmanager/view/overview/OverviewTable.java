@@ -182,7 +182,22 @@ public class OverviewTable extends JTable
 									
 			// update the estimate with the value in the cell at row reqIndex, column 7			
 			String cellEstimateStr = this.tableModel.getValueAt(reqIndex, 7).toString();
-			int cellEstimate = Integer.parseInt(cellEstimateStr);
+			int cellEstimate = req.getEstimate();
+			boolean formatError = false;
+			try {
+				cellEstimate = Integer.parseInt(cellEstimateStr);
+			}
+			catch (NumberFormatException nfe){
+				formatError = true;
+			}
+			
+			if (formatError) {
+				cellEstimate = req.getEstimate();
+				this.setValueAt(cellEstimate, reqIndex, 7);
+			}
+			else {
+				cellEstimate = Integer.parseInt(cellEstimateStr);
+			}
 			req.setEstimate(cellEstimate);
 			
 			// updates requirement on the server
