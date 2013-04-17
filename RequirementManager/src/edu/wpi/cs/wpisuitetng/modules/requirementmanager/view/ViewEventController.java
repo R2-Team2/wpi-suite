@@ -97,9 +97,7 @@ public class ViewEventController {
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(newPie);
-		newPie.pack();
-        RefineryUtilities.centerFrameOnScreen(newPie);
-        newPie.setVisible(true);
+		
 	}
 	
 
