@@ -16,27 +16,23 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.Timer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-public class SubrequirementPanel extends JPanel 
+public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener
 {
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
-	private JButton addExistingButton;
 	private RequirementSelector existingReqSelector;
 	private DefaultTableModel tableModel;
-	private double ratio;
 
 	/**
 	 * Constructor for the subrequirement panel.
@@ -44,20 +40,15 @@ public class SubrequirementPanel extends JPanel
 	 */
 	public SubrequirementPanel(Requirement requirementBeingEdited)
 	{
+		JPanel contentPanel = new JPanel();
 		this.activeRequirement = requirementBeingEdited;
-		existingReqSelector = new RequirementSelector();
-
+		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
-		final JScrollPane scroll = new JScrollPane();
+		
+		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// Always show scroll bar
 
-		final JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
-		split.setLeftComponent(scroll);
-		split.setEnabled(false);
-		split.setDividerSize(0);
-		split.setDividerLocation(1.0d);
-		
 		addNewButton = new JButton("Add New");
 		addNewButton.addActionListener(new ActionListener(){
 			@Override
@@ -66,61 +57,27 @@ public class SubrequirementPanel extends JPanel
 			}
 		});
 
-		addExistingButton = new JButton("Add Existing");
-		addExistingButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent k) {
-				ratio = 1.0;
-				split.setDividerLocation(1.0d);
-				split.setRightComponent(existingReqSelector);
-				final Timer timer = new Timer(38, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ratio -= (0.85 / 25);
-						if(ratio <= 0 || ratio >= 1)
-						{
-							((Timer)e.getSource()).stop();
-						}
-						split.setDividerLocation(ratio);
-						if(ratio <= 0.75) ((Timer)e.getSource()).stop();
-					}
-				});	
-				timer.start();
-			}
-		});
-
 		// Layout manager for subrequirement panel
 		GridBagLayout layout = new GridBagLayout();
-				this.setLayout(layout);
-				GridBagConstraints c = new GridBagConstraints();
+		contentPanel.setLayout(layout);
+		GridBagConstraints c = new GridBagConstraints();
 
-				// Layout manager for button panel
-				GridBagLayout bl = new GridBagLayout();
-				JPanel buttons = new JPanel(bl);
-				GridBagConstraints bc = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
+		c.weightx = 1; // Fill horizontal space
+		contentPanel.add(scroll, c); // Add scroll pane to panel
 
-				c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
-				c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
-				c.weightx = 1; // Fill horizontal space
-				c.weighty = 1; // Fill all the vertical space
-				this.add(split, c); // Add scroll pane to panel
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.NORTH; // Anchor to left
+		c.gridy = 1;
+		existingReqSelector.addButton(addNewButton);
+		contentPanel.add(existingReqSelector,c);
 
-				bc.anchor = GridBagConstraints.WEST; // Anchor to left
-				buttons.add(addNewButton, bc);
+		subRequirementTable = buildTable();
+		scroll.setViewportView(subRequirementTable);
 
-				bc.gridx = 1; // Column 1
-				buttons.add(addExistingButton);
-
-				c.fill = GridBagConstraints.NONE; // Don't fill cell
-				c.anchor = GridBagConstraints.WEST; // Anchor to left of panel
-				c.gridy = 1; // Row 1
-				c.weighty = 0; // Do not stretch vertically
-				this.add(buttons, c); // Add buttons to panel
-
-				subRequirementTable = buildTable();
-				scroll.setViewportView(subRequirementTable);
-
-				this.refreshTable();
+		this.setViewportView(contentPanel);
+		this.refreshTable();
 	}
 
 	/**
@@ -191,5 +148,14 @@ public class SubrequirementPanel extends JPanel
 		refreshTable();
 
 		super.paintComponent(g);
+	}
+
+	/**
+	 * Overrides the requirementSelected method to signal to refresh the table when the
+	 * subrequirements are updated.
+	 */
+	@Override
+	public void requirementSelected() {
+		refreshTable();
 	}
 }

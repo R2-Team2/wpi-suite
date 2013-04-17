@@ -8,17 +8,126 @@
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
 
-
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 public class RequirementSelector extends JPanel 
 {
-	public RequirementSelector()
+	final private Dimension buttonDimensions = new Dimension(125,25);
+	private JList<Requirement> requirementList;
+	private JButton okButton;
+	private JPanel buttonPanel;
+	private RequirementSelectorMode mode;
+	private Requirement activeRequirement;
+	private RequirementSelectorListener listener; 
+	
+	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder)
 	{
-		this.setMinimumSize(new Dimension());
+		this.listener = listener;
+		this.activeRequirement = requirement;
+		this.mode = mode;
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		JScrollPane listScroll = new JScrollPane();
+		requirementList = new JList<Requirement>();
+		listScroll.setViewportView(requirementList);
+			
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));		
+		this.add(listScroll);
+		this.add(buttonPanel);
+		
+		String okText;
+		if(this.mode == RequirementSelectorMode.POSSIBLE_CHILDREN)
+		{
+			okText = "Add Existing";
+		}
+		else
+		{
+			requirementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			okText = "Select Parent";
+		}
+		
+		okButton = new JButton(okText);
+		okButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				okPressed();
+			}
+		});
+		
+		this.addButton(okButton);
+		
+		if(showBorder) this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	}
+	
+	public void addButton(JButton button)
+	{
+		button.setMinimumSize(buttonDimensions);
+		button.setPreferredSize(buttonDimensions);
+		button.setMaximumSize(buttonDimensions);
+		buttonPanel.add(button);
+		buttonPanel.add(Box.createRigidArea(new Dimension(0,10)));
+	}
+	
+	private void fillList()
+	{
+		ListModel<Requirement> reqList;
+		
+		switch(mode)
+		{
+			case POSSIBLE_CHILDREN:
+				reqList = RequirementModel.getInstance().getPossibleChildren(activeRequirement);
+				break;
+			case POSSIBLE_PARENTS:
+				reqList = RequirementModel.getInstance().getPossibleParents(activeRequirement);
+				break;
+		}
+		
+		requirementList.setModel(reqList);
+	}
+	
+	private void okPressed()
+	{
+		if(mode == RequirementSelectorMode.POSSIBLE_CHILDREN)
+		{
+			List<Requirement> selectedList = requirementList.getSelectedValuesList();
+			for(Requirement newChild : selectedList)
+			{
+				newChild.setParent(activeRequirement);
+				UpdateRequirementController.getInstance().updateRequirement(newChild);
+			}
+		}
+		else
+		{
+			Requirement parentRequirement = requirementList.getSelectedValue();
+			activeRequirement.setParent(parentRequirement);
+			UpdateRequirementController.getInstance().updateRequirement(activeRequirement);
+		}
+		
+		listener.requirementSelected();
 	}
 }
+

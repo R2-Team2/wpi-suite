@@ -181,8 +181,7 @@ public class EditRequirementPanelTest {
 		// release pressed key
 		testEdit.keyReleased(null);
 		
-		// can't create because no name/description, but a field has been changed
-		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
+		assertEquals(true, testEdit.getButtonUpdate().isEnabled());
 		assertEquals(true, testEdit.getButtonClear().isEnabled());
 		assertEquals(true, testEdit.getButtonCancel().isEnabled());
 		
@@ -192,7 +191,7 @@ public class EditRequirementPanelTest {
 		testEdit.keyReleased(null);
 		
 		// can't create because no name/description, but a field has been changed
-		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
+		assertEquals(true, testEdit.getButtonUpdate().isEnabled());
 		assertEquals(true, testEdit.getButtonClear().isEnabled());
 		assertEquals(true, testEdit.getButtonCancel().isEnabled());
 		
