@@ -24,17 +24,21 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener
 {
+	private boolean enabled;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
+	private JButton removeButton;
 	private RequirementSelector existingReqSelector;
 	private DefaultTableModel tableModel;
 
@@ -44,6 +48,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	 */
 	public SubrequirementPanel(Requirement requirementBeingEdited)
 	{
+		enabled = true;
 		JPanel contentPanel = new JPanel();
 		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
@@ -60,6 +65,30 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 				ViewEventController.getInstance().createChildRequirement(activeRequirement.getId());				
 			}
 		});
+		
+		removeButton = new JButton("Remove Child");
+		removeButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int[] selectedObjects = subRequirementTable.getSelectedRows();
+				
+				for(int i = 0; i < selectedObjects.length; i++)
+				{
+					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(i, 0);
+					try {
+						toBeRemoved.setParentID(-1);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
+					ViewEventController.getInstance().refreshEditRequirementPanel(toBeRemoved);
+				}
+				existingReqSelector.refreshList();
+				refreshTable();
+			}
+		});
+		removeButton.setEnabled(false);
 
 		// Layout manager for subrequirement panel
 		GridBagLayout layout = new GridBagLayout();
@@ -73,9 +102,9 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridy = 1;
-		existingReqSelector.addButton(addNewButton);
+		existingReqSelector.addButton(1,addNewButton);
+		existingReqSelector.addButton(0,removeButton);
 		contentPanel.add(existingReqSelector,c);
-
 		subRequirementTable = buildTable();
 		scroll.setViewportView(subRequirementTable);
 		this.setViewportView(contentPanel);
@@ -142,7 +171,15 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 				}
 			}
 		});
-
+		
+		subRequirementTable.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+		{
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0 && enabled);
+			}		
+		});
+		
 		return subRequirementTable;
 	}
 
@@ -190,13 +227,14 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	}
 	
 	/**
-	 * Overriding set enabled function so we can disable child panels
+	 * disable child panels
 	 * @param whether its enabled or not
 	 */
-	@Override
-	public void setEnabled(boolean enabled)
+	public void enableChildren(boolean enabled)
 	{
-		existingReqSelector.setEnabled(enabled);
-		super.setEnabled(enabled);
+		this.enabled = enabled;
+		addNewButton.setEnabled(enabled);
+		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0);
+		existingReqSelector.enabledChildren(enabled);
 	}
 }

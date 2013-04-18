@@ -610,7 +610,7 @@ public class Requirement extends AbstractModel {
 	 * @throws Exception if the parent is an ancestor of the child already
 	 */
 	public void setParentID(int parentReq) throws Exception {
-		if (!RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
+		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
 		} else {
 			throw new Exception("Cannot add ancestor as parent");
