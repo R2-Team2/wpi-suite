@@ -298,6 +298,14 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
+		return this.estimate;
+	}
+	
+	/**
+	 * Returns the estimate of the parent along with its children
+	 * @return total estimate
+	 */
+	public int getTotalEstimate() {
 		List<Requirement> children = getChildren();
 		if(children.size() == 0) return estimate;
 		
