@@ -131,7 +131,7 @@ public class NewPieChartPanel extends RequirementPanel{
 	 */
 	private static PieDataset setDataAssignTo(){
 		DefaultPieDataset dataSet = new DefaultPieDataset();
-		ArrayList<String> userNames = new ArrayList<>();
+		ArrayList<String> userNames = new ArrayList<String>();
 		
 		List<Requirement> requirements = RequirementModel.getInstance().getRequirements();//list of requirements
 		for(int i = 0; i < requirements.size(); i++){
