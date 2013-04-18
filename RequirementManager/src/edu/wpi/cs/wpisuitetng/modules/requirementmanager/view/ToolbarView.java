@@ -29,6 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
  */
 public class ToolbarView extends JPanel {
 	final JButton createEditButton = new JButton("Edit Estimates");
+	final JButton createCancelButton = new JButton("Cancel Changes");
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
@@ -40,6 +41,8 @@ public class ToolbarView extends JPanel {
 		
 		// initialize the main view toolbar buttons
 		JButton createButton = new JButton("Create Requirement");
+		
+		createCancelButton.setVisible(false);
 
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
@@ -58,12 +61,27 @@ public class ToolbarView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable();
+				ViewEventController.getInstance().toggleEditingTable(false);
 				// edits the Edit Button text based on whether in editing overview table mode or not
 				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					createEditButton.setText("Stop Editing");
+					createEditButton.setText("Save Changes");
+					createCancelButton.setVisible(true);
 				}	
-				else createEditButton.setText("Edit Estimates");
+				else {
+					createEditButton.setText("Edit Estimates");
+					createCancelButton.setVisible(false);
+				}
+			}
+		});
+		
+		createCancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// toggle the editing overview table mode
+				ViewEventController.getInstance().toggleEditingTable(true);
+				
+				createEditButton.setText("Edit Estimates");
+				createCancelButton.setVisible(false);
 			}
 		});
 		
@@ -71,9 +89,13 @@ public class ToolbarView extends JPanel {
 		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
 		this.add(createButton);
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 25,SpringLayout.NORTH, this);
+		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 5,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createEditButton, 200, SpringLayout.WEST, this);
 		this.add(createEditButton);
+		
+		toolbarLayout.putConstraint(SpringLayout.NORTH, createCancelButton, 5,SpringLayout.SOUTH, createEditButton);
+		toolbarLayout.putConstraint(SpringLayout.WEST, createCancelButton, 200, SpringLayout.WEST, this);
+		this.add(createCancelButton);
 	}
 	
 	public JButton getEditButton() {
