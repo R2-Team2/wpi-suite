@@ -13,8 +13,10 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -36,7 +38,7 @@ public class RequirementSelector extends JPanel
 {
 	final private Dimension buttonDimensions = new Dimension(125,25);
 	private JList<Requirement> requirementList;
-	private JButton okButton;
+	private List<JButton> buttonList;
 	private JPanel buttonPanel;
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
@@ -44,6 +46,7 @@ public class RequirementSelector extends JPanel
 	
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder)
 	{
+		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
 		this.activeRequirement = requirement;
 		this.mode = mode;
@@ -70,7 +73,7 @@ public class RequirementSelector extends JPanel
 			okText = "Select Parent";
 		}
 		
-		okButton = new JButton(okText);
+		JButton okButton = new JButton(okText);
 		okButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -84,7 +87,7 @@ public class RequirementSelector extends JPanel
 		
 		if(showBorder) this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
-		this.fillList();
+		this.refreshList();
 	}
 	
 	public void addButton(JButton button)
@@ -92,11 +95,12 @@ public class RequirementSelector extends JPanel
 		button.setMinimumSize(buttonDimensions);
 		button.setPreferredSize(buttonDimensions);
 		button.setMaximumSize(buttonDimensions);
+		buttonList.add(button);
 		buttonPanel.add(button);
 		buttonPanel.add(Box.createRigidArea(new Dimension(0,10)));
 	}
 	
-	private void fillList()
+	private void refreshList()
 	{
 		ListModel<Requirement> reqList = new DefaultListModel<Requirement>();
 		
@@ -141,7 +145,35 @@ public class RequirementSelector extends JPanel
 		}
 		
 		listener.requirementSelected();
-		this.fillList();
+		this.refreshList();
+	}
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 * 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		refreshList();
+
+		super.paintComponent(g);
+	}
+	
+	/**
+	 * Overriding set enabled function so we can disable child panels
+	 * @param whether its enabled or not
+	 */
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		for(JButton button : buttonList)
+		{
+			button.setEnabled(enabled);
+		}
+		requirementList.setEnabled(enabled);
+		super.setEnabled(enabled);
 	}
 }
 

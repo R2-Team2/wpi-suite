@@ -10,18 +10,21 @@
 
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -111,6 +114,34 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		subRequirementTable.getColumnModel().getColumn(0).setMaxWidth(240);
 		subRequirementTable.getColumnModel().getColumn(2).setMaxWidth(75);
 		subRequirementTable.getColumnModel().getColumn(3).setMaxWidth(75);
+		
+		/* Create double-click event listener */
+		subRequirementTable.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				
+				if(subRequirementTable.getRowCount() > 0)
+				{
+					int mouseY = e.getY();
+					Rectangle lastRow = subRequirementTable.getCellRect(subRequirementTable.getRowCount() - 1, 0, true);
+					int lastRowY = lastRow.y + lastRow.height;
+
+					if(mouseY > lastRowY) 
+					{
+						subRequirementTable.getSelectionModel().clearSelection();
+						repaint();
+					}
+				}
+				
+				if (e.getClickCount() == 2)
+				{
+					int[] selection = subRequirementTable.getSelectedRows();
+
+					if(selection.length != 1) return;
+					Requirement toEdit = (Requirement)subRequirementTable.getValueAt(selection[0], 0);
+					ViewEventController.getInstance().editRequirement(toEdit);
+				}
+			}
+		});
 
 		return subRequirementTable;
 	}
@@ -156,5 +187,16 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	@Override
 	public void requirementSelected() {
 		refreshTable();
+	}
+	
+	/**
+	 * Overriding set enabled function so we can disable child panels
+	 * @param whether its enabled or not
+	 */
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		existingReqSelector.setEnabled(enabled);
+		super.setEnabled(enabled);
 	}
 }

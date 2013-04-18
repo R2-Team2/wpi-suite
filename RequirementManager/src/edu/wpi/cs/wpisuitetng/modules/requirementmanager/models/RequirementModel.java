@@ -18,6 +18,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
@@ -222,6 +223,7 @@ public class RequirementModel extends AbstractListModel{
 		{
 			if(possChild.isAncestor(req.getId()) || possChild.getParentID() != -1) continue;
 			if(possChild == req) continue;
+			if(possChild.getStatus() == RequirementStatus.COMPLETE || possChild.getStatus() == RequirementStatus.DELETED) continue;
 			possibleChildren.addElement(possChild);
 		}
 		
@@ -242,6 +244,7 @@ public class RequirementModel extends AbstractListModel{
 		{
 			if(possParent.hasAncestor(req.getId())) continue;
 			if(possParent == req) continue;
+			if(possParent.getStatus() == RequirementStatus.COMPLETE || possParent.getStatus() == RequirementStatus.DELETED) continue;
 			possibleParents.addElement(possParent);
 		}
 		
