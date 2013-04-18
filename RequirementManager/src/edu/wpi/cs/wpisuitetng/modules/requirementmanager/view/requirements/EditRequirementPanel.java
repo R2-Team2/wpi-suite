@@ -56,6 +56,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
+	private SubrequirementPanel subRequirementPanel;
 	private boolean readyToClose = false;
 
 	/**
@@ -68,6 +69,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		super();
 
 		requirementBeingEdited = this.displayRequirement = req;
+		subRequirementPanel = new SubrequirementPanel(requirementBeingEdited);
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -79,11 +81,10 @@ public class EditRequirementPanel extends RequirementPanel {
 		JPanel notes = buildNotePanel();
 		JPanel history = buildHistoryPanel();
 		JPanel tests = buildTestPanel();
-		SubrequirementPanel subRequirements = new SubrequirementPanel(requirementBeingEdited);
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		tabs.add("Acceptance Tests", tests);
-		tabs.add("Subrequirements", subRequirements);
+		tabs.add("Subrequirements", subRequirementPanel);
 
 		JPanel bottom = buildBottom();
 		c.gridx = 0; // Column 0
@@ -802,10 +803,12 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
 		{
+			this.subRequirementPanel.setEnabled(false);
 			this.buttonModifyFromParent.setEnabled(false);
 		}
 		else
 		{
+			this.subRequirementPanel.setEnabled(true);
 			this.buttonModifyFromParent.setEnabled(true);
 		}
 		
@@ -821,7 +824,20 @@ public class EditRequirementPanel extends RequirementPanel {
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
+	/**
+	 * Refreshes the the parent when a newChild is found
+	 */
+	public void refreshEditPanel() {
+		if(requirementBeingEdited.getParentID() != -1)
+		{
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
+			parent.setVisible(true);
+		}
+		
+		else
+		{
+			parent.setVisible(false);
+		}
+	}
 
-
-	
 }

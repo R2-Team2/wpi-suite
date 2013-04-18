@@ -101,20 +101,38 @@ public class ViewEventController {
 	 */
 	public void editRequirement(Requirement toEdit)
 	{
-		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
+		EditRequirementPanel exists = null;
 		
-		StringBuilder tabName = new StringBuilder();
-		tabName.append(toEdit.getId()); 
-		tabName.append(". ");
-		int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
-		tabName.append(toEdit.getName().substring(0,subStringLength));
-		if(toEdit.getName().length() > 6) tabName.append("..");
+		for(EditRequirementPanel panel : listOfEditingPanels)
+		{
+			if(panel.getRequirementBeingEdited() == toEdit)
+			{
+				exists = panel;
+				break;
+			}
+		}	
 		
-		main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
-		this.listOfEditingPanels.add(editPanel);
-		main.invalidate();
-		main.repaint();
-		main.setSelectedComponent(editPanel);
+		if(exists == null)
+		{
+			EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
+			
+			StringBuilder tabName = new StringBuilder();
+			tabName.append(toEdit.getId()); 
+			tabName.append(". ");
+			int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
+			tabName.append(toEdit.getName().substring(0,subStringLength));
+			if(toEdit.getName().length() > 6) tabName.append("..");
+			
+			main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
+			this.listOfEditingPanels.add(editPanel);
+			main.invalidate();
+			main.repaint();
+			main.setSelectedComponent(editPanel);
+		}
+		else
+		{
+			main.setSelectedComponent(exists);
+		}
 	}
 	
 	/**
@@ -179,25 +197,7 @@ public class ViewEventController {
 		
 		Requirement toEdit = (Requirement)overviewTable.getValueAt(selection[0],1);
 		
-		EditRequirementPanel exists = null;
-		
-		for(EditRequirementPanel panel : listOfEditingPanels)
-		{
-			if(panel.getRequirementBeingEdited() == toEdit)
-			{
-				exists = panel;
-				break;
-			}
-		}	
-		
-		if(exists == null)
-		{
-			editRequirement(toEdit);
-		}
-		else
-		{
-			main.setSelectedComponent(exists);
-		}
+		editRequirement(toEdit);
 	}
 
 	/**
@@ -251,6 +251,24 @@ public class ViewEventController {
 			main.removeTabAt(i);
 		}
 		main.repaint();
+		
+	}
+	
+	/**
+	 * Refreshes the EditRequirementPanel after creating a new child
+	 * 
+	 * @param Requirement newChild that is being created
+	 */
+	public void refreshEditRequirementPanel(Requirement newChild) {
+		for(EditRequirementPanel newEditPanel : listOfEditingPanels)
+		{
+			if(newEditPanel.getRequirementBeingEdited() == newChild)
+			{
+				newEditPanel.refreshEditPanel();
+				break;
+			}
+			
+		}
 		
 	}
 }
