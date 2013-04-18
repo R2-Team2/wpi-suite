@@ -316,7 +316,7 @@ public class Requirement extends AbstractModel {
 			childEstimates += child.getEstimate();
 		}
 		
-		return childEstimates;
+		return childEstimates + this.getEstimate();
 	}
 
 	/**

@@ -46,6 +46,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
+	private JTextField boxTotalEstimate;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
 	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
@@ -231,8 +232,9 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		priorityPanel.add(getPriorityBlank());
 
 		setBoxEstimate(new JTextField());
-		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
+		getBoxEstimate().setPreferredSize(new Dimension(50, 20));
 		getBoxEstimate().addKeyListener(this);
+		setBoxTotalEstimate(new JTextField());
 		setErrorEstimate(new JLabel());
 		
 		SpringLayout rightLayout = new SpringLayout();
@@ -285,6 +287,26 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 				SpringLayout.SOUTH, getBoxEstimate());
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
+		
+		// Total Estimate Field
+		if (!displayRequirement.getChildren().isEmpty()) {
+			JLabel labelTotalEstimate = new JLabel("Total Estimate");
+			getBoxTotalEstimate().setPreferredSize(new Dimension(50, 20));
+			getBoxTotalEstimate().setEnabled(false);
+			getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
+			
+			rightLayout.putConstraint(SpringLayout.NORTH, labelTotalEstimate, 15,
+					SpringLayout.SOUTH, getBoxEstimate());
+			rightLayout.putConstraint(SpringLayout.WEST, labelTotalEstimate, 15,
+					SpringLayout.WEST, rightPanel);
+			rightLayout.putConstraint(SpringLayout.NORTH, getBoxTotalEstimate(), 15,
+					SpringLayout.SOUTH, labelTotalEstimate);
+			rightLayout.putConstraint(SpringLayout.WEST, getBoxTotalEstimate(), 15,
+					SpringLayout.WEST, rightPanel);
+			
+			rightPanel.add(labelTotalEstimate);
+			rightPanel.add(getBoxTotalEstimate());
+		}
 		
 		if(this.displayRequirement.getParentID()!=-1)
 		{
@@ -597,7 +619,21 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	 * 
 	 * @return whether the panel can be removed.
 	 */
-	abstract public boolean readyToRemove();	
+	abstract public boolean readyToRemove();
+
+	/**
+	 * @return the boxTotalEstimate
+	 */
+	public JTextField getBoxTotalEstimate() {
+		return boxTotalEstimate;
+	}
+
+	/**
+	 * @param boxTotalEstimate the boxTotalEstimate to set
+	 */
+	public void setBoxTotalEstimate(JTextField boxTotalEstimate) {
+		this.boxTotalEstimate = boxTotalEstimate;
+	}	
 	
 	
 	
