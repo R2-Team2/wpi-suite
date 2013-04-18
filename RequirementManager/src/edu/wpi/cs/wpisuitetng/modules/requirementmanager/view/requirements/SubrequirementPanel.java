@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -62,20 +63,18 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		contentPanel.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
 		c.weightx = 1; // Fill horizontal space
 		contentPanel.add(scroll, c); // Add scroll pane to panel
 
 		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.NORTH; // Anchor to left
 		c.gridy = 1;
 		existingReqSelector.addButton(addNewButton);
 		contentPanel.add(existingReqSelector,c);
 
 		subRequirementTable = buildTable();
 		scroll.setViewportView(subRequirementTable);
-
 		this.setViewportView(contentPanel);
 		this.refreshTable();
 	}
