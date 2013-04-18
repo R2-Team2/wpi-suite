@@ -33,6 +33,7 @@ import javax.swing.ListSelectionModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class RequirementSelector extends JPanel 
 {
@@ -127,6 +128,7 @@ public class RequirementSelector extends JPanel
 				Requirement newChild = (Requirement) obj;
 				try {
 					newChild.setParent(activeRequirement);
+					ViewEventController.getInstance().refreshEditRequirementPanel(newChild);
 					UpdateRequirementController.getInstance().updateRequirement(newChild);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

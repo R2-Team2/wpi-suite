@@ -824,7 +824,20 @@ public class EditRequirementPanel extends RequirementPanel {
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
+	/**
+	 * Refreshes the the parent when a newChild is found
+	 */
+	public void refreshEditPanel() {
+		if(requirementBeingEdited.getParentID() != -1)
+		{
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
+			parent.setVisible(true);
+		}
+		
+		else
+		{
+			parent.setVisible(false);
+		}
+	}
 
-
-	
 }

@@ -50,6 +50,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
 	protected JPanel rightPanel;
+	protected JLabel parent;
 	private JComboBox dropdownType;
 	private JComboBox dropdownStatus;
 	private JRadioButton priorityHigh;
@@ -286,10 +287,11 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
 		
+		parent = new JLabel();
+		rightPanel.add(parent);
 		if(this.displayRequirement.getParentID()!=-1)
 		{
-			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
-			rightPanel.add(parent);
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
 		}
 
 		rightPanel.add(labelType);

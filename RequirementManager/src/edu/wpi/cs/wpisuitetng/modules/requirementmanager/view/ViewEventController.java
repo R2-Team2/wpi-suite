@@ -253,4 +253,22 @@ public class ViewEventController {
 		main.repaint();
 		
 	}
+	
+	/**
+	 * Refreshes the EditRequirementPanel after creating a new child
+	 * 
+	 * @param Requirement newChild that is being created
+	 */
+	public void refreshEditRequirementPanel(Requirement newChild) {
+		for(EditRequirementPanel newEditPanel : listOfEditingPanels)
+		{
+			if(newEditPanel.getRequirementBeingEdited() == newChild)
+			{
+				newEditPanel.refreshEditPanel();
+				break;
+			}
+			
+		}
+		
+	}
 }
