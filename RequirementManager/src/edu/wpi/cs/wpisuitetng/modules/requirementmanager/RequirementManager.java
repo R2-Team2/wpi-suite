@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;

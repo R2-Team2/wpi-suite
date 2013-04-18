@@ -52,10 +52,11 @@ public class EditRequirementPanel extends RequirementPanel {
 	private Requirement requirementBeingEdited;
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
-	private JButton buttonAddChild = new JButton("Add Child Requirement");
+	private JButton buttonModifyFromParent = new JButton("Add Child Requirement");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
+	private SubrequirementPanel subRequirementPanel;
 	private boolean readyToClose = false;
 	private JTextArea noteMessage = new JTextArea();
 
@@ -69,6 +70,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		super();
 
 		requirementBeingEdited = this.displayRequirement = req;
+		subRequirementPanel = new SubrequirementPanel(requirementBeingEdited);
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -83,6 +85,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		tabs.add("Acceptance Tests", tests);
+		tabs.add("Subrequirements", subRequirementPanel);
 
 		JPanel bottom = buildBottom();
 		c.gridx = 0; // Column 0
@@ -210,9 +213,10 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxName().setBorder(defaultBorder);
 		this.buttonUpdate.setEnabled(false);
 		getButtonClear().setEnabled(false);
-		
+		this.buttonModifyFromParent.setText("Attach To Parent");
 		if(getRequirementBeingEdited().getParentID() != -1)
 		{
+			this.buttonModifyFromParent.setText("Remove From Parent");
 			this.disableNonChildFields();
 		}
 		
@@ -268,15 +272,31 @@ public class EditRequirementPanel extends RequirementPanel {
 			}
 		});
 
-		buttonAddChild.addActionListener(new ActionListener(){
+		buttonModifyFromParent.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				ViewEventController.getInstance().createChildRequirement(requirementBeingEdited.getId());
+				if(requirementBeingEdited.getParentID() == -1)
+				{
+					//TODO: add to parent
+					buttonModifyFromParent.setText("Remove From Parent");
+				}
+				else
+				{
+					try {
+						requirementBeingEdited.setParentID(-1);
+						refreshEditPanel();
+						UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+					} catch (Exception e1) {
+						System.out.println(e1.getMessage());
+					}
+					buttonModifyFromParent.setText("Attach To Parent");
+				}
 			}
 		});
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		buttonPanel.add(buttonAddChild);
+		buttonPanel.add(buttonModifyFromParent);
+		
 		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 
@@ -762,7 +782,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
+		this.buttonUpdate.setEnabled(anythingChanged());	
 		this.buttonClear.setEnabled(anythingChanged());
 		
 		
@@ -782,8 +802,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getBoxIteration().setEnabled(validEstimate);
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
 
-		this.buttonAddChild.setEnabled(false);
-		this.buttonDelete.setEnabled(false);
 		this.repaint();		
 	}
 
@@ -803,11 +821,13 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
 		{
-			this.buttonAddChild.setEnabled(false);
+			this.subRequirementPanel.enableChildren(false);
+			this.buttonModifyFromParent.setEnabled(false);
 		}
 		else
 		{
-			this.buttonAddChild.setEnabled(true);
+			this.subRequirementPanel.enableChildren(true);
+			this.buttonModifyFromParent.setEnabled(true);
 		}
 		
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
@@ -822,7 +842,20 @@ public class EditRequirementPanel extends RequirementPanel {
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
+	/**
+	 * Refreshes the the parent when a newChild is found
+	 */
+	public void refreshEditPanel() {
+		if(requirementBeingEdited.getParentID() != -1)
+		{
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
+			parent.setVisible(true);
+		}
+		
+		else
+		{
+			parent.setVisible(false);
+		}
+	}
 
-
-	
 }

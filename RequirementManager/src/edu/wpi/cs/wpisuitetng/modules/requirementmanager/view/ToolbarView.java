@@ -18,10 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
-
 /**
  * Sets up upper toolbar of RequirementManager tab
  * 
