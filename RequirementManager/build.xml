@@ -13,23 +13,17 @@
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar"/>
 		</fileset>
-		<fileset dir="../Janeway/lib/jfreechart-1.0.14/lib">
-			<include name="jfreechart-*.jar"/>
+		<fileset dir="../Janeway/lib">
+			<include name="jfreechart-1.0.14.jar"/>
 		</fileset>
-		<fileset dir="../Janeway/lib/jcommon-1.0.18">
-			<include name="jcommon-*.jar"/>
+		<fileset dir="../Janeway/lib">
+			<include name="jcommon-1.0.17.jar"/>
 		</fileset>
-		<fileset dir="../Janeway/lib/jfreechart-1.0.14/lib">
-			<include name="swtgraphics2d.jar"/>
-		</fileset>
-		<fileset dir="../Janeway/lib/jfreechart-1.0.14/lib">
-			<include name="jcommon-*.jar"/>
-		</fileset>
-		<fileset dir="../Janeway/lib/jfreechart-1.0.14/lib">
+		<fileset dir="../Janeway/lib">
 			<include name="gnujaxp.jar"/>
 		</fileset>
-		<fileset dir="../Janeway/lib/jfreechart-1.0.14/lib">
-			<include name="iText-*.jar"/>
+		<fileset dir="../Janeway/lib">
+			<include name="iText-2.1.5.jar"/>
 		</fileset>
 		<pathelement path="build"/>
 	</path>

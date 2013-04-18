@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import org.jfree.ui.RefineryUtilities;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
