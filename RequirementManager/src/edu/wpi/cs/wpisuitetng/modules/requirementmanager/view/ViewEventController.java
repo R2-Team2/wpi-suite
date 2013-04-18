@@ -124,12 +124,12 @@ public class ViewEventController {
 	 * Toggles the Overview Table multiple requirement editing mode
 	 */
 	public void toggleEditingTable(){
-		// check to see if Edit Mode is enabled and the user is editing a cell
+		// check to see if Multiple Requirement Editing Mode is enabled and if the user is editing a cell
 		if (this.overviewTable.getEditFlag() && this.overviewTable.isEditing()) {
 			// ends the cell editing
 			this.overviewTable.getCellEditor().cancelCellEditing();
 		}
-		// toggle the flag
+		// toggle the edit flag
 		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
 		
 		// check to see if the overview table is now out of editing mode

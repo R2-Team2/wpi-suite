@@ -76,7 +76,8 @@ public class OverviewTable extends JTable
 					}
 				}
 				
-				if (e.getClickCount() == 2)
+				// only allow edit requirement panel to pop up outside of Multiple Requirement Editing Mode
+				if ((e.getClickCount() == 2) && !isInEditMode)
 				{
 					ViewEventController.getInstance().editSelectedRequirement();
 				}

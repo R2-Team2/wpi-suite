@@ -45,9 +45,10 @@ public class ToolbarView extends JPanel {
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// set the Edit Estimates button invisible and bring up a create requirement pane
-				// createEditButton.setVisible(false);
-				ViewEventController.getInstance().createRequirement();				
+				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
+				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+					ViewEventController.getInstance().createRequirement();
+				}
 			}
 		});		
 		
