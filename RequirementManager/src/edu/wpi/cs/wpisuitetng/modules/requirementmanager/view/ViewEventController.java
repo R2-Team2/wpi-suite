@@ -89,10 +89,10 @@ public class ViewEventController {
 	}
 	
 	/**
-	 * Opens a new tab for the creation of a requirement.
+	 * Opens a new tab for the creation of a pie chart.
 	 */
-	public void createPieChart(){
-		NewPieChartPanel newPie = new NewPieChartPanel("Stuff");   
+	public void createPieChart(String title){
+		NewPieChartPanel newPie = new NewPieChartPanel(title);   
 		main.addTab("Pie Chart", null, newPie, "PieChart");
 		main.invalidate();
 		main.repaint();

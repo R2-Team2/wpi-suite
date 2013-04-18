@@ -20,6 +20,7 @@ import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 
 /**
  * Sets up upper toolbar of RequirementManager tab
@@ -47,10 +48,15 @@ public class ToolbarView extends JPanel {
 			}
 		});
 		JButton pieChart = new JButton("Pie Chart");
+		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				ViewEventController.getInstance().createPieChart();
+				ViewEventController.getInstance().createPieChart("Status");
+				
+				
+				
+				
 			}
 		});
 		
