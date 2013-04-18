@@ -793,5 +793,6 @@ public class Requirement extends AbstractModel {
 		this.history = toCopyFrom.history;
 		this.notes = toCopyFrom.notes;
 		this.tests = toCopyFrom.tests;
+		this.parentID = toCopyFrom.parentID;
 	}
 }

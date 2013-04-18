@@ -50,6 +50,7 @@ public class RequirementSelector extends JPanel
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		JScrollPane listScroll = new JScrollPane();
+		listScroll.setPreferredSize(new Dimension(300,150));
 		requirementList = new JList<Requirement>();
 		listScroll.setViewportView(requirementList);
 			
