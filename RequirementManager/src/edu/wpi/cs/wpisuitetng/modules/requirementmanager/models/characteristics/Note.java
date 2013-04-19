@@ -25,22 +25,6 @@ public class Note {
 	
 	/**
 	 * Basic constructor for a note
-	 * @param id ID of the note
-	 * @param user Name of user who created the note
-	 * @param timestamp Time at which note was created
-	 * @param message Message to be stored within the note
-	 */
-	@Deprecated
-	public Note (int id, String user, long timestamp, String message){
-		this.id = noteCount++;
-		this.user = user;
-		this.timestamp = timestamp;
-		this.message = message;
-		
-	}
-	
-	/**
-	 * Basic constructor for a note
 	 * @param user Name of user who created the note
 	 * @param timestamp Time at which note was created
 	 * @param message Message to be stored within the note

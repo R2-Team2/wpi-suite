@@ -62,7 +62,7 @@ public class NoteList {
 		int id = notes.size() + 1;
 		long time = System.currentTimeMillis();
 		String user = ConfigManager.getConfig().getUserName();
-		Note newNote = new Note(id, user, time, msg);
+		Note newNote = new Note(user, time, msg);
 		notes.add(newNote);
 		return newNote;
 	}
