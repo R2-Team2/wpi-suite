@@ -7,7 +7,7 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
- package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
 import java.awt.Graphics;

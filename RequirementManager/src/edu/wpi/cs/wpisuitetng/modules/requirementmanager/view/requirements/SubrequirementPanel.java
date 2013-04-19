@@ -8,6 +8,10 @@
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
 
+/**
+ * @author Justin Hess
+ * @author Christopher Botaish
+ */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Graphics;
