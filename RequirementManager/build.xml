@@ -8,9 +8,22 @@
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>
 		<pathelement path="../Network/build"/>
+		<pathelement path="../Janeway/lib"/>
 		<pathelement path="../Core/WPISuite-Interfaces/build"/>
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar"/>
+		</fileset>
+		<fileset dir="../Janeway/lib">
+			<include name="jfreechart-1.0.14.jar"/>
+		</fileset>
+		<fileset dir="../Janeway/lib">
+			<include name="jcommon-1.0.17.jar"/>
+		</fileset>
+		<fileset dir="../Janeway/lib">
+			<include name="gnujaxp.jar"/>
+		</fileset>
+		<fileset dir="../Janeway/lib">
+			<include name="iText-2.1.5.jar"/>
 		</fileset>
 		<pathelement path="build"/>
 	</path>

@@ -12,14 +12,12 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 

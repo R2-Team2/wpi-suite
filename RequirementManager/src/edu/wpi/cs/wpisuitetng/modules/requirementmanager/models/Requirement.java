@@ -16,7 +16,15 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.*;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Attachment;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.DevelopmentTask;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
@@ -290,7 +298,25 @@ public class Requirement extends AbstractModel {
 	 * @return the estimate
 	 */
 	public int getEstimate() {
-		return estimate;
+		return this.estimate;
+	}
+	
+	/**
+	 * Returns the estimate of the parent along with its children
+	 * @return total estimate
+	 */
+	public int getTotalEstimate() {
+		List<Requirement> children = getChildren();
+		if(children.size() == 0) return estimate;
+		
+		int childEstimates = 0;
+		
+		for(Requirement child : children)
+		{
+			childEstimates += child.getEstimate();
+		}
+		
+		return childEstimates + this.getEstimate();
 	}
 
 	/**
@@ -580,11 +606,52 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Setter for parentID
 	 * Assign the parent ID for this requirement
-	 * 
-	 * @param parentReq            
+	 * @param parentReq ID of the parent          
+	 * @throws Exception if the parent is an ancestor of the child already
 	 */
-	public void setParentID(int parentReq) {
-		this.parentID = parentReq;
+	public void setParentID(int parentReq) throws Exception {
+		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
+			this.parentID = parentReq;
+		} else {
+			throw new Exception("Cannot add ancestor as parent");
+		}
+	}
+
+	/**
+	 * Checks if a parent requirement is an ancestor of itself
+	 * @param parentId The ID of the parent requirement
+	 * @return true if the parent is an ancestor
+	 */
+	public boolean hasAncestor(int parentId) {
+		Requirement req = this;
+		while (req.getParentID() != -1) {
+			if (this.getId() == parentId)
+				return true;
+			req = RequirementModel.getInstance().getRequirement(req.getParentID());
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if a requirement is an ancestor of a given child
+	 * @param childId ID of the child
+	 * @return true if it is an ancestor of the child
+	 */
+	public boolean isAncestor(int childId) {
+		List<Requirement> children = this.getChildren();
+		for (int i = 0; i < children.size(); i++ ) {
+			if (children.get(i).getId() == childId || children.get(i).isAncestor(childId))
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Getter for children
+	 * @return the children requirements of the requirement
+	 */
+	public List<Requirement> getChildren() {		
+		return RequirementModel.getInstance().getChildren(this);
 	}
 	
 	/**
@@ -600,9 +667,10 @@ public class Requirement extends AbstractModel {
 	 * extracts the ID of parentReq and assigns it to parentID 
 	 * 
 	 * @param parentReq            
+	 * @throws Exception if invalid parent
 	 */
-	public void setParent(Requirement parentReq) {
-		this.parentID = parentReq.getId();
+	public void setParent(Requirement parentReq) throws Exception {
+		setParentID(parentReq.getId());
 	}
 
 	/**
@@ -733,5 +801,6 @@ public class Requirement extends AbstractModel {
 		this.history = toCopyFrom.history;
 		this.notes = toCopyFrom.notes;
 		this.tests = toCopyFrom.tests;
+		this.parentID = toCopyFrom.parentID;
 	}
 }
