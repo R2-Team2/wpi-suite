@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -34,7 +34,6 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	private RequirementViewMode viewMode;
 	private RequirementPanel parentPanel;
 
-	private JPanel leftPanel;
 	private JTextField boxName;
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
@@ -45,7 +44,6 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	final private Border errorBorder = BorderFactory
 			.createLineBorder(Color.RED);
 
-	private JPanel rightPanel;
 	private JLabel parent;
 	private JComboBox<RequirementType> dropdownType;
 	private JComboBox<RequirementStatus> dropdownStatus;
@@ -66,146 +64,58 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		this.parentPanel = parentPanel;
 		this.viewMode = mode;
 
-		this.add(this.buildLeftPanel());
-		this.add(this.buildRightPanel());
+		this.buildLayout();
 		
 		clearInfo();
 	}
-
+	
 	/**
-	 * Builds the left panel.
+	 * Builds the layout panel.
 	 * 
-	 * @return the newly created and formatted left panel.
+	 * @return the newly created and formatted layout panel.
 	 */
-	private JPanel buildLeftPanel() {
-		leftPanel = new JPanel();
+	private void buildLayout() {
+		this.setLayout(new MigLayout("","","shrink"));
+		//instantialize everything.
 		JLabel labelName = new JLabel("Name *");
 		JLabel labelReleaseNum = new JLabel("Release Number");
 		JLabel labelDescription = new JLabel("Description *");
 		JLabel labelIteration = new JLabel("Iteration");
-
-		setBoxName(new JTextField());
-		getBoxName().setPreferredSize(new Dimension(200, 20));
-		getBoxName().addKeyListener(this);
-
-		boxReleaseNum = (new JTextField());
-		getBoxReleaseNum().setPreferredSize(new Dimension(200, 20));
-		boxReleaseNum.addKeyListener(this);
-
-		setBoxDescription(new JTextArea());
-		getBoxDescription().setLineWrap(true);
-		getBoxDescription().setBorder(defaultBorder);
-		getBoxDescription().setPreferredSize(new Dimension(200, 200));
-		getBoxDescription().addKeyListener(this);
-
-		setBoxIteration(new JTextField());
-		getBoxIteration().setPreferredSize(new Dimension(200, 20));
-		getBoxIteration().addKeyListener(this);
-
-		setErrorName(new JLabel());
-		setErrorDescription(new JLabel());
-
-		if (this.currentRequirement.getParentID() != -1) {
-			System.out.println("Parent: "
-					+ this.currentRequirement.getParentID());
-		}
-
-		SpringLayout leftLayout = new SpringLayout();
-
-		leftPanel.setLayout(leftLayout);
-
-		// Name Field
-		leftLayout.putConstraint(SpringLayout.NORTH, labelName, 15,
-				SpringLayout.NORTH, leftPanel);
-		leftLayout.putConstraint(SpringLayout.WEST, labelName, 15,
-				SpringLayout.WEST, leftPanel);
-
-		leftLayout.putConstraint(SpringLayout.NORTH, getBoxName(), 15,
-				SpringLayout.SOUTH, labelName);
-		leftLayout.putConstraint(SpringLayout.WEST, getBoxName(), 15,
-				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, getErrorName(), 5,
-				SpringLayout.SOUTH, getBoxName());
-		leftLayout.putConstraint(SpringLayout.WEST, getErrorName(), 15,
-				SpringLayout.WEST, leftPanel);
-
-		// Release Field
-		leftLayout.putConstraint(SpringLayout.NORTH, labelReleaseNum, 15,
-				SpringLayout.SOUTH, getErrorName());
-		leftLayout.putConstraint(SpringLayout.WEST, labelReleaseNum, 15,
-				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, getBoxReleaseNum(), 15,
-				SpringLayout.SOUTH, labelReleaseNum);
-		leftLayout.putConstraint(SpringLayout.WEST, getBoxReleaseNum(), 15,
-				SpringLayout.WEST, leftPanel);
-
-		// Description Field
-		leftLayout.putConstraint(SpringLayout.NORTH, labelDescription, 15,
-				SpringLayout.SOUTH, getBoxReleaseNum());
-		leftLayout.putConstraint(SpringLayout.WEST, labelDescription, 15,
-				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, getBoxDescription(), 15,
-				SpringLayout.SOUTH, labelDescription);
-		leftLayout.putConstraint(SpringLayout.WEST, getBoxDescription(), 15,
-				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, getErrorDescription(), 5,
-				SpringLayout.SOUTH, getBoxDescription());
-		leftLayout.putConstraint(SpringLayout.WEST, getErrorDescription(), 15,
-				SpringLayout.WEST, leftPanel);
-
-		// Iteration Field
-		leftLayout.putConstraint(SpringLayout.NORTH, labelIteration, 15,
-				SpringLayout.SOUTH, getErrorDescription());
-		leftLayout.putConstraint(SpringLayout.WEST, labelIteration, 15,
-				SpringLayout.WEST, leftPanel);
-		leftLayout.putConstraint(SpringLayout.NORTH, getBoxIteration(), 15,
-				SpringLayout.SOUTH, labelIteration);
-		leftLayout.putConstraint(SpringLayout.WEST, getBoxIteration(), 15,
-				SpringLayout.WEST, leftPanel);
-
-		leftPanel.add(labelName);
-		leftPanel.add(getBoxName());
-		leftPanel.add(getErrorName());
-
-		leftPanel.add(labelReleaseNum);
-		leftPanel.add(getBoxReleaseNum());
-
-		leftPanel.add(labelDescription);
-		leftPanel.add(getBoxDescription());
-		leftPanel.add(getErrorDescription());
-
-		leftPanel.add(labelIteration);
-		leftPanel.add(getBoxIteration());
-
-		leftPanel.setMinimumSize(new Dimension(250, 500));
-		leftPanel.setPreferredSize(new Dimension(250, 500));
-
-		return leftPanel;
-	}
-
-	/**
-	 * Builds the right panel
-	 * 
-	 * @return the newly created and formatted right panel.
-	 */
-	protected JPanel buildRightPanel() {
-		rightPanel = new JPanel();
-
+		JLabel labelTotalEstimate = new JLabel("Child Estimate");
 		JLabel labelType = new JLabel("Type");
 		JLabel labelStatus = new JLabel("Status");
 		JLabel labelPriority = new JLabel("Priority");
 		JLabel labelEstimate = new JLabel("Estimate");
+		
+		boxName = new JTextField();
+		boxName.addKeyListener(this);
 
-		setDropdownType(new JComboBox<RequirementType>(RequirementType.values()));
-		getDropdownType().setEditable(false);
-		getDropdownType().setBackground(Color.WHITE);
-		getDropdownType().addItemListener(this);
+		boxReleaseNum = (new JTextField());
+		boxReleaseNum.addKeyListener(this);
 
-		setDropdownStatus(new JComboBox<RequirementStatus>(
+		boxDescription = new JTextArea();
+		boxDescription.setLineWrap(true);
+		boxDescription.setBorder(defaultBorder);
+		boxDescription.addKeyListener(this);
+
+		boxIteration = (new JTextField());
+		boxIteration.addKeyListener(this);
+
+		errorName = (new JLabel());
+		errorDescription = (new JLabel());
+		
+
+
+		dropdownType = (new JComboBox<RequirementType>(RequirementType.values()));
+		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
+		dropdownType.addItemListener(this);
+
+		dropdownStatus = (new JComboBox<RequirementStatus>(
 				RequirementStatus.values()));
-		getDropdownStatus().setEditable(false);
-		getDropdownStatus().setBackground(Color.WHITE);
-		getDropdownStatus().addItemListener(this);
+		dropdownStatus.setEditable(false);
+		dropdownStatus.setBackground(Color.WHITE);
+		dropdownStatus.addItemListener(this);
 
 		// Radio buttons
 
@@ -231,111 +141,49 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		priorityPanel.add(getPriorityHigh());
 		priorityPanel.add(getPriorityBlank());
 
-		setBoxEstimate(new JTextField());
-		getBoxEstimate().setPreferredSize(new Dimension(50, 20));
-		getBoxEstimate().addKeyListener(this);
-		setBoxTotalEstimate(new JTextField());
-		setErrorEstimate(new JLabel());
-
-		SpringLayout rightLayout = new SpringLayout();
-
-		rightPanel.setLayout(rightLayout);
-		getPriorityBlank().setSelected(true);
-
-		// setup the constraints for the layout.
-
-		// Type Field
-		rightLayout.putConstraint(SpringLayout.NORTH, labelType, 15,
-				SpringLayout.NORTH, rightPanel);
-		rightLayout.putConstraint(SpringLayout.WEST, labelType, 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, getDropdownType(), 15,
-				SpringLayout.SOUTH, labelType);
-		rightLayout.putConstraint(SpringLayout.WEST, getDropdownType(), 15,
-				SpringLayout.WEST, rightPanel);
-
-		// Status Field
-		rightLayout.putConstraint(SpringLayout.NORTH, labelStatus, 15,
-				SpringLayout.SOUTH, getDropdownType());
-		rightLayout.putConstraint(SpringLayout.WEST, labelStatus, 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, getDropdownStatus(), 15,
-				SpringLayout.SOUTH, labelStatus);
-		rightLayout.putConstraint(SpringLayout.WEST, getDropdownStatus(), 15,
-				SpringLayout.WEST, rightPanel);
-
-		// Priority Field
-		rightLayout.putConstraint(SpringLayout.NORTH, labelPriority, 15,
-				SpringLayout.SOUTH, getDropdownStatus());
-		rightLayout.putConstraint(SpringLayout.WEST, labelPriority, 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, priorityPanel, 15,
-				SpringLayout.SOUTH, labelPriority);
-		rightLayout.putConstraint(SpringLayout.WEST, priorityPanel, 15,
-				SpringLayout.WEST, rightPanel);
-
-		// Estimate Field
-		rightLayout.putConstraint(SpringLayout.NORTH, labelEstimate, 15,
-				SpringLayout.SOUTH, priorityPanel);
-		rightLayout.putConstraint(SpringLayout.WEST, labelEstimate, 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, getBoxEstimate(), 15,
-				SpringLayout.SOUTH, labelEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, getBoxEstimate(), 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, getErrorEstimate(), 5,
-				SpringLayout.SOUTH, getBoxEstimate());
-		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
-				SpringLayout.WEST, rightPanel);
-
-		// Total Estimate Field
-
-		labelTotalEstimate = new JLabel("Total Estimate");
-		getBoxTotalEstimate().setPreferredSize(new Dimension(50, 20));
-		getBoxTotalEstimate().setEnabled(false);
-		getBoxTotalEstimate().setText(
-				Integer.toString(currentRequirement.getTotalEstimate()));
-
-		rightLayout.putConstraint(SpringLayout.NORTH, labelTotalEstimate, 15,
-				SpringLayout.SOUTH, getBoxEstimate());
-		rightLayout.putConstraint(SpringLayout.WEST, labelTotalEstimate, 15,
-				SpringLayout.WEST, rightPanel);
-		rightLayout.putConstraint(SpringLayout.NORTH, getBoxTotalEstimate(),
-				15, SpringLayout.SOUTH, labelTotalEstimate);
-		rightLayout.putConstraint(SpringLayout.WEST, getBoxTotalEstimate(), 15,
-				SpringLayout.WEST, rightPanel);
-
-		rightPanel.add(labelTotalEstimate);
-		rightPanel.add(getBoxTotalEstimate());
-
+		boxEstimate = (new JTextField());
+		boxEstimate.setPreferredSize(new Dimension(50, 20));
+		boxEstimate.addKeyListener(this);
+		boxTotalEstimate = (new JTextField());
+		errorEstimate = (new JLabel());
+		
 		labelTotalEstimate.setVisible(!currentRequirement.getChildren()
 				.isEmpty());
-		getBoxTotalEstimate().setVisible(
+		boxTotalEstimate.setVisible(
 				!currentRequirement.getChildren().isEmpty());
 
 		parent = new JLabel();
-		rightPanel.add(parent);
-
+		
 		if (this.currentRequirement.getParentID() != -1) {
 			parent.setText("Child of \""
 					+ currentRequirement.getParent().getName() + "\"");
 		}
-
-		rightPanel.add(labelType);
-		rightPanel.add(getDropdownType());
-		rightPanel.add(labelStatus);
-		rightPanel.add(getDropdownStatus());
-		rightPanel.add(labelPriority);
-		rightPanel.add(priorityPanel);
-		rightPanel.add(labelEstimate);
-		rightPanel.add(getBoxEstimate());
-		rightPanel.add(getErrorEstimate());
-
-		// restrict size of these elements .
-		rightPanel.setMinimumSize(new Dimension(315, 500));
-		rightPanel.setPreferredSize(new Dimension(315, 500));
-
-		return rightPanel;
+		
+		//setup the top.
+		
+		this.add(labelName, "wrap");
+		this.add(boxName, "width 100%, span");
+		this.add(errorName, "wrap");
+		
+		this.add(labelDescription, "wrap");
+		this.add(boxDescription, "width 100%, span, height 600px, wmin 10, wrap");
+		this.add(errorDescription, "wrap");
+				
+		//setup columns.
+		this.add(labelReleaseNum,"left");
+		this.add(labelType, "right, wrap");
+		this.add(boxReleaseNum, "width 100px, left");
+		this.add(dropdownType,"right, wrap");
+		this.add(labelIteration,"left");
+		this.add(labelStatus,"right, wrap");
+		this.add(boxIteration,"width 100px, left");
+		this.add(dropdownStatus,"right, wrap");
+		this.add(labelEstimate,"left");
+		this.add(labelPriority,"right, wrap");
+		this.add(boxEstimate,"width 50px, left");
+		this.add(priorityPanel,"right, wrap");
+		this.add(labelTotalEstimate, "left, wrap");
+		this.add(boxTotalEstimate, "width 50px, left");		
 	}
 
 	public void refreshInfo() {

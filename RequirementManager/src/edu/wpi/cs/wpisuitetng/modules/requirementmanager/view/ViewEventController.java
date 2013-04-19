@@ -328,7 +328,7 @@ public class ViewEventController {
 		{
 			if(newEditPanel.getDisplayRequirement() == newChild)
 			{
-				newEditPanel.refreshRequirementPanel();
+				newEditPanel.fireRefresh();
 				break;
 			}
 			

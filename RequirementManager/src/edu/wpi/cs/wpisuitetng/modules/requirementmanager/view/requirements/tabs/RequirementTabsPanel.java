@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
+import java.awt.Dimension;
+
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -32,6 +34,7 @@ public class RequirementTabsPanel extends JTabbedPane
 		this.add("Acceptance Tests", testPanel);
 		this.add("Subrequirements", subReqPanel);
 		
+		this.setMinimumSize(new Dimension(100,100));		
 	}
 
 	public void updateHistoryPanel() 

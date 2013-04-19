@@ -10,7 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
  * @author Chris
  * @author Brian
  */
-public class RequirementPanel extends JPanel
+public class RequirementPanel extends JPanel implements RequirementButtonListener
 {
 	private Requirement displayRequirement;
 	private RequirementViewMode viewMode;
@@ -70,27 +70,10 @@ public class RequirementPanel extends JPanel
 		tabsPanel = new RequirementTabsPanel(this, viewMode, displayRequirement);
 		
 		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, infoPanel, tabsPanel);
-		JScrollPane contentScroll = new JScrollPane();
-		contentScroll.setViewportView(contentPanel);
 		
 		this.setLayout(new BorderLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
-		c.weightx = 1; // Fill horizontal space
-		c.weighty = 1;
-		this.add(contentScroll, BorderLayout.CENTER); // Add scroll pane to panel
-
-		c.anchor = GridBagConstraints.SOUTH;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 1;
+		this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
 		this.add(buttonPanel, BorderLayout.SOUTH);
-	}
-	
-	public void refreshRequirementPanel()
-	{
-		
 	}
 	
 	public void OKPressed() {
@@ -103,11 +86,12 @@ public class RequirementPanel extends JPanel
 
 	public void clearPressed() 
 	{
-		
+		infoPanel.clearInfo();
 	}
 
 	public void cancelPressed() 
 	{
+		readyToClose = true;
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);		
 	}
@@ -148,10 +132,6 @@ public class RequirementPanel extends JPanel
 		infoPanel.refreshInfo();
 	}
 
-	public Requirement getDisplayRequirement() {
-		return displayRequirement;
-	}
-
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
 		return infoPanel.readyToRemove() && tabsPanel.readyToRemove();
@@ -165,5 +145,9 @@ public class RequirementPanel extends JPanel
 	public RequirementButtonPanel getButtonPanel()
 	{
 		return this.buttonPanel;
+	}
+	
+	public Requirement getDisplayRequirement() {
+		return displayRequirement;
 	}
 }
