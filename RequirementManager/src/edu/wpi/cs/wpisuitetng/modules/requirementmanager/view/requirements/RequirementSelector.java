@@ -134,6 +134,7 @@ public class RequirementSelector extends JPanel
 					System.out.println(e.getMessage());
 				}
 			}
+			ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 		}
 		else
 		{

@@ -240,6 +240,7 @@ public class NewRequirementPanel extends RequirementPanel
 
 		RequirementModel.getInstance().addRequirement(getNewRequirement());
 		
+		ViewEventController.getInstance().refreshEditRequirementPanel(RequirementModel.getInstance().getRequirement(getNewRequirement().getParentID()));
 	}
 	
 	private void removeNewReqTab()
