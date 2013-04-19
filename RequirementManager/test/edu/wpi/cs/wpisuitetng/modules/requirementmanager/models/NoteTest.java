@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NotePanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.SingleNotePanel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

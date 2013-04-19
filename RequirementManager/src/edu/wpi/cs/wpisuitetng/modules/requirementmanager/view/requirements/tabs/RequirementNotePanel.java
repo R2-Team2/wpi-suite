@@ -13,7 +13,6 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
 public class RequirementNotePanel extends JPanel implements RequirementTab {
@@ -95,7 +94,7 @@ public class RequirementNotePanel extends JPanel implements RequirementTab {
 	
 	private void refresh()
 	{
-		noteScroll.setViewportView(NotePanel.createList(currentRequirement.getNotes()));
+		noteScroll.setViewportView(SingleNotePanel.createList(currentRequirement.getNotes()));
 	}
 	
 	private void setupListeners()

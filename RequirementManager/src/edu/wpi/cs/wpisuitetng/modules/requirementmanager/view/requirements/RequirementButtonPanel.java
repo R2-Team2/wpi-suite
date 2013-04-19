@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -110,5 +111,21 @@ public class RequirementButtonPanel extends JPanel
 		changes = b;
 		this.buttonOK.setEnabled(b && valid);
 		this.buttonClear.setEnabled(b);
+	}
+
+	public JButton getButtonClear() {
+		return buttonClear;
+	}
+	
+	public JButton getButtonDelete() {
+		return buttonDelete;
+	}
+	
+	public JButton getButtonOK() {
+		return buttonOK;
+	}
+	
+	public JButton getButtonCancel() {
+		return buttonCancel;
 	}
 }

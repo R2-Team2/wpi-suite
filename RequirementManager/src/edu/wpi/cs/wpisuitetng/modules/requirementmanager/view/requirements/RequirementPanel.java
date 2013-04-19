@@ -156,4 +156,14 @@ public class RequirementPanel extends JPanel
 		if(readyToClose) return true;
 		return infoPanel.readyToRemove() && tabsPanel.readyToRemove();
 	}
+	
+	public RequirementInformationPanel getInfoPanel()
+	{
+		return this.infoPanel;
+	}
+	
+	public RequirementButtonPanel getButtonPanel()
+	{
+		return this.buttonPanel;
+	}
 }
