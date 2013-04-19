@@ -79,7 +79,7 @@ public class NewRequirementPanel extends RequirementPanel
 		getBoxIteration().setText(displayRequirement.getIteration());
 		getBoxEstimate().setText(String.valueOf(displayRequirement.getEstimate()));
 		getBoxReleaseNum().setText(displayRequirement.getRelease());
-		getDropdownStatus().setSelectedItem(displayRequirement.getStatus());
+		getDropdownStatus().setSelectedItem(displayRequirement.getParent().getStatus());
 		getDropdownType().setSelectedItem(displayRequirement.getType());
 		
 		switch(displayRequirement.getPriority())
