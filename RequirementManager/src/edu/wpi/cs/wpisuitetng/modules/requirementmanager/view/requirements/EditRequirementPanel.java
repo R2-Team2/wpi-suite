@@ -846,6 +846,12 @@ public class EditRequirementPanel extends RequirementPanel {
 	 * Refreshes the the parent when a newChild is found
 	 */
 	public void refreshEditPanel() {
+		boolean showTotalEstimate = !displayRequirement.getChildren().isEmpty();
+		labelTotalEstimate.setVisible(showTotalEstimate);
+		getBoxEstimate().setVisible(showTotalEstimate);
+		getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
+		getBoxTotalEstimate().setVisible(showTotalEstimate);
+		
 		if(requirementBeingEdited.getParentID() != -1)
 		{
 			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");

@@ -47,6 +47,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
 	private JTextField boxTotalEstimate;
+	JLabel labelTotalEstimate;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
 	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
@@ -290,25 +291,27 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 				SpringLayout.WEST, rightPanel);
 		
 		// Total Estimate Field
-		if (!displayRequirement.getChildren().isEmpty()) {
-			JLabel labelTotalEstimate = new JLabel("Total Estimate");
-			getBoxTotalEstimate().setPreferredSize(new Dimension(50, 20));
-			getBoxTotalEstimate().setEnabled(false);
-			getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
-			
-			rightLayout.putConstraint(SpringLayout.NORTH, labelTotalEstimate, 15,
-					SpringLayout.SOUTH, getBoxEstimate());
-			rightLayout.putConstraint(SpringLayout.WEST, labelTotalEstimate, 15,
-					SpringLayout.WEST, rightPanel);
-			rightLayout.putConstraint(SpringLayout.NORTH, getBoxTotalEstimate(), 15,
-					SpringLayout.SOUTH, labelTotalEstimate);
-			rightLayout.putConstraint(SpringLayout.WEST, getBoxTotalEstimate(), 15,
-					SpringLayout.WEST, rightPanel);
-			
-			rightPanel.add(labelTotalEstimate);
-			rightPanel.add(getBoxTotalEstimate());
-		}
 		
+		labelTotalEstimate = new JLabel("Total Estimate");
+		getBoxTotalEstimate().setPreferredSize(new Dimension(50, 20));
+		getBoxTotalEstimate().setEnabled(false);
+		getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
+		
+		rightLayout.putConstraint(SpringLayout.NORTH, labelTotalEstimate, 15,
+				SpringLayout.SOUTH, getBoxEstimate());
+		rightLayout.putConstraint(SpringLayout.WEST, labelTotalEstimate, 15,
+				SpringLayout.WEST, rightPanel);
+		rightLayout.putConstraint(SpringLayout.NORTH, getBoxTotalEstimate(), 15,
+				SpringLayout.SOUTH, labelTotalEstimate);
+		rightLayout.putConstraint(SpringLayout.WEST, getBoxTotalEstimate(), 15,
+				SpringLayout.WEST, rightPanel);
+		
+		rightPanel.add(labelTotalEstimate);
+		rightPanel.add(getBoxTotalEstimate());
+		
+		labelTotalEstimate.setVisible(!displayRequirement.getChildren().isEmpty());
+		getBoxTotalEstimate().setVisible(!displayRequirement.getChildren().isEmpty());
+
 		parent = new JLabel();
 		rightPanel.add(parent);
 

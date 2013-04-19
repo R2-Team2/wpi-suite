@@ -184,7 +184,11 @@ public class RequirementSelector extends JPanel {
 					System.out.println(e.getMessage());
 				}
 			}
-		} else {
+			
+			ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
+		}
+		else
+		{
 			Requirement parentRequirement = requirementList.getSelectedValue();
 			try {
 				activeRequirement.setParent(parentRequirement);
