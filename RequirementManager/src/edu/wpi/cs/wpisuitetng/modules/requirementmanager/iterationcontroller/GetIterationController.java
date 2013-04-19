@@ -31,7 +31,7 @@ public class GetIterationController implements ActionListener {
 	/**
 	 * Constructs the controller given a IterationModel
 	 */
-	public GetIterationController() {
+	private GetIterationController() {
 		
 		observer = new GetIterationRequestObserver(this);
 	}
