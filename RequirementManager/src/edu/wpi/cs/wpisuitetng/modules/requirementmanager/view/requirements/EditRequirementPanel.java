@@ -283,6 +283,7 @@ public class EditRequirementPanel extends RequirementPanel {
 				{
 					try {
 						requirementBeingEdited.setParentID(-1);
+						refreshEditPanel();
 						UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
 					} catch (Exception e1) {
 						System.out.println(e1.getMessage());
@@ -803,12 +804,12 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
 		{
-			this.subRequirementPanel.setEnabled(false);
+			this.subRequirementPanel.enableChildren(false);
 			this.buttonModifyFromParent.setEnabled(false);
 		}
 		else
 		{
-			this.subRequirementPanel.setEnabled(true);
+			this.subRequirementPanel.enableChildren(true);
 			this.buttonModifyFromParent.setEnabled(true);
 		}
 		
