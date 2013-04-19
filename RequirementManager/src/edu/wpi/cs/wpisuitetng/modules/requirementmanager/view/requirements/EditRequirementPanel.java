@@ -849,11 +849,13 @@ public class EditRequirementPanel extends RequirementPanel {
 		if(requirementBeingEdited.getParentID() != -1)
 		{
 			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
+			buttonModifyFromParent.setText("Remove From Parent");
 			parent.setVisible(true);
 		}
 		
 		else
 		{
+			buttonModifyFromParent.setText("Attach To Parent");
 			parent.setVisible(false);
 		}
 	}
