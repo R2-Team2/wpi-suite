@@ -5,29 +5,12 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
+ * Contributors: Team Rolling Thunder
  ******************************************************************************/
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
-package edu.wpi.cs.wpisuitetng.exceptions;
+public enum RequirementSelectorMode {
 
-import javax.servlet.http.HttpServletResponse;
-
-public class NotFoundException extends WPISuiteException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2573827722743846840L;
-
-	public NotFoundException(String message) {
-		super(message);
-	}
-	
-	public NotFoundException() {
-	}
-
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_NOT_FOUND; //404
-	}
-
+	POSSIBLE_CHILDREN,
+	POSSIBLE_PARENTS;
 }

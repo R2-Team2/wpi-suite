@@ -9,10 +9,12 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-
 import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
@@ -20,8 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
-
-import java.awt.*;
 
 public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 

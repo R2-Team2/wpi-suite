@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * History of transactions for a requirement

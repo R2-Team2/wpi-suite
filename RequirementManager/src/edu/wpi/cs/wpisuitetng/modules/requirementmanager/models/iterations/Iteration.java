@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
@@ -95,10 +94,9 @@ public class Iteration extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
-		if (name == null) {
-			this.name = "Backlog";
-		}
 		this.name = name;
+		if (name.trim().length() == 0)
+			this.name = "Backlog";
 	}
 
 	/**
@@ -149,7 +147,8 @@ public class Iteration extends AbstractModel {
 	}
 
 	/**
-	 * Copies all of the values from the given iteration to this iteration.
+	 * Copies all of the values from the given iteration to this iteration
+	 * excluding the Id.
 	 * 
 	 * @param toCopyFrom
 	 *            the iteration to copy from.

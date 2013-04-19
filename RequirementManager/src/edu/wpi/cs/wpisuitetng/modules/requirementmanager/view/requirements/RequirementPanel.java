@@ -11,16 +11,13 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.LinkedList;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -49,10 +46,13 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
+	private JTextField boxTotalEstimate;
+	JLabel labelTotalEstimate;
 	final protected Border defaultBorder = (new JTextField()).getBorder();
 	final protected Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 	
 	protected JPanel rightPanel;
+	protected JLabel parent;
 	private JComboBox dropdownType;
 	private JComboBox dropdownStatus;
 	private JRadioButton priorityHigh;
@@ -216,7 +216,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		priorityMedium.addItemListener(this);
 		priorityLow = (new JRadioButton("Low"));
 		priorityLow.addItemListener(this);
-		priorityBlank = (new JRadioButton("Undecided"));
+		priorityBlank = (new JRadioButton("None"));
 		priorityBlank.addItemListener(this);
 		
 		group = new ButtonGroup();
@@ -234,8 +234,9 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		priorityPanel.add(getPriorityBlank());
 
 		setBoxEstimate(new JTextField());
-		getBoxEstimate().setPreferredSize(new Dimension(200, 20));
+		getBoxEstimate().setPreferredSize(new Dimension(50, 20));
 		getBoxEstimate().addKeyListener(this);
+		setBoxTotalEstimate(new JTextField());
 		setErrorEstimate(new JLabel());
 		
 		SpringLayout rightLayout = new SpringLayout();
@@ -289,10 +290,34 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		rightLayout.putConstraint(SpringLayout.WEST, getErrorEstimate(), 15,
 				SpringLayout.WEST, rightPanel);
 		
+		// Total Estimate Field
+		
+		labelTotalEstimate = new JLabel("Total Estimate");
+		getBoxTotalEstimate().setPreferredSize(new Dimension(50, 20));
+		getBoxTotalEstimate().setEnabled(false);
+		getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
+		
+		rightLayout.putConstraint(SpringLayout.NORTH, labelTotalEstimate, 15,
+				SpringLayout.SOUTH, getBoxEstimate());
+		rightLayout.putConstraint(SpringLayout.WEST, labelTotalEstimate, 15,
+				SpringLayout.WEST, rightPanel);
+		rightLayout.putConstraint(SpringLayout.NORTH, getBoxTotalEstimate(), 15,
+				SpringLayout.SOUTH, labelTotalEstimate);
+		rightLayout.putConstraint(SpringLayout.WEST, getBoxTotalEstimate(), 15,
+				SpringLayout.WEST, rightPanel);
+		
+		rightPanel.add(labelTotalEstimate);
+		rightPanel.add(getBoxTotalEstimate());
+		
+		labelTotalEstimate.setVisible(!displayRequirement.getChildren().isEmpty());
+		getBoxTotalEstimate().setVisible(!displayRequirement.getChildren().isEmpty());
+
+		parent = new JLabel();
+		rightPanel.add(parent);
+
 		if(this.displayRequirement.getParentID()!=-1)
 		{
-			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
-			rightPanel.add(parent);
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
 		}
 
 		rightPanel.add(labelType);
@@ -600,7 +625,21 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 	 * 
 	 * @return whether the panel can be removed.
 	 */
-	abstract public boolean readyToRemove();	
+	abstract public boolean readyToRemove();
+
+	/**
+	 * @return the boxTotalEstimate
+	 */
+	public JTextField getBoxTotalEstimate() {
+		return boxTotalEstimate;
+	}
+
+	/**
+	 * @param boxTotalEstimate the boxTotalEstimate to set
+	 */
+	public void setBoxTotalEstimate(JTextField boxTotalEstimate) {
+		this.boxTotalEstimate = boxTotalEstimate;
+	}	
 	
 	
 	

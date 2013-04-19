@@ -31,7 +31,7 @@ public class GetRequirementsController implements ActionListener {
 	/**
 	 * Constructs the controller given a RequirementModel
 	 */
-	public GetRequirementsController() {
+	private GetRequirementsController() {
 		
 		observer = new GetRequirementsRequestObserver(this);
 	}

@@ -14,8 +14,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
@@ -189,6 +192,63 @@ public class RequirementModel extends AbstractListModel{
 	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
+	}
+
+	/**
+	 * Returns the list of children for the given requirement.
+	 * @param requirement the parent requirement to find children for.
+	 * @return The list of children.
+	 */
+	public List<Requirement> getChildren(Requirement requirement) {
+		List<Requirement> children = new ArrayList<Requirement>();
+		
+		for(Requirement possibleChild : requirements)
+		{
+			if(possibleChild.getParentID() == requirement.getId()) children.add(possibleChild);
+		}
+		
+		return children;
+	}
+	
+	/**
+	 * Returns the possible children for the given requirement.
+	 * @param req the given requirement
+	 * @return the list model of possiblechildren
+	 */
+	public ListModel<Requirement> getPossibleChildren(Requirement req)
+	{
+		DefaultListModel<Requirement> possibleChildren = new DefaultListModel<Requirement>();
+		
+		for(Requirement possChild : requirements)
+		{
+			if(possChild.isAncestor(req.getId()) || possChild.getParentID() != -1) continue;
+			if(possChild == req) continue;
+			if(possChild.getStatus() == RequirementStatus.COMPLETE || possChild.getStatus() == RequirementStatus.DELETED) continue;
+			possibleChildren.addElement(possChild);
+		}
+		
+		return possibleChildren;
+	}
+	
+	
+	/**
+	 * Returns the possible parents for the given requirement.
+	 * @param req the given requirement
+	 * @return the list model of possibleParents
+	 */
+	public ListModel<Requirement> getPossibleParents(Requirement req)
+	{
+		DefaultListModel<Requirement> possibleParents = new DefaultListModel<Requirement>();
+		
+		for(Requirement possParent : requirements)
+		{
+			if(possParent.hasAncestor(req.getId())) continue;
+			if(possParent == req) continue;
+			if(possParent.getStatus() == RequirementStatus.COMPLETE || possParent.getStatus() == RequirementStatus.DELETED) continue;
+			possibleParents.addElement(possParent);
+		}
+		
+		return possibleParents;
 	}
 	
 }

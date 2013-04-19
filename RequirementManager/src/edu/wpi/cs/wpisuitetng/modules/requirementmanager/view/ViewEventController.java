@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -88,6 +89,20 @@ public class ViewEventController {
 	}
 
 	/**
+	 * Opens a new tab for the creation of a pie chart.
+	 */
+	public void createPieChart(String title){
+		NewPieChartPanel newPie = new NewPieChartPanel(title);   
+		main.addTab("Pie Chart", null, newPie, "PieChart");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newPie);
+		
+	}
+	
+
+
+	/**
 	 * Opens a child requirement panel to create the child requirement for the given parent.
 	 * @param parentID
 	 */
@@ -103,20 +118,38 @@ public class ViewEventController {
 	 */
 	public void editRequirement(Requirement toEdit)
 	{
-		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
-
-		StringBuilder tabName = new StringBuilder();
-		tabName.append(toEdit.getId()); 
-		tabName.append(". ");
-		int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
-		tabName.append(toEdit.getName().substring(0,subStringLength));
-		if(toEdit.getName().length() > 6) tabName.append("..");
-
-		main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
-		this.listOfEditingPanels.add(editPanel);
-		main.invalidate();
-		main.repaint();
-		main.setSelectedComponent(editPanel);
+		EditRequirementPanel exists = null;
+		
+		for(EditRequirementPanel panel : listOfEditingPanels)
+		{
+			if(panel.getRequirementBeingEdited() == toEdit)
+			{
+				exists = panel;
+				break;
+			}
+		}	
+		
+		if(exists == null)
+		{
+			EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
+			
+			StringBuilder tabName = new StringBuilder();
+			tabName.append(toEdit.getId()); 
+			tabName.append(". ");
+			int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
+			tabName.append(toEdit.getName().substring(0,subStringLength));
+			if(toEdit.getName().length() > 6) tabName.append("..");
+			
+			main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
+			this.listOfEditingPanels.add(editPanel);
+			main.invalidate();
+			main.repaint();
+			main.setSelectedComponent(editPanel);
+		}
+		else
+		{
+			main.setSelectedComponent(exists);
+		}
 	}
 
 
@@ -229,26 +262,8 @@ public class ViewEventController {
 		if(selection.length != 1) return;
 
 		Requirement toEdit = (Requirement)overviewTable.getValueAt(selection[0],1);
-
-		EditRequirementPanel exists = null;
-
-		for(EditRequirementPanel panel : listOfEditingPanels)
-		{
-			if(panel.getRequirementBeingEdited() == toEdit)
-			{
-				exists = panel;
-				break;
-			}
-		}	
-
-		if(exists == null)
-		{
-			editRequirement(toEdit);
-		}
-		else
-		{
-			main.setSelectedComponent(exists);
-		}
+		
+		editRequirement(toEdit);
 	}
 
 	/**
@@ -303,5 +318,23 @@ public class ViewEventController {
 		}
 		main.repaint();
 
+	}
+	
+	/**
+	 * Refreshes the EditRequirementPanel after creating a new child
+	 * 
+	 * @param Requirement newChild that is being created
+	 */
+	public void refreshEditRequirementPanel(Requirement newChild) {
+		for(EditRequirementPanel newEditPanel : listOfEditingPanels)
+		{
+			if(newEditPanel.getRequirementBeingEdited() == newChild)
+			{
+				newEditPanel.refreshEditPanel();
+				break;
+			}
+			
+		}
+		
 	}
 }

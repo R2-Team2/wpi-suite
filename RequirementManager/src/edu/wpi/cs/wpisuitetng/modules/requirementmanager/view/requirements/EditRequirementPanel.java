@@ -16,34 +16,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.event.ChangeEvent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 /**
  * 
@@ -61,11 +52,13 @@ public class EditRequirementPanel extends RequirementPanel {
 	private Requirement requirementBeingEdited;
 	private JButton buttonUpdate = new JButton("Update");
 	private JButton buttonCancel = new JButton("Cancel");
-	private JButton buttonAddChild = new JButton("Add Child Requirement");
+	private JButton buttonModifyFromParent = new JButton("Add Child Requirement");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
+	private SubrequirementPanel subRequirementPanel;
 	private boolean readyToClose = false;
+	private JTextArea noteMessage = new JTextArea();
 
 	/**
 	 * Constructor for a new requirement panel
@@ -77,6 +70,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		super();
 
 		requirementBeingEdited = this.displayRequirement = req;
+		subRequirementPanel = new SubrequirementPanel(requirementBeingEdited);
 		GridBagLayout layout = new GridBagLayout();
 		contentPanel = new JPanel(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -91,6 +85,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		tabs.add("Acceptance Tests", tests);
+		tabs.add("Subrequirements", subRequirementPanel);
 
 		JPanel bottom = buildBottom();
 		c.gridx = 0; // Column 0
@@ -218,9 +213,10 @@ public class EditRequirementPanel extends RequirementPanel {
 		getBoxName().setBorder(defaultBorder);
 		this.buttonUpdate.setEnabled(false);
 		getButtonClear().setEnabled(false);
-		
+		this.buttonModifyFromParent.setText("Attach To Parent");
 		if(getRequirementBeingEdited().getParentID() != -1)
 		{
+			this.buttonModifyFromParent.setText("Remove From Parent");
 			this.disableNonChildFields();
 		}
 		
@@ -276,15 +272,31 @@ public class EditRequirementPanel extends RequirementPanel {
 			}
 		});
 
-		buttonAddChild.addActionListener(new ActionListener(){
+		buttonModifyFromParent.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				ViewEventController.getInstance().createChildRequirement(requirementBeingEdited.getId());
+				if(requirementBeingEdited.getParentID() == -1)
+				{
+					//TODO: add to parent
+					buttonModifyFromParent.setText("Remove From Parent");
+				}
+				else
+				{
+					try {
+						requirementBeingEdited.setParentID(-1);
+						refreshEditPanel();
+						UpdateRequirementController.getInstance().updateRequirement(requirementBeingEdited);
+					} catch (Exception e1) {
+						System.out.println(e1.getMessage());
+					}
+					buttonModifyFromParent.setText("Attach To Parent");
+				}
 			}
 		});
 		buttonPanel.add(getButtonUpdate());
 		buttonPanel.add(getButtonClear());
-		buttonPanel.add(buttonAddChild);
+		buttonPanel.add(buttonModifyFromParent);
+		
 		buttonPanel.add(buttonDelete);
 		buttonPanel.add(buttonCancel);
 
@@ -378,7 +390,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		JButton buttonClear = new JButton("Clear");
 
 		// Create text area for note to be added
-		final JTextArea noteMessage = new JTextArea();
 		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
 										// line
 		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
@@ -713,12 +724,27 @@ public class EditRequirementPanel extends RequirementPanel {
 	 */
 	public boolean anythingChanged()
 	{
-		boolean nameChanged = !(getBoxName().getText().equals(requirementBeingEdited.getName()));
-		boolean descriptionChanged = !(getBoxDescription().getText().equals(requirementBeingEdited.getDescription()));
-		boolean releaseChanged = !(getBoxReleaseNum().getText().equals(requirementBeingEdited.getRelease()));
-		boolean iterationChanged = !(getBoxIteration().getText().equals(requirementBeingEdited.getIteration()));
-		boolean typeChanged = !(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType());
-		boolean statusChanged = !(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus());
+		// Check if the user has changed the name
+		if (!(getBoxName().getText().equals(requirementBeingEdited.getName()))){
+			return true;}
+		// Check if the user has changed the description
+		if (!(getBoxDescription().getText().equals(requirementBeingEdited.getDescription()))){
+			return true;}
+		// Check if the user has changed the release number
+		if (!(getBoxReleaseNum().getText().equals(requirementBeingEdited.getRelease()))){
+			return true;}
+		// Check if the user has changed the iteration number
+		if (!(getBoxIteration().getText().equals(requirementBeingEdited.getIteration()))){
+			return true;}
+		// Check if the user has changed the type
+		if (!(((RequirementType)getDropdownType().getSelectedItem()) == requirementBeingEdited.getType())){
+			return true;}
+		// Check if the user has changed the status
+		if (!(((RequirementStatus)getDropdownStatus().getSelectedItem()) == requirementBeingEdited.getStatus())){
+			return true;}
+		// Check if the user has changed the estimate
+		if (!(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())))){
+			return true;}
 
 		RequirementPriority reqPriority = requirementBeingEdited.getPriority();
 		boolean priorityChanged = false;
@@ -737,13 +763,15 @@ public class EditRequirementPanel extends RequirementPanel {
 				priorityChanged = !getPriorityHigh().isSelected();
 				break;
 		}
+		if (priorityChanged){
+			return true;
+		}
 		
-		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
-
-		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
-				typeChanged || statusChanged || priorityChanged || estimateChanged;
+		// Check if the user has entered anything into the note panel
+		if (noteMessage.getText().length()>0){
+			return true;}
 		
-		return anythingChanged;
+		return false;
 	}
 
 	@Override
@@ -754,7 +782,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.buttonUpdate.setEnabled(getBoxName().getText().trim().length() > 0 && getBoxDescription().getText().trim().length() > 0);	
+		this.buttonUpdate.setEnabled(anythingChanged());	
 		this.buttonClear.setEnabled(anythingChanged());
 		
 		
@@ -774,8 +802,6 @@ public class EditRequirementPanel extends RequirementPanel {
 		this.getBoxIteration().setEnabled(validEstimate);
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
 
-		this.buttonAddChild.setEnabled(false);
-		this.buttonDelete.setEnabled(false);
 		this.repaint();		
 	}
 
@@ -795,11 +821,13 @@ public class EditRequirementPanel extends RequirementPanel {
 		
 		if(getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE || getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED)
 		{
-			this.buttonAddChild.setEnabled(false);
+			this.subRequirementPanel.enableChildren(false);
+			this.buttonModifyFromParent.setEnabled(false);
 		}
 		else
 		{
-			this.buttonAddChild.setEnabled(true);
+			this.subRequirementPanel.enableChildren(true);
+			this.buttonModifyFromParent.setEnabled(true);
 		}
 		
 		if(getRequirementBeingEdited().getParentID() != -1) disableNonChildFields();
@@ -814,7 +842,28 @@ public class EditRequirementPanel extends RequirementPanel {
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
+	/**
+	 * Refreshes the the parent when a newChild is found
+	 */
+	public void refreshEditPanel() {
+		boolean showTotalEstimate = !displayRequirement.getChildren().isEmpty();
+		labelTotalEstimate.setVisible(showTotalEstimate);
+		getBoxEstimate().setVisible(showTotalEstimate);
+		getBoxTotalEstimate().setText(Integer.toString(displayRequirement.getTotalEstimate()));
+		getBoxTotalEstimate().setVisible(showTotalEstimate);
+		
+		if(requirementBeingEdited.getParentID() != -1)
+		{
+			parent.setText("Child of \""+displayRequirement.getParent().getName()+"\"");
+			buttonModifyFromParent.setText("Remove From Parent");
+			parent.setVisible(true);
+		}
+		
+		else
+		{
+			buttonModifyFromParent.setText("Attach To Parent");
+			parent.setVisible(false);
+		}
+	}
 
-
-	
 }
