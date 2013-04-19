@@ -34,7 +34,7 @@ public class ViewEventController {
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
 	private ArrayList<EditRequirementPanel> listOfEditingPanels = new ArrayList<EditRequirementPanel>();
-	
+
 	/**
 	 * Sets the OverviewTable for the controller
 	 * @param overviewTable a given OverviewTable
@@ -86,7 +86,7 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newReq);
 	}
-	
+
 	/**
 	 * Opens a child requirement panel to create the child requirement for the given parent.
 	 * @param parentID
@@ -104,67 +104,73 @@ public class ViewEventController {
 	public void editRequirement(Requirement toEdit)
 	{
 		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
-		
+
 		StringBuilder tabName = new StringBuilder();
 		tabName.append(toEdit.getId()); 
 		tabName.append(". ");
 		int subStringLength = toEdit.getName().length() > 6 ? 7 : toEdit.getName().length();
 		tabName.append(toEdit.getName().substring(0,subStringLength));
 		if(toEdit.getName().length() > 6) tabName.append("..");
-		
+
 		main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
 		this.listOfEditingPanels.add(editPanel);
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(editPanel);
 	}
-	
-	
+
+
 	/**
 	 * Toggles the Overview Table multiple requirement editing mode
 	 */
-	public void toggleEditingTable(){
-		// check to see if Edit Mode is enabled and the user is editing a cell
+	public void toggleEditingTable(boolean cancel){
+		// check to see if Multiple Requirement Editing Mode is enabled and if the user is editing a cell		
 		if (this.overviewTable.getEditFlag() && this.overviewTable.isEditing()) {
 			// ends the cell editing
 			this.overviewTable.getCellEditor().cancelCellEditing();
 		}
-		// toggle the flag
+		// toggle the edit flag
 		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
-		
+
 		// check to see if the overview table is now out of editing mode
 		if (!this.overviewTable.getEditFlag()) {
-			this.overviewTable.saveChanges();			
+			if (cancel) {
+				this.overviewTable.refresh();
+			}
+			else {
+				this.overviewTable.saveChanges();
+			}
 		}
 	}
-	
-	
+
+
+
 	/** 
 	 * @return overviewTable
 	 */
 	public OverviewTable getOverviewTable(){
 		return overviewTable;
-		
+
 	}
-	
+
 	/**
 	 * @return toolbar
 	 */
 	public ToolbarView getToolbar() {
 		return toolbar;
 	}
-	
+
 	/**
 	 * Removes the tab for the given JComponent
 	 */
-	
+
 	public void removeTab(JComponent comp)
 	{
 		if(comp instanceof EditRequirementPanel)
 		{
 			if(!((EditRequirementPanel)comp).readyToRemove()) return;
 			this.listOfEditingPanels.remove(comp);
-			
+
 		}
 		main.remove(comp);
 	}
@@ -175,7 +181,7 @@ public class ViewEventController {
 	public void refreshTable() {
 		overviewTable.refresh();
 	}
-	
+
 	/**
 	 * Returns an array of the currently selected rows in the table.
 	 * @return the currently selected rows in the table
@@ -186,25 +192,33 @@ public class ViewEventController {
 	}
 	
 	/**
+	 * Returns the main view
+	 * @return the main view
+	 */
+	public MainView getMainView() {
+		return main;
+	}
+
+	/**
 	 * Assigns all currently selected rows to the backlog.
 	 */
 	public void assignSelectionToBacklog()
 	{
 		int[] selection = overviewTable.getSelectedRows();
-		
+
 		// Set to false to indicate the requirement is being newly created
 		boolean created = false;
-		
+
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
 			toSendToBacklog.setIteration("Backlog", created);
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
-		
+
 		this.refreshTable();
 	}
-	
+
 	/**
 	 * Edits the currently selected requirement.  If more than 1 requirement is selected, does nothing.
 	 */
@@ -213,11 +227,11 @@ public class ViewEventController {
 		int[] selection = overviewTable.getSelectedRows();
 
 		if(selection.length != 1) return;
-		
+
 		Requirement toEdit = (Requirement)overviewTable.getValueAt(selection[0],1);
-		
+
 		EditRequirementPanel exists = null;
-		
+
 		for(EditRequirementPanel panel : listOfEditingPanels)
 		{
 			if(panel.getRequirementBeingEdited() == toEdit)
@@ -226,7 +240,7 @@ public class ViewEventController {
 				break;
 			}
 		}	
-		
+
 		if(exists == null)
 		{
 			editRequirement(toEdit);
@@ -243,22 +257,22 @@ public class ViewEventController {
 	public void closeAllTabs() {
 
 		int tabCount = main.getTabCount();
-		
+
 		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 
 			if(toBeRemoved instanceof OverviewPanel) continue;
-			
+
 			if(toBeRemoved instanceof RequirementPanel)
 			{
 				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
-			
+
 			main.removeTabAt(i);
 		}
-		
+
 		main.repaint();
 	}
 
@@ -270,24 +284,24 @@ public class ViewEventController {
 	public void closeOthers(int indexOfTab) {
 		int tabCount = main.getTabCount();
 		Component compAtIndex = main.getComponentAt(indexOfTab);
-		
+
 		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
-			
+
 			if(toBeRemoved instanceof OverviewPanel) continue;
-			
+
 			if(toBeRemoved == compAtIndex) continue;
-			
+
 			if(toBeRemoved instanceof RequirementPanel)
 			{
 				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
-					this.listOfEditingPanels.remove(toBeRemoved);
+				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 
 			main.removeTabAt(i);
 		}
 		main.repaint();
-		
+
 	}
 }

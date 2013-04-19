@@ -76,7 +76,8 @@ public class OverviewTable extends JTable
 					}
 				}
 				
-				if (e.getClickCount() == 2)
+				// only allow edit requirement panel to pop up outside of Multiple Requirement Editing Mode
+				if ((e.getClickCount() == 2) && !isInEditMode)
 				{
 					ViewEventController.getInstance().editSelectedRequirement();
 				}
@@ -172,18 +173,21 @@ public class OverviewTable extends JTable
 	 * saves the changes made to the Overview Table
 	 */
 	public void saveChanges() {
-		// retrieve the array of requirements
-		List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
-		
-		// iterate through the array of requirements
-		for (int reqIndex = 0; reqIndex < requirements.size(); reqIndex++) {
-			// retrieve the requirement at the index
-			Requirement req = requirements.get(reqIndex);
+		// iterate through the rows of the overview table
+		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
+			
+			// extract the ID number displayed in the row
+			String rowIDstr = this.tableModel.getValueAt(row, 0).toString();
+			int rowID = Integer.parseInt(rowIDstr);
+			
+			// use the ID number in the row to retrieve the requirement represented by the row
+			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
 									
-			// update the estimate with the value in the cell at row reqIndex, column 7			
-			String cellEstimateStr = this.tableModel.getValueAt(reqIndex, 7).toString();
+			// update the estimate with the value in the cell at row, column 7			
+			String cellEstimateStr = this.tableModel.getValueAt(row, 7).toString();
 			int cellEstimate = req.getEstimate();
 			boolean formatError = false;
+			// make sure the value in the cell is a valid integer
 			try {
 				cellEstimate = Integer.parseInt(cellEstimateStr);
 			}
@@ -193,7 +197,7 @@ public class OverviewTable extends JTable
 			
 			if (formatError) {
 				cellEstimate = req.getEstimate();
-				this.setValueAt(cellEstimate, reqIndex, 7);
+				this.setValueAt(cellEstimate, row, 7);
 			}
 			else {
 				cellEstimate = Integer.parseInt(cellEstimateStr);
@@ -202,6 +206,9 @@ public class OverviewTable extends JTable
 			
 			// updates requirement on the server
 			UpdateRequirementController.getInstance().updateRequirement(req);
+			
+			// refresh table to get rid of cell highlights
+			this.refresh();
 		}		
 	}
 }

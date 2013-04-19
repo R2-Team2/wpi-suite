@@ -29,6 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
  */
 public class ToolbarView extends JPanel {
 	final JButton createEditButton = new JButton("Edit Estimates");
+	final JButton createCancelButton = new JButton("Cancel Changes");
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
@@ -40,14 +41,17 @@ public class ToolbarView extends JPanel {
 		
 		// initialize the main view toolbar buttons
 		JButton createButton = new JButton("Create Requirement");
+		
+		createCancelButton.setVisible(false);
 
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// set the Edit Estimates button invisible and bring up a create requirement pane
-				// createEditButton.setVisible(false);
-				ViewEventController.getInstance().createRequirement();				
+				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
+				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+					ViewEventController.getInstance().createRequirement();
+				}
 			}
 		});		
 		
@@ -56,13 +60,32 @@ public class ToolbarView extends JPanel {
 		createEditButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// check to see if any other tab is currently open
+				if (ViewEventController.getInstance().getMainView().getTabCount() == 1) {
+					// toggle the editing overview table mode
+					ViewEventController.getInstance().toggleEditingTable(false);
+					// edits the Edit Button text based on whether in editing overview table mode or not
+					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+						createEditButton.setText("Save Changes");
+						createCancelButton.setVisible(true);
+					}	
+					else {
+						createEditButton.setText("Edit Estimates");
+						createCancelButton.setVisible(false);
+					}
+				}
+			}
+		});
+		
+		createCancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable();
-				// edits the Edit Button text based on whether in editing overview table mode or not
-				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					createEditButton.setText("Stop Editing");
-				}	
-				else createEditButton.setText("Edit Estimates");
+				ViewEventController.getInstance().toggleEditingTable(true);
+
+				createEditButton.setText("Edit Estimates");
+				createCancelButton.setVisible(false);
+
 			}
 		});
 		
@@ -70,9 +93,13 @@ public class ToolbarView extends JPanel {
 		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
 		this.add(createButton);
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 25,SpringLayout.NORTH, this);
+		toolbarLayout.putConstraint(SpringLayout.NORTH, createEditButton, 5,SpringLayout.NORTH, this);
 		toolbarLayout.putConstraint(SpringLayout.WEST, createEditButton, 200, SpringLayout.WEST, this);
 		this.add(createEditButton);
+		
+		toolbarLayout.putConstraint(SpringLayout.NORTH, createCancelButton, 5,SpringLayout.SOUTH, createEditButton);
+		toolbarLayout.putConstraint(SpringLayout.WEST, createCancelButton, 200, SpringLayout.WEST, this);
+		this.add(createCancelButton);
 	}
 	
 	public JButton getEditButton() {
