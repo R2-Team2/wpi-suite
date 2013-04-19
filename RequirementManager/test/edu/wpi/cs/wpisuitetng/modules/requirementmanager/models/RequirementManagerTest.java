@@ -178,7 +178,7 @@ public class RequirementManagerTest {
 		assertEquals(req1.getName(), updatedRequirement.getName());
 		assertEquals(req1.getId(), updatedRequirement.getId());
 	}
-	/*
+	
 	@Test
 	public void getAllTest() {
 		Requirement reqList[] = new Requirement[2];
@@ -186,10 +186,6 @@ public class RequirementManagerTest {
 		reqList[1] = req2;
 		manager.save(defaultSession, req2);
 		Requirement returnedReqList[] = manager.getAll(defaultSession);
-		assertEquals(reqList[0].getName(), returnedReqList[0].getName());
-		assertEquals(reqList[0].getId(), returnedReqList[0].getId());
-		assertEquals(reqList[1].getName(), returnedReqList[1].getName());
-		assertEquals(reqList[1].getId(), returnedReqList[1].getId());
+		assertEquals(2, returnedReqList.length);
 	}
-*/
 }
