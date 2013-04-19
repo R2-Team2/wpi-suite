@@ -99,7 +99,7 @@ public class RequirementButtonPanel extends JPanel
 
 	public void fireDeleted(boolean b) 
 	{
-		this.buttonDelete.setEnabled(b);
+		this.buttonDelete.setEnabled(!b);
 	}
 
 	public void fireValid(boolean b) {

@@ -182,8 +182,10 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		this.add(labelPriority,"right, wrap");
 		this.add(boxEstimate,"width 50px, left");
 		this.add(priorityPanel,"right, wrap");
+		this.add(errorEstimate, "left, wrap");
 		this.add(labelTotalEstimate, "left, wrap");
-		this.add(boxTotalEstimate, "width 50px, left");		
+		this.add(boxTotalEstimate, "width 50px, left");	
+		this.add(parent, "right, wrap");
 	}
 
 	public void refreshInfo() {
@@ -315,35 +317,50 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	 * Validates the values of the fields in the requirement panel to ensure
 	 * they are valid
 	 */
-	public boolean validateFields() {
+	public boolean validateFields(boolean warn) {
 		boolean isNameValid;
 		boolean isDescriptionValid;
 		boolean isEstimateValid;
 	
 		if (getBoxName().getText().length() >= 100) {
 			isNameValid = false;
-			getErrorName().setText("No more than 100 chars");
-			getBoxName().setBorder(errorBorder);
-			getErrorName().setForeground(Color.RED);
+			if(warn)
+			{
+				getErrorName().setText("No more than 100 chars");
+				getBoxName().setBorder(errorBorder);
+				getErrorName().setForeground(Color.RED);
+			}
 		} else if (getBoxName().getText().trim().length() <= 0) {
 			isNameValid = false;
-			getErrorName().setText("** Name is REQUIRED");
-			getBoxName().setBorder(errorBorder);
-			getErrorName().setForeground(Color.RED);
+			if(warn)
+			{
+				getErrorName().setText("** Name is REQUIRED");
+				getBoxName().setBorder(errorBorder);
+				getErrorName().setForeground(Color.RED);
+			}
 		} else {
-			getErrorName().setText("");
-			getBoxName().setBorder(defaultBorder);
+			if(warn)
+			{
+				getErrorName().setText("");
+				getBoxName().setBorder(defaultBorder);
+			}
 			isNameValid = true;
 	
 		}
 		if (getBoxDescription().getText().trim().length() <= 0) {
 			isDescriptionValid = false;
-			getErrorDescription().setText("** Description is REQUIRED");
-			getErrorDescription().setForeground(Color.RED);
-			getBoxDescription().setBorder(errorBorder);
+			if(warn)
+			{
+				getErrorDescription().setText("** Description is REQUIRED");
+				getErrorDescription().setForeground(Color.RED);
+				getBoxDescription().setBorder(errorBorder);
+			}
 		} else {
-			getErrorDescription().setText("");
-			getBoxDescription().setBorder(defaultBorder);
+			if(warn)
+			{
+				getErrorDescription().setText("");
+				getBoxDescription().setBorder(defaultBorder);
+			}
 			isDescriptionValid = true;
 		}
 	
@@ -353,28 +370,37 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		} else if (!(isInteger(getBoxEstimate().getText()))) {
-			getErrorEstimate()
+			if(warn)
+			{
+				getErrorEstimate()
 					.setText("** Please enter a non-negative integer");
-			getBoxEstimate().setBorder(errorBorder);
-			getBoxEstimate().setBorder((new JTextField()).getBorder());
-	
+				getBoxEstimate().setBorder(errorBorder);
+				getBoxEstimate().setBorder((new JTextField()).getBorder());
+				getErrorEstimate().setForeground(Color.RED);
+			}
+
 			isEstimateValid = false;
-			getErrorEstimate().setForeground(Color.RED);
 		} else if (Integer.parseInt(getBoxEstimate().getText()) < 0) {
-			getErrorEstimate()
+			if(warn)
+			{
+				getErrorEstimate()
 					.setText("** Please enter a non-negative integer");
-			getBoxEstimate().setBorder(errorBorder);
+				getBoxEstimate().setBorder(errorBorder);
+				getErrorEstimate().setForeground(Color.RED);
+			}
 			isEstimateValid = false;
-			getErrorEstimate().setForeground(Color.RED);
 		} else if (Integer.parseInt(getBoxEstimate().getText()) == 0
 				&& !(getBoxIteration().getText().trim().equals("Backlog") || getBoxIteration()
 						.getText().trim().equals(""))) {
-			getErrorEstimate()
+			if(warn)
+			{
+				getErrorEstimate()
 					.setText(
 							"<html>** Cannot have an estimate of 0<br>and be assigned to an iteration.</html>");
-			getBoxEstimate().setBorder(errorBorder);
+				getBoxEstimate().setBorder(errorBorder);
+				getErrorEstimate().setForeground(Color.RED);
+			}
 			isEstimateValid = false;
-			getErrorEstimate().setForeground(Color.RED);
 		} else {
 			getErrorEstimate().setText("");
 			getBoxEstimate().setBorder(defaultBorder);
@@ -418,6 +444,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		getDropdownType().setSelectedItem(RequirementType.BLANK);
 		getBoxReleaseNum().setText("");
 		getBoxEstimate().setText("");
+		getDropdownStatus().setSelectedItem(RequirementStatus.NEW);
 		
 		this.getErrorEstimate().setText("");
 		getBoxEstimate().setBorder(defaultBorder);
@@ -425,6 +452,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		getBoxDescription().setBorder(defaultBorder);
 		this.getErrorName().setText("");
 		getBoxName().setBorder(defaultBorder);
+		this.getBoxIteration().setEnabled(false);
+		this.getDropdownStatus().setEnabled(false);
 		repaint(); //repaint the entire panel.
 	}
 
@@ -693,10 +722,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 			
 			return result == 0;
 		}
-		else
-		{
-			return true;
-		}
+		
+		return true;
 	}
 
 	public void setPriorityDropdown(RequirementPriority priority) {
@@ -718,80 +745,49 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		if (viewMode == RequirementViewMode.CREATING) {
-			this.parentPanel
-					.fireValid(getBoxName().getText().trim().length() > 0
-							&& getBoxDescription().getText().trim().length() > 0);
-			this.parentPanel.fireChanges(anythingChanged());
-			this.repaint();
+		this.parentPanel.fireValid(validateFields(false));
+		this.parentPanel.fireChanges(anythingChanged());
+	
+		if (getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED) {
+			enableComponents();
 		} else {
-			this.parentPanel.fireChanges(anythingChanged());
-	
-			if (getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED) {
-				enableComponents();
-			} else {
-				disableComponents();
-			}
-	
-			if (getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE
-					|| getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED) {
-				this.parentPanel.fireDeleted(true);
-			} else {
-				this.parentPanel.fireDeleted(false);
-			}
-	
-			if (currentRequirement.getParentID() != -1)
-				disableNonChildFields();
-	
-			this.repaint();
+			disableComponents();
 		}
+
+		if (getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE
+				|| getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED) {
+			this.parentPanel.fireDeleted(true);
+		} else {
+			this.parentPanel.fireDeleted(false);
+		}
+
+		if (currentRequirement.getParentID() != -1)
+			disableNonChildFields();
+
+		this.repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (viewMode == RequirementViewMode.CREATING) {
-			this.parentPanel
-					.fireValid(getBoxName().getText().trim().length() > 0
-							&& getBoxDescription().getText().trim().length() > 0);
-			this.parentPanel.fireChanges(anythingChanged());
-	
-			// check that estimate is valid to enable iterations.
-			boolean validEstimate = true;
-	
-			try {
-				int estimate = Integer.parseInt(getBoxEstimate().getText()
-						.trim());
-				validEstimate = estimate > 0;
-			} catch (Exception ex) {
-				validEstimate = false;
-			}
-	
-			this.getBoxIteration().setEnabled(validEstimate);
-			if (currentRequirement.getParentID() != -1)
-				this.disableNonChildFields();
-	
-			this.repaint();
-		} else {
-			this.parentPanel.fireChanges(anythingChanged());
-			this.parentPanel.fireChanges(anythingChanged());
-	
-			// check that estimate is valid to enable iterations.
-			boolean validEstimate = true;
-	
-			try {
-				int estimate = Integer.parseInt(getBoxEstimate().getText()
-						.trim());
-				validEstimate = estimate > 0;
-			} catch (Exception ex) {
-				validEstimate = false;
-			}
-	
-			this.getBoxIteration().setEnabled(validEstimate);
-			if (currentRequirement.getParentID() != -1)
-				disableNonChildFields();
-	
-			this.repaint();
+		this.parentPanel.fireValid(validateFields(false));
+		this.parentPanel.fireChanges(anythingChanged());
+		
+		// check that estimate is valid to enable iterations.
+		boolean validEstimate = true;
+
+		try {
+			int estimate = Integer.parseInt(getBoxEstimate().getText()
+					.trim());
+			validEstimate = estimate > 0;
+		} catch (Exception ex) {
+			validEstimate = false;
 		}
+
+		this.getBoxIteration().setEnabled(validEstimate);
+		if (currentRequirement.getParentID() != -1)
+			this.disableNonChildFields();
+
+		this.repaint();
 	}
 
 	@Override

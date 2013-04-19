@@ -130,6 +130,7 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getBoxDescription().setText("Desc.");
 		testEdit.getInfoPanel().keyReleased(null);
 		testEdit.getButtonPanel().getButtonOK().doClick();
+		testEdit.getInfoPanel().validateFields(true);
 		
 		// has to be nonnegative, has to have name, has to have description
 		assertEquals(errorMessageNoninterger,testEdit.getInfoPanel().getErrorEstimate().getText());
@@ -143,7 +144,8 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getBoxEstimate().setText("StringCharacter");
 		testEdit.getInfoPanel().getBoxDescription().setText(null);
 		testEdit.getButtonPanel().getButtonOK().doClick();
-		
+		testEdit.getInfoPanel().validateFields(true);
+
 		assertEquals(errorMessageNoMore100,testEdit.getInfoPanel().getErrorName().getText());
 		assertEquals(errorMessageNoninterger,testEdit.getInfoPanel().getErrorEstimate().getText());
 		assertEquals(errorMessageRequiredDescription,testEdit.getInfoPanel().getErrorDescription().getText());
@@ -181,7 +183,7 @@ public class EditRequirementPanelTest {
 		// release pressed key
 		testEdit.getInfoPanel().keyReleased(null);
 		
-		assertEquals(true, testEdit.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(true, testEdit.getButtonPanel().getButtonClear().isEnabled());
 		assertEquals(true, testEdit.getButtonPanel().getButtonCancel().isEnabled());
 		
@@ -191,7 +193,7 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().keyReleased(null);
 		
 		// can't create because no name/description, but a field has been changed
-		assertEquals(true, testEdit.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(true, testEdit.getButtonPanel().getButtonClear().isEnabled());
 		assertEquals(true, testEdit.getButtonPanel().getButtonCancel().isEnabled());
 		

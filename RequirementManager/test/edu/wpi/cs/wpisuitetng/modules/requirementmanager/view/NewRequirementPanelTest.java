@@ -149,10 +149,12 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().keyReleased(null);
 		
 		// can't create because no name/description, but a field has been changed
-		assertEquals(true, testNew.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(false, testNew.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(true, testNew.getButtonPanel().getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonPanel().getButtonCancel().isEnabled());
 		testNew.getButtonPanel().getButtonOK().doClick();
+		testNew.getInfoPanel().validateFields(true);
+
 		
 		// error messages are shown
 		assertEquals(errorMessageNoMore100,testNew.getInfoPanel().getErrorName().getText());
@@ -265,7 +267,7 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getPriorityMedium().doClick();
 		testNew.getInfoPanel().getBoxEstimate().setText("0");
 		testNew.getInfoPanel().keyReleased(null);
-		testNew.getInfoPanel().validateFields();
+		testNew.getInfoPanel().validateFields(true);
 		// click update (without closing in order to retrieve information)
 		testNew.getInfoPanel().update();
 		
@@ -282,7 +284,7 @@ public class NewRequirementPanelTest {
 		// add more fields
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.EPIC);
 		testNew.getInfoPanel().getPriorityLow().doClick();
-		testNew.getInfoPanel().validateFields();
+		testNew.getInfoPanel().validateFields(true);
 		testNew.getInfoPanel().update();
 
 		// check more results
@@ -292,7 +294,7 @@ public class NewRequirementPanelTest {
 		// add different fields
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.NONFUNCTIONAL);
 		testNew.getInfoPanel().getPriorityBlank().doClick();
-		testNew.getInfoPanel().validateFields();
+		testNew.getInfoPanel().validateFields(true);
 		testNew.getInfoPanel().update();
 
 		assertEquals(RequirementType.NONFUNCTIONAL,testNew.getDisplayRequirement().getType());

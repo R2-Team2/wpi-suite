@@ -313,10 +313,10 @@ public class Requirement extends AbstractModel {
 		
 		for(Requirement child : children)
 		{
-			childEstimates += child.getEstimate();
+			childEstimates += child.getTotalEstimate();
 		}
 		
-		return childEstimates + this.getEstimate();
+		return childEstimates;
 	}
 
 	/**

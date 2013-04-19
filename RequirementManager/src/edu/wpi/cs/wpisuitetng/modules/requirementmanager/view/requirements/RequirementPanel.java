@@ -77,7 +77,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	}
 	
 	public void OKPressed() {
-		if (infoPanel.validateFields()) {
+		if (infoPanel.validateFields(true)) {
 			infoPanel.update();
 			readyToClose = true;
 			ViewEventController.getInstance().removeTab(this);
