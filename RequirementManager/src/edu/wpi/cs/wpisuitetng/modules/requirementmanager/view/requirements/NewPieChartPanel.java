@@ -10,11 +10,14 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -22,6 +25,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.util.Rotation;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -180,6 +184,10 @@ public class NewPieChartPanel extends JScrollPane {
 		plot.setNoDataMessage("No data available");
 		plot.setCircular(true);
 		plot.setLabelGap(0.02);
+		//plot.setStartAngle(270);
+		//plot.setDirection(Rotation.ANTICLOCKWISE);
+		//Rotator rotator = new Rotator(plot);
+		//rotator.start();
 		return chart;
 
 	}
@@ -190,3 +198,42 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 }
+/*
+*//**
+ * The rotator.
+ *
+ *//*
+class Rotator extends Timer implements ActionListener {
+
+    *//** The plot. *//*
+    private PiePlot3D plot;
+
+    *//** The angle. *//*
+    private int angle = 270;
+
+    *//**
+     * Constructor.
+     *
+     * @param plot  the plot.
+     *//*
+    Rotator(final PiePlot3D plot) {
+        super(100, null);
+        this.plot = plot;
+        addActionListener(this);
+    }
+
+    *//**
+     * Modifies the starting angle.
+     *
+     * @param event  the action event.
+     *//*
+    public void actionPerformed(final ActionEvent event) {
+        this.plot.setStartAngle(this.angle);
+        this.angle = this.angle + 1;
+        if (this.angle == 360) {
+            this.angle = 0;
+        }
+    }
+
+}
+*/
