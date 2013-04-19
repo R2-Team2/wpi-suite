@@ -17,9 +17,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  */
 public class Transaction {
 	
-	String user;
-	long timestamp;
-	String message;
+	private String user;
+	private long timestamp;
+	private String message;
 	
 	/**
 	 * Constructor for a transaction
