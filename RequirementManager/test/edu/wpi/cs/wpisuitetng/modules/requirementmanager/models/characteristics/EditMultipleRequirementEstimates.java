@@ -36,9 +36,9 @@ public class EditMultipleRequirementEstimates {
 	@Test
 	public void testToggleEditing() {
 		assertEquals(false, vec.getOverviewTable().isCellEditable(0,7));
-		vec.toggleEditingTable();
+		vec.toggleEditingTable(false);
 		assertEquals(true, vec.getOverviewTable().isCellEditable(0, 7));
-		vec.toggleEditingTable();
+		vec.toggleEditingTable(false);
 		assertEquals(false, vec.getOverviewTable().isCellEditable(0, 7));
 	}
 
