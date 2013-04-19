@@ -12,7 +12,7 @@
  * @author Justin Hess
  * @author Christopher Botaish
  */
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -35,10 +35,16 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener
+public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener, RequirementTab
 {
 	private boolean enabled;
+	private RequirementTabsPanel parentPanel;
+	private RequirementViewMode viewMode;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
@@ -50,11 +56,13 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	 * Constructor for the subrequirement panel.
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
-	public SubrequirementPanel(Requirement requirementBeingEdited)
+	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
 	{
+		this.parentPanel = parentPanel;
+		this.viewMode = vm;
+		this.activeRequirement = requirementBeingEdited;
 		enabled = true;
 		JPanel contentPanel = new JPanel();
-		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
 		
@@ -240,5 +248,10 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		addNewButton.setEnabled(enabled);
 		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0);
 		existingReqSelector.enabledChildren(enabled);
+	}
+
+	@Override
+	public boolean readyToRemove() {
+		return true;
 	}
 }

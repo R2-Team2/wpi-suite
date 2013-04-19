@@ -57,9 +57,8 @@ public class RequirementSelector extends JPanel {
 	private RequirementSelectorListener listener;
 	private boolean enabled;
 
-	public RequirementSelector(RequirementSelectorListener listener,
-			Requirement requirement, RequirementSelectorMode mode,
-			boolean showBorder) {
+	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
+	{
 		this.enabled = false;
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;

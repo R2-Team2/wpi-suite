@@ -18,9 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 
@@ -34,8 +32,8 @@ public class ViewEventController {
 	private MainView main = null;
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
-	private ArrayList<EditRequirementPanel> listOfEditingPanels = new ArrayList<EditRequirementPanel>();
-
+	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
+	
 	/**
 	 * Sets the OverviewTable for the controller
 	 * @param overviewTable a given OverviewTable
@@ -81,7 +79,7 @@ public class ViewEventController {
 	 * Opens a new tab for the creation of a requirement.
 	 */
 	public void createRequirement() {
-		NewRequirementPanel newReq = new NewRequirementPanel();
+		RequirementPanel newReq = new RequirementPanel(-1);
 		main.addTab("New Req.", null, newReq, "New Requirement");
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
@@ -107,7 +105,7 @@ public class ViewEventController {
 	 * @param parentID
 	 */
 	public void createChildRequirement(int parentID) {
-		NewRequirementPanel newReq = new NewRequirementPanel(parentID);
+		RequirementPanel newReq = new RequirementPanel(parentID);
 		main.addTab("Add Child Req.", null, newReq, "Add Child Requirement");
 		main.invalidate(); //force the tabbedpane to redraw.
 		main.repaint();
@@ -118,11 +116,11 @@ public class ViewEventController {
 	 */
 	public void editRequirement(Requirement toEdit)
 	{
-		EditRequirementPanel exists = null;
+		RequirementPanel exists = null;
 		
-		for(EditRequirementPanel panel : listOfEditingPanels)
+		for(RequirementPanel panel : listOfEditingPanels)
 		{
-			if(panel.getRequirementBeingEdited() == toEdit)
+			if(panel.getDisplayRequirement() == toEdit)
 			{
 				exists = panel;
 				break;
@@ -131,7 +129,7 @@ public class ViewEventController {
 		
 		if(exists == null)
 		{
-			EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
+			RequirementPanel editPanel = new RequirementPanel(toEdit);
 			
 			StringBuilder tabName = new StringBuilder();
 			tabName.append(toEdit.getId()); 
@@ -199,9 +197,9 @@ public class ViewEventController {
 
 	public void removeTab(JComponent comp)
 	{
-		if(comp instanceof EditRequirementPanel)
+		if(comp instanceof RequirementPanel)
 		{
-			if(!((EditRequirementPanel)comp).readyToRemove()) return;
+			if(!((RequirementPanel)comp).readyToRemove()) return;
 			this.listOfEditingPanels.remove(comp);
 
 		}
@@ -326,11 +324,11 @@ public class ViewEventController {
 	 * @param Requirement newChild that is being created
 	 */
 	public void refreshEditRequirementPanel(Requirement newChild) {
-		for(EditRequirementPanel newEditPanel : listOfEditingPanels)
+		for(RequirementPanel newEditPanel : listOfEditingPanels)
 		{
-			if(newEditPanel.getRequirementBeingEdited() == newChild)
+			if(newEditPanel.getDisplayRequirement() == newChild)
 			{
-				newEditPanel.refreshEditPanel();
+				newEditPanel.refreshRequirementPanel();
 				break;
 			}
 			
