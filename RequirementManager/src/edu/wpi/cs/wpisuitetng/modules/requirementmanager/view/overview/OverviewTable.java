@@ -206,6 +206,9 @@ public class OverviewTable extends JTable
 			
 			// updates requirement on the server
 			UpdateRequirementController.getInstance().updateRequirement(req);
+			
+			// refresh table to get rid of cell highlights
+			this.refresh();
 		}		
 	}
 }

@@ -91,9 +91,12 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         		if (!(cellEstimate == reqEstimate)) {
         			//Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         			//cellComponent.
+        			// highlight row in green if there is a change in the estimate
         			setBackground(Color.green);
         			//return cellComponent;
         		}
+        		// remove the highlight if the estimate is returned to its initial value
+        		else setBackground(Color.white);
         	}
         }
                 
