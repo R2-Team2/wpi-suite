@@ -60,16 +60,19 @@ public class ToolbarView extends JPanel {
 		createEditButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable(false);
-				// edits the Edit Button text based on whether in editing overview table mode or not
-				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					createEditButton.setText("Save Changes");
-					createCancelButton.setVisible(true);
-				}	
-				else {
-					createEditButton.setText("Edit Estimates");
-					createCancelButton.setVisible(false);
+				// check to see if any other tab is currently open
+				if (ViewEventController.getInstance().getMainView().getTabCount() == 1) {
+					// toggle the editing overview table mode
+					ViewEventController.getInstance().toggleEditingTable(false);
+					// edits the Edit Button text based on whether in editing overview table mode or not
+					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+						createEditButton.setText("Save Changes");
+						createCancelButton.setVisible(true);
+					}	
+					else {
+						createEditButton.setText("Edit Estimates");
+						createCancelButton.setVisible(false);
+					}
 				}
 			}
 		});
@@ -79,9 +82,10 @@ public class ToolbarView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
 				ViewEventController.getInstance().toggleEditingTable(true);
-				
+
 				createEditButton.setText("Edit Estimates");
 				createCancelButton.setVisible(false);
+
 			}
 		});
 		

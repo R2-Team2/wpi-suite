@@ -190,6 +190,14 @@ public class ViewEventController {
 	{
 		return overviewTable.getSelectedRows();
 	}
+	
+	/**
+	 * Returns the main view
+	 * @return the main view
+	 */
+	public MainView getMainView() {
+		return main;
+	}
 
 	/**
 	 * Assigns all currently selected rows to the backlog.
