@@ -38,6 +38,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
 	private JTextField boxIteration;
+	private JTextField boxChildEstimate;
+	private JLabel labelChildEstimate;
 	private JTextField boxTotalEstimate;
 	private JLabel labelTotalEstimate;
 	final private Border defaultBorder = (new JTextField()).getBorder();
@@ -81,7 +83,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		JLabel labelReleaseNum = new JLabel("Release Number");
 		JLabel labelDescription = new JLabel("Description *");
 		JLabel labelIteration = new JLabel("Iteration");
-		labelTotalEstimate = new JLabel("Child Estimate");
+		labelChildEstimate = new JLabel("Child Estimate");
+		labelTotalEstimate = new JLabel("Total Estimate");
 		JLabel labelType = new JLabel("Type");
 		JLabel labelStatus = new JLabel("Status");
 		JLabel labelPriority = new JLabel("Priority");
@@ -144,13 +147,18 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		boxEstimate = (new JTextField());
 		boxEstimate.setPreferredSize(new Dimension(50, 20));
 		boxEstimate.addKeyListener(this);
-		boxTotalEstimate = (new JTextField());
+		boxChildEstimate = (new JTextField());
+		boxChildEstimate.setEnabled(false);
+		boxTotalEstimate = new JTextField();
+		boxTotalEstimate.setEnabled(false);
 		errorEstimate = (new JLabel());
 		
-		labelTotalEstimate.setVisible(!currentRequirement.getChildren()
-				.isEmpty());
-		boxTotalEstimate.setVisible(
-				!currentRequirement.getChildren().isEmpty());
+		boolean hasChildren = !currentRequirement.getChildren().isEmpty();
+		labelChildEstimate.setVisible(hasChildren);
+		boxChildEstimate.setVisible(hasChildren);
+		
+		labelTotalEstimate.setVisible(hasChildren);
+		boxTotalEstimate.setVisible(hasChildren);
 
 		parent = new JLabel();
 		
@@ -183,18 +191,22 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		this.add(boxEstimate,"width 50px, left");
 		this.add(priorityPanel,"right, wrap");
 		this.add(errorEstimate, "left, wrap");
-		this.add(labelTotalEstimate, "left, wrap");
-		this.add(boxTotalEstimate, "width 50px, left");	
+		this.add(labelChildEstimate, "left, wrap");
+		this.add(boxChildEstimate, "width 50px, left");	
 		this.add(parent, "right, wrap");
+		this.add(labelTotalEstimate, "left, wrap");
+		this.add(boxTotalEstimate, "width 50px, left");
 	}
 
 	public void refreshInfo() {
 		boolean showTotalEstimate = !currentRequirement.getChildren().isEmpty();
-		labelTotalEstimate.setVisible(showTotalEstimate);
-		getBoxEstimate().setVisible(showTotalEstimate);
-		getBoxTotalEstimate().setText(
-				Integer.toString(currentRequirement.getTotalEstimate()));
+		labelChildEstimate.setVisible(showTotalEstimate);
+		getBoxChildEstimate().setText(
+				Integer.toString(currentRequirement.getChildEstimate()));
+		getBoxChildEstimate().setVisible(showTotalEstimate);
+		getBoxTotalEstimate().setText(Integer.toString(currentRequirement.getTotalEstimate()));
 		getBoxTotalEstimate().setVisible(showTotalEstimate);
+		labelTotalEstimate.setVisible(showTotalEstimate);
 	
 		if (currentRequirement.getParentID() != -1) {
 			parent.setText("Child of \""
@@ -280,6 +292,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		getBoxDescription().setBorder(defaultBorder);
 		this.getErrorName().setText("");
 		getBoxName().setBorder(defaultBorder);
+		getBoxChildEstimate().setText(Integer.toString(currentRequirement.getChildEstimate()));
+		getBoxTotalEstimate().setText(Integer.toString(currentRequirement.getTotalEstimate()));
 	
 		repaint();
 	}
@@ -531,6 +545,11 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 				currentRequirement);
 	
 		ViewEventController.getInstance().refreshTable();
+		
+		if(currentRequirement.getParentID() != -1)
+		{
+			ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement.getParent());
+		}
 	}
 
 	private void createRequirement() {
@@ -597,8 +616,10 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 
 		RequirementModel.getInstance().addRequirement(currentRequirement);
 		
-		ViewEventController.getInstance().refreshEditRequirementPanel(RequirementModel.getInstance().getRequirement(currentRequirement.getParentID()));
-	
+		if(currentRequirement.getParentID() != -1)
+		{
+			ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement.getParent());
+		}
 	}
 
 	public void deleteRequirement() {
@@ -769,17 +790,21 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		// check that estimate is valid to enable iterations.
 		boolean validEstimate = true;
 
+		int totalEstimate = currentRequirement.getChildEstimate();
 		try {
 			int estimate = Integer.parseInt(getBoxEstimate().getText()
 					.trim());
 			validEstimate = estimate > 0;
+			totalEstimate += estimate;
 		} catch (Exception ex) {
 			validEstimate = false;
 		}
-
+		
+		getBoxTotalEstimate().setText(Integer.toString(totalEstimate));
 		this.getBoxIteration().setEnabled(validEstimate);
 		if (currentRequirement.getParentID() != -1)
 			this.disableNonChildFields();
+
 
 		this.repaint();
 	}
@@ -862,11 +887,19 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		this.boxIteration = boxIteration;
 	}
 
+	public JTextField getBoxChildEstimate() {
+		return boxChildEstimate;
+	}
+
+	public void setBoxChildEstimate(JTextField boxTotalEstimate) {
+		this.boxChildEstimate = boxTotalEstimate;
+	}
+	
 	public JTextField getBoxTotalEstimate() {
 		return boxTotalEstimate;
 	}
 
-	public void setBoxTotalEstimate(JTextField boxTotalEstimate) {
+	public void getBoxTotalEstimate(JTextField boxTotalEstimate) {
 		this.boxTotalEstimate = boxTotalEstimate;
 	}
 

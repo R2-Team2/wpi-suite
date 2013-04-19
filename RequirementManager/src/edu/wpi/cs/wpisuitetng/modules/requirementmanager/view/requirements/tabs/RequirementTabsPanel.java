@@ -34,7 +34,7 @@ public class RequirementTabsPanel extends JTabbedPane
 		this.add("Acceptance Tests", testPanel);
 		this.add("Subrequirements", subReqPanel);
 		
-		this.setMinimumSize(new Dimension(100,100));		
+		this.setMinimumSize(new Dimension(200,100));		
 	}
 
 	public void updateHistoryPanel() 

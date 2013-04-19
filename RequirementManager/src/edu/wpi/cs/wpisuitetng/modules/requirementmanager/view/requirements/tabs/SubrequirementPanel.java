@@ -14,6 +14,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -40,7 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener, RequirementTab
+public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementTab
 {
 	private boolean enabled;
 	private RequirementTabsPanel parentPanel;
@@ -58,11 +59,11 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	 */
 	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
 	{
+		this.setLayout(new BorderLayout());
 		this.parentPanel = parentPanel;
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
 		enabled = true;
-		JPanel contentPanel = new JPanel();
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
 		
@@ -102,25 +103,18 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		});
 		removeButton.setEnabled(false);
 
-		// Layout manager for subrequirement panel
-		GridBagLayout layout = new GridBagLayout();
-		contentPanel.setLayout(layout);
-		GridBagConstraints c = new GridBagConstraints();
+		this.add(scroll, BorderLayout.CENTER); // Add scroll pane to panel
 
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
-		c.weightx = 1; // Fill horizontal space
-		contentPanel.add(scroll, c); // Add scroll pane to panel
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridy = 1;
 		existingReqSelector.addButton(1,addNewButton);
 		existingReqSelector.addButton(0,removeButton);
-		contentPanel.add(existingReqSelector,c);
+		this.add(existingReqSelector,BorderLayout.SOUTH);
+		
 		subRequirementTable = buildTable();
 		scroll.setViewportView(subRequirementTable);
-		this.setViewportView(contentPanel);
+		
 		this.refreshTable();
+		
+		if(viewMode == RequirementViewMode.CREATING) enableChildren(false);
 	}
 
 	/**
