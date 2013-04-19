@@ -216,7 +216,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		priorityMedium.addItemListener(this);
 		priorityLow = (new JRadioButton("Low"));
 		priorityLow.addItemListener(this);
-		priorityBlank = (new JRadioButton("Undecided"));
+		priorityBlank = (new JRadioButton("None"));
 		priorityBlank.addItemListener(this);
 		
 		group = new ButtonGroup();
