@@ -49,6 +49,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * Saves a Iteration when it is received from a client
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
+	 * @param s the session
+	 * @param content an iteration that has been converted to Json
+	 * @return the iteration passed into the method converted from Json to an iteration
 	 */
 	@Override
 	public Iteration makeEntity(Session s, String content) throws WPISuiteException {
@@ -110,7 +113,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @throws WPISuiteException user isn't authorized for the given role
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		User[] userArray = new User[2];
+		User user = (User) db.retrieve(User.class, "username", session.getUsername()).toArray(userArray)[0];
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
@@ -147,14 +151,20 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 		return db.retrieveAll(new Iteration()).size();
 	}
 
+	/**
+	 * Updates the given iteration in the database
+	 * @param session the session the iteration to be updated is in
+	 * @param content the updated iteration as a Json string
+	 * @return the old iteration prior to updating
+	 */
 	@Override
 	public Iteration update(Session session, String content) throws WPISuiteException {
 		
 		Iteration updatedIteration = Iteration.fromJson(content);
 		/*
-		 * Because of the disconnected objects problem in db4o, we can't just save updatedDefect.
-		 * We have to get the original defect from db4o, copy properties from updatedDefect,
-		 * then save the original defect again.
+		 * Because of the disconnected objects problem in db4o, we can't just save updatedIteration.
+		 * We have to get the original iteration from db4o, copy properties from updatedIteration,
+		 * then save the original iteration again.
 		 */
 		List<Model> oldIterations = db.retrieve(Iteration.class, "id", updatedIteration.getId(), session.getProject());
 		if(oldIterations.size() < 1 || oldIterations.get(0) == null) {
