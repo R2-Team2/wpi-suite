@@ -247,7 +247,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		this.enabled = enabled;
 		addNewButton.setEnabled(enabled);
 		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0);
-		existingReqSelector.enabledChildren(enabled);
+		existingReqSelector.enableChildren(enabled);
 	}
 
 	@Override

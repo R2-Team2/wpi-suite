@@ -81,7 +81,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		JLabel labelReleaseNum = new JLabel("Release Number");
 		JLabel labelDescription = new JLabel("Description *");
 		JLabel labelIteration = new JLabel("Iteration");
-		JLabel labelTotalEstimate = new JLabel("Child Estimate");
+		labelTotalEstimate = new JLabel("Child Estimate");
 		JLabel labelType = new JLabel("Type");
 		JLabel labelStatus = new JLabel("Status");
 		JLabel labelPriority = new JLabel("Priority");
@@ -716,14 +716,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	public boolean readyToRemove()
 	{
 		if(viewMode == RequirementViewMode.CREATING) return true;
-		if(anythingChanged())
-		{
-			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			
-			return result == 0;
-		}
 		
-		return true;
+		return !anythingChanged();
 	}
 
 	public void setPriorityDropdown(RequirementPriority priority) {

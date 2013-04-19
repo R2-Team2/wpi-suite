@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -66,8 +67,8 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	private void buildLayout()
 	{
 		buttonPanel = new RequirementButtonPanel(this, viewMode, displayRequirement);
-		infoPanel = new RequirementInformationPanel(this, viewMode, displayRequirement);
 		tabsPanel = new RequirementTabsPanel(this, viewMode, displayRequirement);
+		infoPanel = new RequirementInformationPanel(this, viewMode, displayRequirement);
 		
 		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, infoPanel, tabsPanel);
 		
@@ -117,6 +118,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 
 	public void fireDeleted(boolean b) {
 		this.buttonPanel.fireDeleted(b);
+		this.tabsPanel.fireDeleted(b);
 	}
 
 	public void fireValid(boolean b) {		
@@ -134,7 +136,17 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
-		return infoPanel.readyToRemove() && tabsPanel.readyToRemove();
+		
+		if(infoPanel.readyToRemove() && tabsPanel.readyToRemove())
+		{
+			return true;
+		}
+		else
+		{
+			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			
+			return result == 0;
+		}
 	}
 	
 	public RequirementInformationPanel getInfoPanel()

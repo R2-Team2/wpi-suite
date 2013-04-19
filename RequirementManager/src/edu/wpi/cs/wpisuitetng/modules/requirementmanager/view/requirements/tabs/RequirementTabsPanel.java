@@ -45,4 +45,9 @@ public class RequirementTabsPanel extends JTabbedPane
 	public boolean readyToRemove() {
 		return historyPanel.readyToRemove() && notePanel.readyToRemove() && testPanel.readyToRemove() && subReqPanel.readyToRemove();
 	}
+	
+	public void fireDeleted(boolean b)
+	{
+		subReqPanel.enableChildren(!b);
+	}
 }

@@ -226,7 +226,7 @@ public class RequirementSelector extends JPanel {
 	 * @param whether
 	 *            its enabled or not
 	 */
-	public void enabledChildren(boolean enabled) {
+	public void enableChildren(boolean enabled) {
 		this.enabled = enabled;
 		okButton.setEnabled(enabled && requirementList.getSelectedIndices().length != 0);
 		requirementList.setEnabled(enabled);
