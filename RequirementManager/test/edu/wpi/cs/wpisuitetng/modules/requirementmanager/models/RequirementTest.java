@@ -12,8 +12,8 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -23,11 +23,8 @@ import java.util.ListIterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
@@ -53,7 +50,8 @@ public class RequirementTest {
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
 		IterationModel.getInstance().setBacklog(new Iteration(1, "Backlog"));
-	}
+		RequirementModel.getInstance().emptyModel();
+	}	
 
 	@Test
 	public void jSONConversionTests() {
@@ -201,6 +199,71 @@ public class RequirementTest {
 		Requirement r = new Requirement(0, "name", "desc");
 		r.setAssignedTo(peopleAssignedTo);
 		assertEquals(r.getAssignedTo(), peopleAssignedTo);
+	}
+	
+	@Test
+	public void testSubRequirementEstimateSumming()
+	{
+		Requirement parentRequirement = new Requirement(0, "", "");
+		parentRequirement.setEstimate(1);
+		
+		Requirement childRequirement = new Requirement(1, "", "");
+		childRequirement.setEstimate(32);
+		
+		try {
+			childRequirement.setParent(parentRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Requirement childRequirement2 = new Requirement(2, "", "");
+		childRequirement2.setEstimate(7);
+		
+		try {
+			childRequirement2.setParent(parentRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Requirement grandChildRequirement = new Requirement(3, "","");
+		grandChildRequirement.setEstimate(12);
+		try {
+			grandChildRequirement.setParent(childRequirement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		RequirementModel.getInstance().addRequirement(parentRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement2);
+		RequirementModel.getInstance().addRequirement(grandChildRequirement);
+
+		
+		assertEquals(parentRequirement.getEstimate(), 19);
+		assertEquals(childRequirement.getEstimate(), 12);
+		assertEquals(childRequirement2.getEstimate(), 7);
+		assertEquals(grandChildRequirement.getEstimate(), 12);
+		
+	}
+	
+	@Test
+	public void testZeroEstimate()
+	{
+		Requirement parentRequirement = new Requirement(0,"","");
+		
+		assertEquals(parentRequirement.getEstimate(), 0);
+	}
+	
+	@Test
+	public void testNoChildEstimate()
+	{
+		Requirement parentRequirement = new Requirement(0,"","");
+		parentRequirement.setEstimate(3);
+		
+		assertEquals(parentRequirement.getEstimate(),3);
 	}
 	
 }
