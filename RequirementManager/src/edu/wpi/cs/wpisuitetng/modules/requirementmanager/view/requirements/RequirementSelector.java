@@ -46,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-public class RequirementSelector extends JPanel {
+public class RequirementSelector extends JScrollPane {
 	final private Dimension buttonDimensions = new Dimension(125, 25);
 	private JList<Requirement> requirementList;
 	private List<JButton> buttonList;
@@ -59,12 +59,13 @@ public class RequirementSelector extends JPanel {
 
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
 	{
+		JPanel contentPanel = new JPanel();
 		this.enabled = false;
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
 		this.activeRequirement = requirement;
 		this.mode = mode;
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		contentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JScrollPane listScroll = new JScrollPane();
 		listScroll.setPreferredSize(new Dimension(300, 125));
@@ -73,8 +74,8 @@ public class RequirementSelector extends JPanel {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		this.add(listScroll);
-		this.add(buttonPanel);
+		contentPanel.add(listScroll);
+		contentPanel.add(buttonPanel);
 
 		String okText;
 		if (this.mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
@@ -130,6 +131,7 @@ public class RequirementSelector extends JPanel {
 				}
 			}
 		});
+		this.setViewportView(contentPanel);
 	}
 
 	/**
