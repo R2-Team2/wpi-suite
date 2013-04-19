@@ -34,7 +34,6 @@ public class Note {
 		this.user = user;
 		this.timestamp = timestamp;
 		this.message = message;
-		
 	}
 
 	/**
@@ -54,27 +53,11 @@ public class Note {
 	}
 
 	/**
-	 * Setter for the user
-	 * @param user The user to set
-	 */
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	/**
 	 * Getter for the timestamp
 	 * @return The timestamp
 	 */
 	public long getTimestamp() {
 		return timestamp;
-	}
-
-	/**
-	 * Setter for the timestamp
-	 * @param timestamp the timestamp to set
-	 */
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	/**
@@ -85,11 +68,4 @@ public class Note {
 		return message;
 	}
 
-	/**
-	 * Setter for the message
-	 * @param message The message to set
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
 }
