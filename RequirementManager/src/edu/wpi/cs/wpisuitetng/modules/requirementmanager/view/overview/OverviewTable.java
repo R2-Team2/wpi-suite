@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -28,6 +29,7 @@ public class OverviewTable extends JTable
 {
 	private DefaultTableModel tableModel = null;
 	private boolean initialized;
+	private boolean isInEditMode;
 	/**
 	 * Sets initial table view
 	 * 
@@ -43,6 +45,7 @@ public class OverviewTable extends JTable
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
 		setFillsViewportHeight(true);
+		isInEditMode = false;
 
 		ViewEventController.getInstance().setOverviewTable(this);
 		initialized = false;
@@ -64,7 +67,8 @@ public class OverviewTable extends JTable
 					}
 				}
 				
-				if (e.getClickCount() == 2)
+				// only allow edit requirement panel to pop up outside of Multiple Requirement Editing Mode
+				if ((e.getClickCount() == 2) && !isInEditMode)
 				{
 					ViewEventController.getInstance().editSelectedRequirement();
 				}
@@ -106,7 +110,28 @@ public class OverviewTable extends JTable
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return false;
+		// if the column contains the estimate and the table is in edit mode, make the cell editable
+		if ((col == 7) && (isInEditMode == true)) return true;
+		
+		else return false;
+	}
+	
+	/**
+	 * Used to toggle the isInEditMode to indicate whether the requirements in the Overview table are 
+	 * being edited or not 
+	 * 
+	 * @param beingEdited
+	 */
+	public void setEditFlag(boolean beingEdited) {
+		isInEditMode = beingEdited;
+	}
+	
+	
+	/**
+	 * @return isInEditMode
+	 */
+	public boolean getEditFlag(){
+		return isInEditMode;
 	}
 	
 	
@@ -133,5 +158,48 @@ public class OverviewTable extends JTable
 		}
 
 		super.paintComponent(g);
+	}
+	
+	/**
+	 * saves the changes made to the Overview Table
+	 */
+	public void saveChanges() {
+		// iterate through the rows of the overview table
+		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
+			
+			// extract the ID number displayed in the row
+			String rowIDstr = this.tableModel.getValueAt(row, 0).toString();
+			int rowID = Integer.parseInt(rowIDstr);
+			
+			// use the ID number in the row to retrieve the requirement represented by the row
+			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
+									
+			// update the estimate with the value in the cell at row, column 7			
+			String cellEstimateStr = this.tableModel.getValueAt(row, 7).toString();
+			int cellEstimate = req.getEstimate();
+			boolean formatError = false;
+			// make sure the value in the cell is a valid integer
+			try {
+				cellEstimate = Integer.parseInt(cellEstimateStr);
+			}
+			catch (NumberFormatException nfe){
+				formatError = true;
+			}
+			
+			if (formatError) {
+				cellEstimate = req.getEstimate();
+				this.setValueAt(cellEstimate, row, 7);
+			}
+			else {
+				cellEstimate = Integer.parseInt(cellEstimateStr);
+			}
+			req.setEstimate(cellEstimate);
+			
+			// updates requirement on the server
+			UpdateRequirementController.getInstance().updateRequirement(req);
+			
+			// refresh table to get rid of cell highlights
+			this.refresh();
+		}		
 	}
 }

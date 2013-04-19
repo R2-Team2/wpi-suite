@@ -9,6 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -25,6 +26,12 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
@@ -74,6 +81,24 @@ public class MainView extends JTabbedPane {
 			}	
 		});
 		
+		// add listener for changes in the overview tables
+		ViewEventController.getInstance().getOverviewTable().getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// check for Editing Multiple Requirements Mode		
+				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) { 
+					// find the cell that was changed
+					int otRow = e.getLastRow();
+					int otCol = e.getColumn();
+					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
+					// highlight the cell
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
+					//ViewEventController.getInstance().getOverviewTable().repaint();
+				}
+			}
+		});
+
+
 		final JPopupMenu popup = new JPopupMenu();
 		popup.add(closeAll);
 		popup.add(closeOthers);
@@ -130,10 +155,8 @@ public class MainView extends JTabbedPane {
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-
 		        if(dragging) {
-		          int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
-
+		        int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
 		          if(tabNumber >= 0) {
 		            Component comp = getComponentAt(draggedTabIndex);
 		            String title = getTitleAt(draggedTabIndex);
@@ -145,9 +168,19 @@ public class MainView extends JTabbedPane {
 		        dragging = false;
 		        tabImage = null;
 		      }
-			
-			
 		});
+		
+		final MainView panel = this;
+		this.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	            if (panel.getTitleAt(panel.getSelectedIndex()) == "Overview") {
+	            	ViewEventController.getInstance().getToolbar().getEditButton().setVisible(true);
+	            }
+	            else {
+	            	ViewEventController.getInstance().getToolbar().getEditButton().setVisible(false);
+	            }
+	        }
+	    });
 	}
 	
 	
@@ -163,7 +196,7 @@ public class MainView extends JTabbedPane {
 	
 
 	/**
-	 * Overridden insertTab function to add the closable tab element.
+	 * Overridden insertTab function to add the closa)ble tab element.
 	 * 
 	 * @param title	Title of the tab
 	 * @param icon	Icon for the tab
