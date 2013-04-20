@@ -205,10 +205,9 @@ ItemListener, RequirementPanelListener {
 		contentPanel.add(labelPriority, "right, wrap");
 		contentPanel.add(boxEstimate, "width 50px, left");
 		contentPanel.add(priorityPanel, "right, wrap");
-		contentPanel.add(errorEstimate, "left, wrap");
-		contentPanel.add(labelChildEstimate, "left, wrap");
-		contentPanel.add(boxChildEstimate, "width 50px, left");	
+		contentPanel.add(labelChildEstimate, "left");
 		contentPanel.add(parent, "right, wrap");
+		contentPanel.add(boxChildEstimate, "width 50px, left, wrap");	
 		contentPanel.add(labelTotalEstimate, "left, wrap");
 		contentPanel.add(boxTotalEstimate, "width 50px, left");
 		
@@ -224,10 +223,9 @@ ItemListener, RequirementPanelListener {
 		boxChildEstimate.setText(
 				Integer.toString(currentRequirement.getChildEstimate()));
 		boxChildEstimate.setVisible(showTotalEstimate);
-		boxChildEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
-		boxChildEstimate.setVisible(showTotalEstimate);
+		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
+		boxTotalEstimate.setVisible(showTotalEstimate);
 		labelTotalEstimate.setVisible(showTotalEstimate);
-
 		if (currentRequirement.getParentID() != -1) {
 			parent.setText("Child of \""
 					+ currentRequirement.getParent().getName() + "\"");
@@ -240,9 +238,7 @@ ItemListener, RequirementPanelListener {
 	}
 
 	@Override
-	public void fireDeleted(boolean b) {
-		getDropdownStatus().setSelectedItem(RequirementStatus.DELETED);		
-	}
+	public void fireDeleted(boolean b) {}
 
 	@Override
 	public void fireValid(boolean b) {}
@@ -422,14 +418,14 @@ ItemListener, RequirementPanelListener {
 			isEstimateValid = true;
 		} else if (!(isInteger(getBoxEstimate().getText()))) {
 			getErrorEstimate()
-			.setText("<html>** Please enter<br> a non-negative integer<html>");
+			.setText("Estimate must be non-negative integer");
 			getBoxEstimate().setBorder(errorBorder);
 			getBoxEstimate().setBorder((new JTextField()).getBorder());
 			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
 		} else if (Integer.parseInt(getBoxEstimate().getText()) < 0) {
 			getErrorEstimate()
-			.setText("<html>** Please enter <br>a non-negative integer<html>");
+			.setText("Estimate must be non-negative integer");
 			getBoxEstimate().setBorder(errorBorder);
 			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
@@ -438,7 +434,7 @@ ItemListener, RequirementPanelListener {
 						.getText().trim().equals(""))) {
 			getErrorEstimate()
 			.setText(
-					"<html>** Cannot have an estimate of 0<br>and be assigned to an iteration.</html>");
+					"Cannot have an estimate of 0 and be assigned to an iteration.");
 			getBoxEstimate().setBorder(errorBorder);
 			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
@@ -447,7 +443,7 @@ ItemListener, RequirementPanelListener {
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
-
+		parentPanel.displayError(getErrorEstimate().getText());
 		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
 
