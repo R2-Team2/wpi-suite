@@ -36,12 +36,12 @@ public class EditMultipleRequirementEstimates {
 		String [][] exData = new String[1][8];
 		
 		for(int i=0; i<8; i++){
-			exData[0][i] = "cats";
+			exData[0][i] = "1";
 		}
 		
 		vec = ViewEventController.getInstance();
 		vec.setMainView(new MainView());
-		vec.setOverviewTable(new OverviewTable(exData, null));
+		vec.setOverviewTable(new OverviewTable(exData, exData[0]));
 		vec.setToolBar(new ToolbarView(true));
 	}
 	
