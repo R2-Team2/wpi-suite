@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
@@ -41,6 +42,7 @@ public class OverviewTable extends JTable
 		this.tableModel = new DefaultTableModel(columnNames, 0);
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
+		this.setDefaultEditor(Object.class, new OverviewTableCellEditor(new JTextField()));
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -201,5 +203,5 @@ public class OverviewTable extends JTable
 		
 		// refresh table to get rid of cell highlights
 		this.refresh();
-	}
+	}	
 }

@@ -27,7 +27,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 	/**
 	 * Constructor for the overviewtablecellrenderer.
 	 * 
-	 * This alternative renderer is used to repaint the table cells when they are sorted.
+	 * This alternative renderer is used to repaint the table cells when they are sorted
+	 * and paint cells for Multiple Requirement editing mode
 	 */
     public OverviewTableCellRenderer() {
         super();
@@ -86,15 +87,20 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	}
 
         	if (formatError) {
-        		System.out.println("Invalid entry into cell");
+        		// highlight the cell in red if there is an invalid entry and add a tool tip
+        		if (column == 7) {
+        			setBackground(Color.red);	 
+        			setToolTipText("Estimate must be an integer. This value will be ignored if changes are saved.");
+        		}
         	}
         	else {
         		// compare the estimate in the cell to the requirement's estimate
         		if (!(cellEstimate == reqEstimate) && column == 7) {
-        			// highlight row in green if there is a change in the estimate
+        			// highlight the cell in green if there is a change in the estimate
         			setBackground(Color.green);        		
         		}
-        		// else, remove the highlight if the estimate is returned to its initial value
+        		// else, remove the highlight and tool tip if the estimate is returned to its initial value
+        		setToolTipText(null);
         	}
         }
         
