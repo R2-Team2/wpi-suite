@@ -92,13 +92,10 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	else {
         		// compare the estimate in the cell to the requirement's estimate
         		if (!(cellEstimate == reqEstimate) && column == 7) {
-        			//Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        			//cellComponent.
         			// highlight row in green if there is a change in the estimate
-        			setBackground(Color.green);
-        			//return cellComponent;
+        			setBackground(Color.green);        		
         		}
-        		// remove the highlight if the estimate is returned to its initial value
+        		// else, remove the highlight if the estimate is returned to its initial value
         	}
         }
         
