@@ -194,8 +194,8 @@ public class NewPieChartPanel extends JScrollPane {
 		plot.setNoDataMessage("No data available");
 		plot.setCircular(true);
 		plot.setLabelGap(0.02);
-		//plot.setStartAngle(270);
-		//plot.setDirection(Rotation.ANTICLOCKWISE);
+		plot.setStartAngle(270);
+		plot.setDirection(Rotation.ANTICLOCKWISE);
 		//Rotator rotator = new Rotator(plot);
 		//rotator.start();
 		return chart;
@@ -208,42 +208,4 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 }
-/*
-*//**
- * The rotator.
- *
- *//*
-class Rotator extends Timer implements ActionListener {
 
-    *//** The plot. *//*
-    private PiePlot3D plot;
-
-    *//** The angle. *//*
-    private int angle = 270;
-
-    *//**
-     * Constructor.
-     *
-     * @param plot  the plot.
-     *//*
-    Rotator(final PiePlot3D plot) {
-        super(100, null);
-        this.plot = plot;
-        addActionListener(this);
-    }
-
-    *//**
-     * Modifies the starting angle.
-     *
-     * @param event  the action event.
-     *//*
-    public void actionPerformed(final ActionEvent event) {
-        this.plot.setStartAngle(this.angle);
-        this.angle = this.angle + 1;
-        if (this.angle == 360) {
-            this.angle = 0;
-        }
-    }
-
-}
-*/
