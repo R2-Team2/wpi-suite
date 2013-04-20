@@ -37,7 +37,7 @@ public class GetRequirementsController implements ActionListener {
 	}
 	
 	/**
-	 * Returns the instance of the GetRequirementController or creates one if it does not
+	 * @return the instance of the GetRequirementController or creates one if it does not
 	 * exist.
 	 */
 	public static GetRequirementsController getInstance()
@@ -75,7 +75,7 @@ public class GetRequirementsController implements ActionListener {
 	 * Add the given requirements to the local model (they were received from the core).
 	 * This method is called by the GetRequirementsRequestObserver
 	 * 
-	 * @param an array of requirements received from the server
+	 * @param requirements array of requirements received from the server
 	 */
 	public void receivedRequirements(Requirement[] requirements) {
 		// Empty the local model to eliminate duplications

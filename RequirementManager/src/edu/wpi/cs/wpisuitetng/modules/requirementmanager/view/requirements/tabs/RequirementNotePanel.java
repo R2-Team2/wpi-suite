@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Rolling Thunder
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.GridBagConstraints;
@@ -13,26 +22,27 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class RequirementNotePanel extends JPanel implements RequirementTab {
-	private RequirementTabsPanel parentPanel;
-	private RequirementViewMode viewMode;
-	private Requirement currentRequirement;
+public class RequirementNotePanel extends JPanel implements RequirementPanelListener {
+	private final RequirementTabsPanel parentPanel;
+	private final RequirementViewMode viewMode;
+	private final Requirement currentRequirement;
 	
-	private JTextArea noteMessage;
-	private JScrollPane noteScroll;
-	private JButton buttonAddNote;
-	private JButton buttonClear;
-	private JLabel errorMsg;
+	private final JTextArea noteMessage;
+	private final JScrollPane noteScroll;
+	private final JButton buttonAddNote;
+	private final JButton buttonClear;
+	private final JLabel errorMsg;
 	
 	public RequirementNotePanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
-		this.currentRequirement = current;
-		this.viewMode = vm;
-		this.parentPanel = parent;
+		currentRequirement = current;
+		viewMode = vm;
+		parentPanel = parent;
 		
-		this.noteMessage = new JTextArea();
-		this.noteScroll = new JScrollPane();
+		noteMessage = new JTextArea();
+		noteScroll = new JScrollPane();
 
 		// Buttons to be added to the bottom of the NotePanel
 		buttonAddNote = new JButton("Add Note");
@@ -47,14 +57,14 @@ public class RequirementNotePanel extends JPanel implements RequirementTab {
 		errorMsg = new JLabel();
 
 		// Layout manager for entire note panel
-		GridBagLayout layout = new GridBagLayout();
+		final GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
-		GridBagConstraints c = new GridBagConstraints();
+		final GridBagConstraints c = new GridBagConstraints();
 
 		// Layout manager for panel that contains the buttons
-		GridBagLayout bottomLayout = new GridBagLayout();
+		final GridBagLayout bottomLayout = new GridBagLayout();
 		JPanel bottomPanel = new JPanel(bottomLayout);
-		GridBagConstraints bc = new GridBagConstraints();
+		final GridBagConstraints bc = new GridBagConstraints();
 
 		// Create new scroll pane for notes
 		noteScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -92,11 +102,17 @@ public class RequirementNotePanel extends JPanel implements RequirementTab {
 		this.refresh();
 	}
 	
+	/**
+	 * Refreshes the note panel
+	 */
 	private void refresh()
 	{
 		noteScroll.setViewportView(SingleNotePanel.createList(currentRequirement.getNotes()));
 	}
 	
+	/**
+	 * Sets up the listeners 
+	 */
 	private void setupListeners()
 	{
 		// Listener for add note button
@@ -139,5 +155,22 @@ public class RequirementNotePanel extends JPanel implements RequirementTab {
 	@Override
 	public boolean readyToRemove() {
 		return noteMessage.getText().length() == 0;
+	}
+
+	@Override
+	public void fireDeleted(boolean b) {
+	}
+
+	@Override
+	public void fireValid(boolean b) {		
+	}
+
+	@Override
+	public void fireChanges(boolean b) {		
+	}
+
+	@Override
+	public void fireRefresh() {
+		this.refresh();
 	}
 }

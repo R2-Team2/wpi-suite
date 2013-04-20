@@ -49,7 +49,7 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * Returns the instance of the Iteration model singleton.
+	 * @return the instance of the Iteration model singleton.
 	 */
 	public static IterationModel getInstance() {
 		if (instance == null) {
@@ -191,7 +191,7 @@ public class IterationModel extends AbstractListModel {
 	
 	/**
 	 * Return the iteration with the specified name
-	 * @param the name of the iteration
+	 * @param forName name of the iteration
 	 * @return the iteration
 	 */
 	public Iteration getIteration(String forName)

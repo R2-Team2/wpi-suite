@@ -32,7 +32,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -55,12 +54,19 @@ public class RequirementSelector extends JScrollPane {
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
 	private RequirementSelectorListener listener;
-	private boolean enabled;
+	private boolean isEnabled;
 
+	/**
+	 * Constructor for the requirementselector
+	 * @param listener the listener to report to
+	 * @param requirement the requirement to fill the editor for
+	 * @param mode the mode of the selector
+	 * @param showBorder whether to show border or not
+	 */
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
 	{
 		JPanel contentPanel = new JPanel();
-		this.enabled = false;
+		this.isEnabled = false;
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
 		this.activeRequirement = requirement;
@@ -105,7 +111,7 @@ public class RequirementSelector extends JScrollPane {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				okButton.setEnabled(requirementList.getSelectedValues().length > 0
-						&& enabled);
+						&& isEnabled);
 			}
 		});
 
@@ -229,7 +235,7 @@ public class RequirementSelector extends JScrollPane {
 	 *            its enabled or not
 	 */
 	public void enableChildren(boolean enabled) {
-		this.enabled = enabled;
+		this.isEnabled = enabled;
 		okButton.setEnabled(enabled && requirementList.getSelectedIndices().length != 0);
 		requirementList.setEnabled(enabled);
 	}

@@ -287,6 +287,7 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
 		testEdit.getInfoPanel().update();
 		
+		// check the result
 		assertEquals(updateTestName,testEdit.getDisplayRequirement().getName());
 		assertEquals(updateTestDescription,testEdit.getDisplayRequirement().getDescription());
 		assertEquals(RequirementType.THEME,testEdit.getDisplayRequirement().getType());

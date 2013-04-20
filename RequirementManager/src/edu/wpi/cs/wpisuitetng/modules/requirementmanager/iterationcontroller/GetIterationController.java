@@ -37,7 +37,7 @@ public class GetIterationController implements ActionListener {
 	}
 	
 	/**
-	 * Returns the instance of the GetIterationController or creates one if it does not
+	 * @return the instance of the GetIterationController or creates one if it does not
 	 * exist.
 	 */
 	public static GetIterationController getInstance()
@@ -75,7 +75,7 @@ public class GetIterationController implements ActionListener {
 	 * Add the given Iterations to the local model (they were received from the core).
 	 * This method is called by the GetIterationsRequestObserver
 	 * 
-	 * @param an array of Iterations received from the server
+	 * @param Iterations array of Iterations received from the server
 	 */
 	public void receivedIterations(Iteration[] Iterations) {
 		// Make sure the response was not null
