@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
@@ -69,13 +68,13 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         // check to see if in multiple requirements editing mode
         if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
         	// extract the ID number displayed in the row
-        	String rowIDstr = model.getValueAt(row, 0).toString();
+        	String rowIDstr = model.getValueAt(modelRow, 0).toString();
         	int rowID = Integer.parseInt(rowIDstr);
         	// retrieve the requirement with ID rowID and the requirement's estimate 
         	Requirement req = RequirementModel.getInstance().getRequirement(rowID);
         	int reqEstimate = req.getEstimate();
         	// extract the value of the cell 
-        	String cellEstimateStr = model.getValueAt(row, 7).toString();
+        	String cellEstimateStr = model.getValueAt(modelRow, 7).toString();
         	boolean formatError = false;
         	int cellEstimate = 0;
         	// make sure the value in the cell is a valid integer

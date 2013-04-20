@@ -170,7 +170,7 @@ public class MainView extends JTabbedPane {
 		final MainView panel = this;
 		this.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if (panel.getTitleAt(panel.getSelectedIndex()) == "Overview") {
+				if (panel.getTitleAt(panel.getSelectedIndex()).equals("Overview")) {
 					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(true);
 				}
 				else {

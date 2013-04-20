@@ -137,7 +137,7 @@ public class NewRequirementPanelTest {
 		
 		for(int i = 0; i<100; i++)
 		{
-			hundredCharText = hundredCharText +"0";
+			hundredCharText += "0";
 		}
 		
 		// fill in invalid field

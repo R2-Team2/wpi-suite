@@ -49,6 +49,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 
 	/**
 	 * Constructor for the subrequirement panel.
+	 * @param parentPanel parent
+	 * @param vm viewmode
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
 	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
@@ -228,7 +230,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	
 	/**
 	 * disable child panels
-	 * @param whether its enabled or not
+	 * @param enabled whether its enabled or not
 	 */
 	public void enableChildren(boolean enabled)
 	{

@@ -46,7 +46,7 @@ public class ViewEventController {
 	/**
 	 * Default constructor for ViewEventController.  Is protected to prevent instantiation.
 	 */
-	protected ViewEventController() {}
+	private ViewEventController() {}
 
 	/**
 	 * Returns the singleton instance of the vieweventcontroller.
@@ -100,6 +100,7 @@ public class ViewEventController {
 
 	/**
 	 * Opens a new tab for the creation of a pie chart.
+	 * @param title the title of the pie chart
 	 */
 	public void createPieChart(String title){
 		NewPieChartPanel newPie = new NewPieChartPanel(title);   
@@ -125,6 +126,7 @@ public class ViewEventController {
 	}
 	/**
 	 * Opens a new tab for the editing of a requirement
+	 * @param toEdit the req to edit
 	 */
 	public void editRequirement(Requirement toEdit)
 	{
@@ -165,6 +167,7 @@ public class ViewEventController {
 
 	/**
 	 * Toggles the Overview Table multiple requirement editing mode
+	 * @param cancel whether to cancel or not
 	 */
 	public void toggleEditingTable(boolean cancel){
 		// check to see if Multiple Requirement Editing Mode is enabled and if the user is editing a cell		
@@ -205,8 +208,8 @@ public class ViewEventController {
 
 	/**
 	 * Removes the tab for the given JComponent
+	 * @param comp the component to remove
 	 */
-
 	public void removeTab(JComponent comp)
 	{
 		if(comp instanceof RequirementPanel)
@@ -333,7 +336,7 @@ public class ViewEventController {
 	/**
 	 * Refreshes the EditRequirementPanel after creating a new child
 	 * 
-	 * @param Requirement newChild that is being created
+	 * @param newChild req that is being created
 	 */
 	public void refreshEditRequirementPanel(Requirement newChild) {
 		for(RequirementPanel newEditPanel : listOfEditingPanels)

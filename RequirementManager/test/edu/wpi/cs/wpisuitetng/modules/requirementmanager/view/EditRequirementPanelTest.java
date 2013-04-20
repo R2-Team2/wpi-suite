@@ -121,7 +121,7 @@ public class EditRequirementPanelTest {
 		// Generate Hundred character string
 		for(int i = 0; i<100; i++)
 		{
-			hundredCharText = hundredCharText +"0";
+			hundredCharText += "0";
 		}
 		
 		// adding invalid fields

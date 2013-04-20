@@ -42,7 +42,11 @@ public class SingleAcceptanceTestPanel extends JPanel
 	private AcceptanceTest test;
 	private Requirement requirement;
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Constructor for the single acceptance test panel panel
+	 * @param test current test
+	 * @param req current requirement
+	 */
 	public SingleAcceptanceTestPanel(Requirement req, AcceptanceTest test)
 	{
 		this.requirement = req;
@@ -121,7 +125,7 @@ public class SingleAcceptanceTestPanel extends JPanel
 	
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
-	 * @param list List of note used to create panel
+	 * @param req requirement used to create panel
 	 * @return Panel containing all of the notes given to the method
 	 */
 	public static JPanel createList(Requirement req)

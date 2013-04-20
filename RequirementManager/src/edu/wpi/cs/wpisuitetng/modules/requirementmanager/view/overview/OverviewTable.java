@@ -111,7 +111,7 @@ public class OverviewTable extends JTable
 	public boolean isCellEditable(int row, int col)
 	{
 		// if the column contains the estimate and the table is in edit mode, make the cell editable
-		if ((col == 7) && (isInEditMode == true)) return true;
+		if ((col == 7) && (isInEditMode)) return true;
 		
 		else return false;
 	}

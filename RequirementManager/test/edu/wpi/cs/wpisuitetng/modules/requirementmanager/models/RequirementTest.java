@@ -70,8 +70,6 @@ public class RequirementTest {
 		String jsonMessage = object.toJSON();
 		Requirement newObject = Requirement.fromJson(jsonMessage); // change
 																	// here...
-		assertTrue(newObject instanceof Requirement);
-
 		assertEquals(origObject.getId(), 4);
 		assertEquals(origObject.getName(), "Test");
 		assertEquals(origObject.getRelease(), "1.1.01");

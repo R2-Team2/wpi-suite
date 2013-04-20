@@ -38,6 +38,12 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	
 	private JScrollPane testsScroll;
 
+	/**
+	 * Constructor for the requirement test panel
+	 * @param parent parent panel
+	 * @param vM view mode
+	 * @param req current requirement
+	 */
 	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vM, Requirement req) {
 		this.currentRequirement = req;
 		this.parentPanel = parent;
