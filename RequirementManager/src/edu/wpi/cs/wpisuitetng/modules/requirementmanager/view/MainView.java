@@ -90,10 +90,10 @@ public class MainView extends JTabbedPane {
 					// find the cell that was changed
 					int otRow = e.getLastRow();
 					int otCol = e.getColumn();
+					// extract the value within the cell
 					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
 					// highlight the cell
-					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
-					//ViewEventController.getInstance().getOverviewTable().repaint();
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);					
 				}
 			}
 		});
