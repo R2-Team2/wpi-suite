@@ -13,6 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,7 +31,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	private final RequirementTabsPanel parentPanel;
 	private final RequirementViewMode viewMode;
 	private final Requirement currentRequirement;
-	
+	private int notesAdded;
 	private final JTextArea noteMessage;
 	private final JScrollPane noteScroll;
 	private final JButton buttonAddNote;
@@ -46,6 +48,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		currentRequirement = current;
 		viewMode = vm;
 		parentPanel = parent;
+		notesAdded = 0;
 		
 		noteMessage = new JTextArea();
 		noteScroll = new JScrollPane();
@@ -53,6 +56,19 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		// Buttons to be added to the bottom of the NotePanel
 		buttonAddNote = new JButton("Add Note");
 		buttonClear = new JButton("Clear");
+		buttonAddNote.setEnabled(false);
+		buttonClear.setEnabled(false);
+		
+		noteMessage.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				boolean enabledButtons = !noteMessage.getText().trim().isEmpty();
+				buttonAddNote.setEnabled(enabledButtons);
+				buttonClear.setEnabled(enabledButtons);
+			}
+		});
 
 		// Create text area for note to be added
 		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
@@ -135,12 +151,14 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 					// Clear all text areas
 					noteMessage.setText("");
 					errorMsg.setText("");
+					buttonClear.setEnabled(false);
+					buttonAddNote.setEnabled(false);
 
 					// Add note to requirement
 					currentRequirement.getNotes().add(msg);
 
 					refresh();
-
+					notesAdded++;
 					// Update database so requirement stores new note
 					UpdateRequirementController.getInstance()
 							.updateRequirement(currentRequirement);
@@ -154,13 +172,15 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 				// Clear all text fields
 				noteMessage.setText("");
 				errorMsg.setText("");
+				buttonClear.setEnabled(false);
+				buttonAddNote.setEnabled(false);
 			}
 		});
 	}
 
 	@Override
 	public boolean readyToRemove() {
-		return noteMessage.getText().length() == 0;
+		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == RequirementViewMode.EDITING);
 	}
 
 	@Override

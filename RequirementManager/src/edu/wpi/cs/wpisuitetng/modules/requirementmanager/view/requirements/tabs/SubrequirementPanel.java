@@ -37,7 +37,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private boolean isEnabled;
 	private RequirementTabsPanel parentPanel;
 	private RequirementViewMode viewMode;
 	private Requirement activeRequirement;
@@ -59,7 +58,6 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		this.parentPanel = parentPanel;
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
-		isEnabled = true;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
 		
@@ -110,7 +108,12 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		
 		this.refreshTable();
 		
-		if(viewMode == RequirementViewMode.CREATING) enableChildren(false);
+		if(viewMode == RequirementViewMode.CREATING)
+		{
+			removeButton.setEnabled(false);
+			addNewButton.setEnabled(false);
+			existingReqSelector.enableChildren(false);
+		}
 	}
 
 	/**
@@ -178,7 +181,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		{
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0 && isEnabled);
+				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0);
 			}		
 		});
 		
@@ -226,18 +229,6 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	@Override
 	public void requirementSelected() {
 		refreshTable();
-	}
-	
-	/**
-	 * disable child panels
-	 * @param enabled whether its enabled or not
-	 */
-	public void enableChildren(boolean enabled)
-	{
-		this.isEnabled = enabled;
-		addNewButton.setEnabled(enabled && viewMode != RequirementViewMode.CREATING);
-		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0 && viewMode != RequirementViewMode.CREATING);
-		existingReqSelector.enableChildren(enabled && viewMode != RequirementViewMode.CREATING);
 	}
 
 	@Override

@@ -9,11 +9,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -28,6 +30,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	private final JButton buttonClear;
 	private final JButton buttonDelete;
 	private final Requirement currentRequirement;
+	private final JLabel errorMessage;
 	private boolean changes;
 	private boolean valid;
 	
@@ -45,7 +48,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		currentRequirement = curr;
 		this.parentPanel = parentPanel;
 		viewMode = mode;
-		
+		errorMessage = new JLabel("");
+		errorMessage.setForeground(Color.RED);
 		String okString;
 		final String cancelString = "Cancel";
 		String clearString;
@@ -75,6 +79,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		this.add(buttonCancel);
 		buttonOK.setEnabled(false);
 		buttonClear.setEnabled(false);
+		this.add(errorMessage);
 		setupListeners();
 	}
 	
@@ -137,6 +142,14 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 
 	@Override
 	public void fireRefresh() {}
+	
+	/**
+	 * Shows the error message in the button panel.
+	 * @param msg the error message
+	 */
+	public void displayError(String msg){
+		errorMessage.setText(msg);
+	}
 
 	/**
 	 * 

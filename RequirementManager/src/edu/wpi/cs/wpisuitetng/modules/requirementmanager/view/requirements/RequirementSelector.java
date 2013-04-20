@@ -54,7 +54,6 @@ public class RequirementSelector extends JScrollPane {
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
 	private RequirementSelectorListener listener;
-	private boolean isEnabled;
 
 	/**
 	 * Constructor for the requirementselector
@@ -66,7 +65,6 @@ public class RequirementSelector extends JScrollPane {
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
 	{
 		JPanel contentPanel = new JPanel();
-		this.isEnabled = false;
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
 		this.activeRequirement = requirement;
@@ -110,8 +108,7 @@ public class RequirementSelector extends JScrollPane {
 		requirementList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				okButton.setEnabled(requirementList.getSelectedValues().length > 0
-						&& isEnabled);
+				okButton.setEnabled(requirementList.getSelectedIndices().length > 0);
 			}
 		});
 
@@ -241,8 +238,7 @@ public class RequirementSelector extends JScrollPane {
 	 *            its enabled or not
 	 */
 	public void enableChildren(boolean enabled) {
-		this.isEnabled = enabled;
-		okButton.setEnabled(enabled && requirementList.getSelectedIndices().length != 0);
+		okButton.setEnabled(enabled);
 		requirementList.setEnabled(enabled);
 	}
 }

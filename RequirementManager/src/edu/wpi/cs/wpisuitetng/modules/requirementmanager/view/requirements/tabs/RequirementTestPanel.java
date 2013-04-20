@@ -35,7 +35,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	private Requirement currentRequirement;
 	private RequirementTabsPanel parentPanel;
 	private RequirementViewMode viewMode;
-	
+	private int testsAdded;
 	private JScrollPane testsScroll;
 
 	/**
@@ -48,7 +48,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 		this.currentRequirement = req;
 		this.parentPanel = parent;
 		this.viewMode = vM;
-		
+		testsAdded = 0;
 		// Button used to add a test and update status
 		JButton buttonAddTest = new JButton("Add Test");
 
@@ -141,7 +141,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 
 						// Update history panel
 						parentPanel.fireRefresh();
-
+						testsAdded++;
 						// Update database so requirement stores new test
 						UpdateRequirementController.getInstance()
 								.updateRequirement(currentRequirement);
@@ -160,7 +160,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 
 	@Override
 	public boolean readyToRemove() {
-		return true;
+		return testsAdded == 0 || viewMode == RequirementViewMode.EDITING;
 	}
 
 	@Override
