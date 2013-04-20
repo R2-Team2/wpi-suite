@@ -193,7 +193,7 @@ public class MainView extends JTabbedPane {
 
 
 	/**
-	 * Overridden insertTab function to add the closa)ble tab element.
+	 * Overridden insertTab function to add the closable tab element.
 	 * 
 	 * @param title	Title of the tab
 	 * @param icon	Icon for the tab
