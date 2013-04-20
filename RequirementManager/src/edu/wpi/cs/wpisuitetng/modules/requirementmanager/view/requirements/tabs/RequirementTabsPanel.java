@@ -31,6 +31,12 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	private final RequirementTestPanel testPanel;
 	private final SubrequirementPanel subReqPanel;
 	
+	/**
+	 * Constructor for the requirement tabs panel
+	 * @param parentPanel parent panel
+	 * @param viewMode view mode
+	 * @param currentRequirement current requirement
+	 */
 	public RequirementTabsPanel(RequirementPanel parentPanel, RequirementViewMode viewMode, Requirement currentRequirement) 
 	{
 		this.parentPanel = parentPanel;

@@ -85,25 +85,6 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * Removes the Iteration with the given ID
-	 * 
-	 * @param removeId
-	 *            The ID number of the Iteration to be removed from the list of
-	 *            Iterations in the project
-	 */
-	@Deprecated
-	private void removeIteration(int removeId) {
-		// iterate through list of Iterations until id of project is found
-		for (int i = 0; i < this.listOfIterations.size(); i++) {
-			if (listOfIterations.get(i).getId() == removeId){
-			// remove the id
-			listOfIterations.remove(i);
-			break;
-			}
-		}
-	}
-
-	/**
 	 * Provides the number of elements in the list of Iterations for the
 	 * project. This function is called internally by the JList in
 	 * NewIterationPanel. Returns elements in reverse order, so the newest

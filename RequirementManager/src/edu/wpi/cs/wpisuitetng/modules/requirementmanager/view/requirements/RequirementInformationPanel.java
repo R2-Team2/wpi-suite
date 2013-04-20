@@ -50,8 +50,8 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	private JLabel labelChildEstimate;
 	private JTextField boxTotalEstimate;
 	private JLabel labelTotalEstimate;
-	final private Border defaultBorder = (new JTextField()).getBorder();
-	final private Border errorBorder = BorderFactory
+	private final Border defaultBorder = (new JTextField()).getBorder();
+	private final Border errorBorder = BorderFactory
 			.createLineBorder(Color.RED);
 
 	private JLabel parent;

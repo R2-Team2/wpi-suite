@@ -21,11 +21,17 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewT
  */
 public class IterationModelTest {
 
+	/**
+	 * Test getting the iteration model
+	 */
 	@Test
 	public void createNotNullIterationModel() {
 		assertNotNull(IterationModel.getInstance());
 	}
 
+	/**
+	 * Test emptying the model.
+	 */
 	@Test
 	public void testEmptyModel() {
 		ViewEventController viewCon = ViewEventController.getInstance();
@@ -43,6 +49,9 @@ public class IterationModelTest {
 		assertEquals(0, itrModel.getSize());
 	}
 	
+	/**
+	 * Test size and adding
+	 */
 	@Test
 	public void testGetSizeAndAddIterations() {
 		Iteration itrList[] = new Iteration[]{
@@ -55,6 +64,9 @@ public class IterationModelTest {
 		assertEquals(3, itrModel.getSize());
 	}
 	
+	/**
+	 * test retrieving the element at a given location
+	 */
 	@Test
 	public void testGetElementAt() {
 		ViewEventController viewCon = ViewEventController.getInstance();
@@ -73,6 +85,9 @@ public class IterationModelTest {
 		assertEquals("Iteration2", itrModel.getElementAt(1).getName());
 	}
 	
+	/**
+	 * Test getting a single iteration
+	 */
 	@Test
 	public void testGetIteration() {
 		ViewEventController viewCon = ViewEventController.getInstance();
@@ -98,6 +113,9 @@ public class IterationModelTest {
 		assertEquals("Backlog", itrModel.getIteration("").getName());
 	}
 	
+	/**
+	 * test getting all iterations
+	 */
 	@Test
 	public void testGetIterations() {
 		ViewEventController viewCon = ViewEventController.getInstance();

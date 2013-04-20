@@ -36,6 +36,12 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	private final JButton buttonClear;
 	private final JLabel errorMsg;
 	
+	/**
+	 * Constructor for the requirement note panel
+	 * @param parent parent panel
+	 * @param vm view mode
+	 * @param current current requirement
+	 */
 	public RequirementNotePanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
 		currentRequirement = current;
 		viewMode = vm;

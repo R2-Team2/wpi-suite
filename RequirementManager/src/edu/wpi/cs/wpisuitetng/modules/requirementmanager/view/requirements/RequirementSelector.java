@@ -46,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class RequirementSelector extends JScrollPane {
-	final private Dimension buttonDimensions = new Dimension(125, 25);
+	private final Dimension buttonDimensions = new Dimension(125, 25);
 	private JList<Requirement> requirementList;
 	private List<JButton> buttonList;
 	private JButton okButton;
@@ -128,7 +128,7 @@ public class RequirementSelector extends JScrollPane {
 				clearSelection(e);
 			}
 
-			public void clearSelection(MouseEvent e) {
+			private void clearSelection(MouseEvent e) {
 				Point pClicked = e.getPoint();
 				int index = requirementList.locationToIndex(pClicked);
 				Rectangle rec = requirementList.getCellBounds(index, index);
@@ -163,6 +163,9 @@ public class RequirementSelector extends JScrollPane {
 		buttonPanel.repaint();
 	}
 
+	/**
+	 * Refreshes the requirement selector list.
+	 */
 	public void refreshList() {
 		ListModel<Requirement> reqList = new DefaultListModel<Requirement>();
 
@@ -180,6 +183,9 @@ public class RequirementSelector extends JScrollPane {
 		requirementList.setModel(reqList);
 	}
 
+	/**
+	 * Performs actions when the ok button is pressed.
+	 */
 	private void okPressed() {
 		if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
 			Object[] selectedList = requirementList.getSelectedValues();
@@ -231,7 +237,7 @@ public class RequirementSelector extends JScrollPane {
 	/**
 	 * disable child panels
 	 * 
-	 * @param whether
+	 * @param enabled whether
 	 *            its enabled or not
 	 */
 	public void enableChildren(boolean enabled) {

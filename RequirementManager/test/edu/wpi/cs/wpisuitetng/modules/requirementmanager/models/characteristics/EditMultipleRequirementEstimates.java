@@ -10,12 +10,11 @@
 
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -29,6 +28,9 @@ public class EditMultipleRequirementEstimates {
 	private MainView mainView;
 	private OverviewTable table;
 	
+	/**
+	 * Setup the tests
+	 */
 	@Before
 	public void setUp(){
 		String [][] exData = new String[1][8];
@@ -43,6 +45,9 @@ public class EditMultipleRequirementEstimates {
 		vec.setToolBar(new ToolbarView(true));
 	}
 	
+	/**
+	 * Test toggle editing
+	 */
 	@Test
 	public void testToggleEditing() {
 		assertEquals(false, vec.getOverviewTable().isCellEditable(0,7));
