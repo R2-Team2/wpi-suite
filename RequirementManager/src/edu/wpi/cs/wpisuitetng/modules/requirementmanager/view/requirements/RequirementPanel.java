@@ -52,6 +52,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.viewMode = (RequirementViewMode.CREATING);
 		
 		this.displayRequirement = new Requirement();
+		this.displayRequirement.setId(-2);
 		
 		try 
 		{

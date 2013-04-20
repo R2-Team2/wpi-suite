@@ -744,9 +744,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	 * @return whether the panel can be removed.
 	 */
 	public boolean readyToRemove()
-	{
-		if(viewMode == RequirementViewMode.CREATING) return true;
-		
+	{	
 		return !anythingChanged();
 	}
 
@@ -844,64 +842,32 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		return errorName;
 	}
 
-	public void setErrorName(JLabel errorName) {
-		this.errorName = errorName;
-	}
-
 	public JLabel getErrorDescription() {
 		return errorDescription;
-	}
-
-	public void setErrorDescription(JLabel errorDescription) {
-		this.errorDescription = errorDescription;
 	}
 
 	public JLabel getErrorEstimate() {
 		return errorEstimate;
 	}
 
-	public void setErrorEstimate(JLabel errorEstimate) {
-		this.errorEstimate = errorEstimate;
-	}
-
 	public JTextField getBoxName() {
 		return boxName;
-	}
-
-	public void setBoxName(JTextField boxName) {
-		this.boxName = boxName;
 	}
 
 	public JTextField getBoxReleaseNum() {
 		return boxReleaseNum;
 	}
 
-	public void setBoxReleaseNum(JTextField boxReleaseNum) {
-		this.boxReleaseNum = boxReleaseNum;
-	}
-
 	public JTextArea getBoxDescription() {
 		return boxDescription;
-	}
-
-	public void setBoxDescription(JTextArea boxDescription) {
-		this.boxDescription = boxDescription;
 	}
 
 	public JTextField getBoxIteration() {
 		return boxIteration;
 	}
 
-	public void setBoxIteration(JTextField boxIteration) {
-		this.boxIteration = boxIteration;
-	}
-
 	public JTextField getBoxChildEstimate() {
 		return boxChildEstimate;
-	}
-
-	public void setBoxChildEstimate(JTextField boxTotalEstimate) {
-		this.boxChildEstimate = boxTotalEstimate;
 	}
 	
 	public JTextField getBoxTotalEstimate() {
@@ -916,55 +882,27 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		return dropdownType;
 	}
 
-	public void setDropdownType(JComboBox<RequirementType> dropdownType) {
-		this.dropdownType = dropdownType;
-	}
-
 	public JComboBox<RequirementStatus> getDropdownStatus() {
 		return dropdownStatus;
 	}
 
-	public void setDropdownStatus(JComboBox<RequirementStatus> dropdownStatus) {
-		this.dropdownStatus = dropdownStatus;
-	}
-
 	public JTextField getBoxEstimate() {
 		return boxEstimate;
-	}
-
-	public void setBoxEstimate(JTextField boxEstimate) {
-		this.boxEstimate = boxEstimate;
 	}
 	
 	public JRadioButton getPriorityHigh() {
 		return priorityHigh;
 	}
 
-	public void setPriorityHigh(JRadioButton priorityHigh) {
-		this.priorityHigh = priorityHigh;
-	}
-
 	public JRadioButton getPriorityMedium() {
 		return priorityMedium;
-	}
-
-	public void setPriorityMedium(JRadioButton priorityMedium) {
-		this.priorityMedium = priorityMedium;
 	}
 
 	public JRadioButton getPriorityLow() {
 		return priorityLow;
 	}
 
-	public void setPriorityLow(JRadioButton priorityLow) {
-		this.priorityLow = priorityLow;
-	}
-
 	public JRadioButton getPriorityBlank() {
 		return priorityBlank;
-	}
-
-	public void setPriorityBlank(JRadioButton priorityBlank) {
-		this.priorityBlank = priorityBlank;
 	}
 }
