@@ -59,9 +59,6 @@ public class Requirement extends AbstractModel {
 	/** the actual effort of completing the requirement */
 	private int actualEffort;
 
-	/** a flag indicating if the requirement is active or deleted */
-	private boolean activeStatus;
-
 	/** history of transactions of the requirement */
 	private TransactionHistory history;
 
@@ -102,7 +99,6 @@ public class Requirement extends AbstractModel {
 		status = RequirementStatus.NEW;
 		priority = RequirementPriority.BLANK;
 		estimate = actualEffort = 0;
-		activeStatus = true;
 		history = new TransactionHistory();
 		iteration = "Backlog";
 		type = RequirementType.BLANK;
@@ -709,11 +705,6 @@ public class Requirement extends AbstractModel {
 		this.assignedTo = assignedTo;
 	}
 
-	/** Sets a flag in the requirement to indicate it's deleted */
-	public void remove() {
-		this.activeStatus = false;
-	}
-
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -763,10 +754,10 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Returns whether the requirement has been deleted.
 	 * 
-	 * @return delete status of the requirement.
+	 * @return true if the status of the requirement is deleted and false otherwise.
 	 */
 	public boolean isDeleted() {
-		return !activeStatus;
+		return status == RequirementStatus.DELETED;
 	}
 
 	/**

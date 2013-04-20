@@ -74,8 +74,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	// retrieve the requirement with ID rowID and the requirement's estimate 
         	Requirement req = RequirementModel.getInstance().getRequirement(rowID);
         	int reqEstimate = req.getEstimate();
-        	// extract the value of the cell 
-        	String cellEstimateStr = model.getValueAt(modelRow, 7).toString();
+        	// extract the value of the cell, trimming beginning and ending spaces 
+        	String cellEstimateStr = model.getValueAt(modelRow, 7).toString().trim();
         	boolean formatError = false;
         	int cellEstimate = 0;
         	// make sure the value in the cell is a valid integer

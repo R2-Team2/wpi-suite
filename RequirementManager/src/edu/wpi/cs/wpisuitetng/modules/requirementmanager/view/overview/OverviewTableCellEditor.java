@@ -45,8 +45,8 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 			@Override
 			// fire when a key on the keyboard is released
 			public void keyReleased(KeyEvent e) {
-				// extract the text from the text field
-				String cellText = c.getText();
+				// extract the text from the text field, trimming beginning and ending spaces 
+				String cellText = c.getText().trim();
 				boolean formatError = false;
 				int cellInt = 0;
 				// attempt to parse the text to an integer 
