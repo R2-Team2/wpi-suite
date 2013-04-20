@@ -164,21 +164,15 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	}
 
 	@Override
-	public void fireDeleted(boolean b) {
-		// TODO Auto-generated method stub
-		
+	public void fireDeleted(boolean b) {		
 	}
 
 	@Override
-	public void fireValid(boolean b) {
-		// TODO Auto-generated method stub
-		
+	public void fireValid(boolean b) {		
 	}
 
 	@Override
-	public void fireChanges(boolean b) {
-		// TODO Auto-generated method stub
-		
+	public void fireChanges(boolean b) {		
 	}
 
 	@Override
