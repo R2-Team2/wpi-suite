@@ -47,15 +47,16 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 			public void keyReleased(KeyEvent e) {
 				// extract the text from the text field, trimming beginning and ending spaces 
 				String cellText = c.getText().trim();
+				System.out.println("Cell text is: " + cellText);
 				boolean formatError = false;
 				int cellInt = 0;
 				// attempt to parse the text to an integer 
 				try {
 					cellInt = Integer.parseInt(cellText);
 				}
-				// set formatError to true if the text was not able to be parsed to an integer
+				// set formatError to true if the text was not able to be parsed to an integer and is not null
 				catch (NumberFormatException nfe){
-					formatError = true;
+					if (!cellText.isEmpty()) formatError = true;
 				}
 				// if the text could not be parsed
 				if (formatError) {
@@ -64,7 +65,7 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 					c.setToolTipText("Estimate must be an integer. This value will be ignored if changes are saved.");
 				}
 				// if the text is a valid integer, return the text field background to white and remove the tool tip 
-				else {
+				else {					
 					c.setBackground(Color.white);
 					c.setToolTipText(null);
 				}

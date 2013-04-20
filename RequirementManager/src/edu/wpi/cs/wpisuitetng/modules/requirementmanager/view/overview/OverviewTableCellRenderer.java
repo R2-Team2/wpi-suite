@@ -49,6 +49,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 
         setBackground(Color.white);
         setForeground(Color.black);
+        setText(value != null ? value.toString() : "");
 
         TableModel model = table.getModel();
         int modelRow = table.getRowSorter().convertRowIndexToModel(row);
@@ -82,8 +83,9 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	try {
         		cellEstimate = Integer.parseInt(cellEstimateStr);
         	}
+        	// set formatError to true is there was an inability to parse and celleststr is not null
         	catch (NumberFormatException nfe){
-        		formatError = true;
+        		if (!cellEstimateStr.isEmpty()) formatError = true;
         	}
 
         	if (formatError) {
@@ -94,6 +96,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         		}
         	}
         	else {
+        		// set cell text to 0 is there is nothing in the cell
+        		if ((cellEstimateStr.isEmpty()) && column == 7) setValue("0");
         		// compare the estimate in the cell to the requirement's estimate
         		if (!(cellEstimate == reqEstimate) && column == 7) {
         			// highlight the cell in green if there is a change in the estimate
@@ -103,8 +107,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         		setToolTipText(null);
         	}
         }
-        
-        setText(value != null ? value.toString() : "");
+
         return this;
     }
 }   
