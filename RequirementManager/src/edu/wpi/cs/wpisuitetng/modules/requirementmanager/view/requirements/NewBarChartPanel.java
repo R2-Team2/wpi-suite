@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,10 @@ import javax.swing.Timer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -37,6 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewBarButton;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
 public class NewBarChartPanel extends JScrollPane {
@@ -44,7 +49,7 @@ private static String title;
 		public NewBarChartPanel(String title){
 			NewBarChartPanel.title = title;
 			JPanel panel = new JPanel();
-			OverviewButtonPanel buttons = new OverviewButtonPanel();
+			OverviewBarButton buttons = new OverviewBarButton();
 			panel.add(createPanel(), BorderLayout.CENTER);
 			panel.add(buttons, BorderLayout.SOUTH);
 			
@@ -159,6 +164,31 @@ private static String title;
 			return dataSet;
 		}
 		private static JFreeChart createChart(CategoryDataset dataset, String title){
+			JFreeChart chart = ChartFactory.createBarChart(
+		            title,         // chart title
+		            "Name",               // domain axis label
+		            "Value",                  // range axis label
+		            dataset,                  // data
+		            PlotOrientation.VERTICAL, // orientation
+		            true,                     // include legend
+		            true,                     // tooltips?
+		            false                     // URLs?
+		        );
 			
+			chart.setBackgroundPaint(Color.white);
+			CategoryPlot plot = chart.getCategoryPlot();
+	        plot.setBackgroundPaint(Color.lightGray);
+	        plot.setDomainGridlinePaint(Color.white);
+	        plot.setDomainGridlinesVisible(true);
+	        plot.setRangeGridlinePaint(Color.white);
+	        
+	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+	        
+	        return chart;
+		}
+		public static JPanel createPanel() {
+			JFreeChart chart = createChart(setData(), title);
+			return new ChartPanel(chart);
 		}
 }

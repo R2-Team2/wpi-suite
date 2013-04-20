@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPiePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
@@ -97,6 +98,14 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newPie);
 		
+	}
+	
+	public void createBarChart(String title){
+		NewBarChartPanel newBar = new NewBarChartPanel(title);
+		main.addTab("Bar Graph", null, newBar, "BarGraph");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newBar);
 	}
 	
 
