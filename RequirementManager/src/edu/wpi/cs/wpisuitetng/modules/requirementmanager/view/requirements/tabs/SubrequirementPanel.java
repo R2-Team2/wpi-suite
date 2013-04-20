@@ -239,9 +239,9 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	public void enableChildren(boolean enabled)
 	{
 		this.enabled = enabled;
-		addNewButton.setEnabled(enabled);
-		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0);
-		existingReqSelector.enableChildren(enabled);
+		addNewButton.setEnabled(enabled && viewMode != RequirementViewMode.CREATING);
+		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0 && viewMode != RequirementViewMode.CREATING);
+		existingReqSelector.enableChildren(enabled && viewMode != RequirementViewMode.CREATING);
 	}
 
 	@Override
