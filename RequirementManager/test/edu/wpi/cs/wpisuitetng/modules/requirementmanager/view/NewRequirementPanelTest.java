@@ -130,7 +130,7 @@ public class NewRequirementPanelTest {
 		RequirementPanel testNew = new RequirementPanel(-1);
 		
 		// pre-defined variable
-		String errorMessageNoninterger = "Estimate must be non-negative integer";
+		String errorMessageNoninteger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String testDescription = "testDescription";
 		String hundredCharText = "0";
