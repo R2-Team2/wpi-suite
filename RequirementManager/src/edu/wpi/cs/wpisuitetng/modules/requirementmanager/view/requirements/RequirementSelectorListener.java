@@ -11,5 +11,8 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 public interface RequirementSelectorListener 
 {
+	/**
+	 * Tells the listener that a requirement was selected.
+	 */
 	public void requirementSelected();
 }

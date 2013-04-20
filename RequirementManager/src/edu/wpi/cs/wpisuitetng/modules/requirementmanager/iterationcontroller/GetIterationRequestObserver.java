@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetIterationRequestObserver implements RequestObserver {
 	
-	public GetIterationController controller;
+	private GetIterationController controller;
 	
 	/**
 	 * Constructs the observer given a GetIterationsController

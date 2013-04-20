@@ -27,9 +27,10 @@ import javax.swing.ScrollPaneConstants;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class RequirementTestPanel extends JPanel implements RequirementTab{
+public class RequirementTestPanel extends JPanel implements RequirementPanelListener{
 
 	private Requirement currentRequirement;
 	private RequirementTabsPanel parentPanel;
@@ -133,7 +134,7 @@ public class RequirementTestPanel extends JPanel implements RequirementTab{
 						refresh();
 
 						// Update history panel
-						parentPanel.updateHistoryPanel();
+						parentPanel.fireRefresh();
 
 						// Update database so requirement stores new test
 						UpdateRequirementController.getInstance()
@@ -154,5 +155,28 @@ public class RequirementTestPanel extends JPanel implements RequirementTab{
 	@Override
 	public boolean readyToRemove() {
 		return true;
+	}
+
+	@Override
+	public void fireDeleted(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fireValid(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fireChanges(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fireRefresh() {
+		this.refresh();
 	}
 }

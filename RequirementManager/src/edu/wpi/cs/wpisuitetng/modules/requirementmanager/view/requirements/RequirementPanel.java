@@ -10,11 +10,11 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener
 {
+	private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
 	private Requirement displayRequirement;
 	private RequirementViewMode viewMode;
 	
@@ -39,20 +40,28 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	
 	private boolean readyToClose = false;
 	
+	/**
+	 * Constructor for editing a requirement
+	 * @param editingRequirement requirement to edit
+	 */
 	public RequirementPanel(Requirement editingRequirement)
 	{
-		this.viewMode = (RequirementViewMode.EDITING);
+		viewMode = (RequirementViewMode.EDITING);
 		
-		this.displayRequirement = editingRequirement;
+		displayRequirement = editingRequirement;
 		this.buildLayout();
 	}
 	
+	/**
+	 * Constructor for creating a requirement
+	 * @param parentID the parent id, or -1 if no parent.
+	 */
 	public RequirementPanel(int parentID)
 	{
-		this.viewMode = (RequirementViewMode.CREATING);
+		viewMode = (RequirementViewMode.CREATING);
 		
-		this.displayRequirement = new Requirement();
-		this.displayRequirement.setId(-2);
+		displayRequirement = new Requirement();
+		displayRequirement.setId(-2);
 		
 		try 
 		{
@@ -65,11 +74,17 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.buildLayout();
 	}
 	
+	/**
+	 * Builds the layout of the panel.
+	 */
 	private void buildLayout()
 	{
 		buttonPanel = new RequirementButtonPanel(this, viewMode, displayRequirement);
+		listeners.add(buttonPanel);
 		tabsPanel = new RequirementTabsPanel(this, viewMode, displayRequirement);
+		listeners.add(tabsPanel);
 		infoPanel = new RequirementInformationPanel(this, viewMode, displayRequirement);
+		listeners.add(infoPanel);
 		
 		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, infoPanel, tabsPanel);
 		
@@ -77,7 +92,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+	@Override
 	public void OKPressed() {
 		if (infoPanel.validateFields(true)) {
 			infoPanel.update();
@@ -86,11 +101,13 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		}		
 	}
 
+	@Override
 	public void clearPressed() 
 	{
 		infoPanel.clearInfo();
 	}
 
+	@Override
 	public void cancelPressed() 
 	{
 		readyToClose = true;
@@ -107,8 +124,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		if (this.displayRequirement.getStatus() == RequirementStatus.INPROGRESS)
 			return;
 
-		this.infoPanel.deleteRequirement();
-
 		displayRequirement.setStatus(RequirementStatus.DELETED, false);
 
 		UpdateRequirementController.getInstance().updateRequirement(displayRequirement);
@@ -117,28 +132,63 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		ViewEventController.getInstance().removeTab(this);	
 	}	
 
-	public void fireDeleted(boolean b) {
-		this.buttonPanel.fireDeleted(b);
-		this.tabsPanel.fireDeleted(b);
+	/**
+	 * Fires to all listeners whether the requirement has been deleted or not
+	 * @param b whether the rquirement has been deleted or not.
+	 */
+	public void fireDeleted(boolean b) {	
+		for(RequirementPanelListener listener : listeners)
+		{
+			listener.fireDeleted(b);
+		}
 	}
 
+	/**
+	 * Fires to all listeners whether the requirement is valid or not
+	 * @param b whether the requirement is valid or not.
+	 */
 	public void fireValid(boolean b) {		
-		buttonPanel.fireValid(b);
+		for(RequirementPanelListener listener : listeners)
+		{
+			listener.fireValid(b);
+		}
 	}
 	
+	/**
+	 * Fires to all listeners whether changes have occured
+	 * @param b whether changes have occured.
+	 */
 	public void fireChanges(boolean b) {	
-		buttonPanel.fireChanges(b);
+		for(RequirementPanelListener listener : listeners)
+		{
+			listener.fireChanges(b);
+		}	
 	}
 	
+	/**
+	 * Fires to all listeners to refresh.
+	 */
 	public void fireRefresh()
 	{
-		infoPanel.refreshInfo();
+		for(RequirementPanelListener listener : listeners)
+		{
+			listener.fireRefresh();
+		}	
 	}
 
+	/**
+	 * @return whether the requirement panel as a whole is ready to be removed.
+	 */
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
 		
-		if(infoPanel.readyToRemove() && tabsPanel.readyToRemove())
+		boolean readyToRemove = true;
+		for(RequirementPanelListener listener : listeners)
+		{
+			readyToRemove &= listener.readyToRemove();
+		}
+		
+		if(readyToRemove)
 		{
 			return true;
 		}
@@ -150,16 +200,25 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		}
 	}
 	
+	/**
+	 * @return the requirement information panel.
+	 */
 	public RequirementInformationPanel getInfoPanel()
 	{
 		return this.infoPanel;
 	}
 	
+	/**
+	 * @return the button panel
+	 */
 	public RequirementButtonPanel getButtonPanel()
 	{
 		return this.buttonPanel;
 	}
 	
+	/**
+	 * @return the display requirement.
+	 */
 	public Requirement getDisplayRequirement() {
 		return displayRequirement;
 	}

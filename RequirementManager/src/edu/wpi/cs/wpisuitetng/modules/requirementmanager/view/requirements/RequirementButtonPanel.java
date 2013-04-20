@@ -19,32 +19,38 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
-public class RequirementButtonPanel extends JPanel
+public class RequirementButtonPanel extends JPanel implements RequirementPanelListener
 {
-	private RequirementPanel parentPanel;
-	private RequirementViewMode viewMode;
+	private final RequirementPanel parentPanel;
+	private final RequirementViewMode viewMode;
 	
-	private JButton buttonOK;
-	private JButton buttonCancel;
-	private JButton buttonClear;
-	private JButton buttonDelete;
-	private Requirement currentRequirement;
+	private final JButton buttonOK;
+	private final JButton buttonCancel;
+	private final JButton buttonClear;
+	private final JButton buttonDelete;
+	private final Requirement currentRequirement;
 	private boolean changes;
 	private boolean valid;
 	
+	/**
+	 * Constructor for the requirement button panel
+	 * @param parentPanel the panel this reports to
+	 * @param mode viewmode for the panel
+	 * @param curr current requirement
+	 */
 	public RequirementButtonPanel(RequirementPanel parentPanel, RequirementViewMode mode, Requirement curr)
 	{
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-		this.changes = false;
-		this.valid = false;
-		this.currentRequirement = curr;
+		changes = false;
+		valid = false;
+		currentRequirement = curr;
 		this.parentPanel = parentPanel;
-		this.viewMode = mode;
+		viewMode = mode;
 		
 		String okString;
-		String cancelString = "Cancel";
+		final String cancelString = "Cancel";
 		String clearString;
-		String deleteString = "Delete";
+		final String deleteString = "Delete";
 		
 		buttonOK = new JButton();
 		buttonCancel = new JButton(cancelString);
@@ -53,7 +59,7 @@ public class RequirementButtonPanel extends JPanel
 		
 		this.add(buttonOK);
 		this.add(buttonClear);
-		if(this.viewMode == RequirementViewMode.CREATING)
+		if(viewMode == RequirementViewMode.CREATING)
 		{
 			okString = "Create";
 			clearString = "Clear";
@@ -68,8 +74,8 @@ public class RequirementButtonPanel extends JPanel
 		buttonOK.setText(okString);
 		buttonClear.setText(clearString);
 		this.add(buttonCancel);
-		this.buttonOK.setEnabled(false);
-		this.buttonClear.setEnabled(false);
+		buttonOK.setEnabled(false);
+		buttonClear.setEnabled(false);
 		setupListeners();
 	}
 	
@@ -106,34 +112,61 @@ public class RequirementButtonPanel extends JPanel
 		});
 	}
 
+	@Override
 	public void fireDeleted(boolean b) 
 	{
 		this.buttonDelete.setEnabled(!b);
 	}
 
+	@Override
 	public void fireValid(boolean b) {
 		valid = b;
 		this.buttonOK.setEnabled(b && changes);
 	}
 
+	@Override
 	public void fireChanges(boolean b) {
 		changes = b;
 		this.buttonOK.setEnabled(b && valid);
 		this.buttonClear.setEnabled(b);
 	}
+	
+	@Override
+	public boolean readyToRemove() {
+		return true;
+	}
 
+	@Override
+	public void fireRefresh() {}
+
+	/**
+	 * 
+	 * @return the clear button
+	 */
 	public JButton getButtonClear() {
 		return buttonClear;
 	}
 	
+	/**
+	 * 
+	 * @return the delete button
+	 */
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
 	
+	/**
+	 * 
+	 * @return the ok button
+	 */
 	public JButton getButtonOK() {
 		return buttonOK;
 	}
 	
+	/**
+	 * 
+	 * @return the cancel button
+	 */
 	public JButton getButtonCancel() {
 		return buttonCancel;
 	}

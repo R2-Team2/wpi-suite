@@ -255,7 +255,7 @@ public class Iteration extends AbstractModel {
 	 * Returns an instance of Iteration constructed using the given
 	 * Iteration encoded as a JSON string.
 	 * 
-	 * @param the
+	 * @param body the
 	 *            JSON-encoded Iteration to deserialize
 	 * @return the Iteration contained in the given JSON
 	 */

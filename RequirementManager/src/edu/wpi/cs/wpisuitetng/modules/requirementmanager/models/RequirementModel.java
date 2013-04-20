@@ -48,7 +48,7 @@ public class RequirementModel extends AbstractListModel{
 	}
 	
 	/**
-	 * Returns the instance of the requirement model singleton.
+	 * @return the instance of the requirement model singleton.
 	 */
 	public static RequirementModel getInstance()
 	{
@@ -82,7 +82,7 @@ public class RequirementModel extends AbstractListModel{
 	 * Returns the Requirement with the given ID
 	 * 
 	 * @param id The ID number of the requirement to be returned
-	 * @return
+	 * @return the requirement for the id
 	 */
 	public Requirement getRequirement(int id)
 	{

@@ -144,6 +144,8 @@ public class Requirement extends AbstractModel {
 	 *            The release number of the requirement
 	 * @param status
 	 *            The status of the requirement
+	 * @param priority
+	 * 			The priorty of the requirement
 	 * @param description
 	 *            A short description of the requirement
 	 * @param estimate
@@ -151,7 +153,7 @@ public class Requirement extends AbstractModel {
 	 *            system decided by the user
 	 * @param effort
 	 *            The estimated amount of work required by the requirement.
-	 * @deprecated
+	 * @deprecated Should not be used anymore.
 	 */
 	@Deprecated
 	public Requirement(int id, String name, String release,
@@ -172,7 +174,7 @@ public class Requirement extends AbstractModel {
 	 * Returns an instance of Requirement constructed using the given
 	 * Requirement encoded as a JSON string.
 	 * 
-	 * @param the
+	 * @param json
 	 *            JSON-encoded Requirement to deserialize
 	 * @return the Requirement contained in the given JSON
 	 */
@@ -445,7 +447,7 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Method to remove a development task
 	 * 
-	 * @param
+	 * @param id the id to remove
 	 */
 	public void removeTask(int id) {
 		// iterate through the list looking for the note to remove
@@ -479,6 +481,11 @@ public class Requirement extends AbstractModel {
 		tests.add(test);
 	}
 	
+	/**
+	 * Updates the test status
+	 * @param testID iD of test
+	 * @param status new status
+	 */
 	public void updateTestStatus(int testID, TestStatus status) {
 		for (int i = 0; i < this.tests.size(); i++) {
 			if (this.tests.get(i).getId() == testID) {
@@ -555,7 +562,7 @@ public class Requirement extends AbstractModel {
 	 * Setter for iteration. Currently deals with strings, but will deal with
 	 * Iterations in the future.
 	 * 
-	 * @param iteration
+	 * @param newIterationName
 	 *            the iteration to assign the requirement to
 	 * @param created
 	 *            true if the requirement is being created added created to
@@ -733,7 +740,7 @@ public class Requirement extends AbstractModel {
 	 * Returns an array of Requirements parsed from the given JSON-encoded
 	 * string.
 	 * 
-	 * @param a
+	 * @param json
 	 *            string containing a JSON-encoded array of Requirement
 	 * @return an array of Requirement deserialized from the given JSON string
 	 */

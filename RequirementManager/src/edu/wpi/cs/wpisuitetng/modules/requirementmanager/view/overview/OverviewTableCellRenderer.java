@@ -63,6 +63,9 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
             setBackground(Color.WHITE);
         }
         
+        Color selectedColor = new Color(176,226,255,255);
+        if(isSelected) setBackground(selectedColor);
+        
         // check to see if in multiple requirements editing mode
         if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
         	// extract the ID number displayed in the row
@@ -88,7 +91,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	}
         	else {
         		// compare the estimate in the cell to the requirement's estimate
-        		if (!(cellEstimate == reqEstimate)) {
+        		if (!(cellEstimate == reqEstimate) && column == 7) {
         			//Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         			//cellComponent.
         			// highlight row in green if there is a change in the estimate
@@ -96,12 +99,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         			//return cellComponent;
         		}
         		// remove the highlight if the estimate is returned to its initial value
-        		else setBackground(Color.white);
         	}
         }
-                
-        Color selectedColor = new Color(176,226,255,255);
-        if(isSelected) setBackground(selectedColor);
         
         setText(value != null ? value.toString() : "");
         return this;

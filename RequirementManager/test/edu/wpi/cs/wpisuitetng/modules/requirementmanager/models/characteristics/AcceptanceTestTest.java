@@ -17,9 +17,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
-
 /**
  * @author Dylan
  *
