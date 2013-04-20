@@ -123,6 +123,10 @@ public class RequirementSelector extends JScrollPane {
 			public void mousePressed(MouseEvent e) {
 				super.mousePressed(e);
 				clearSelection(e);
+				if(e.getClickCount() == 2)
+				{
+					okPressed();
+				}
 			}
 
 			private void clearSelection(MouseEvent e) {
