@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
