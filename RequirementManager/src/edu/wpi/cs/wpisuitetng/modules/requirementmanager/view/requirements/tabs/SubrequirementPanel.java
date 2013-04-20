@@ -81,7 +81,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 				
 				for(int i = 0; i < selectedObjects.length; i++)
 				{
-					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(i, 0);
+					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(selectedObjects[i], 0);
 					try {
 						toBeRemoved.setParentID(-1);
 					} catch (Exception e1) {

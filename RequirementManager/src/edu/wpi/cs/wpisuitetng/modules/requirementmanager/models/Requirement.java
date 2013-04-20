@@ -550,7 +550,6 @@ public class Requirement extends AbstractModel {
 	 * @return a string representing the iteration it has been assigned to
 	 */
 	public String getIteration() {
-		if(parentID != -1) return getParent().getIteration();
 		return iteration;
 	}
 
