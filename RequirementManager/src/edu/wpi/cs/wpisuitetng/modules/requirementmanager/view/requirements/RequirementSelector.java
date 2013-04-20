@@ -64,6 +64,7 @@ public class RequirementSelector extends JScrollPane {
 	 */
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
 	{
+		if(!showBorder) this.setBorder(null);
 		JPanel contentPanel = new JPanel();
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
@@ -78,8 +79,6 @@ public class RequirementSelector extends JScrollPane {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		contentPanel.add(listScroll);
-		contentPanel.add(buttonPanel);
 
 		String okText;
 		if (this.mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
@@ -87,9 +86,15 @@ public class RequirementSelector extends JScrollPane {
 		} else {
 			requirementList
 					.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			okText = "Select Parent";
+			okText = "Set Parent";
+			listScroll.setPreferredSize(new Dimension(200, 75));
+			contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+			buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
 		}
-
+		
+		contentPanel.add(listScroll);
+		contentPanel.add(buttonPanel);
+		
 		okButton = new JButton(okText);
 		okButton.addActionListener(new ActionListener() {
 			@Override
@@ -213,6 +218,8 @@ public class RequirementSelector extends JScrollPane {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+			ViewEventController.getInstance().refreshEditRequirementPanel(parentRequirement);
+			ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 			UpdateRequirementController.getInstance().updateRequirement(
 					activeRequirement);
 		}

@@ -113,7 +113,7 @@ public class EditRequirementPanelTest {
 		
 		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoninterger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String errorMessageRequiredDescription = "** Description is REQUIRED";
 		

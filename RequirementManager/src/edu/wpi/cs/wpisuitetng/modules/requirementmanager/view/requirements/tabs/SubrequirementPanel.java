@@ -90,6 +90,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 					}
 					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
 					ViewEventController.getInstance().refreshEditRequirementPanel(toBeRemoved);
+					ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 				}
 				existingReqSelector.refreshList();
 				refreshTable();
@@ -218,7 +219,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	public void paintComponent(Graphics g)
 	{
 		refreshTable();
-
+		existingReqSelector.refreshList();
 		super.paintComponent(g);
 	}
 
