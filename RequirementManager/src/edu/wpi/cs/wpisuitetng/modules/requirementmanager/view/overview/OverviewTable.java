@@ -196,10 +196,10 @@ public class OverviewTable extends JTable
 			req.setEstimate(cellEstimate);
 			
 			// updates requirement on the server
-			UpdateRequirementController.getInstance().updateRequirement(req);
-			
-			// refresh table to get rid of cell highlights
-			this.refresh();
-		}		
+			UpdateRequirementController.getInstance().updateRequirement(req);			
+		}	
+		
+		// refresh table to get rid of cell highlights
+		this.refresh();
 	}
 }

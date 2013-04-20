@@ -86,16 +86,13 @@ public class ToolbarView extends JPanel {
 
 			}
 		});
+		
 		JButton pieChart = new JButton("Pie Chart");
 		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				ViewEventController.getInstance().createPieChart("Status");
-				
-				
-				
-				
+				ViewEventController.getInstance().createPieChart("Status");				
 			}
 		});
 		
