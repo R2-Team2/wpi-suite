@@ -9,12 +9,14 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
@@ -32,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
 public class NewPieChartPanel extends JScrollPane {
 	private static String title;
@@ -43,7 +46,14 @@ public class NewPieChartPanel extends JScrollPane {
 	 */
 	public NewPieChartPanel(String title) {
 		NewPieChartPanel.title = title;
-		this.setViewportView(createPanel());
+		JPanel panel = new JPanel();
+		OverviewButtonPanel buttons = new OverviewButtonPanel();
+		panel.add(createPanel(), BorderLayout.CENTER);
+		panel.add(buttons, BorderLayout.SOUTH);
+		
+		
+		this.setViewportView(panel);
+		
 
 	}
 
