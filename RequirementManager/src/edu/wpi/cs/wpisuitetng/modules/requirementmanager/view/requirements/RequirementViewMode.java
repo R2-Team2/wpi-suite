@@ -9,10 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
-public interface RequirementSelectorListener 
+public enum RequirementViewMode 
 {
-	/**
-	 * Tells the listener that a requirement was selected.
-	 */
-	public void requirementSelected();
+	EDITING,
+	CREATING;
 }

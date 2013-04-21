@@ -7,10 +7,7 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-/**
- * 
- */
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -39,14 +36,18 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  *
  */
 @SuppressWarnings("serial")
-public class TestPanel extends JPanel 
+public class SingleAcceptanceTestPanel extends JPanel 
 {
 	
 	private AcceptanceTest test;
 	private Requirement requirement;
 
-	@SuppressWarnings("unchecked")
-	public TestPanel(Requirement req, AcceptanceTest test)
+	/**
+	 * Constructor for the single acceptance test panel panel
+	 * @param test current test
+	 * @param req current requirement
+	 */
+	public SingleAcceptanceTestPanel(Requirement req, AcceptanceTest test)
 	{
 		this.requirement = req;
 		this.test = test;
@@ -124,7 +125,7 @@ public class TestPanel extends JPanel
 	
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
-	 * @param list List of note used to create panel
+	 * @param req requirement used to create panel
 	 * @return Panel containing all of the notes given to the method
 	 */
 	public static JPanel createList(Requirement req)
@@ -148,7 +149,7 @@ public class TestPanel extends JPanel
 		while(itt.hasNext())
 		{
 			//Create a new NotePanel for each Note and add it to the panel
-			panel.add(new TestPanel(req, itt.next()), c);
+			panel.add(new SingleAcceptanceTestPanel(req, itt.next()), c);
 			c.gridy++; //Next Row
 		}
 		

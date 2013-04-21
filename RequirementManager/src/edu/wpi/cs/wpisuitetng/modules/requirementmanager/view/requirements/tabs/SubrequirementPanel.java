@@ -7,12 +7,10 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
-
+import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,10 +29,16 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class SubrequirementPanel extends JScrollPane implements RequirementSelectorListener
+public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private boolean enabled;
+	private RequirementTabsPanel parentPanel;
+	private RequirementViewMode viewMode;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
@@ -44,12 +48,15 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 
 	/**
 	 * Constructor for the subrequirement panel.
+	 * @param parentPanel parent
+	 * @param vm viewmode
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
-	public SubrequirementPanel(Requirement requirementBeingEdited)
+	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
 	{
-		enabled = true;
-		JPanel contentPanel = new JPanel();
+		this.setLayout(new BorderLayout());
+		this.parentPanel = parentPanel;
+		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
@@ -74,7 +81,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 				
 				for(int i = 0; i < selectedObjects.length; i++)
 				{
-					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(i, 0);
+					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(selectedObjects[i], 0);
 					try {
 						toBeRemoved.setParentID(-1);
 					} catch (Exception e1) {
@@ -83,6 +90,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 					}
 					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
 					ViewEventController.getInstance().refreshEditRequirementPanel(toBeRemoved);
+					ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 				}
 				existingReqSelector.refreshList();
 				refreshTable();
@@ -90,25 +98,23 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		});
 		removeButton.setEnabled(false);
 
-		// Layout manager for subrequirement panel
-		GridBagLayout layout = new GridBagLayout();
-		contentPanel.setLayout(layout);
-		GridBagConstraints c = new GridBagConstraints();
+		this.add(scroll, BorderLayout.CENTER); // Add scroll pane to panel
 
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
-		c.weightx = 1; // Fill horizontal space
-		contentPanel.add(scroll, c); // Add scroll pane to panel
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridy = 1;
 		existingReqSelector.addButton(1,addNewButton);
 		existingReqSelector.addButton(0,removeButton);
-		contentPanel.add(existingReqSelector,c);
+		this.add(existingReqSelector,BorderLayout.SOUTH);
+		
 		subRequirementTable = buildTable();
 		scroll.setViewportView(subRequirementTable);
-		this.setViewportView(contentPanel);
+		
 		this.refreshTable();
+		
+		if(viewMode == RequirementViewMode.CREATING)
+		{
+			removeButton.setEnabled(false);
+			addNewButton.setEnabled(false);
+			existingReqSelector.enableChildren(false);
+		}
 	}
 
 	/**
@@ -176,7 +182,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 		{
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0 && enabled);
+				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0);
 			}		
 		});
 		
@@ -213,7 +219,7 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	public void paintComponent(Graphics g)
 	{
 		refreshTable();
-
+		existingReqSelector.refreshList();
 		super.paintComponent(g);
 	}
 
@@ -225,16 +231,27 @@ public class SubrequirementPanel extends JScrollPane implements RequirementSelec
 	public void requirementSelected() {
 		refreshTable();
 	}
-	
-	/**
-	 * disable child panels
-	 * @param whether its enabled or not
-	 */
-	public void enableChildren(boolean enabled)
-	{
-		this.enabled = enabled;
-		addNewButton.setEnabled(enabled);
-		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0);
-		existingReqSelector.enabledChildren(enabled);
+
+	@Override
+	public boolean readyToRemove() {
+		return true;
+	}
+
+	@Override
+	public void fireDeleted(boolean b) {		
+	}
+
+	@Override
+	public void fireValid(boolean b) {		
+	}
+
+	@Override
+	public void fireChanges(boolean b) {		
+	}
+
+	@Override
+	public void fireRefresh() {
+		refreshTable();
+		existingReqSelector.refreshList();
 	}
 }

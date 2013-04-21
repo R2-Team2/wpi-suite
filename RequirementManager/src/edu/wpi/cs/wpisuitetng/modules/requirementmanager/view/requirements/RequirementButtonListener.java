@@ -9,10 +9,25 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
-public interface RequirementSelectorListener 
-{
+
+public interface RequirementButtonListener {
 	/**
-	 * Tells the listener that a requirement was selected.
+	 * Indicate to the listener that the ok button was pressed.
 	 */
-	public void requirementSelected();
+	public void OKPressed();
+	
+	/**
+	 * Indicate to the listener that the clear button was pressed.
+	 */
+	public void clearPressed();
+	
+	/**
+	 * Indicate to the listener that the cancel button was pressed.
+	 */
+	public void cancelPressed();
+	
+	/**
+	 * Indicate to the listener that the delete button was pressed.
+	 */
+	public void deletePressed();
 }

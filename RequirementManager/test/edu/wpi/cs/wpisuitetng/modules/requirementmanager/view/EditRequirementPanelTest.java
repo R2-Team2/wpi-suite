@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.EditRequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
@@ -69,32 +69,32 @@ public class EditRequirementPanelTest {
 		//testRequirement.setEstimate(testActualEffort);
 		
 		// Create an editRequirementPanel
-		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
 		// Check enability of all fields
-		assertEquals(true, testEdit.getBoxName().isEnabled());
-		assertEquals(true, testEdit.getBoxDescription().isEnabled());
-		assertEquals(false, testEdit.getBoxIteration().isEnabled());
-		assertEquals(true, testEdit.getDropdownType().isEnabled());
-		assertEquals(true, testEdit.getDropdownStatus().isEnabled());
-		assertEquals(true, testEdit.getPriorityHigh().isEnabled());
-		assertEquals(true, testEdit.getPriorityMedium().isEnabled());
-		assertEquals(true, testEdit.getPriorityLow().isEnabled());
-		assertEquals(true, testEdit.getPriorityBlank().isEnabled());
-		assertEquals(true, testEdit.getBoxEstimate().isEnabled());
-		assertEquals(false, testEdit.getButtonUpdate().isEnabled());
-		assertEquals(false, testEdit.getButtonClear().isEnabled());
-		assertEquals(true, testEdit.getButtonCancel().isEnabled());
-		assertEquals(true, testEdit.getButtonDelete().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getBoxName().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getBoxDescription().isEnabled());
+		assertEquals(false, testEdit.getInfoPanel().getBoxIteration().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getDropdownType().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getDropdownStatus().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getPriorityHigh().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getPriorityMedium().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getPriorityLow().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getPriorityBlank().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getBoxEstimate().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonCancel().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonDelete().isEnabled());
 		
 		// Check for default values in each field
-		assertEquals(testName,testEdit.getBoxName().getText());
-		assertEquals(testDescription,testEdit.getBoxDescription().getText());
-		assertEquals(testRelease,testEdit.getBoxReleaseNum().getText());
-		assertEquals(RequirementStatus.NEW,testEdit.getDropdownStatus().getSelectedItem());
-		assertEquals(true,testEdit.getPriorityLow().isSelected());
-		assertEquals("0",testEdit.getBoxEstimate().getText());
-		assertEquals(RequirementType.EPIC,testEdit.getDropdownType().getSelectedItem());
+		assertEquals(testName,testEdit.getInfoPanel().getBoxName().getText());
+		assertEquals(testDescription,testEdit.getInfoPanel().getBoxDescription().getText());
+		assertEquals(testRelease,testEdit.getInfoPanel().getBoxReleaseNum().getText());
+		assertEquals(RequirementStatus.NEW,testEdit.getInfoPanel().getDropdownStatus().getSelectedItem());
+		assertEquals(true,testEdit.getInfoPanel().getPriorityLow().isSelected());
+		assertEquals("0",testEdit.getInfoPanel().getBoxEstimate().getText());
+		assertEquals(RequirementType.EPIC,testEdit.getInfoPanel().getDropdownType().getSelectedItem());
 		
 	}
 
@@ -111,9 +111,9 @@ public class EditRequirementPanelTest {
 		
 		//testRequirement.setEstimate(testActualEffort);
 		
-		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoninterger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String errorMessageRequiredDescription = "** Description is REQUIRED";
 		
@@ -121,32 +121,34 @@ public class EditRequirementPanelTest {
 		// Generate Hundred character string
 		for(int i = 0; i<100; i++)
 		{
-			hundredCharText = hundredCharText +"0";
+			hundredCharText += "0";
 		}
 		
 		// adding invalid fields
-		testEdit.getBoxName().setText(hundredCharText);
-		testEdit.getBoxEstimate().setText("-134");
-		testEdit.getBoxDescription().setText("Desc.");
-		testEdit.keyReleased(null);
-		testEdit.getButtonUpdate().doClick();
+		testEdit.getInfoPanel().getBoxName().setText(hundredCharText);
+		testEdit.getInfoPanel().getBoxEstimate().setText("-134");
+		testEdit.getInfoPanel().getBoxDescription().setText("Desc.");
+		testEdit.getInfoPanel().keyReleased(null);
+		testEdit.getButtonPanel().getButtonOK().doClick();
+		testEdit.getInfoPanel().validateFields(true);
 		
 		// has to be nonnegative, has to have name, has to have description
-		assertEquals(errorMessageNoninterger,testEdit.getErrorEstimate().getText());
-		assertEquals(errorMessageNoMore100,testEdit.getErrorName().getText());
+		assertEquals(errorMessageNoninterger,testEdit.getInfoPanel().getErrorEstimate().getText());
+		assertEquals(errorMessageNoMore100,testEdit.getInfoPanel().getErrorName().getText());
 
 		// Iteration is unable, Dropdown status is enable
-		assertEquals(false, testEdit.getBoxIteration().isEnabled());
-		assertEquals(true, testEdit.getDropdownStatus().isEnabled());
+		assertEquals(false, testEdit.getInfoPanel().getBoxIteration().isEnabled());
+		assertEquals(true, testEdit.getInfoPanel().getDropdownStatus().isEnabled());
 		
-		testEdit.getBoxName().setText(hundredCharText);
-		testEdit.getBoxEstimate().setText("StringCharacter");
-		testEdit.getBoxDescription().setText(null);
-		testEdit.getButtonUpdate().doClick();
-		
-		assertEquals(errorMessageNoMore100,testEdit.getErrorName().getText());
-		assertEquals(errorMessageNoninterger,testEdit.getErrorEstimate().getText());
-		assertEquals(errorMessageRequiredDescription,testEdit.getErrorDescription().getText());
+		testEdit.getInfoPanel().getBoxName().setText(hundredCharText);
+		testEdit.getInfoPanel().getBoxEstimate().setText("StringCharacter");
+		testEdit.getInfoPanel().getBoxDescription().setText(null);
+		testEdit.getButtonPanel().getButtonOK().doClick();
+		testEdit.getInfoPanel().validateFields(true);
+
+		assertEquals(errorMessageNoMore100,testEdit.getInfoPanel().getErrorName().getText());
+		assertEquals(errorMessageNoninterger,testEdit.getInfoPanel().getErrorEstimate().getText());
+		assertEquals(errorMessageRequiredDescription,testEdit.getInfoPanel().getErrorDescription().getText());
 		
 	}
 	
@@ -173,27 +175,27 @@ public class EditRequirementPanelTest {
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort)/;
 		
-		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		// a field is added correctly but both name and description are filled with blanks
-		testEdit.getBoxEstimate().setText("-134");
-		testEdit.getBoxName().setText("  ");
-		testEdit.getBoxDescription().setText("Desc.");
+		testEdit.getInfoPanel().getBoxEstimate().setText("-134");
+		testEdit.getInfoPanel().getBoxName().setText("  ");
+		testEdit.getInfoPanel().getBoxDescription().setText("Desc.");
 		// release pressed key
-		testEdit.keyReleased(null);
+		testEdit.getInfoPanel().keyReleased(null);
 		
-		assertEquals(true, testEdit.getButtonUpdate().isEnabled());
-		assertEquals(true, testEdit.getButtonClear().isEnabled());
-		assertEquals(true, testEdit.getButtonCancel().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonCancel().isEnabled());
 		
-		testEdit.getBoxName().setText("Name");
-		testEdit.getBoxDescription().setText(" ");
+		testEdit.getInfoPanel().getBoxName().setText("Name");
+		testEdit.getInfoPanel().getBoxDescription().setText(" ");
 		// release pressed key
-		testEdit.keyReleased(null);
+		testEdit.getInfoPanel().keyReleased(null);
 		
 		// can't create because no name/description, but a field has been changed
-		assertEquals(true, testEdit.getButtonUpdate().isEnabled());
-		assertEquals(true, testEdit.getButtonClear().isEnabled());
-		assertEquals(true, testEdit.getButtonCancel().isEnabled());
+		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonClear().isEnabled());
+		assertEquals(true, testEdit.getButtonPanel().getButtonCancel().isEnabled());
 		
 
 	}
@@ -220,28 +222,28 @@ public class EditRequirementPanelTest {
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort);
 		
-		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
 		// set to each field random stuffs to test clear functionality
 		
-		testEdit.getBoxName().setText(testName);
-		testEdit.getBoxDescription().setText(testDescription);
-		testEdit.getBoxIteration().setText("Iteration test");
-		testEdit.getDropdownType().setSelectedItem(RequirementType.SCENARIO);
-		testEdit.getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
-		testEdit.getPriorityMedium().doClick();
-		testEdit.getBoxEstimate().setText("4");
+		testEdit.getInfoPanel().getBoxName().setText(testName);
+		testEdit.getInfoPanel().getBoxDescription().setText(testDescription);
+		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
+		testEdit.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.SCENARIO);
+		testEdit.getInfoPanel().getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
+		testEdit.getInfoPanel().getPriorityMedium().doClick();
+		testEdit.getInfoPanel().getBoxEstimate().setText("4");
 		
 		
-		testEdit.getButtonClear().doClick();
+		testEdit.getButtonPanel().getButtonClear().doClick();
 		
-		assertEquals(testName,testEdit.getBoxName().getText());
-		assertEquals(testDescription,testEdit.getBoxDescription().getText());
-		assertEquals(testRelease,testEdit.getBoxReleaseNum().getText());
-		assertEquals(RequirementStatus.NEW,testEdit.getDropdownStatus().getSelectedItem());
-		assertEquals(true,testEdit.getPriorityMedium().isSelected());
-		assertEquals("0",testEdit.getBoxEstimate().getText());
-		assertEquals(RequirementType.EPIC,testEdit.getDropdownType().getSelectedItem());
+		assertEquals(testName,testEdit.getInfoPanel().getBoxName().getText());
+		assertEquals(testDescription,testEdit.getInfoPanel().getBoxDescription().getText());
+		assertEquals(testRelease,testEdit.getInfoPanel().getBoxReleaseNum().getText());
+		assertEquals(RequirementStatus.NEW,testEdit.getInfoPanel().getDropdownStatus().getSelectedItem());
+		assertEquals(true,testEdit.getInfoPanel().getPriorityMedium().isSelected());
+		assertEquals("0",testEdit.getInfoPanel().getBoxEstimate().getText());
+		assertEquals(RequirementType.EPIC,testEdit.getInfoPanel().getDropdownType().getSelectedItem());
 		
 		
 	}
@@ -274,24 +276,25 @@ public class EditRequirementPanelTest {
 		testRequirement.setIteration("Backlog",true);
 		//testRequirement.setEstimate(testActualEffort);
 		
-		EditRequirementPanel testEdit = new EditRequirementPanel(testRequirement);
+		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
-		testEdit.getBoxName().setText(updateTestName);
-		testEdit.getBoxDescription().setText(updateTestDescription);
-		testEdit.getDropdownType().setSelectedItem(RequirementType.THEME);
-		testEdit.getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
-		testEdit.getPriorityHigh().doClick();
-		testEdit.getBoxEstimate().setText("4");
-		testEdit.getBoxIteration().setText("Iteration test");
-		testEdit.update();
+		testEdit.getInfoPanel().getBoxName().setText(updateTestName);
+		testEdit.getInfoPanel().getBoxDescription().setText(updateTestDescription);
+		testEdit.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.THEME);
+		testEdit.getInfoPanel().getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
+		testEdit.getInfoPanel().getPriorityHigh().doClick();
+		testEdit.getInfoPanel().getBoxEstimate().setText("4");
+		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
+		testEdit.getInfoPanel().update();
 		
-		assertEquals(updateTestName,testEdit.getRequirementBeingEdited().getName());
-		assertEquals(updateTestDescription,testEdit.getRequirementBeingEdited().getDescription());
-		assertEquals(RequirementType.THEME,testEdit.getRequirementBeingEdited().getType());
-		assertEquals("Iteration test",testEdit.getRequirementBeingEdited().getIteration());
-		assertEquals(RequirementStatus.INPROGRESS,testEdit.getRequirementBeingEdited().getStatus());
-		assertEquals(RequirementPriority.HIGH,testEdit.getRequirementBeingEdited().getPriority());
-		assertEquals(4,testEdit.getRequirementBeingEdited().getEstimate());
+		// check the result
+		assertEquals(updateTestName,testEdit.getDisplayRequirement().getName());
+		assertEquals(updateTestDescription,testEdit.getDisplayRequirement().getDescription());
+		assertEquals(RequirementType.THEME,testEdit.getDisplayRequirement().getType());
+		assertEquals("Iteration test",testEdit.getDisplayRequirement().getIteration());
+		assertEquals(RequirementStatus.INPROGRESS,testEdit.getDisplayRequirement().getStatus());
+		assertEquals(RequirementPriority.HIGH,testEdit.getDisplayRequirement().getPriority());
+		assertEquals(4,testEdit.getDisplayRequirement().getEstimate());
 	}
 	
 }

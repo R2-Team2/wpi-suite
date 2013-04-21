@@ -49,7 +49,7 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * Returns the instance of the Iteration model singleton.
+	 * @return the instance of the Iteration model singleton.
 	 */
 	public static IterationModel getInstance() {
 		if (instance == null) {
@@ -81,24 +81,6 @@ public class IterationModel extends AbstractListModel {
 			AddIterationController.getInstance().addIteration(newIter);
 		} catch (Exception e) {
 
-		}
-	}
-
-	/**
-	 * Removes the Iteration with the given ID
-	 * 
-	 * @param removeId
-	 *            The ID number of the Iteration to be removed from the list of
-	 *            Iterations in the project
-	 */
-	private void removeIteration(int removeId) {
-		// iterate through list of Iterations until id of project is found
-		for (int i = 0; i < this.listOfIterations.size(); i++) {
-			if (listOfIterations.get(i).getId() == removeId){
-			// remove the id
-			listOfIterations.remove(i);
-			break;
-			}
 		}
 	}
 
@@ -190,7 +172,7 @@ public class IterationModel extends AbstractListModel {
 	
 	/**
 	 * Return the iteration with the specified name
-	 * @param the name of the iteration
+	 * @param forName name of the iteration
 	 * @return the iteration
 	 */
 	public Iteration getIteration(String forName)

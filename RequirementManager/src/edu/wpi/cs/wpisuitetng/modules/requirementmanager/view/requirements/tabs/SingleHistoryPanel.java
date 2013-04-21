@@ -7,7 +7,7 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * @author paul
  *
  */
-public class HistoryPanel extends JPanel {
+public class SingleHistoryPanel extends JPanel {
 
 	
 	/**
@@ -39,7 +39,7 @@ public class HistoryPanel extends JPanel {
 	 * @param userNtime The time stamp of the transaction
 	 * @param transactionMsgs The transaction message to be displayed
 	 */
-	public HistoryPanel(String userNtime, String transactionMsgs) {
+	public SingleHistoryPanel(String userNtime, String transactionMsgs) {
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.black)); //Set note border
 			
@@ -113,7 +113,7 @@ public class HistoryPanel extends JPanel {
 				String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 				
 				// Create a new history panel for the transaction and add it to the panel
-				panel.add(new HistoryPanel(UserTime, thisTransaction.getMessage()), c);
+				panel.add(new SingleHistoryPanel(UserTime, thisTransaction.getMessage()), c);
 				// Next Row
 				c.gridy++; 
 				
@@ -151,7 +151,7 @@ public class HistoryPanel extends JPanel {
 						String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 						
 						// Create a new history panel for the transaction and add it to the panel
-						panel.add(new HistoryPanel(UserTime, appendedMessages), c);
+						panel.add(new SingleHistoryPanel(UserTime, appendedMessages), c);
 						// Next Row
 						c.gridy++; 
 						
@@ -168,7 +168,7 @@ public class HistoryPanel extends JPanel {
 					String UserTime = ("by " + thisTransaction.getUser() + " on " + format.format(date).toString());		
 					
 					// Create a new history panel for the transaction and add it to the panel
-					panel.add(new HistoryPanel(UserTime, appendedMessages), c);
+					panel.add(new SingleHistoryPanel(UserTime, appendedMessages), c);
 					// Next Row
 					c.gridy++; 
 				}				

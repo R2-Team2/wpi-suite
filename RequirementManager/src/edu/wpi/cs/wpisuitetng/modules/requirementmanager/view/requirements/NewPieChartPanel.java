@@ -192,6 +192,10 @@ public class NewPieChartPanel extends JScrollPane {
 
 	}
 
+	/**
+	 * Creates the piechart panel
+	 * @return the piechart panel
+	 */
 	public static JPanel createPanel() {
 		JFreeChart chart = createChart(setData(), title);
 		return new ChartPanel(chart);
