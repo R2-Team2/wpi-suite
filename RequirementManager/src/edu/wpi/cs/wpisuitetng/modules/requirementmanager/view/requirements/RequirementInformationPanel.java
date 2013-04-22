@@ -18,6 +18,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -40,6 +41,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class RequirementInformationPanel extends JScrollPane implements KeyListener,
@@ -51,7 +54,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JTextField boxName;
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
-	private JTextField boxIteration;
+	private JComboBox boxIteration;
 	private JTextField boxChildEstimate;
 	private JLabel labelChildEstimate;
 	private JTextField boxTotalEstimate;
@@ -99,6 +102,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * 
 	 * @return the newly created and formatted layout panel.
 	 */
+	@SuppressWarnings("rawtypes")
 	private void buildLayout() {
 		ScrollablePanel contentPanel = new ScrollablePanel();
 		contentPanel.setLayout(new MigLayout("", "", "shrink"));
@@ -125,13 +129,18 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxDescription.setBorder(defaultBorder);
 		boxDescription.addKeyListener(this);
 
-		boxIteration = (new JTextField());
+		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		int size = iterations.size();
+		String[] iterationNames = new String[size];
+		for (int i = 0; i < iterations.size(); i++) {
+			Iteration iter = iterations.get(i);
+			iterationNames[i] = iter.getName();
+		}
+		boxIteration = (new JComboBox(iterationNames));
 		boxIteration.addKeyListener(this);
 
 		errorName = (new JLabel());
 		errorDescription = (new JLabel());
-
-
 
 		dropdownType = (new JComboBox<RequirementType>(RequirementType.values()));
 		dropdownType.setEditable(false);
@@ -355,7 +364,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		dropdownStatus.setSelectedItem(currentRequirement.getStatus());
 
 		dropdownType.setSelectedItem(currentRequirement.getType());
-		boxIteration.setText(currentRequirement.getIteration().toString());
 
 		this.setPriorityButton(currentRequirement.getPriority());
 
@@ -446,8 +454,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
 		} else if (((Integer.parseInt(getBoxEstimate().getText()) == 0) || (getBoxEstimate().getText().trim().length() == 0))
-				&& !(getBoxIteration().getText().trim().equals("Backlog") || getBoxIteration()
-						.getText().trim().equals(""))) {
+				&& !(getBoxIteration().getSelectedItem().equals("Backlog") || getBoxIteration()
+						.getSelectedItem().equals(""))) {
 			getErrorEstimate()
 			.setText(
 					"Cannot have an estimate of 0 and be assigned to an iteration.");
@@ -493,7 +501,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
-		String stringIteration = this.getBoxIteration().getText();
+		String stringIteration = (String) this.getBoxIteration().getSelectedItem();
 
 		if (stringIteration.trim().equals(""))
 			stringIteration = "Backlog";
@@ -631,7 +639,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals("")) && !hasParent){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!((getBoxIteration().getText().equals("")) || getBoxIteration().getText().equals("Backlog")) && !hasParent){
+		if (!((getBoxIteration().getSelectedItem().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog")) && !hasParent){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK) && !hasParent){
@@ -662,7 +670,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals(currentRequirement.getRelease()))){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!(getBoxIteration().getText().equals(currentRequirement.getIteration()))){
+		if (!(getBoxIteration().getSelectedItem().equals(currentRequirement.getIteration()))){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == currentRequirement.getType())){
@@ -834,7 +842,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * 
 	 * @return box iteration
 	 */
-	public JTextField getBoxIteration() {
+	public JComboBox getBoxIteration() {
 		return boxIteration;
 	}
 
