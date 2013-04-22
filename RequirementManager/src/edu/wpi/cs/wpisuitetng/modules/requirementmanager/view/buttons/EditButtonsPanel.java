@@ -74,6 +74,7 @@ public class EditButtonsPanel extends JPanel{
 		});
 		
 		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createEditButton, 0,SpringLayout.HORIZONTAL_CENTER, this);
+		editButtonsLayout.putConstraint(SpringLayout.NORTH, createEditButton, 5,SpringLayout.NORTH, this);
 		this.add(createEditButton);
 		
 		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createCancelButton, 0,SpringLayout.HORIZONTAL_CENTER, createEditButton);

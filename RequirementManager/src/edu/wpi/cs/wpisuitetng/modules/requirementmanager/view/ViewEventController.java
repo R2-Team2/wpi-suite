@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
@@ -45,7 +46,7 @@ public class ViewEventController {
 	/**
 	 * Default constructor for ViewEventController.  Is protected to prevent instantiation.
 	 */
-	protected ViewEventController() {}
+	private ViewEventController() {}
 
 	/**
 	 * Returns the singleton instance of the vieweventcontroller.
@@ -85,9 +86,21 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newReq);
 	}
+	
+	/**
+	 * Opens a new tab for the creation of a iteration.
+	 */
+	public void createIteration() {
+		IterationPanel newIter = new IterationPanel();
+		main.addTab("New Iter.", null, newIter, "New Iteration");
+		main.invalidate(); //force the tabbedpane to redraw.
+		main.repaint();
+		main.setSelectedComponent(newIter);
+	}
 
 	/**
 	 * Opens a new tab for the creation of a pie chart.
+	 * @param title the title of the pie chart
 	 */
 	public void createPieChart(String title){
 		NewPieChartPanel newPie = new NewPieChartPanel(title);   
@@ -113,6 +126,7 @@ public class ViewEventController {
 	}
 	/**
 	 * Opens a new tab for the editing of a requirement
+	 * @param toEdit the req to edit
 	 */
 	public void editRequirement(Requirement toEdit)
 	{
@@ -153,6 +167,7 @@ public class ViewEventController {
 
 	/**
 	 * Toggles the Overview Table multiple requirement editing mode
+	 * @param cancel whether to cancel or not
 	 */
 	public void toggleEditingTable(boolean cancel){
 		// check to see if Multiple Requirement Editing Mode is enabled and if the user is editing a cell		
@@ -193,8 +208,8 @@ public class ViewEventController {
 
 	/**
 	 * Removes the tab for the given JComponent
+	 * @param comp the component to remove
 	 */
-
 	public void removeTab(JComponent comp)
 	{
 		if(comp instanceof RequirementPanel)
@@ -321,7 +336,7 @@ public class ViewEventController {
 	/**
 	 * Refreshes the EditRequirementPanel after creating a new child
 	 * 
-	 * @param Requirement newChild that is being created
+	 * @param newChild req that is being created
 	 */
 	public void refreshEditRequirementPanel(Requirement newChild) {
 		for(RequirementPanel newEditPanel : listOfEditingPanels)

@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
@@ -28,7 +27,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 	/**
 	 * Constructor for the overviewtablecellrenderer.
 	 * 
-	 * This alternative renderer is used to repaint the table cells when they are sorted.
+	 * This alternative renderer is used to repaint the table cells when they are sorted
+	 * and paint cells for Multiple Requirement editing mode
 	 */
     public OverviewTableCellRenderer() {
         super();
@@ -49,6 +49,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 
         setBackground(Color.white);
         setForeground(Color.black);
+        setText(value != null ? value.toString() : "");
 
         TableModel model = table.getModel();
         int modelRow = table.getRowSorter().convertRowIndexToModel(row);
@@ -63,47 +64,50 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
             setBackground(Color.WHITE);
         }
         
+        Color selectedColor = new Color(176,226,255,255);
+        if(isSelected) setBackground(selectedColor);
+        
         // check to see if in multiple requirements editing mode
         if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
         	// extract the ID number displayed in the row
-        	String rowIDstr = model.getValueAt(row, 0).toString();
+        	String rowIDstr = model.getValueAt(modelRow, 0).toString();
         	int rowID = Integer.parseInt(rowIDstr);
         	// retrieve the requirement with ID rowID and the requirement's estimate 
         	Requirement req = RequirementModel.getInstance().getRequirement(rowID);
         	int reqEstimate = req.getEstimate();
-        	// extract the value of the cell 
-        	String cellEstimateStr = model.getValueAt(row, 7).toString();
+        	// extract the value of the cell, trimming beginning and ending spaces 
+        	String cellEstimateStr = model.getValueAt(modelRow, 7).toString().trim();
         	boolean formatError = false;
         	int cellEstimate = 0;
         	// make sure the value in the cell is a valid integer
         	try {
         		cellEstimate = Integer.parseInt(cellEstimateStr);
         	}
+        	// set formatError to true is there was an inability to parse and celleststr is not null
         	catch (NumberFormatException nfe){
-        		formatError = true;
+        		if (!cellEstimateStr.isEmpty()) formatError = true;
         	}
 
         	if (formatError) {
-        		System.out.println("Invalid entry into cell");
+        		// highlight the cell in red if there is an invalid entry and add a tool tip
+        		if (column == 7) {
+        			setBackground(Color.red);	 
+        			setToolTipText("Estimate must be an integer. This value will be ignored if changes are saved.");
+        		}
         	}
         	else {
+        		// set cell text to 0 is there is nothing in the cell
+        		if ((cellEstimateStr.isEmpty()) && column == 7) setValue("0");
         		// compare the estimate in the cell to the requirement's estimate
-        		if (!(cellEstimate == reqEstimate)) {
-        			//Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        			//cellComponent.
-        			// highlight row in green if there is a change in the estimate
-        			setBackground(Color.green);
-        			//return cellComponent;
+        		if (!(cellEstimate == reqEstimate) && column == 7) {
+        			// highlight the cell in green if there is a change in the estimate
+        			setBackground(Color.green);        		
         		}
-        		// remove the highlight if the estimate is returned to its initial value
-        		else setBackground(Color.white);
+        		// else, remove the highlight and tool tip if the estimate is returned to its initial value
+        		setToolTipText(null);
         	}
         }
-                
-        Color selectedColor = new Color(176,226,255,255);
-        if(isSelected) setBackground(selectedColor);
-        
-        setText(value != null ? value.toString() : "");
+
         return this;
     }
 }   

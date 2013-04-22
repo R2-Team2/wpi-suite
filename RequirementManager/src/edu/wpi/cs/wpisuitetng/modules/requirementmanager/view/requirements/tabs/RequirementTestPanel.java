@@ -27,21 +27,28 @@ import javax.swing.ScrollPaneConstants;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class RequirementTestPanel extends JPanel implements RequirementTab{
+public class RequirementTestPanel extends JPanel implements RequirementPanelListener{
 
 	private Requirement currentRequirement;
 	private RequirementTabsPanel parentPanel;
 	private RequirementViewMode viewMode;
-	
+	private int testsAdded;
 	private JScrollPane testsScroll;
 
+	/**
+	 * Constructor for the requirement test panel
+	 * @param parent parent panel
+	 * @param vM view mode
+	 * @param req current requirement
+	 */
 	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vM, Requirement req) {
 		this.currentRequirement = req;
 		this.parentPanel = parent;
 		this.viewMode = vM;
-		
+		testsAdded = 0;
 		// Button used to add a test and update status
 		JButton buttonAddTest = new JButton("Add Test");
 
@@ -133,8 +140,8 @@ public class RequirementTestPanel extends JPanel implements RequirementTab{
 						refresh();
 
 						// Update history panel
-						parentPanel.updateHistoryPanel();
-
+						parentPanel.fireRefresh();
+						testsAdded++;
 						// Update database so requirement stores new test
 						UpdateRequirementController.getInstance()
 								.updateRequirement(currentRequirement);
@@ -153,6 +160,23 @@ public class RequirementTestPanel extends JPanel implements RequirementTab{
 
 	@Override
 	public boolean readyToRemove() {
-		return true;
+		return testsAdded == 0 || viewMode == RequirementViewMode.EDITING;
+	}
+
+	@Override
+	public void fireDeleted(boolean b) {		
+	}
+
+	@Override
+	public void fireValid(boolean b) {		
+	}
+
+	@Override
+	public void fireChanges(boolean b) {		
+	}
+
+	@Override
+	public void fireRefresh() {
+		this.refresh();
 	}
 }

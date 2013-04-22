@@ -23,6 +23,7 @@ public class AcceptanceTest {
 	
 	/**
 	 * Constructs a new acceptance test
+	 * @param id the id
 	 * @param testName Name of the acceptance test
 	 * @param testDescription Description of the test
 	 */

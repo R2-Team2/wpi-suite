@@ -7,17 +7,10 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-
-/**
- * @author Justin Hess
- * @author Christopher Botaish
- */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,14 +29,14 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
-public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementTab
+public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private boolean enabled;
 	private RequirementTabsPanel parentPanel;
 	private RequirementViewMode viewMode;
 	private Requirement activeRequirement;
@@ -55,6 +48,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 
 	/**
 	 * Constructor for the subrequirement panel.
+	 * @param parentPanel parent
+	 * @param vm viewmode
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
 	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
@@ -63,7 +58,6 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		this.parentPanel = parentPanel;
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
-		enabled = true;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
 		// Create new scroll pane for jtable
 		
@@ -87,7 +81,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 				
 				for(int i = 0; i < selectedObjects.length; i++)
 				{
-					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(i, 0);
+					Requirement toBeRemoved = (Requirement)subRequirementTable.getValueAt(selectedObjects[i], 0);
 					try {
 						toBeRemoved.setParentID(-1);
 					} catch (Exception e1) {
@@ -96,6 +90,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 					}
 					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
 					ViewEventController.getInstance().refreshEditRequirementPanel(toBeRemoved);
+					ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 				}
 				existingReqSelector.refreshList();
 				refreshTable();
@@ -114,7 +109,12 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		
 		this.refreshTable();
 		
-		if(viewMode == RequirementViewMode.CREATING) enableChildren(false);
+		if(viewMode == RequirementViewMode.CREATING)
+		{
+			removeButton.setEnabled(false);
+			addNewButton.setEnabled(false);
+			existingReqSelector.enableChildren(false);
+		}
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		{
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0 && enabled);
+				removeButton.setEnabled(subRequirementTable.getSelectedRowCount() > 0);
 			}		
 		});
 		
@@ -219,7 +219,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	public void paintComponent(Graphics g)
 	{
 		refreshTable();
-
+		existingReqSelector.refreshList();
 		super.paintComponent(g);
 	}
 
@@ -231,21 +231,27 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	public void requirementSelected() {
 		refreshTable();
 	}
-	
-	/**
-	 * disable child panels
-	 * @param whether its enabled or not
-	 */
-	public void enableChildren(boolean enabled)
-	{
-		this.enabled = enabled;
-		addNewButton.setEnabled(enabled && viewMode != RequirementViewMode.CREATING);
-		removeButton.setEnabled(enabled && subRequirementTable.getSelectedRowCount() != 0 && viewMode != RequirementViewMode.CREATING);
-		existingReqSelector.enableChildren(enabled && viewMode != RequirementViewMode.CREATING);
-	}
 
 	@Override
 	public boolean readyToRemove() {
 		return true;
+	}
+
+	@Override
+	public void fireDeleted(boolean b) {		
+	}
+
+	@Override
+	public void fireValid(boolean b) {		
+	}
+
+	@Override
+	public void fireChanges(boolean b) {		
+	}
+
+	@Override
+	public void fireRefresh() {
+		refreshTable();
+		existingReqSelector.refreshList();
 	}
 }

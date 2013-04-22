@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
@@ -38,9 +39,10 @@ public class OverviewTable extends JTable
 	 */
 	public OverviewTable(Object[][] data, String[] columnNames)
 	{
-		this.tableModel = new DefaultTableModel(columnNames, 0);
+		this.tableModel = new DefaultTableModel(data, columnNames);
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
+		this.setDefaultEditor(Object.class, new OverviewTableCellEditor(new JTextField()));
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -86,17 +88,16 @@ public class OverviewTable extends JTable
 		List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
 		for (int i = 0; i < requirements.size(); i++) {
 			Requirement req = requirements.get(i);
-			if (!req.isDeleted()) {
-				tableModel.addRow(new Object[]{ req.getId(), 
-												req,
-												req.getRelease(),
-												req.getIteration(),
-												req.getType(),
-												req.getStatus(),
-												req.getPriority(),
-												req.getEstimate()
-												 });
-			}
+			tableModel.addRow(new Object[]{ req.getId(), 
+											req,
+											req.getRelease(),
+											req.getIteration(),
+											req.getType(),
+											req.getStatus(),
+											req.getPriority(),
+											req.getEstimate()
+			});
+
 		}
 			
 	}
@@ -110,8 +111,15 @@ public class OverviewTable extends JTable
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		// if the column contains the estimate and the table is in edit mode, make the cell editable
-		if ((col == 7) && (isInEditMode == true)) return true;
+		// extract the ID number displayed in the row
+    	String rowIDstr = this.getValueAt(row, 0).toString();
+    	int rowID = Integer.parseInt(rowIDstr);
+    	// retrieve the requirement with ID rowID and the requirement's estimate 
+    	Requirement req = RequirementModel.getInstance().getRequirement(rowID);
+    	   	
+		// if the column contains the estimate, the requirement is not deleted, and the table is in edit mode,
+		// make the cell editable
+		if ((col == 7) && (isInEditMode) && (!req.isDeleted())) return true;
 		
 		else return false;
 	}
@@ -196,10 +204,10 @@ public class OverviewTable extends JTable
 			req.setEstimate(cellEstimate);
 			
 			// updates requirement on the server
-			UpdateRequirementController.getInstance().updateRequirement(req);
-			
-			// refresh table to get rid of cell highlights
-			this.refresh();
-		}		
-	}
+			UpdateRequirementController.getInstance().updateRequirement(req);			
+		}	
+		
+		// refresh table to get rid of cell highlights
+		this.refresh();
+	}	
 }

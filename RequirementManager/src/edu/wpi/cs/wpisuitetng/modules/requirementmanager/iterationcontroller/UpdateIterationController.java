@@ -35,7 +35,7 @@ public class UpdateIterationController{
 	}
 	
 	/**
-	 * Returns the instance of the UpdateIterationController or creates one if it does not
+	 * @return the instance of the UpdateIterationController or creates one if it does not
 	 * exist.
 	 */
 	public static UpdateIterationController getInstance()

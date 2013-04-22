@@ -9,7 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -26,12 +25,10 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
@@ -90,10 +87,10 @@ public class MainView extends JTabbedPane {
 					// find the cell that was changed
 					int otRow = e.getLastRow();
 					int otCol = e.getColumn();
+					// extract the value within the cell
 					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
 					// highlight the cell
-					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
-					//ViewEventController.getInstance().getOverviewTable().repaint();
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);					
 				}
 			}
 		});
@@ -173,7 +170,7 @@ public class MainView extends JTabbedPane {
 		final MainView panel = this;
 		this.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if (panel.getTitleAt(panel.getSelectedIndex()) == "Overview") {
+				if (panel.getTitleAt(panel.getSelectedIndex()).equals("Overview")) {
 					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(true);
 				}
 				else {
@@ -196,7 +193,7 @@ public class MainView extends JTabbedPane {
 
 
 	/**
-	 * Overridden insertTab function to add the closa)ble tab element.
+	 * Overridden insertTab function to add the closable tab element.
 	 * 
 	 * @param title	Title of the tab
 	 * @param icon	Icon for the tab

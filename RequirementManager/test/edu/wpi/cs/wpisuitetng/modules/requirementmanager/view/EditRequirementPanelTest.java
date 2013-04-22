@@ -113,7 +113,7 @@ public class EditRequirementPanelTest {
 		
 		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoninterger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String errorMessageRequiredDescription = "** Description is REQUIRED";
 		
@@ -121,7 +121,7 @@ public class EditRequirementPanelTest {
 		// Generate Hundred character string
 		for(int i = 0; i<100; i++)
 		{
-			hundredCharText = hundredCharText +"0";
+			hundredCharText += "0";
 		}
 		
 		// adding invalid fields
@@ -287,6 +287,7 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
 		testEdit.getInfoPanel().update();
 		
+		// check the result
 		assertEquals(updateTestName,testEdit.getDisplayRequirement().getName());
 		assertEquals(updateTestDescription,testEdit.getDisplayRequirement().getDescription());
 		assertEquals(RequirementType.THEME,testEdit.getDisplayRequirement().getType());

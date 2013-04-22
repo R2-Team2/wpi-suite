@@ -11,18 +11,23 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -37,8 +42,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-public class RequirementInformationPanel extends JPanel implements KeyListener,
-		ItemListener {
+public class RequirementInformationPanel extends JScrollPane implements KeyListener,
+ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private Requirement currentRequirement;
 	private RequirementViewMode viewMode;
 	private RequirementPanel parentPanel;
@@ -51,11 +56,14 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	private JLabel labelChildEstimate;
 	private JTextField boxTotalEstimate;
 	private JLabel labelTotalEstimate;
-	final private Border defaultBorder = (new JTextField()).getBorder();
-	final private Border errorBorder = BorderFactory
+	private final Border defaultBorder = (new JTextField()).getBorder();
+	private final Border errorBorder = BorderFactory
 			.createLineBorder(Color.RED);
 
-	private JLabel parent;
+	private JLabel currentParent;
+	private JButton editParent;
+	private JButton removeFromParent;
+	private RequirementSelector parentSelector;
 	private JComboBox<RequirementType> dropdownType;
 	private JComboBox<RequirementStatus> dropdownStatus;
 	private JRadioButton priorityHigh;
@@ -69,24 +77,31 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	private JLabel errorDescription;
 	private JLabel errorEstimate;
 
+	/**
+	 * Constructs the requirement information panel
+	 * @param parentPanel the panel this info panel reports to
+	 * @param mode the current view mode.
+	 * @param curr the requirement being edited/created.
+	 */
 	public RequirementInformationPanel(RequirementPanel parentPanel,
 			RequirementViewMode mode, Requirement curr) {
 		this.currentRequirement = curr;
 		this.parentPanel = parentPanel;
 		this.viewMode = mode;
-
+		this.setMinimumSize(new Dimension(500,200));
 		this.buildLayout();
-		
+
 		clearInfo();
 	}
-	
+
 	/**
 	 * Builds the layout panel.
 	 * 
 	 * @return the newly created and formatted layout panel.
 	 */
 	private void buildLayout() {
-		this.setLayout(new MigLayout("","","shrink"));
+		ScrollablePanel contentPanel = new ScrollablePanel();
+		contentPanel.setLayout(new MigLayout("", "", "shrink"));
 		//instantialize everything.
 		JLabel labelName = new JLabel("Name *");
 		JLabel labelReleaseNum = new JLabel("Release Number");
@@ -98,7 +113,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		JLabel labelStatus = new JLabel("Status");
 		JLabel labelPriority = new JLabel("Priority");
 		JLabel labelEstimate = new JLabel("Estimate");
-		
+		JPanel parentInfoPanel = new JPanel();
 		boxName = new JTextField();
 		boxName.addKeyListener(this);
 
@@ -115,7 +130,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 
 		errorName = (new JLabel());
 		errorDescription = (new JLabel());
-		
+
 
 
 		dropdownType = (new JComboBox<RequirementType>(RequirementType.values()));
@@ -141,17 +156,17 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		priorityBlank.addItemListener(this);
 
 		group = new ButtonGroup();
-		group.add(getPriorityBlank());
-		group.add(getPriorityHigh());
-		group.add(getPriorityMedium());
-		group.add(getPriorityLow());
+		group.add(priorityBlank);
+		group.add(priorityHigh);
+		group.add(priorityMedium);
+		group.add(priorityLow);
 
 		JPanel priorityPanel = new JPanel();
 
-		priorityPanel.add(getPriorityLow());
-		priorityPanel.add(getPriorityMedium());
-		priorityPanel.add(getPriorityHigh());
-		priorityPanel.add(getPriorityBlank());
+		priorityPanel.add(priorityLow);
+		priorityPanel.add(priorityMedium);
+		priorityPanel.add(priorityHigh);
+		priorityPanel.add(priorityBlank);
 
 		boxEstimate = (new JTextField());
 		boxEstimate.setPreferredSize(new Dimension(50, 20));
@@ -161,72 +176,138 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		boxTotalEstimate = new JTextField();
 		boxTotalEstimate.setEnabled(false);
 		errorEstimate = (new JLabel());
-		
+
 		boolean hasChildren = !currentRequirement.getChildren().isEmpty();
 		labelChildEstimate.setVisible(hasChildren);
 		boxChildEstimate.setVisible(hasChildren);
-		
+
 		labelTotalEstimate.setVisible(hasChildren);
 		boxTotalEstimate.setVisible(hasChildren);
 
-		parent = new JLabel();
+		currentParent = new JLabel();
+		editParent = new JButton("Edit Parent");
+		editParent.setAlignmentX(RIGHT_ALIGNMENT);
+		editParent.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(currentRequirement.getParentID() != -1)
+				{
+					ViewEventController.getInstance().editRequirement(currentRequirement.getParent());
+				}
+			}		
+		});
+		removeFromParent = new JButton("Remove From Parent");
+		removeFromParent.setAlignmentX(RIGHT_ALIGNMENT);
+		removeFromParent.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Requirement oldParent = currentRequirement.getParent();
+				try {
+					currentRequirement.setParentID(-1);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				UpdateRequirementController.getInstance().updateRequirement(currentRequirement);
+				ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement);
+				ViewEventController.getInstance().refreshEditRequirementPanel(oldParent);
+			}	
+		});
+		parentSelector = new RequirementSelector(this, currentRequirement, RequirementSelectorMode.POSSIBLE_PARENTS, false);
 		
-		if (this.currentRequirement.getParentID() != -1) {
-			parent.setText("Child of \""
-					+ currentRequirement.getParent().getName() + "\"");
-		}
-		
+		parentInfoPanel.setLayout(new BoxLayout(parentInfoPanel, BoxLayout.Y_AXIS));
+		currentParent.setAlignmentX(LEFT_ALIGNMENT);
+		//parentInfoPanel.add(currentParent);
+		parentInfoPanel.add(editParent);
+		parentInfoPanel.add(removeFromParent);
+		parentInfoPanel.add(parentSelector);
 		//setup the top.
-		
-		this.add(labelName, "wrap");
-		this.add(boxName, "width 100%, span");
-		this.add(errorName, "wrap");
-		
-		this.add(labelDescription, "wrap");
-		this.add(boxDescription, "width 100%, span, height 600px, wmin 10, wrap");
-		this.add(errorDescription, "wrap");
-				
+
+		contentPanel.add(labelName, "wrap");
+		contentPanel.add(boxName, "growx, pushx, shrinkx, span, wrap");
+
+		contentPanel.add(labelDescription, "wrap");
+		contentPanel.add(boxDescription, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+
 		//setup columns.
-		this.add(labelReleaseNum,"left");
-		this.add(labelType, "right, wrap");
-		this.add(boxReleaseNum, "width 100px, left");
-		this.add(dropdownType,"right, wrap");
-		this.add(labelIteration,"left");
-		this.add(labelStatus,"right, wrap");
-		this.add(boxIteration,"width 100px, left");
-		this.add(dropdownStatus,"right, wrap");
-		this.add(labelEstimate,"left");
-		this.add(labelPriority,"right, wrap");
-		this.add(boxEstimate,"width 50px, left");
-		this.add(priorityPanel,"right, wrap");
-		this.add(errorEstimate, "left, wrap");
-		this.add(labelChildEstimate, "left, wrap");
-		this.add(boxChildEstimate, "width 50px, left");	
-		this.add(parent, "right, wrap");
-		this.add(labelTotalEstimate, "left, wrap");
-		this.add(boxTotalEstimate, "width 50px, left");
+		JPanel leftColumn = new JPanel(new MigLayout());
+		JPanel rightColumn = new JPanel(new MigLayout());
+		leftColumn.add(labelReleaseNum, "left,wrap");
+		leftColumn.add(boxReleaseNum, "width 100px, left,wrap");
+		leftColumn.add(labelIteration, "left,wrap");
+		leftColumn.add(boxIteration, "width 100px, left,wrap");
+		leftColumn.add(labelEstimate, "left,wrap");
+		leftColumn.add(boxEstimate, "width 50px, left,wrap");
+		leftColumn.add(labelChildEstimate, "left,wrap");
+		leftColumn.add(boxChildEstimate, "width 50px, left, wrap");
+		leftColumn.add(labelTotalEstimate, "left, wrap");
+		leftColumn.add(boxTotalEstimate, "width 50px, left");
+
+		rightColumn.add(labelType, "right, wrap");
+		rightColumn.add(dropdownType, "right, wrap");
+		rightColumn.add(labelStatus, "right, wrap");
+		rightColumn.add(dropdownStatus, "right, wrap");
+		rightColumn.add(labelPriority, "right, wrap");
+		rightColumn.add(priorityPanel, "right, wrap");
+		rightColumn.add(currentParent,"right, wrap");
+		rightColumn.add(parentInfoPanel, "right, span, wrap");
+		
+		contentPanel.add(leftColumn, "left, spany, growy, push");
+		contentPanel.add(rightColumn, "right, spany, growy, push");
+		
+		fireRefresh();
+		this.setViewportView(contentPanel);
 	}
 
-	public void refreshInfo() {
-		boolean showTotalEstimate = !currentRequirement.getChildren().isEmpty();
-		labelChildEstimate.setVisible(showTotalEstimate);
-		getBoxChildEstimate().setText(
+	/**
+	 * Refreshes the information of the requirement.
+	 */
+	public void fireRefresh() {
+		parentSelector.refreshList();
+		refreshParentInformation();
+		adjustFieldEnability();
+	}
+	
+	/**
+	 * Refresh information about the parent
+	 */
+	private void refreshParentInformation()
+	{
+		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		boolean hasChildren = !currentRequirement.getChildren().isEmpty();
+		labelChildEstimate.setVisible(hasChildren);
+		boxChildEstimate.setText(
 				Integer.toString(currentRequirement.getChildEstimate()));
-		getBoxChildEstimate().setVisible(showTotalEstimate);
-		getBoxTotalEstimate().setText(Integer.toString(currentRequirement.getTotalEstimate()));
-		getBoxTotalEstimate().setVisible(showTotalEstimate);
-		labelTotalEstimate.setVisible(showTotalEstimate);
-	
+		boxChildEstimate.setVisible(hasChildren);
+		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
+		boxTotalEstimate.setVisible(hasChildren);
+		labelTotalEstimate.setVisible(hasChildren);
+		
 		if (currentRequirement.getParentID() != -1) {
-			parent.setText("Child of \""
-					+ currentRequirement.getParent().getName() + "\"");
-			parent.setVisible(true);
+			currentParent.setText("Parent: " + currentRequirement.getParent().getName());
+			currentParent.setVisible(true);
+			editParent.setVisible(true && !isCreating);
+			removeFromParent.setVisible(true && !isCreating);
+			parentSelector.setVisible(false);
 		}
-	
 		else {
-			parent.setVisible(false);
+			currentParent.setText("Parent: ");
+			currentParent.setVisible(true && !isCreating);
+			editParent.setVisible(false);
+			removeFromParent.setVisible(false);
+			parentSelector.setVisible(true && !isCreating);
 		}
 	}
+
+	@Override
+	public void fireDeleted(boolean b) {}
+
+	@Override
+	public void fireValid(boolean b) {}
+
+	@Override
+	public void fireChanges(boolean b) {}
 
 	/**
 	 * Fills the fields of the edit requirement panel based on the current
@@ -234,117 +315,76 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	 */
 	@SuppressWarnings("unchecked")
 	private void fillFieldsForRequirement() {
-		getBoxName().setText(currentRequirement.getName());
-		getBoxDescription().setText(currentRequirement.getDescription());
-		getBoxEstimate().setText(
+		boxName.setText(currentRequirement.getName());
+		boxDescription.setText(currentRequirement.getDescription());
+		boxEstimate.setText(
 				String.valueOf(currentRequirement.getEstimate()));
-		getBoxReleaseNum().setText(currentRequirement.getRelease());
-	
+		boxReleaseNum.setText(currentRequirement.getRelease());
+
 		if (currentRequirement.getStatus().equals(RequirementStatus.NEW)) {
-			getDropdownStatus().removeAllItems();
-			getDropdownStatus().addItem(RequirementStatus.NEW);
-			getDropdownStatus().addItem(RequirementStatus.DELETED);
+			dropdownStatus.removeAllItems();
+			dropdownStatus.addItem(RequirementStatus.NEW);
+			dropdownStatus.addItem(RequirementStatus.DELETED);
 		} else if (currentRequirement.getStatus().equals(
 				RequirementStatus.INPROGRESS)) {
-			getDropdownStatus().removeAllItems();
-			getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
-			getDropdownStatus().addItem(RequirementStatus.COMPLETE);
-			getDropdownStatus().addItem(RequirementStatus.DELETED);
+			dropdownStatus.removeAllItems();
+			dropdownStatus.addItem(RequirementStatus.INPROGRESS);
+			dropdownStatus.addItem(RequirementStatus.COMPLETE);
+			dropdownStatus.addItem(RequirementStatus.DELETED);
 		} else if (currentRequirement.getStatus()
 				.equals(RequirementStatus.OPEN)) {
-			getDropdownStatus().removeAllItems();
-			getDropdownStatus().addItem(RequirementStatus.OPEN);
-			getDropdownStatus().addItem(RequirementStatus.DELETED);
+			dropdownStatus.removeAllItems();
+			dropdownStatus.addItem(RequirementStatus.OPEN);
+			dropdownStatus.addItem(RequirementStatus.DELETED);
 		} else if (currentRequirement.getStatus().equals(
 				RequirementStatus.COMPLETE)
 				|| currentRequirement.getStatus().equals(
 						RequirementStatus.DELETED)) {
 			if (currentRequirement.getIteration().equals("Backlog")) {
-				getDropdownStatus().removeAllItems();
-				getDropdownStatus().addItem(RequirementStatus.OPEN);
-				getDropdownStatus().addItem(RequirementStatus.COMPLETE);
-				getDropdownStatus().addItem(RequirementStatus.DELETED);
+				dropdownStatus.removeAllItems();
+				dropdownStatus.addItem(RequirementStatus.OPEN);
+				dropdownStatus.addItem(RequirementStatus.COMPLETE);
+				dropdownStatus.addItem(RequirementStatus.DELETED);
 			} else {
-				getDropdownStatus().removeAllItems();
-				getDropdownStatus().addItem(RequirementStatus.INPROGRESS);
-				getDropdownStatus().addItem(RequirementStatus.COMPLETE);
-				getDropdownStatus().addItem(RequirementStatus.DELETED);
+				dropdownStatus.removeAllItems();
+				dropdownStatus.addItem(RequirementStatus.INPROGRESS);
+				dropdownStatus.addItem(RequirementStatus.COMPLETE);
+				dropdownStatus.addItem(RequirementStatus.DELETED);
 			}
 		}
-		getDropdownStatus().setSelectedItem(currentRequirement.getStatus());
-	
-		getDropdownType().setSelectedItem(currentRequirement.getType());
-		getBoxIteration().setText(currentRequirement.getIteration().toString());
-	
-		this.setPriorityDropdown(currentRequirement.getPriority());
-	
-		if (currentRequirement.getStatus() == RequirementStatus.INPROGRESS)
-			parentPanel.fireDeleted(false);
-		if (currentRequirement.getStatus() == RequirementStatus.DELETED)
-			disableComponents();
-		if (currentRequirement.getEstimate() <= 0)
-			getBoxIteration().setEnabled(false);
-		if (currentRequirement.getEstimate() <= 0)
-			getBoxIteration().setEnabled(false);
-	
-		if ((currentRequirement.getStatus() == RequirementStatus.INPROGRESS || currentRequirement
-				.getStatus() == RequirementStatus.COMPLETE))
-			getBoxEstimate().setEnabled(false);
-	
-		if (currentRequirement.getStatus() == RequirementStatus.COMPLETE)
-			this.getBoxIteration().setEnabled(false);
-	
-		// reset the error messages.
-		this.getErrorEstimate().setText("");
-		getBoxEstimate().setBorder(defaultBorder);
-		this.getErrorDescription().setText("");
-		getBoxDescription().setBorder(defaultBorder);
-		this.getErrorName().setText("");
-		getBoxName().setBorder(defaultBorder);
-		getBoxChildEstimate().setText(Integer.toString(currentRequirement.getChildEstimate()));
-		getBoxTotalEstimate().setText(Integer.toString(currentRequirement.getTotalEstimate()));
-	
-		repaint();
-	}
-	
-	private void fillFieldsForParent()
-	{
-		getBoxIteration().setText(currentRequirement.getIteration());
-		getBoxEstimate().setText(String.valueOf(currentRequirement.getEstimate()));
-		getBoxReleaseNum().setText(currentRequirement.getRelease());
-		getDropdownStatus().setSelectedItem(currentRequirement.getParent().getStatus());
-		getDropdownType().setSelectedItem(currentRequirement.getType());
-		
-		switch(currentRequirement.getPriority())
-		{
-			case BLANK:
-				getPriorityBlank().setSelected(true);
-				break;
-			case LOW:
-				getPriorityLow().setSelected(true);
-				break;
-			case MEDIUM:
-				getPriorityMedium().setSelected(true);
-				break;
-			case HIGH:
-				getPriorityHigh().setSelected(true);
-				break;
-		}
-		
-		this.disableNonChildFields();
-		this.getDropdownStatus().setEnabled(false);
+		dropdownStatus.setSelectedItem(currentRequirement.getStatus());
 
+		dropdownType.setSelectedItem(currentRequirement.getType());
+		boxIteration.setText(currentRequirement.getIteration().toString());
+
+		this.setPriorityButton(currentRequirement.getPriority());
+
+		// reset the error messages.
+		errorEstimate.setText("");
+		boxEstimate.setBorder(defaultBorder);
+		errorDescription.setText("");
+		boxDescription.setBorder(defaultBorder);
+		errorName.setText("");
+		boxName.setBorder(defaultBorder);
+		boxChildEstimate.setText(Integer.toString(currentRequirement.getChildEstimate()));
+		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
+
+		fireRefresh();
+
+		repaint();
 	}
 
 	/**
 	 * Validates the values of the fields in the requirement panel to ensure
 	 * they are valid
+	 * @param warn whether to warn the user or not
+	 * @return whether fields are valid.
 	 */
 	public boolean validateFields(boolean warn) {
 		boolean isNameValid;
 		boolean isDescriptionValid;
 		boolean isEstimateValid;
-	
+
 		if (getBoxName().getText().length() >= 100) {
 			isNameValid = false;
 			if(warn)
@@ -368,7 +408,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 				getBoxName().setBorder(defaultBorder);
 			}
 			isNameValid = true;
-	
+
 		}
 		if (getBoxDescription().getText().trim().length() <= 0) {
 			isDescriptionValid = false;
@@ -386,135 +426,91 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 			}
 			isDescriptionValid = true;
 		}
-	
+
 		if (getBoxEstimate().getText().trim().length() <= 0) {
 			getBoxEstimate().setText("");
 			getErrorEstimate().setText("");
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		} else if (!(isInteger(getBoxEstimate().getText()))) {
-			if(warn)
-			{
-				getErrorEstimate()
-					.setText("** Please enter a non-negative integer");
-				getBoxEstimate().setBorder(errorBorder);
-				getBoxEstimate().setBorder((new JTextField()).getBorder());
-				getErrorEstimate().setForeground(Color.RED);
-			}
-
+			getErrorEstimate()
+			.setText("Estimate must be non-negative integer");
+			getBoxEstimate().setBorder(errorBorder);
+			getBoxEstimate().setBorder((new JTextField()).getBorder());
+			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
 		} else if (Integer.parseInt(getBoxEstimate().getText()) < 0) {
-			if(warn)
-			{
-				getErrorEstimate()
-					.setText("** Please enter a non-negative integer");
-				getBoxEstimate().setBorder(errorBorder);
-				getErrorEstimate().setForeground(Color.RED);
-			}
+			getErrorEstimate()
+			.setText("Estimate must be non-negative integer");
+			getBoxEstimate().setBorder(errorBorder);
+			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
-		} else if (Integer.parseInt(getBoxEstimate().getText()) == 0
+		} else if (((Integer.parseInt(getBoxEstimate().getText()) == 0) || (getBoxEstimate().getText().trim().length() == 0))
 				&& !(getBoxIteration().getText().trim().equals("Backlog") || getBoxIteration()
 						.getText().trim().equals(""))) {
-			if(warn)
-			{
-				getErrorEstimate()
-					.setText(
-							"<html>** Cannot have an estimate of 0<br>and be assigned to an iteration.</html>");
-				getBoxEstimate().setBorder(errorBorder);
-				getErrorEstimate().setForeground(Color.RED);
-			}
+			getErrorEstimate()
+			.setText(
+					"Cannot have an estimate of 0 and be assigned to an iteration.");
+			getBoxEstimate().setBorder(errorBorder);
+			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
 		} else {
 			getErrorEstimate().setText("");
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
-	
+		parentPanel.displayError(getErrorEstimate().getText());
 		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
-	
+
+	/**
+	 * Resets the information back to default
+	 */
 	public void clearInfo()
 	{
-		if(viewMode == RequirementViewMode.CREATING)
-		{
-			this.clear();
-		}
-		else
-		{
-			this.fillFieldsForRequirement();
-		}
-		
-		this.parentPanel.fireChanges(false);
+		this.fillFieldsForRequirement(); //if editing, revert back to old info
+
+		//no changes have been made, so let the parent know.
+		this.parentPanel.fireChanges(false); 
 	}
-	
+
 	/**
-	 * Clears the editing of the requirement.
+	 * Updates the requirement/creates the requirement based on the view mode.
 	 */
-	private void clear() 
-	{
-		if(currentRequirement.getParentID() != -1)
-		{
-			fillFieldsForParent();
-			getBoxName().setText("");
-			getBoxDescription().setText("");
-			getBoxEstimate().setText("");
-			repaint();
-			return;
-		}
-		getBoxName().setText("");
-		getBoxDescription().setText("");
-		this.getPriorityBlank().setSelected(true);
-		getDropdownType().setSelectedItem(RequirementType.BLANK);
-		getBoxReleaseNum().setText("");
-		getBoxEstimate().setText("");
-		getDropdownStatus().setSelectedItem(RequirementStatus.NEW);
-		
-		this.getErrorEstimate().setText("");
-		getBoxEstimate().setBorder(defaultBorder);
-		this.getErrorDescription().setText("");
-		getBoxDescription().setBorder(defaultBorder);
-		this.getErrorName().setText("");
-		getBoxName().setBorder(defaultBorder);
-		this.getBoxIteration().setEnabled(false);
-		this.getDropdownStatus().setEnabled(false);
-		repaint(); //repaint the entire panel.
-	}
-
 	public void update() {
-		if (viewMode == RequirementViewMode.CREATING) {
-			createRequirement();
-		} else {
-			updateRequirement();
-		}
+		updateRequirement(viewMode == RequirementViewMode.CREATING);
 	}
 
-	private void updateRequirement() {
+	/**
+	 * Updates the requirement based on whether it is being created or not
+	 * @param created whether the requirement is being created or edited.
+	 */
+	private void updateRequirement(boolean created) {
+		if(created) currentRequirement.setId(RequirementModel.getInstance().getNextID());
+
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
 		String stringIteration = this.getBoxIteration().getText();
-	
+
 		if (stringIteration.trim().equals(""))
 			stringIteration = "Backlog";
-	
+
 		RequirementPriority priority;
-		RequirementStatus status;
+		RequirementStatus status = (RequirementStatus) this.getDropdownStatus().getSelectedItem();
 		RequirementType type = (RequirementType) getDropdownType()
 				.getSelectedItem();
-	
+
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer
 				.parseInt(stringEstimate);
-		// Extract the status from the GUI
-		status = (RequirementStatus) this.getDropdownStatus().getSelectedItem();
+
 		// Extract which radio is selected for the priority
-		// If requirement deleted {}
-		// estimate = iteration.getEstimate()- estimate;
 		boolean stateHigh = getPriorityHigh().isSelected();
 		boolean stateMedium = getPriorityMedium().isSelected();
 		boolean stateLow = getPriorityLow().isSelected();
-	
+
 		// Convert the priority string to its corresponding enum
 		if (stateHigh)
 			priority = RequirementPriority.HIGH;
@@ -524,21 +520,19 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 			priority = RequirementPriority.LOW;
 		else
 			priority = RequirementPriority.BLANK;
-	
-		// Set to false to indicate the requirement is being newly created
-		boolean created = false;
-	
+
 		// Set the time stamp so that all transaction messages from this update
 		// will have the same time stamp
 		TransactionHistory requirementHistory = currentRequirement.getHistory();
 		requirementHistory.setTimestamp(System.currentTimeMillis());
-	
+
 		// Create a new requirement object based on the extracted info
 		if (currentRequirement.getParentID() != -1) {
 			currentRequirement.setName(stringName);
 			currentRequirement.setDescription(stringDescription);
 			currentRequirement.setStatus(status, created);
 			currentRequirement.setEstimate(estimate);
+			currentRequirement.setIteration(stringIteration, created);
 		} else {
 			currentRequirement.setName(stringName);
 			currentRequirement.setRelease(stringReleaseNum);
@@ -549,147 +543,115 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 			currentRequirement.setIteration(stringIteration, created);
 			currentRequirement.setType(type);
 		}
-	
+
+		if(created)
+		{
+			// Set the time stamp for the transaction for the creation of the requirement
+			currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());
+			System.out.println("The Time Stamp is now :" + currentRequirement.getHistory().getTimestamp());
+			currentRequirement.getHistory().add("Requirement created");
+
+			RequirementModel.getInstance().addRequirement(currentRequirement);
+		}
+
 		UpdateRequirementController.getInstance().updateRequirement(
 				currentRequirement);
-	
+
 		ViewEventController.getInstance().refreshTable();
-		
+
 		if(currentRequirement.getParentID() != -1)
 		{
 			ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement.getParent());
 		}
 	}
-
-	private void createRequirement() {
-		currentRequirement.setId(RequirementModel.getInstance().getNextID());
-		// Extract the name, release number, and description from the GUI fields
-		String stringName = this.getBoxName().getText();
-		String stringReleaseNum = this.getBoxReleaseNum().getText();
-		String stringDescription = this.getBoxDescription().getText();
-		String stringIteration = this.getBoxIteration().getText();
-		String stringEstimate = this.getBoxEstimate().getText();
-		
-		RequirementPriority priority;
-		RequirementStatus status;
-		RequirementType type;
-		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
-		
-		// Extract the status from the GUI
-		status = (RequirementStatus)this.getDropdownStatus().getSelectedItem();
-		type = (RequirementType)this.getDropdownType().getSelectedItem();
-		// Extract which radio is selected for the priority
-		boolean stateHigh = getPriorityHigh().isSelected();
-		boolean stateMedium = getPriorityMedium().isSelected();
-		boolean stateLow = getPriorityLow().isSelected();
-		boolean stateBlank = getPriorityBlank().isSelected();
-
-		// Convert the priority string to its corresponding enum
-		if (stateHigh)
-			priority = RequirementPriority.HIGH;
-		else if (stateMedium)
-			priority = RequirementPriority.MEDIUM;
-		else if (stateLow)
-			priority = RequirementPriority.LOW;
-		else 
-			priority = RequirementPriority.BLANK;
-
-
-		// Set to true to indicate the requirement is being newly created
-		boolean created = true;
-				
-		if(currentRequirement.getParentID() != -1)
-		{
-			currentRequirement.setName(stringName);
-			currentRequirement.setDescription(stringDescription);
-			currentRequirement.setStatus(status, created);
-			currentRequirement.setEstimate(estimate);
-		}
-		else
-		{
-			// Create a new requirement object based on the extracted info
-			currentRequirement.setName(stringName);
-			currentRequirement.setDescription(stringDescription);		
-			currentRequirement.setRelease(stringReleaseNum);
-			currentRequirement.setStatus(status, created);
-			currentRequirement.setPriority(priority, created);
-			currentRequirement.setType(type);
-			currentRequirement.setEstimate(estimate);
-			currentRequirement.setIteration(stringIteration, created);
-		}
-		
-		// Set the time stamp for the transaction for the creation of the requirement
-		currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());
-        System.out.println("The Time Stamp is now :" + currentRequirement.getHistory().getTimestamp());
-        currentRequirement.getHistory().add("Requirement created");
-
-		RequirementModel.getInstance().addRequirement(currentRequirement);
-		
-		if(currentRequirement.getParentID() != -1)
-		{
-			ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement.getParent());
-		}
-	}
-
-	public void deleteRequirement() {
-		getDropdownStatus().setSelectedItem(RequirementStatus.DELETED);
-	}
-
-	/**
-	 * Enables all of the components of the editing panel.
-	 */
-	private void enableComponents() {
-		this.getBoxName().setEnabled(true);
-		this.getBoxDescription().setEnabled(true);
-		this.getBoxEstimate().setEnabled(true);
-		this.getBoxReleaseNum().setEnabled(true);
-		this.getDropdownType().setEnabled(true);
-		if (currentRequirement.getEstimate() > 0)
-			this.getBoxIteration().setEnabled(true);
-		this.getPriorityHigh().setEnabled(true);
-		this.getPriorityMedium().setEnabled(true);
-		this.getPriorityLow().setEnabled(true);
-		this.getPriorityBlank().setEnabled(true);
-		this.parentPanel.fireDeleted(true);
-	}
-
-	/**
-	 * Disables all the components of the editing panel besides the status
-	 * dropdown.
-	 */
-	private void disableComponents() {
-		this.getBoxName().setEnabled(false);
-		this.getBoxDescription().setEnabled(false);
-		this.getBoxEstimate().setEnabled(false);
-		this.getBoxReleaseNum().setEnabled(false);
-		this.getDropdownType().setEnabled(false);
-		this.getBoxIteration().setEnabled(false);
-		this.getPriorityHigh().setEnabled(false);
-		this.getPriorityMedium().setEnabled(false);
-		this.getPriorityLow().setEnabled(false);
-		this.getPriorityBlank().setEnabled(false);
-		this.parentPanel.fireDeleted(false);
-	}
-
-	/**
-	 * Disables all fields that are not editable in a child requirement.
-	 */
-	protected void disableNonChildFields() {
-	
-		this.getPriorityBlank().setEnabled(false);
-		this.getPriorityHigh().setEnabled(false);
-		this.getPriorityLow().setEnabled(false);
-		this.getPriorityMedium().setEnabled(false);
-		getDropdownType().setEnabled(false);
-		getBoxReleaseNum().setEnabled(false);
-		getBoxIteration().setEnabled(false);
-	}
 	
 	/**
-	 * Returns whether any field in the panel has been changed
+	 * Enables or disables components as needed
+	 */
+	private void adjustFieldEnability()
+	{
+		boolean allDisabled = getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED;
+		allDisabled |= getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE;
+		boolean inProgress = getDropdownStatus().getSelectedItem() == RequirementStatus.INPROGRESS;
+		boolean validEstimate = false;
+		boolean hasParent = currentRequirement.getParentID() != -1;
+		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		try
+		{
+			Integer estimate = new Integer(getBoxEstimate().getText().trim());
+			
+			validEstimate = estimate > 0;
+		}
+		catch(Exception e)
+		{
+			validEstimate = false;
+		}
+		
+		this.getBoxName().setEnabled(!allDisabled);
+		this.getBoxDescription().setEnabled(!allDisabled);
+		this.getBoxEstimate().setEnabled(!inProgress && !allDisabled);
+		this.getBoxReleaseNum().setEnabled(!hasParent && !allDisabled);
+		this.getDropdownType().setEnabled(!hasParent && !allDisabled);
+		this.getDropdownStatus().setEnabled(!isCreating);
+		this.getBoxIteration().setEnabled(validEstimate && !allDisabled);
+		this.getPriorityHigh().setEnabled(!hasParent && !allDisabled);
+		this.getPriorityMedium().setEnabled(!hasParent && !allDisabled);
+		this.getPriorityLow().setEnabled(!hasParent && !allDisabled);
+		this.getPriorityBlank().setEnabled(!hasParent && !allDisabled);
+		this.parentPanel.fireDeleted(allDisabled || inProgress);	
+	}
+
+	/**
+	 * @return Returns whether any field in the panel has been changed
 	 */
 	public boolean anythingChanged()
 	{
+		if(viewMode == RequirementViewMode.CREATING)
+		{
+			return anythingChangedCreating();
+		}
+		else
+		{
+			return anythingChangedEditing();
+		}
+	}
+
+	/**
+	 * @return Returns whether any fields in the panel have been changed 
+	 */
+	private boolean anythingChangedCreating() {
+		boolean hasParent = currentRequirement.getParentID() != -1;
+		// Check if the user has changed the name
+		if (!(getBoxName().getText().equals(""))){
+			return true;}
+		// Check if the user has changed the description
+		if (!(getBoxDescription().getText().equals(""))){
+			return true;}
+		// Check if the user has changed the release number
+		if (!(getBoxReleaseNum().getText().equals("")) && !hasParent){
+			return true;}
+		// Check if the user has changed the iteration number
+		if (!((getBoxIteration().getText().equals("")) || getBoxIteration().getText().equals("Backlog")) && !hasParent){
+			return true;}
+		// Check if the user has changed the type
+		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK) && !hasParent){
+			return true;}
+		// Check if the user has changed the estimate
+		if (!(getBoxEstimate().getText().trim().equals("") || getBoxEstimate().getText().trim().equals("0"))){
+			return true;}
+
+		if (!getPriorityBlank().isSelected() && !hasParent)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return whether any fields have been changed.
+	 */
+	private boolean anythingChangedEditing() {
 		// Check if the user has changed the name
 		if (!(getBoxName().getText().equals(currentRequirement.getName()))){
 			return true;}
@@ -716,27 +678,27 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		boolean priorityChanged = false;
 		switch(reqPriority)
 		{
-			case BLANK:
-				priorityChanged = !getPriorityBlank().isSelected();
-				break;
-			case LOW:
-				priorityChanged = !getPriorityLow().isSelected();
-				break;
-			case MEDIUM:
-				priorityChanged = !getPriorityMedium().isSelected();
-				break;
-			case HIGH:
-				priorityChanged = !getPriorityHigh().isSelected();
-				break;
+		case BLANK:
+			priorityChanged = !getPriorityBlank().isSelected();
+			break;
+		case LOW:
+			priorityChanged = !getPriorityLow().isSelected();
+			break;
+		case MEDIUM:
+			priorityChanged = !getPriorityMedium().isSelected();
+			break;
+		case HIGH:
+			priorityChanged = !getPriorityHigh().isSelected();
+			break;
 		}
 		if (priorityChanged)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Returns whether the panel is ready to be removed or not based on if there are changes that haven't been
 	 * saved.
@@ -747,8 +709,24 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	{	
 		return !anythingChanged();
 	}
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 * 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		fireRefresh();
+		super.paintComponent(g);
+	}
 
-	public void setPriorityDropdown(RequirementPriority priority) {
+	/**
+	 * Sets the priority button based on the priority inputted
+	 * @param priority the priority to be set.
+	 */
+	public void setPriorityButton(RequirementPriority priority) {
 		switch (priority) {
 		case BLANK:
 			getPriorityBlank().setSelected(true);
@@ -769,23 +747,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	public void itemStateChanged(ItemEvent e) {
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
-	
-		if (getDropdownStatus().getSelectedItem() != RequirementStatus.DELETED) {
-			enableComponents();
-		} else {
-			disableComponents();
-		}
-
-		if (getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE
-				|| getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED) {
-			this.parentPanel.fireDeleted(true);
-		} else {
-			this.parentPanel.fireDeleted(false);
-		}
-
-		if (currentRequirement.getParentID() != -1)
-			disableNonChildFields();
-
+		adjustFieldEnability();
 		this.repaint();
 	}
 
@@ -793,24 +755,7 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 	public void keyReleased(KeyEvent e) {
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
-		
-		// check that estimate is valid to enable iterations.
-		boolean validEstimate = true;
-
-		int totalEstimate = currentRequirement.getChildEstimate();
-		try {
-			int estimate = Integer.parseInt(getBoxEstimate().getText()
-					.trim());
-			validEstimate = estimate > 0;
-			totalEstimate += estimate;
-		} catch (Exception ex) {
-			validEstimate = false;
-		}
-		
-		getBoxTotalEstimate().setText(Integer.toString(totalEstimate));
-		this.getBoxIteration().setEnabled(validEstimate);
-		if (currentRequirement.getParentID() != -1)
-			this.disableNonChildFields();
+		adjustFieldEnability();
 
 
 		this.repaint();
@@ -838,71 +783,129 @@ public class RequirementInformationPanel extends JPanel implements KeyListener,
 		}
 	}
 
+	/**
+	 * Returns the error name label
+	 * @return error name label
+	 */
 	public JLabel getErrorName() {
 		return errorName;
 	}
 
+	/**
+	 * @return the error description label
+	 */
 	public JLabel getErrorDescription() {
 		return errorDescription;
 	}
 
+	/**
+	 * 
+	 * @return the error estimate label
+	 */
 	public JLabel getErrorEstimate() {
 		return errorEstimate;
 	}
 
+	/**
+	 * 
+	 * @return box name
+	 */
 	public JTextField getBoxName() {
 		return boxName;
 	}
 
+	/**
+	 * 
+	 * @return box release num
+	 */
 	public JTextField getBoxReleaseNum() {
 		return boxReleaseNum;
 	}
 
+	/**
+	 * 
+	 * @return box description
+	 */
 	public JTextArea getBoxDescription() {
 		return boxDescription;
 	}
 
+	/**
+	 * 
+	 * @return box iteration
+	 */
 	public JTextField getBoxIteration() {
 		return boxIteration;
 	}
 
+	/**
+	 * 
+	 * @return box child estimate
+	 */
 	public JTextField getBoxChildEstimate() {
 		return boxChildEstimate;
 	}
-	
+
+	/**
+	 * 
+	 * @return box total estimate
+	 */
 	public JTextField getBoxTotalEstimate() {
 		return boxTotalEstimate;
 	}
 
-	public void getBoxTotalEstimate(JTextField boxTotalEstimate) {
-		this.boxTotalEstimate = boxTotalEstimate;
-	}
-
+	/**
+	 * 
+	 * @return type dropdown
+	 */
 	public JComboBox<RequirementType> getDropdownType() {
 		return dropdownType;
 	}
 
+	/**
+	 * 
+	 * @return status dropdown
+	 */
 	public JComboBox<RequirementStatus> getDropdownStatus() {
 		return dropdownStatus;
 	}
 
+	/**
+	 * 
+	 * @return estimate box
+	 */
 	public JTextField getBoxEstimate() {
 		return boxEstimate;
 	}
-	
+
+	/**
+	 * @return high priority button
+	 */
 	public JRadioButton getPriorityHigh() {
 		return priorityHigh;
 	}
-
+	/**
+	 * @return medium priority button
+	 */
 	public JRadioButton getPriorityMedium() {
 		return priorityMedium;
 	}
-
+	/**
+	 * @return low priority button
+	 */
 	public JRadioButton getPriorityLow() {
 		return priorityLow;
 	}
-
+	/**
+	 * @return blank priority button
+	 */
 	public JRadioButton getPriorityBlank() {
 		return priorityBlank;
+	}
+
+	@Override
+	public void requirementSelected() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -130,14 +130,14 @@ public class NewRequirementPanelTest {
 		RequirementPanel testNew = new RequirementPanel(-1);
 		
 		// pre-defined variable
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoninteger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String testDescription = "testDescription";
 		String hundredCharText = "0";
 		
 		for(int i = 0; i<100; i++)
 		{
-			hundredCharText = hundredCharText +"0";
+			hundredCharText += "0";
 		}
 		
 		// fill in invalid field
@@ -158,7 +158,7 @@ public class NewRequirementPanelTest {
 		
 		// error messages are shown
 		assertEquals(errorMessageNoMore100,testNew.getInfoPanel().getErrorName().getText());
-		assertEquals(errorMessageNoninterger,testNew.getInfoPanel().getErrorEstimate().getText());
+		assertEquals(errorMessageNoninteger,testNew.getInfoPanel().getErrorEstimate().getText());
 		
 		
 	}

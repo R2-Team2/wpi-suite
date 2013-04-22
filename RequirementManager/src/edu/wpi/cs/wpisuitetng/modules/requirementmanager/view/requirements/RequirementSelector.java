@@ -32,7 +32,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class RequirementSelector extends JScrollPane {
-	final private Dimension buttonDimensions = new Dimension(125, 25);
+	private final Dimension buttonDimensions = new Dimension(125, 25);
 	private JList<Requirement> requirementList;
 	private List<JButton> buttonList;
 	private JButton okButton;
@@ -55,12 +54,18 @@ public class RequirementSelector extends JScrollPane {
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
 	private RequirementSelectorListener listener;
-	private boolean enabled;
 
+	/**
+	 * Constructor for the requirementselector
+	 * @param listener the listener to report to
+	 * @param requirement the requirement to fill the editor for
+	 * @param mode the mode of the selector
+	 * @param showBorder whether to show border or not
+	 */
 	public RequirementSelector(RequirementSelectorListener listener, Requirement requirement, RequirementSelectorMode mode, boolean showBorder) 
 	{
+		if(!showBorder) this.setBorder(null);
 		JPanel contentPanel = new JPanel();
-		this.enabled = false;
 		this.buttonList = new ArrayList<JButton>();
 		this.listener = listener;
 		this.activeRequirement = requirement;
@@ -74,8 +79,6 @@ public class RequirementSelector extends JScrollPane {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		contentPanel.add(listScroll);
-		contentPanel.add(buttonPanel);
 
 		String okText;
 		if (this.mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
@@ -83,9 +86,15 @@ public class RequirementSelector extends JScrollPane {
 		} else {
 			requirementList
 					.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			okText = "Select Parent";
+			okText = "Set Parent";
+			listScroll.setPreferredSize(new Dimension(200, 75));
+			contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+			buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
 		}
-
+		
+		contentPanel.add(listScroll);
+		contentPanel.add(buttonPanel);
+		
 		okButton = new JButton(okText);
 		okButton.addActionListener(new ActionListener() {
 			@Override
@@ -104,8 +113,7 @@ public class RequirementSelector extends JScrollPane {
 		requirementList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				okButton.setEnabled(requirementList.getSelectedValues().length > 0
-						&& enabled);
+				okButton.setEnabled(requirementList.getSelectedIndices().length > 0);
 			}
 		});
 
@@ -120,9 +128,13 @@ public class RequirementSelector extends JScrollPane {
 			public void mousePressed(MouseEvent e) {
 				super.mousePressed(e);
 				clearSelection(e);
+				if(e.getClickCount() == 2)
+				{
+					okPressed();
+				}
 			}
 
-			public void clearSelection(MouseEvent e) {
+			private void clearSelection(MouseEvent e) {
 				Point pClicked = e.getPoint();
 				int index = requirementList.locationToIndex(pClicked);
 				Rectangle rec = requirementList.getCellBounds(index, index);
@@ -157,6 +169,9 @@ public class RequirementSelector extends JScrollPane {
 		buttonPanel.repaint();
 	}
 
+	/**
+	 * Refreshes the requirement selector list.
+	 */
 	public void refreshList() {
 		ListModel<Requirement> reqList = new DefaultListModel<Requirement>();
 
@@ -174,6 +189,9 @@ public class RequirementSelector extends JScrollPane {
 		requirementList.setModel(reqList);
 	}
 
+	/**
+	 * Performs actions when the ok button is pressed.
+	 */
 	private void okPressed() {
 		if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
 			Object[] selectedList = requirementList.getSelectedValues();
@@ -200,6 +218,8 @@ public class RequirementSelector extends JScrollPane {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+			ViewEventController.getInstance().refreshEditRequirementPanel(parentRequirement);
+			ViewEventController.getInstance().refreshEditRequirementPanel(activeRequirement);
 			UpdateRequirementController.getInstance().updateRequirement(
 					activeRequirement);
 		}
@@ -225,12 +245,11 @@ public class RequirementSelector extends JScrollPane {
 	/**
 	 * disable child panels
 	 * 
-	 * @param whether
+	 * @param enabled whether
 	 *            its enabled or not
 	 */
 	public void enableChildren(boolean enabled) {
-		this.enabled = enabled;
-		okButton.setEnabled(enabled && requirementList.getSelectedIndices().length != 0);
+		okButton.setEnabled(enabled);
 		requirementList.setEnabled(enabled);
 	}
 }

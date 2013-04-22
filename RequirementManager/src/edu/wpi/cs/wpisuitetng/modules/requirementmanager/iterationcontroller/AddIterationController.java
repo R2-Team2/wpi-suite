@@ -35,7 +35,7 @@ public class AddIterationController{
 	}
 	
 	/**
-	 * Returns the instance of the AddIterationController or creates one if it does not
+	 * @return the instance of the AddIterationController or creates one if it does not
 	 * exist.
 	 */
 	public static AddIterationController getInstance()

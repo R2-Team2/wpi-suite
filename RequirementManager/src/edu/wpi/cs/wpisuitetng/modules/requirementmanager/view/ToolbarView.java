@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
  *
  */
 public class ToolbarView extends JPanel {
+
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
@@ -39,6 +40,7 @@ public class ToolbarView extends JPanel {
 		this.add(new ChartButtonsPanel());
 		this.add(new EditButtonsPanel());
 		this.add(new RequirementButtonsPanel());
+
 	}
 	
 	public JButton getEditButton(){

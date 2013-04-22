@@ -114,7 +114,7 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User[] userArray = new User[2];
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).toArray(userArray)[0];
+		User user = db.retrieve(User.class, "username", session.getUsername()).toArray(userArray)[0];
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
