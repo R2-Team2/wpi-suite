@@ -16,15 +16,9 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * History of transactions for a requirement
- * @author Kevin Kell 
- * 3/25/13
- * get work done
+ * @author Kevin Kell, Raphael
  */
 
-/**
- * @author Raphael
- *
- */
 public class TransactionHistory {
 	
 	private LinkedList<Transaction> history;

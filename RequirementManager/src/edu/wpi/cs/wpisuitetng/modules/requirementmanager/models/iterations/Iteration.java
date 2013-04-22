@@ -21,15 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
- * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish
- */
-/**
- * @author Arianna
- *
- */
-/**
- * @author Arianna
- *
+ * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish, Arianna
  */
 public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
@@ -268,19 +260,16 @@ public class Iteration extends AbstractModel {
 
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 
 	}
 
