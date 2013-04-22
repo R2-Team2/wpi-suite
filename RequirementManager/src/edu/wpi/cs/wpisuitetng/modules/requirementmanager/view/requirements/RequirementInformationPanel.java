@@ -66,6 +66,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JLabel currentParent;
 	private JButton editParent;
 	private JButton removeFromParent;
+	private JButton chooseParent;
+	private JPanel noParentInfoPanel;
 	private RequirementSelector parentSelector;
 	private JComboBox<RequirementType> dropdownType;
 	private JComboBox<RequirementStatus> dropdownStatus;
@@ -76,6 +78,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JTextField boxEstimate;
 	private ButtonGroup group;
 
+	private RequirementStatus lastValidStatus;
+	
 	private JLabel errorName;
 	private JLabel errorDescription;
 	private JLabel errorEstimate;
@@ -124,10 +128,12 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxReleaseNum = (new JTextField());
 		boxReleaseNum.addKeyListener(this);
 
+		JScrollPane descrScroll = new JScrollPane();
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
 		boxDescription.setBorder(defaultBorder);
 		boxDescription.addKeyListener(this);
+		descrScroll.setViewportView(boxDescription);
 
 		List<Iteration> iterations = IterationModel.getInstance().getIterations();
 		int size = iterations.size();
@@ -223,21 +229,41 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				ViewEventController.getInstance().refreshEditRequirementPanel(oldParent);
 			}	
 		});
-		parentSelector = new RequirementSelector(this, currentRequirement, RequirementSelectorMode.POSSIBLE_PARENTS, false);
 		
+		parentSelector = new RequirementSelector(this, currentRequirement, RequirementSelectorMode.POSSIBLE_PARENTS, false);
+
+		chooseParent = new JButton("Choose Parent");
+		chooseParent.setAlignmentX(RIGHT_ALIGNMENT);
+		chooseParent.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				chooseParent.setVisible(false);
+				parentSelector.setVisible(true);
+				repaint();
+			}
+			
+		});
+		
+
 		parentInfoPanel.setLayout(new BoxLayout(parentInfoPanel, BoxLayout.Y_AXIS));
 		currentParent.setAlignmentX(LEFT_ALIGNMENT);
-		//parentInfoPanel.add(currentParent);
+		noParentInfoPanel = new JPanel();
 		parentInfoPanel.add(editParent);
 		parentInfoPanel.add(removeFromParent);
-		parentInfoPanel.add(parentSelector);
+		noParentInfoPanel.add(parentSelector);
+		noParentInfoPanel.add(chooseParent);
+		parentInfoPanel.add(noParentInfoPanel);
+		chooseParent.setVisible(true);
+		parentSelector.setVisible(false);
 		//setup the top.
 
 		contentPanel.add(labelName, "wrap");
 		contentPanel.add(boxName, "growx, pushx, shrinkx, span, wrap");
 
 		contentPanel.add(labelDescription, "wrap");
-		contentPanel.add(boxDescription, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+		contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
 		//setup columns.
 		JPanel leftColumn = new JPanel(new MigLayout());
@@ -298,14 +324,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			currentParent.setVisible(true);
 			editParent.setVisible(true && !isCreating);
 			removeFromParent.setVisible(true && !isCreating);
-			parentSelector.setVisible(false);
+			noParentInfoPanel.setVisible(false);
 		}
 		else {
 			currentParent.setText("Parent: ");
 			currentParent.setVisible(true && !isCreating);
 			editParent.setVisible(false);
 			removeFromParent.setVisible(false);
-			parentSelector.setVisible(true && !isCreating);
+			noParentInfoPanel.setVisible(true);
 		}
 	}
 
@@ -392,15 +418,13 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boolean isNameValid;
 		boolean isDescriptionValid;
 		boolean isEstimateValid;
-
+		String boxError = "";
 		if (getBoxName().getText().length() >= 100) {
 			isNameValid = false;
-			if(warn)
-			{
-				getErrorName().setText("No more than 100 chars");
-				getBoxName().setBorder(errorBorder);
-				getErrorName().setForeground(Color.RED);
-			}
+			getErrorName().setText("No more than 100 chars");
+			getBoxName().setBorder(errorBorder);
+			getErrorName().setForeground(Color.RED);
+			boxError += "Name can be no more than 100 chars.";
 		} else if (getBoxName().getText().trim().length() <= 0) {
 			isNameValid = false;
 			if(warn)
@@ -467,7 +491,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
-		parentPanel.displayError(getErrorEstimate().getText());
+		parentPanel.displayError(getErrorEstimate().getText() + " " + boxError);
 		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
 
@@ -584,6 +608,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boolean validEstimate = false;
 		boolean hasParent = currentRequirement.getParentID() != -1;
 		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		boolean hasChildren = currentRequirement.getChildren().size() != 0;
 		try
 		{
 			Integer estimate = new Integer(getBoxEstimate().getText().trim());
@@ -606,7 +631,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.getPriorityMedium().setEnabled(!hasParent && !allDisabled);
 		this.getPriorityLow().setEnabled(!hasParent && !allDisabled);
 		this.getPriorityBlank().setEnabled(!hasParent && !allDisabled);
-		this.parentPanel.fireDeleted(allDisabled || inProgress);	
+		this.parentPanel.fireDeleted(allDisabled || inProgress || hasChildren);	
 	}
 
 	/**
@@ -753,6 +778,25 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		boolean passChildren = currentRequirement.getChildren().size() != 0;
+		
+		if (passChildren) 
+		{
+			if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Children exist, requirement cannot be deleted");
+			}
+			else
+			{
+				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+			}
+		}
+		else
+		{
+			lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+		}
+		
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
 		adjustFieldEnability();
@@ -913,7 +957,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	@Override
 	public void requirementSelected() {
-		// TODO Auto-generated method stub
-		
+		this.parentSelector.setVisible(false);
+		this.chooseParent.setVisible(true);
 	}
 }

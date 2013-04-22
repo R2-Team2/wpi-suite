@@ -146,6 +146,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	 * @param msg the error message
 	 */
 	public void displayError(String msg){
+		if(msg.trim().length() == 0) return;
 		errorMessage.setText(msg);
 	}
 
