@@ -111,7 +111,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		JLabel labelReleaseNum = new JLabel("Release Number");
 		JLabel labelDescription = new JLabel("Description *");
 		JLabel labelIteration = new JLabel("Iteration");
-		labelChildEstimate = new JLabel("Child Estimate");
+		labelChildEstimate = new JLabel("Children Estimate");
 		labelTotalEstimate = new JLabel("Total Estimate");
 		JLabel labelType = new JLabel("Type");
 		JLabel labelStatus = new JLabel("Status");
