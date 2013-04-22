@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class OverviewTable extends JTable
@@ -89,17 +90,15 @@ public class OverviewTable extends JTable
 		for (int i = 0; i < requirements.size(); i++) {
 			Requirement req = requirements.get(i);
 			tableModel.addRow(new Object[]{ req.getId(), 
-											req,
-											req.getRelease(),
-											req.getIteration(),
-											req.getType(),
-											req.getStatus(),
-											req.getPriority(),
-											req.getEstimate()
-			});
-
+					req,
+					req.getRelease(),
+					req.getIteration(),
+					req.getType(),
+					req.getStatus(),
+					req.getPriority(),
+					req.getEstimate()
+			});			
 		}
-			
 	}
 	
 	/**

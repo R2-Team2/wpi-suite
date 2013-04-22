@@ -14,6 +14,7 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
@@ -69,6 +70,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         
         // check to see if in multiple requirements editing mode
         if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+        	
         	// extract the ID number displayed in the row
         	String rowIDstr = model.getValueAt(modelRow, 0).toString();
         	int rowID = Integer.parseInt(rowIDstr);
@@ -96,8 +98,12 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         		}
         	}
         	else {
-        		// set cell text to 0 is there is nothing in the cell
-        		if ((cellEstimateStr.isEmpty()) && column == 7) setValue("0");
+        		// set cell text to original estimate if the cell estimate was deleted
+        		if ((cellEstimateStr.isEmpty()) && column == 7) {
+        			cellEstimate = reqEstimate;
+        			setValue(reqEstimate);
+        		}
+        		
         		// compare the estimate in the cell to the requirement's estimate
         		if (!(cellEstimate == reqEstimate) && column == 7) {
         			// highlight the cell in green if there is a change in the estimate

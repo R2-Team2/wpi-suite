@@ -180,13 +180,9 @@ public class ViewEventController {
 
 		// check to see if the overview table is now out of editing mode
 		if (!this.overviewTable.getEditFlag()) {
-			if (cancel) {
-				this.overviewTable.refresh();
-			}
-			else {
-				this.overviewTable.saveChanges();
-			}
-		}
+			if (cancel) this.overviewTable.refresh();
+			else this.overviewTable.saveChanges();
+		}	
 	}
 
 
