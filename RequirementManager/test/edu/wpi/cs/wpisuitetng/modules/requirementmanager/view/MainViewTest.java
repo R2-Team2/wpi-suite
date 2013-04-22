@@ -41,7 +41,8 @@ public class MainViewTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		vec.getToolbar().getReqButton().getCreateButton().doClick();
+		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
 	}
 
 }
