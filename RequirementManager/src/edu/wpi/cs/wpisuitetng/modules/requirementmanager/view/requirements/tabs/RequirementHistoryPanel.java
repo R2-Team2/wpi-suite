@@ -17,8 +17,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 
 public class RequirementHistoryPanel extends JScrollPane implements RequirementPanelListener {
 
-	private final RequirementTabsPanel parentPanel;
-	private final RequirementViewMode viewMode;
 	private final Requirement currentRequirement;
 	
 	/**
@@ -29,8 +27,6 @@ public class RequirementHistoryPanel extends JScrollPane implements RequirementP
 	 */
 	public RequirementHistoryPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement currentRequirement)
 	{
-		this.parentPanel = parentPanel;
-		viewMode = vm;
 		this.currentRequirement = currentRequirement;
 		// Create scroll pane for window, set scroll bar to always be on
 		this.setVerticalScrollBarPolicy(RequirementHistoryPanel.VERTICAL_SCROLLBAR_ALWAYS);
