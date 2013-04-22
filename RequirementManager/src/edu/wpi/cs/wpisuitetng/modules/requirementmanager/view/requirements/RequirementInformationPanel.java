@@ -782,7 +782,17 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		
 		if (passChildren) 
 		{
-			if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			boolean allChildrenCompleted = true;
+			for (Requirement Child: currentRequirement.getChildren()){
+				allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
+			}
+			
+			if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Cannot complete unless children are completed");
+			}
+			else if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
 			{
 				dropdownStatus.setSelectedItem(lastValidStatus);
 				parentPanel.displayError("Children exist, requirement cannot be deleted");
@@ -791,6 +801,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			{
 				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 			}
+
 		}
 		else
 		{
