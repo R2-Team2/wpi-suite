@@ -5,8 +5,12 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
@@ -32,13 +36,16 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 
 	@Override
 	/**
-	 * Returns the table cell editor so that the table can edit the cells
+	 * Returns the table cell editor so that the table can edit the cells text fields
 	 */
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, final boolean isSelected, int row, int column) {
 		// extract the cell's text field
 		final JTextField c = (JTextField) super.getTableCellEditorComponent(table, value, isSelected, row, column);
-
+		
+		c.setBackground(Color.white);
+		
 		// add a key listener to the cell's text field
+		// this will color the text field correctly when the text field is edited
 		c.addKeyListener(new KeyListener() {	
 
 			@Override
@@ -46,7 +53,6 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 			public void keyReleased(KeyEvent e) {
 				// extract the text from the text field, trimming beginning and ending spaces 
 				String cellText = c.getText().trim();
-				System.out.println("Cell text is: " + cellText);
 				boolean formatError = false;
 				int cellInt = 0;
 				// attempt to parse the text to an integer 

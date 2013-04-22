@@ -418,13 +418,19 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boolean isNameValid;
 		boolean isDescriptionValid;
 		boolean isEstimateValid;
-		String boxError = "";
+		
+		parentPanel.removeError("Name can be no more than 100 chars.");
+		parentPanel.removeError("Name is required.");
+		parentPanel.removeError("Description is required.");
+		parentPanel.removeError("Estimate must be non-negative integer");	
+		parentPanel.removeError("Cannot have an estimate of 0 and be assigned to an iteration.");	
+		
 		if (getBoxName().getText().length() >= 100) {
 			isNameValid = false;
 			getErrorName().setText("No more than 100 chars");
 			getBoxName().setBorder(errorBorder);
 			getErrorName().setForeground(Color.RED);
-			boxError += "Name can be no more than 100 chars.";
+			parentPanel.displayError("Name can be no more than 100 chars.");
 		} else if (getBoxName().getText().trim().length() <= 0) {
 			isNameValid = false;
 			if(warn)
@@ -433,6 +439,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				getBoxName().setBorder(errorBorder);
 				getErrorName().setForeground(Color.RED);
 			}
+			parentPanel.displayError("Name is required.");
 		} else {
 			if(warn)
 			{
@@ -450,6 +457,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				getErrorDescription().setForeground(Color.RED);
 				getBoxDescription().setBorder(errorBorder);
 			}
+			parentPanel.displayError("Description is required.");
 		} else {
 			if(warn)
 			{
@@ -491,7 +499,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			getBoxEstimate().setBorder(defaultBorder);
 			isEstimateValid = true;
 		}
-		parentPanel.displayError(getErrorEstimate().getText() + " " + boxError);
+		parentPanel.displayError(getErrorEstimate().getText());
 		return isNameValid && isDescriptionValid && isEstimateValid;
 	}
 
@@ -778,19 +786,34 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		boolean passChildren = currentRequirement.getChildren().size() != 0;
+		boolean hasChildren = currentRequirement.getChildren().size() != 0;
 		
-		if (passChildren) 
+		parentPanel.removeError("Cannot complete unless children are completed.");
+		parentPanel.removeError("Cannot delete when children exist.");
+		
+		if (hasChildren) 
 		{
-			if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			boolean allChildrenCompleted = true;
+			for (Requirement Child: currentRequirement.getChildren()){
+				allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
+			}
+			
+			if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
 			{
 				dropdownStatus.setSelectedItem(lastValidStatus);
-				parentPanel.displayError("Children exist, requirement cannot be deleted");
+				parentPanel.displayError("Cannot complete unless children are completed.");
+			}
+			else if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Cannot delete when children exist.");
 			}
 			else
 			{
+
 				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 			}
+
 		}
 		else
 		{

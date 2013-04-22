@@ -90,7 +90,7 @@ public class MainView extends JTabbedPane {
 					// extract the value within the cell
 					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
 					// highlight the cell
-					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);					
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);				
 				}
 			}
 		});
