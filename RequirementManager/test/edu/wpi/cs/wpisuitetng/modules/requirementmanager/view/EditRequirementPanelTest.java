@@ -113,7 +113,7 @@ public class EditRequirementPanelTest {
 		
 		RequirementPanel testEdit = new RequirementPanel(testRequirement);
 		
-		String errorMessageNoninterger = "** Please enter a non-negative integer";
+		String errorMessageNoninterger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String errorMessageRequiredDescription = "** Description is REQUIRED";
 		
@@ -228,7 +228,8 @@ public class EditRequirementPanelTest {
 		
 		testEdit.getInfoPanel().getBoxName().setText(testName);
 		testEdit.getInfoPanel().getBoxDescription().setText(testDescription);
-		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
+		testEdit.getInfoPanel().getBoxIteration().addItem("Iteration test");
+		testEdit.getInfoPanel().getBoxIteration().setSelectedItem("Iteration test");
 		testEdit.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.SCENARIO);
 		testEdit.getInfoPanel().getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
 		testEdit.getInfoPanel().getPriorityMedium().doClick();
@@ -284,7 +285,8 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
 		testEdit.getInfoPanel().getPriorityHigh().doClick();
 		testEdit.getInfoPanel().getBoxEstimate().setText("4");
-		testEdit.getInfoPanel().getBoxIteration().setText("Iteration test");
+		testEdit.getInfoPanel().getBoxIteration().addItem("Iteration test");
+		testEdit.getInfoPanel().getBoxIteration().setSelectedItem("Iteration test");
 		testEdit.getInfoPanel().update();
 		
 		// check the result

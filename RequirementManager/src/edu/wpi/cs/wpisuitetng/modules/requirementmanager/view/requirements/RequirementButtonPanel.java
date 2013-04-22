@@ -11,8 +11,13 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,12 +29,11 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 {
 	private final RequirementPanel parentPanel;
 	private final RequirementViewMode viewMode;
-	
+	private final List<String> errorList;
 	private final JButton buttonOK;
 	private final JButton buttonCancel;
 	private final JButton buttonClear;
 	private final JButton buttonDelete;
-	private final Requirement currentRequirement;
 	private final JLabel errorMessage;
 	private boolean changes;
 	private boolean valid;
@@ -45,7 +49,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		changes = false;
 		valid = false;
-		currentRequirement = curr;
+		errorList = new ArrayList<String>();
 		this.parentPanel = parentPanel;
 		viewMode = mode;
 		errorMessage = new JLabel("");
@@ -148,9 +152,44 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	 * @param msg the error message
 	 */
 	public void displayError(String msg){
-		errorMessage.setText(msg);
+		if(msg.trim().length() == 0) return;
+		if(errorList.contains(msg)) return;
+		
+		errorList.add(msg);
+		refreshError();
 	}
-
+	
+	/**
+	 * Removes the given error message
+	 * @param msg the error messgae
+	 */
+	public void removeError(String msg)
+	{
+		errorList.remove(msg);
+		refreshError();
+	}
+	
+	/**
+	 * Refreshes the error display.
+	 */
+	private void refreshError()
+	{
+		String errorString = "";
+		int width = getWidth();
+		//FontMetrics m = errorMessage.getGraphics().getFontMetrics();
+		
+		//int currWidth = 0;
+		for(String err : errorList)
+		{
+			//if(currWidth + m.stringWidth(err) > width) break;
+			//currWidth += m.stringWidth(err);
+			errorString += err;
+			errorString += " ";
+		}
+		
+		errorMessage.setText(errorString);
+	}
+	
 	/**
 	 * 
 	 * @return the clear button

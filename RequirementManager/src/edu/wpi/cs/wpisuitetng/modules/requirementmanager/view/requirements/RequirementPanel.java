@@ -110,7 +110,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	@Override
 	public void cancelPressed() 
 	{
-		readyToClose = true;
 		ViewEventController.getInstance().refreshTable();
 		ViewEventController.getInstance().removeTab(this);		
 	}
@@ -183,6 +182,15 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	public void displayError(String msg)
 	{
 		buttonPanel.displayError(msg);
+	}
+	
+	/**
+	 * 		Removes the given error message
+	 * @param msg the message to display.
+	 */
+	public void removeError(String msg)
+	{
+		buttonPanel.removeError(msg);
 	}
 	
 	/**

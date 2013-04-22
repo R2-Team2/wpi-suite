@@ -40,7 +40,7 @@ public class OverviewTable extends JTable
 	 */
 	public OverviewTable(Object[][] data, String[] columnNames)
 	{
-		this.tableModel = new DefaultTableModel(columnNames, 0);
+		this.tableModel = new DefaultTableModel(data, columnNames);
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 		this.setDefaultEditor(Object.class, new OverviewTableCellEditor(new JTextField()));

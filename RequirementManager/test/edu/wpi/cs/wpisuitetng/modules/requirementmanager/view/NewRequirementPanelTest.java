@@ -130,7 +130,7 @@ public class NewRequirementPanelTest {
 		RequirementPanel testNew = new RequirementPanel(-1);
 		
 		// pre-defined variable
-		String errorMessageNoninteger = "** Please enter a non-negative integer";
+		String errorMessageNoninteger = "Estimate must be non-negative integer";
 		String errorMessageNoMore100 = "No more than 100 chars";
 		String testDescription = "testDescription";
 		String hundredCharText = "0";
@@ -235,7 +235,8 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.THEME);
 		testNew.getInfoPanel().getPriorityHigh().doClick();
 		testNew.getInfoPanel().getBoxEstimate().setText("4");
-		testNew.getInfoPanel().getBoxIteration().setText("Backlog");
+		testNew.getInfoPanel().getBoxIteration().addItem("Backlog");
+		testNew.getInfoPanel().getBoxIteration().setSelectedItem("Backlog");
 		testNew.getInfoPanel().keyReleased(null);
 		
 		assertEquals(true, testNew.getButtonPanel().getButtonOK().isEnabled());

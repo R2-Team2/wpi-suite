@@ -633,13 +633,9 @@ public class Requirement extends AbstractModel {
 	 * @return true if the parent is an ancestor
 	 */
 	public boolean hasAncestor(int parentId) {
-		Requirement req = this;
-		while (req.getParentID() != -1) {
-			if (this.getId() == parentId)
-				return true;
-			req = RequirementModel.getInstance().getRequirement(req.getParentID());
-		}
-		return false;
+		if(this.parentID == -1) return false;
+		
+		return RequirementModel.getInstance().getRequirement(this.parentID).hasAncestor(parentId) || this.parentID == parentId;
 	}
 	
 	/**
