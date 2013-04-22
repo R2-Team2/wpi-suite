@@ -29,7 +29,6 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	private final JButton buttonCancel;
 	private final JButton buttonClear;
 	private final JButton buttonDelete;
-	private final Requirement currentRequirement;
 	private final JLabel errorMessage;
 	private boolean changes;
 	private boolean valid;
@@ -45,7 +44,6 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		changes = false;
 		valid = false;
-		currentRequirement = curr;
 		this.parentPanel = parentPanel;
 		viewMode = mode;
 		errorMessage = new JLabel("");

@@ -17,7 +17,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  */
 public class Note {
 	
-	private static int noteCount;
 	private final int id;
 	private String user;
 	private long timestamp;
@@ -29,8 +28,8 @@ public class Note {
 	 * @param timestamp Time at which note was created
 	 * @param message Message to be stored within the note
 	 */
-	public Note (String user, long timestamp, String message){
-		this.id = noteCount++;
+	public Note (int id, String user, long timestamp, String message){
+		this.id = id;
 		this.user = user;
 		this.timestamp = timestamp;
 		this.message = message;

@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
 public class RequirementNotePanel extends JPanel implements RequirementPanelListener {
-	private final RequirementTabsPanel parentPanel;
 	private final RequirementViewMode viewMode;
 	private final Requirement currentRequirement;
 	private int notesAdded;
@@ -47,7 +46,6 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	public RequirementNotePanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
 		currentRequirement = current;
 		viewMode = vm;
-		parentPanel = parent;
 		notesAdded = 0;
 		
 		noteMessage = new JTextArea();
