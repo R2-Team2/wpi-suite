@@ -82,7 +82,7 @@ public class RequirementModel extends AbstractListModel{
 	 * Returns the Requirement with the given ID
 	 * 
 	 * @param id The ID number of the requirement to be returned
-	 * @return the requirement for the id
+	 * @return the requirement for the id or null if the requirement is not found
 	 */
 	public Requirement getRequirement(int id)
 	{

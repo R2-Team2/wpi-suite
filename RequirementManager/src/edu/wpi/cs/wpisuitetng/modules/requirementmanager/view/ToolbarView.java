@@ -29,6 +29,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
  */
 public class ToolbarView extends JPanel {
 
+	private ChartButtonsPanel chartButton = new ChartButtonsPanel();
+	private EditButtonsPanel editButton = new EditButtonsPanel();
+	private RequirementButtonsPanel reqButton = new RequirementButtonsPanel();
+	
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
@@ -37,13 +41,21 @@ public class ToolbarView extends JPanel {
 	//	this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
 		this.setLayout(new GridLayout(1, 3));
 		
-		this.add(new ChartButtonsPanel());
-		this.add(new EditButtonsPanel());
-		this.add(new RequirementButtonsPanel());
+		this.add(chartButton);
+		this.add(editButton);
+		this.add(reqButton);
 
 	}
 	
-	public JButton getEditButton(){
-		return this.getEditButton();
+	public EditButtonsPanel getEditButton(){
+		return editButton;
+	}
+	
+	public ChartButtonsPanel getChartButton() {
+		return chartButton;
+	}
+
+	public RequirementButtonsPanel getReqButton() {
+		return reqButton;
 	}
 }

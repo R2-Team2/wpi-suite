@@ -47,6 +47,7 @@ public class MainView extends JTabbedPane {
 	private Image tabImage = null;
 	private Point currentMouseLocation = null;
 	private int draggedTabIndex = 0;
+	private OverviewPanel overview = new OverviewPanel();
 
 
 	/**
@@ -55,7 +56,6 @@ public class MainView extends JTabbedPane {
 	public MainView() {
 		indexOfTab = 1;
 		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		OverviewPanel overview = new OverviewPanel();
 		this.addTab("Overview", overview);
 
 		JMenuItem closeAll = new JMenuItem("Close All Tabs");
@@ -208,5 +208,9 @@ public class MainView extends JTabbedPane {
 		if (!(component instanceof OverviewPanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
+	}
+	
+	public OverviewPanel getOverview() {
+		return overview;
 	}
 }
