@@ -78,6 +78,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JTextField boxEstimate;
 	private ButtonGroup group;
 
+	private RequirementStatus lastValidStatus;
+	
 	private JLabel errorName;
 	private JLabel errorDescription;
 	private JLabel errorEstimate;
@@ -606,6 +608,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boolean validEstimate = false;
 		boolean hasParent = currentRequirement.getParentID() != -1;
 		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		boolean hasChildren = currentRequirement.getChildren().size() != 0;
 		try
 		{
 			Integer estimate = new Integer(getBoxEstimate().getText().trim());
@@ -628,7 +631,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.getPriorityMedium().setEnabled(!hasParent && !allDisabled);
 		this.getPriorityLow().setEnabled(!hasParent && !allDisabled);
 		this.getPriorityBlank().setEnabled(!hasParent && !allDisabled);
-		this.parentPanel.fireDeleted(allDisabled || inProgress);	
+		this.parentPanel.fireDeleted(allDisabled || inProgress || hasChildren);	
 	}
 
 	/**
@@ -775,6 +778,25 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		boolean passChildren = currentRequirement.getChildren().size() != 0;
+		
+		if (passChildren) 
+		{
+			if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Children exist, requirement cannot be deleted");
+			}
+			else
+			{
+				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+			}
+		}
+		else
+		{
+			lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+		}
+		
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
 		adjustFieldEnability();
