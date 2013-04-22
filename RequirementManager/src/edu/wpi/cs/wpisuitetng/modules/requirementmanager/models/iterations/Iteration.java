@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
@@ -38,8 +39,8 @@ public class Iteration extends AbstractModel {
 	private LinkedList<Requirement> requirements;
 	
 	/** start and end date associated with the iteration */
-	private Date start;
-	private Date end;
+	private IterationDate start;
+	private IterationDate end;
 
 	public Iteration() {
 	}
@@ -57,6 +58,17 @@ public class Iteration extends AbstractModel {
 	 * @param end
 	 * 			  The end of the iteration
 	 */
+	public Iteration(int id, String name, IterationDate start, IterationDate end) {
+		this.id = id;
+		this.name = name;
+		if (name.trim().length() == 0)
+			this.name = "Backlog";
+		this.estimate = 0;
+		this.requirements = new LinkedList<Requirement>();
+		this.start = start;
+		this.end = end;
+	}
+	
 	public Iteration(int id, String name) {
 		this.id = id;
 		this.name = name;
@@ -163,14 +175,14 @@ public class Iteration extends AbstractModel {
 	/**
 	 * @return the start of the iteration
 	 */
-	public Date getStart() {
+	public IterationDate getStart() {
 		return start;
 	}
 
 	/**
 	 * @param start the start of the iteration
 	 */
-	public void setStart(Date start) {
+	public void setStart(IterationDate start) {
 		this.start = start;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
@@ -178,14 +190,14 @@ public class Iteration extends AbstractModel {
 	/**
 	 * @return the end of the iteration
 	 */
-	public Date getEnd() {
+	public IterationDate getEnd() {
 		return end;
 	}
 
 	/**
 	 * @param end the end of the iteration
 	 */
-	public void setEnd(Date end) {
+	public void setEnd(IterationDate end) {
 		this.end = end;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}

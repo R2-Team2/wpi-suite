@@ -74,7 +74,7 @@ public class IterationModel extends AbstractListModel {
 	 * @param newReq The Iteration to be added to the list of Iterations in the
 	 *        project
 	 */
-	private void addIteration(Iteration newIter) {
+	public void addIteration(Iteration newIter) {
 		// add the Iteration
 		listOfIterations.add(newIter);
 		try {

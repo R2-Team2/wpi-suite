@@ -10,6 +10,9 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
@@ -20,7 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Month;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * 
@@ -29,11 +36,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 public class IterationPanel extends JPanel {
 	private JTextField boxName;
 	
-	private JComboBox monthStart;
+	private JComboBox<Month> monthStart;
 	private JTextField dayStart;
 	private JTextField yearStart;
 	
-	private JComboBox monthEnd;
+	private JComboBox<Month> monthEnd;
 	private JTextField dayEnd;
 	private JTextField yearEnd;
 	
@@ -71,6 +78,32 @@ public class IterationPanel extends JPanel {
 		
 		buttonAdd = new JButton("Add Iteration");
 		buttonCancel = new JButton("Cancel");
+		
+		final IterationPanel thisPanel = this;
+		
+		buttonAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int id = IterationModel.getInstance().getIterations().size();
+				String name = boxName.getText();
+				IterationDate start = new IterationDate((Month) monthStart.getSelectedItem(),
+						Integer.parseInt(dayStart.getText()),
+						Integer.parseInt(yearStart.getText()));
+				IterationDate end = new IterationDate((Month) monthEnd.getSelectedItem(),
+						Integer.parseInt(dayEnd.getText()),
+						Integer.parseInt(yearEnd.getText()));
+				Iteration iter = new Iteration(id, name, start, end);
+				
+				IterationModel.getInstance().addIteration(iter);
+				ViewEventController.getInstance().removeTab(thisPanel);
+			}
+		});
+		
+		buttonCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().removeTab(thisPanel);
+			}
+		});
 		
 		layout.putConstraint(SpringLayout.NORTH, labelName, 5, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, labelName, 5, SpringLayout.WEST, this);
