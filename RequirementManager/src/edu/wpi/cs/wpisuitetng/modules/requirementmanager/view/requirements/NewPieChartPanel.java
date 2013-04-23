@@ -210,6 +210,10 @@ public class NewPieChartPanel extends JScrollPane {
 		JFreeChart chart = createChart(setData(), title);
 		return new ChartPanel(chart);
 	}
+	
+	public String getTitle(){
+		return title;
+	}
 
 }
 

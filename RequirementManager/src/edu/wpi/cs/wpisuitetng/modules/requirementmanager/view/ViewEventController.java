@@ -108,11 +108,19 @@ public class ViewEventController {
 		int i;
 		for (i = 0; i < main.getTabCount(); i++) {
 			if (main.getTitleAt(i).equals("Pie Chart")) {
-				main.setSelectedIndex(i);
-				return;
+				if(main.getTabComponentAt(i) instanceof NewPieChartPanel && (((NewPieChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))){
+					main.setSelectedIndex(i);
+					return;
+				}
+				else{
+					main.remove(i);
+					
+				}
+				
+				
 			}
 		}
-		NewPieChartPanel newPie = new NewPieChartPanel(title);   
+		NewPieChartPanel newPie = new NewPieChartPanel(title); 
 		main.addTab("Pie Chart", null, newPie, "PieChart");
 		main.invalidate();
 		main.repaint();
