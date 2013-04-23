@@ -79,6 +79,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private ButtonGroup group;
 
 	private RequirementStatus lastValidStatus;
+	private boolean fillingFieldsForRequirement = false;
 	
 	private JLabel errorName;
 	private JLabel errorDescription;
@@ -351,6 +352,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	@SuppressWarnings("unchecked")
 	private void fillFieldsForRequirement() {
+		fillingFieldsForRequirement = true;
 		boxName.setText(currentRequirement.getName());
 		boxDescription.setText(currentRequirement.getDescription());
 		boxEstimate.setText(
@@ -405,7 +407,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
 
 		fireRefresh();
-
+		fillingFieldsForRequirement = false;
 		repaint();
 	}
 
@@ -806,30 +808,31 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	public void itemStateChanged(ItemEvent e) {		
 		parentPanel.removeError("Cannot complete unless children are completed.");
 		parentPanel.removeError("Cannot delete when children exist.");
-	
-		boolean allChildrenCompleted = true;
-		boolean allChildrenDeleted = true;
-		for (Requirement Child: currentRequirement.getChildren()){
-			allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
-			allChildrenDeleted &= Child.getStatus() == RequirementStatus.DELETED;
-		}
-					
-		if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
+		if(!fillingFieldsForRequirement)
 		{
-			dropdownStatus.setSelectedItem(lastValidStatus);
-			parentPanel.displayError("Cannot complete unless children are completed.");
-		}
-		else if (!allChildrenDeleted && this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
-		{
-			dropdownStatus.setSelectedItem(lastValidStatus);
-			parentPanel.displayError("Cannot delete when non-deleted children exist.");
-		}
-		else
-		{
+			boolean allChildrenCompleted = true;
+			boolean allChildrenDeleted = true;
+			for (Requirement Child: currentRequirement.getChildren()){
+				allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
+				allChildrenDeleted &= Child.getStatus() == RequirementStatus.DELETED;
+			}
 
-			lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+			if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Cannot complete unless children are completed.");
+			}
+			else if (!allChildrenDeleted && this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			{
+				dropdownStatus.setSelectedItem(lastValidStatus);
+				parentPanel.displayError("Cannot delete when non-deleted children exist.");
+			}
+			else
+			{
+
+				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
+			}
 		}
-		
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
 		adjustFieldEnability();
