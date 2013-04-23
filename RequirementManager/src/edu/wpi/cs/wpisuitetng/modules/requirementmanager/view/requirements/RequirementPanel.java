@@ -123,7 +123,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	{
 		if (this.displayRequirement.getStatus() == RequirementStatus.INPROGRESS)
 			return;
-
+		readyToClose = true;
 		displayRequirement.setStatus(RequirementStatus.DELETED, false);
 
 		UpdateRequirementController.getInstance().updateRequirement(displayRequirement);
@@ -135,7 +135,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 
 	/**
 	 * Fires to all listeners whether the requirement has been deleted or not
-	 * @param b whether the rquirement has been deleted or not.
+	 * @param b whether the requirement has been deleted or not.
 	 */
 	public void fireDeleted(boolean b) {	
 		for(RequirementPanelListener listener : listeners)

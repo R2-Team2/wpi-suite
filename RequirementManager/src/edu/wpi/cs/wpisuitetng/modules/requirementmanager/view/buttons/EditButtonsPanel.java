@@ -61,7 +61,8 @@ public class EditButtonsPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// check to see if any other tab is currently open
-				if (ViewEventController.getInstance().getMainView().getTabCount() == 1) {
+				// if (ViewEventController.getInstance().getMainView().getTabCount() == 1) {
+				
 					// toggle the editing overview table mode
 					ViewEventController.getInstance().toggleEditingTable(false);
 					// edits the Edit Button text based on whether in editing overview table mode or not
@@ -77,7 +78,7 @@ public class EditButtonsPanel extends JPanel{
 						createCancelButton.setVisible(false);
 					}
 				}
-			}
+			//}
 		});
 		
 		createCancelButton.addActionListener(new ActionListener() {

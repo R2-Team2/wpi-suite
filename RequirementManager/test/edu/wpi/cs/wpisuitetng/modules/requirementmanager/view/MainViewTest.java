@@ -40,8 +40,12 @@ public class MainViewTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void numberOfCreatedTabtest() {
+		assertEquals(1,vec.getMainView().getTabCount());
+		vec.getToolbar().getReqButton().getCreateButton().doClick();
+		assertEquals(2,vec.getMainView().getTabCount());
+		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
+		assertEquals(3,vec.getMainView().getTabCount());
 	}
 
 }

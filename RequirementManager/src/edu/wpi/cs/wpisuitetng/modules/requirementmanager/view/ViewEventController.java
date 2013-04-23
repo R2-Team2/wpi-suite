@@ -105,6 +105,13 @@ public class ViewEventController {
 	 * @param title the title of the pie chart
 	 */
 	public void createPieChart(String title){
+		int i;
+		for (i = 0; i < main.getTabCount(); i++) {
+			if (main.getTitleAt(i).equals("Pie Chart")) {
+				main.setSelectedIndex(i);
+				return;
+			}
+		}
 		NewPieChartPanel newPie = new NewPieChartPanel(title);   
 		main.addTab("Pie Chart", null, newPie, "PieChart");
 		main.invalidate();
@@ -174,8 +181,8 @@ public class ViewEventController {
 	public void toggleEditingTable(boolean cancel){
 		// check to see if Multiple Requirement Editing Mode is enabled and if the user is editing a cell		
 		if (this.overviewTable.getEditFlag() && this.overviewTable.isEditing()) {
-			// ends the cell editing
-			this.overviewTable.getCellEditor().cancelCellEditing();
+			// ends the cell editing and stores the entered value			
+			this.overviewTable.getCellEditor().stopCellEditing();
 		}
 		
 		// toggle the edit flag

@@ -48,6 +48,7 @@ public class MainView extends JTabbedPane {
 	private Point currentMouseLocation = null;
 	private int draggedTabIndex = 0;
 	private OverviewPanel overview = new OverviewPanel();
+	private Component lastTab = null;
 
 
 	/**
@@ -218,5 +219,19 @@ public class MainView extends JTabbedPane {
 	
 	public OverviewPanel getOverview() {
 		return overview;
+	}
+	
+	@Override
+	public void setSelectedComponent(Component c){
+		this.lastTab = this.getSelectedComponent();
+		super.setSelectedComponent(c);
+	}
+	@Override
+	public void removeTabAt(int i){
+		super.removeTabAt(i);
+		try{
+			if (this.lastTab != null){
+				setSelectedComponent(this.lastTab);}
+		} catch (IllegalArgumentException e){}
 	}
 }

@@ -177,6 +177,9 @@ public class OverviewTable extends JTable
 	 * saves the changes made to the Overview Table
 	 */
 	public void saveChanges() {
+		// Set time stamp for transaction history
+		long timestamp = System.currentTimeMillis();
+		
 		// iterate through the rows of the overview table
 		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
 			
@@ -187,6 +190,9 @@ public class OverviewTable extends JTable
 			// use the ID number in the row to retrieve the requirement represented by the row
 			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
 									
+			// Set the time stamp for the transaction for the creation of the requirement
+			req.getHistory().setTimestamp(timestamp);
+			
 			// update the estimate with the value in the cell at row, column 7			
 			String cellEstimateStr = this.tableModel.getValueAt(row, 7).toString();
 			int cellEstimate = req.getEstimate();
@@ -206,7 +212,7 @@ public class OverviewTable extends JTable
 			else {
 				cellEstimate = Integer.parseInt(cellEstimateStr);
 			}
-			req.setEstimate(cellEstimate);
+			req.setEstimate(cellEstimate, false);
 			
 			// updates requirement on the server
 			UpdateRequirementController.getInstance().updateRequirement(req);			
