@@ -38,10 +38,10 @@ public class RequirementButtonsPanel extends JPanel{
 		createIterationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 					ViewEventController.getInstance().createIteration();
 				}
-			}
+		//	}
 		});
 		
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 5,SpringLayout.NORTH, this);
