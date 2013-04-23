@@ -143,6 +143,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			iterationNames[i] = iter.getName();
 		}
 		boxIteration = (new JComboBox(iterationNames));
+		boxIteration.setSelectedItem(currentRequirement.getIteration());
 		boxIteration.addKeyListener(this);
 
 		errorName = (new JLabel());
@@ -519,6 +520,10 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	private void updateRequirement(boolean created) {
 		if(created) currentRequirement.setId(RequirementModel.getInstance().getNextID());
+		
+		// Remember previous requirement
+		Requirement prevReq = currentRequirement;
+		String stringPrevIteration = currentRequirement.getIteration();
 
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
@@ -557,6 +562,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		// will have the same time stamp
 		TransactionHistory requirementHistory = currentRequirement.getHistory();
 		requirementHistory.setTimestamp(System.currentTimeMillis());
+		
+		// Update iteration to include current requirement
+		if (!(currentRequirement.getIteration().equals(stringPrevIteration))) {
+			IterationModel.getInstance().getIteration(currentRequirement.getIteration())
+						.addRequirement(currentRequirement);
+			IterationModel.getInstance().getIteration(stringPrevIteration)
+						.deleteRequirement(prevReq);
+		}
 
 		// Create a new requirement object based on the extracted info
 		if (currentRequirement.getParentID() != -1) {
