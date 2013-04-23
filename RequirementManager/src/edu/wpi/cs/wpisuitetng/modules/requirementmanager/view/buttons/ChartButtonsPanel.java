@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class ChartButtonsPanel extends JPanel{
 	
 	public ChartButtonsPanel(){
-		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
+		setBorder(BorderFactory.createTitledBorder("Charts")); // add a border so you can see the panel
 		
 		JButton pieChart = new JButton("Pie Chart");
 		

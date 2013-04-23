@@ -185,6 +185,15 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	}
 	
 	/**
+	 * 		Removes the given error message
+	 * @param msg the message to display.
+	 */
+	public void removeError(String msg)
+	{
+		buttonPanel.removeError(msg);
+	}
+	
+	/**
 	 * @return whether the requirement panel as a whole is ready to be removed.
 	 */
 	public boolean readyToRemove() {
