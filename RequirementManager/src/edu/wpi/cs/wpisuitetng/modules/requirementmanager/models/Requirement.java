@@ -586,6 +586,8 @@ public class Requirement extends AbstractModel {
 				&& !newIterationName.equals("Backlog"))
 		{
 			this.setStatus(RequirementStatus.INPROGRESS, created);
+			this.setChildrenStatus(RequirementStatus.INPROGRESS, created);
+			this.setChildrenIteration(newIterationName, created);
 		}
 		
 		if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
@@ -605,6 +607,34 @@ public class Requirement extends AbstractModel {
 		newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
 		
 		this.iteration = newIterationName;
+	}
+	
+	/**
+	 * Recursively sets the iteration of a requirements children
+	 * @param newIterationName new iteration name
+	 * @param created true if the requirement is being created added created to
+	 *            	  prevent a bug that occurs when the requirement is first
+	 *            	  created and stores a transaction in the history
+	 */
+	private void setChildrenIteration(String newIterationName, boolean created) {
+		for (Requirement child : this.getChildren()) {
+			child.setIteration(newIterationName, created);
+			child.setChildrenIteration(newIterationName, created);
+		}
+	}
+
+	/**
+	 * Recursively sets the status of a requirements children
+	 * @param status new status
+	 * @param created true if the requirement is being created added created to
+	 *            	  prevent a bug that occurs when the requirement is first
+	 *           	  created and stores a transaction in the history
+	 */
+	private void setChildrenStatus(RequirementStatus status, boolean created) {
+		for (Requirement child : this.getChildren()) {
+			child.setStatus(status, created);
+			child.setChildrenStatus(status, created);
+		}
 	}
 
 	/**
