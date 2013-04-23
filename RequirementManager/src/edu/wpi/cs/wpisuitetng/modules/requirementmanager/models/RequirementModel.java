@@ -72,6 +72,7 @@ public class RequirementModel extends AbstractListModel{
 		{
 			AddRequirementController.getInstance().addRequirement(newReq);
 			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
 		}
 		catch(Exception e)
 		{
@@ -112,6 +113,7 @@ public class RequirementModel extends AbstractListModel{
 		}
 		try {
 			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
 		}
 		catch(Exception e) {}
 	}
@@ -168,6 +170,7 @@ public class RequirementModel extends AbstractListModel{
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
 		try{
 			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
 		}
 		catch (Exception e) {}
 	}
@@ -184,6 +187,7 @@ public class RequirementModel extends AbstractListModel{
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**

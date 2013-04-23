@@ -82,6 +82,8 @@ public class IterationModel extends AbstractListModel {
 		} catch (Exception e) {
 
 		}
+		
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**
@@ -137,6 +139,7 @@ public class IterationModel extends AbstractListModel {
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
 		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**

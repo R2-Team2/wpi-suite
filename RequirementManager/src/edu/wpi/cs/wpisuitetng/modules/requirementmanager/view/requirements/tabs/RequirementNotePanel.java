@@ -9,6 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -16,11 +18,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -31,7 +35,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	private final RequirementViewMode viewMode;
 	private final Requirement currentRequirement;
 	private int notesAdded;
-	private final JTextArea noteMessage;
+	private final JTextArea noteMessage = new JTextArea();
 	private final JScrollPane noteScroll;
 	private final JButton buttonAddNote;
 	private final JButton buttonClear;
@@ -48,7 +52,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		viewMode = vm;
 		notesAdded = 0;
 		
-		noteMessage = new JTextArea();
+		this.buildNoteMessage();
 		noteScroll = new JScrollPane();
 
 		// Buttons to be added to the bottom of the NotePanel
@@ -56,22 +60,6 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		buttonClear = new JButton("Clear");
 		buttonAddNote.setEnabled(false);
 		buttonClear.setEnabled(false);
-		
-		noteMessage.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyReleased(KeyEvent e)
-			{
-				boolean enabledButtons = !noteMessage.getText().trim().isEmpty();
-				buttonAddNote.setEnabled(enabledButtons);
-				buttonClear.setEnabled(enabledButtons);
-			}
-		});
-
-		// Create text area for note to be added
-		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
-										// line
-		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
 
 		// Error message label in case no note was included
 		errorMsg = new JLabel();
@@ -89,6 +77,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		// Create new scroll pane for notes
 		noteScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// Always show scroll bar
+		noteScroll.setMinimumSize(new Dimension(100,100));
 
 		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
 		c.weightx = 1; // Fill horizontal space
@@ -96,7 +85,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		this.add(noteScroll, c);
 
 		c.gridy = 1; // Row 1
-		c.weighty = .2; // Fill 0% of vertical space
+		c.weighty = 0; // Fill 0% of vertical space
 		this.add(noteMessage, c);
 
 		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom
@@ -174,6 +163,31 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 				buttonAddNote.setEnabled(false);
 			}
 		});
+	}
+	private JTextArea buildNoteMessage(){		
+		noteMessage.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				boolean enabledButtons = !noteMessage.getText().trim().isEmpty();
+				buttonAddNote.setEnabled(enabledButtons);
+				buttonClear.setEnabled(enabledButtons);
+			}
+		});
+
+		// Create text area for note to be added
+		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
+										// line
+		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
+		noteMessage.setMinimumSize(new Dimension(50,50));
+		noteMessage.setSize(new Dimension(100,100));
+		Border b = BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.GRAY), 
+	            BorderFactory.createEmptyBorder(4, 4, 4, 4));
+		noteMessage.setBorder(b);
+		
+		return noteMessage;
 	}
 
 	@Override
