@@ -79,6 +79,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private ButtonGroup group;
 
 	private RequirementStatus lastValidStatus;
+	private boolean fillingFieldsForRequirement = false;
 	
 	private JLabel errorName;
 	private JLabel errorDescription;
@@ -351,6 +352,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	@SuppressWarnings("unchecked")
 	private void fillFieldsForRequirement() {
+		fillingFieldsForRequirement = true;
 		boxName.setText(currentRequirement.getName());
 		boxDescription.setText(currentRequirement.getDescription());
 		boxEstimate.setText(
@@ -405,7 +407,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
 
 		fireRefresh();
-
+		fillingFieldsForRequirement = false;
 		repaint();
 	}
 
@@ -584,7 +586,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			currentRequirement.setName(stringName);
 			currentRequirement.setDescription(stringDescription);
 			currentRequirement.setStatus(status, created);
-			currentRequirement.setEstimate(estimate);
+			currentRequirement.setEstimate(estimate, created);
 			currentRequirement.setIteration(stringIteration, created);
 		} else {
 			currentRequirement.setName(stringName);
@@ -592,7 +594,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			currentRequirement.setDescription(stringDescription);
 			currentRequirement.setStatus(status, created);
 			currentRequirement.setPriority(priority, created);
-			currentRequirement.setEstimate(estimate);
+			currentRequirement.setEstimate(estimate, created);
 			currentRequirement.setIteration(stringIteration, created);
 			currentRequirement.setType(type);
 		}
@@ -627,9 +629,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		allDisabled |= getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE;
 		boolean inProgress = getDropdownStatus().getSelectedItem() == RequirementStatus.INPROGRESS;
 		boolean validEstimate = false;
-		boolean hasParent = currentRequirement.getParentID() != -1;
 		boolean isCreating = viewMode == RequirementViewMode.CREATING;
-		boolean hasChildren = currentRequirement.getChildren().size() != 0;
+		
+		boolean allChildrenDeleted = true;
+		for(Requirement child : currentRequirement.getChildren())
+		{
+			allChildrenDeleted &= child.getStatus() == RequirementStatus.DELETED;
+		}
+
 		try
 		{
 			Integer estimate = new Integer(getBoxEstimate().getText().trim());
@@ -644,15 +651,15 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.getBoxName().setEnabled(!allDisabled);
 		this.getBoxDescription().setEnabled(!allDisabled);
 		this.getBoxEstimate().setEnabled(!inProgress && !allDisabled);
-		this.getBoxReleaseNum().setEnabled(!hasParent && !allDisabled);
-		this.getDropdownType().setEnabled(!hasParent && !allDisabled);
+		this.getBoxReleaseNum().setEnabled(!allDisabled);
+		this.getDropdownType().setEnabled(!allDisabled);
 		this.getDropdownStatus().setEnabled(!isCreating);
 		this.getBoxIteration().setEnabled(validEstimate && !allDisabled);
-		this.getPriorityHigh().setEnabled(!hasParent && !allDisabled);
-		this.getPriorityMedium().setEnabled(!hasParent && !allDisabled);
-		this.getPriorityLow().setEnabled(!hasParent && !allDisabled);
-		this.getPriorityBlank().setEnabled(!hasParent && !allDisabled);
-		this.parentPanel.fireDeleted(allDisabled || inProgress || hasChildren);	
+		this.getPriorityHigh().setEnabled(!allDisabled);
+		this.getPriorityMedium().setEnabled(!allDisabled);
+		this.getPriorityLow().setEnabled(!allDisabled);
+		this.getPriorityBlank().setEnabled(!allDisabled);
+		this.parentPanel.fireDeleted(allDisabled || inProgress || !allChildrenDeleted);	
 	}
 
 	/**
@@ -798,41 +805,34 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	}
 
 	@Override
-	public void itemStateChanged(ItemEvent e) {
-		boolean hasChildren = currentRequirement.getChildren().size() != 0;
-		
+	public void itemStateChanged(ItemEvent e) {		
 		parentPanel.removeError("Cannot complete unless children are completed.");
 		parentPanel.removeError("Cannot delete when children exist.");
-		
-		if (hasChildren) 
+		if(!fillingFieldsForRequirement)
 		{
 			boolean allChildrenCompleted = true;
+			boolean allChildrenDeleted = true;
 			for (Requirement Child: currentRequirement.getChildren()){
 				allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
+				allChildrenDeleted &= Child.getStatus() == RequirementStatus.DELETED;
 			}
-			
+
 			if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
 			{
 				dropdownStatus.setSelectedItem(lastValidStatus);
 				parentPanel.displayError("Cannot complete unless children are completed.");
 			}
-			else if (this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
+			else if (!allChildrenDeleted && this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
 			{
 				dropdownStatus.setSelectedItem(lastValidStatus);
-				parentPanel.displayError("Cannot delete when children exist.");
+				parentPanel.displayError("Cannot delete when non-deleted children exist.");
 			}
 			else
 			{
 
 				lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
 			}
-
 		}
-		else
-		{
-			lastValidStatus = (RequirementStatus)this.dropdownStatus.getSelectedItem();
-		}
-		
 		this.parentPanel.fireValid(validateFields(false));
 		this.parentPanel.fireChanges(anythingChanged());
 		adjustFieldEnability();
