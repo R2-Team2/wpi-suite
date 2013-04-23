@@ -83,8 +83,14 @@ public class IterationPanel extends JPanel {
 		
 		buttonAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int error = 0;
+				
 				int id = IterationModel.getInstance().getIterations().size();
 				String name = boxName.getText();
+				if (name.length() == 0) {
+					error = 1;
+					System.out.println("Error");
+				}
 				IterationDate start = new IterationDate((Month) monthStart.getSelectedItem(),
 						Integer.parseInt(dayStart.getText()),
 						Integer.parseInt(yearStart.getText()));
@@ -93,7 +99,9 @@ public class IterationPanel extends JPanel {
 						Integer.parseInt(yearEnd.getText()));
 				Iteration iter = new Iteration(id, name, start, end);
 				
-				IterationModel.getInstance().addIteration(iter);
+				if (error == 0) {
+					IterationModel.getInstance().addIteration(iter);
+				}
 				ViewEventController.getInstance().removeTab(thisPanel);
 			}
 		});

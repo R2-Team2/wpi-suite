@@ -580,7 +580,8 @@ public class Requirement extends AbstractModel {
 		}
 		
 		//update status as needed
-		if(this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN)) 
+		if((this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN))
+				&& !newIterationName.equals("Backlog"))
 		{
 			this.setStatus(RequirementStatus.INPROGRESS, created);
 		}

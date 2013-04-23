@@ -23,7 +23,7 @@ public class OverviewPanel extends JPanel {
 		SpringLayout overviewLayout = new SpringLayout();
 		this.setLayout(overviewLayout);
 
-		OverviewFilterPanel filterPanel = new OverviewFilterPanel();
+		OverviewTreePanel filterPanel = new OverviewTreePanel();
 		
 		String[] columnNames = {"ID", "Name", "Release #", "Iteration", "Type", "Status", "Priority", "Estimate"};
 				

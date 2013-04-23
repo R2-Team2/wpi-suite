@@ -46,7 +46,7 @@ public class EditButtonsPanel extends JPanel{
 
 	public EditButtonsPanel(){
 		
-		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
+		setBorder(BorderFactory.createTitledBorder("Edit Estimates")); // add a border so you can see the panel
 		
 		SpringLayout editButtonsLayout = new SpringLayout();
 		this.setLayout(editButtonsLayout);
