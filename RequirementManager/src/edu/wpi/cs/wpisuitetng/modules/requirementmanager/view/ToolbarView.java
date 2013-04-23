@@ -9,14 +9,17 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.ChartButtonsPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.EditButtonsPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.RequirementButtonsPanel;
 
 /**
  * Sets up upper toolbar of RequirementManager tab
@@ -26,55 +29,33 @@ import javax.swing.border.EtchedBorder;
  */
 public class ToolbarView extends JPanel {
 
+	private ChartButtonsPanel chartButton = new ChartButtonsPanel();
+	private EditButtonsPanel editButton = new EditButtonsPanel();
+	private RequirementButtonsPanel reqButton = new RequirementButtonsPanel();
+	
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 */
-	public ToolbarView() {
-		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
-		
-		SpringLayout toolbarLayout = new SpringLayout();
-		this.setLayout(toolbarLayout);
-		
-		JButton createButton = new JButton("Create Requirement");
-		createButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ViewEventController.getInstance().createRequirement();
-				
-			}
-		});
-		JButton pieChart = new JButton("Pie Chart");
-		
-		pieChart.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				ViewEventController.getInstance().createPieChart("Status");
-				
-				
-				
-				
-			}
-		});
-		
-		JButton barChart = new JButton("Bar Chart");
-		
-		barChart.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				ViewEventController.getInstance().createBarChart("Status");
-				
-				
-				
-				
-			}
-		});
-		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 25,SpringLayout.NORTH, this);
-		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 50, SpringLayout.WEST, this);
-		
-		toolbarLayout.putConstraint(SpringLayout.WEST, barChart, 100, SpringLayout.WEST, this);
-		this.add(createButton);
-		this.add(pieChart);
-		this.add(barChart);
+	public ToolbarView(boolean visible) {
+
+	//	this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
+		this.setLayout(new GridLayout(1, 3));
+
+		this.add(chartButton);
+		this.add(editButton);
+		this.add(reqButton);
+
+	}
+	
+	public EditButtonsPanel getEditButton(){
+		return editButton;
+	}
+	
+	public ChartButtonsPanel getChartButton() {
+		return chartButton;
+	}
+
+	public RequirementButtonsPanel getReqButton() {
+		return reqButton;
 	}
 }

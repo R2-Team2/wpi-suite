@@ -17,15 +17,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
-
 /**
  * @author Dylan
  *
  */
 public class AcceptanceTestTest {
 
+	/**
+	 * test the creation and retrieval of tests.
+	 */
 	@Test
 	public void createTestAndRetrieveAttributes() {
 		AcceptanceTest at = new AcceptanceTest(0, "name", "description");
@@ -42,6 +42,9 @@ public class AcceptanceTestTest {
 		assertEquals(at2.getStatus(), "Passed");
 	}
 
+	/**
+	 * Test that name cannot be longer than 100 chars
+	 */
 	@Test
 	public void testNameLongerThan100Chars() {
 		AcceptanceTest at = new AcceptanceTest(2, "name", "desc");
@@ -50,6 +53,9 @@ public class AcceptanceTestTest {
 		assertEquals(at.getName().length(), 100);
 	}
 	
+	/**
+	 * Test that null cannot be name
+	 */
 	@Test(expected=NullPointerException.class)
 	public void testNullName() {
 		// Assert an error is thrown when a name is not given

@@ -20,6 +20,9 @@
 		<fileset dir="../Janeway/lib">
 			<include name="iText-2.1.5.jar"/>
 		</fileset>
+        <fileset dir="../Janeway/lib">
+			<include name="miglayout-4.0-swing.jar"/>
+		</fileset>
 		<pathelement path="build" />
 	</path>
 	<path id="test-classpath">

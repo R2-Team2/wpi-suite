@@ -70,8 +70,6 @@ public class RequirementTest {
 		String jsonMessage = object.toJSON();
 		Requirement newObject = Requirement.fromJson(jsonMessage); // change
 																	// here...
-		assertTrue(newObject instanceof Requirement);
-
 		assertEquals(origObject.getId(), 4);
 		assertEquals(origObject.getName(), "Test");
 		assertEquals(origObject.getRelease(), "1.1.01");
@@ -210,40 +208,29 @@ public class RequirementTest {
 		Requirement childRequirement = new Requirement(1, "", "");
 		childRequirement.setEstimate(32);
 		
-		try {
-			childRequirement.setParent(parentRequirement);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		Requirement childRequirement2 = new Requirement(2, "", "");
 		childRequirement2.setEstimate(7);
 		
-		try {
-			childRequirement2.setParent(parentRequirement);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		Requirement grandChildRequirement = new Requirement(3, "","");
 		grandChildRequirement.setEstimate(12);
+		
+		RequirementModel.getInstance().addRequirement(parentRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement);
+		RequirementModel.getInstance().addRequirement(childRequirement2);
+		RequirementModel.getInstance().addRequirement(grandChildRequirement);
+		
 		try {
+			childRequirement.setParent(parentRequirement);		
+			childRequirement2.setParent(parentRequirement);
 			grandChildRequirement.setParent(childRequirement);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		RequirementModel.getInstance().addRequirement(parentRequirement);
-		RequirementModel.getInstance().addRequirement(childRequirement);
-		RequirementModel.getInstance().addRequirement(childRequirement2);
-		RequirementModel.getInstance().addRequirement(grandChildRequirement);
-
-		
-		assertEquals(parentRequirement.getEstimate(), 19);
-		assertEquals(childRequirement.getEstimate(), 12);
+		assertEquals(parentRequirement.getTotalEstimate(), 52);
+		assertEquals(childRequirement.getTotalEstimate(), 44);
 		assertEquals(childRequirement2.getEstimate(), 7);
 		assertEquals(grandChildRequirement.getEstimate(), 12);
 		

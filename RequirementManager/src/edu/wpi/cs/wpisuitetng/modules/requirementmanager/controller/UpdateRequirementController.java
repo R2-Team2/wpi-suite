@@ -35,7 +35,7 @@ public class UpdateRequirementController{
 	}
 	
 	/**
-	 * Returns the instance of the UpdateRequirementController or creates one if it does not
+	 * @return the instance of the UpdateRequirementController or creates one if it does not
 	 * exist.
 	 */
 	public static UpdateRequirementController getInstance()

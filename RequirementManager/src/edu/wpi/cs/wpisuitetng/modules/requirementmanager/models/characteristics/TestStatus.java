@@ -32,10 +32,17 @@ public enum TestStatus {
 	STATUS_FAILED("Failed");
 	
 	private String desc;
+	/**
+	 * constructor for test status
+	 * @param desc the description
+	 */
 	TestStatus(String desc) {
 		this.desc = desc;
 	}
 	
+	/**
+	 * @return the string value of the enum
+	 */
 	public String toString() {
 		return desc;
 	}

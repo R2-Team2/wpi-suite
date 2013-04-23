@@ -35,7 +35,7 @@ public class AddRequirementController{
 	}
 	
 	/**
-	 * Returns the instance of the AddRequirementController or creates one if it does not
+	 * @return the instance of the AddRequirementController or creates one if it does not
 	 * exist.
 	 */
 	public static AddRequirementController getInstance()

@@ -32,11 +32,12 @@ public class RequirementManager implements IJanewayModule {
 	public RequirementManager() {
 		tabs = new ArrayList<JanewayTabModel>();
 
-		ToolbarView toolBar = new ToolbarView();
-		MainView mainPanel = new MainView();		
+		MainView mainPanel = new MainView();
+		ToolbarView toolBar = new ToolbarView(true);
 
 		ViewEventController.getInstance().setMainView(mainPanel);
 		ViewEventController.getInstance().setToolBar(toolBar);
+		
 
 		// Create a tab model that contains the toolbar panel and the main content panel
 		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolBar, mainPanel);

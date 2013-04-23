@@ -10,7 +10,7 @@
 /**
  * 
  */
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -35,13 +35,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * @author Brian Froehlich
  *
  */
-public class NotePanel extends JPanel {
+public class SingleNotePanel extends JPanel {
 	
 	/**
 	 * Basic constructor for a NotePanel
 	 * @param note Note to be displayed
 	 */
-	public NotePanel(Note note)
+	public SingleNotePanel(Note note)
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.black)); //Set note border
 		
@@ -108,7 +108,7 @@ public class NotePanel extends JPanel {
 		while(itt.hasNext())
 		{
 			//Create a new NotePanel for each Note and add it to the panel
-			panel.add(new NotePanel(itt.next()),c);
+			panel.add(new SingleNotePanel(itt.next()),c);
 			c.gridy++; //Next Row
 		}
 		

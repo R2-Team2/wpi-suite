@@ -9,23 +9,20 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
+import java.util.Date;
+import java.util.LinkedList;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
- * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish
- */
-/**
- * @author Arianna
- *
- */
-/**
- * @author Arianna
- *
+ * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish, Arianna
  */
 public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
@@ -37,6 +34,13 @@ public class Iteration extends AbstractModel {
 
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
+	
+	/** list of requirements associated with the iteration */
+	private LinkedList<Requirement> requirements;
+	
+	/** start and end date associated with the iteration */
+	private IterationDate start;
+	private IterationDate end;
 
 	public Iteration() {
 	}
@@ -49,14 +53,31 @@ public class Iteration extends AbstractModel {
 	 *            The ID number of the iteration
 	 * @param name
 	 *            The name of the iteration
-	 * 
+	 * @param start
+	 * 			  The start of the iteration
+	 * @param end
+	 * 			  The end of the iteration
 	 */
+	public Iteration(int id, String name, IterationDate start, IterationDate end) {
+		this.id = id;
+		this.name = name;
+		if (name.trim().length() == 0)
+			this.name = "Backlog";
+		this.estimate = 0;
+		this.requirements = new LinkedList<Requirement>();
+		this.start = start;
+		this.end = end;
+	}
+	
 	public Iteration(int id, String name) {
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
 			this.name = "Backlog";
 		this.estimate = 0;
+		this.requirements = new LinkedList<Requirement>();
+		this.start = null;
+		this.end = null;
 	}
 
 	/**
@@ -94,10 +115,10 @@ public class Iteration extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
-		if (name == null) {
-			this.name = "Backlog";
-		}
 		this.name = name;
+		if (name.trim().length() == 0)
+			this.name = "Backlog";
+		UpdateIterationController.getInstance().updateIteration(this);
 	}
 
 	/**
@@ -116,9 +137,68 @@ public class Iteration extends AbstractModel {
 	 *            the estimate to set
 	 */
 	public void setEstimate(int estimate) {
-		System.out.println("Changed iteration " + name + " estimate from "
-				+ this.estimate + " to " + estimate);
 		this.estimate = estimate;
+		UpdateIterationController.getInstance().updateIteration(this);
+	}
+	
+	/**
+	 * Getter for the requirements
+	 * 
+	 * @return list of requirements
+	 */
+	public LinkedList<Requirement> getRequirements() {
+		return requirements;
+	}
+	
+	/**
+	 * Adds a requirement to the list of requirements
+	 * 
+	 * @param req Requirement to be added to the iteration
+	 */
+	public void addRequirement(Requirement req){
+		requirements.add(req);
+		estimate += req.getEstimate();
+		UpdateIterationController.getInstance().updateIteration(this);
+	}
+	
+	/**
+	 * Deletes a requirement from the list of requirements
+	 * 
+	 * @param req Requirement to be removed from the iteration
+	 */
+	public void deleteRequirement(Requirement req){
+		requirements.remove(req);
+		estimate -= req.getEstimate();
+		UpdateIterationController.getInstance().updateIteration(this);
+	}
+
+	/**
+	 * @return the start of the iteration
+	 */
+	public IterationDate getStart() {
+		return start;
+	}
+
+	/**
+	 * @param start the start of the iteration
+	 */
+	public void setStart(IterationDate start) {
+		this.start = start;
+		UpdateIterationController.getInstance().updateIteration(this);
+	}
+
+	/**
+	 * @return the end of the iteration
+	 */
+	public IterationDate getEnd() {
+		return end;
+	}
+
+	/**
+	 * @param end the end of the iteration
+	 */
+	public void setEnd(IterationDate end) {
+		this.end = end;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
 
@@ -148,7 +228,8 @@ public class Iteration extends AbstractModel {
 	}
 
 	/**
-	 * Copies all of the values from the given iteration to this iteration.
+	 * Copies all of the values from the given iteration to this iteration
+	 * excluding the Id.
 	 * 
 	 * @param toCopyFrom
 	 *            the iteration to copy from.
@@ -178,7 +259,7 @@ public class Iteration extends AbstractModel {
 	 * Returns an instance of Iteration constructed using the given
 	 * Iteration encoded as a JSON string.
 	 * 
-	 * @param the
+	 * @param body the
 	 *            JSON-encoded Iteration to deserialize
 	 * @return the Iteration contained in the given JSON
 	 */
@@ -191,19 +272,16 @@ public class Iteration extends AbstractModel {
 
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 
 	}
 

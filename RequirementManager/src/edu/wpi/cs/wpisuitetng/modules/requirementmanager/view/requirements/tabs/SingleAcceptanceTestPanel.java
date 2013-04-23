@@ -7,10 +7,7 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-/**
- * 
- */
-package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
+package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -39,14 +36,18 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  *
  */
 @SuppressWarnings("serial")
-public class TestPanel extends JPanel 
+public class SingleAcceptanceTestPanel extends JPanel 
 {
 	
 	private AcceptanceTest test;
 	private Requirement requirement;
 
-	@SuppressWarnings("unchecked")
-	public TestPanel(Requirement req, AcceptanceTest test)
+	/**
+	 * Constructor for the single acceptance test panel panel
+	 * @param test current test
+	 * @param req current requirement
+	 */
+	public SingleAcceptanceTestPanel(Requirement req, AcceptanceTest test)
 	{
 		this.requirement = req;
 		this.test = test;
@@ -70,7 +71,7 @@ public class TestPanel extends JPanel
 		JLabel testName = new JLabel(" "+test.getName());
 		
 		// Get status and set drop down box to correct status
-		JComboBox dropdownStatus = new JComboBox(TestStatus.values());
+		JComboBox<TestStatus> dropdownStatus = new JComboBox<TestStatus>(TestStatus.values());
 		dropdownStatus.setBackground(Color.WHITE);
 		if (test.getStatus().equals("")) {
 			dropdownStatus.setSelectedItem(TestStatus.STATUS_BLANK);
@@ -80,8 +81,6 @@ public class TestPanel extends JPanel
 			dropdownStatus.setSelectedItem(TestStatus.STATUS_FAILED);
 		}
 
-		final Requirement finalReq = requirement;
-		final AcceptanceTest finalTest = test;
 		ItemListener itemListener = new ItemListener() {
 		      public void itemStateChanged(ItemEvent itemEvent) {
 		    	  updateRequirementTest((TestStatus)itemEvent.getItem());
@@ -117,6 +116,10 @@ public class TestPanel extends JPanel
 		this.add(description, testConstraints); // Add description to testPanel
 	}
 	
+	/**
+	 * Updates a requirement's status
+	 * @param newStatus new status
+	 */
 	private void updateRequirementTest(TestStatus newStatus) {
   	  	requirement.updateTestStatus(test.getId(), newStatus);
   	  	UpdateRequirementController.getInstance().updateRequirement(requirement);
@@ -124,7 +127,7 @@ public class TestPanel extends JPanel
 	
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
-	 * @param list List of note used to create panel
+	 * @param req requirement used to create panel
 	 * @return Panel containing all of the notes given to the method
 	 */
 	public static JPanel createList(Requirement req)
@@ -148,7 +151,7 @@ public class TestPanel extends JPanel
 		while(itt.hasNext())
 		{
 			//Create a new NotePanel for each Note and add it to the panel
-			panel.add(new TestPanel(req, itt.next()), c);
+			panel.add(new SingleAcceptanceTestPanel(req, itt.next()), c);
 			c.gridy++; //Next Row
 		}
 		
@@ -160,12 +163,5 @@ public class TestPanel extends JPanel
 		
 		return panel;
 	}
-	
-	public AcceptanceTest getTest() {
-		return test;
-	}
 
-	public void setTest(AcceptanceTest test) {
-		this.test = test;
-	}
 }
