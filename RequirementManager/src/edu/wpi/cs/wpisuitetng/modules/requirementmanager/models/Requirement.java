@@ -225,7 +225,6 @@ public class Requirement extends AbstractModel {
 	 * @return the release
 	 */
 	public String getRelease() {
-		if(parentID != -1) return getParent().getRelease();
 		return release;
 	}
 
@@ -259,12 +258,11 @@ public class Requirement extends AbstractModel {
 	 *            created and stores a transaction in the history
 	 */
 	public void setStatus(RequirementStatus status, boolean created) {
-		if ((status != this.status) && !created) {
+		if ((status != this.status) && (created == false)) {
 			String originalStatus = this.status.toString();
 			String newStatus = status.toString();
 			String message = ("Status changed from " + originalStatus + " to " + newStatus);
-			this.history.add(message);
-			UpdateRequirementController.getInstance().updateRequirement(this);
+			this.history.add(message);			
 		}
 
 		this.status = status;
@@ -331,12 +329,20 @@ public class Requirement extends AbstractModel {
 	 * @param estimate
 	 *            the estimate to set
 	 */
-	public void setEstimate(int estimate) {
+	public void setEstimate(int estimate, boolean created) {
+		if ((estimate != this.estimate) && (created == false)) {
+			int originalEstimate = this.estimate;
+			int newEstimate = estimate;
+			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
+			this.history.add(message);
+		}	
+		
 		int diff = estimate - this.estimate;
 		this.estimate = estimate;
-		
+
 		Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
-		iter.setEstimate(iter.getEstimate() + diff);		
+		iter.setEstimate(iter.getEstimate() + diff);	
+
 	}
 
 	/**
@@ -345,7 +351,6 @@ public class Requirement extends AbstractModel {
 	 * @return the effort
 	 */
 	public int getEffort() {
-		if(parentID != -1) return getParent().getEffort();
 		return actualEffort;
 	}
 
@@ -365,7 +370,6 @@ public class Requirement extends AbstractModel {
 	 * @return the priority
 	 */
 	public RequirementPriority getPriority() {
-		if(parentID != -1) return getParent().getPriority();
 		return priority;
 	}
 
@@ -380,12 +384,11 @@ public class Requirement extends AbstractModel {
 	 *            created and stores a transaction in the history
 	 */
 	public void setPriority(RequirementPriority priority, boolean created) {
-		if ((priority != this.priority) && !created) {
+		if ((priority != this.priority) && (created == false)) {
 			String originalPriority = this.priority.toString();
 			String newPriority = priority.toString();
 			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
-			this.history.add(message);
-			UpdateRequirementController.getInstance().updateRequirement(this);
+			this.history.add(message);			
 		}
 
 		this.priority = priority;
@@ -397,7 +400,6 @@ public class Requirement extends AbstractModel {
 	 * @return the type
 	 */
 	public RequirementType getType() {
-		if(parentID != -1) return getParent().getType();
 		return type;
 	}
 
@@ -572,7 +574,7 @@ public class Requirement extends AbstractModel {
 		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
 		
-		if(!this.iteration.equals(newIterationName) && !created)
+		if(!this.iteration.equals(newIterationName) && (created == false))
 		{
 			//create the transaction history
 			String message = ("Moved from "	+ curIter + " to " + newIteration);

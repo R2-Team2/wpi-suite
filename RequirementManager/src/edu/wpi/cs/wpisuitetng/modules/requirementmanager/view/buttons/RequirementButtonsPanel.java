@@ -13,15 +13,18 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 
 public class RequirementButtonsPanel extends JPanel{
 	
+	// initialize the main view toolbar buttons
+		private JButton createButton = new JButton("Create Requirement");
+		
+		private final JButton createIterationButton = new JButton("Create Iteration");
+	
 	public RequirementButtonsPanel(){
 		setBorder(BorderFactory.createTitledBorder("Create")); // add a border so you can see the panel
 		
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
-		// initialize the main view toolbar buttons
-		JButton createButton = new JButton("Create Requirement");
-		final JButton createIterationButton = new JButton("Create Iteration");
+		
 
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
@@ -53,5 +56,13 @@ public class RequirementButtonsPanel extends JPanel{
 		this.add(createButton);
 		this.add(createIterationButton);
 	}
+	public JButton getCreateButton() {
+		return createButton;
+	}
+
+	public JButton getCreateIterationButton() {
+		return createIterationButton;
+	}
+
 	
 }

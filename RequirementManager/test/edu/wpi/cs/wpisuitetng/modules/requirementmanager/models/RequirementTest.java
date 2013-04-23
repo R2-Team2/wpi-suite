@@ -64,7 +64,7 @@ public class RequirementTest {
 		object.setStatus(RequirementStatus.INPROGRESS, true);
 		object.setPriority(RequirementPriority.MEDIUM, true);
 		object.setEffort(10);
-		object.setEstimate(1);
+		object.setEstimate(1, false);
 
 		Requirement origObject = object; // change here
 		String jsonMessage = object.toJSON();
@@ -165,7 +165,7 @@ public class RequirementTest {
 	public void testCopyFromRequirement() {
 		Requirement r = new Requirement(0, "name", "desc");
 		r.setEffort(4);
-		r.setEstimate(4);
+		r.setEstimate(4, false);
 		r.setIteration("",false);
 		r.setPriority(RequirementPriority.HIGH, true);
 		r.setRelease("release 1");
@@ -203,17 +203,17 @@ public class RequirementTest {
 	public void testSubRequirementEstimateSumming()
 	{
 		Requirement parentRequirement = new Requirement(0, "", "");
-		parentRequirement.setEstimate(1);
+		parentRequirement.setEstimate(1, false);
 		
 		Requirement childRequirement = new Requirement(1, "", "");
-		childRequirement.setEstimate(32);
+		childRequirement.setEstimate(32, false);
 		
 		
 		Requirement childRequirement2 = new Requirement(2, "", "");
-		childRequirement2.setEstimate(7);
+		childRequirement2.setEstimate(7, false);
 		
 		Requirement grandChildRequirement = new Requirement(3, "","");
-		grandChildRequirement.setEstimate(12);
+		grandChildRequirement.setEstimate(12, false);
 		
 		RequirementModel.getInstance().addRequirement(parentRequirement);
 		RequirementModel.getInstance().addRequirement(childRequirement);
@@ -248,7 +248,7 @@ public class RequirementTest {
 	public void testNoChildEstimate()
 	{
 		Requirement parentRequirement = new Requirement(0,"","");
-		parentRequirement.setEstimate(3);
+		parentRequirement.setEstimate(3, false);
 		
 		assertEquals(parentRequirement.getEstimate(),3);
 	}
