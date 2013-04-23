@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPiePanel;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
