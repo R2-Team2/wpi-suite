@@ -71,7 +71,7 @@ public class SingleAcceptanceTestPanel extends JPanel
 		JLabel testName = new JLabel(" "+test.getName());
 		
 		// Get status and set drop down box to correct status
-		JComboBox dropdownStatus = new JComboBox(TestStatus.values());
+		JComboBox<TestStatus> dropdownStatus = new JComboBox<TestStatus>(TestStatus.values());
 		dropdownStatus.setBackground(Color.WHITE);
 		if (test.getStatus().equals("")) {
 			dropdownStatus.setSelectedItem(TestStatus.STATUS_BLANK);
@@ -81,8 +81,6 @@ public class SingleAcceptanceTestPanel extends JPanel
 			dropdownStatus.setSelectedItem(TestStatus.STATUS_FAILED);
 		}
 
-		final Requirement finalReq = requirement;
-		final AcceptanceTest finalTest = test;
 		ItemListener itemListener = new ItemListener() {
 		      public void itemStateChanged(ItemEvent itemEvent) {
 		    	  updateRequirementTest((TestStatus)itemEvent.getItem());
@@ -118,6 +116,10 @@ public class SingleAcceptanceTestPanel extends JPanel
 		this.add(description, testConstraints); // Add description to testPanel
 	}
 	
+	/**
+	 * Updates a requirement's status
+	 * @param newStatus new status
+	 */
 	private void updateRequirementTest(TestStatus newStatus) {
   	  	requirement.updateTestStatus(test.getId(), newStatus);
   	  	UpdateRequirementController.getInstance().updateRequirement(requirement);
@@ -161,12 +163,5 @@ public class SingleAcceptanceTestPanel extends JPanel
 		
 		return panel;
 	}
-	
-	public AcceptanceTest getTest() {
-		return test;
-	}
 
-	public void setTest(AcceptanceTest test) {
-		this.test = test;
-	}
 }

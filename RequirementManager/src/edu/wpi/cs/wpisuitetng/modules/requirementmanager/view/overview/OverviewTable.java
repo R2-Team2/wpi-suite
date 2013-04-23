@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class OverviewTable extends JTable
@@ -89,17 +90,15 @@ public class OverviewTable extends JTable
 		for (int i = 0; i < requirements.size(); i++) {
 			Requirement req = requirements.get(i);
 			tableModel.addRow(new Object[]{ req.getId(), 
-											req,
-											req.getRelease(),
-											req.getIteration(),
-											req.getType(),
-											req.getStatus(),
-											req.getPriority(),
-											req.getEstimate()
-			});
-
+					req,
+					req.getRelease(),
+					req.getIteration(),
+					req.getType(),
+					req.getStatus(),
+					req.getPriority(),
+					req.getEstimate()
+			});			
 		}
-			
 	}
 	
 	/**
@@ -117,9 +116,13 @@ public class OverviewTable extends JTable
     	// retrieve the requirement with ID rowID and the requirement's estimate 
     	Requirement req = RequirementModel.getInstance().getRequirement(rowID);
     	   	
-		// if the column contains the estimate, the requirement is not deleted, and the table is in edit mode,
-		// make the cell editable
-		if ((col == 7) && (isInEditMode) && (!req.isDeleted())) return true;
+		// if the column contains the estimate, the requirement is not deleted, in progress or completed,
+    	// and the table is in Multiple Requirement Editing mode, make the cell editable
+		if ((col == 7) && (isInEditMode) && !(req.isDeleted())
+										 &&	!(req.getStatus() == RequirementStatus.COMPLETE)
+										 &&	!(req.getStatus() == RequirementStatus.INPROGRESS)) {
+			return true;
+		}
 		
 		else return false;
 	}
@@ -209,5 +212,45 @@ public class OverviewTable extends JTable
 		
 		// refresh table to get rid of cell highlights
 		this.refresh();
+	}
+
+	/**
+	 * @return true if there are unsaved, saveable changes in the Overview Table
+	 */
+	public boolean hasChanges() {
+				
+		// iterate through the rows of the overview table
+		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
+
+			// extract the ID number displayed in the row
+			String rowIDstr = this.tableModel.getValueAt(row, 0).toString();
+			int rowID = Integer.parseInt(rowIDstr);
+
+			// use the ID number in the row to retrieve the requirement represented by the row
+			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
+
+			// extract the string from the estimate column			
+			String cellEstimateStr = this.tableModel.getValueAt(row, 7).toString();
+
+			boolean formatError = false;
+			int cellEstimate = 0;
+			
+			// check to see if the value in the cell is a valid integer
+			try {
+				cellEstimate = Integer.parseInt(cellEstimateStr);
+			}
+			catch (NumberFormatException nfe){
+				formatError = true;
+			}
+			
+			if (!formatError) {
+				// if the valid cell estimate is not equal to the requirement estimate,
+				// indicate that a change has been found by returning true
+				if (cellEstimate != req.getEstimate()) return true;						
+			}
+		}
+
+		// indicate that no changes were found by returning false
+		return false;
 	}	
 }

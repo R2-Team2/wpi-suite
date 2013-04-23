@@ -24,7 +24,6 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 {
 	private final List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
 	private final RequirementViewMode viewMode;
-	private final RequirementPanel parentPanel;
 	private final Requirement currentRequirement;
 	private final RequirementHistoryPanel historyPanel;
 	private final RequirementNotePanel notePanel;
@@ -39,7 +38,6 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	 */
 	public RequirementTabsPanel(RequirementPanel parentPanel, RequirementViewMode viewMode, Requirement currentRequirement) 
 	{
-		this.parentPanel = parentPanel;
 		this.viewMode = viewMode;
 		this.currentRequirement = currentRequirement;
 		

@@ -37,7 +37,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private RequirementTabsPanel parentPanel;
 	private RequirementViewMode viewMode;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
@@ -55,7 +54,6 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
 	{
 		this.setLayout(new BorderLayout());
-		this.parentPanel = parentPanel;
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
@@ -85,7 +83,6 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 					try {
 						toBeRemoved.setParentID(-1);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);

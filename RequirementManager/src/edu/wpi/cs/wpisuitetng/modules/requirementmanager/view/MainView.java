@@ -47,6 +47,7 @@ public class MainView extends JTabbedPane {
 	private Image tabImage = null;
 	private Point currentMouseLocation = null;
 	private int draggedTabIndex = 0;
+	private OverviewPanel overview = new OverviewPanel();
 
 
 	/**
@@ -55,7 +56,6 @@ public class MainView extends JTabbedPane {
 	public MainView() {
 		indexOfTab = 1;
 		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		OverviewPanel overview = new OverviewPanel();
 		this.addTab("Overview", overview);
 
 		JMenuItem closeAll = new JMenuItem("Close All Tabs");
@@ -90,7 +90,13 @@ public class MainView extends JTabbedPane {
 					// extract the value within the cell
 					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
 					// highlight the cell
-					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);					
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
+					
+					// check for changes and enable/disable the Save Changes button accordingly
+					if (ViewEventController.getInstance().getOverviewTable().hasChanges()) {
+						ViewEventController.getInstance().getToolbar().getEditButton().enableCreateEditButton();
+					}					
+					else ViewEventController.getInstance().getToolbar().getEditButton().disableCreateEditButton();						
 				}
 			}
 		});
@@ -208,5 +214,9 @@ public class MainView extends JTabbedPane {
 		if (!(component instanceof OverviewPanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
+	}
+	
+	public OverviewPanel getOverview() {
+		return overview;
 	}
 }

@@ -20,8 +20,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class AddRequirementRequestObserver implements RequestObserver {
-	
-	private final AddRequirementController controller;
+		
+	private AddRequirementController controller;
 	
 	/**
 	 * Constructs the observer given an AddRequirementController
