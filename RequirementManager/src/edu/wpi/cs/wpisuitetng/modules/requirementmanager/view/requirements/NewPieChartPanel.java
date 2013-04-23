@@ -46,10 +46,10 @@ public class NewPieChartPanel extends JScrollPane {
 	 */
 	public NewPieChartPanel(String title) {
 		NewPieChartPanel.title = title;
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new BorderLayout());
 		OverviewButtonPanel buttons = new OverviewButtonPanel();
 		panel.add(createPanel(), BorderLayout.CENTER);
-		panel.add(buttons, BorderLayout.SOUTH);
+		panel.add(buttons, BorderLayout.WEST);
 		
 		
 		this.setViewportView(panel);

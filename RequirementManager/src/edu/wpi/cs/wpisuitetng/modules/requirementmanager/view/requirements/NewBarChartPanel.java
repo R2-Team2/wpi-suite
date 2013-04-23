@@ -48,10 +48,10 @@ public class NewBarChartPanel extends JScrollPane {
 private static String title;
 		public NewBarChartPanel(String title){
 			NewBarChartPanel.title = title;//title of the chart, either status or iteration
-			JPanel panel = new JPanel();
+			JPanel panel = new JPanel(new BorderLayout());
 			OverviewBarButton buttons = new OverviewBarButton();
 			panel.add(createPanel(), BorderLayout.CENTER);
-			panel.add(buttons, BorderLayout.SOUTH);
+			panel.add(buttons, BorderLayout.WEST);
 			
 			
 			this.setViewportView(panel);

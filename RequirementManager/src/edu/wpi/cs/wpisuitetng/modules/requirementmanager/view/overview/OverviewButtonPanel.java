@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
@@ -23,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Rotat
 public class OverviewButtonPanel extends JPanel{
 
 	public OverviewButtonPanel(){
+		
 		JButton buttonStatus = new JButton("Status");
 		buttonStatus.addActionListener(new ActionListener(){
 			@Override
