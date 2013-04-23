@@ -225,7 +225,6 @@ public class Requirement extends AbstractModel {
 	 * @return the release
 	 */
 	public String getRelease() {
-		if(parentID != -1) return getParent().getRelease();
 		return release;
 	}
 
@@ -352,7 +351,6 @@ public class Requirement extends AbstractModel {
 	 * @return the effort
 	 */
 	public int getEffort() {
-		if(parentID != -1) return getParent().getEffort();
 		return actualEffort;
 	}
 
@@ -372,7 +370,6 @@ public class Requirement extends AbstractModel {
 	 * @return the priority
 	 */
 	public RequirementPriority getPriority() {
-		if(parentID != -1) return getParent().getPriority();
 		return priority;
 	}
 
@@ -403,7 +400,6 @@ public class Requirement extends AbstractModel {
 	 * @return the type
 	 */
 	public RequirementType getType() {
-		if(parentID != -1) return getParent().getType();
 		return type;
 	}
 

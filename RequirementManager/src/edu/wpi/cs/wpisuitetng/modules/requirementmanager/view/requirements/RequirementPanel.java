@@ -122,7 +122,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	{
 		if (this.displayRequirement.getStatus() == RequirementStatus.INPROGRESS)
 			return;
-
+		readyToClose = true;
 		displayRequirement.setStatus(RequirementStatus.DELETED, false);
 
 		UpdateRequirementController.getInstance().updateRequirement(displayRequirement);
