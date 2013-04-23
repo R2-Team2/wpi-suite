@@ -41,9 +41,11 @@ public class ToolbarView extends JPanel {
 	//	this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
 		this.setLayout(new GridLayout(1, 3));
 
-		this.add(chartButton);
-		this.add(editButton);
-		this.add(reqButton);
+		
+		this.add("Charts", chartButton);
+		this.add("Edit Estimates", editButton);
+		this.add("Create", reqButton);
+
 
 	}
 	

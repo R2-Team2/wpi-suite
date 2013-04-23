@@ -14,7 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class RequirementButtonsPanel extends JPanel{
 	
 	public RequirementButtonsPanel(){
-		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
+		setBorder(BorderFactory.createTitledBorder("Create")); // add a border so you can see the panel
 		
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
@@ -38,10 +38,10 @@ public class RequirementButtonsPanel extends JPanel{
 		createIterationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 					ViewEventController.getInstance().createIteration();
 				}
-			}
+		//	}
 		});
 		
 		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 5,SpringLayout.NORTH, this);

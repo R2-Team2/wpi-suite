@@ -90,7 +90,13 @@ public class MainView extends JTabbedPane {
 					// extract the value within the cell
 					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
 					// highlight the cell
-					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);					
+					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
+					
+					// check for changes and enable/disable the Save Changes button accordingly
+					if (ViewEventController.getInstance().getOverviewTable().hasChanges()) {
+						ViewEventController.getInstance().getToolbar().getEditButton().enableCreateEditButton();
+					}					
+					else ViewEventController.getInstance().getToolbar().getEditButton().disableCreateEditButton();						
 				}
 			}
 		});
