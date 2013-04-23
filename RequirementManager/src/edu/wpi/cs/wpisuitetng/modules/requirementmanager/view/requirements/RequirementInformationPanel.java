@@ -584,7 +584,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			currentRequirement.setName(stringName);
 			currentRequirement.setDescription(stringDescription);
 			currentRequirement.setStatus(status, created);
-			currentRequirement.setEstimate(estimate);
+			currentRequirement.setEstimate(estimate, created);
 			currentRequirement.setIteration(stringIteration, created);
 		} else {
 			currentRequirement.setName(stringName);
@@ -592,7 +592,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			currentRequirement.setDescription(stringDescription);
 			currentRequirement.setStatus(status, created);
 			currentRequirement.setPriority(priority, created);
-			currentRequirement.setEstimate(estimate);
+			currentRequirement.setEstimate(estimate, created);
 			currentRequirement.setIteration(stringIteration, created);
 			currentRequirement.setType(type);
 		}

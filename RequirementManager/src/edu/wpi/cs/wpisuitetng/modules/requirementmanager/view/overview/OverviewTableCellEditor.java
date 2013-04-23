@@ -65,9 +65,9 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 				}
 				// if the text could not be parsed
 				if (formatError) {
-					// highlight the text field in red if there is an invalid entry and add a tool tip
+					// highlight the text field in red and add a tool tip
 					c.setBackground(Color.red);	 
-					c.setToolTipText("Estimate must be an integer. This value will be ignored if changes are saved.");
+					c.setToolTipText("Estimate must be a valid, non-negative integer.");
 				}
 				// if the text is a valid integer, return the text field background to white and remove the tool tip 
 				else {					
