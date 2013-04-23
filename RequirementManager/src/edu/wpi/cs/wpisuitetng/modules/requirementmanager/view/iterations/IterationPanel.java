@@ -109,6 +109,7 @@ public class IterationPanel extends JPanel {
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().refreshTree();
 				ViewEventController.getInstance().removeTab(thisPanel);
 			}
 		});

@@ -111,6 +111,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	public void cancelPressed() 
 	{
 		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().refreshTree();
 		ViewEventController.getInstance().removeTab(this);		
 	}
 	
@@ -128,6 +129,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		UpdateRequirementController.getInstance().updateRequirement(displayRequirement);
 		
 		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().refreshTree();
 		ViewEventController.getInstance().removeTab(this);	
 	}	
 

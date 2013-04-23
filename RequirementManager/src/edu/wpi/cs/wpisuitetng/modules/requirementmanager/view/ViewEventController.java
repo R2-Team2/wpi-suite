@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -33,6 +34,7 @@ public class ViewEventController {
 	private MainView main = null;
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
+	private OverviewTreePanel overviewTree = null;
 	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
 	
 	/**
@@ -260,6 +262,7 @@ public class ViewEventController {
 		}
 
 		this.refreshTable();
+		this.refreshTree();
 	}
 
 	/**
@@ -346,5 +349,17 @@ public class ViewEventController {
 			
 		}
 		
+	}
+
+	public OverviewTreePanel getOverviewTree() {
+		return overviewTree;
+	}
+
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
+	}
+	
+	public void refreshTree(){
+		this.overviewTree.refresh();
 	}
 }
