@@ -47,7 +47,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
 public class NewBarChartPanel extends JScrollPane {
 private static String title;
 		public NewBarChartPanel(String title){
-			NewBarChartPanel.title = title;
+			NewBarChartPanel.title = title;//title of the chart, either status or iteration
 			JPanel panel = new JPanel();
 			OverviewBarButton buttons = new OverviewBarButton();
 			panel.add(createPanel(), BorderLayout.CENTER);
@@ -57,6 +57,9 @@ private static String title;
 			this.setViewportView(panel);
 		}
 		
+		/**
+		 * @return the data set depending on the type of data called for either status or iteration
+		 */
 		private static CategoryDataset setData() {
 			if (title.equals("Iteration")) {
 				return setDataIteration();
@@ -67,6 +70,9 @@ private static String title;
 			}
 
 		}
+		/**
+		 * @return the dataset based upon the statuses of all requirements
+		 */
 		private static CategoryDataset setDataStatus() {
 			int numStatusNew = 0;
 			int numStatusDeleted = 0;
@@ -97,7 +103,7 @@ private static String title;
 		}
 
 		/**
-		 * @return the data of iterations to be displayed by the pie chart
+		 * @return the data of iterations to be displayed by the bar chart
 		 */
 		private static CategoryDataset setDataIteration() {
 			DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -158,11 +164,16 @@ private static String title;
 			}
 			for (int k = 0; k < userNames.size(); k++) {
 				dataSet.setValue(numReqAssigned[k], userNames.get(k), "Assigned To");// populate
-																		// pie chart
+																		// bar chart
 																		// data
 			}
 			return dataSet;
 		}
+		/**
+		 * @param dataset the data to be shown by the chart
+		 * @param title the title of the chart(either status or iteration)
+		 * @return the created bar graph
+		 */
 		private static JFreeChart createChart(CategoryDataset dataset, String title){
 			JFreeChart chart = ChartFactory.createBarChart(
 		            title,         // chart title
@@ -171,8 +182,8 @@ private static String title;
 		            dataset,                  // data
 		            PlotOrientation.VERTICAL, // orientation
 		            true,                     // include legend
-		            true,                     // tooltips?
-		            false                     // URLs?
+		            true,                     
+		            false                     
 		        );
 			
 			chart.setBackgroundPaint(Color.white);
@@ -187,10 +198,18 @@ private static String title;
 	        
 	        return chart;
 		}
+		
+		/**
+		 * @return the created bar graph
+		 */
 		public static JPanel createPanel() {
 			JFreeChart chart = createChart(setData(), title);
 			return new ChartPanel(chart);
 		}
+		
+		/**
+		 * @return the title of the chart
+		 */
 		public String getTitle(){
 			return title;
 		}

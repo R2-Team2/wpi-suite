@@ -211,6 +211,9 @@ public class NewPieChartPanel extends JScrollPane {
 		return new ChartPanel(chart);
 	}
 	
+	/**
+	 * @return the title of the chart
+	 */
 	public String getTitle(){
 		return title;
 	}
