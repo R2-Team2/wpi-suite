@@ -10,6 +10,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +28,22 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  */
 public class EditButtonsPanel extends JPanel{
 	
+	JButton createEditButton = new JButton("Edit Estimates");
+	
+	/**
+	 *  disables the Edit Estimates/SaveChanges button 
+	 */
+	public void disableCreateEditButton() {
+		createEditButton.setEnabled(false);
+	}
+	
+	/**
+	 *  enables the Edit Estimates/SaveChanges button 
+	 */
+	public void enableCreateEditButton() {
+		createEditButton.setEnabled(true);
+	}
+
 	public EditButtonsPanel(){
 		
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
@@ -34,7 +51,6 @@ public class EditButtonsPanel extends JPanel{
 		SpringLayout editButtonsLayout = new SpringLayout();
 		this.setLayout(editButtonsLayout);
 
-		final JButton createEditButton = new JButton("Edit Estimates");
 		final JButton createCancelButton = new JButton("Cancel Changes");
 		
 		createCancelButton.setVisible(false);
@@ -50,11 +66,14 @@ public class EditButtonsPanel extends JPanel{
 					ViewEventController.getInstance().toggleEditingTable(false);
 					// edits the Edit Button text based on whether in editing overview table mode or not
 					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+						ViewEventController.getInstance().getOverviewTable().repaint();
 						createEditButton.setText("Save Changes");
-						createCancelButton.setVisible(true);
+						createEditButton.setEnabled(false);
+						createCancelButton.setVisible(true);												
 					}	
 					else {
 						createEditButton.setText("Edit Estimates");
+						createEditButton.setEnabled(true);
 						createCancelButton.setVisible(false);
 					}
 				}
@@ -65,9 +84,9 @@ public class EditButtonsPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
-				ViewEventController.getInstance().toggleEditingTable(true);
-
+				ViewEventController.getInstance().toggleEditingTable(true);			
 				createEditButton.setText("Edit Estimates");
+				createEditButton.setEnabled(true);
 				createCancelButton.setVisible(false);
 
 			}
