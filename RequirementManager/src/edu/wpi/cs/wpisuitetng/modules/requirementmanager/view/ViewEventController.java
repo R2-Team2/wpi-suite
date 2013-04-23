@@ -103,6 +103,13 @@ public class ViewEventController {
 	 * @param title the title of the pie chart
 	 */
 	public void createPieChart(String title){
+		int i;
+		for (i = 0; i < main.getTabCount(); i++) {
+			if (main.getTitleAt(i).equals("Pie Chart")) {
+				main.setSelectedIndex(i);
+				return;
+			}
+		}
 		NewPieChartPanel newPie = new NewPieChartPanel(title);   
 		main.addTab("Pie Chart", null, newPie, "PieChart");
 		main.invalidate();
