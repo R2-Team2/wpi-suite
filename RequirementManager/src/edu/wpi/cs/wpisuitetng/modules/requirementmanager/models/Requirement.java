@@ -263,8 +263,7 @@ public class Requirement extends AbstractModel {
 			String originalStatus = this.status.toString();
 			String newStatus = status.toString();
 			String message = ("Status changed from " + originalStatus + " to " + newStatus);
-			this.history.add(message);
-			UpdateRequirementController.getInstance().updateRequirement(this);
+			this.history.add(message);			
 		}
 
 		this.status = status;
@@ -337,13 +336,14 @@ public class Requirement extends AbstractModel {
 			int newEstimate = estimate;
 			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
 			this.history.add(message);
-			
-			int diff = estimate - this.estimate;
-			this.estimate = estimate;
+		}	
+		
+		int diff = estimate - this.estimate;
+		this.estimate = estimate;
 
-			Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
-			iter.setEstimate(iter.getEstimate() + diff);	
-		}
+		Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
+		iter.setEstimate(iter.getEstimate() + diff);	
+
 	}
 
 	/**
@@ -391,8 +391,7 @@ public class Requirement extends AbstractModel {
 			String originalPriority = this.priority.toString();
 			String newPriority = priority.toString();
 			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
-			this.history.add(message);
-			UpdateRequirementController.getInstance().updateRequirement(this);
+			this.history.add(message);			
 		}
 
 		this.priority = priority;
