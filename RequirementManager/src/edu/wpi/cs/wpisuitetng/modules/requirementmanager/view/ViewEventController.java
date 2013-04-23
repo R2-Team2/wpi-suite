@@ -129,6 +129,17 @@ public class ViewEventController {
 	}
 	
 	public void createBarChart(String title){
+		for(int i = 0; i < main.getTabCount(); i++){
+			if(main.getTitleAt(i).equals("Bar Graph")){ 
+					if(main.getTabComponentAt(i) instanceof NewBarChartPanel && (((NewBarChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))){
+						main.setSelectedIndex(i);
+						return;
+					}
+					else{
+						main.remove(i);
+					}
+			}
+		}
 		NewBarChartPanel newBar = new NewBarChartPanel(title);
 		main.addTab("Bar Graph", null, newBar, "BarGraph");
 		main.invalidate();
