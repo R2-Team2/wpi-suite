@@ -14,7 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class RequirementButtonsPanel extends JPanel{
 	
 	public RequirementButtonsPanel(){
-		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
+		setBorder(BorderFactory.createTitledBorder("Create")); // add a border so you can see the panel
 		
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
