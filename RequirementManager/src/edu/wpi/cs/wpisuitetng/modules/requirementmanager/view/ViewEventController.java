@@ -182,12 +182,13 @@ public class ViewEventController {
 			// ends the cell editing
 			this.overviewTable.getCellEditor().cancelCellEditing();
 		}
+		
 		// toggle the edit flag
-		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
+		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());	
 
 		// check to see if the overview table is now out of editing mode
 		if (!this.overviewTable.getEditFlag()) {
-			if (cancel) this.overviewTable.refresh();
+			if (cancel) this.overviewTable.refresh();			
 			else this.overviewTable.saveChanges();
 		}	
 	}

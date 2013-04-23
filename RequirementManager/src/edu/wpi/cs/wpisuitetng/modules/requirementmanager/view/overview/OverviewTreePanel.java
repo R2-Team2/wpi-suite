@@ -31,21 +31,38 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 	{	
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
 		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		
 		for(int i=0; i<iterations.size(); i++){
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
 			top.add(newNode);
 		}
         
         tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
  
         tree.addTreeSelectionListener(this);
         this.setViewportView(tree);
 	}
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
+		this.refresh();
 		
+	}
+	
+	public void refresh(){
+		
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
+		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		
+		for(int i=0; i<iterations.size(); i++){
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
+			top.add(newNode);
+		}
+		
+        tree = new JTree(top);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+ 
+        tree.addTreeSelectionListener(this);
+        this.setViewportView(tree);
 	}
 }
