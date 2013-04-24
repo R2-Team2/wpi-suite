@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -83,11 +84,11 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 		endDatePicker.addActionListener(this);
 		
 		contentPanel.add(labelName, "left");
-		contentPanel.add(boxName, "left, wrap");
+		contentPanel.add(boxName, "left ");
 		contentPanel.add(labelStart, "left");
-		contentPanel.add(startDatePicker, "left,wrap");
+		contentPanel.add(startDatePicker, "left");
 		contentPanel.add(labelEnd, "left");
-		contentPanel.add(endDatePicker, "left, wrap");
+		contentPanel.add(endDatePicker, "left");
 		
 		
 		buttonAdd = new JButton("Add Iteration");
@@ -128,8 +129,13 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 				ViewEventController.getInstance().removeTab(IterationPanel.this);
 			}
 		});
+		
+		JTabbedPane tabs = new JTabbedPane();
+		IterationCalendarPanel calPanel = new IterationCalendarPanel();
+		tabs.addTab("Iteration Calendar", calPanel);
 	
-		this.add(contentPanel, BorderLayout.CENTER);
+		this.add(contentPanel, BorderLayout.NORTH);
+		this.add(tabs, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		
 		validateFields();
