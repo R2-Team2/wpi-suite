@@ -14,9 +14,11 @@ import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -52,7 +54,11 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         //tree.addMouseListener(this);
         
         this.setViewportView(tree);
-        
+        // added by raph start
+        tree.setDragEnabled(true);
+        tree.setDropMode(DropMode.ON_OR_INSERT);
+        tree.setTransferHandler(new IterationTransferHandler(tree));
+        // end 
         ViewEventController.getInstance().setOverviewTree(this);
 
 		this.refresh();

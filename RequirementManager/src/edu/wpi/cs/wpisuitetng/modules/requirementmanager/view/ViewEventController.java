@@ -11,9 +11,14 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
+
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -21,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTableIterationCellEditor;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 
@@ -228,7 +234,16 @@ public class ViewEventController {
 		}
 		
 		// toggle the edit flag
-		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());	
+		this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
+		TableColumn iterationColumn = this.overviewTable.getColumnModel().getColumn(3);
+		// Retrieve all Iterations
+		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		// set up combobox editor for iteration column
+		JComboBox<Iteration> IterationBox = new JComboBox<Iteration>();		
+		for (Iteration iteration : iterations) {
+			IterationBox.addItem(iteration);			
+		}
+		iterationColumn.setCellEditor(new OverviewTableIterationCellEditor(IterationBox));
 
 		// check to see if the overview table is now out of editing mode
 		if (!this.overviewTable.getEditFlag()) {
