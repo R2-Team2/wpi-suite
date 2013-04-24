@@ -13,9 +13,12 @@ import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
@@ -400,5 +403,12 @@ public class ViewEventController {
 	
 	public void refreshTree(){
 		this.overviewTree.refresh();
+	}
+	
+	public void editSelectedIteration() {
+		String name = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject()).getName();
+		
+		Iteration iter = IterationModel.getInstance().getIteration(name);
+		ViewEventController.getInstance().createIteration();
 	}
 }

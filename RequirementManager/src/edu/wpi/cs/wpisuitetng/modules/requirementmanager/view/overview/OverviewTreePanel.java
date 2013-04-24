@@ -9,6 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
+public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	private JTree tree;
 	/**
 	 * Sets up the left hand panel of the overview
@@ -43,18 +45,13 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
  
-        tree.addTreeSelectionListener(this);
+        tree.addMouseListener(this);
         
         this.setViewportView(tree);
         
         ViewEventController.getInstance().setOverviewTree(this);
         
         System.out.println("finished constructing the tree");
-	}
-	
-	@Override
-	public void valueChanged(TreeSelectionEvent e) {
-		
 	}
 	
 	public void refresh(){
@@ -80,9 +77,49 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
  
-        tree.addTreeSelectionListener(this);
+        tree.addMouseListener(this);
+        
         this.setViewportView(tree);
         
         System.out.println("finished refreshing the tree");
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2)
+		{
+			ViewEventController.getInstance().editSelectedIteration();
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @return the tree
+	 */
+	public JTree getTree() {
+		return tree;
 	}
 }
