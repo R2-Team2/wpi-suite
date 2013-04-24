@@ -93,6 +93,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree = new JTree(top); //create the tree with the top node as the top
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
  
+        tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
         tree.addTreeSelectionListener(this); //add a listener to check for clicking
         this.setViewportView(tree); //make panel display the tree
         
