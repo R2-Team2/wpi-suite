@@ -13,16 +13,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -37,13 +37,125 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	private RequirementViewMode viewMode;
 	private int testsAdded;
 	private JScrollPane testsScroll;
+	private final JTextField testTitle;
+	private final JTextArea testMessage;
+	private final JButton buttonAddTest;
+	private final JButton buttonClear;
+	private final JLabel errorMsg;
+	private final JLabel labelTitle;
+	private final JLabel labelMessage;
+	private final Border defaultBorder = (new JTextField()).getBorder();
+	
 
+	
+	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
+		currentRequirement = current;
+		viewMode = vm;
+		testsAdded = 0;
+		
+		labelTitle = new JLabel("Title *");
+		labelMessage = new JLabel("Description *");
+		testTitle = new JTextField();
+		testMessage = new JTextArea();
+		testsScroll = new JScrollPane();
+
+		// Buttons to be added to the bottom of the NotePanel
+		buttonAddTest = new JButton("Add Test");
+		buttonClear = new JButton("Clear");
+		buttonAddTest.setEnabled(false);
+		buttonClear.setEnabled(false);
+		
+		testMessage.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				boolean enabledButtons = !testMessage.getText().trim().isEmpty() & !testTitle.getText().trim().isEmpty();
+				buttonAddTest.setEnabled(enabledButtons);
+				buttonClear.setEnabled(enabledButtons);
+			}
+		});
+
+		// Create text area for note to be added
+		//testTitle.setLineWrap(true);
+		//testTitle.setWrapStyleWord(true);
+		
+		testMessage.setLineWrap(true); // If right of box is reach, goes down a
+										// line
+		testMessage.setWrapStyleWord(true); // Doesn't chop off words
+		testMessage.setBorder(defaultBorder);
+
+		// Error message label in case no note was included
+		errorMsg = new JLabel();
+
+		// Layout manager for entire note panel
+		final GridBagLayout layout = new GridBagLayout();
+		this.setLayout(layout);
+		final GridBagConstraints c = new GridBagConstraints();
+
+		// Layout manager for panel that contains the buttons
+		final GridBagLayout bottomLayout = new GridBagLayout();
+		JPanel bottomPanel = new JPanel(bottomLayout);
+		final GridBagConstraints bc = new GridBagConstraints();
+
+		// Create new scroll pane for notes
+		testsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		// Always show scroll bar
+
+		c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
+		c.weightx = .9; // Fill horizontal space
+		c.weighty = .9; // Fill all the vertical space
+		this.add(testsScroll, c);
+
+		c.gridy = 1; // Row 1
+		c.weighty = 0; // Fill 0% of vertical space
+		this.add(labelTitle, c);
+		
+		c.gridy = 2; // Row 1
+		c.weighty = 0; // Fill 0% of vertical space
+		this.add(testTitle, c);
+		
+		c.gridy = 3; // Row 1
+		c.weighty = 0; // Fill 0% of vertical space
+		this.add(labelMessage, c);
+		
+		c.gridy = 4; // Row 1
+		c.weighty = .2; // Fill 0% of vertical space
+		this.add(testMessage, c);
+		
+
+		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom
+												// panel
+		bottomPanel.add(buttonAddTest, bc); // Include "Add note" button to
+											// bottom panel
+
+		bc.gridx = 1; // Column 1
+		bottomPanel.add(buttonClear, bc); // Include "Clear" button to bottom
+											// panel
+
+		bc.gridx = 2; // Column 2
+		bottomPanel.add(errorMsg, bc); // Add error message label to bottom
+										// panel
+
+		c.weighty = 0; // Do not stretch
+		c.gridy = 5; // Row 2
+		c.fill = GridBagConstraints.NONE; // Do not fill cell
+		c.anchor = GridBagConstraints.WEST; // Anchor buttons to west of panel
+		this.add(bottomPanel, c); // Add buttons to the panel
+		
+		this.setupListeners();
+		this.refresh();
+	}
+	
+	
+	
 	/**
 	 * Constructor for the requirement test panel
 	 * @param parent parent panel
 	 * @param vM view mode
 	 * @param req current requirement
 	 */
+	/*
 	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vM, Requirement req) {
 		this.currentRequirement = req;
 		this.parentPanel = parent;
@@ -152,11 +264,61 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 		
 		this.refresh();
 	}
-
+*/
 	private void refresh() {
 
 		testsScroll.setViewportView(SingleAcceptanceTestPanel.createList(currentRequirement));
 	}
+	
+	/**
+	 * Sets up the listeners 
+	 */
+	private void setupListeners()
+	{
+		// Listener for add note button
+		buttonAddTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Display error message if there is no text in noteMessage
+				if (testMessage.getText().length() <= 0 && testTitle.getText().length() <= 0) {
+					errorMsg.setText(" Error: Must have a title and a description.");
+				} else {
+					
+					String title = testTitle.getText();
+					String msg = testMessage.getText(); // Get text from
+														// noteMessage
+					AcceptanceTest tempTest = new AcceptanceTest(testsAdded, title, msg);
+					// Clear all text areas
+					testTitle.setText("");
+					testMessage.setText("");
+					errorMsg.setText("");
+					buttonClear.setEnabled(false);
+					buttonAddTest.setEnabled(false);
+
+					// Add note to requirement
+					currentRequirement.getTests().add(tempTest);
+
+					refresh();
+					testsAdded++;
+					// Update database so requirement stores new note
+					UpdateRequirementController.getInstance()
+							.updateRequirement(currentRequirement);
+				}
+			}
+		});
+
+		// Listener for the Clear button
+		buttonClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Clear all text fields
+				testTitle.setText("");
+				testMessage.setText("");
+				errorMsg.setText("");
+				buttonClear.setEnabled(false);
+				buttonAddTest.setEnabled(false);
+			}
+		});
+	}
+	
 
 	@Override
 	public boolean readyToRemove() {
