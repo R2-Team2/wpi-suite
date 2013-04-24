@@ -12,6 +12,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -19,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.Upd
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
@@ -151,6 +155,23 @@ public class Iteration extends AbstractModel {
 	 */
 	public List<Requirement> getRequirements() {
 		return RequirementModel.getInstance().getRequirementsForIteration(name);
+	}
+	
+	/**
+	 * Gets a list model containing the iteration's requirements
+	 * 
+	 * @return list model of requirements
+	 */
+	public ListModel<Requirement> getRequirementModel() {
+		DefaultListModel<Requirement> reqModel = new DefaultListModel<Requirement>();
+		List<Requirement> requirements = this.getRequirements();
+		
+		for(Requirement req : requirements)
+		{
+			reqModel.addElement(req);
+		}
+		
+		return reqModel;
 	}
 	
 

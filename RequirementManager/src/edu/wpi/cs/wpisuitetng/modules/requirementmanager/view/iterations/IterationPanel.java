@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -133,6 +134,9 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel dummyPanel = new JPanel();
 		tabs.addTab("Dummy Panel", dummyPanel);
+		
+		JPanel requirements = new IterationRequirements();
+		tabs.addTab("Requirements", requirements);
 	
 		this.add(contentPanel, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);

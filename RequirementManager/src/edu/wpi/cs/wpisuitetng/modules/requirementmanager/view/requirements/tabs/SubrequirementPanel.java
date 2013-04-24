@@ -59,8 +59,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
-		// Create new scroll pane for jtable
 		
+		// Create new scroll pane for jtable
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// Always show scroll bar
