@@ -13,6 +13,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
 
 /**
  * Tests the IterationModel.java source file methods
@@ -36,7 +37,10 @@ public class IterationModelTest {
 	public void testEmptyModel() {
 		ViewEventController viewCon = ViewEventController.getInstance();
 		OverviewTable ovTable = new OverviewTable(null, null);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
 		viewCon.setOverviewTable(ovTable);
+
 		
 		Iteration itrList[] = new Iteration[]{
 			new Iteration(1, "Iteration1"),
@@ -72,6 +76,8 @@ public class IterationModelTest {
 		ViewEventController viewCon = ViewEventController.getInstance();
 		OverviewTable ovTable = new OverviewTable(null, null);
 		viewCon.setOverviewTable(ovTable);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
 		
 		Iteration itrList[] = new Iteration[]{
 			new Iteration(1, "Iteration1"),
@@ -93,6 +99,8 @@ public class IterationModelTest {
 		ViewEventController viewCon = ViewEventController.getInstance();
 		OverviewTable ovTable = new OverviewTable(null, null);
 		viewCon.setOverviewTable(ovTable);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
 		
 		Iteration itrList[] = new Iteration[]{
 			new Iteration(1, "Iteration1"),
@@ -121,6 +129,8 @@ public class IterationModelTest {
 		ViewEventController viewCon = ViewEventController.getInstance();
 		OverviewTable ovTable = new OverviewTable(null, null);
 		viewCon.setOverviewTable(ovTable);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
 		
 		Iteration itrList[] = new Iteration[]{
 			new Iteration(1, "Iteration1"),

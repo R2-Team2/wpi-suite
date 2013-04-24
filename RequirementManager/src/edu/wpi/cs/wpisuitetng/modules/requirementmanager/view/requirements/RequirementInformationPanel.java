@@ -391,6 +391,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			}
 		}
 		dropdownStatus.setSelectedItem(currentRequirement.getStatus());
+		lastValidStatus = currentRequirement.getStatus();
 
 		dropdownType.setSelectedItem(currentRequirement.getType());
 
@@ -808,7 +809,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	@Override
 	public void itemStateChanged(ItemEvent e) {		
 		parentPanel.removeError("Cannot complete unless children are completed.");
-		parentPanel.removeError("Cannot delete when children exist.");
+		parentPanel.removeError("Cannot delete when non-deleted children exist.");
 		if(!fillingFieldsForRequirement)
 		{
 			boolean allChildrenCompleted = true;
