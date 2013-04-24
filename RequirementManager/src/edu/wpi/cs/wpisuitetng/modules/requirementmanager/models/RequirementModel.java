@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -253,6 +254,38 @@ public class RequirementModel extends AbstractListModel{
 		}
 		
 		return possibleParents;
+	}
+
+	/**
+	 * Returns the list of requirements that are assigned to the given iteration
+	 * @param name the iteration name
+	 * @return the list of requirements
+	 */
+	public List<Requirement> getRequirementsForIteration(String name) {
+		List<Requirement> reqForIteration = new LinkedList<Requirement>();
+		
+		boolean backlog = false;
+		if(name.trim().length() == 0) backlog = true;
+		
+		for(Requirement req : requirements)
+		{
+			if(backlog)
+			{
+				if(req.getIteration().equals("Backlog") || req.getIteration().trim().equals(""))
+				{
+					reqForIteration.add(req);
+				}
+			}
+			else
+			{
+				if(req.getIteration().equals(name))
+				{
+					reqForIteration.add(req);
+				}
+			}
+		}
+		
+		return reqForIteration;
 	}
 	
 }
