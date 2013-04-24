@@ -10,7 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
- *
+ *The information for the Iteration's date
  *
  */
 public class IterationDate {

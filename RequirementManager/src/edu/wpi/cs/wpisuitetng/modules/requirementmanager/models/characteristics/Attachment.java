@@ -10,7 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
- * an attachment to a requirement
+ * An attachment to a requirement
  * @author Gabriel McCormick
  */
 public class Attachment {
