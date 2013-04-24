@@ -10,9 +10,15 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +31,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
@@ -33,12 +40,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class IterationPanel extends JPanel {
+public class IterationPanel extends JPanel implements KeyListener, ActionListener{
 	private final String START_AFTER_END_ERROR = "Start date cannot be after end date.";
 	private final String OVERLAPPING_ERROR = "Iteration dates cannot overlap.";
 	private final String INVALID_NAME_ERROR = "Iteration exists with given name.";
 	private final String EMPTY_NAME_ERROR = "Name is required.";
 	private final String DATES_REQ = "Start and end date required.";
+	private final String PAST_ERROR = "Iteration cannot occur in the past.";
 	
 	private JTextField boxName;
 	
@@ -62,14 +70,17 @@ public class IterationPanel extends JPanel {
 
 		boxName = new JTextField();
 		boxName.setPreferredSize(new Dimension(200, 20));
+		boxName.addKeyListener(this);
 		
 		JLabel labelStart = new JLabel("Start Date: ");
 		JLabel labelEnd = new JLabel("End Date: ");
 		
 		startDatePicker = new JXDatePicker();
-		startDatePicker.setEnabled(false);
+		startDatePicker.getEditor().setEnabled(false);
+		startDatePicker.addActionListener(this);
 		endDatePicker = new JXDatePicker();
-		endDatePicker.setEnabled(false);
+		endDatePicker.getEditor().setEnabled(false);
+		endDatePicker.addActionListener(this);
 		
 		contentPanel.add(labelName, "left");
 		contentPanel.add(boxName, "left, wrap");
@@ -86,38 +97,29 @@ public class IterationPanel extends JPanel {
 		
 		errorList = new LinkedList<String>();
 		errorMsg = new JLabel();
+		errorMsg.setForeground(Color.RED);
 		errorMsg.setAlignmentX(LEFT_ALIGNMENT);
 		
-		buttonPanel = new JPanel();
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
 		buttonPanel.add(buttonAdd);
+		buttonAdd.setEnabled(false);
 		buttonPanel.add(buttonCancel);
 		buttonPanel.add(errorMsg);
-		/*
+		
 		buttonAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int error = 0;
 				
-				int id = IterationModel.getInstance().getIterations().size();
+				int id = IterationModel.getInstance().getNextID();
 				String name = boxName.getText();
-				if (name.length() == 0) {
-					error = 1;
-					System.out.println("Error");
-				}
 				
-				IterationDate start = new IterationDate((Month) monthStart.getSelectedItem(),
-						Integer.parseInt(dayStart.getText()),
-						Integer.parseInt(yearStart.getText()));
-				IterationDate end = new IterationDate((Month) monthEnd.getSelectedItem(),
-						Integer.parseInt(dayEnd.getText()),
-						Integer.parseInt(yearEnd.getText()));
-				Iteration iter = new Iteration(id, name, start, end);
+				Iteration iter = new Iteration(id, name, startDatePicker.getDate(), endDatePicker.getDate());
 				
-				if (error == 0) {
-					IterationModel.getInstance().addIteration(iter);
-				}
+				IterationModel.getInstance().addIteration(iter);
+				
 				ViewEventController.getInstance().removeTab(IterationPanel.this);
 			}
-		});*/
+		});
 		
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -157,6 +159,7 @@ public class IterationPanel extends JPanel {
 	 */
 	private void refreshErrors()
 	{
+		errorMsg.setText("");
 		for(String err : errorList)
 		{
 			errorMsg.setText(errorMsg.getText() + " " + err);
@@ -169,6 +172,9 @@ public class IterationPanel extends JPanel {
 	private void validateFields()
 	{
 		this.removeAllErrors();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(Calendar.getInstance().getTime());
+		cal.add(Calendar.DAY_OF_YEAR, -1);
 		
 		if(boxName.getText().trim().length() == 0)
 		{
@@ -187,10 +193,40 @@ public class IterationPanel extends JPanel {
 		{
 			displayError(START_AFTER_END_ERROR);
 		}
-		else if(IterationModel.getInstance().isValidIteration(startDatePicker.getDate(), endDatePicker.getDate()))
+		else if(startDatePicker.getDate().before(cal.getTime()))
 		{
-			
+			displayError(PAST_ERROR);
 		}
+		else
+		{
+			Iteration conflicting = IterationModel.getInstance().getConflictingIteration(startDatePicker.getDate(), endDatePicker.getDate());
+			if(conflicting != null)
+			{
+				displayError(OVERLAPPING_ERROR + " Overlaps with " + conflicting.getName() + ".");
+			}
+		}
+		
+		buttonAdd.setEnabled(errorList.size() == 0);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		validateFields();
 	}
 	
 	

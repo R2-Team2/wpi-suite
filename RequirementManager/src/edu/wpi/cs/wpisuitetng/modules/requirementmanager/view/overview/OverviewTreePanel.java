@@ -78,7 +78,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 		
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
 		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
-
+		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
 
 			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i)); //make a new iteration node to add

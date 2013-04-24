@@ -109,7 +109,7 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	
 	 * @return the next open id number */
-	private int getNextID() {
+	public int getNextID() {
 
 		return this.nextID++;
 	}
@@ -167,6 +167,7 @@ public class IterationModel extends AbstractListModel {
 			addIteration(backlog);
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**
@@ -192,20 +193,30 @@ public class IterationModel extends AbstractListModel {
 			if(iter.getName().equals(forName)) return iter;
 		}
 		
-		Iteration newIteration = new Iteration(getNextID(), forName);
-		
-		addIteration(newIteration);
-
-		return newIteration;
+		return null;
 	}
 
 	/**
-	 * Returns if the given date ranges are valid
-	 * @param date the begin date
-	 * @param date2 the end date
-	 * @return whether the given ranges overlap any others
+	 * Returns the iteration that conflicts with the given dates
+	 * @param start the begin date
+	 * @param end the end date
+	 * @return the conflicting iteration
 	 */
-	public boolean isValidIteration(Date date, Date date2) {
-		return false;
+	public Iteration getConflictingIteration(Date start, Date end) {
+		Iteration isValid = null;
+		
+		for(Iteration iter : listOfIterations)
+		{
+			if(iter == backlog) continue;
+			boolean startGreaterOrEqual = (start.after(iter.getEnd().getDate()) || start.equals(iter.getEnd().getDate()));
+			boolean endLessThanOrEqual = (end.before(iter.getStart().getDate()) || end.equals(iter.getStart().getDate()));
+			
+			if(!(startGreaterOrEqual || endLessThanOrEqual))
+			{
+				isValid = iter;
+			}
+		}
+		
+		return isValid;
 	}
 }

@@ -10,7 +10,6 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -39,8 +38,8 @@ public class Iteration extends AbstractModel {
 	private int estimate;
 		
 	/** start and end date associated with the iteration */
-	private Date start;
-	private Date end;
+	private IterationDate start;
+	private IterationDate end;
 
 	public Iteration() {
 	}
@@ -64,8 +63,8 @@ public class Iteration extends AbstractModel {
 		if (name.trim().length() == 0)
 			this.name = "Backlog";
 		this.estimate = 0;
-		this.start = start;
-		this.end = end;
+		this.start = new IterationDate(start);
+		this.end = new IterationDate(end);
 	}
 	
 	/**
@@ -145,12 +144,9 @@ public class Iteration extends AbstractModel {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Getter for the requirements
 	 * 
-=======
 	 * Getter for the requirements 
->>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
 	 * @return list of requirements
 	 */
 	public List<Requirement> getRequirements() {
@@ -161,14 +157,14 @@ public class Iteration extends AbstractModel {
 	/**
 	
 	 * @return the start of the iteration */
-	public Date getStart() {
+	public IterationDate getStart() {
 		return start;
 	}
 
 	/**
 	 * @param start the start of the iteration
 	 */
-	public void setStart(Date start) {
+	public void setStart(IterationDate start) {
 		this.start = start;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
@@ -176,14 +172,14 @@ public class Iteration extends AbstractModel {
 	/**
 	
 	 * @return the end of the iteration */
-	public Date getEnd() {
+	public IterationDate getEnd() {
 		return end;
 	}
 
 	/**
 	 * @param end the end of the iteration
 	 */
-	public void setEnd(Date end) {
+	public void setEnd(IterationDate end) {
 		this.end = end;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
