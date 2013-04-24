@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 
 /**
  */
-public class OverviewTreePanel extends JScrollPane implements MouseListener{
+public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
 
 	private JTree tree;
 	/**
@@ -38,32 +38,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 */
 	public OverviewTreePanel()
 	{	
-<<<<<<< HEAD
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		
-		for(int i=0; i<iterations.size(); i++){
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
-			top.add(newNode);
-		}
-        
-        tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
- 
-        tree.addMouseListener(this);
-        
-        this.setViewportView(tree);
-        
-        ViewEventController.getInstance().setOverviewTree(this);
-=======
+
 		this.refresh();
->>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
         
         System.out.println("finished constructing the tree");
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Method valueChanged.
 	 * @param e TreeSelectionEvent
@@ -77,7 +57,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	/**
 	 * This will wipe out the current tree and rebuild it
 	 */
->>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
+	
 	public void refresh(){
 		
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
@@ -113,51 +93,47 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
         tree = new JTree(top); //create the tree with the top node as the top
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
  
-<<<<<<< HEAD
-        tree.addMouseListener(this);
-        
-        this.setViewportView(tree);
-=======
         tree.addTreeSelectionListener(this); //add a listener to check for clicking
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
->>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
         
         System.out.println("finished refreshing the tree");
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2)
-		{
-			ViewEventController.getInstance().editSelectedIteration();
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	//TODO figure out how to implement the mouse listener without messing up the opening of tree nodes
+	
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		if (e.getClickCount() == 2)
+//		{
+//			ViewEventController.getInstance().editSelectedIteration();
+//		}
+//	}
+//
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	/**
 	 * @return the tree
