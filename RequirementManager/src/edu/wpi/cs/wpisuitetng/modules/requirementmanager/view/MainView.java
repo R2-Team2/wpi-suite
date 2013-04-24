@@ -18,13 +18,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.TransferHandler;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
@@ -84,13 +88,14 @@ public class MainView extends JTabbedPane {
 		ViewEventController.getInstance().getOverviewTable().getModel().addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
-				// check for Editing Multiple Requirements Mode		
-				if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) { 
+				// check for Editing Multiple Requirements Mode	and a change not caused by a refresh	
+				if (ViewEventController.getInstance().getOverviewTable().getEditFlag() 
+					&& !ViewEventController.getInstance().getOverviewTable().wasChangedByRefresh() ) { 
 					// find the cell that was changed
 					int otRow = e.getLastRow();
 					int otCol = e.getColumn();
 					// extract the value within the cell
-					Object value = ViewEventController.getInstance().getOverviewTable().getValueAt(otRow, otCol);
+					Object value = ViewEventController.getInstance().getOverviewTable().getModel().getValueAt(otRow, otCol);
 					// highlight the cell
 					ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
 					
@@ -101,9 +106,8 @@ public class MainView extends JTabbedPane {
 					else ViewEventController.getInstance().getToolbar().getEditButton().disableCreateEditButton();						
 				}
 			}
-		});
-
-
+		});		
+		
 		final JPopupMenu popup = new JPopupMenu();
 		popup.add(closeAll);
 		popup.add(closeOthers);
