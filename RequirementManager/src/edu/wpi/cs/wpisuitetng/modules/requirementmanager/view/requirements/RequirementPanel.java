@@ -239,4 +239,11 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	public Requirement getDisplayRequirement() {
 		return displayRequirement;
 	}
+
+	/**
+	 * @return the tabs panel
+	 */
+	public RequirementTabsPanel getTabsPanel() {
+		return tabsPanel;
+	}
 }

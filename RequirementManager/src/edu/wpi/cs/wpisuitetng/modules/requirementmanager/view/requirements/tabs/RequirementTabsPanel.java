@@ -98,4 +98,11 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 			listener.fireRefresh();
 		}
 	}
+
+	/**
+	 * @return the note panel
+	 */
+	public RequirementNotePanel getNotePanel() {
+		return notePanel;
+	}
 }

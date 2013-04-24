@@ -16,7 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -196,5 +198,41 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	@Override
 	public void fireRefresh() {
 		this.refresh();
+	}
+	
+	/**
+	 * @return the note message text area
+	 */
+	public JTextArea getNoteMessage() {
+		return noteMessage;
+	}
+	
+	/**
+	 * @return the button for adding a note
+	 */
+	public JButton getAddNoteButton() {
+		return buttonAddNote;
+	}
+	
+	/**
+	 * @return the requirement this note panel is in
+	 */
+	public Requirement getRequirement() {
+		return currentRequirement;
+	}
+	
+	/**
+	 * @return the number of notes added
+	 */
+	public int getNotesAdded() {
+		return notesAdded;
+	}
+
+	public JButton getClearButton() {
+		return buttonClear;
+	}
+
+	public JLabel getErrorMsg() {
+		return errorMsg;
 	}
 }
