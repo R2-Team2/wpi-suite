@@ -113,16 +113,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	int rowID = Integer.parseInt(rowIDstr);
         	// retrieve the requirement with ID rowID 
         	Requirement req = RequirementModel.getInstance().getRequirement(rowID);  
-        	
-        	/*
-        	 * Handle Iterations
-        	 */
-        	
-        	
-        	
-        	/*
-        	 * Handle Estimates
-        	 */
+        	// retrieve the requirement's estimate
         	int reqEstimate = req.getEstimate();      		
         	
         	// extract the value of the cell, trimming beginning and ending spaces 

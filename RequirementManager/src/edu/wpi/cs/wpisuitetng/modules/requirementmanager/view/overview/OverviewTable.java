@@ -15,8 +15,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
@@ -46,6 +48,11 @@ public class OverviewTable extends JTable
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 		this.setDefaultEditor(Object.class, new OverviewTableEstimateCellEditor(new JTextField()));
+		 // added by raph start
+        this.setDragEnabled(true);
+        this.setDropMode(DropMode.ON_OR_INSERT);
+        this.setTransferHandler(new TransferHandler(getName()));
+        // end
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -127,12 +134,9 @@ public class OverviewTable extends JTable
 										 &&	(req.getStatus() != RequirementStatus.COMPLETE)
 										 &&	(req.getStatus() != RequirementStatus.INPROGRESS)) {
 			return true;
-		}
+		}	
 		
-		// if the column contains the iteration, make the cell editable
-		if  (col == 3) return true;
-		
-		else return false;
+		return false;
 	}
 	
 	/**
@@ -228,9 +232,9 @@ public class OverviewTable extends JTable
 		this.refresh();
 	}
 
-	/**
-	
-	 * @return true if there are unsaved, saveable changes in the Overview Table */
+	/**	
+	 * @return true if there are unsaved, saveable changes in the Overview Table  
+	 */
 	public boolean hasChanges() {
 				
 		// iterate through the rows of the overview table

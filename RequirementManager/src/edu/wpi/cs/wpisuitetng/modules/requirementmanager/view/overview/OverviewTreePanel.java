@@ -57,7 +57,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         // added by raph start
         tree.setDragEnabled(true);
         tree.setDropMode(DropMode.ON_OR_INSERT);
-        tree.setTransferHandler(new IterationTransferHandler(tree));
+        tree.setTransferHandler(new IterationTransferHandler());
         // end 
         ViewEventController.getInstance().setOverviewTree(this);
 
@@ -170,4 +170,8 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 		// TODO Auto-generated method stub
 		
 	}
+	
+//	public JTree addRequirement(Iteration iteration, Requirement requirement){
+//		return null;
+//	} 
 }
