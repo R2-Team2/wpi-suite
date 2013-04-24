@@ -7,13 +7,10 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-/**
- * 
- */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
- * Statuses an acceptance test can have
+ * This contains the statuses an acceptance test can have
  * @author Dylan
  *
  */
