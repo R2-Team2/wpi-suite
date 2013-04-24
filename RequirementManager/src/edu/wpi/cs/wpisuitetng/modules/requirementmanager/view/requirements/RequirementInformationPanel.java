@@ -146,8 +146,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			iterationNames[i] = iter.getName();
 		}
 		boxIteration = (new JComboBox(iterationNames));
-		boxIteration.setSelectedItem(currentRequirement.getIteration());
-		boxIteration.addKeyListener(this);
+		boxIteration.addItemListener(this);
 		boxIteration.setBackground(Color.WHITE);
 
 		errorName = (new JLabel());
@@ -377,6 +376,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxEstimate.setText(
 				String.valueOf(currentRequirement.getEstimate()));
 		boxReleaseNum.setText(currentRequirement.getRelease());
+		boxIteration.setSelectedItem(currentRequirement.getIteration());
 
 		if (currentRequirement.getStatus().equals(RequirementStatus.NEW)) {
 			dropdownStatus.removeAllItems();
@@ -694,7 +694,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	
 	 * @return Returns whether any fields in the panel have been changed  */
 	private boolean anythingChangedCreating() {
-		boolean hasParent = currentRequirement.getParentID() != -1;
 		// Check if the user has changed the name
 		if (!(getBoxName().getText().equals(""))){
 			return true;}
@@ -702,19 +701,19 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxDescription().getText().equals(""))){
 			return true;}
 		// Check if the user has changed the release number
-		if (!(getBoxReleaseNum().getText().equals("")) && !hasParent){
+		if (!(getBoxReleaseNum().getText().equals(""))){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!((getBoxIteration().getSelectedItem().toString().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog")) && !hasParent){
+		if (!((getBoxIteration().getSelectedItem().toString().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog"))){
 			return true;}
 		// Check if the user has changed the type
-		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK) && !hasParent){
+		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK)){
 			return true;}
 		// Check if the user has changed the estimate
 		if (!(getBoxEstimate().getText().trim().equals("") || getBoxEstimate().getText().trim().equals("0"))){
 			return true;}
 
-		if (!getPriorityBlank().isSelected() && !hasParent)
+		if (!getPriorityBlank().isSelected())
 		{
 			return true;
 		}
@@ -736,7 +735,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals(currentRequirement.getRelease()))){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!(getBoxIteration().getSelectedItem().equals(currentRequirement.getIteration()))){
+		if (!(getBoxIteration().getSelectedItem().toString().equals(currentRequirement.getIteration()))){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == currentRequirement.getType())){
