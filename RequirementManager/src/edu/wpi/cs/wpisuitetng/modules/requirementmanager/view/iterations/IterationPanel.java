@@ -131,8 +131,8 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 		});
 		
 		JTabbedPane tabs = new JTabbedPane();
-		JPanel dummyPanel = new JPanel();
-		tabs.addTab("Dummy Panel", dummyPanel);
+		IterationCalendarPanel calPanel = new IterationCalendarPanel();
+		tabs.addTab("Iteration Calendar", calPanel);
 	
 		this.add(contentPanel, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
