@@ -33,13 +33,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  */
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
@@ -53,7 +53,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	 * @param vm viewmode
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
-	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
+	public SubrequirementPanel(RequirementTabsPanel parentPanel, ViewMode vm, Requirement requirementBeingEdited)
 	{
 		this.setLayout(new BorderLayout());
 		this.viewMode = vm;
@@ -108,7 +108,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		
 		this.refreshTable();
 		
-		if(viewMode == RequirementViewMode.CREATING)
+		if(viewMode == ViewMode.CREATING)
 		{
 			removeButton.setEnabled(false);
 			addNewButton.setEnabled(false);

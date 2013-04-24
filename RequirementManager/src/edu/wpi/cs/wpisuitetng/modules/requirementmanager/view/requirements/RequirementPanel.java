@@ -33,7 +33,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 {
 	private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
 	private Requirement displayRequirement;
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	
 	private RequirementInformationPanel infoPanel;
 	private RequirementTabsPanel tabsPanel;
@@ -47,7 +47,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public RequirementPanel(Requirement editingRequirement)
 	{
-		viewMode = (RequirementViewMode.EDITING);
+		viewMode = (ViewMode.EDITING);
 		
 		displayRequirement = editingRequirement;
 		this.buildLayout();
@@ -59,7 +59,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public RequirementPanel(int parentID)
 	{
-		viewMode = (RequirementViewMode.CREATING);
+		viewMode = (ViewMode.CREATING);
 		
 		displayRequirement = new Requirement();
 		displayRequirement.setId(-2);

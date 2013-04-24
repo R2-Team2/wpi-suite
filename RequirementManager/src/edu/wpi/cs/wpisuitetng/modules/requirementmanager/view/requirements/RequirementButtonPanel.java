@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 public class RequirementButtonPanel extends JPanel implements RequirementPanelListener
 {
 	private final RequirementPanel parentPanel;
-	private final RequirementViewMode viewMode;
+	private final ViewMode viewMode;
 	private final List<String> errorList;
 	private final JButton buttonOK;
 	private final JButton buttonCancel;
@@ -46,7 +46,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	 * @param mode viewmode for the panel
 	 * @param curr current requirement
 	 */
-	public RequirementButtonPanel(RequirementPanel parentPanel, RequirementViewMode mode, Requirement curr)
+	public RequirementButtonPanel(RequirementPanel parentPanel, ViewMode mode, Requirement curr)
 	{
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		changes = false;
@@ -68,7 +68,7 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		
 		this.add(buttonOK);
 		this.add(buttonClear);
-		if(viewMode == RequirementViewMode.CREATING)
+		if(viewMode == ViewMode.CREATING)
 		{
 			okString = "Create";
 			clearString = "Clear";

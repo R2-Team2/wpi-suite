@@ -18,14 +18,14 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  */
 public class RequirementTabsPanel extends JTabbedPane implements RequirementPanelListener
 {
 	private final List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
-	private final RequirementViewMode viewMode;
+	private final ViewMode viewMode;
 	private final Requirement currentRequirement;
 	private final RequirementHistoryPanel historyPanel;
 	private final RequirementNotePanel notePanel;
@@ -38,7 +38,7 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	 * @param viewMode view mode
 	 * @param currentRequirement current requirement
 	 */
-	public RequirementTabsPanel(RequirementPanel parentPanel, RequirementViewMode viewMode, Requirement currentRequirement) 
+	public RequirementTabsPanel(RequirementPanel parentPanel, ViewMode viewMode, Requirement currentRequirement) 
 	{
 		this.viewMode = viewMode;
 		this.currentRequirement = currentRequirement;

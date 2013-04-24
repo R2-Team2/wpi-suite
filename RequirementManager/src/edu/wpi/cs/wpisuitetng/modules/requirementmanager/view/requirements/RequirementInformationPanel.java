@@ -50,7 +50,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class RequirementInformationPanel extends JScrollPane implements KeyListener,
 ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private Requirement currentRequirement;
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	private RequirementPanel parentPanel;
 
 	private JTextField boxName;
@@ -94,7 +94,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * @param curr the requirement being edited/created.
 	 */
 	public RequirementInformationPanel(RequirementPanel parentPanel,
-			RequirementViewMode mode, Requirement curr) {
+			ViewMode mode, Requirement curr) {
 		this.currentRequirement = curr;
 		this.parentPanel = parentPanel;
 		this.viewMode = mode;
@@ -314,7 +314,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	private void refreshParentInformation()
 	{
-		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		boolean isCreating = viewMode == ViewMode.CREATING;
 		boolean hasChildren = !currentRequirement.getChildren().isEmpty();
 		labelChildEstimate.setVisible(hasChildren);
 		boxChildEstimate.setText(
@@ -541,7 +541,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * Updates the requirement/creates the requirement based on the view mode.
 	 */
 	public void update() {
-		updateRequirement(viewMode == RequirementViewMode.CREATING);
+		updateRequirement(viewMode == ViewMode.CREATING);
 	}
 
 	/**
@@ -642,7 +642,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		allDisabled |= getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE;
 		boolean inProgress = getDropdownStatus().getSelectedItem() == RequirementStatus.INPROGRESS;
 		boolean validEstimate = false;
-		boolean isCreating = viewMode == RequirementViewMode.CREATING;
+		boolean isCreating = viewMode == ViewMode.CREATING;
 		
 		boolean allChildrenDeleted = true;
 		for(Requirement child : currentRequirement.getChildren())
@@ -680,7 +680,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * @return Returns whether any field in the panel has been changed */
 	public boolean anythingChanged()
 	{
-		if(viewMode == RequirementViewMode.CREATING)
+		if(viewMode == ViewMode.CREATING)
 		{
 			return anythingChangedCreating();
 		}

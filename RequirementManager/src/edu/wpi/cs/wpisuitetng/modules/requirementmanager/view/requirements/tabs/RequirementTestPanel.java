@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  */
@@ -37,7 +37,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 
 	private Requirement currentRequirement;
 	private RequirementTabsPanel parentPanel;
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	private int testsAdded;
 	private JScrollPane testsScroll;
 	private final JTextField testTitle;
@@ -57,7 +57,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	 * @param vm RequirementViewMode
 	 * @param current Requirement
 	 */
-	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
+	public RequirementTestPanel(RequirementTabsPanel parent, ViewMode vm, Requirement current) {
 		currentRequirement = current;
 		viewMode = vm;
 		testsAdded = 0;
@@ -237,7 +237,7 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	@Override
 	public boolean readyToRemove() {
 		return testMessage.getText().length() == 0 && testTitle.getText().length() == 0 && 
-				(testsAdded == 0 || viewMode == RequirementViewMode.EDITING);
+				(testsAdded == 0 || viewMode == ViewMode.EDITING);
 	}
 
 	/**

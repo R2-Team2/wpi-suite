@@ -31,12 +31,12 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  */
 public class RequirementNotePanel extends JPanel implements RequirementPanelListener {
-	private final RequirementViewMode viewMode;
+	private final ViewMode viewMode;
 	private final Requirement currentRequirement;
 	private int notesAdded;
 	private final JTextArea noteMessage = new JTextArea();
@@ -51,7 +51,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	 * @param vm view mode
 	 * @param current current requirement
 	 */
-	public RequirementNotePanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
+	public RequirementNotePanel(RequirementTabsPanel parent, ViewMode vm, Requirement current) {
 		currentRequirement = current;
 		viewMode = vm;
 		notesAdded = 0;
@@ -206,7 +206,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	 */
 	@Override
 	public boolean readyToRemove() {
-		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == RequirementViewMode.EDITING);
+		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == ViewMode.EDITING);
 	}
 
 	/**

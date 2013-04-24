@@ -46,6 +46,10 @@ public class Iteration extends AbstractModel {
 	private IterationDate end;
 
 	public Iteration() {
+		super();
+		name = "";
+		estimate = 0;
+		start = end = null;
 	}
 
 	/**

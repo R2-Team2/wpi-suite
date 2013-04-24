@@ -36,6 +36,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  *
@@ -62,7 +63,21 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 	private List<String> errorList;
 	private JLabel errorMsg;
 	
-	public IterationPanel(){
+	private ViewMode vm;
+	private Iteration displayIteration;
+	
+	public IterationPanel() {
+		this.vm = ViewMode.CREATING;
+		buildLayout();
+	}
+	
+	public IterationPanel(Iteration iter) {
+		this.vm = ViewMode.EDITING;
+		displayIteration = iter;
+		buildLayout();
+	}
+	
+	private void buildLayout(){
 		this.setLayout(new BorderLayout());
 		MigLayout layout = new MigLayout();
 
@@ -133,7 +148,7 @@ public class IterationPanel extends JPanel implements KeyListener, ActionListene
 		
 		JTabbedPane tabs = new JTabbedPane();
 		
-		JPanel requirements = new IterationRequirements();
+		JPanel requirements = new IterationRequirementsPanel();
 		tabs.addTab("Requirements", requirements);
 
 		IterationCalendarPanel calPanel = new IterationCalendarPanel();
