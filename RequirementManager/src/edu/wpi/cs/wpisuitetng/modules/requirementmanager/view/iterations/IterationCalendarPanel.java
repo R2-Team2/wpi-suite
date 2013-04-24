@@ -9,29 +9,75 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jdesktop.swingx.JXMonthView;
-
 public class IterationCalendarPanel extends JScrollPane {
 	
-	private JXMonthView calendarView;
+	private IterationCalendar calendarView;
 	
 	public IterationCalendarPanel()
 	{
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
-		calendarView = new JXMonthView();
-		calendarView.setPreferredColumnCount(4);
-		calendarView.setPreferredRowCount(3);
+		JPanel buttonPanel = new JPanel();
+		JButton next = new JButton(">>");
+		next.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nextYear();
+			}	
+		});
+		JLabel year = new JLabel ("Year");
+		JButton prev = new JButton("<<");
+		prev.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				previousYear();
+			}
+		});
+		buttonPanel.add(prev);
+		buttonPanel.add(year);
+		buttonPanel.add(next);
+		contentPanel.add(buttonPanel, "center, grow, span, wrap");
 		
-		contentPanel.add(calendarView, "center, grow, span");
+		JPanel calendarPanel = new JPanel(new BorderLayout());
+		calendarView = new IterationCalendar();
+		calendarPanel.add(calendarView, BorderLayout.CENTER);
+		contentPanel.add(calendarPanel, "center, grow, span");
 		
 		this.setViewportView(contentPanel);
 		
+	}
+	
+	/**
+	 * Switches the calendar to the previous year.
+	 */
+	private void previousYear()
+	{
+		Calendar cal = calendarView.getCalendar();
+		cal.add(Calendar.YEAR, -1);
+		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	
+	/**
+	 * Switches the calendar to the next year.
+	 */
+	private void nextYear()
+	{
+		Calendar cal = calendarView.getCalendar();
+		cal.add(Calendar.YEAR, +1);
+		calendarView.setFirstDisplayedDay(cal.getTime());
 	}
 }
