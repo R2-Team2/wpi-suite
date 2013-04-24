@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 /**
- * Basic Requirement class
+ * Basic Requirement class that contains the data to be stored for a Requirement
  * 
  * @author David Mihal
  * 
@@ -606,6 +606,7 @@ public class Requirement extends AbstractModel {
 		
 		this.iteration = newIterationName;
 	}
+
 
 	/**
 	 * Getter for parent IDs

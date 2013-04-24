@@ -9,12 +9,17 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -22,12 +27,14 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.util.Rotation;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
 public class NewPieChartPanel extends JScrollPane {
 	private static String title;
@@ -39,7 +46,14 @@ public class NewPieChartPanel extends JScrollPane {
 	 */
 	public NewPieChartPanel(String title) {
 		NewPieChartPanel.title = title;
-		this.setViewportView(createPanel());
+		JPanel panel = new JPanel(new BorderLayout());
+		OverviewButtonPanel buttons = new OverviewButtonPanel();
+		panel.add(createPanel(), BorderLayout.CENTER);
+		panel.add(buttons, BorderLayout.WEST);
+		
+		
+		this.setViewportView(panel);
+		
 
 	}
 
@@ -180,6 +194,10 @@ public class NewPieChartPanel extends JScrollPane {
 		plot.setNoDataMessage("No data available");
 		plot.setCircular(true);
 		plot.setLabelGap(0.02);
+		plot.setStartAngle(270);
+		plot.setDirection(Rotation.ANTICLOCKWISE);
+		//Rotator rotator = new Rotator(plot);
+		//rotator.start();
 		return chart;
 
 	}
@@ -192,5 +210,13 @@ public class NewPieChartPanel extends JScrollPane {
 		JFreeChart chart = createChart(setData(), title);
 		return new ChartPanel(chart);
 	}
+	
+	/**
+	 * @return the title of the chart
+	 */
+	public String getTitle(){
+		return title;
+	}
 
 }
+
