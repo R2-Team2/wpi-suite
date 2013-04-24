@@ -35,6 +35,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
+/**
+ */
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
 	private RequirementViewMode viewMode;
@@ -116,8 +118,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 
 	/**
 	 * Constructs the jtable that holds all of the subrequirements.
-	 * @return the subrequirement table.
-	 */
+	
+	 * @return the subrequirement table. */
 	private JTable buildTable()
 	{
 		subRequirementTable = new JTable()
@@ -223,29 +225,54 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Overrides the requirementSelected method to signal to refresh the table when the
 	 * subrequirements are updated.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
 	 */
 	@Override
 	public void requirementSelected() {
 		refreshTable();
 	}
 
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return true;
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) {		
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {		
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {		
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {
 		refreshTable();

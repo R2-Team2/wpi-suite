@@ -25,6 +25,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
 	private JTree tree;
 	/**
@@ -37,6 +39,11 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         System.out.println("finished constructing the tree");
 	}
 	
+	/**
+	 * Method valueChanged.
+	 * @param e TreeSelectionEvent
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		
@@ -51,6 +58,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
 
 		for(int i=0; i<iterations.size(); i++){
+
 			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i)); //make a new iteration node to add
 			LinkedList<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
 

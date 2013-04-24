@@ -19,10 +19,16 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 
+/**
+ */
 public class RequirementModelTest {
 
 	
 	
+	/**
+	 * Method setUp.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		ViewEventController viewCon = ViewEventController.getInstance();

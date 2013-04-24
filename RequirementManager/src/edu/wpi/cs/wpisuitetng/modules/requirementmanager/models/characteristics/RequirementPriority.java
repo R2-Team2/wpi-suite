@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * Various Priorities a requirement can have
  * @author david
  *
+ * @version $Revision: 1.0 $
  */
 public enum RequirementPriority {
 	/**
@@ -34,11 +35,19 @@ public enum RequirementPriority {
 	
 	private final String name;
 	
+	/**
+	 * Constructor for RequirementPriority.
+	 * @param prio String
+	 */
 	private RequirementPriority(String prio)
 	{
 		name = prio;
 	}
 	
+	/**
+	 * Method toString.
+	 * @return String
+	 */
 	public String toString()
 	{
 		return name;

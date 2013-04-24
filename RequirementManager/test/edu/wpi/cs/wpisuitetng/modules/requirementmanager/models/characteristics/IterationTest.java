@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * Tests methods in iteration.java and tests the creation of variants of an iteration
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class IterationTest {
 	

@@ -20,6 +20,8 @@ import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class RequirementButtonsPanel extends JPanel{
 	
 	// initialize the main view toolbar buttons
@@ -40,9 +42,9 @@ public class RequirementButtonsPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
-				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 					ViewEventController.getInstance().createRequirement();
-				}
+			//	}
 			}
 		});		
 		
@@ -65,10 +67,18 @@ public class RequirementButtonsPanel extends JPanel{
 		this.add(createButton);
 		this.add(createIterationButton);
 	}
+	/**
+	 * Method getCreateButton.
+	 * @return JButton
+	 */
 	public JButton getCreateButton() {
 		return createButton;
 	}
 
+	/**
+	 * Method getCreateIterationButton.
+	 * @return JButton
+	 */
 	public JButton getCreateIterationButton() {
 		return createIterationButton;
 	}

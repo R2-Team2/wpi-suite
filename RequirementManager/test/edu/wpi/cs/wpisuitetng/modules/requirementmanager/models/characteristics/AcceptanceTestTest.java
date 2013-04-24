@@ -20,6 +20,7 @@ import org.junit.Test;
 /**
  * @author Dylan
  *
+ * @version $Revision: 1.0 $
  */
 public class AcceptanceTestTest {
 

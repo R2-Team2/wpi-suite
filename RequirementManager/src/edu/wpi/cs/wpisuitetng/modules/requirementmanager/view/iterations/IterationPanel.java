@@ -32,6 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 /**
  * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationPanel extends JPanel {
 	private JTextField boxName;
