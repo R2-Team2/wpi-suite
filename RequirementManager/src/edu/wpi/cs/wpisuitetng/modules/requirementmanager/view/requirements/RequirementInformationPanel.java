@@ -551,16 +551,12 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private void updateRequirement(boolean created) {
 		if(created) currentRequirement.setId(RequirementModel.getInstance().getNextID());
 		
-		// Remember previous requirement
-		Requirement prevReq = currentRequirement;
-		String stringPrevIteration = currentRequirement.getIteration();
-
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
 		String stringReleaseNum = this.getBoxReleaseNum().getText();
 		String stringDescription = this.getBoxDescription().getText();
 		String stringEstimate = this.getBoxEstimate().getText();
-		String stringIteration = (String) this.getBoxIteration().getSelectedItem();
+		String stringIteration = (String) this.getBoxIteration().getSelectedItem().toString();
 
 		if (stringIteration.trim().equals(""))
 			stringIteration = "Backlog";
@@ -593,24 +589,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		TransactionHistory requirementHistory = currentRequirement.getHistory();
 		requirementHistory.setTimestamp(System.currentTimeMillis());
 		
-		// Create a new requirement object based on the extracted info
-		if (currentRequirement.getParentID() != -1) {
-			currentRequirement.setName(stringName);
-			currentRequirement.setDescription(stringDescription);
-			currentRequirement.setStatus(status, created);
-			currentRequirement.setEstimate(estimate, created);
-			currentRequirement.setIteration(stringIteration, created);
-		} else {
-			currentRequirement.setName(stringName);
-			currentRequirement.setRelease(stringReleaseNum);
-			currentRequirement.setDescription(stringDescription);
-			currentRequirement.setStatus(status, created);
-			currentRequirement.setPriority(priority, created);
-			currentRequirement.setEstimate(estimate, created);
-			currentRequirement.setIteration(stringIteration, created);
-			currentRequirement.setType(type);
-		}
-
+		currentRequirement.setName(stringName);
+		currentRequirement.setRelease(stringReleaseNum);
+		currentRequirement.setDescription(stringDescription);
+		currentRequirement.setStatus(status, created);
+		currentRequirement.setPriority(priority, created);
+		currentRequirement.setEstimate(estimate, created);
+		currentRequirement.setIteration(stringIteration, created);
+		currentRequirement.setType(type);
 		if(created)
 		{
 			// Set the time stamp for the transaction for the creation of the requirement
