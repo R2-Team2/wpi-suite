@@ -145,19 +145,11 @@ public class Iteration extends AbstractModel {
 	}
 	
 	/**
-	 * Getter for the requirements
-	 * 
-<<<<<<< HEAD
-	
-	 * @return list of requirements */
-	public LinkedList<Requirement> getRequirements() {
-		return requirements;
-=======
+	 * Getter for the requirements 
 	 * @return list of requirements
 	 */
 	public List<Requirement> getRequirements() {
 		return RequirementModel.getInstance().getRequirementsForIteration(name);
->>>>>>> 4bfa7c88c85ee5b944886c14cd1960050c1a772a
 	}
 	
 
