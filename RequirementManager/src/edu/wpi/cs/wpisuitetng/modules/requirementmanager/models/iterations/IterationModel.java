@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -196,5 +197,15 @@ public class IterationModel extends AbstractListModel {
 		addIteration(newIteration);
 
 		return newIteration;
+	}
+
+	/**
+	 * Returns if the given date ranges are valid
+	 * @param date the begin date
+	 * @param date2 the end date
+	 * @return whether the given ranges overlap any others
+	 */
+	public boolean isValidIteration(Date date, Date date2) {
+		return false;
 	}
 }

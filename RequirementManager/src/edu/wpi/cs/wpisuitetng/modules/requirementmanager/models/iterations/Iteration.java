@@ -39,8 +39,8 @@ public class Iteration extends AbstractModel {
 	private int estimate;
 		
 	/** start and end date associated with the iteration */
-	private IterationDate start;
-	private IterationDate end;
+	private Date start;
+	private Date end;
 
 	public Iteration() {
 	}
@@ -58,7 +58,7 @@ public class Iteration extends AbstractModel {
 	 * @param end
 	 * 			  The end of the iteration
 	 */
-	public Iteration(int id, String name, IterationDate start, IterationDate end) {
+	public Iteration(int id, String name, Date start, Date end) {
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
@@ -161,14 +161,14 @@ public class Iteration extends AbstractModel {
 	/**
 	
 	 * @return the start of the iteration */
-	public IterationDate getStart() {
+	public Date getStart() {
 		return start;
 	}
 
 	/**
 	 * @param start the start of the iteration
 	 */
-	public void setStart(IterationDate start) {
+	public void setStart(Date start) {
 		this.start = start;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
@@ -176,14 +176,14 @@ public class Iteration extends AbstractModel {
 	/**
 	
 	 * @return the end of the iteration */
-	public IterationDate getEnd() {
+	public Date getEnd() {
 		return end;
 	}
 
 	/**
 	 * @param end the end of the iteration
 	 */
-	public void setEnd(IterationDate end) {
+	public void setEnd(Date end) {
 		this.end = end;
 		UpdateIterationController.getInstance().updateIteration(this);
 	}
