@@ -63,21 +63,29 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	if (statusColumnValue.getStatus() == RequirementStatus.DELETED)  setBackground(Color.LIGHT_GRAY);
 
         	else setBackground(Color.WHITE);
+        	
+        	setToolTipText(null);
         }
 
         // set deleted, in progress and complete backgrounds to yellow in Mult. Req. Editing Mode
         else {
         	if (statusColumnValue.getStatus() == RequirementStatus.DELETED) {
         		setForeground(Color.LIGHT_GRAY);
-        		setToolTipText("Cannot edit the Estimate of a Requirement that is Deleted.");
+        		if (column == 7) setToolTipText("Cannot edit the Estimate of a Requirement that is Deleted.");
+        		else setToolTipText(null);
         	}
         	if (statusColumnValue.getStatus() == RequirementStatus.COMPLETE) {
         		setForeground(Color.LIGHT_GRAY);
-        		setToolTipText("Cannot edit the Estimate of a Requirement that is Complete.");            		
+        		if (column == 7) setToolTipText("Cannot edit the Estimate of a Requirement that is Complete.");   
+        		else setToolTipText(null);
         	}
         	if (statusColumnValue.getStatus() == RequirementStatus.INPROGRESS) {
         		setForeground(Color.LIGHT_GRAY);
-        		setToolTipText("Cannot edit the Estimate of a Requirement that is In Progress.");
+        		if (column == 7) setToolTipText("Cannot edit the Estimate of a Requirement that is In Progress.");
+        		else setToolTipText(null);
+        	}
+        	if ((statusColumnValue.getStatus() == RequirementStatus.OPEN) || (statusColumnValue.getStatus() == RequirementStatus.NEW)){
+        		setToolTipText(null);
         	}
         }
 
@@ -129,7 +137,11 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         			setBackground(Color.green);        		
         		}
         		// else, remove the highlight and tool tip if the estimate is returned to its initial value
-        		// setToolTipText(null);
+        		if(	  (statusColumnValue.getStatus() != RequirementStatus.DELETED) 
+        			&&(statusColumnValue.getStatus() != RequirementStatus.COMPLETE)
+        			&&(statusColumnValue.getStatus() != RequirementStatus.INPROGRESS)) {            		
+        		setToolTipText(null);
+        		}
         	}
         }
 
