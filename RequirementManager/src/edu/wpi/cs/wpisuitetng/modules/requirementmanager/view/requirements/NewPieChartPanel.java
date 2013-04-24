@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
 
 public class NewPieChartPanel extends JScrollPane {
 	private static String title;
+	private ChartPanel pieChart;
 
 	/**
 	 * @param title
@@ -48,8 +50,9 @@ public class NewPieChartPanel extends JScrollPane {
 		NewPieChartPanel.title = title;
 		JPanel panel = new JPanel(new BorderLayout());
 		OverviewButtonPanel buttons = new OverviewButtonPanel();
-		panel.add(createPanel(), BorderLayout.CENTER);
-		panel.add(buttons, BorderLayout.WEST);
+		pieChart = createPanel();
+		panel.add(pieChart, BorderLayout.CENTER);
+		panel.add(buttons, BorderLayout.SOUTH);
 		
 		
 		this.setViewportView(panel);
@@ -206,7 +209,7 @@ public class NewPieChartPanel extends JScrollPane {
 	 * Creates the piechart panel
 	 * @return the piechart panel
 	 */
-	public static JPanel createPanel() {
+	public static ChartPanel createPanel() {
 		JFreeChart chart = createChart(setData(), title);
 		return new ChartPanel(chart);
 	}
@@ -216,6 +219,11 @@ public class NewPieChartPanel extends JScrollPane {
 	 */
 	public String getTitle(){
 		return title;
+	}
+	@Override
+	public void paintComponent(Graphics g){
+		pieChart.setChart(createChart(setData(), title));
+		super.paintComponent(g);
 	}
 
 }
