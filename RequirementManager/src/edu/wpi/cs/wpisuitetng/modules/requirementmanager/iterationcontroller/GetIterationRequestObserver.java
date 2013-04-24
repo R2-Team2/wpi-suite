@@ -16,6 +16,8 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 /**
  * This observer handles responses to requests for all Iterations
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class GetIterationRequestObserver implements RequestObserver {
 	

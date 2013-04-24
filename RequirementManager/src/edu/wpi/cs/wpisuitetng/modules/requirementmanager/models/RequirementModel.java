@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * 
  * @author Gabriel McCormick
  *
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class RequirementModel extends AbstractListModel{
@@ -48,8 +49,8 @@ public class RequirementModel extends AbstractListModel{
 	}
 	
 	/**
-	 * @return the instance of the requirement model singleton.
-	 */
+	
+	 * @return the instance of the requirement model singleton. */
 	public static RequirementModel getInstance()
 	{
 		if(instance == null)
@@ -83,8 +84,8 @@ public class RequirementModel extends AbstractListModel{
 	 * Returns the Requirement with the given ID
 	 * 
 	 * @param id The ID number of the requirement to be returned
-	 * @return the requirement for the id or null if the requirement is not found
-	 */
+	
+	 * @return the requirement for the id or null if the requirement is not found */
 	public Requirement getRequirement(int id)
 	{
 		Requirement temp = null;
@@ -123,7 +124,8 @@ public class RequirementModel extends AbstractListModel{
 	 * function is called internally by the JList in NewRequirementPanel. Returns elements
 	 * in reverse order, so the newest requirement is returned first.
 	 * 
-	 * @return the number of requirements in the project
+	
+	 * @return the number of requirements in the project * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return requirements.size();
@@ -133,8 +135,8 @@ public class RequirementModel extends AbstractListModel{
 	 * 
 	 * Provides the next ID number that should be used for a new requirement that is created.
 	 * 
-	 * @return the next open id number
-	 */
+	
+	 * @return the next open id number */
 	public int getNextID()
 	{
 		
@@ -146,7 +148,8 @@ public class RequirementModel extends AbstractListModel{
 	 * for the project. Used internally by the JList in NewRequirementModel.
 	 * 
 	 * @param index The index of the requirement to be returned
-	 * @return the requirement associated with the provided index
+	
+	 * @return the requirement associated with the provided index * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Requirement getElementAt(int index) {
 		return requirements.get(requirements.size() - 1 - index);
@@ -192,8 +195,8 @@ public class RequirementModel extends AbstractListModel{
 
 	/**
 	 * Returns the list of the requirements
-	 * @return the requirements held within the requirementmodel.
-	 */
+	
+	 * @return the requirements held within the requirementmodel. */
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
@@ -201,8 +204,8 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Returns the list of children for the given requirement.
 	 * @param requirement the parent requirement to find children for.
-	 * @return The list of children.
-	 */
+	
+	 * @return The list of children. */
 	public List<Requirement> getChildren(Requirement requirement) {
 		List<Requirement> children = new ArrayList<Requirement>();
 		
@@ -217,8 +220,8 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Returns the possible children for the given requirement.
 	 * @param req the given requirement
-	 * @return the list model of possiblechildren
-	 */
+	
+	 * @return the list model of possiblechildren */
 	public ListModel<Requirement> getPossibleChildren(Requirement req)
 	{
 		DefaultListModel<Requirement> possibleChildren = new DefaultListModel<Requirement>();
@@ -238,8 +241,8 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Returns the possible parents for the given requirement.
 	 * @param req the given requirement
-	 * @return the list model of possibleParents
-	 */
+	
+	 * @return the list model of possibleParents */
 	public ListModel<Requirement> getPossibleParents(Requirement req)
 	{
 		DefaultListModel<Requirement> possibleParents = new DefaultListModel<Requirement>();

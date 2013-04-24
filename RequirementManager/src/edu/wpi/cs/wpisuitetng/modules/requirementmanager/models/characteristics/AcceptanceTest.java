@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 /**
  * Acceptance test for a specific requirement
  * @author Dylan Kirby
+ * @version $Revision: 1.0 $
  */
 public class AcceptanceTest {
 	
@@ -36,8 +37,8 @@ public class AcceptanceTest {
 	
 	/**
 	 * Getter for the name
-	 * @return name name of the acceptance test
-	 */
+	
+	 * @return name name of the acceptance test */
 	public String getName() {
 		return this.testName;
 	}
@@ -62,8 +63,8 @@ public class AcceptanceTest {
 	
 	/**
 	 * Getter for the description
-	 * @return description of the acceptance test
-	 */
+	
+	 * @return description of the acceptance test */
 	public String getDescription() {
 		return this.testDescription;
 	}
@@ -78,16 +79,16 @@ public class AcceptanceTest {
 	
 	/**
 	 * Getter for the ID
-	 * @return the ID of the acceptance test
-	 */
+	
+	 * @return the ID of the acceptance test */
 	public int getId() {
 		return this.testId;
 	}
 	
 	/**
 	 * Getter for the status
-	 * @return status of the acceptance test
-	 */
+	
+	 * @return status of the acceptance test */
 	public String getStatus() {
 		return this.testStatus.toString();
 	}

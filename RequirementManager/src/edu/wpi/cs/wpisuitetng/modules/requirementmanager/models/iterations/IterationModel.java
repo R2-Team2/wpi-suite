@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * 
  * @author Gabriel McCormick
  * 
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class IterationModel extends AbstractListModel {
@@ -49,8 +50,8 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * @return the instance of the Iteration model singleton.
-	 */
+	
+	 * @return the instance of the Iteration model singleton. */
 	public static IterationModel getInstance() {
 		if (instance == null) {
 			instance = new IterationModel();
@@ -61,7 +62,8 @@ public class IterationModel extends AbstractListModel {
 	
 	/**
 	 * Sets the backlog iteration for the iteration model
-	 * @param iteration to be used as the backlog
+	
+	 * @param iter Iteration
 	 */
 	public void setBacklog(Iteration iter)
 	{
@@ -71,8 +73,8 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Adds a single Iteration to the Iterations of the project
 	 * 
-	 * @param newReq The Iteration to be added to the list of Iterations in the
-	 *        project
+	
+	 * @param newIter Iteration
 	 */
 	public void addIteration(Iteration newIter) {
 		// add the Iteration
@@ -92,7 +94,8 @@ public class IterationModel extends AbstractListModel {
 	 * NewIterationPanel. Returns elements in reverse order, so the newest
 	 * Iteration is returned first.
 	 * 
-	 * @return the number of Iterations in the project
+	
+	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return listOfIterations.size();
@@ -103,8 +106,8 @@ public class IterationModel extends AbstractListModel {
 	 * Provides the next ID number that should be used for a new Iteration that
 	 * is created.
 	 * 
-	 * @return the next open id number
-	 */
+	
+	 * @return the next open id number */
 	private int getNextID() {
 
 		return this.nextID++;
@@ -117,7 +120,8 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	 * @param index
 	 *            The index of the Iteration to be returned
-	 * @return the Iteration associated with the provided index
+	
+	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
@@ -167,8 +171,8 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Returns the list of the Iterations
 	 * 
-	 * @return the Iterations held within the Iterationmodel.
-	 */
+	
+	 * @return the Iterations held within the Iterationmodel. */
 	public List<Iteration> getIterations() {
 		return listOfIterations;
 	}
@@ -176,8 +180,8 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Return the iteration with the specified name
 	 * @param forName name of the iteration
-	 * @return the iteration
-	 */
+	
+	 * @return the iteration */
 	public Iteration getIteration(String forName)
 	{
 		if(forName == null) return backlog;

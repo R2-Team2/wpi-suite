@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * This observer is called when a response is received from a request
  * to the server to add a requirement.
+ * @version $Revision: 1.0 $
  */
 public class AddRequirementRequestObserver implements RequestObserver {
 		
