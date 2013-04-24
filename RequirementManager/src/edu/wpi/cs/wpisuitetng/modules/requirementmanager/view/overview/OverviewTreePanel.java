@@ -38,8 +38,25 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 	 */
 	public OverviewTreePanel()
 	{	
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
+		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		
+		for(int i=0; i<iterations.size(); i++){
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
+			top.add(newNode);
+		}
+        
+        tree = new JTree(top);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+ 
+        //tree.addMouseListener(this);
+        
+        this.setViewportView(tree);
+        
+        ViewEventController.getInstance().setOverviewTree(this);
 
 		this.refresh();
+
         
         System.out.println("finished constructing the tree");
 	}
@@ -48,16 +65,15 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 	 * Method valueChanged.
 	 * @param e TreeSelectionEvent
 	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
-	 */
+	 *//*
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		
-	}
+	}*/
 	
 	/**
 	 * This will wipe out the current tree and rebuild it
 	 */
-	
 	public void refresh(){
 		
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
@@ -97,7 +113,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
-        
+
         System.out.println("finished refreshing the tree");
 	}
 
@@ -140,5 +156,11 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 	 */
 	public JTree getTree() {
 		return tree;
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

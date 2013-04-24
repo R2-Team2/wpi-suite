@@ -164,7 +164,9 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 		this.refresh();
 	}
 	
-	
+	/**
+	 * Refreshes the acceptance tests panel
+	 */
 	private void refresh() {
 
 		testsScroll.setViewportView(SingleAcceptanceTestPanel.createList(currentRequirement));
@@ -181,11 +183,18 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 				// Display error message if there is no text in noteMessage
 				if (testMessage.getText().length() <= 0 && testTitle.getText().length() <= 0) {
 					errorMsg.setText(" Error: Must have a title and a description.");
-				} else {
+				} else if(testTitle.getText().length() > 100) {
+					errorMsg.setText(" Error: Title must be less than 100 characters.");
+				}
+				else {
 					
 					String title = testTitle.getText();
 					String msg = testMessage.getText(); // Get text from
 														// noteMessage
+					
+					currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());
+					currentRequirement.getHistory().add("Acceptance test added to this requirement.");
+					
 					AcceptanceTest tempTest = new AcceptanceTest(testsAdded, title, msg);
 					// Clear all text areas
 					testTitle.setText("");
