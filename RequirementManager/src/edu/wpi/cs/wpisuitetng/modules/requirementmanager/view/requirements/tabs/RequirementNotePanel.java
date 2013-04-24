@@ -168,6 +168,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 			}
 		});
 	}
+
 	/**
 	 * Method buildNoteMessage.
 	 * @return JTextArea

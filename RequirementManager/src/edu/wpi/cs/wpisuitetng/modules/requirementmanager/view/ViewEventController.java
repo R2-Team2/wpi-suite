@@ -343,7 +343,7 @@ public class ViewEventController {
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) continue;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 
