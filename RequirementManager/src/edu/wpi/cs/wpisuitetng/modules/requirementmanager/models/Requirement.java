@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
  * 
  * @author David Mihal
  * 
+ * @version $Revision: 1.0 $
  */
 public class Requirement extends AbstractModel {
 	/** the ID of the requirement */
@@ -172,8 +173,8 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param json
 	 *            JSON-encoded Requirement to deserialize
-	 * @return the Requirement contained in the given JSON
-	 */
+	
+	 * @return the Requirement contained in the given JSON */
 	public static Requirement fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement.class);
@@ -182,8 +183,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * /**Getter for the id
 	 * 
-	 * @return the id
-	 */
+	
+	 * @return the id */
 	public int getId() {
 		return id;
 	}
@@ -201,8 +202,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * getter for the name
 	 * 
-	 * @return the name
-	 */
+	
+	 * @return the name */
 	public String getName() {
 		return name;
 	}
@@ -222,8 +223,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * getter for the release number
 	 *  
-	 * @return the release
-	 */
+	
+	 * @return the release */
 	public String getRelease() {
 		return release;
 	}
@@ -241,8 +242,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the status
 	 * 
-	 * @return the status
-	 */
+	
+	 * @return the status */
 	public RequirementStatus getStatus() {
 		return status;
 	}
@@ -272,8 +273,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the description
 	 * 
-	 * @return the description
-	 */
+	
+	 * @return the description */
 	public String getDescription() {
 		return description;
 	}
@@ -291,24 +292,24 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the estimate
 	 * 
-	 * @return the estimate
-	 */
+	
+	 * @return the estimate */
 	public int getEstimate() {
 		return this.estimate;
 	}
 	
 	/**
 	 * Returns the estimate of the parent along with its children
-	 * @return total estimate
-	 */
+	
+	 * @return total estimate */
 	public int getTotalEstimate() {
 		return getEstimate() + getChildEstimate();
 	}
 	
 	/**
 	 * Returns the estimate of the children
-	 * @return total estimate
-	 */
+	
+	 * @return total estimate */
 	public int getChildEstimate() {
 		List<Requirement> children = getChildren();
 		if(children.size() == 0) return 0;
@@ -328,6 +329,7 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param estimate
 	 *            the estimate to set
+	 * @param created boolean
 	 */
 	public void setEstimate(int estimate, boolean created) {
 		if ((estimate != this.estimate) && (created == false)) {
@@ -348,8 +350,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the effort
 	 * 
-	 * @return the effort
-	 */
+	
+	 * @return the effort */
 	public int getEffort() {
 		return actualEffort;
 	}
@@ -367,8 +369,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the priority
 	 * 
-	 * @return the priority
-	 */
+	
+	 * @return the priority */
 	public RequirementPriority getPriority() {
 		return priority;
 	}
@@ -397,8 +399,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the type
 	 * 
-	 * @return the type
-	 */
+	
+	 * @return the type */
 	public RequirementType getType() {
 		return type;
 	}
@@ -417,8 +419,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the notes
 	 * 
-	 * @return the list of notes associated with the requirement
-	 */
+	
+	 * @return the list of notes associated with the requirement */
 	public NoteList getNotes(){
 		return notes;
 	}
@@ -426,8 +428,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for the list of development tasks
 	 * 
-	 * @return the list of development tasks
-	 */
+	
+	 * @return the list of development tasks */
 	public List<DevelopmentTask> getTasks() {
 		return tasks;
 	}
@@ -461,8 +463,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for AcceptanceTests
 	 * 
-	 * @return the list of acceptance tests for the requirement
-	 */
+	
+	 * @return the list of acceptance tests for the requirement */
 	public ArrayList<AcceptanceTest> getTests() {
 		return tests;
 	}
@@ -512,8 +514,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for attachments
 	 * 
-	 * @return the list of attachments
-	 */
+	
+	 * @return the list of attachments */
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
@@ -549,8 +551,8 @@ public class Requirement extends AbstractModel {
 	 * Getter for Iteration. Currently deals in Strings, but will deal with
 	 * Iterations in the future
 	 * 
-	 * @return a string representing the iteration it has been assigned to
-	 */
+	
+	 * @return a string representing the iteration it has been assigned to */
 	public String getIteration() {
 		return iteration;
 	}
@@ -611,8 +613,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for parent IDs
 	 * 
-	 * @return the parent ID, which is the ID of the parent of the requirement 
-	 */
+	
+	 * @return the parent ID, which is the ID of the parent of the requirement  */
 	public int getParentID() {
 		return parentID;
 	}
@@ -621,8 +623,8 @@ public class Requirement extends AbstractModel {
 	 * Setter for parentID
 	 * Assign the parent ID for this requirement
 	 * @param parentReq ID of the parent          
-	 * @throws Exception if the parent is an ancestor of the child already
-	 */
+	
+	 * @throws Exception if the parent is an ancestor of the child already */
 	public void setParentID(int parentReq) throws Exception {
 		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
@@ -634,8 +636,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Checks if a parent requirement is an ancestor of itself
 	 * @param parentId The ID of the parent requirement
-	 * @return true if the parent is an ancestor
-	 */
+	
+	 * @return true if the parent is an ancestor */
 	public boolean hasAncestor(int parentId) {
 		if(this.parentID == -1) return false;
 		
@@ -645,8 +647,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Checks if a requirement is an ancestor of a given child
 	 * @param childId ID of the child
-	 * @return true if it is an ancestor of the child
-	 */
+	
+	 * @return true if it is an ancestor of the child */
 	public boolean isAncestor(int childId) {
 		List<Requirement> children = this.getChildren();
 		for (int i = 0; i < children.size(); i++ ) {
@@ -658,16 +660,16 @@ public class Requirement extends AbstractModel {
 
 	/**
 	 * Getter for children
-	 * @return the children requirements of the requirement
-	 */
+	
+	 * @return the children requirements of the requirement */
 	public List<Requirement> getChildren() {		
 		return RequirementModel.getInstance().getChildren(this);
 	}
 	
 	/**
 	 * Getter for parent
-	 * @return the parent requirement of the sub-requirement
-	 */
+	
+	 * @return the parent requirement of the sub-requirement */
 	public Requirement getParent() {		
 		return RequirementModel.getInstance().getRequirement(parentID);
 	}
@@ -677,8 +679,8 @@ public class Requirement extends AbstractModel {
 	 * extracts the ID of parentReq and assigns it to parentID 
 	 * 
 	 * @param parentReq            
-	 * @throws Exception if invalid parent
-	 */
+	
+	 * @throws Exception if invalid parent */
 	public void setParent(Requirement parentReq) throws Exception {
 		setParentID(parentReq.getId());
 	}
@@ -686,9 +688,9 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Getter for AssignedTo
 	 * 
+	
 	 * @return the list of strings representing the users for whom the
-	 *         requirement has been assigned to.
-	 */
+	 *         requirement has been assigned to. */
 	public List<String> getAssignedTo() {
 		return assignedTo;
 	}
@@ -704,18 +706,31 @@ public class Requirement extends AbstractModel {
 		this.assignedTo = assignedTo;
 	}
 
+	/**
+	 * Method save.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Method delete.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Method toJSON.
+	 * @return String
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
 	 * 
@@ -732,19 +747,30 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param json
 	 *            string containing a JSON-encoded array of Requirement
-	 * @return an array of Requirement deserialized from the given JSON string
-	 */
+	
+	 * @return an array of Requirement deserialized from the given JSON string */
 	public static Requirement[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Requirement[].class);
 	}
 
+	/**
+	 * Method identify.
+	 * @param o Object
+	 * @return Boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Method toString.
+	 * @return String
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 */
 	@Override
 	public String toString() {
 		return this.getName();
@@ -753,8 +779,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Returns whether the requirement has been deleted.
 	 * 
-	 * @return true if the status of the requirement is deleted and false otherwise.
-	 */
+	
+	 * @return true if the status of the requirement is deleted and false otherwise. */
 	public boolean isDeleted() {
 		return status == RequirementStatus.DELETED;
 	}
@@ -762,8 +788,8 @@ public class Requirement extends AbstractModel {
 	/**
 	 * The getter for Transaction History
 	 * 
-	 * @return a TransactionHistory for this requirement
-	 */
+	
+	 * @return a TransactionHistory for this requirement */
 	public TransactionHistory getHistory() {
 		return history;
 	}

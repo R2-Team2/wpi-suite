@@ -30,6 +30,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
+/**
+ */
 public class RequirementTestPanel extends JPanel implements RequirementPanelListener{
 
 	private Requirement currentRequirement;
@@ -48,6 +50,12 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	
 
 	
+	/**
+	 * Constructor for RequirementTestPanel.
+	 * @param parent RequirementTabsPanel
+	 * @param vm RequirementViewMode
+	 * @param current Requirement
+	 */
 	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vm, Requirement current) {
 		currentRequirement = current;
 		viewMode = vm;
@@ -151,9 +159,9 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	
 	/**
 	 * Constructor for the requirement test panel
-	 * @param parent parent panel
-	 * @param vM view mode
-	 * @param req current requirement
+	
+	
+	
 	 */
 	/*
 	public RequirementTestPanel(RequirementTabsPanel parent, RequirementViewMode vM, Requirement req) {
@@ -320,23 +328,47 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	}
 	
 
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return testsAdded == 0 || viewMode == RequirementViewMode.EDITING;
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) {		
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {		
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {		
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {
 		this.refresh();

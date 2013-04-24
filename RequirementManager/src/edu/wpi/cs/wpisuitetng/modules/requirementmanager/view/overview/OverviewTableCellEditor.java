@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 /**
  * @author Raphael
  *
+ * @version $Revision: 1.0 $
  */
 public class OverviewTableCellEditor extends DefaultCellEditor {
 
@@ -40,6 +41,16 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 		super(textField);	
 	}
 
+	/**
+	 * Method getTableCellEditorComponent.
+	 * @param table JTable
+	 * @param value Object
+	 * @param isSelected boolean
+	 * @param row int
+	 * @param column int
+	 * @return Component
+	 * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(JTable, Object, boolean, int, int)
+	 */
 	@Override
 	/**
 	 * Returns the table cell editor so that the table can edit the cells text fields

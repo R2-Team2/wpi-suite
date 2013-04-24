@@ -45,6 +45,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class RequirementInformationPanel extends JScrollPane implements KeyListener,
 ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private Requirement currentRequirement;
@@ -105,7 +107,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	/**
 	 * Builds the layout panel.
 	 * 
-	 * @return the newly created and formatted layout panel.
+	
 	 */
 	@SuppressWarnings("rawtypes")
 	private void buildLayout() {
@@ -299,6 +301,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	/**
 	 * Refreshes the information of the requirement.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
 	 */
 	public void fireRefresh() {
 		parentSelector.refreshList();
@@ -337,12 +340,27 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		}
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) {}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {}
 
@@ -416,8 +434,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * Validates the values of the fields in the requirement panel to ensure
 	 * they are valid
 	 * @param warn whether to warn the user or not
-	 * @return whether fields are valid.
-	 */
+	
+	 * @return whether fields are valid. */
 	public boolean validateFields(boolean warn) {
 		boolean isNameValid;
 		boolean isDescriptionValid;
@@ -665,8 +683,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	}
 
 	/**
-	 * @return Returns whether any field in the panel has been changed
-	 */
+	
+	 * @return Returns whether any field in the panel has been changed */
 	public boolean anythingChanged()
 	{
 		if(viewMode == RequirementViewMode.CREATING)
@@ -680,8 +698,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	}
 
 	/**
-	 * @return Returns whether any fields in the panel have been changed 
-	 */
+	
+	 * @return Returns whether any fields in the panel have been changed  */
 	private boolean anythingChangedCreating() {
 		boolean hasParent = currentRequirement.getParentID() != -1;
 		// Check if the user has changed the name
@@ -712,8 +730,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	}
 
 	/**
-	 * @return whether any fields have been changed.
-	 */
+	
+	 * @return whether any fields have been changed. */
 	private boolean anythingChangedEditing() {
 		// Check if the user has changed the name
 		if (!(getBoxName().getText().equals(currentRequirement.getName()))){
@@ -766,7 +784,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * Returns whether the panel is ready to be removed or not based on if there are changes that haven't been
 	 * saved.
 	 * 
-	 * @return whether the panel can be removed.
+	
+	 * @return whether the panel can be removed. * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
 	 */
 	public boolean readyToRemove()
 	{	
@@ -806,6 +825,11 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		}
 	}
 
+	/**
+	 * Method itemStateChanged.
+	 * @param e ItemEvent
+	 * @see java.awt.event.ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {		
 		parentPanel.removeError("Cannot complete unless children are completed.");
@@ -841,6 +865,11 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.repaint();
 	}
 
+	/**
+	 * Method keyReleased.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		this.parentPanel.fireValid(validateFields(false));
@@ -851,9 +880,19 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.repaint();
 	}
 
+	/**
+	 * Method keyPressed.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {}
 
+	/**
+	 * Method keyTyped.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
@@ -862,8 +901,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * 
 	 * @param input
 	 *            the string to test
-	 * @return true if input is an integer, false otherwise
-	 */
+	
+	 * @return true if input is an integer, false otherwise */
 	public boolean isInteger(String input) {
 		try {
 			Integer.parseInt(input);
@@ -875,124 +914,128 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	/**
 	 * Returns the error name label
-	 * @return error name label
-	 */
+	
+	 * @return error name label */
 	public JLabel getErrorName() {
 		return errorName;
 	}
 
 	/**
-	 * @return the error description label
-	 */
+	
+	 * @return the error description label */
 	public JLabel getErrorDescription() {
 		return errorDescription;
 	}
 
 	/**
 	 * 
-	 * @return the error estimate label
-	 */
+	
+	 * @return the error estimate label */
 	public JLabel getErrorEstimate() {
 		return errorEstimate;
 	}
 
 	/**
 	 * 
-	 * @return box name
-	 */
+	
+	 * @return box name */
 	public JTextField getBoxName() {
 		return boxName;
 	}
 
 	/**
 	 * 
-	 * @return box release num
-	 */
+	
+	 * @return box release num */
 	public JTextField getBoxReleaseNum() {
 		return boxReleaseNum;
 	}
 
 	/**
 	 * 
-	 * @return box description
-	 */
+	
+	 * @return box description */
 	public JTextArea getBoxDescription() {
 		return boxDescription;
 	}
 
 	/**
 	 * 
-	 * @return box iteration
-	 */
+	
+	 * @return box iteration */
 	public JComboBox getBoxIteration() {
 		return boxIteration;
 	}
 
 	/**
 	 * 
-	 * @return box child estimate
-	 */
+	
+	 * @return box child estimate */
 	public JTextField getBoxChildEstimate() {
 		return boxChildEstimate;
 	}
 
 	/**
 	 * 
-	 * @return box total estimate
-	 */
+	
+	 * @return box total estimate */
 	public JTextField getBoxTotalEstimate() {
 		return boxTotalEstimate;
 	}
 
 	/**
 	 * 
-	 * @return type dropdown
-	 */
+	
+	 * @return type dropdown */
 	public JComboBox<RequirementType> getDropdownType() {
 		return dropdownType;
 	}
 
 	/**
 	 * 
-	 * @return status dropdown
-	 */
+	
+	 * @return status dropdown */
 	public JComboBox<RequirementStatus> getDropdownStatus() {
 		return dropdownStatus;
 	}
 
 	/**
 	 * 
-	 * @return estimate box
-	 */
+	
+	 * @return estimate box */
 	public JTextField getBoxEstimate() {
 		return boxEstimate;
 	}
 
 	/**
-	 * @return high priority button
-	 */
+	
+	 * @return high priority button */
 	public JRadioButton getPriorityHigh() {
 		return priorityHigh;
 	}
 	/**
-	 * @return medium priority button
-	 */
+	
+	 * @return medium priority button */
 	public JRadioButton getPriorityMedium() {
 		return priorityMedium;
 	}
 	/**
-	 * @return low priority button
-	 */
+	
+	 * @return low priority button */
 	public JRadioButton getPriorityLow() {
 		return priorityLow;
 	}
 	/**
-	 * @return blank priority button
-	 */
+	
+	 * @return blank priority button */
 	public JRadioButton getPriorityBlank() {
 		return priorityBlank;
 	}
 
+	/**
+	 * Method requirementSelected.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
+	 */
 	@Override
 	public void requirementSelected() {
 		this.parentSelector.setVisible(false);

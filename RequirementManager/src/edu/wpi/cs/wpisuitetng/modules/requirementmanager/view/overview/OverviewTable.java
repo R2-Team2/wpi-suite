@@ -27,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewTable extends JTable
 {
 	private DefaultTableModel tableModel = null;
@@ -108,6 +110,7 @@ public class OverviewTable extends JTable
 	 * 
 	 * @param row	row of OverviewTable cell is located
 	 * @param col	column of OverviewTable cell is located
+	 * @return boolean
 	 */
 	@Override
 	public boolean isCellEditable(int row, int col)
@@ -141,8 +144,8 @@ public class OverviewTable extends JTable
 	
 	
 	/**
-	 * @return isInEditMode
-	 */
+	
+	 * @return isInEditMode */
 	public boolean getEditFlag(){
 		return isInEditMode;
 	}
@@ -223,8 +226,8 @@ public class OverviewTable extends JTable
 	}
 
 	/**
-	 * @return true if there are unsaved, saveable changes in the Overview Table
-	 */
+	
+	 * @return true if there are unsaved, saveable changes in the Overview Table */
 	public boolean hasChanges() {
 				
 		// iterate through the rows of the overview table

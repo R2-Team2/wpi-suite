@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * Tests the functionality of the Note Panel inside of a Requirement
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class NotePanelTest {
 
@@ -29,8 +30,9 @@ public class NotePanelTest {
 	private Requirement req;
 	/**
 	 * Sets up the mock network, iteration, and local variables
-	 * @throws java.lang.Exception
-	 */
+	
+	 * @throws Exception
+	 * @throws java.lang.Exception */
 	@Before
 	public void setUp() throws Exception {
 		req = new Requirement(1, "Name", "Description");

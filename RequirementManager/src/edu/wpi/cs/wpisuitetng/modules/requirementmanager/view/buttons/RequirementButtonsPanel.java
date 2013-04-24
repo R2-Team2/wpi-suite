@@ -20,6 +20,8 @@ import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class RequirementButtonsPanel extends JPanel{
 	
 	// initialize the main view toolbar buttons
@@ -65,10 +67,18 @@ public class RequirementButtonsPanel extends JPanel{
 		this.add(createButton);
 		this.add(createIterationButton);
 	}
+	/**
+	 * Method getCreateButton.
+	 * @return JButton
+	 */
 	public JButton getCreateButton() {
 		return createButton;
 	}
 
+	/**
+	 * Method getCreateIterationButton.
+	 * @return JButton
+	 */
 	public JButton getCreateIterationButton() {
 		return createIterationButton;
 	}

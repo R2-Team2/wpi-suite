@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * Testing of the RequirementEntityManager
  * @author Dylan
  *
+ * @version $Revision: 1.0 $
  */
 public class RequirementManagerTest {
 
@@ -52,6 +53,7 @@ public class RequirementManagerTest {
 	
 	/**
 	 * Set up objects and create a mock session for testing
+	 * @throws Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -80,6 +82,7 @@ public class RequirementManagerTest {
 
 	/**
 	 * Stores a new requirement and ensures the correct data was stored
+	 * @throws WPISuiteException
 	 */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
@@ -96,8 +99,8 @@ public class RequirementManagerTest {
 	
 	/**
 	 * Ensures a requirement can be retrieved from the database
-	 * @throws NotFoundException
-	 */
+	
+	 * @throws NotFoundException */
 	@Test
 	public void testGetEntity() throws NotFoundException {
 		Requirement[] gotten = manager.getEntity(defaultSession, "1");
@@ -107,6 +110,7 @@ public class RequirementManagerTest {
 	/**
 	 * Ensures a NotFoundException is thrown when trying to
 	 * retrieve an invalid requirement
+	 * @throws NotFoundException
 	 */
 	@Test(expected=NotFoundException.class)
 	public void testGetBadId() throws NotFoundException {
@@ -115,6 +119,7 @@ public class RequirementManagerTest {
 
 	/**
 	 * Ensures that requirements can be deleted
+	 * @throws WPISuiteException
 	 */
 	@Test
 	public void testDelete() throws WPISuiteException {
@@ -126,6 +131,7 @@ public class RequirementManagerTest {
 	/**
 	 * Ensures a NotFoundException is thrown when trying to delete
 	 * an invalid requirement
+	 * @throws WPISuiteException
 	 */
 	@Test(expected=NotFoundException.class)
 	public void testDeleteMissing() throws WPISuiteException {
@@ -135,8 +141,8 @@ public class RequirementManagerTest {
 	/**
 	 * Ensures an UnauthorizedException is thrown when trying
 	 * to delete an entity while not authorized
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test(expected=UnauthorizedException.class)
 	public void testDeleteNotAllowed() throws WPISuiteException {
 		manager.deleteEntity(defaultSession, Integer.toString(req1.getId()));
@@ -144,8 +150,8 @@ public class RequirementManagerTest {
 	
 	/**
 	 * Ensures the deletion of all requirements funtions properly
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
 		Requirement anotherRequirement = new Requirement();
@@ -157,6 +163,10 @@ public class RequirementManagerTest {
 		assertEquals(1, db.retrieveAll(new Requirement(), otherProject).size());
 	}
 
+	/**
+	 * Method testDeleteAllWhenEmpty.
+	 * @throws WPISuiteException
+	 */
 	@Test
 	public void testDeleteAllWhenEmpty() throws WPISuiteException {
 		manager.deleteAll(adminSession);
@@ -164,12 +174,20 @@ public class RequirementManagerTest {
 		// no exceptions
 	}
 	
+	/**
+	 * Method testCount.
+	 * @throws WPISuiteException
+	 */
 	@Test
 	public void testCount() throws WPISuiteException {
 		assertEquals(2, manager.Count());
 	}
 
 
+	/**
+	 * Method updateRequirementTest.
+	 * @throws WPISuiteException
+	 */
 	@Test
 	public void updateRequirementTest() throws WPISuiteException {
 		Requirement updatedRequirement = manager.update(defaultSession, req1.toJSON());

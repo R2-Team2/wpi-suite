@@ -25,6 +25,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
 	private JTree tree;
 	/**
@@ -52,6 +54,11 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         System.out.println("finished constructing the tree");
 	}
 	
+	/**
+	 * Method valueChanged.
+	 * @param e TreeSelectionEvent
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		

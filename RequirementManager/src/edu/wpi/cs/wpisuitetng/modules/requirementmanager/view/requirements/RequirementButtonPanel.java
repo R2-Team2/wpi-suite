@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
+/**
+ */
 public class RequirementButtonPanel extends JPanel implements RequirementPanelListener
 {
 	private final RequirementPanel parentPanel;
@@ -120,18 +122,33 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		});
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) 
 	{
 		this.buttonDelete.setEnabled(!b);
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {
 		valid = b;
 		this.buttonOK.setEnabled(b && changes);
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {
 		changes = b;
@@ -139,11 +156,20 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 		this.buttonClear.setEnabled(b);
 	}
 	
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return true;
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {}
 	
@@ -192,32 +218,32 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	
 	/**
 	 * 
-	 * @return the clear button
-	 */
+	
+	 * @return the clear button */
 	public JButton getButtonClear() {
 		return buttonClear;
 	}
 	
 	/**
 	 * 
-	 * @return the delete button
-	 */
+	
+	 * @return the delete button */
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
 	
 	/**
 	 * 
-	 * @return the ok button
-	 */
+	
+	 * @return the ok button */
 	public JButton getButtonOK() {
 		return buttonOK;
 	}
 	
 	/**
 	 * 
-	 * @return the cancel button
-	 */
+	
+	 * @return the cancel button */
 	public JButton getButtonCancel() {
 		return buttonCancel;
 	}

@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewBarButton extends JPanel {
 	public OverviewBarButton(){
 		JButton buttonStatus = new JButton("Status");
