@@ -60,7 +60,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 		for(int i=0; i<iterations.size(); i++){
 
 			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i)); //make a new iteration node to add
-			LinkedList<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
+			List<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
 
 			//check to see if there are any requirements for the iteration
 			if(requirements != null){
