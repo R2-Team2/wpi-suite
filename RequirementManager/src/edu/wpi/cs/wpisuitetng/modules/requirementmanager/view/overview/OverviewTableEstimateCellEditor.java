@@ -17,16 +17,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 /**
  * @author Raphael
  *
  */
-public class OverviewTableCellEditor extends DefaultCellEditor {
+public class OverviewTableEstimateCellEditor extends DefaultCellEditor {
 
 	/** 
 	 *  Contructor for the OverviewTableCellEditor
@@ -36,7 +45,7 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 	 *  
 	 * @param textField
 	 */
-	public OverviewTableCellEditor(JTextField textField) {
+	public OverviewTableEstimateCellEditor(JTextField textField) {
 		super(textField);	
 	}
 
@@ -49,7 +58,7 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 		final JTextField c = (JTextField) super.getTableCellEditorComponent(table, value, isSelected, row, column);
 		
 		c.setBackground(Color.white);
-		
+				
 		// add a key listener to the cell's text field
 		// this will color the text field correctly when the text field is edited
 		c.addKeyListener(new KeyListener() {	

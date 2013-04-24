@@ -43,7 +43,7 @@ public class OverviewTable extends JTable
 		this.tableModel = new DefaultTableModel(data, columnNames);
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
-		this.setDefaultEditor(Object.class, new OverviewTableCellEditor(new JTextField()));
+		this.setDefaultEditor(Object.class, new OverviewTableEstimateCellEditor(new JTextField()));
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -120,11 +120,14 @@ public class OverviewTable extends JTable
     	   	
 		// if the column contains the estimate, the requirement is not deleted, in progress or completed,
     	// and the table is in Multiple Requirement Editing mode, make the cell editable
-		if ((col == 7) && (isInEditMode) && !(req.isDeleted())
-										 &&	!(req.getStatus() == RequirementStatus.COMPLETE)
-										 &&	!(req.getStatus() == RequirementStatus.INPROGRESS)) {
+		if ((col == 7) && (isInEditMode) && (!req.isDeleted())
+										 &&	(req.getStatus() != RequirementStatus.COMPLETE)
+										 &&	(req.getStatus() != RequirementStatus.INPROGRESS)) {
 			return true;
 		}
+		
+		// if the column contains the iteration, make the cell editable
+		if  (col == 3) return true;
 		
 		else return false;
 	}

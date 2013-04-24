@@ -59,7 +59,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 
 
         if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-        	// set deleted requirement backgrounds to gray if not in Multiple Requirement Editing ModesetBackground
+        	// set deleted requirement backgrounds to gray if not in Multiple Requirement Editing Mode
         	if (statusColumnValue.getStatus() == RequirementStatus.DELETED)  setBackground(Color.LIGHT_GRAY);
 
         	else setBackground(Color.WHITE);
@@ -67,7 +67,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	setToolTipText(null);
         }
 
-        // set deleted, in progress and complete backgrounds to yellow in Mult. Req. Editing Mode
+        // set deleted, in progress and complete foregrounds to gray and assign tool tips in Mult. Req. Editing Mode
         else {
         	if (statusColumnValue.getStatus() == RequirementStatus.DELETED) {
         		setForeground(Color.LIGHT_GRAY);
@@ -84,6 +84,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         		if (column == 7) setToolTipText("Cannot edit the Estimate of a Requirement that is In Progress.");
         		else setToolTipText(null);
         	}
+        	// make sure all the cells that should not have tool tips do not have tool tips 
         	if ((statusColumnValue.getStatus() == RequirementStatus.OPEN) || (statusColumnValue.getStatus() == RequirementStatus.NEW)){
         		setToolTipText(null);
         	}
@@ -100,8 +101,18 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	// extract the ID number displayed in the row
         	String rowIDstr = model.getValueAt(modelRow, 0).toString();
         	int rowID = Integer.parseInt(rowIDstr);
-        	// retrieve the requirement with ID rowID and the requirement's estimate 
-        	Requirement req = RequirementModel.getInstance().getRequirement(rowID);      	
+        	// retrieve the requirement with ID rowID 
+        	Requirement req = RequirementModel.getInstance().getRequirement(rowID);  
+        	
+        	/*
+        	 * Handle Iterations
+        	 */
+        	
+        	
+        	
+        	/*
+        	 * Handle Estimates
+        	 */
         	int reqEstimate = req.getEstimate();      		
         	
         	// extract the value of the cell, trimming beginning and ending spaces 
