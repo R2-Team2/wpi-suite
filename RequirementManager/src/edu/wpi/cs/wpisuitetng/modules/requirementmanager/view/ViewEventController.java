@@ -314,23 +314,24 @@ public class ViewEventController {
 	/**
 	 * Closes all the tabs except for the one that was clicked.
 	 * 
-	 * @param indexOfTab Index of the tab that was clicked
 	 */
-	public void closeOthers(int indexOfTab) {
+	public void closeOthers() {
 		int tabCount = main.getTabCount();
-		Component compAtIndex = main.getComponentAt(indexOfTab);
+		Component selected = main.getSelectedComponent();
 
 		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 
-			if(toBeRemoved instanceof OverviewPanel) continue;
-
-			if(toBeRemoved == compAtIndex) continue;
+			if(toBeRemoved instanceof OverviewPanel){
+				continue;}
+			if(toBeRemoved == selected){
+				continue;}
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()){
+					break;}
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 

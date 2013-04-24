@@ -41,8 +41,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
  */
 public class MainView extends JTabbedPane {
 
-	private int indexOfTab;
-
 	private boolean dragging = false;
 	private Image tabImage = null;
 	private Point currentMouseLocation = null;
@@ -55,7 +53,6 @@ public class MainView extends JTabbedPane {
 	 * Adds main subtab when user goes to RequirementManager
 	 */
 	public MainView() {
-		indexOfTab = 1;
 		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		this.addTab("Overview", overview);
 
@@ -74,7 +71,7 @@ public class MainView extends JTabbedPane {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewEventController.getInstance().closeOthers(indexOfTab);
+				ViewEventController.getInstance().closeOthers();
 
 			}	
 		});
@@ -153,8 +150,6 @@ public class MainView extends JTabbedPane {
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				indexOfTab = indexAtLocation(e.getX(), e.getY());
-				//System.out.println(indexOfTab+"\n");
 				if(e.isPopupTrigger()) popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 
