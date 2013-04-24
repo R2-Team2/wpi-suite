@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
@@ -27,7 +28,8 @@ public class RequirementIcon implements Icon {
 
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
-		g.drawRect(x, y, width, height);
+		g.setColor(new Color(255, 127, 0));
+		g.fillOval(x, y, width, height);
 	}
 
 }

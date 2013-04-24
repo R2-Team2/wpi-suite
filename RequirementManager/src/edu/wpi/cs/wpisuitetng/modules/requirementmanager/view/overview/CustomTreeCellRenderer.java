@@ -27,7 +27,6 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
 		
 		if(node.getUserObject() instanceof Requirement){
-			System.out.println("found a requirement to ad an icon to");
 			setIcon(requirementIcon);
 		}
 		else{

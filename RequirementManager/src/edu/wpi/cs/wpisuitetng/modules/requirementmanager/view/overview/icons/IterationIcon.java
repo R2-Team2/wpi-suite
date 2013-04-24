@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
@@ -27,8 +28,8 @@ public class IterationIcon implements Icon {
 
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
-		g.drawOval(x, y, this.width, this.height);
-
+		g.setColor(new Color(175, 0, 255));
+		g.fillOval(x, y, width, height);
 	}
 
 }
