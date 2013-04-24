@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
  */
 public class NewBarChartPanel extends JScrollPane {
 private static String title;
+private ChartPanel barChart;
+
 		/**
 		 * Constructor for NewBarChartPanel.
 		 * @param title String
@@ -55,9 +58,10 @@ private static String title;
 		public NewBarChartPanel(String title){
 			NewBarChartPanel.title = title;//title of the chart, either status or iteration
 			JPanel panel = new JPanel(new BorderLayout());
+			barChart = createPanel();
 			OverviewBarButton buttons = new OverviewBarButton();
-			panel.add(createPanel(), BorderLayout.CENTER);
-			panel.add(buttons, BorderLayout.WEST);
+			panel.add(barChart, BorderLayout.CENTER);
+			panel.add(buttons, BorderLayout.SOUTH);
 			
 			
 			this.setViewportView(panel);
@@ -205,11 +209,12 @@ private static String title;
 	        return chart;
 		}
 		
-		/**
-		
-		 * @return the created bar graph */
-		public static JPanel createPanel() {
+		/**		
+		 * @return the created bar graph
+		 **/
+		public static ChartPanel createPanel() {
 			JFreeChart chart = createChart(setData(), title);
+			
 			return new ChartPanel(chart);
 		}
 		
@@ -218,5 +223,11 @@ private static String title;
 		 * @return the title of the chart */
 		public String getTitle(){
 			return title;
+		}
+		
+		@Override
+		public void paintComponent(Graphics g){
+			barChart.setChart(createChart(setData(), title));
+			super.paintComponent(g);
 		}
 }

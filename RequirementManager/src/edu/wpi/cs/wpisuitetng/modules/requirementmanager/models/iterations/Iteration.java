@@ -11,12 +11,14 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
 
 /**
@@ -35,10 +37,7 @@ public class Iteration extends AbstractModel {
 
 	/** the estimated amount of effort to complete the iteration */
 	private int estimate;
-	
-	/** list of requirements associated with the iteration */
-	private LinkedList<Requirement> requirements;
-	
+		
 	/** start and end date associated with the iteration */
 	private IterationDate start;
 	private IterationDate end;
@@ -65,7 +64,6 @@ public class Iteration extends AbstractModel {
 		if (name.trim().length() == 0)
 			this.name = "Backlog";
 		this.estimate = 0;
-		this.requirements = new LinkedList<Requirement>();
 		this.start = start;
 		this.end = end;
 	}
@@ -81,7 +79,6 @@ public class Iteration extends AbstractModel {
 		if (name.trim().length() == 0)
 			this.name = "Backlog";
 		this.estimate = 0;
-		this.requirements = new LinkedList<Requirement>();
 		this.start = null;
 		this.end = null;
 	}
@@ -150,33 +147,19 @@ public class Iteration extends AbstractModel {
 	/**
 	 * Getter for the requirements
 	 * 
+<<<<<<< HEAD
 	
 	 * @return list of requirements */
 	public LinkedList<Requirement> getRequirements() {
 		return requirements;
+=======
+	 * @return list of requirements
+	 */
+	public List<Requirement> getRequirements() {
+		return RequirementModel.getInstance().getRequirementsForIteration(name);
+>>>>>>> 4bfa7c88c85ee5b944886c14cd1960050c1a772a
 	}
 	
-	/**
-	 * Adds a requirement to the list of requirements
-	 * 
-	 * @param req Requirement to be added to the iteration
-	 */
-	public void addRequirement(Requirement req){
-		requirements.add(req);
-		estimate += req.getEstimate();
-		UpdateIterationController.getInstance().updateIteration(this);
-	}
-	
-	/**
-	 * Deletes a requirement from the list of requirements
-	 * 
-	 * @param req Requirement to be removed from the iteration
-	 */
-	public void deleteRequirement(Requirement req){
-		requirements.remove(req);
-		estimate -= req.getEstimate();
-		UpdateIterationController.getInstance().updateIteration(this);
-	}
 
 	/**
 	

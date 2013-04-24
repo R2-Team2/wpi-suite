@@ -335,7 +335,8 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	 */
 	@Override
 	public boolean readyToRemove() {
-		return testsAdded == 0 || viewMode == RequirementViewMode.EDITING;
+		return testMessage.getText().length() == 0 && testTitle.getText().length() == 0 && 
+				(testsAdded == 0 || viewMode == RequirementViewMode.EDITING);
 	}
 
 	/**

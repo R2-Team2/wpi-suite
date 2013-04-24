@@ -148,6 +148,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxIteration = (new JComboBox(iterationNames));
 		boxIteration.setSelectedItem(currentRequirement.getIteration());
 		boxIteration.addKeyListener(this);
+		boxIteration.setBackground(Color.WHITE);
 
 		errorName = (new JLabel());
 		errorDescription = (new JLabel());
@@ -592,14 +593,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		TransactionHistory requirementHistory = currentRequirement.getHistory();
 		requirementHistory.setTimestamp(System.currentTimeMillis());
 		
-		// Update iteration to include current requirement
-		if (!(currentRequirement.getIteration().equals(stringPrevIteration))) {
-			IterationModel.getInstance().getIteration(currentRequirement.getIteration())
-						.addRequirement(currentRequirement);
-			IterationModel.getInstance().getIteration(stringPrevIteration)
-						.deleteRequirement(prevReq);
-		}
-
 		// Create a new requirement object based on the extracted info
 		if (currentRequirement.getParentID() != -1) {
 			currentRequirement.setName(stringName);
@@ -712,7 +705,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals("")) && !hasParent){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!((getBoxIteration().getSelectedItem().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog")) && !hasParent){
+		if (!((getBoxIteration().getSelectedItem().toString().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog")) && !hasParent){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK) && !hasParent){

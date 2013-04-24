@@ -42,9 +42,9 @@ public class RequirementButtonsPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
-				if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 					ViewEventController.getInstance().createRequirement();
-				}
+			//	}
 			}
 		});		
 		
