@@ -18,7 +18,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -33,6 +39,7 @@ public class ViewEventController {
 	private MainView main = null;
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
+	private OverviewTreePanel overviewTree = null;
 	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
 	
 	/**
@@ -106,16 +113,43 @@ public class ViewEventController {
 		int i;
 		for (i = 0; i < main.getTabCount(); i++) {
 			if (main.getTitleAt(i).equals("Pie Chart")) {
-				main.setSelectedIndex(i);
-				return;
+				if(main.getTabComponentAt(i) instanceof NewPieChartPanel && (((NewPieChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))){
+					main.setSelectedIndex(i);
+					return;
+				}
+				else{
+					main.remove(i);
+					
+				}
+				
+				
 			}
 		}
-		NewPieChartPanel newPie = new NewPieChartPanel(title);   
+		NewPieChartPanel newPie = new NewPieChartPanel(title); 
 		main.addTab("Pie Chart", null, newPie, "PieChart");
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(newPie);
 		
+	}
+	
+	public void createBarChart(String title){
+		for(int i = 0; i < main.getTabCount(); i++){
+			if(main.getTitleAt(i).equals("Bar Graph")){ 
+					if(main.getTabComponentAt(i) instanceof NewBarChartPanel && (((NewBarChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))){
+						main.setSelectedIndex(i);
+						return;
+					}
+					else{
+						main.remove(i);
+					}
+			}
+		}
+		NewBarChartPanel newBar = new NewBarChartPanel(title);
+		main.addTab("Bar Graph", null, newBar, "BarGraph");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newBar);
 	}
 	
 
@@ -267,6 +301,7 @@ public class ViewEventController {
 		}
 
 		this.refreshTable();
+		this.refreshTree();
 	}
 
 	/**
@@ -353,5 +388,17 @@ public class ViewEventController {
 			
 		}
 		
+	}
+
+	public OverviewTreePanel getOverviewTree() {
+		return overviewTree;
+	}
+
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
+	}
+	
+	public void refreshTree(){
+		this.overviewTree.refresh();
 	}
 }

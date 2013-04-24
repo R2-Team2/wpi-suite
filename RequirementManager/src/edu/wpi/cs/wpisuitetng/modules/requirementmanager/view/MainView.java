@@ -160,13 +160,15 @@ public class MainView extends JTabbedPane {
 
 			public void mouseReleased(MouseEvent e) {
 				if(dragging) {
-					int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
+					int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), e.getY());
 					if(tabNumber >= 0) {
 						Component comp = getComponentAt(draggedTabIndex);
 						String title = getTitleAt(draggedTabIndex);
-						removeTabAt(draggedTabIndex);
-						insertTab(title, null, comp, null, tabNumber);
-						setSelectedIndex(tabNumber);
+						if (!title.equals("Overview")) {
+							removeTabAt(draggedTabIndex);
+							insertTab(title, null, comp, null, tabNumber);
+							setSelectedIndex(tabNumber);
+						}
 					}
 				}
 

@@ -613,6 +613,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				currentRequirement);
 
 		ViewEventController.getInstance().refreshTable();
+		ViewEventController.getInstance().refreshTree();
 
 		if(currentRequirement.getParentID() != -1)
 		{

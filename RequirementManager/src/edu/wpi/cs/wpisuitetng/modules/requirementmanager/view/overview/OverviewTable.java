@@ -77,6 +77,7 @@ public class OverviewTable extends JTable
 				}
 			}
 		});
+		 System.out.println("finished constructing the table");
 	}
 	
 	/**
@@ -99,6 +100,7 @@ public class OverviewTable extends JTable
 					req.getEstimate()
 			});			
 		}
+		System.out.println("finished refreshing the table");
 	}
 	
 	/**
