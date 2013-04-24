@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 /**
  * @author Dylan
  *
+ * @version $Revision: 1.0 $
  */
 public class TransactionTest {
 

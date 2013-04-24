@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
  * @author Pi 
  * @author Chris
  * @author Brian
+ * @version $Revision: 1.0 $
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener
 {
@@ -92,6 +93,10 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
+	/**
+	 * Method OKPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#OKPressed()
+	 */
 	@Override
 	public void OKPressed() {
 		if (infoPanel.validateFields(true)) {
@@ -101,12 +106,20 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		}		
 	}
 
+	/**
+	 * Method clearPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#clearPressed()
+	 */
 	@Override
 	public void clearPressed() 
 	{
 		infoPanel.clearInfo();
 	}
 
+	/**
+	 * Method cancelPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#cancelPressed()
+	 */
 	@Override
 	public void cancelPressed() 
 	{
@@ -118,6 +131,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	/**
 	 * Deletes the requirement. Sets all fields uneditable, sets status to
 	 * deleted and closes the tab.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#deletePressed()
 	 */
 	public void deletePressed() 
 	{
@@ -196,8 +210,8 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	}
 	
 	/**
-	 * @return whether the requirement panel as a whole is ready to be removed.
-	 */
+	
+	 * @return whether the requirement panel as a whole is ready to be removed. */
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
 		
@@ -220,25 +234,32 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	}
 	
 	/**
-	 * @return the requirement information panel.
-	 */
+	
+	 * @return the requirement information panel. */
 	public RequirementInformationPanel getInfoPanel()
 	{
 		return this.infoPanel;
 	}
 	
 	/**
-	 * @return the button panel
-	 */
+	
+	 * @return the button panel */
 	public RequirementButtonPanel getButtonPanel()
 	{
 		return this.buttonPanel;
 	}
 	
 	/**
-	 * @return the display requirement.
-	 */
+	
+	 * @return the display requirement. */
 	public Requirement getDisplayRequirement() {
 		return displayRequirement;
+	}
+
+	/**
+	
+	 * @return the tabs panel */
+	public RequirementTabsPanel getTabsPanel() {
+		return tabsPanel;
 	}
 }

@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * 
  * @author Brian Froehlich
  *
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class SingleAcceptanceTestPanel extends JPanel 
@@ -128,8 +129,8 @@ public class SingleAcceptanceTestPanel extends JPanel
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
 	 * @param req requirement used to create panel
-	 * @return Panel containing all of the notes given to the method
-	 */
+	
+	 * @return Panel containing all of the notes given to the method */
 	public static JPanel createList(Requirement req)
 	{
 		// Create a panel to hold all of the notes

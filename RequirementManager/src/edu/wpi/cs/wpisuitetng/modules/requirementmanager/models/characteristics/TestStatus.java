@@ -7,15 +7,13 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-/**
- * 
- */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
- * Statuses an acceptance test can have
+ * This contains the statuses an acceptance test can have
  * @author Dylan
  *
+ * @version $Revision: 1.0 $
  */
 public enum TestStatus {
 	/**
@@ -41,8 +39,8 @@ public enum TestStatus {
 	}
 	
 	/**
-	 * @return the string value of the enum
-	 */
+	
+	 * @return the string value of the enum */
 	public String toString() {
 		return desc;
 	}

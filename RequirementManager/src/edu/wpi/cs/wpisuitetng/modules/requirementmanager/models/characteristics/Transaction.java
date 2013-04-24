@@ -10,10 +10,11 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
- * Class for a single transaction
+ * Class for a single transaction that contains the user, time stamp and message for the Transaction
  * 
  * @author Kevin
  *
+ * @version $Revision: 1.0 $
  */
 public class Transaction {
 	
@@ -35,24 +36,24 @@ public class Transaction {
 	
 	/**
 	 * Getter for the transaction user
-	 * @return Transaction user
-	 */
+	
+	 * @return Transaction user */
 	public String getUser() {
 		return user;
 	}
 	
 	/**
 	 * Getter for the transaction time stamp
-	 * @return Transaction time stamp
-	 */
+	
+	 * @return Transaction time stamp */
 	public long getTS() {
 		return timestamp;
 	}
 	
 	/**
 	 * Getter for the transaction message
-	 * @return Transaction message
-	 */
+	
+	 * @return Transaction message */
 	public String getMessage() {
 		return message;
 	}

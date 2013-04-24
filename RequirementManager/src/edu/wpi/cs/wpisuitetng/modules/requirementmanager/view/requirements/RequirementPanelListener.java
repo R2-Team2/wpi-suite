@@ -9,6 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+/**
+ */
 public interface RequirementPanelListener {
 	/**
 	 * Performs the necessary operations for if the requirement is deleted.
@@ -35,7 +37,7 @@ public interface RequirementPanelListener {
 	public void fireRefresh();
 	
 	/**
-	 * @return whether the listener is ready to be removed.
-	 */
+	
+	 * @return whether the listener is ready to be removed. */
 	public boolean readyToRemove();
 }

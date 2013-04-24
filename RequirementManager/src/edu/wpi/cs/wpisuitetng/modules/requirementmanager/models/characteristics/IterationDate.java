@@ -10,14 +10,22 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 /**
+ *The information for the Iteration's date
  *
- *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationDate {
 	private Month month;
 	private int day;
 	private int year;
 	
+	/**
+	 * Constructor for IterationDate.
+	 * @param month Month
+	 * @param day int
+	 * @param year int
+	 */
 	public IterationDate(Month month, int day, int year) {
 		this.month = month;
 		this.day = day;
@@ -25,8 +33,8 @@ public class IterationDate {
 	}
 
 	/**
-	 * @return the month
-	 */
+	
+	 * @return the month */
 	public Month getMonth() {
 		return month;
 	}
@@ -39,8 +47,8 @@ public class IterationDate {
 	}
 
 	/**
-	 * @return the day
-	 */
+	
+	 * @return the day */
 	public int getDay() {
 		return day;
 	}
@@ -53,8 +61,8 @@ public class IterationDate {
 	}
 
 	/**
-	 * @return the year
-	 */
+	
+	 * @return the year */
 	public int getYear() {
 		return year;
 	}

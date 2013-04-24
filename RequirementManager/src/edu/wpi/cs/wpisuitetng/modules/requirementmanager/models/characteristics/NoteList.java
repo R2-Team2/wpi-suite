@@ -7,9 +7,6 @@
  * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
-/**
- * 
- */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
 import java.util.LinkedList;
@@ -21,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * A list of notes that are added to a requirement.
  * @author Brian Froehlich
  *
+ * @version $Revision: 1.0 $
  */
 public class NoteList {
 
@@ -37,16 +35,16 @@ public class NoteList {
 	/**
 	 * Use this function to get a list iterator that you can use to cycle through the elements of the list
 	 * @param index The index of the list that you want the iterator to start on
-	 * @return The iterator containing all the elements of the list
-	 */
+	
+	 * @return The iterator containing all the elements of the list */
 	public ListIterator<Note> getIterator(int index){
 		return this.notes.listIterator(index);
 	}
 	
 	/**
 	 * Getter for the linked list of notes
-	 * @return the linked list of notes
-	 */
+	
+	 * @return the linked list of notes */
 	public LinkedList<Note> getNotes(){
 		return this.notes;
 	}
@@ -55,8 +53,8 @@ public class NoteList {
 	 * Allows you to add to the records of transactions
 	 * Always adds to the new note to the end of the list
 	 * @param msg The message in the note to be added
-	 * @return The note that was just added to the notes
-	 */
+	
+	 * @return The note that was just added to the notes */
 	
 	public Note add(String msg){
 		int id = notes.size() + 1;
@@ -70,8 +68,8 @@ public class NoteList {
 	/**
 	 * Allows you to get the item at the given index in the list
 	 * @param index The index at which the desired note resides
-	 * @return The note at the index given by the parameter
-	 */
+	
+	 * @return The note at the index given by the parameter */
 	public Note getItem(int index){
 		return this.notes.get(index);
 	}

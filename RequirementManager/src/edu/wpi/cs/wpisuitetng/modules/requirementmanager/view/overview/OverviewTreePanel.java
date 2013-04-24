@@ -27,7 +27,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+
+/**
+ */
 public class OverviewTreePanel extends JScrollPane implements MouseListener{
+
 	private JTree tree;
 	/**
 	 * Sets up the left hand panel of the overview
@@ -61,7 +65,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
 		for(int i=0; i<iterations.size(); i++){
 			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i));
-			LinkedList<Requirement> requirements = iterations.get(i).getRequirements();
+			List<Requirement> requirements = iterations.get(i).getRequirements();
 
 			if(requirements != null){
 				for(int j=0; j<requirements.size(); j++){

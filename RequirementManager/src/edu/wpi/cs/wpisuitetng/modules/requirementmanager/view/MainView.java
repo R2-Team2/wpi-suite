@@ -38,6 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
  * 
  * @author Arianna
  *
+ * @version $Revision: 1.0 $
  */
 public class MainView extends JTabbedPane {
 
@@ -160,13 +161,15 @@ public class MainView extends JTabbedPane {
 
 			public void mouseReleased(MouseEvent e) {
 				if(dragging) {
-					int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), 10);
+					int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), e.getY());
 					if(tabNumber >= 0) {
 						Component comp = getComponentAt(draggedTabIndex);
 						String title = getTitleAt(draggedTabIndex);
-						removeTabAt(draggedTabIndex);
-						insertTab(title, null, comp, null, tabNumber);
-						setSelectedIndex(tabNumber);
+						if (!title.equals("Overview")) {
+							removeTabAt(draggedTabIndex);
+							insertTab(title, null, comp, null, tabNumber);
+							setSelectedIndex(tabNumber);
+						}
 					}
 				}
 
@@ -188,6 +191,10 @@ public class MainView extends JTabbedPane {
 	}
 
 
+	/**
+	 * Method paintComponent.
+	 * @param g Graphics
+	 */
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -217,15 +224,27 @@ public class MainView extends JTabbedPane {
 		}
 	}
 	
+	/**
+	 * Method getOverview.
+	 * @return OverviewPanel
+	 */
 	public OverviewPanel getOverview() {
 		return overview;
 	}
 	
+	/**
+	 * Method setSelectedComponent.
+	 * @param c Component
+	 */
 	@Override
 	public void setSelectedComponent(Component c){
 		this.lastTab = this.getSelectedComponent();
 		super.setSelectedComponent(c);
 	}
+	/**
+	 * Method removeTabAt.
+	 * @param i int
+	 */
 	@Override
 	public void removeTabAt(int i){
 		super.removeTabAt(i);

@@ -1,6 +1,12 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Rolling Thunder
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
 import java.awt.Color;
@@ -19,6 +25,7 @@ import javax.swing.JTextField;
 /**
  * @author Raphael
  *
+ * @version $Revision: 1.0 $
  */
 public class OverviewTableCellEditor extends DefaultCellEditor {
 
@@ -34,6 +41,16 @@ public class OverviewTableCellEditor extends DefaultCellEditor {
 		super(textField);	
 	}
 
+	/**
+	 * Method getTableCellEditorComponent.
+	 * @param table JTable
+	 * @param value Object
+	 * @param isSelected boolean
+	 * @param row int
+	 * @param column int
+	 * @return Component
+	 * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(JTable, Object, boolean, int, int)
+	 */
 	@Override
 	/**
 	 * Returns the table cell editor so that the table can edit the cells text fields

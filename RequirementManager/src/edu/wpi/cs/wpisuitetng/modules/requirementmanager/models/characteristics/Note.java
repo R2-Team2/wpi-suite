@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * need an id, a username, timestamp, and a string for the note
  * @author Gabriel McCormick
  * @author Brian Froehlich
+ * @version $Revision: 1.0 $
  */
 public class Note {
 	
@@ -27,6 +28,7 @@ public class Note {
 	 * @param user Name of user who created the note
 	 * @param timestamp Time at which note was created
 	 * @param message Message to be stored within the note
+	 * @param id int
 	 */
 	public Note (int id, String user, long timestamp, String message){
 		this.id = id;
@@ -37,32 +39,32 @@ public class Note {
 
 	/**
 	 * Getter for the ID
-	 * @return The ID
-	 */
+	
+	 * @return The ID */
 	public int getId() {
 		return id;
 	}
 
 	/**
 	 * Getter for the user
-	 * @return The user
-	 */
+	
+	 * @return The user */
 	public String getUser() {
 		return user;
 	}
 
 	/**
 	 * Getter for the timestamp
-	 * @return The timestamp
-	 */
+	
+	 * @return The timestamp */
 	public long getTimestamp() {
 		return timestamp;
 	}
 
 	/**
 	 * Getter for the message
-	 * @return The message
-	 */
+	
+	 * @return The message */
 	public String getMessage() {
 		return message;
 	}

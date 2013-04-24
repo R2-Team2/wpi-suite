@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
  * Tests the Note.java, NoteList.java, and NotePanel.java source files
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class NoteTest {
 	

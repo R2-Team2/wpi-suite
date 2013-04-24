@@ -20,6 +20,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
+/**
+ */
 public class RequirementTabsPanel extends JTabbedPane implements RequirementPanelListener
 {
 	private final List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
@@ -58,6 +60,11 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		this.setMinimumSize(new Dimension(500,100));		
 	}
 
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	public boolean readyToRemove() {
 		boolean readyToRemove = true;
 		for(RequirementPanelListener listener : listeners)
@@ -67,6 +74,11 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		return readyToRemove;
 	}
 	
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	public void fireDeleted(boolean b)
 	{
 		for(RequirementPanelListener listener : listeners)
@@ -75,6 +87,11 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		}	
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {
 		for(RequirementPanelListener listener : listeners)
@@ -83,6 +100,11 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		}		
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {
 		for(RequirementPanelListener listener : listeners)
@@ -91,11 +113,22 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		}		
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {
 		for(RequirementPanelListener listener : listeners)
 		{
 			listener.fireRefresh();
 		}
+	}
+
+	/**
+	
+	 * @return the note panel */
+	public RequirementNotePanel getNotePanel() {
+		return notePanel;
 	}
 }
