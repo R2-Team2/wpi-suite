@@ -145,8 +145,12 @@ public class Iteration extends AbstractModel {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Getter for the requirements
 	 * 
+=======
+	 * Getter for the requirements 
+>>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
 	 * @return list of requirements
 	 */
 	public List<Requirement> getRequirements() {
