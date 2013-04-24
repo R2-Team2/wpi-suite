@@ -17,6 +17,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -39,6 +41,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 /**
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 
 public class ViewEventController {
@@ -64,8 +68,8 @@ public class ViewEventController {
 
 	/**
 	 * Returns the singleton instance of the vieweventcontroller.
-	 * @return The instance of this controller.
-	 */
+	
+	 * @return The instance of this controller. */
 	public static ViewEventController getInstance() {
 		if (instance == null) {
 			instance = new ViewEventController();
@@ -75,7 +79,8 @@ public class ViewEventController {
 
 	/**
 	 * Sets the main view to the given view.
-	 * @param main2 the main view to be set as active.
+	
+	 * @param mainview MainView
 	 */
 	public void setMainView(MainView mainview) {
 		main = mainview;
@@ -140,6 +145,10 @@ public class ViewEventController {
 		
 	}
 	
+	/**
+	 * Method createBarChart.
+	 * @param title String
+	 */
 	public void createBarChart(String title){
 		for(int i = 0; i < main.getTabCount(); i++){
 			if(main.getTitleAt(i).equals("Bar Graph")){ 
@@ -246,16 +255,16 @@ public class ViewEventController {
 
 
 	/** 
-	 * @return overviewTable
-	 */
+	
+	 * @return overviewTable */
 	public OverviewTable getOverviewTable(){
 		return overviewTable;
 
 	}
 
 	/**
-	 * @return toolbar
-	 */
+	
+	 * @return toolbar */
 	public ToolbarView getToolbar() {
 		return toolbar;
 	}
@@ -284,8 +293,8 @@ public class ViewEventController {
 
 	/**
 	 * Returns an array of the currently selected rows in the table.
-	 * @return the currently selected rows in the table
-	 */
+	
+	 * @return the currently selected rows in the table */
 	public int[] getTableSelection()
 	{
 		return overviewTable.getSelectedRows();
@@ -293,8 +302,8 @@ public class ViewEventController {
 	
 	/**
 	 * Returns the main view
-	 * @return the main view
-	 */
+	
+	 * @return the main view */
 	public MainView getMainView() {
 		return main;
 	}
@@ -349,7 +358,7 @@ public class ViewEventController {
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()) continue;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 
@@ -406,15 +415,30 @@ public class ViewEventController {
 		
 	}
 
+	/**
+	 * Method getOverviewTree.
+	 * @return OverviewTreePanel
+	 */
 	public OverviewTreePanel getOverviewTree() {
 		return overviewTree;
 	}
 
+	/**
+	 * Method setOverviewTree.
+	 * @param overviewTree OverviewTreePanel
+	 */
 	public void setOverviewTree(OverviewTreePanel overviewTree) {
 		this.overviewTree = overviewTree;
 	}
 	
 	public void refreshTree(){
 		this.overviewTree.refresh();
+	}
+	
+	public void editSelectedIteration() {
+		String name = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject()).getName();
+		
+		Iteration iter = IterationModel.getInstance().getIteration(name);
+		ViewEventController.getInstance().createIteration();
 	}
 }

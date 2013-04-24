@@ -37,6 +37,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
+/**
+ */
 public class NewPieChartPanel extends JScrollPane {
 	private static String title;
 	private ChartPanel pieChart;
@@ -61,8 +63,8 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 	/**
-	 * @return the specific data set based on the the title of the chart
-	 */
+	
+	 * @return the specific data set based on the the title of the chart */
 	private static PieDataset setData() {
 		if (title.equals("Iteration")) {
 			return setDataIteration();
@@ -75,9 +77,9 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 	/**
+	
 	 * @return the data with the percentage of requirements with a given status
-	 *         to be displayed by the pie chart
-	 */
+	 *         to be displayed by the pie chart */
 	private static PieDataset setDataStatus() {
 		int numStatusNew = 0;
 		int numStatusDeleted = 0;
@@ -109,8 +111,8 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 	/**
-	 * @return the data of iterations to be displayed by the pie chart
-	 */
+	
+	 * @return the data of iterations to be displayed by the pie chart */
 	private static PieDataset setDataIteration() {
 		DefaultPieDataset dataSet = new DefaultPieDataset();
 		List<Iteration> iterations = IterationModel.getInstance()
@@ -136,9 +138,9 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 
 	/**
+	
 	 * @return the data of the number of requirements a user has assigned to
-	 *         them
-	 */
+	 *         them */
 	private static PieDataset setDataAssignTo() {
 		DefaultPieDataset dataSet = new DefaultPieDataset();
 		ArrayList<String> userNames = new ArrayList<String>();
@@ -181,8 +183,8 @@ public class NewPieChartPanel extends JScrollPane {
 	 *            the data to be displayed by the pie chart
 	 * @param title
 	 *            the title of the chart
-	 * @return the pie chart to be displayed
-	 */
+	
+	 * @return the pie chart to be displayed */
 	private static JFreeChart createChart(PieDataset dataset, String title) {
 
 		JFreeChart chart = ChartFactory.createPieChart3D(title, // chart title
@@ -215,8 +217,8 @@ public class NewPieChartPanel extends JScrollPane {
 	}
 	
 	/**
-	 * @return the title of the chart
-	 */
+	
+	 * @return the title of the chart */
 	public String getTitle(){
 		return title;
 	}

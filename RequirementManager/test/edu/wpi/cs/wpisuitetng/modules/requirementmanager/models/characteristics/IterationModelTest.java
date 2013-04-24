@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewT
  * Tests the IterationModel.java source file methods
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class IterationModelTest {
 

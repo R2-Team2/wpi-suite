@@ -9,6 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+
+/**
+ */
 public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
+
 	private JTree tree;
 	/**
 	 * Sets up the left hand panel of the overview
@@ -45,7 +51,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
  
-        tree.addTreeSelectionListener(this);
+        //tree.addMouseListener(this);
         
         this.setViewportView(tree);
         // added by raph start
@@ -54,41 +60,114 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree.setTransferHandler(new IterationTransferHandler(tree));
         // end 
         ViewEventController.getInstance().setOverviewTree(this);
+
+		this.refresh();
+
         
         System.out.println("finished constructing the tree");
 	}
 	
+	/**
+	 * Method valueChanged.
+	 * @param e TreeSelectionEvent
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 *//*
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		
-	}
+	}*/
 	
+	/**
+	 * This will wipe out the current tree and rebuild it
+	 */
 	public void refresh(){
-
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
-
+		
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
+		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
+		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
-			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i));
-			LinkedList<Requirement> requirements = iterations.get(i).getRequirements();
 
+			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i)); //make a new iteration node to add
+			List<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
+
+			//check to see if there are any requirements for the iteration
 			if(requirements != null){
+				//if so make a node for each one and add it to the iteration's node
 				for(int j=0; j<requirements.size(); j++){
 					DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
-					newIterNode.add(newReqNode);
-					System.out.println("added a requirement to the tree");
+					List<Requirement> children = requirements.get(j).getChildren();
+
+					//check to see if there are children for this requirement
+					if(children != null){
+						//if so make a node for each child
+						for(int k=0; k<children.size(); k++){
+							DefaultMutableTreeNode newChildNode = new DefaultMutableTreeNode(children.get(k));
+							newReqNode.add(newChildNode);
+						}
+							newIterNode.add(newReqNode);
+					}
 				}
 			}
 
-			top.add(newIterNode);
+			top.add(newIterNode); //add the iteration's node to the top node
 		}
 
-        tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree = new JTree(top); //create the tree with the top node as the top
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
  
-        tree.addTreeSelectionListener(this);
-        this.setViewportView(tree);
+        tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
+        tree.addTreeSelectionListener(this); //add a listener to check for clicking
+        this.setViewportView(tree); //make panel display the tree
         
+        ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
+
         System.out.println("finished refreshing the tree");
+	}
+
+	//TODO figure out how to implement the mouse listener without messing up the opening of tree nodes
+	
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		if (e.getClickCount() == 2)
+//		{
+//			ViewEventController.getInstance().editSelectedIteration();
+//		}
+//	}
+//
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+	/**
+	 * @return the tree
+	 */
+	public JTree getTree() {
+		return tree;
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

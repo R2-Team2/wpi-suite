@@ -33,6 +33,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
 
+/**
+ */
 public class RequirementNotePanel extends JPanel implements RequirementPanelListener {
 	private final RequirementViewMode viewMode;
 	private final Requirement currentRequirement;
@@ -166,6 +168,11 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 			}
 		});
 	}
+
+	/**
+	 * Method buildNoteMessage.
+	 * @return JTextArea
+	 */
 	private JTextArea buildNoteMessage(){		
 		noteMessage.addKeyListener(new KeyAdapter()
 		{
@@ -192,60 +199,92 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		return noteMessage;
 	}
 
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == RequirementViewMode.EDITING);
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) {
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {		
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {		
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {
 		this.refresh();
 	}
 	
 	/**
-	 * @return the note message text area
-	 */
+	
+	 * @return the note message text area */
 	public JTextArea getNoteMessage() {
 		return noteMessage;
 	}
 	
 	/**
-	 * @return the button for adding a note
-	 */
+	
+	 * @return the button for adding a note */
 	public JButton getAddNoteButton() {
 		return buttonAddNote;
 	}
 	
 	/**
-	 * @return the requirement this note panel is in
-	 */
+	
+	 * @return the requirement this note panel is in */
 	public Requirement getRequirement() {
 		return currentRequirement;
 	}
 	
 	/**
-	 * @return the number of notes added
-	 */
+	
+	 * @return the number of notes added */
 	public int getNotesAdded() {
 		return notesAdded;
 	}
 
+	/**
+	 * Method getClearButton.
+	 * @return JButton
+	 */
 	public JButton getClearButton() {
 		return buttonClear;
 	}
 
+	/**
+	 * Method getErrorMsg.
+	 * @return JLabel
+	 */
 	public JLabel getErrorMsg() {
 		return errorMsg;
 	}

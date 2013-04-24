@@ -19,6 +19,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the Update button by
  * adding the contents of the Iteration text fields to the model as a new
  * Iteration.
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class AddIterationController{
 	
@@ -27,17 +29,17 @@ public class AddIterationController{
 	
 	/**
 	 * Construct an AddIterationController for the given model, view pair
-	 * @param model the model containing the Iterations
-	 * @param view the view where the user enters new Iterations
+	
+	
 	 */
 	private AddIterationController() {
 		observer = new AddIterationRequestObserver(this);
 	}
 	
 	/**
+	
 	 * @return the instance of the AddIterationController or creates one if it does not
-	 * exist.
-	 */
+	 * exist. */
 	public static AddIterationController getInstance()
 	{
 		if(instance == null)

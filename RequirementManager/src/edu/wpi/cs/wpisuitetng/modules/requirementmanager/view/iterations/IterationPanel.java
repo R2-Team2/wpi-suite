@@ -9,100 +9,115 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Month;
+import net.miginfocom.swing.MigLayout;
+
+import org.jdesktop.swingx.JXDatePicker;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
- * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
-public class IterationPanel extends JPanel {
+public class IterationPanel extends JPanel implements KeyListener, ActionListener{
+	private final String START_AFTER_END_ERROR = "Start date cannot be after end date.";
+	private final String OVERLAPPING_ERROR = "Iteration dates cannot overlap.";
+	private final String INVALID_NAME_ERROR = "Iteration exists with given name.";
+	private final String EMPTY_NAME_ERROR = "Name is required.";
+	private final String DATES_REQ = "Start and end date required.";
+	private final String PAST_ERROR = "Iteration cannot occur in the past.";
+	
 	private JTextField boxName;
 	
-	private JComboBox<Month> monthStart;
-	private JTextField dayStart;
-	private JTextField yearStart;
+	private JPanel buttonPanel;
 	
-	private JComboBox<Month> monthEnd;
-	private JTextField dayEnd;
-	private JTextField yearEnd;
+	private JXDatePicker startDatePicker;
+	private JXDatePicker endDatePicker;
 	
 	private JButton buttonAdd;
 	private JButton buttonCancel;
+	private List<String> errorList;
+	private JLabel errorMsg;
 	
 	public IterationPanel(){
-		SpringLayout layout = new SpringLayout();
-		this.setLayout(layout);
-		
+		this.setLayout(new BorderLayout());
+		MigLayout layout = new MigLayout();
+
+		JPanel contentPanel = new JPanel(layout);
+
 		JLabel labelName = new JLabel("Name: ");
+
 		boxName = new JTextField();
 		boxName.setPreferredSize(new Dimension(200, 20));
+		boxName.addKeyListener(this);
 		
 		JLabel labelStart = new JLabel("Start Date: ");
 		JLabel labelEnd = new JLabel("End Date: ");
 		
-		JLabel labelMonthStart = new JLabel("Month: ");
-		monthStart = new JComboBox(Month.values());
+		startDatePicker = new JXDatePicker();
+		startDatePicker.getEditor().setEnabled(false);
+		startDatePicker.addActionListener(this);
+		endDatePicker = new JXDatePicker();
+		endDatePicker.getEditor().setEnabled(false);
+		endDatePicker.addActionListener(this);
 		
-		JLabel labelDayStart = new JLabel("Day: ");
-		dayStart = new JTextField(2);
+		contentPanel.add(labelName, "left");
+		contentPanel.add(boxName, "left, wrap");
+		contentPanel.add(labelStart, "left");
+		contentPanel.add(startDatePicker, "left,wrap");
+		contentPanel.add(labelEnd, "left");
+		contentPanel.add(endDatePicker, "left, wrap");
 		
-		JLabel labelYearStart = new JLabel("Year: ");
-		yearStart = new JTextField(4);
-		
-		JLabel labelMonthEnd = new JLabel("Month: ");
-		monthEnd = new JComboBox(Month.values());
-		
-		JLabel labelDayEnd = new JLabel("Day: ");
-		dayEnd = new JTextField(2);
-		
-		JLabel labelYearEnd = new JLabel("Year: ");
-		yearEnd = new JTextField(4);
 		
 		buttonAdd = new JButton("Add Iteration");
 		buttonCancel = new JButton("Cancel");
+		buttonAdd.setAlignmentX(LEFT_ALIGNMENT);
+		buttonCancel.setAlignmentX(LEFT_ALIGNMENT);
 		
-		final IterationPanel thisPanel = this;
+		errorList = new LinkedList<String>();
+		errorMsg = new JLabel();
+		errorMsg.setForeground(Color.RED);
+		errorMsg.setAlignmentX(LEFT_ALIGNMENT);
+		
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
+		buttonPanel.add(buttonAdd);
+		buttonAdd.setEnabled(false);
+		buttonPanel.add(buttonCancel);
+		buttonPanel.add(errorMsg);
 		
 		buttonAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int error = 0;
 				
-				int id = IterationModel.getInstance().getIterations().size();
+				int id = IterationModel.getInstance().getNextID();
 				String name = boxName.getText();
-				if (name.length() == 0) {
-					error = 1;
-					System.out.println("Error");
-				}
-				IterationDate start = new IterationDate((Month) monthStart.getSelectedItem(),
-						Integer.parseInt(dayStart.getText()),
-						Integer.parseInt(yearStart.getText()));
-				IterationDate end = new IterationDate((Month) monthEnd.getSelectedItem(),
-						Integer.parseInt(dayEnd.getText()),
-						Integer.parseInt(yearEnd.getText()));
-				Iteration iter = new Iteration(id, name, start, end);
 				
-				if (error == 0) {
-					IterationModel.getInstance().addIteration(iter);
-				}
-				ViewEventController.getInstance().removeTab(thisPanel);
+				Iteration iter = new Iteration(id, name, startDatePicker.getDate(), endDatePicker.getDate());
+				
+				IterationModel.getInstance().addIteration(iter);
+				
+				ViewEventController.getInstance().removeTab(IterationPanel.this);
 			}
 		});
 		
@@ -110,81 +125,109 @@ public class IterationPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
-				ViewEventController.getInstance().removeTab(thisPanel);
+				ViewEventController.getInstance().removeTab(IterationPanel.this);
 			}
 		});
+	
+		this.add(contentPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 		
-		layout.putConstraint(SpringLayout.NORTH, labelName, 5, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.WEST, labelName, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, boxName, 5, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.WEST, boxName, 5, SpringLayout.EAST, labelName);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelStart, 10, SpringLayout.SOUTH, labelName);
-		layout.putConstraint(SpringLayout.WEST, labelStart, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelMonthStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, labelMonthStart, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, monthStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, monthStart, 5, SpringLayout.EAST, labelMonthStart);
-
-		layout.putConstraint(SpringLayout.NORTH, labelDayStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, labelDayStart, 5, SpringLayout.EAST, monthStart);
-		
-		layout.putConstraint(SpringLayout.NORTH, dayStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, dayStart, 5, SpringLayout.EAST, labelDayStart);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelYearStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, labelYearStart, 5, SpringLayout.EAST, dayStart);
-		
-		layout.putConstraint(SpringLayout.NORTH, yearStart, 10, SpringLayout.SOUTH, labelStart);
-		layout.putConstraint(SpringLayout.WEST, yearStart, 5, SpringLayout.EAST, labelYearStart);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelEnd, 20, SpringLayout.SOUTH, labelMonthStart);
-		layout.putConstraint(SpringLayout.WEST, labelEnd, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelMonthEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, labelMonthEnd, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, monthEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, monthEnd, 5, SpringLayout.EAST, labelMonthEnd);
-
-		layout.putConstraint(SpringLayout.NORTH, labelDayEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, labelDayEnd, 5, SpringLayout.EAST, monthEnd);
-		
-		layout.putConstraint(SpringLayout.NORTH, dayEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, dayEnd, 5, SpringLayout.EAST, labelDayEnd);
-		
-		layout.putConstraint(SpringLayout.NORTH, labelYearEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, labelYearEnd, 5, SpringLayout.EAST, dayEnd);
-		
-		layout.putConstraint(SpringLayout.NORTH, yearEnd, 10, SpringLayout.SOUTH, labelEnd);
-		layout.putConstraint(SpringLayout.WEST, yearEnd, 5, SpringLayout.EAST, labelYearEnd);
-		
-		layout.putConstraint(SpringLayout.SOUTH, buttonAdd, -5, SpringLayout.SOUTH, this);
-		layout.putConstraint(SpringLayout.WEST, buttonAdd, 5, SpringLayout.WEST, this);
-		
-		layout.putConstraint(SpringLayout.NORTH, buttonCancel, 0, SpringLayout.NORTH, buttonAdd);
-		layout.putConstraint(SpringLayout.WEST, buttonCancel, 5, SpringLayout.EAST, buttonAdd);
-		
-		this.add(labelName);
-		this.add(boxName);
-		this.add(labelStart);
-		this.add(labelMonthStart);
-		this.add(monthStart);
-		this.add(labelDayStart);
-		this.add(dayStart);
-		this.add(labelYearStart);
-		this.add(yearStart);
-		this.add(labelEnd);
-		this.add(labelMonthEnd);
-		this.add(monthEnd);
-		this.add(labelDayEnd);
-		this.add(dayEnd);
-		this.add(labelYearEnd);
-		this.add(yearEnd);
-		this.add(buttonAdd);
-		this.add(buttonCancel);
+		validateFields();
 	}
+	
+	/**
+	 * Adds an error to the error list.
+	 * @param msg the error to add
+	 */
+	private void displayError(String msg)
+	{
+		this.errorList.add(msg);
+		refreshErrors();
+	}
+	
+	/**
+	 * Removes all errors from the error list.
+	 */
+	private void removeAllErrors()
+	{
+		this.errorList.clear();
+		refreshErrors();
+	}
+	
+	/**
+	 * Refreshes the error displayed at the bottom.
+	 */
+	private void refreshErrors()
+	{
+		errorMsg.setText("");
+		for(String err : errorList)
+		{
+			errorMsg.setText(errorMsg.getText() + " " + err);
+		}
+	}
+	
+	/**
+	 * Validates the options of the fields inputted.
+	 */
+	private void validateFields()
+	{
+		this.removeAllErrors();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(Calendar.getInstance().getTime());
+		cal.add(Calendar.DAY_OF_YEAR, -1);
+		
+		if(boxName.getText().trim().length() == 0)
+		{
+			displayError(EMPTY_NAME_ERROR);
+		}
+		else if(IterationModel.getInstance().getIteration(boxName.getText().trim()) != null)
+		{
+			displayError(INVALID_NAME_ERROR);
+		}
+		
+		if(startDatePicker.getEditor().getText().trim().length() == 0 || endDatePicker.getEditor().getText().trim().length() == 0)
+		{
+			displayError(DATES_REQ);
+		}
+		else if(startDatePicker.getDate().after(endDatePicker.getDate()))
+		{
+			displayError(START_AFTER_END_ERROR);
+		}
+		else if(startDatePicker.getDate().before(cal.getTime()))
+		{
+			displayError(PAST_ERROR);
+		}
+		else
+		{
+			Iteration conflicting = IterationModel.getInstance().getConflictingIteration(startDatePicker.getDate(), endDatePicker.getDate());
+			if(conflicting != null)
+			{
+				displayError(OVERLAPPING_ERROR + " Overlaps with " + conflicting.getName() + ".");
+			}
+		}
+		
+		buttonAdd.setEnabled(errorList.size() == 0);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		validateFields();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		validateFields();
+	}
+	
+	
 }

@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 /**
  * @author paul
  *
+ * @version $Revision: 1.0 $
  */
 public class SingleHistoryPanel extends JPanel {
 
@@ -73,8 +74,8 @@ public class SingleHistoryPanel extends JPanel {
 	/**
 	 * Displays the list of all transactions of the requirement
 	 * @param list List of transactions of requirement
-	 * @return The panel with all the transaction panels
-	 */
+	
+	 * @return The panel with all the transaction panels */
 	public static JPanel createList(TransactionHistory list)
 	{
 		JPanel panel = new JPanel();

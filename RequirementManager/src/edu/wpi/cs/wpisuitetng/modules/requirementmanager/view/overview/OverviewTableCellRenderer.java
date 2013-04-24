@@ -23,6 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 
 	/**
@@ -40,6 +42,14 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
     /**
      * Returns the table cell renderer so that the table can draw it.
      * 
+     * @param table JTable
+     * @param value Object
+     * @param isSelected boolean
+     * @param hasFocus boolean
+     * @param row int
+     * @param column int
+     * @return Component
+     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int)
      */
     public Component getTableCellRendererComponent(JTable table, 
                                                    Object value,

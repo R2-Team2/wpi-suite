@@ -9,60 +9,39 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
 
+import java.util.Date;
+
 /**
  *The information for the Iteration's date
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationDate {
-	private Month month;
-	private int day;
-	private int year;
+	private Date date;
 	
-	public IterationDate(Month month, int day, int year) {
-		this.month = month;
-		this.day = day;
-		this.year = year;
+	/**
+	 * Constructor for IterationDate.
+	 * @param curr date
+	 */
+	public IterationDate(Date curr) {
+		this.date = curr;
 	}
 
 	/**
-	 * @return the month
-	 */
-	public Month getMonth() {
-		return month;
+	 * @return the date
+	 *  */
+	public Date getDate()
+	{
+		return this.date;
 	}
-
+	
 	/**
-	 * @param month the month to set
+	 * Sets the date
+	 * @param date the new date.
 	 */
-	public void setMonth(Month month) {
-		this.month = month;
-	}
-
-	/**
-	 * @return the day
-	 */
-	public int getDay() {
-		return day;
-	}
-
-	/**
-	 * @param day the day to set
-	 */
-	public void setDay(int day) {
-		this.day = day;
-	}
-
-	/**
-	 * @return the year
-	 */
-	public int getYear() {
-		return year;
-	}
-
-	/**
-	 * @param year the year to set
-	 */
-	public void setYear(int year) {
-		this.year = year;
+	public void setDate(Date date)
+	{
+		this.date = date;
 	}
 }

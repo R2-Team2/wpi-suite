@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
  * Tests the IterationEntityManager.java source folder
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class IterationEntityManagerTest {
 	MockData db;
@@ -62,8 +63,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test making iteration entity manager
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testMakeIterationEntityManager() throws WPISuiteException {
 		assertNotNull(manager.makeEntity(defaultSession, itr.toJSON()));
@@ -79,8 +80,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test count of iterations
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testCount() throws WPISuiteException {
 		assertEquals(0, manager.Count());
@@ -94,8 +95,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test deleting all 
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testDeleteAllAndEnsureRole() throws WPISuiteException {
 		manager.save(defaultSession, new Iteration(3, "test 3"));
@@ -108,8 +109,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test deleting without permission
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test(expected=UnauthorizedException.class)
 	public void testDeleteAllWithoutPermission() throws WPISuiteException {
 		testUser.setRole(Role.USER);
@@ -130,8 +131,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test getting an entity
-	 * @throws NotFoundException if not found
-	 */
+	
+	 * @throws NotFoundException if not found */
 	@Test
 	public void testGetEntity() throws NotFoundException {
 		manager.save(defaultSession, new Iteration(3, "test 3"));
@@ -146,8 +147,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test getting an invalid entity
-	 * @throws NotFoundException expects to not find the entity
-	 */
+	
+	 * @throws NotFoundException expects to not find the entity */
 	@Test(expected=NotFoundException.class)
 	public void testGetBadEntity() throws NotFoundException {
 		manager.getEntity(defaultSession, "0");
@@ -155,8 +156,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test getting an entity for an invalid iteration
-	 * @throws NotFoundException expects to not find it
-	 */
+	
+	 * @throws NotFoundException expects to not find it */
 	@Test
 	public void testGetEntityForIterationNotFound() throws NotFoundException {
 		boolean exceptionThrown = false;
@@ -173,8 +174,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test to delete an entity
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testDeleteEntity() throws WPISuiteException {
 		manager.save(defaultSession, new Iteration(3, "test 3"));
@@ -192,8 +193,8 @@ public class IterationEntityManagerTest {
 	
 	/**
 	 * Test updating an iteration
-	 * @throws WPISuiteException if not valid request
-	 */
+	
+	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testUpdatingAnInteration() throws WPISuiteException {
 		manager.save(defaultSession, new Iteration(3, "test 3"));
