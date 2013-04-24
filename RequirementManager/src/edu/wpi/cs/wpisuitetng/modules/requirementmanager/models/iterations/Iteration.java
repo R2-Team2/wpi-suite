@@ -10,7 +10,6 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -58,14 +57,14 @@ public class Iteration extends AbstractModel {
 	 * @param end
 	 * 			  The end of the iteration
 	 */
-	public Iteration(int id, String name, IterationDate start, IterationDate end) {
+	public Iteration(int id, String name, Date start, Date end) {
 		this.id = id;
 		this.name = name;
 		if (name.trim().length() == 0)
 			this.name = "Backlog";
 		this.estimate = 0;
-		this.start = start;
-		this.end = end;
+		this.start = new IterationDate(start);
+		this.end = new IterationDate(end);
 	}
 	
 	/**
@@ -145,12 +144,9 @@ public class Iteration extends AbstractModel {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Getter for the requirements
 	 * 
-=======
 	 * Getter for the requirements 
->>>>>>> 6bdcde4819006cbd5b8695e041259f16c64eaaae
 	 * @return list of requirements
 	 */
 	public List<Requirement> getRequirements() {

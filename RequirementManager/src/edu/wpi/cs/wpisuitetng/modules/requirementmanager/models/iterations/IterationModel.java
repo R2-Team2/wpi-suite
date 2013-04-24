@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	
 	 * @return the next open id number */
-	private int getNextID() {
+	public int getNextID() {
 
 		return this.nextID++;
 	}
@@ -166,6 +167,7 @@ public class IterationModel extends AbstractListModel {
 			addIteration(backlog);
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**
@@ -191,10 +193,30 @@ public class IterationModel extends AbstractListModel {
 			if(iter.getName().equals(forName)) return iter;
 		}
 		
-		Iteration newIteration = new Iteration(getNextID(), forName);
-		
-		addIteration(newIteration);
+		return null;
+	}
 
-		return newIteration;
+	/**
+	 * Returns the iteration that conflicts with the given dates
+	 * @param start the begin date
+	 * @param end the end date
+	 * @return the conflicting iteration
+	 */
+	public Iteration getConflictingIteration(Date start, Date end) {
+		Iteration isValid = null;
+		
+		for(Iteration iter : listOfIterations)
+		{
+			if(iter == backlog) continue;
+			boolean startGreaterOrEqual = (start.after(iter.getEnd().getDate()) || start.equals(iter.getEnd().getDate()));
+			boolean endLessThanOrEqual = (end.before(iter.getStart().getDate()) || end.equals(iter.getStart().getDate()));
+			
+			if(!(startGreaterOrEqual || endLessThanOrEqual))
+			{
+				isValid = iter;
+			}
+		}
+		
+		return isValid;
 	}
 }
