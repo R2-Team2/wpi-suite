@@ -387,7 +387,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			dropdownStatus.removeAllItems();
 			dropdownStatus.addItem(RequirementStatus.INPROGRESS);
 			dropdownStatus.addItem(RequirementStatus.COMPLETE);
-			dropdownStatus.addItem(RequirementStatus.DELETED);
 		} else if (currentRequirement.getStatus()
 				.equals(RequirementStatus.OPEN)) {
 			dropdownStatus.removeAllItems();
