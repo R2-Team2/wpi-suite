@@ -10,12 +10,13 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -32,6 +33,8 @@ public class IterationCalendarPanel extends JScrollPane {
 		
 		JPanel buttonPanel = new JPanel();
 		JButton next = new JButton(">>");
+		//next.setContentAreaFilled(false);
+		next.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		next.addActionListener(new ActionListener()
 		{
 			@Override
@@ -39,8 +42,18 @@ public class IterationCalendarPanel extends JScrollPane {
 				nextYear();
 			}	
 		});
-		JLabel year = new JLabel ("Year");
+		JButton year = new JButton ("Current Year");
+		//year.setContentAreaFilled(false);
+		year.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		year.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentYear();
+			}
+		});
 		JButton prev = new JButton("<<");
+		//prev.setContentAreaFilled(false);
+		prev.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		prev.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -50,12 +63,12 @@ public class IterationCalendarPanel extends JScrollPane {
 		buttonPanel.add(prev);
 		buttonPanel.add(year);
 		buttonPanel.add(next);
-		contentPanel.add(buttonPanel, "center, grow, span, wrap");
+		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
 		calendarView = new IterationCalendar();
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
-		contentPanel.add(calendarPanel, "center, grow, span");
+		contentPanel.add(calendarPanel, "alignx center, push, span");
 		
 		this.setViewportView(contentPanel);
 		
@@ -68,6 +81,15 @@ public class IterationCalendarPanel extends JScrollPane {
 	{
 		Calendar cal = calendarView.getCalendar();
 		cal.add(Calendar.YEAR, -1);
+		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	
+	/**
+	 * Switches the calendar to the current year
+	 */
+	private void currentYear()
+	{
+		Calendar cal = Calendar.getInstance();
 		calendarView.setFirstDisplayedDay(cal.getTime());
 	}
 	
