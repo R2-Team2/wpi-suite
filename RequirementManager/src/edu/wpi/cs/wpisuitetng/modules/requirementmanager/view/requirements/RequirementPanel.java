@@ -197,7 +197,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public void displayError(String msg)
 	{
-		buttonPanel.displayError(msg);
+		buttonPanel.getErrorPanel().displayError(msg);
 	}
 	
 	/**
@@ -206,7 +206,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public void removeError(String msg)
 	{
-		buttonPanel.removeError(msg);
+		buttonPanel.getErrorPanel().removeError(msg);
 	}
 	
 	/**

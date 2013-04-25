@@ -245,4 +245,12 @@ public class IterationModel extends AbstractListModel {
 		
 		return iter;
 	}
+	
+	/**
+	 * Returns the backlog iteration
+	 * @return backlog iteration
+	 */
+	public Iteration getBacklog() {
+		return backlog;
+	}
 }

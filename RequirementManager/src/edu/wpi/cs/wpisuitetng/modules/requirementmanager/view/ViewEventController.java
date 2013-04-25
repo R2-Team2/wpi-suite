@@ -120,6 +120,7 @@ public class ViewEventController {
 	 * Opens a new tab for the editing of a iteration.
 	 */
 	public void editIteration(Iteration iter) {
+		if(iter == IterationModel.getInstance().getBacklog()) return;
 		IterationPanel editIter = new IterationPanel(iter);
 		main.addTab(iter.getName(), null, editIter, "Editing " + iter.getName());
 		main.invalidate(); //force the tabbedpane to redraw.

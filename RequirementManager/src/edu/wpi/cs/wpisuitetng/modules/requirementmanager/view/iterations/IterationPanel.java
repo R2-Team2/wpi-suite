@@ -31,9 +31,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ErrorPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
@@ -61,8 +63,9 @@ public class IterationPanel extends JPanel implements KeyListener{
 	
 	private JButton buttonAdd;
 	private JButton buttonCancel;
-	private List<String> errorList;
-	private JLabel errorMsg;
+	private JButton buttonUndoChanges;
+	
+	private ErrorPanel errorDisplay;
 	
 	private ViewMode vm;
 	private Iteration displayIteration;
@@ -72,6 +75,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	 */
 	public IterationPanel() {
 		this.vm = ViewMode.CREATING;
+		displayIteration = new Iteration();
 		buildLayout();
 	}
 	
@@ -83,6 +87,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.vm = ViewMode.EDITING;
 		displayIteration = iter;
 		buildLayout();
+		populateInformation();
 	}
 	
 	/**
@@ -120,35 +125,40 @@ public class IterationPanel extends JPanel implements KeyListener{
 		contentPanel.add(endDateBox, "left,wrap");
 		contentPanel.add(dateInstructions, "left, span,cell 3 1");
 		
+		String addText = vm == ViewMode.EDITING ? "Update Iteration" : "Add Iteration";
 		
-		buttonAdd = new JButton("Add Iteration");
-		buttonCancel = new JButton("Cancel");
+		buttonAdd = new JButton(addText);
 		buttonAdd.setAlignmentX(LEFT_ALIGNMENT);
+		buttonAdd.setEnabled(false);
+
+		buttonUndoChanges = new JButton("Undo Changes");
+		buttonUndoChanges.setAlignmentX(LEFT_ALIGNMENT);
+		buttonUndoChanges.setEnabled(false);
+		buttonUndoChanges.setVisible(vm == ViewMode.EDITING);
+		
+		buttonCancel = new JButton("Cancel");
 		buttonCancel.setAlignmentX(LEFT_ALIGNMENT);
 		
-		errorList = new LinkedList<String>();
-		errorMsg = new JLabel();
-		errorMsg.setForeground(Color.RED);
-		errorMsg.setAlignmentX(LEFT_ALIGNMENT);
+		errorDisplay = new ErrorPanel();
+
 		
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
 		buttonPanel.add(buttonAdd);
-		buttonAdd.setEnabled(false);
+		buttonPanel.add(buttonUndoChanges);
 		buttonPanel.add(buttonCancel);
-		buttonPanel.add(errorMsg);
+		buttonPanel.add(errorDisplay);
 		
 		buttonAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int id = IterationModel.getInstance().getNextID();
-				String name = boxName.getText();
-				
-				displayIteration = new Iteration(id, name, (Date)startDateBox.getValue(), (Date)endDateBox.getValue());
-				
-				IterationModel.getInstance().addIteration(displayIteration);
-				
-				ViewEventController.getInstance().removeTab(IterationPanel.this);
+				updateIteration();
+			}
+		});
+		
+		buttonUndoChanges.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				populateInformation();
 			}
 		});
 		
@@ -162,7 +172,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		
 		JTabbedPane tabs = new JTabbedPane();
 
-		calPanel = new IterationCalendarPanel(this);
+		calPanel = new IterationCalendarPanel(this, vm, displayIteration);
 		tabs.addTab("Iteration Calendar", calPanel);
 		
 		requirements = new IterationRequirements();
@@ -177,36 +187,47 @@ public class IterationPanel extends JPanel implements KeyListener{
 	}
 	
 	/**
-	 * Adds an error to the error list.
-	 * @param msg the error to add
+	 * Updates the display iteration
 	 */
-	private void displayError(String msg)
+	private void updateIteration()
 	{
-		this.errorList.add(msg);
-		refreshErrors();
-	}
-	
-	/**
-	 * Removes all errors from the error list.
-	 */
-	private void removeAllErrors()
-	{
-		this.errorList.clear();
-		refreshErrors();
-	}
-	
-	/**
-	 * Refreshes the error displayed at the bottom.
-	 */
-	private void refreshErrors()
-	{
-		errorMsg.setText("");
-		for(String err : errorList)
+		String name = boxName.getText();
+		displayIteration.setName(name);
+		displayIteration.setDateInterval((Date)startDateBox.getValue(), (Date)endDateBox.getValue());
+
+		if(vm == ViewMode.CREATING)
 		{
-			errorMsg.setText(errorMsg.getText() + " " + err);
+			int id = IterationModel.getInstance().getNextID();
+			displayIteration.setId(id);
+			IterationModel.getInstance().addIteration(displayIteration);
+			
 		}
+		else
+		{
+			UpdateIterationController.getInstance().updateIteration(displayIteration);
+		}
+		
+		ViewEventController.getInstance().removeTab(IterationPanel.this);
+
 	}
 	
+	/**
+	 * Populate the information in the iteration panel for
+	 * the display requirement.
+	 */
+	private void populateInformation()
+	{
+		this.boxName.setText(displayIteration.getName());
+		this.startDateBox.setValue(displayIteration.getStart().getDate());
+		this.endDateBox.setValue(displayIteration.getStart().getDate());
+		this.calPanel.getIterationCalendar().setSelectionInterval(displayIteration.getStart().getDate(), displayIteration.getEnd().getDate());
+	}
+	
+	/**
+	 * Sets the dates for the iteration panel
+	 * @param startDate the start
+	 * @param endDate the end
+	 */
 	public void setDates(Date startDate, Date endDate)
 	{
 		if(startDate != null) this.startDateBox.setValue(startDate);
@@ -220,57 +241,73 @@ public class IterationPanel extends JPanel implements KeyListener{
 	 */
 	private void validateFields()
 	{
-		this.removeAllErrors();
+		errorDisplay.removeAllErrors();
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(Calendar.getInstance().getTime());
 		cal.add(Calendar.DAY_OF_YEAR, -1);
 		
 		if(boxName.getText().trim().length() == 0)
 		{
-			displayError(EMPTY_NAME_ERROR);
+			errorDisplay.displayError(EMPTY_NAME_ERROR);
 		}
 		else if(IterationModel.getInstance().getIteration(boxName.getText().trim()) != null)
 		{
-			displayError(INVALID_NAME_ERROR);
+			errorDisplay.displayError(INVALID_NAME_ERROR);
 		}
 		
 		if(endDateBox.getText().trim().length() == 0 || endDateBox.getText().trim().length() == 0)
 		{
-			displayError(DATES_REQ);
+			errorDisplay.displayError(DATES_REQ);
 		}
 		else if(((Date)startDateBox.getValue()).after((Date)endDateBox.getValue()))
 		{
-			displayError(START_AFTER_END_ERROR);
+			errorDisplay.displayError(START_AFTER_END_ERROR);
 		}
 		else if(((Date)startDateBox.getValue()).before(cal.getTime()))
 		{
-			displayError(PAST_ERROR);
+			errorDisplay.displayError(PAST_ERROR);
 		}
 		else
 		{
 			Iteration conflicting = IterationModel.getInstance().getConflictingIteration((Date)startDateBox.getValue(), (Date)endDateBox.getValue());
 			if(conflicting != null)
 			{
-				displayError(OVERLAPPING_ERROR + " Overlaps with " + conflicting.getName() + ".");
+				errorDisplay.displayError(OVERLAPPING_ERROR + " Overlaps with " + conflicting.getName() + ".");
 			}
 		}
 		
-		buttonAdd.setEnabled(errorList.size() == 0);
+		buttonAdd.setEnabled(!errorDisplay.hasErrors());
+	}
+	
+	/**
+	 * Checks whether anything changed and updates buttons as needed.
+	 */
+	public void checkForChanges()
+	{
+		if(vm == ViewMode.CREATING) return; 
+		boolean nameChanged = boxName.getText().equals(displayIteration.getName());
+		boolean startChanged = startDateBox.getValue().equals(displayIteration.getStart().getDate());
+		boolean endChanged = endDateBox.getValue().equals(displayIteration.getEnd().getDate());
+		boolean anythingChanged = nameChanged || startChanged || endChanged;
+		buttonAdd.setEnabled(buttonAdd.isEnabled() && anythingChanged);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		validateFields();
+		checkForChanges();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		validateFields();
+		checkForChanges();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		validateFields();
+		checkForChanges();
 	}
 	
 	

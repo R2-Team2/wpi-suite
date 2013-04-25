@@ -21,18 +21,26 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 public class IterationCalendarPanel extends JScrollPane {
 	
+	private ViewMode viewMode;
+	
 	private IterationCalendar calendarView;
+	private Iteration displayIteration;
+	
 	private JButton nextYear;
 	private JButton prevYear;
 	private JButton nextMonth;
 	private JButton prevMonth;
 	private JButton today;
 	
-	public IterationCalendarPanel(IterationPanel parent)
+	public IterationCalendarPanel(IterationPanel parent, ViewMode vm, Iteration displayIteration)
 	{
+		this.viewMode = vm;
+		this.displayIteration = displayIteration;
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
@@ -64,7 +72,7 @@ public class IterationCalendarPanel extends JScrollPane {
 		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new IterationCalendar(parent);
+		calendarView = new IterationCalendar(parent, viewMode, displayIteration);
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 		
 		contentPanel.add(calendarPanel, "alignx center, push, span");
