@@ -35,6 +35,23 @@ public class OverviewPanel extends JPanel {
 		
 		JScrollPane tablePanel = new JScrollPane(table);
 		
+		table.getColumnModel().getColumn(0).setMaxWidth(40); // ID
+
+		table.getColumnModel().getColumn(2).setMinWidth(90); // Release #
+		table.getColumnModel().getColumn(2).setMaxWidth(90); // Release #
+		
+		table.getColumnModel().getColumn(4).setMinWidth(105); // Type
+		table.getColumnModel().getColumn(4).setMaxWidth(105); // Type
+		
+		table.getColumnModel().getColumn(5).setMinWidth(85); // Status
+		table.getColumnModel().getColumn(5).setMaxWidth(85); // Status
+		
+		table.getColumnModel().getColumn(6).setMinWidth(75); // Priority
+		table.getColumnModel().getColumn(6).setMaxWidth(75); // Priority
+		
+		table.getColumnModel().getColumn(7).setMinWidth(75); // Estimate
+		table.getColumnModel().getColumn(7).setMaxWidth(75); // Estimate
+		
 		// Constrain the filtersPanel
 		overviewLayout.putConstraint(SpringLayout.NORTH, filterPanel, 0,SpringLayout.NORTH, this);
 		overviewLayout.putConstraint(SpringLayout.WEST, filterPanel, 0, SpringLayout.WEST, this);
