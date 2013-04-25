@@ -80,6 +80,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.vm = ViewMode.CREATING;
 		displayIteration = new Iteration();
 		buildLayout();
+		refreshPanel();
 	}
 	
 	/**
@@ -91,7 +92,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		displayIteration = iter;
 		buildLayout();
 		populateInformation();
-		validateFields();
+		refreshPanel();
 	}
 	
 	/**
@@ -186,8 +187,6 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.add(contentPanel, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-				
-		validateFields();
 	}
 	
 	/**
@@ -226,6 +225,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.startDateBox.setValue(displayIteration.getStart().getDate());
 		this.endDateBox.setValue(displayIteration.getEnd().getDate());
 		this.calPanel.getIterationCalendar().setSelectionInterval(displayIteration.getStart().getDate(), displayIteration.getEnd().getDate());
+		refreshPanel();
 	}
 	
 	/**
@@ -238,6 +238,14 @@ public class IterationPanel extends JPanel implements KeyListener{
 		if(startDate != null) this.startDateBox.setValue(startDate);
 		if(endDate != null) this.endDateBox.setValue(endDate);
 		
+		refreshPanel();
+	}
+	
+	/**
+	 * Refreshes the panel
+	 */
+	public void refreshPanel()
+	{
 		validateFields();
 		checkForChanges();
 	}
@@ -318,20 +326,17 @@ public class IterationPanel extends JPanel implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	/**
