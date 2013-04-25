@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Acceptance test for a specific requirement
- * @author Dylan Kirby
  * @version $Revision: 1.0 $
  */
 public class AcceptanceTest {

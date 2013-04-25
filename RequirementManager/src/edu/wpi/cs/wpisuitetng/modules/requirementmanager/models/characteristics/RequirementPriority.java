@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Various Priorities a requirement can have
- * @author david
  *
  * @version $Revision: 1.0 $
  */

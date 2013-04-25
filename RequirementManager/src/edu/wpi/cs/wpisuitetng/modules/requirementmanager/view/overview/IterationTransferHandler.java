@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
- * @author Raphael
  *
  */
 public class IterationTransferHandler extends TransferHandler{

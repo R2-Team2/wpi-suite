@@ -32,7 +32,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 
 /**
  * Class to display a note inside the EditRequirementPanel
- * @author Brian Froehlich
  *
  * @version $Revision: 1.0 $
  */

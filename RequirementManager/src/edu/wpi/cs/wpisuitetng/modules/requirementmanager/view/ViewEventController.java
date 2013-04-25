@@ -40,7 +40,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 /**
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 
@@ -51,6 +50,7 @@ public class ViewEventController {
 	private OverviewTable overviewTable = null;
 	private OverviewTreePanel overviewTree = null;
 	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
+	private ArrayList<IterationPanel> listOfIterationPanels = new ArrayList<IterationPanel>();
 	
 	/**
 	 * Sets the OverviewTable for the controller
@@ -121,11 +121,31 @@ public class ViewEventController {
 	 */
 	public void editIteration(Iteration iter) {
 		if(iter == IterationModel.getInstance().getBacklog()) return;
-		IterationPanel editIter = new IterationPanel(iter);
-		main.addTab(iter.getName(), null, editIter, "Editing " + iter.getName());
-		main.invalidate(); //force the tabbedpane to redraw.
-		main.repaint();
-		main.setSelectedComponent(editIter);
+		
+		IterationPanel exists = null;
+		
+		for(IterationPanel panel : listOfIterationPanels)
+		{
+			if(panel.getDisplayIteration() == iter)
+			{
+				exists = panel;
+				break;
+			}
+		}	
+		
+		if(exists == null)
+		{
+			IterationPanel editIter = new IterationPanel(iter);
+			listOfIterationPanels.add(editIter);
+			main.addTab(iter.getName(), null, editIter, "Editing " + iter.getName());
+			main.invalidate(); //force the tabbedpane to redraw.
+			main.repaint();
+			main.setSelectedComponent(editIter);
+		}
+		else
+		{
+			main.setSelectedComponent(exists);
+		}
 	}
 
 	/**
@@ -280,6 +300,12 @@ public class ViewEventController {
 			if(!((RequirementPanel)comp).readyToRemove()) return;
 			this.listOfEditingPanels.remove(comp);
 
+		}
+		
+		if(comp instanceof IterationPanel)
+		{
+			if(!((IterationPanel)comp).readyToRemove()) return;
+			this.listOfIterationPanels.remove(comp);
 		}
 		main.remove(comp);
 	}

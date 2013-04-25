@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This is the entity manager for the Requirement in the
  * RequirementManager module.
  *
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class RequirementEntityManager implements EntityManager<Requirement> {

@@ -32,7 +32,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 /**
  * Class that creates a panel that is used to represent an acceptance test
  * 
- * @author Brian Froehlich
  *
  * @version $Revision: 1.0 $
  */

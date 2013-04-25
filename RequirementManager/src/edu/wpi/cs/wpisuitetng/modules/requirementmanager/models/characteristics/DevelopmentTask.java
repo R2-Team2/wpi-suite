@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * A task within a requirement
- * @author Gabriel McCormick
  * @version $Revision: 1.0 $
  */
 public class DevelopmentTask {

@@ -26,6 +26,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -36,11 +37,11 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ErrorPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  *
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class IterationPanel extends JPanel implements KeyListener{
@@ -70,6 +71,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 	private ViewMode vm;
 	private Iteration displayIteration;
 	
+	private boolean forceRemove = false;
+	
 	/**
 	 * The constructor for the iteration panel when creating an iteration.
 	 */
@@ -88,6 +91,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		displayIteration = iter;
 		buildLayout();
 		populateInformation();
+		validateFields();
 	}
 	
 	/**
@@ -140,7 +144,6 @@ public class IterationPanel extends JPanel implements KeyListener{
 		buttonCancel.setAlignmentX(LEFT_ALIGNMENT);
 		
 		errorDisplay = new ErrorPanel();
-
 		
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -159,6 +162,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				populateInformation();
+				buttonUndoChanges.setEnabled(false);
 			}
 		});
 		
@@ -207,6 +211,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 			UpdateIterationController.getInstance().updateIteration(displayIteration);
 		}
 		
+		forceRemove = true;
 		ViewEventController.getInstance().removeTab(IterationPanel.this);
 
 	}
@@ -219,7 +224,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	{
 		this.boxName.setText(displayIteration.getName());
 		this.startDateBox.setValue(displayIteration.getStart().getDate());
-		this.endDateBox.setValue(displayIteration.getStart().getDate());
+		this.endDateBox.setValue(displayIteration.getEnd().getDate());
 		this.calPanel.getIterationCalendar().setSelectionInterval(displayIteration.getStart().getDate(), displayIteration.getEnd().getDate());
 	}
 	
@@ -234,6 +239,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		if(endDate != null) this.endDateBox.setValue(endDate);
 		
 		validateFields();
+		checkForChanges();
 	}
 	
 	/**
@@ -245,12 +251,12 @@ public class IterationPanel extends JPanel implements KeyListener{
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(Calendar.getInstance().getTime());
 		cal.add(Calendar.DAY_OF_YEAR, -1);
-		
+		Iteration forName = IterationModel.getInstance().getIteration(boxName.getText().trim());
 		if(boxName.getText().trim().length() == 0)
 		{
 			errorDisplay.displayError(EMPTY_NAME_ERROR);
 		}
-		else if(IterationModel.getInstance().getIteration(boxName.getText().trim()) != null)
+		else if(forName != null && forName != displayIteration)
 		{
 			errorDisplay.displayError(INVALID_NAME_ERROR);
 		}
@@ -270,7 +276,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		else
 		{
 			Iteration conflicting = IterationModel.getInstance().getConflictingIteration((Date)startDateBox.getValue(), (Date)endDateBox.getValue());
-			if(conflicting != null)
+			if(conflicting != null && conflicting != displayIteration)
 			{
 				errorDisplay.displayError(OVERLAPPING_ERROR + " Overlaps with " + conflicting.getName() + ".");
 			}
@@ -282,14 +288,32 @@ public class IterationPanel extends JPanel implements KeyListener{
 	/**
 	 * Checks whether anything changed and updates buttons as needed.
 	 */
-	public void checkForChanges()
+	public boolean checkForChanges()
 	{
-		if(vm == ViewMode.CREATING) return; 
-		boolean nameChanged = boxName.getText().equals(displayIteration.getName());
-		boolean startChanged = startDateBox.getValue().equals(displayIteration.getStart().getDate());
-		boolean endChanged = endDateBox.getValue().equals(displayIteration.getEnd().getDate());
+		boolean nameChanged = false;
+		boolean startChanged = false;
+		boolean endChanged = false;
+		if(vm == ViewMode.CREATING)
+		{
+			
+			nameChanged = !boxName.getText().trim().equals("");
+			startChanged = !startDateBox.getText().equals("");
+			endChanged = !endDateBox.getText().equals("");
+		}
+		else
+		{
+			nameChanged = !boxName.getText().equals(displayIteration.getName());
+			Date startDate = (Date)startDateBox.getValue();
+			Date endDate = (Date)endDateBox.getValue();
+			
+			startChanged = !startDate.equals(displayIteration.getStart().getDate());
+			endChanged = !endDate.equals(displayIteration.getEnd().getDate());
+		}
+		
 		boolean anythingChanged = nameChanged || startChanged || endChanged;
 		buttonAdd.setEnabled(buttonAdd.isEnabled() && anythingChanged);
+		buttonUndoChanges.setEnabled(anythingChanged);
+		return anythingChanged;
 	}
 
 	@Override
@@ -308,6 +332,36 @@ public class IterationPanel extends JPanel implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		validateFields();
 		checkForChanges();
+	}
+
+	/**
+	 * 
+	 * @return the display iteration
+	 */
+	public Iteration getDisplayIteration() {
+		return displayIteration;
+	}
+
+	/**
+	
+	 * @return whether the iteration panel as a whole is ready to be removed. */
+	public boolean readyToRemove() {
+		boolean readyToRemove;
+		
+		if(forceRemove) return true;
+		
+		if(checkForChanges())
+		{
+			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			
+			readyToRemove = result == 0;		
+		}
+		else
+		{
+			readyToRemove = true;
+		}
+		
+		return readyToRemove;
 	}
 	
 	

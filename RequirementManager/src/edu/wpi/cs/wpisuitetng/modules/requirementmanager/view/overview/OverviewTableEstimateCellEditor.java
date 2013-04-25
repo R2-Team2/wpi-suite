@@ -32,7 +32,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 /**
- * @author Raphael
  *
  * @version $Revision: 1.0 $
  */

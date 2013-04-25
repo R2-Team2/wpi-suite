@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
 /**
  * Sets up upper toolbar of RequirementManager tab
  * 
- * @author Arianna
  *
  * @version $Revision: 1.0 $
  */

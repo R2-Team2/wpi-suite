@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller coordinates retrieving all of the Iterations
  * from the server.
  *
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class GetIterationController implements ActionListener {

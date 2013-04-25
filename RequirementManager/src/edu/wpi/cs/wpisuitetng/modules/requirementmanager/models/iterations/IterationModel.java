@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 /**
  * List of Iterations being pulled from the server
  * 
- * @author Gabriel McCormick
  * 
  * @version $Revision: 1.0 $
  */

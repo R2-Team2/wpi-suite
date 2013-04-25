@@ -11,7 +11,6 @@ import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
 /**
- * @author Raphael
  *
  */
 public class OverviewTransferHandler extends TransferHandler{

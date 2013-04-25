@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Various status' that a Requirement can have 
- * @author david
  * @version $Revision: 1.0 $
  */
 public enum RequirementStatus {

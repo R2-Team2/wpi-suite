@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 
 /**
- * @author paul
  *
  * @version $Revision: 1.0 $
  */

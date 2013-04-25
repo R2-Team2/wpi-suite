@@ -7,10 +7,9 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ErrorPanel extends JPanel {
+public class ErrorPanel extends JLabel {
 
 	private List<String> errorList;
-	private JLabel errorMsg;
 	
 	/**
 	 * Constructor for the error panel which displays errors as needed.
@@ -20,9 +19,8 @@ public class ErrorPanel extends JPanel {
 		super();
 		
 		errorList = new LinkedList<String>();
-		errorMsg = new JLabel();
-		errorMsg.setForeground(Color.RED);
-		errorMsg.setAlignmentX(LEFT_ALIGNMENT);
+		this.setForeground(Color.RED);
+		this.setAlignmentX(LEFT_ALIGNMENT);
 	}
 	
 	/**
@@ -50,10 +48,10 @@ public class ErrorPanel extends JPanel {
 	 */
 	public void refreshErrors()
 	{
-		errorMsg.setText("");
+		this.setText("");
 		for(String err : errorList)
 		{
-			errorMsg.setText(errorMsg.getText() + " " + err);
+			this.setText(this.getText() + " " + err);
 		}
 	}
 	
@@ -62,7 +60,7 @@ public class ErrorPanel extends JPanel {
 	 */
 	public boolean hasErrors()
 	{
-		return this.errorList.size() == 0;
+		return this.errorList.size() != 0;
 	}
 
 	/**

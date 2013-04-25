@@ -24,9 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.RequirementTabsPanel;
 
 /**
- * @author Pi 
- * @author Chris
- * @author Brian
  * @version $Revision: 1.0 $
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener

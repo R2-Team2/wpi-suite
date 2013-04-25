@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the Update button by
  * adding the contents of the requirement text fields to the model as a new
  * requirement.
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class UpdateRequirementController{

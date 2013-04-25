@@ -40,7 +40,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
  * This class sets the main view when user goes to the RequirementManager tab
  * It also allows opened tabs to be closed by the user
  * 
- * @author Arianna
  *
  * @version $Revision: 1.0 $
  */

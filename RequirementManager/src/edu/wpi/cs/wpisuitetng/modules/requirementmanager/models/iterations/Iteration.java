@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 /**
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
- * @author Gabriel McCormick, David Iglesias, Nick Mollica, Chris Botaish, Arianna
  * @version $Revision: 1.0 $
  */
 public class Iteration extends AbstractModel {

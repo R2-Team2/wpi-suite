@@ -17,7 +17,6 @@ import javax.swing.Timer;
 import org.jfree.chart.plot.PiePlot3D;
 
 /**
- * @author Westley
  *
  * @version $Revision: 1.0 $
  */

@@ -23,7 +23,6 @@ import javax.swing.border.EtchedBorder;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
- * @author Kevin
  *
  * @version $Revision: 1.0 $
  */

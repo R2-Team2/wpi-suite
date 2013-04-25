@@ -11,7 +11,6 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 
 /**
- * @author Kevin
  *
  */
 

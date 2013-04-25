@@ -11,9 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Class for a single transaction that contains the user, time stamp and message for the Transaction
- * 
- * @author Kevin
- *
+ *  
  * @version $Revision: 1.0 $
  */
 public class Transaction {

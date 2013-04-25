@@ -14,7 +14,6 @@ import java.util.Date;
 /**
  *The information for the Iteration's date
  *
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class IterationDate {

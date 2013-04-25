@@ -16,7 +16,6 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * History of transactions for a requirement
- * @author Kevin Kell, Raphael
  * @version $Revision: 1.0 $
  */
 

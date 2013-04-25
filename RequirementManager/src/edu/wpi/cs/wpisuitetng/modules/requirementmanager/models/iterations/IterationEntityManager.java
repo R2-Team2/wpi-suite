@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This is the entity manager for the Iteration in the
  * IterationManager module.
  *
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class IterationEntityManager implements EntityManager<Iteration> {

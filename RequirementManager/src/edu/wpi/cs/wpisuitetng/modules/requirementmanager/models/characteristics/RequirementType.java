@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Various types that a Requirement can be
- * @author Gabriel McCormick
  * @version $Revision: 1.0 $
  */
 public enum RequirementType {
