@@ -115,6 +115,17 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newIter);
 	}
+	
+	/**
+	 * Opens a new tab for the editing of a iteration.
+	 */
+	public void editIteration(Iteration iter) {
+		IterationPanel editIter = new IterationPanel(iter);
+		main.addTab(iter.getName(), null, editIter, "Editing " + iter.getName());
+		main.invalidate(); //force the tabbedpane to redraw.
+		main.repaint();
+		main.setSelectedComponent(editIter);
+	}
 
 	/**
 	 * Opens a new tab for the creation of a pie chart.
@@ -425,8 +436,8 @@ public class ViewEventController {
 	
 	public void editSelectedIteration() {
 		String name = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject()).getName();
-		
 		Iteration iter = IterationModel.getInstance().getIteration(name);
-		ViewEventController.getInstance().createIteration();
+		
+		ViewEventController.getInstance().editIteration(iter);
 	}
 }

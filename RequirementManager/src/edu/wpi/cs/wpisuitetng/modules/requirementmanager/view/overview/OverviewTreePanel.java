@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 
 /**
  */
-public class OverviewTreePanel extends JScrollPane implements TreeSelectionListener{
+public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
 	private JTree tree;
 	/**
@@ -116,7 +116,7 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
  
         tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
-        tree.addTreeSelectionListener(this); //add a listener to check for clicking
+        tree.addMouseListener(this); //add a listener to check for clicking
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
@@ -126,37 +126,37 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 
 	//TODO figure out how to implement the mouse listener without messing up the opening of tree nodes
 	
-//	@Override
-//	public void mouseClicked(MouseEvent e) {
-//		if (e.getClickCount() == 2)
-//		{
-//			ViewEventController.getInstance().editSelectedIteration();
-//		}
-//	}
-//
-//	@Override
-//	public void mousePressed(MouseEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseReleased(MouseEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseEntered(MouseEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseExited(MouseEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2)
+		{
+			ViewEventController.getInstance().editSelectedIteration();
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/**
 	 * @return the tree
@@ -165,11 +165,11 @@ public class OverviewTreePanel extends JScrollPane implements TreeSelectionListe
 		return tree;
 	}
 
-	@Override
-	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void valueChanged(TreeSelectionEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 //	public JTree addRequirement(Iteration iteration, Requirement requirement){
 //		return null;
