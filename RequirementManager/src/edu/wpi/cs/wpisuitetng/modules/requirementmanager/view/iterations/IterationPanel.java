@@ -110,12 +110,15 @@ public class IterationPanel extends JPanel implements KeyListener{
 		endDateBox.setEnabled(false);
 		endDateBox.setPreferredSize(new Dimension(150, 20));
 		
+		JLabel dateInstructions = new JLabel("Drag in the calendar below to select dates.");
+		
 		contentPanel.add(labelName, "left");
-		contentPanel.add(boxName, "left ");
+		contentPanel.add(boxName, "left");
 		contentPanel.add(labelStart, "left");
 		contentPanel.add(startDateBox, "left");
 		contentPanel.add(labelEnd, "left");
-		contentPanel.add(endDateBox, "left");
+		contentPanel.add(endDateBox, "left,wrap");
+		contentPanel.add(dateInstructions, "left, span,cell 3 1");
 		
 		
 		buttonAdd = new JButton("Add Iteration");
