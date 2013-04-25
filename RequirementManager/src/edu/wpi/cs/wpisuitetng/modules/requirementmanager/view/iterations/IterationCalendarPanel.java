@@ -25,16 +25,48 @@ import net.miginfocom.swing.MigLayout;
 public class IterationCalendarPanel extends JScrollPane {
 	
 	private IterationCalendar calendarView;
+	private JButton next;
+	private JButton prev;
+	private JButton year;
 	
-	public IterationCalendarPanel()
+	public IterationCalendarPanel(IterationPanel parent)
 	{
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
 		JPanel buttonPanel = new JPanel();
-		JButton next = new JButton(">>");
-		//next.setContentAreaFilled(false);
+		
+		next = new JButton(">>");
 		next.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		year = new JButton ("Current Year");
+		year.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		prev = new JButton("<<");
+		prev.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		setupButtonListeners();
+		
+		buttonPanel.add(prev);
+		buttonPanel.add(year);
+		buttonPanel.add(next);
+		
+		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
+		
+		JPanel calendarPanel = new JPanel(new BorderLayout());
+		calendarView = new IterationCalendar(parent);
+		calendarPanel.add(calendarView, BorderLayout.CENTER);
+		
+		contentPanel.add(calendarPanel, "alignx center, push, span");
+		
+		this.setViewportView(contentPanel);	
+	}
+	
+	/**
+	 * Adds action listeners to the year control buttons for the calendar view.
+	 */
+	private void setupButtonListeners()
+	{
 		next.addActionListener(new ActionListener()
 		{
 			@Override
@@ -42,36 +74,20 @@ public class IterationCalendarPanel extends JScrollPane {
 				nextYear();
 			}	
 		});
-		JButton year = new JButton ("Current Year");
-		//year.setContentAreaFilled(false);
-		year.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		year.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				currentYear();
-			}
-		});
-		JButton prev = new JButton("<<");
-		//prev.setContentAreaFilled(false);
-		prev.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
 		prev.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previousYear();
 			}
 		});
-		buttonPanel.add(prev);
-		buttonPanel.add(year);
-		buttonPanel.add(next);
-		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
 		
-		JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new IterationCalendar();
-		calendarPanel.add(calendarView, BorderLayout.CENTER);
-		contentPanel.add(calendarPanel, "alignx center, push, span");
-		
-		this.setViewportView(contentPanel);
-		
+		year.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentYear();
+			}
+		});
 	}
 	
 	/**
@@ -101,5 +117,14 @@ public class IterationCalendarPanel extends JScrollPane {
 		Calendar cal = calendarView.getCalendar();
 		cal.add(Calendar.YEAR, +1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	
+	/**
+	 * Returns the iteration calendar
+	 * @return the iteration calendar
+	 */
+	public IterationCalendar getIterationCalendar()
+	{
+		return this.calendarView;
 	}
 }

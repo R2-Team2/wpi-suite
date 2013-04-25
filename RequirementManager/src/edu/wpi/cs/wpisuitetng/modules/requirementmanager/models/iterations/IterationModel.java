@@ -219,4 +219,28 @@ public class IterationModel extends AbstractListModel {
 		
 		return isValid;
 	}
+
+	/**
+	 * Returns the iteration that the given date falls in, or null if the iteration does not exist.
+	 * @param date the date to check for
+	 * @return the iteration, or null if it does not exist
+	 */
+	public Iteration getIterationForDate(Date date) {
+		Iteration iter = null;
+		
+		for(Iteration it : listOfIterations)
+		{
+			if(it == backlog) continue;
+			
+			boolean startValid = it.getStart().getDate().before(date) || it.getStart().getDate().equals(date);
+			boolean endValid = it.getEnd().getDate().after(date) || it.getEnd().getDate().equals(date);
+
+			if(startValid && endValid)
+			{
+				iter = it;
+			}
+		}
+		
+		return iter;
+	}
 }

@@ -10,14 +10,61 @@
 
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Date;
+
 import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
-public class IterationCalendar extends JXMonthView{
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
-	public IterationCalendar()
+public class IterationCalendar extends JXMonthView implements ActionListener {
+	
+	private Date startDate = null;
+	private Date endDate = null;
+	private IterationPanel parent;
+	/**
+	 * Constructor for the iteration calendar.
+	 */
+	public IterationCalendar(IterationPanel parent)
 	{
+		this.parent = parent;
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
+		this.setFlaggedDayForeground(Color.GREEN);
+		this.setSelectionBackground(Color.GREEN);
 		this.setAlignmentX(CENTER_ALIGNMENT);
+		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
+		this.addActionListener(this);
 	}
+	
+	@Override
+	public boolean isUnselectableDate(Date date) {
+		boolean unselectable = IterationModel.getInstance().getIterationForDate(date) != null;
+		
+		if(unselectable)
+		{
+			this.getSelectionModel().getUnselectableDates().add(date);
+		}
+		else
+		{
+			this.getSelectionModel().getUnselectableDates().remove(date);
+		}
+		
+		return unselectable || super.isUnselectableDate(date);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		startDate = this.getSelectionModel().getFirstSelectionDate();
+		endDate = this.getSelectionModel().getLastSelectionDate();
+		
+		parent.setDates(startDate, endDate);
+	}
+
 }
