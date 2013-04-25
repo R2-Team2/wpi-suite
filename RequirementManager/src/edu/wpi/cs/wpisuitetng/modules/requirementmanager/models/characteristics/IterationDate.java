@@ -18,7 +18,7 @@ import java.util.Date;
  * @version $Revision: 1.0 $
  */
 public class IterationDate {
-	private Date date;
+	private Date date = new Date(0);
 	
 	/**
 	 * Constructor for IterationDate.
@@ -35,7 +35,6 @@ public class IterationDate {
 	 *  */
 	public boolean after(Date d)
 	{
-		if(date == null) return true;
 		return this.date.after(d);
 	}
 	
@@ -46,7 +45,6 @@ public class IterationDate {
 	 *  */
 	public boolean before(Date d)
 	{
-		if(date == null) return true;
 		return this.date.before(d);
 	}
 	
@@ -57,7 +55,6 @@ public class IterationDate {
 	 *  */
 	public boolean during(Date d)
 	{
-		if(date == null) return false;
 		return this.date.equals(d);
 	}
 	
