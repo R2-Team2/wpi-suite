@@ -20,6 +20,7 @@ import javax.swing.ListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
@@ -288,6 +289,23 @@ public class RequirementModel extends AbstractListModel{
 		}
 		
 		return reqForIteration;
+	}
+
+	/**
+	 * Gets the summed estimates of all requirements in the given iteration.
+	 * @param displayIteration the iteration to get requirements for
+	 * @return the summed estimates of the requirements.
+	 */
+	public int getRequirementEstimateForIteration(Iteration displayIteration) {
+		int estimate = 0;
+		List<Requirement> inIteration = getRequirementsForIteration(displayIteration.getName());
+		
+		for(Requirement req : inIteration)
+		{
+			estimate += req.getEstimate();
+		}
+		
+		return estimate;
 	}
 	
 }

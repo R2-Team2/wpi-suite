@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -61,6 +62,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	
 	private JFormattedTextField startDateBox;
 	private JFormattedTextField endDateBox;
+	private JTextField estimateBox;
 	
 	private JButton buttonAdd;
 	private JButton buttonCancel;
@@ -80,6 +82,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.vm = ViewMode.CREATING;
 		displayIteration = new Iteration();
 		buildLayout();
+		refreshPanel();
 	}
 	
 	/**
@@ -91,7 +94,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		displayIteration = iter;
 		buildLayout();
 		populateInformation();
-		validateFields();
+		refreshPanel();
 	}
 	
 	/**
@@ -121,13 +124,21 @@ public class IterationPanel extends JPanel implements KeyListener{
 		
 		JLabel dateInstructions = new JLabel("Drag in the calendar below to select dates.");
 		
+		JLabel labelEstimate = new JLabel("Estimate: ");
+		estimateBox = new JTextField();
+		estimateBox.setPreferredSize(new Dimension(50, 20));
+		estimateBox.setEnabled(false);
+		estimateBox.setText("0");
+	
 		contentPanel.add(labelName, "left");
 		contentPanel.add(boxName, "left");
+		contentPanel.add(labelEstimate, "left");
+		contentPanel.add(estimateBox, "left");
 		contentPanel.add(labelStart, "left");
 		contentPanel.add(startDateBox, "left");
 		contentPanel.add(labelEnd, "left");
 		contentPanel.add(endDateBox, "left,wrap");
-		contentPanel.add(dateInstructions, "left, span,cell 3 1");
+		contentPanel.add(dateInstructions, "left, span,cell 5 1");
 		
 		String addText = vm == ViewMode.EDITING ? "Update Iteration" : "Add Iteration";
 		
@@ -186,8 +197,6 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.add(contentPanel, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-				
-		validateFields();
 	}
 	
 	/**
@@ -226,6 +235,16 @@ public class IterationPanel extends JPanel implements KeyListener{
 		this.startDateBox.setValue(displayIteration.getStart().getDate());
 		this.endDateBox.setValue(displayIteration.getEnd().getDate());
 		this.calPanel.getIterationCalendar().setSelectionInterval(displayIteration.getStart().getDate(), displayIteration.getEnd().getDate());
+		this.refreshEstimate();
+		refreshPanel();
+	}
+	
+	/**
+	 * Updates the value of the estimate box
+	 */
+	public void refreshEstimate()
+	{
+		this.estimateBox.setText(String.valueOf(RequirementModel.getInstance().getRequirementEstimateForIteration(displayIteration)));
 	}
 	
 	/**
@@ -238,6 +257,14 @@ public class IterationPanel extends JPanel implements KeyListener{
 		if(startDate != null) this.startDateBox.setValue(startDate);
 		if(endDate != null) this.endDateBox.setValue(endDate);
 		
+		refreshPanel();
+	}
+	
+	/**
+	 * Refreshes the panel
+	 */
+	private void refreshPanel()
+	{
 		validateFields();
 		checkForChanges();
 	}
@@ -288,7 +315,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	/**
 	 * Checks whether anything changed and updates buttons as needed.
 	 */
-	public boolean checkForChanges()
+	private boolean checkForChanges()
 	{
 		boolean nameChanged = false;
 		boolean startChanged = false;
@@ -318,20 +345,17 @@ public class IterationPanel extends JPanel implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		validateFields();
-		checkForChanges();
+		refreshPanel();
 	}
 
 	/**
