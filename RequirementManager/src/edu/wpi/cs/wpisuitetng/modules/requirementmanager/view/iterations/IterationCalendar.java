@@ -22,18 +22,24 @@ import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 public class IterationCalendar extends JXMonthView implements ActionListener {
 	
+	private ViewMode viewMode;
 	private Date startDate = null;
 	private Date endDate = null;
 	private IterationPanel parent;
+	private Iteration displayIteration;
+	
 	/**
 	 * Constructor for the iteration calendar.
 	 */
-	public IterationCalendar(IterationPanel parent)
+	public IterationCalendar(IterationPanel parent, ViewMode vm, Iteration displayIteration)
 	{
+		this.viewMode = vm;
 		this.parent = parent;
+		this.displayIteration = displayIteration;
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
 		this.setFlaggedDayForeground(Color.GREEN);
@@ -46,6 +52,7 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	@Override
 	public boolean isUnselectableDate(Date date) {
 		List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(date);
+		if(forDate.contains(displayIteration)) return false;
 		
 		boolean unselectable = forDate.size() > 0;
 		
