@@ -1015,7 +1015,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
 	 */
 	@Override
-	public void requirementSelected() {
+	public void requirementSelected(Object[] requirements) {
 		this.parentSelector.setVisible(false);
 		this.chooseParent.setVisible(true);
 	}

@@ -9,6 +9,10 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import java.util.List;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+
 /**
  */
 public interface RequirementSelectorListener 
@@ -16,5 +20,5 @@ public interface RequirementSelectorListener
 	/**
 	 * Tells the listener that a requirement was selected.
 	 */
-	public void requirementSelected();
+	public void requirementSelected(Object[] requirements);
 }

@@ -228,7 +228,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
 	 */
 	@Override
-	public void requirementSelected() {
+	public void requirementSelected(Object[] requirements) {
 		refreshTable();
 	}
 

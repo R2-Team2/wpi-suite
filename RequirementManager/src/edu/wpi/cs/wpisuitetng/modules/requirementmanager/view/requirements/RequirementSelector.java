@@ -57,7 +57,8 @@ public class RequirementSelector extends JScrollPane {
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
 	private RequirementSelectorListener listener;
-
+	private Object[] selectedList;
+	
 	/**
 	 * Constructor for the requirementselector
 	 * @param listener the listener to report to
@@ -71,8 +72,8 @@ public class RequirementSelector extends JScrollPane {
 		JPanel contentPanel = new JPanel();
 		this.buttonList = new ArrayList<JButton>();
 		this.mode = mode;
+		this.listener = listener;
 		if (this.mode != RequirementSelectorMode.ITERATION) {
-			this.listener = listener;
 			this.activeRequirement = requirement;
 		}
 		contentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -201,11 +202,12 @@ public class RequirementSelector extends JScrollPane {
 	 * Performs actions when the ok button is pressed.
 	 */
 	private void okPressed() {
+		
 		if (mode == RequirementSelectorMode.ITERATION) {
-			return;
+			selectedList = requirementList.getSelectedValues();
 		}
-		if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
-			Object[] selectedList = requirementList.getSelectedValues();
+		else if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
+			selectedList = requirementList.getSelectedValues();
 			for (Object obj : selectedList) {
 				Requirement newChild = (Requirement) obj;
 				try {
@@ -235,7 +237,7 @@ public class RequirementSelector extends JScrollPane {
 					activeRequirement);
 		}
 
-		listener.requirementSelected();
+		listener.requirementSelected(selectedList);
 		this.refreshList();
 	}
 
