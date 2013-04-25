@@ -42,7 +42,7 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		this.displayIteration = displayIteration;
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
-		this.setFlaggedDayForeground(Color.GREEN);
+		this.setFlaggedDayForeground(Color.MAGENTA);
 		this.setSelectionBackground(Color.GREEN);
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
@@ -50,17 +50,28 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	}
 	
 	@Override
-	public boolean isUnselectableDate(Date date) {
+	public boolean isFlaggedDate(Date date)
+	{		
 		List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(date);
 		if(forDate.contains(displayIteration)) return false;
+				
+		boolean isFlaggedDate = false;
 		
-		boolean unselectable = forDate.size() > 0;
-		
-		if(unselectable && forDate.size() == 1)
+		for(Iteration iter : forDate)
 		{
-			unselectable &= !(forDate.get(0).getStart().getDate().equals(date));
-			unselectable &= !(forDate.get(0).getEnd().getDate().equals(date));
+			isFlaggedDate |= date.equals(iter.getStart().getDate()) || date.equals(iter.getEnd().getDate());
 		}
+		
+		return isFlaggedDate || super.isFlaggedDate(date);
+	}
+	
+	@Override
+	public boolean isUnselectableDate(Date date) {
+		List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(date);
+		
+		if(forDate.contains(displayIteration)) return false;
+		
+		boolean unselectable = forDate.size() == 1 && !isFlaggedDate(date);
 		
 		return unselectable || super.isUnselectableDate(date);
 	}

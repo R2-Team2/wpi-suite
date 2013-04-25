@@ -29,7 +29,6 @@ public class IterationCalendarPanel extends JScrollPane {
 	private ViewMode viewMode;
 	
 	private IterationCalendar calendarView;
-	private Iteration displayIteration;
 	
 	private JButton nextYear;
 	private JButton prevYear;
@@ -40,7 +39,6 @@ public class IterationCalendarPanel extends JScrollPane {
 	public IterationCalendarPanel(IterationPanel parent, ViewMode vm, Iteration displayIteration)
 	{
 		this.viewMode = vm;
-		this.displayIteration = displayIteration;
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
