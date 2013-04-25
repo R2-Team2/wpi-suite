@@ -221,12 +221,14 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * Returns the iteration that the given date falls in, or null if the iteration does not exist.
+	 * Returns the iterations that the given date falls in.
+	 * A date can fall within 2 iterations if it is the end of one
+	 * iteration and the start of another iteration.
 	 * @param date the date to check for
-	 * @return the iteration, or null if it does not exist
+	 * @return the iterations
 	 */
-	public Iteration getIterationForDate(Date date) {
-		Iteration iter = null;
+	public List<Iteration> getIterationForDate(Date date) {
+		List<Iteration> iter = new ArrayList<Iteration>();
 		
 		for(Iteration it : listOfIterations)
 		{
@@ -237,7 +239,7 @@ public class IterationModel extends AbstractListModel {
 
 			if(startValid && endValid)
 			{
-				iter = it;
+				iter.add(it);
 			}
 		}
 		

@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
@@ -44,14 +45,14 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	
 	@Override
 	public boolean isUnselectableDate(Date date) {
-		Iteration forDate = IterationModel.getInstance().getIterationForDate(date);
+		List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(date);
 		
-		boolean unselectable = forDate != null;
+		boolean unselectable = forDate.size() > 0;
 		
-		if(unselectable)
+		if(unselectable && forDate.size() == 1)
 		{
-			unselectable &= !(forDate.getStart().getDate().equals(date));
-			unselectable &= !(forDate.getEnd().getDate().equals(date));
+			unselectable &= !(forDate.get(0).getStart().getDate().equals(date));
+			unselectable &= !(forDate.get(0).getEnd().getDate().equals(date));
 		}
 		
 		return unselectable || super.isUnselectableDate(date);
