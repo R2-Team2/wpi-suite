@@ -208,8 +208,8 @@ public class IterationModel extends AbstractListModel {
 		for(Iteration iter : listOfIterations)
 		{
 			if(iter == backlog) continue;
-			boolean startGreaterOrEqual = (iter.getEnd().before(start)) || iter.getEnd().during(start);
-			boolean endLessThanOrEqual = (iter.getStart().after(end) || iter.getStart().during(end));
+			boolean startGreaterOrEqual = (start.after(iter.getEnd().getDate()) || start.equals(iter.getEnd().getDate()));
+			boolean endLessThanOrEqual = (end.before(iter.getStart().getDate()) || end.equals(iter.getStart().getDate()));
 			
 			if(!(startGreaterOrEqual || endLessThanOrEqual))
 			{
@@ -232,8 +232,8 @@ public class IterationModel extends AbstractListModel {
 		{
 			if(it == backlog) continue;
 			
-			boolean startValid = it.getStart().before(date) || it.getStart().during(date);
-			boolean endValid = it.getEnd().after(date) || it.getEnd().during(date);
+			boolean startValid = it.getStart().getDate().before(date) || it.getStart().getDate().equals(date);
+			boolean endValid = it.getEnd().getDate().after(date) || it.getEnd().getDate().equals(date);
 
 			if(startValid && endValid)
 			{

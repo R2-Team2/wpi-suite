@@ -29,38 +29,12 @@ public class IterationDate {
 	}
 
 	/**
-	 * Checks whether the given date is after this date.
-	 * @param d the date to check
-	 * @return Whether the given date is after this date.
+	 * @return the date
 	 *  */
-	public boolean after(Date d)
+	public Date getDate()
 	{
-		if(date == null) return true;
-		return this.date.after(d);
+		return this.date;
 	}
-	
-	/**
-	 * Checks whether the given date is before this date.
-	 * @param d the date to check
-	 * @return Whether the given date is before this date.
-	 *  */
-	public boolean before(Date d)
-	{
-		if(date == null) return true;
-		return this.date.before(d);
-	}
-	
-	/**
-	 * Checks whether the given date is equals date.
-	 * @param d the date to check
-	 * @return Whether the given date is equal date.
-	 *  */
-	public boolean during(Date d)
-	{
-		if(date == null) return false;
-		return this.date.equals(d);
-	}
-	
 	
 	/**
 	 * Sets the date
