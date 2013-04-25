@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -114,6 +115,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
         tree = new JTree(top); //create the tree with the top node as the top
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
+        tree.setToggleClickCount(0);
  
         tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
         tree.addMouseListener(this); //add a listener to check for clicking
@@ -130,7 +132,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2)
 		{
-			ViewEventController.getInstance().editSelectedIteration();
+			Object[] path = tree.getPathForLocation(e.getX(), e.getY()).getPath();
+			
+			if (path.length == 2) ViewEventController.getInstance().editSelectedIteration();
+			else if (path.length > 2) {
+				Requirement req = ((Requirement)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject());
+				ViewEventController.getInstance().editRequirement(req);
+			}
 		}
 	}
 
