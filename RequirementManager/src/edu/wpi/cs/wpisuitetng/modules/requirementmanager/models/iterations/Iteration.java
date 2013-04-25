@@ -47,6 +47,7 @@ public class Iteration extends AbstractModel {
 
 	public Iteration() {
 		super();
+		id = -1;
 		name = "";
 		estimate = 0;
 		start = end = null;
@@ -88,6 +89,16 @@ public class Iteration extends AbstractModel {
 		this.estimate = 0;
 		this.start = null;
 		this.end = null;
+	}
+	
+	/**
+	 * Sets the date interval for the iteration
+	 * @param start start date
+	 * @param end end date
+	 */
+	public void setDateInterval(Date start, Date end) {
+		this.start = new IterationDate(start);
+		this.end = new IterationDate(end);
 	}
 
 	/**
@@ -244,6 +255,8 @@ public class Iteration extends AbstractModel {
 	 */
 	public void copyFrom(Iteration toCopyFrom) {
 		this.name = toCopyFrom.name;
+		this.start = toCopyFrom.start;
+		this.end = toCopyFrom.end;
 		this.estimate = toCopyFrom.estimate;
 	}
 
@@ -311,5 +324,4 @@ public class Iteration extends AbstractModel {
 	public void delete() {
 
 	}
-
 }
