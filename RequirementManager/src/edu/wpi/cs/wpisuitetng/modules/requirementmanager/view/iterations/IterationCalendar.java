@@ -50,8 +50,8 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		
 		if(unselectable)
 		{
-			unselectable &= !(forDate.getStart().getDate().equals(date));
-			unselectable &= !(forDate.getEnd().getDate().equals(date));
+			unselectable &= !(forDate.getStart().during(date));
+			unselectable &= !(forDate.getEnd().during(date));
 		}
 		
 		return unselectable || super.isUnselectableDate(date);
