@@ -118,8 +118,8 @@ public class OverviewTable extends JTable
 			Requirement req = requirements.get(i);			
 			String currEst = String.valueOf(req.getEstimate());
 			
-			// re-enter the value last in the cell if in Mult. Req. Editing mode
-			if (isInEditMode && (currEst != pastEst[i])) currEst = pastEst[i];			
+			// re-enter the value last in the cell if in Mult. Req. Editing mode and req estimate not just edited
+			if (isInEditMode && (currEst != pastEst[i]) && (!req.getEstimateEdited())) currEst = pastEst[i];			
 			
 			tableModel.addRow(new Object[]{ req.getId(), 
 					req,
@@ -129,7 +129,8 @@ public class OverviewTable extends JTable
 					req.getStatus(),
 					req.getPriority(),
 					currEst
-			});			
+			});	
+			req.setEstimateEdited(false);
 		}
 		// indicate that refresh is no longer affecting the table
 		setChangedByRefresh(false);

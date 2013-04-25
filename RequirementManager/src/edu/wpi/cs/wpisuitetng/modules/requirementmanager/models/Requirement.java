@@ -56,6 +56,9 @@ public class Requirement extends AbstractModel {
 
 	/** the estimated amount of effort to complete the requirement */
 	private int estimate;
+	
+	/** flag to indicate when the requirement estimate was just edited */
+	private boolean estimateEdited;
 
 	/** the actual effort of completing the requirement */
 	private int actualEffort;
@@ -337,6 +340,7 @@ public class Requirement extends AbstractModel {
 			int newEstimate = estimate;
 			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
 			this.history.add(message);
+			this.setEstimateEdited(true);
 		}	
 		
 		int diff = estimate - this.estimate;
@@ -833,5 +837,19 @@ public class Requirement extends AbstractModel {
 		this.notes = toCopyFrom.notes;
 		this.tests = toCopyFrom.tests;
 		this.parentID = toCopyFrom.parentID;
+	}
+
+	/**
+	 * @return the estimateEdited
+	 */
+	public boolean getEstimateEdited() {
+		return estimateEdited;
+	}
+
+	/**
+	 * @param b the estimateEdited to be set
+	 */
+	public void setEstimateEdited(boolean b) {
+		this.estimateEdited = b;
 	}
 }
