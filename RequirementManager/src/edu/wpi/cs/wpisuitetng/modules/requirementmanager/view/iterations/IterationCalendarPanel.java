@@ -25,9 +25,11 @@ import net.miginfocom.swing.MigLayout;
 public class IterationCalendarPanel extends JScrollPane {
 	
 	private IterationCalendar calendarView;
-	private JButton next;
-	private JButton prev;
-	private JButton year;
+	private JButton nextYear;
+	private JButton prevYear;
+	private JButton nextMonth;
+	private JButton prevMonth;
+	private JButton today;
 	
 	public IterationCalendarPanel(IterationPanel parent)
 	{
@@ -36,20 +38,28 @@ public class IterationCalendarPanel extends JScrollPane {
 		
 		JPanel buttonPanel = new JPanel();
 		
-		next = new JButton(">>");
-		next.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		nextYear = new JButton(">>");
+		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		year = new JButton ("Current Year");
-		year.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		nextMonth = new JButton(">");
+		nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		today = new JButton ("Today");
+		today.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		prev = new JButton("<<");
-		prev.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		prevMonth = new JButton("<");
+		prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		prevYear = new JButton("<<");
+		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setupButtonListeners();
 		
-		buttonPanel.add(prev);
-		buttonPanel.add(year);
-		buttonPanel.add(next);
+		buttonPanel.add(prevYear);
+		buttonPanel.add(prevMonth);
+		buttonPanel.add(today);
+		buttonPanel.add(nextMonth);
+		buttonPanel.add(nextYear);
 		
 		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
 		
@@ -67,7 +77,7 @@ public class IterationCalendarPanel extends JScrollPane {
 	 */
 	private void setupButtonListeners()
 	{
-		next.addActionListener(new ActionListener()
+		nextYear.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -75,19 +85,34 @@ public class IterationCalendarPanel extends JScrollPane {
 			}	
 		});
 		
-		prev.addActionListener(new ActionListener(){
+		prevYear.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previousYear();
 			}
 		});
 		
-		year.addActionListener(new ActionListener(){
+		today.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentYear();
+				today();
 			}
 		});
+		
+		prevMonth.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				previousMonth();
+			}
+		});
+		
+		nextMonth.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nextMonth();
+			}
+		});
+		
 	}
 	
 	/**
@@ -101,11 +126,31 @@ public class IterationCalendarPanel extends JScrollPane {
 	}
 	
 	/**
-	 * Switches the calendar to the current year
+	 * Switches the calendar to the current date
 	 */
-	private void currentYear()
+	private void today()
 	{
 		Calendar cal = Calendar.getInstance();
+		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	
+	/**
+	 * Switches the calendar to the next month.
+	 */
+	private void nextMonth()
+	{
+		Calendar cal = calendarView.getCalendar();
+		cal.add(Calendar.MONTH, 1);
+		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	
+	/**
+	 * Switches the calendar to the previous month.
+	 */
+	private void previousMonth()
+	{
+		Calendar cal = calendarView.getCalendar();
+		cal.add(Calendar.MONTH, -1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
 	}
 	

@@ -13,13 +13,13 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 public class IterationCalendar extends JXMonthView implements ActionListener {
@@ -44,15 +44,14 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	
 	@Override
 	public boolean isUnselectableDate(Date date) {
-		boolean unselectable = IterationModel.getInstance().getIterationForDate(date) != null;
+		Iteration forDate = IterationModel.getInstance().getIterationForDate(date);
+		
+		boolean unselectable = forDate != null;
 		
 		if(unselectable)
 		{
-			this.getSelectionModel().getUnselectableDates().add(date);
-		}
-		else
-		{
-			this.getSelectionModel().getUnselectableDates().remove(date);
+			unselectable &= !(forDate.getStart().getDate().equals(date));
+			unselectable &= !(forDate.getEnd().getDate().equals(date));
 		}
 		
 		return unselectable || super.isUnselectableDate(date);
@@ -61,10 +60,44 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		startDate = this.getSelectionModel().getFirstSelectionDate();
-		endDate = this.getSelectionModel().getLastSelectionDate();
+		//check that the selected dates are valid dates.
+		boolean validSelection = true;
+
+		Date secondDate = this.getSelectionModel().getLastSelectionDate();
+		Calendar firstDate = Calendar.getInstance();
+		firstDate.setTime(this.getSelectionModel().getFirstSelectionDate());
 		
-		parent.setDates(startDate, endDate);
+		if(isUnselectableDate(firstDate.getTime()) || isUnselectableDate(secondDate)) validSelection = false;
+		
+		//if any date in the interval is unselectable, its invalid.
+		while(firstDate.getTime().before(secondDate))
+		{
+			if(isUnselectableDate(firstDate.getTime()))
+			{
+				validSelection = false;
+				break;
+			}
+			
+			firstDate.add(Calendar.DAY_OF_YEAR, 1);
+		}
+	
+		if(validSelection)
+		{
+			//if is valid date, update it as date in parent.
+			startDate = this.getSelectionModel().getFirstSelectionDate();
+			endDate = this.getSelectionModel().getLastSelectionDate();
+			
+			parent.setDates(startDate, endDate);
+		}
+		else
+		{
+			//otherwise, return back to previous selection.
+			this.getSelectionModel().clearSelection();
+			if(startDate != null && endDate != null)
+			{
+				this.getSelectionModel().setSelectionInterval(startDate, endDate);
+			}
+		}
 	}
 
 }
