@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * 
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 @SuppressWarnings("serial")
 public class RequirementModel extends AbstractListModel{
@@ -126,7 +127,8 @@ public class RequirementModel extends AbstractListModel{
 	 * in reverse order, so the newest requirement is returned first.
 	 * 
 	
-	 * @return the number of requirements in the project * @see javax.swing.ListModel#getSize()
+	
+	 * @return the number of requirements in the project * @see javax.swing.ListModel#getSize() * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return requirements.size();
@@ -150,7 +152,8 @@ public class RequirementModel extends AbstractListModel{
 	 * 
 	 * @param index The index of the requirement to be returned
 	
-	 * @return the requirement associated with the provided index * @see javax.swing.ListModel#getElementAt(int)
+	
+	 * @return the requirement associated with the provided index * @see javax.swing.ListModel#getElementAt(int) * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Requirement getElementAt(int index) {
 		return requirements.get(requirements.size() - 1 - index);
@@ -262,8 +265,8 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Returns the list of requirements that are assigned to the given iteration
 	 * @param name the iteration name
-	 * @return the list of requirements
-	 */
+	
+	 * @return the list of requirements */
 	public List<Requirement> getRequirementsForIteration(String name) {
 		List<Requirement> reqForIteration = new LinkedList<Requirement>();
 		
@@ -294,8 +297,8 @@ public class RequirementModel extends AbstractListModel{
 	/**
 	 * Gets the summed estimates of all requirements in the given iteration.
 	 * @param displayIteration the iteration to get requirements for
-	 * @return the summed estimates of the requirements.
-	 */
+	
+	 * @return the summed estimates of the requirements. */
 	public int getRequirementEstimateForIteration(Iteration displayIteration) {
 		int estimate = 0;
 		List<Requirement> inIteration = getRequirementsForIteration(displayIteration.getName());

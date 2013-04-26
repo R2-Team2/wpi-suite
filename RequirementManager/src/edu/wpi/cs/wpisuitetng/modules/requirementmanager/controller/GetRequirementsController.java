@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * from the server.
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class GetRequirementsController implements ActionListener {
 
@@ -55,8 +56,8 @@ public class GetRequirementsController implements ActionListener {
 	 * Sends an HTTP request to store a requirement when the
 	 * update button is pressed
 	 * @param e ActionEvent
-	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-	 */
+	
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent) */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this requirement

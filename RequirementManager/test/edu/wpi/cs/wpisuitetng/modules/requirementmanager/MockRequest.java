@@ -14,6 +14,8 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class MockRequest extends Request {
 	
@@ -31,8 +33,8 @@ public class MockRequest extends Request {
 
 	/**
 	 * Method send.
-	 * @throws IllegalStateException
-	 */
+	
+	 * @throws IllegalStateException */
 	@Override
 	public void send() throws IllegalStateException {
 		// don't actually send
@@ -41,8 +43,8 @@ public class MockRequest extends Request {
 	
 	/**
 	 * Method isSent.
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	public boolean isSent() {
 		return sent;
 	}

@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * 
  * 
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class IterationModel extends AbstractListModel {
@@ -95,7 +96,8 @@ public class IterationModel extends AbstractListModel {
 	 * Iteration is returned first.
 	 * 
 	
-	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize()
+	
+	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize() * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return listOfIterations.size();
@@ -121,7 +123,8 @@ public class IterationModel extends AbstractListModel {
 	 * @param index
 	 *            The index of the Iteration to be returned
 	
-	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int)
+	
+	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int) * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
@@ -199,8 +202,8 @@ public class IterationModel extends AbstractListModel {
 	 * Returns the iteration that conflicts with the given dates
 	 * @param start the begin date
 	 * @param end the end date
-	 * @return the conflicting iteration
-	 */
+	
+	 * @return the conflicting iteration */
 	public Iteration getConflictingIteration(Date start, Date end) {
 		Iteration isValid = null;
 		
@@ -224,8 +227,8 @@ public class IterationModel extends AbstractListModel {
 	 * A date can fall within 2 iterations if it is the end of one
 	 * iteration and the start of another iteration.
 	 * @param date the date to check for
-	 * @return the iterations
-	 */
+	
+	 * @return the iterations */
 	public List<Iteration> getIterationForDate(Date date) {
 		List<Iteration> iter = new ArrayList<Iteration>();
 		
@@ -247,8 +250,8 @@ public class IterationModel extends AbstractListModel {
 	
 	/**
 	 * Returns the backlog iteration
-	 * @return backlog iteration
-	 */
+	
+	 * @return backlog iteration */
 	public Iteration getBacklog() {
 		return backlog;
 	}

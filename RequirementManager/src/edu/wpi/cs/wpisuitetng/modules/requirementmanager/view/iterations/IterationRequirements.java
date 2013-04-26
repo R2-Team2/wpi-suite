@@ -37,6 +37,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 /**
  * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationRequirements extends JPanel implements RequirementSelectorListener{
 	private JButton removeButton;
@@ -48,7 +50,12 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	
 	private RequirementSelector reqSelector;
 
+	/**
+	 * Constructor for IterationRequirements.
+	 * @param displayIteration Iteration
+	 */
 	public IterationRequirements(IterationPanel parent, Iteration displayIteration) {
+	
 		activeIteration = displayIteration;
 		parentPanel = parent;
 		
@@ -93,6 +100,10 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		this.refreshTable();
 	}
 	
+	/**
+	 * Method buildTable.
+	 * @return JTable
+	 */
 	private JTable buildTable()
 	{
 		requirementTable = new JTable()
@@ -179,6 +190,11 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		}
 	}
 
+	/**
+	 * Method requirementSelected.
+	 * @param requirements Object[]
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected(Object[])
+	 */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		for (Object obj : requirements) {

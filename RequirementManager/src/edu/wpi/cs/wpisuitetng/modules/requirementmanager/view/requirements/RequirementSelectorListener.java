@@ -14,11 +14,14 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public interface RequirementSelectorListener 
 {
 	/**
 	 * Tells the listener that a requirement was selected.
+	 * @param requirements Object[]
 	 */
 	public void requirementSelected(Object[] requirements);
 }

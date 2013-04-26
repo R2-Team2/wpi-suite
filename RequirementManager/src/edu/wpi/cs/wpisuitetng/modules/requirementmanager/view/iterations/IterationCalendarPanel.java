@@ -24,6 +24,8 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
+/**
+ */
 public class IterationCalendarPanel extends JScrollPane {
 	
 	private ViewMode viewMode;
@@ -36,6 +38,12 @@ public class IterationCalendarPanel extends JScrollPane {
 	private JButton prevMonth;
 	private JButton today;
 	
+	/**
+	 * Constructor for IterationCalendarPanel.
+	 * @param parent IterationPanel
+	 * @param vm ViewMode
+	 * @param displayIteration Iteration
+	 */
 	public IterationCalendarPanel(IterationPanel parent, ViewMode vm, Iteration displayIteration)
 	{
 		this.viewMode = vm;
@@ -172,8 +180,8 @@ public class IterationCalendarPanel extends JScrollPane {
 	
 	/**
 	 * Returns the iteration calendar
-	 * @return the iteration calendar
-	 */
+	
+	 * @return the iteration calendar */
 	public IterationCalendar getIterationCalendar()
 	{
 		return this.calendarView;

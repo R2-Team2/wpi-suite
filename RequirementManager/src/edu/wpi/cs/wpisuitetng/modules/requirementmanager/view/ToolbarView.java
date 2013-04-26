@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
  * 
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class ToolbarView extends JPanel {
 
@@ -54,24 +55,24 @@ public class ToolbarView extends JPanel {
 	
 	/**
 	 * Method getEditButton.
-	 * @return EditButtonsPanel
-	 */
+	
+	 * @return EditButtonsPanel */
 	public EditButtonsPanel getEditButton(){
 		return editButton;
 	}
 	
 	/**
 	 * Method getChartButton.
-	 * @return ChartButtonsPanel
-	 */
+	
+	 * @return ChartButtonsPanel */
 	public ChartButtonsPanel getChartButton() {
 		return chartButton;
 	}
 
 	/**
 	 * Method getReqButton.
-	 * @return RequirementButtonsPanel
-	 */
+	
+	 * @return RequirementButtonsPanel */
 	public RequirementButtonsPanel getReqButton() {
 		return reqButton;
 	}

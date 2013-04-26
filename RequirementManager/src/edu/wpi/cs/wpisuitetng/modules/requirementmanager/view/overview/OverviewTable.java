@@ -31,6 +31,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewTable extends JTable
 {
@@ -143,8 +145,8 @@ public class OverviewTable extends JTable
 	 * 
 	 * @param row	row of OverviewTable cell is located
 	 * @param col	column of OverviewTable cell is located
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
@@ -185,8 +187,8 @@ public class OverviewTable extends JTable
 	
 	
 	/**
-	 * @return the changedByRefresh
-	 */
+	
+	 * @return the changedByRefresh */
 	public boolean wasChangedByRefresh() {
 		return changedByRefresh;
 	}
@@ -273,8 +275,8 @@ public class OverviewTable extends JTable
 	}
 
 	/**	
-	 * @return true if there are unsaved, saveable changes in the Overview Table  
-	 */
+	
+	 * @return true if there are unsaved, saveable changes in the Overview Table   */
 	public boolean hasChanges() {
 				
 		// iterate through the rows of the overview table

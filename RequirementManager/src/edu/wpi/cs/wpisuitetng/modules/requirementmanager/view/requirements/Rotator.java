@@ -19,6 +19,7 @@ import org.jfree.chart.plot.PiePlot3D;
 /**
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 /**
  * The rotator.
@@ -47,8 +48,8 @@ public class Rotator extends Timer implements ActionListener {
      * Modifies the starting angle.
      *
      * @param event  the action event.
-     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-     */
+    
+     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent) */
     public void actionPerformed(final ActionEvent event) {
         this.plot.setStartAngle(this.angle);
         this.angle = this.angle + 1;
