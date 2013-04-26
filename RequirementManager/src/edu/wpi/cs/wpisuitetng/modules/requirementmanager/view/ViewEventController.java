@@ -11,28 +11,20 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
-
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
-
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -386,6 +378,8 @@ public class ViewEventController {
 			Component toBeRemoved = main.getComponentAt(i);
 
 			if(toBeRemoved instanceof OverviewPanel) continue;
+			
+			if(toBeRemoved instanceof IterationOverviewPanel) continue;
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
@@ -413,6 +407,7 @@ public class ViewEventController {
 
 			if(toBeRemoved instanceof OverviewPanel){
 				continue;}
+			if(toBeRemoved instanceof IterationOverviewPanel) continue;
 			if(toBeRemoved == selected){
 				continue;}
 

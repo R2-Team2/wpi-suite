@@ -9,9 +9,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * @author justinhess
@@ -24,8 +28,7 @@ public class OverviewPanel extends JPanel {
 	 */
 	public OverviewPanel()
 	{
-		SpringLayout overviewLayout = new SpringLayout();
-		this.setLayout(overviewLayout);
+		this.setLayout(new BorderLayout());
 
 		OverviewTreePanel filterPanel = new OverviewTreePanel();
 		
@@ -58,19 +61,7 @@ public class OverviewPanel extends JPanel {
 		table.getColumnModel().getColumn(7).setMinWidth(75); // Estimate
 		table.getColumnModel().getColumn(7).setMaxWidth(75); // Estimate
 		
-		// Constrain the filtersPanel
-		overviewLayout.putConstraint(SpringLayout.NORTH, filterPanel, 0,SpringLayout.NORTH, this);
-		overviewLayout.putConstraint(SpringLayout.WEST, filterPanel, 0, SpringLayout.WEST, this);
-		overviewLayout.putConstraint(SpringLayout.SOUTH, filterPanel, 0, SpringLayout.SOUTH, this);
-		overviewLayout.putConstraint(SpringLayout.EAST, filterPanel, 200,SpringLayout.WEST, filterPanel);
-
-		// Constrain the table panel
-		overviewLayout.putConstraint(SpringLayout.NORTH, tablePanel, 0, SpringLayout.NORTH, this);
-		overviewLayout.putConstraint(SpringLayout.WEST, tablePanel, 0, SpringLayout.EAST, filterPanel);
-		overviewLayout.putConstraint(SpringLayout.EAST, tablePanel, 0, SpringLayout.EAST, this);
-		overviewLayout.putConstraint(SpringLayout.SOUTH, tablePanel, 0, SpringLayout.SOUTH, this);
-		
-		this.add(filterPanel);
-		this.add(tablePanel);
+		this.add(tablePanel, BorderLayout.CENTER);
+		this.add(filterPanel, BorderLayout.WEST);
 	}
 }

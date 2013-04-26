@@ -9,6 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,17 +19,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import javax.swing.TransferHandler;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
@@ -221,7 +218,7 @@ public class MainView extends JTabbedPane {
 	public void insertTab(String title, Icon icon, Component component,
 			String tip, int index) {
 		super.insertTab(title, icon, component, tip, index);
-		if (!(component instanceof OverviewPanel)) {
+		if (!(component instanceof OverviewPanel) && !(component instanceof IterationOverviewPanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}
@@ -243,6 +240,24 @@ public class MainView extends JTabbedPane {
 		this.lastTab = this.getSelectedComponent();
 		super.setSelectedComponent(c);
 	}
+	
+	@Override
+	public void setSelectedIndex(int index)
+	{
+		Component c = this.getComponentAt(index);
+		if(c instanceof IterationOverviewPanel)
+		{
+			iterationOverview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+		}
+		
+		if(c instanceof OverviewPanel)
+		{
+			overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+		}
+		
+		super.setSelectedIndex(index);
+	}
+
 	/**
 	 * Method removeTabAt.
 	 * @param i int
