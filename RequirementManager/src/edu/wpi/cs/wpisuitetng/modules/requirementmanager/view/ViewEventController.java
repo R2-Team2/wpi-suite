@@ -387,6 +387,12 @@ public class ViewEventController {
 				if(!((RequirementPanel)toBeRemoved).readyToRemove()) continue;
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
+			
+			if(toBeRemoved instanceof IterationPanel)
+			{
+				if(!((IterationPanel)toBeRemoved).readyToRemove()) continue;
+				this.listOfIterationPanels.remove(toBeRemoved);
+			}
 
 			main.removeTabAt(i);
 		}
@@ -417,6 +423,12 @@ public class ViewEventController {
 				if(!((RequirementPanel)toBeRemoved).readyToRemove()){
 					break;}
 				this.listOfEditingPanels.remove(toBeRemoved);
+			}
+			
+			if(toBeRemoved instanceof IterationPanel)
+			{
+				if(!((IterationPanel)toBeRemoved).readyToRemove()) continue;
+				this.listOfIterationPanels.remove(toBeRemoved);
 			}
 
 			main.removeTabAt(i);
