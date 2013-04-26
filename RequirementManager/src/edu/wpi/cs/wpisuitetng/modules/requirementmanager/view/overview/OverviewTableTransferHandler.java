@@ -25,6 +25,7 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
@@ -42,7 +43,7 @@ public class OverviewTableTransferHandler extends TransferHandler {
 		assert (c == table);
 		Requirement req = (Requirement)table.getValueAt(table.getSelectedRow(), 1);
 		
-		if(req.getEstimate() > 0)
+		if(req.getEstimate() > 0 && req.getStatus() != RequirementStatus.COMPLETE && req.getStatus() != RequirementStatus.DELETED)
 		{
 			return new DataHandler(table.getValueAt(table.getSelectedRow(), 1), localObjectFlavor.getMimeType());
 		}
