@@ -193,7 +193,11 @@ public class RequirementSelector extends JScrollPane {
 					activeRequirement);
 			break;
 		case ITERATION:
-			reqList = IterationModel.getInstance().getIteration("Backlog").getRequirementModel();
+			List<Requirement> possibleRequirements = IterationModel.getInstance().getIteration("Backlog").getRequirements();
+			for(Requirement req : possibleRequirements)
+			{
+				if(req.getEstimate() > 0) ((DefaultListModel<Requirement>)reqList).addElement(req);
+			}
 			break;
 		}
 

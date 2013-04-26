@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -75,14 +76,39 @@ public class IterationCalendarPanel extends JScrollPane {
 		buttonPanel.add(nextMonth);
 		buttonPanel.add(nextYear);
 		
-		contentPanel.add(buttonPanel, "alignx center, push, span, wrap");
-		
+		contentPanel.add(buttonPanel, "alignx center, dock north");
+		 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
 		calendarView = new IterationCalendar(parent, viewMode, displayIteration);
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
-		
+				
+		calendarPanel.add(calendarView, BorderLayout.CENTER);		
 		contentPanel.add(calendarPanel, "alignx center, push, span");
 		
+		JPanel keyPanel = new JPanel(new MigLayout("height 200:200:200","", ""));
+		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JLabel keyLabel = new JLabel("Key:");
+				
+		JPanel otherIterations = new JPanel ();
+		otherIterations.add(new JLabel("Other Iterations"));
+		otherIterations.setBackground(Color.RED);
+		 		
+		JPanel endStartDatePanel = new JPanel();
+		endStartDatePanel.add(new JLabel("Start/End Days"));
+		endStartDatePanel.setBackground(Color.MAGENTA);
+				
+		JPanel thisIteration = new JPanel();
+		thisIteration.add(new JLabel("This Iteration"));
+		thisIteration.setBackground(Color.GREEN);
+				
+		keyPanel.add(keyLabel, "alignx center, push, span, wrap");
+		keyPanel.add(thisIteration, "alignx left, push, span, wrap");
+		keyPanel.add(otherIterations, "alignx left, push, span, wrap");
+		keyPanel.add(endStartDatePanel, "alignx left, push, span, wrap");
+		JPanel keyWrapper = new JPanel();
+		keyWrapper.add(keyPanel);
+		contentPanel.add(keyWrapper, "east");
+
 		this.setViewportView(contentPanel);	
 	}
 	

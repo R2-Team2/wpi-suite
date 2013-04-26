@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
  * 
@@ -45,6 +47,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	private JTable requirementTable;
 	private DefaultTableModel tableModel;
 	private IterationPanel parentPanel;
+	private ViewMode viewMode;
 	
 	private Iteration activeIteration;
 	
@@ -54,10 +57,11 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	 * Constructor for IterationRequirements.
 	 * @param displayIteration Iteration
 	 */
-	public IterationRequirements(IterationPanel parent, Iteration displayIteration) {
+	public IterationRequirements(IterationPanel parent, ViewMode vm,  Iteration displayIteration) {
 	
 		activeIteration = displayIteration;
 		parentPanel = parent;
+		viewMode = vm;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -96,6 +100,9 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		
 		requirementTable = buildTable();
 		scroll.setViewportView(requirementTable);
+		
+		removeButton.setEnabled(vm == ViewMode.EDITING);
+		reqSelector.enableChildren(vm == ViewMode.EDITING);
 		
 		this.refreshTable();
 	}
@@ -170,6 +177,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	
 	private void refreshTable()
 	{
+		if(viewMode == ViewMode.CREATING) return; 
 		tableModel.setRowCount(0); //clear the table
 
 		List<Requirement> requirements = activeIteration.getRequirements();
@@ -207,5 +215,18 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		ViewEventController.getInstance().refreshTree();
 		ViewEventController.getInstance().refreshTable();
 		parentPanel.refreshEstimate();
+	}
+	
+	/**
+	* Overrides the paintComponent method to retrieve the requirements on the first painting.
+	* 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		refreshTable();
+		reqSelector.refreshList();
+		super.paintComponent(g);
 	}
 }

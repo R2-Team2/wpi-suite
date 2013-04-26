@@ -10,9 +10,9 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,8 +20,6 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -38,7 +36,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ErrorPanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
@@ -191,7 +188,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		calPanel = new IterationCalendarPanel(this, vm, displayIteration);
 		tabs.addTab("Iteration Calendar", calPanel);
 		
-		requirements = new IterationRequirements(this, displayIteration);
+		requirements = new IterationRequirements(this, vm, displayIteration);
 		tabs.addTab("Requirements", requirements);
 
 	
@@ -268,6 +265,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	{
 		validateFields();
 		checkForChanges();
+		if(vm == ViewMode.EDITING) refreshEstimate();
 	}
 	
 	/**
@@ -405,5 +403,17 @@ public class IterationPanel extends JPanel implements KeyListener{
 		return readyToRemove;
 	}
 	
+	/**
+	* Overrides the paintComponent method to retrieve the requirements on the first painting.
+	* 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		refreshPanel();
+		super.paintComponent(g);
+	}
+		
 	
 }
