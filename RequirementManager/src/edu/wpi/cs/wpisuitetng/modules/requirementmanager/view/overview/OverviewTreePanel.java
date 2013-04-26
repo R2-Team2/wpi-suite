@@ -9,23 +9,22 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.DropMode;
-import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.TransferHandler;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -52,7 +51,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
  
-        //tree.addMouseListener(this);
+
         
         this.setViewportView(tree);
         // added by raph start
@@ -130,6 +129,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
 		if (e.getClickCount() == 2)
 		{
 			Object[] path = tree.getPathForLocation(e.getX(), e.getY()).getPath();
@@ -140,7 +141,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 				ViewEventController.getInstance().editRequirement(req);
 			}
 		}
-	}
+
+		    if (SwingUtilities.isRightMouseButton(e)) {
+
+		        int row = tree.getClosestRowForLocation(e.getX(), e.getY());
+		        tree.setSelectionRow(row);
+		        String label = "popup: ";
+		        JPopupMenu popup = new JPopupMenu();
+				popup.add(new JMenuItem(label));
+				popup.show(tree, x, y);
+		    }
+		}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -165,7 +176,31 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+//    MouseAdapter ma = new MouseAdapter() {
+//		private void myPopupEvent(MouseEvent e) {
+//			int x = e.getX();
+//			int y = e.getY();
+//			JTree tree = (JTree)e.getSource();
+//			TreePath path = tree.getPathForLocation(x, y);
+//			if (path == null)
+//				return;	
+//
+//			tree.setSelectionPath(path);
+//
+//			My_Obj obj = (My_Obj)path.getLastPathComponent();
+//
+//			String label = "popup: " + obj.getTreeLabel();
+//			JPopupMenu popup = new JPopupMenu();
+//			popup.add(new JMenuItem(label));
+//			popup.show(tree, x, y);
+//		}
+//		public void mousePressed(MouseEvent e) {
+//			if (e.isPopupTrigger()) myPopupEvent(e);
+//		}
+//		public void mouseReleased(MouseEvent e) {
+//			if (e.isPopupTrigger()) myPopupEvent(e);
+//		}
+//	};
 	/**
 	 * @return the tree
 	 */
