@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -44,7 +45,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
 /**
  *
  * @version $Revision: 1.0 $
- * @author justinhess
  */
 public class IterationPanel extends JPanel implements KeyListener{
 	private final String START_AFTER_END_ERROR = "Start date cannot be after end date.";
@@ -191,7 +191,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		calPanel = new IterationCalendarPanel(this, vm, displayIteration);
 		tabs.addTab("Iteration Calendar", calPanel);
 		
-		requirements = new IterationRequirements(this, displayIteration);
+		requirements = new IterationRequirements(this, vm, displayIteration);
 		tabs.addTab("Requirements", requirements);
 
 	
@@ -268,6 +268,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	{
 		validateFields();
 		checkForChanges();
+		if(vm == ViewMode.EDITING) refreshEstimate();
 	}
 	
 	/**
@@ -315,7 +316,6 @@ public class IterationPanel extends JPanel implements KeyListener{
 	
 	/**
 	 * Checks whether anything changed and updates buttons as needed.
-	 * @return boolean
 	 */
 	private boolean checkForChanges()
 	{
@@ -345,31 +345,16 @@ public class IterationPanel extends JPanel implements KeyListener{
 		return anythingChanged;
 	}
 
-	/**
-	 * Method keyTyped.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
-	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		refreshPanel();
 	}
 
-	/**
-	 * Method keyPressed.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
-	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		refreshPanel();
 	}
 
-	/**
-	 * Method keyReleased.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
-	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		refreshPanel();
@@ -377,8 +362,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 
 	/**
 	 * 
-	
-	 * @return the display iteration */
+	 * @return the display iteration
+	 */
 	public Iteration getDisplayIteration() {
 		return displayIteration;
 	}
@@ -403,6 +388,18 @@ public class IterationPanel extends JPanel implements KeyListener{
 		}
 		
 		return readyToRemove;
+	}
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 * 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		refreshPanel();
+		super.paintComponent(g);
 	}
 	
 	
