@@ -68,22 +68,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 			List<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
 
 			//check to see if there are any requirements for the iteration
-			if(requirements != null){
-				//if so make a node for each one and add it to the iteration's node
-				for(int j=0; j<requirements.size(); j++){
-					DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
-					List<Requirement> children = requirements.get(j).getChildren();
-
-					//check to see if there are children for this requirement
-					if(children != null){
-						//if so make a node for each child
-						for(int k=0; k<children.size(); k++){
-							DefaultMutableTreeNode newChildNode = new DefaultMutableTreeNode(children.get(k));
-							newReqNode.add(newChildNode);
-						}
-							newIterNode.add(newReqNode);
-					}
-				}
+			if(requirements.size() > 0){
+				addRequirementsToTree(requirements, newIterNode);
 			}
 
 			top.add(newIterNode); //add the iteration's node to the top node
@@ -103,6 +89,19 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
         System.out.println("finished refreshing the tree");
 	}
 	
+	private void addRequirementsToTree(List<Requirement> requirements, DefaultMutableTreeNode parentNode) {
+		
+		for (int j = 0; j < requirements.size(); j++) {
+			DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
+			List<Requirement> children = requirements.get(j).getChildren();
+			if(children.size() > 0)
+			{
+				addRequirementsToTree(children, newReqNode);
+			}
+			parentNode.add(newReqNode);
+		}
+	}
+
 	/**
 	 * Method mouseClicked.
 	 * @param e MouseEvent
@@ -115,15 +114,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		
 		if (e.getClickCount() == 2)
 		{
-			
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-			if(node.getUserObject() instanceof Iteration)
+			if(node != null)
 			{
-				ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
-			}
-			if(node.getUserObject() instanceof Requirement)
-			{
-				ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
+				if(node.getUserObject() instanceof Iteration)
+				{
+					ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
+				}
+				if(node.getUserObject() instanceof Requirement)
+				{
+					ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
+				}
 			}
 		}
 /*
@@ -185,9 +186,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	public void valueChanged(TreeSelectionEvent e) {
 		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-		if(node.getUserObject() instanceof Iteration)
+		if(node != null)
 		{
-			ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
-		}		
+			if(node.getUserObject() instanceof Iteration)
+			{	
+				ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
+			}	
+		}
 	}
 }
