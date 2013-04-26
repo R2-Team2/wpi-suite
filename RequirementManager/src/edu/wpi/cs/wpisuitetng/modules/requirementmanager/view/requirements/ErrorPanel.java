@@ -71,5 +71,6 @@ public class ErrorPanel extends JLabel {
 	 */
 	public void removeError(String msg) {
 		this.errorList.remove(msg);
+		refreshErrors();
 	}
 }
