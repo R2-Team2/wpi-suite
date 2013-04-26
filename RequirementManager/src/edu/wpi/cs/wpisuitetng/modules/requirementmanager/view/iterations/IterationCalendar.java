@@ -154,6 +154,12 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	
 	public void highlightIteration(Iteration it)
 	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.getFirstDisplayedDay());
+		Date firstSeen = cal.getTime();
+		cal.add(Calendar.DAY_OF_YEAR, 364);
+		Date lastSeen = cal.getTime();
+		
 		if(it == IterationModel.getInstance().getBacklog())
 		{
 			startDate = null;
@@ -164,6 +170,12 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		{
 			this.startDate = it.getStart().getDate();
 			this.endDate = it.getEnd().getDate();
+			
+			if(startDate.after(lastSeen) || startDate.before(firstSeen))
+			{
+				this.setFirstDisplayedDay(startDate);
+			}
+			
 			setSelectionInterval(startDate, endDate);
 		}
 	}
