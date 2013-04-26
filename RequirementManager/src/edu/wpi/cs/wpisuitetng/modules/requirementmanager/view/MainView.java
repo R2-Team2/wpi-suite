@@ -34,6 +34,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
 
 /**
@@ -51,6 +52,7 @@ public class MainView extends JTabbedPane {
 	private Point currentMouseLocation = null;
 	private int draggedTabIndex = 0;
 	private OverviewPanel overview = new OverviewPanel();
+	private IterationOverviewPanel iterationOverview = new IterationOverviewPanel();
 	private Component lastTab = null;
 
 
@@ -59,7 +61,8 @@ public class MainView extends JTabbedPane {
 	 */
 	public MainView() {
 		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		this.addTab("Overview", overview);
+		this.addTab("Requirement Overview", overview);
+		this.addTab("Iteration Overview", iterationOverview);
 
 		JMenuItem closeAll = new JMenuItem("Close All Tabs");
 		closeAll.addActionListener(new ActionListener()

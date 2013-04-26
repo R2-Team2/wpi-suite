@@ -1,12 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Team Rolling Thunder
- ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
@@ -25,12 +16,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
-/**
- */
-public class IterationCalendarPanel extends JScrollPane {
-	
-	private ViewMode viewMode;
-	
+public class IterationOverviewPanel extends JPanel {	
 	private IterationCalendar calendarView;
 	
 	private JButton nextYear;
@@ -40,14 +26,12 @@ public class IterationCalendarPanel extends JScrollPane {
 	private JButton today;
 	
 	/**
-	 * Constructor for IterationCalendarPanel.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
+	 * Constructor for IterationOverviewPanel.
 	 */
-	public IterationCalendarPanel(IterationPanel parent, ViewMode vm, Iteration displayIteration)
+	public IterationOverviewPanel()
 	{
-		this.viewMode = vm;
+		this.setLayout(new BorderLayout());
+		JScrollPane scrollPane = new JScrollPane();
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
@@ -79,37 +63,14 @@ public class IterationCalendarPanel extends JScrollPane {
 		contentPanel.add(buttonPanel, "alignx center, dock north");
 		 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new IterationCalendar(parent, viewMode, displayIteration);
+		calendarView = new IterationCalendar();
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 				
 		calendarPanel.add(calendarView, BorderLayout.CENTER);		
 		contentPanel.add(calendarPanel, "alignx center, push, span");
 		
-		JPanel keyPanel = new JPanel(new MigLayout("height 200:200:200","", ""));
-		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		JLabel keyLabel = new JLabel("Key:");
-				
-		JPanel otherIterations = new JPanel ();
-		otherIterations.add(new JLabel("Other Iterations"));
-		otherIterations.setBackground(Color.RED);
-		 		
-		JPanel endStartDatePanel = new JPanel();
-		endStartDatePanel.add(new JLabel("Start/End Days"));
-		endStartDatePanel.setBackground(new Color(46, 79, 179));
-				
-		JPanel thisIteration = new JPanel();
-		thisIteration.add(new JLabel("This Iteration"));
-		thisIteration.setBackground(new Color(95,242,90));
-				
-		keyPanel.add(keyLabel, "alignx center, push, span, wrap");
-		keyPanel.add(thisIteration, "alignx left, push, span, wrap");
-		keyPanel.add(otherIterations, "alignx left, push, span, wrap");
-		keyPanel.add(endStartDatePanel, "alignx left, push, span, wrap");
-		JPanel keyWrapper = new JPanel();
-		keyWrapper.add(keyPanel);
-		calendarPanel.add(keyWrapper, BorderLayout.EAST);
-
-		this.setViewportView(contentPanel);	
+		scrollPane.setViewportView(contentPanel);
+		this.add(scrollPane, BorderLayout.CENTER);
 	}
 	
 	/**
