@@ -13,13 +13,12 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
 import java.util.List;
 
 import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.TransferHandler;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
@@ -52,11 +51,10 @@ public class OverviewTable extends JTable
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 		this.setDefaultEditor(Object.class, new OverviewTableEstimateCellEditor(new JTextField()));
-		 // added by raph start
-        this.setDragEnabled(true);
-        this.setDropMode(DropMode.ON_OR_INSERT);
-        this.setTransferHandler(new TransferHandler(getName()));
-        // end
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setDragEnabled(true);
+        this.setDropMode(DropMode.ON);
+        this.setTransferHandler(new OverviewTableTransferHandler(this));
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);

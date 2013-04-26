@@ -188,13 +188,15 @@ public class MainView extends JTabbedPane {
 				
 				if(MainView.this.getSelectedComponent() == overview)
 				{
-					overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+					overview.setLeftComponent(ViewEventController.getInstance().getOverviewTree());
+					overview.setDividerLocation(180);
 					overview.revalidate();
 					overview.repaint();
 				}
 				else if(MainView.this.getSelectedComponent() == iterationOverview)
 				{
-					iterationOverview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+					iterationOverview.setLeftComponent(ViewEventController.getInstance().getOverviewTree());
+					iterationOverview.setDividerLocation(180);
 					iterationOverview.revalidate();
 					iterationOverview.repaint();
 				}

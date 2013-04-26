@@ -9,27 +9,20 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import javax.swing.JSplitPane;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class OverviewPanel extends JPanel {
+public class OverviewPanel extends JSplitPane {
 	
 	/**
 	 * Sets up directory table of requirements in system
 	 */
 	public OverviewPanel()
 	{
-		this.setLayout(new BorderLayout());
-
 		OverviewTreePanel filterPanel = new OverviewTreePanel();
 		
 		String[] columnNames = {"ID", "Name", "Release #", "Iteration", "Type", "Status", "Priority", "Estimate"};
@@ -61,7 +54,8 @@ public class OverviewPanel extends JPanel {
 		table.getColumnModel().getColumn(7).setMinWidth(75); // Estimate
 		table.getColumnModel().getColumn(7).setMaxWidth(75); // Estimate
 		
-		this.add(tablePanel, BorderLayout.CENTER);
-		this.add(filterPanel, BorderLayout.WEST);
+		this.setLeftComponent(filterPanel);
+		this.setRightComponent(tablePanel);
+		this.setDividerLocation(180);
 	}
 }

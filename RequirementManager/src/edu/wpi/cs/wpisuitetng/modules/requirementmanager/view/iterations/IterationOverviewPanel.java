@@ -11,14 +11,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-import net.miginfocom.swing.MigLayout;
-
-public class IterationOverviewPanel extends JPanel {	
+public class IterationOverviewPanel extends JSplitPane {	
 	private IterationCalendar calendarView;
 	
 	private JButton nextYear;
@@ -34,7 +34,6 @@ public class IterationOverviewPanel extends JPanel {
 	 */
 	public IterationOverviewPanel()
 	{
-		this.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane();
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
@@ -104,7 +103,8 @@ public class IterationOverviewPanel extends JPanel {
 		contentPanel.add(calendarPanel, "alignx center, push, span");
 		
 		scrollPane.setViewportView(contentPanel);
-		this.add(scrollPane, BorderLayout.CENTER);
+		this.setRightComponent(scrollPane);
+		this.setDividerLocation(180);
 		ViewEventController.getInstance().setIterationOverview(this);
 	}
 	
