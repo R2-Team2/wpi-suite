@@ -2,21 +2,19 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
+
+import net.miginfocom.swing.MigLayout;
 
 public class IterationOverviewPanel extends JPanel {	
 	private IterationCalendar calendarView;
@@ -73,6 +71,7 @@ public class IterationOverviewPanel extends JPanel {
 		
 		scrollPane.setViewportView(contentPanel);
 		this.add(scrollPane, BorderLayout.CENTER);
+		ViewEventController.getInstance().setIterationOverview(this);
 	}
 	
 	/**
@@ -174,5 +173,9 @@ public class IterationOverviewPanel extends JPanel {
 	public IterationCalendar getIterationCalendar()
 	{
 		return this.calendarView;
+	}
+
+	public void highlight(Iteration iter) {
+		calendarView.setSelectionInterval(iter.getStart().getDate(), iter.getEnd().getDate());
 	}
 }

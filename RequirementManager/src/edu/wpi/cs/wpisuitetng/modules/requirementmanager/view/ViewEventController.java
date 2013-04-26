@@ -44,6 +44,7 @@ public class ViewEventController {
 	private OverviewTreePanel overviewTree = null;
 	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
 	private ArrayList<IterationPanel> listOfIterationPanels = new ArrayList<IterationPanel>();
+	private IterationOverviewPanel iterationOverview;
 	
 	/**
 	 * Sets the OverviewTable for the controller
@@ -443,6 +444,23 @@ public class ViewEventController {
 	}
 
 	/**
+	 * Gets the iteration overview
+	 */
+	public IterationOverviewPanel getIterationOverview()
+	{
+		return iterationOverview;
+	}
+	
+	/**
+	 * Sets the iteration overview
+	 * @param iOverview iterationoverview
+	 */
+	public void setIterationOverview(IterationOverviewPanel iOverview)
+	{
+		iterationOverview = iOverview;
+	}
+	
+	/**
 	 * Method getOverviewTree.
 	
 	 * @return OverviewTreePanel */
@@ -463,9 +481,12 @@ public class ViewEventController {
 	}
 	
 	public void editSelectedIteration() {
-		String name = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject()).getName();
-		Iteration iter = IterationModel.getInstance().getIteration(name);
+		DefaultMutableTreeNode selected = (DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent();
+		if(selected.getUserObject() instanceof Iteration)
+		{
+			Iteration iter = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject());
 		
-		ViewEventController.getInstance().editIteration(iter);
+			ViewEventController.getInstance().editIteration(iter);
+		}
 	}
 }
