@@ -22,8 +22,8 @@ public class MainViewTest {
 	private ViewEventController vec;
 	/**
 	
-	 * @throws Exception
-	 * @throws java.lang.Exception */
+	
+	 * @throws Exception * @throws java.lang.Exception */
 	@Before
 	public void setUp() throws Exception {
 		

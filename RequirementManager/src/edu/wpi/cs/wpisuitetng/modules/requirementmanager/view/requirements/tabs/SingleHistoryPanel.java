@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 /**
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class SingleHistoryPanel extends JPanel {
 

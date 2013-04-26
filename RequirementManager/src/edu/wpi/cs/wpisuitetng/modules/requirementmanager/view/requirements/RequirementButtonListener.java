@@ -11,6 +11,8 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public interface RequirementButtonListener {
 	/**

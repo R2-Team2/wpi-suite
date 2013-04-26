@@ -21,6 +21,8 @@ import javax.swing.border.EtchedBorder;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementButtonsPanel extends JPanel{
 	
@@ -69,16 +71,16 @@ public class RequirementButtonsPanel extends JPanel{
 	}
 	/**
 	 * Method getCreateButton.
-	 * @return JButton
-	 */
+	
+	 * @return JButton */
 	public JButton getCreateButton() {
 		return createButton;
 	}
 
 	/**
 	 * Method getCreateIterationButton.
-	 * @return JButton
-	 */
+	
+	 * @return JButton */
 	public JButton getCreateIterationButton() {
 		return createIterationButton;
 	}

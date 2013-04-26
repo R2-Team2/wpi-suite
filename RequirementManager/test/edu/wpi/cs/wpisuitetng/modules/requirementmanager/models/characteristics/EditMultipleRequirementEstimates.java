@@ -29,6 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class EditMultipleRequirementEstimates {
 

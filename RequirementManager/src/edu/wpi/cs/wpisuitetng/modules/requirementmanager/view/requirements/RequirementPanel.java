@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
 
 /**
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener
 {

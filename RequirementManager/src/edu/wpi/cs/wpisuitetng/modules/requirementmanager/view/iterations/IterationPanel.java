@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
 /**
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class IterationPanel extends JPanel implements KeyListener{
 	private final String START_AFTER_END_ERROR = "Start date cannot be after end date.";
@@ -314,6 +315,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	
 	/**
 	 * Checks whether anything changed and updates buttons as needed.
+	 * @return boolean
 	 */
 	private boolean checkForChanges()
 	{
@@ -343,16 +345,31 @@ public class IterationPanel extends JPanel implements KeyListener{
 		return anythingChanged;
 	}
 
+	/**
+	 * Method keyTyped.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		refreshPanel();
 	}
 
+	/**
+	 * Method keyPressed.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		refreshPanel();
 	}
 
+	/**
+	 * Method keyReleased.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		refreshPanel();
@@ -360,8 +377,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 
 	/**
 	 * 
-	 * @return the display iteration
-	 */
+	
+	 * @return the display iteration */
 	public Iteration getDisplayIteration() {
 		return displayIteration;
 	}

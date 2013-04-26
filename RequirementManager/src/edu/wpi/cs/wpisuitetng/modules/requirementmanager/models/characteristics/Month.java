@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * Defines the month to be used for an Iteration
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public enum Month {
 	/**
@@ -44,8 +45,8 @@ public enum Month {
 	
 	/**
 	 * Method toString.
-	 * @return String
-	 */
+	
+	 * @return String */
 	public String toString()
 	{
 		return name;

@@ -21,6 +21,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 
 /**
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationTransferHandler extends TransferHandler{
 
@@ -28,6 +30,11 @@ public class IterationTransferHandler extends TransferHandler{
 		super();		
 	}		
 
+	/**
+	 * Method canImport.
+	 * @param info TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	public boolean canImport(TransferHandler.TransferSupport info) {
 		if(!info.isDrop()) {
 			return false;
@@ -48,10 +55,20 @@ public class IterationTransferHandler extends TransferHandler{
 		return false;
 	}
 
+	/**
+	 * Method getSourceActions.
+	 * @param c JComponent
+	 * @return int
+	 */
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY;
 	}
 
+	/**
+	 * Method importData.
+	 * @param info TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	public boolean importData(TransferHandler.TransferSupport info) {
 
 		// TODO: checking to see if the requirement has estimate>0 should be done upon drag/export attempt

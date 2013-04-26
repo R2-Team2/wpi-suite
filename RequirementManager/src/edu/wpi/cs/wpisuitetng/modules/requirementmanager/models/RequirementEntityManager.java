@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * RequirementManager module.
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class RequirementEntityManager implements EntityManager<Requirement> {
 
@@ -65,9 +66,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * @param s the session
 	 * @param id the id number of the requirement to retrieve
 	
-	 * @return the requirement matching the given id * @throws NotFoundException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(Session, String)
-	 */
+	
+	
+	 * @return the requirement matching the given id * @throws NotFoundException * @throws NotFoundException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(Session, String) */
 	@Override
 	public Requirement[] getEntity(Session s, String id) throws NotFoundException {
 		final int intId = Integer.parseInt(id);
@@ -90,7 +92,8 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * Retrieves all requirements from the database
 	 * @param s the session
 	
-	 * @return array of all stored requirements * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
+	
+	 * @return array of all stored requirements * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
 	public Requirement[] getAll(Session s) {
@@ -125,9 +128,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * @param s the session
 	 * @param id the id of the requirement to delete
 	
-	 * @return true if the deletion was successful * @throws WPISuiteException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
-	 */
+	
+	
+	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
@@ -137,9 +141,9 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	/**
 	 * Deletes all requirements from the database
 	 * @param s the session
-	 * @throws WPISuiteException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
-	 */
+	
+	
+	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
@@ -149,9 +153,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	/**
 	 * Returns the number of requirements in the database
 	
-	 * @return number of requirements stored * @throws WPISuiteException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
-	 */
+	
+	
+	 * @return number of requirements stored * @throws WPISuiteException * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
 	public int Count() throws WPISuiteException {
 		return db.retrieveAll(new Requirement()).size();
@@ -161,10 +166,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * Method update.
 	 * @param session Session
 	 * @param content String
-	 * @return Requirement
-	 * @throws WPISuiteException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String)
-	 */
+	
+	
+	
+	 * @return Requirement * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String) */
 	@Override
 	public Requirement update(Session session, String content) throws WPISuiteException {
 		
@@ -195,10 +200,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * Method advancedGet.
 	 * @param arg0 Session
 	 * @param arg1 String[]
-	 * @return String
-	 * @throws NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[])
-	 */
+	
+	
+	
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[]) */
 	@Override
 	public String advancedGet(Session arg0, String[] arg1) throws NotImplementedException {
 		throw new NotImplementedException();
@@ -209,10 +214,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * @param arg0 Session
 	 * @param arg1 String
 	 * @param arg2 String
-	 * @return String
-	 * @throws NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
-	 */
+	
+	
+	
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String) */
 	@Override
 	public String advancedPost(Session arg0, String arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();
@@ -223,10 +228,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * @param arg0 Session
 	 * @param arg1 String[]
 	 * @param arg2 String
-	 * @return String
-	 * @throws NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
-	 */
+	
+	
+	
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String) */
 	@Override
 	public String advancedPut(Session arg0, String[] arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();

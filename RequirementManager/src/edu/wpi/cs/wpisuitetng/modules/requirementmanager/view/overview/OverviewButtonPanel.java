@@ -22,6 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Rotator;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewButtonPanel extends JPanel{
 

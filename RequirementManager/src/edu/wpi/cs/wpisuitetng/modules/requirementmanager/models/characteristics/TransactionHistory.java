@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 /**
  * History of transactions for a requirement
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 
 public class TransactionHistory {
