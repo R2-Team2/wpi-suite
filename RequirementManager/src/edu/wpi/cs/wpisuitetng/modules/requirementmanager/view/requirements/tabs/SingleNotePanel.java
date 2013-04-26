@@ -32,8 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 
 /**
  * Class to display a note inside the EditRequirementPanel
- * @author Brian Froehlich
  *
+ * @version $Revision: 1.0 $
  */
 public class SingleNotePanel extends JPanel {
 	
@@ -85,8 +85,8 @@ public class SingleNotePanel extends JPanel {
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
 	 * @param list List of note used to create panel
-	 * @return Panel containing all of the notes given to the method
-	 */
+	
+	 * @return Panel containing all of the notes given to the method */
 	public static JPanel createList(NoteList list)
 	{
 		// Create a panel to hold all of the notes

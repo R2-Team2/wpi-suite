@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This is the entity manager for the Iteration in the
  * IterationManager module.
  *
+ * @version $Revision: 1.0 $
  */
 public class IterationEntityManager implements EntityManager<Iteration> {
 
@@ -48,11 +49,12 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	/**
 	 * Saves a Iteration when it is received from a client
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
+	
 	 * @param s the session
 	 * @param content an iteration that has been converted to Json
-	 * @return the iteration passed into the method converted from Json to an iteration
-	 */
+	
+	 * @return the iteration passed into the method converted from Json to an iteration * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String) */
 	@Override
 	public Iteration makeEntity(Session s, String content) throws WPISuiteException {
 		final Iteration newIteration = Iteration.fromJson(content);
@@ -66,7 +68,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * Retrieves a single Iteration from the database
 	 * @param s the session
 	 * @param id the id number of the Iteration to retrieve
-	 * @return the Iteration matching the given id
+	
+	 * @return the Iteration matching the given id * @throws NotFoundException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(Session, String)
 	 */
 	@Override
 	public Iteration[] getEntity(Session s, String id) throws NotFoundException {
@@ -89,7 +93,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	/**
 	 * Retrieves all Iterations from the database
 	 * @param s the session
-	 * @return array of all stored Iterations
+	
+	 * @return array of all stored Iterations * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
 	public Iteration[] getAll(Session s) {
@@ -110,8 +115,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * Ensures that a user is of the specified role
 	 * @param session the session
 	 * @param role the role being verified
-	 * @throws WPISuiteException user isn't authorized for the given role
-	 */
+	
+	 * @throws WPISuiteException user isn't authorized for the given role */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User[] userArray = new User[2];
 		User user = db.retrieve(User.class, "username", session.getUsername()).toArray(userArray)[0];
@@ -124,7 +129,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * Deletes a Iteration from the database
 	 * @param s the session
 	 * @param id the id of the Iteration to delete
-	 * @return true if the deletion was successful
+	
+	 * @return true if the deletion was successful * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
 	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
@@ -135,6 +142,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	/**
 	 * Deletes all Iterations from the database
 	 * @param s the session
+	 * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
@@ -144,7 +153,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	/**
 	 * Returns the number of Iterations in the database
-	 * @return number of Iterations stored
+	
+	 * @return number of Iterations stored * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
@@ -155,7 +166,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * Updates the given iteration in the database
 	 * @param session the session the iteration to be updated is in
 	 * @param content the updated iteration as a Json string
-	 * @return the old iteration prior to updating
+	
+	 * @return the old iteration prior to updating * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String)
 	 */
 	@Override
 	public Iteration update(Session session, String content) throws WPISuiteException {
@@ -183,16 +196,42 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 		return existingIteration;
 	}
 
+	/**
+	 * Method advancedGet.
+	 * @param arg0 Session
+	 * @param arg1 String[]
+	 * @return String
+	 * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[])
+	 */
 	@Override
 	public String advancedGet(Session arg0, String[] arg1) throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
+	/**
+	 * Method advancedPost.
+	 * @param arg0 Session
+	 * @param arg1 String
+	 * @param arg2 String
+	 * @return String
+	 * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
+	 */
 	@Override
 	public String advancedPost(Session arg0, String arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
+	/**
+	 * Method advancedPut.
+	 * @param arg0 Session
+	 * @param arg1 String[]
+	 * @param arg2 String
+	 * @return String
+	 * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
+	 */
 	@Override
 	public String advancedPut(Session arg0, String[] arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();

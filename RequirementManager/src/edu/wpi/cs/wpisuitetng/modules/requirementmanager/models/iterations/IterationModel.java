@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,8 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 /**
  * List of Iterations being pulled from the server
  * 
- * @author Gabriel McCormick
  * 
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class IterationModel extends AbstractListModel {
@@ -49,8 +50,8 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * @return the instance of the Iteration model singleton.
-	 */
+	
+	 * @return the instance of the Iteration model singleton. */
 	public static IterationModel getInstance() {
 		if (instance == null) {
 			instance = new IterationModel();
@@ -61,7 +62,8 @@ public class IterationModel extends AbstractListModel {
 	
 	/**
 	 * Sets the backlog iteration for the iteration model
-	 * @param iteration to be used as the backlog
+	
+	 * @param iter Iteration
 	 */
 	public void setBacklog(Iteration iter)
 	{
@@ -71,8 +73,8 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Adds a single Iteration to the Iterations of the project
 	 * 
-	 * @param newReq The Iteration to be added to the list of Iterations in the
-	 *        project
+	
+	 * @param newIter Iteration
 	 */
 	public void addIteration(Iteration newIter) {
 		// add the Iteration
@@ -92,7 +94,8 @@ public class IterationModel extends AbstractListModel {
 	 * NewIterationPanel. Returns elements in reverse order, so the newest
 	 * Iteration is returned first.
 	 * 
-	 * @return the number of Iterations in the project
+	
+	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return listOfIterations.size();
@@ -103,9 +106,9 @@ public class IterationModel extends AbstractListModel {
 	 * Provides the next ID number that should be used for a new Iteration that
 	 * is created.
 	 * 
-	 * @return the next open id number
-	 */
-	private int getNextID() {
+	
+	 * @return the next open id number */
+	public int getNextID() {
 
 		return this.nextID++;
 	}
@@ -117,7 +120,8 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	 * @param index
 	 *            The index of the Iteration to be returned
-	 * @return the Iteration associated with the provided index
+	
+	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
@@ -162,13 +166,14 @@ public class IterationModel extends AbstractListModel {
 			addIteration(backlog);
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		ViewEventController.getInstance().refreshTree();
 	}
 
 	/**
 	 * Returns the list of the Iterations
 	 * 
-	 * @return the Iterations held within the Iterationmodel.
-	 */
+	
+	 * @return the Iterations held within the Iterationmodel. */
 	public List<Iteration> getIterations() {
 		return listOfIterations;
 	}
@@ -176,8 +181,8 @@ public class IterationModel extends AbstractListModel {
 	/**
 	 * Return the iteration with the specified name
 	 * @param forName name of the iteration
-	 * @return the iteration
-	 */
+	
+	 * @return the iteration */
 	public Iteration getIteration(String forName)
 	{
 		if(forName == null) return backlog;
@@ -187,10 +192,64 @@ public class IterationModel extends AbstractListModel {
 			if(iter.getName().equals(forName)) return iter;
 		}
 		
-		Iteration newIteration = new Iteration(getNextID(), forName);
-		
-		addIteration(newIteration);
+		return null;
+	}
 
-		return newIteration;
+	/**
+	 * Returns the iteration that conflicts with the given dates
+	 * @param start the begin date
+	 * @param end the end date
+	 * @return the conflicting iteration
+	 */
+	public Iteration getConflictingIteration(Date start, Date end) {
+		Iteration isValid = null;
+		
+		for(Iteration iter : listOfIterations)
+		{
+			if(iter == backlog) continue;
+			boolean startGreaterOrEqual = (start.after(iter.getEnd().getDate()) || start.equals(iter.getEnd().getDate()));
+			boolean endLessThanOrEqual = (end.before(iter.getStart().getDate()) || end.equals(iter.getStart().getDate()));
+			
+			if(!(startGreaterOrEqual || endLessThanOrEqual))
+			{
+				isValid = iter;
+			}
+		}
+		
+		return isValid;
+	}
+
+	/**
+	 * Returns the iterations that the given date falls in.
+	 * A date can fall within 2 iterations if it is the end of one
+	 * iteration and the start of another iteration.
+	 * @param date the date to check for
+	 * @return the iterations
+	 */
+	public List<Iteration> getIterationForDate(Date date) {
+		List<Iteration> iter = new ArrayList<Iteration>();
+		
+		for(Iteration it : listOfIterations)
+		{
+			if(it == backlog) continue;
+			
+			boolean startValid = it.getStart().getDate().before(date) || it.getStart().getDate().equals(date);
+			boolean endValid = it.getEnd().getDate().after(date) || it.getEnd().getDate().equals(date);
+
+			if(startValid && endValid)
+			{
+				iter.add(it);
+			}
+		}
+		
+		return iter;
+	}
+	
+	/**
+	 * Returns the backlog iteration
+	 * @return backlog iteration
+	 */
+	public Iteration getBacklog() {
+		return backlog;
 	}
 }

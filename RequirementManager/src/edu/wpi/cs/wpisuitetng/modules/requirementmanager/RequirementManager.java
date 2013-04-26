@@ -21,6 +21,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 
+/**
+ */
 public class RequirementManager implements IJanewayModule {
 
 	private List<JanewayTabModel> tabs;
@@ -48,6 +50,8 @@ public class RequirementManager implements IJanewayModule {
 	
 	/**
 	 * Returns the name of the Requirement manager tab.
+	 * @return String
+	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
 	 */
 	@Override
 	public String getName() {
@@ -56,6 +60,8 @@ public class RequirementManager implements IJanewayModule {
 
 	/**
 	 * Returns the tabs that make up the requirement manager.
+	 * @return List<JanewayTabModel>
+	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
 	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {

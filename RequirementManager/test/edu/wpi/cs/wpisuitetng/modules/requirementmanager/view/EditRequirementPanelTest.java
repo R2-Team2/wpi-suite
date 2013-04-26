@@ -26,8 +26,14 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
+/**
+ */
 public class EditRequirementPanelTest {
 
+	/**
+	 * Method setUp.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		// Mock network

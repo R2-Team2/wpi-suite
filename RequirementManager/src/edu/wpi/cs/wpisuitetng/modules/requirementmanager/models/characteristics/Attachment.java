@@ -11,10 +11,14 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * An attachment to a requirement
- * @author Gabriel McCormick
+ * @version $Revision: 1.0 $
  */
 public class Attachment {
 
+	/**
+	 * Method getId.
+	 * @return int
+	 */
 	public int getId() {
 		// TODO Auto-generated method stub
 		return 0;

@@ -23,6 +23,9 @@
         <fileset dir="../Janeway/lib">
 			<include name="miglayout-4.0-swing.jar"/>
 		</fileset>
+		<fileset dir="../Janeway/lib">
+			<include name="swingx-all-1.6.4.jar"/>
+		</fileset>
 		<pathelement path="build" />
 	</path>
 	<path id="test-classpath">

@@ -24,8 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
 /**
  * Sets up upper toolbar of RequirementManager tab
  * 
- * @author Arianna
  *
+ * @version $Revision: 1.0 $
  */
 public class ToolbarView extends JPanel {
 
@@ -35,6 +35,7 @@ public class ToolbarView extends JPanel {
 	
 	/**
 	 * Creates and positions option buttons in upper toolbar
+	 * @param visible boolean
 	 */
 	public ToolbarView(boolean visible) {
 
@@ -51,14 +52,26 @@ public class ToolbarView extends JPanel {
 
 	}
 	
+	/**
+	 * Method getEditButton.
+	 * @return EditButtonsPanel
+	 */
 	public EditButtonsPanel getEditButton(){
 		return editButton;
 	}
 	
+	/**
+	 * Method getChartButton.
+	 * @return ChartButtonsPanel
+	 */
 	public ChartButtonsPanel getChartButton() {
 		return chartButton;
 	}
 
+	/**
+	 * Method getReqButton.
+	 * @return RequirementButtonsPanel
+	 */
 	public RequirementButtonsPanel getReqButton() {
 		return reqButton;
 	}

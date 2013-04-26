@@ -24,15 +24,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.RequirementTabsPanel;
 
 /**
- * @author Pi 
- * @author Chris
- * @author Brian
+ * @version $Revision: 1.0 $
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener
 {
 	private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
 	private Requirement displayRequirement;
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	
 	private RequirementInformationPanel infoPanel;
 	private RequirementTabsPanel tabsPanel;
@@ -46,7 +44,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public RequirementPanel(Requirement editingRequirement)
 	{
-		viewMode = (RequirementViewMode.EDITING);
+		viewMode = (ViewMode.EDITING);
 		
 		displayRequirement = editingRequirement;
 		this.buildLayout();
@@ -58,7 +56,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public RequirementPanel(int parentID)
 	{
-		viewMode = (RequirementViewMode.CREATING);
+		viewMode = (ViewMode.CREATING);
 		
 		displayRequirement = new Requirement();
 		displayRequirement.setId(-2);
@@ -92,6 +90,10 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
+	/**
+	 * Method OKPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#OKPressed()
+	 */
 	@Override
 	public void OKPressed() {
 		if (infoPanel.validateFields(true)) {
@@ -101,12 +103,20 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		}		
 	}
 
+	/**
+	 * Method clearPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#clearPressed()
+	 */
 	@Override
 	public void clearPressed() 
 	{
 		infoPanel.clearInfo();
 	}
 
+	/**
+	 * Method cancelPressed.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#cancelPressed()
+	 */
 	@Override
 	public void cancelPressed() 
 	{
@@ -118,6 +128,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	/**
 	 * Deletes the requirement. Sets all fields uneditable, sets status to
 	 * deleted and closes the tab.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#deletePressed()
 	 */
 	public void deletePressed() 
 	{
@@ -183,7 +194,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public void displayError(String msg)
 	{
-		buttonPanel.displayError(msg);
+		buttonPanel.getErrorPanel().displayError(msg);
 	}
 	
 	/**
@@ -192,12 +203,12 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public void removeError(String msg)
 	{
-		buttonPanel.removeError(msg);
+		buttonPanel.getErrorPanel().removeError(msg);
 	}
 	
 	/**
-	 * @return whether the requirement panel as a whole is ready to be removed.
-	 */
+	
+	 * @return whether the requirement panel as a whole is ready to be removed. */
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
 		
@@ -220,31 +231,31 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	}
 	
 	/**
-	 * @return the requirement information panel.
-	 */
+	
+	 * @return the requirement information panel. */
 	public RequirementInformationPanel getInfoPanel()
 	{
 		return this.infoPanel;
 	}
 	
 	/**
-	 * @return the button panel
-	 */
+	
+	 * @return the button panel */
 	public RequirementButtonPanel getButtonPanel()
 	{
 		return this.buttonPanel;
 	}
 	
 	/**
-	 * @return the display requirement.
-	 */
+	
+	 * @return the display requirement. */
 	public Requirement getDisplayRequirement() {
 		return displayRequirement;
 	}
 
 	/**
-	 * @return the tabs panel
-	 */
+	
+	 * @return the tabs panel */
 	public RequirementTabsPanel getTabsPanel() {
 		return tabsPanel;
 	}

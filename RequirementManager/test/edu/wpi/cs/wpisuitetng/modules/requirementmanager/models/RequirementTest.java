@@ -39,11 +39,16 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * Tests the jSON conversion functions and all the getters and setters
  * 
  * @author Benjamin Senecal
+ * @version $Revision: 1.0 $
  */
 public class RequirementTest {
 
 	GetRequirementsController controller;
 
+	/**
+	 * Method setUp.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		Network.initNetwork(new MockNetwork());
@@ -88,7 +93,7 @@ public class RequirementTest {
 	/**
 	 * Test the setting methods in the Requirement class in the src package
 	 * 
-	 * @author: Benjamin Senecal
+	
 	 */
 	@Test
 	public void settingRequirementFieldsTest () {

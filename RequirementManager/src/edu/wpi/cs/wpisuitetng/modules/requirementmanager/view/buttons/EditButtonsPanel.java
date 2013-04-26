@@ -23,8 +23,8 @@ import javax.swing.border.EtchedBorder;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
- * @author Kevin
  *
+ * @version $Revision: 1.0 $
  */
 public class EditButtonsPanel extends JPanel{
 	
@@ -102,6 +102,10 @@ public class EditButtonsPanel extends JPanel{
 		this.add(createCancelButton);
 	}
 	
+	/**
+	 * Method getEditButton.
+	 * @return JButton
+	 */
 	public JButton getEditButton() {
 		return this.getEditButton();
 	}

@@ -43,8 +43,11 @@ import javax.swing.event.ListSelectionListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class RequirementSelector extends JScrollPane {
 	private final Dimension buttonDimensions = new Dimension(125, 25);
 	private JList<Requirement> requirementList;
@@ -54,7 +57,8 @@ public class RequirementSelector extends JScrollPane {
 	private RequirementSelectorMode mode;
 	private Requirement activeRequirement;
 	private RequirementSelectorListener listener;
-
+	private Object[] selectedList;
+	
 	/**
 	 * Constructor for the requirementselector
 	 * @param listener the listener to report to
@@ -67,9 +71,11 @@ public class RequirementSelector extends JScrollPane {
 		if(!showBorder) this.setBorder(null);
 		JPanel contentPanel = new JPanel();
 		this.buttonList = new ArrayList<JButton>();
-		this.listener = listener;
-		this.activeRequirement = requirement;
 		this.mode = mode;
+		this.listener = listener;
+		if (this.mode != RequirementSelectorMode.ITERATION) {
+			this.activeRequirement = requirement;
+		}
 		contentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JScrollPane listScroll = new JScrollPane();
@@ -81,7 +87,7 @@ public class RequirementSelector extends JScrollPane {
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 
 		String okText;
-		if (this.mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
+		if (this.mode != RequirementSelectorMode.POSSIBLE_PARENTS) {
 			okText = "Add Existing";
 		} else {
 			requirementList
@@ -184,6 +190,9 @@ public class RequirementSelector extends JScrollPane {
 			reqList = RequirementModel.getInstance().getPossibleParents(
 					activeRequirement);
 			break;
+		case ITERATION:
+			reqList = IterationModel.getInstance().getIteration("Backlog").getRequirementModel();
+			break;
 		}
 
 		requirementList.setModel(reqList);
@@ -193,8 +202,12 @@ public class RequirementSelector extends JScrollPane {
 	 * Performs actions when the ok button is pressed.
 	 */
 	private void okPressed() {
-		if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
-			Object[] selectedList = requirementList.getSelectedValues();
+		
+		if (mode == RequirementSelectorMode.ITERATION) {
+			selectedList = requirementList.getSelectedValues();
+		}
+		else if (mode == RequirementSelectorMode.POSSIBLE_CHILDREN) {
+			selectedList = requirementList.getSelectedValues();
 			for (Object obj : selectedList) {
 				Requirement newChild = (Requirement) obj;
 				try {
@@ -224,7 +237,7 @@ public class RequirementSelector extends JScrollPane {
 					activeRequirement);
 		}
 
-		listener.requirementSelected();
+		listener.requirementSelected(selectedList);
 		this.refreshList();
 	}
 

@@ -11,7 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 /**
  * Various status' that a Requirement can have 
- * @author david
+ * @version $Revision: 1.0 $
  */
 public enum RequirementStatus {
 	/**
@@ -37,11 +37,19 @@ public enum RequirementStatus {
 	
 	private final String name;
 	
+	/**
+	 * Constructor for RequirementStatus.
+	 * @param stat String
+	 */
 	private RequirementStatus(String stat)
 	{
 		name = stat;
 	}
 	
+	/**
+	 * Method toString.
+	 * @return String
+	 */
 	public String toString()
 	{
 		return name;

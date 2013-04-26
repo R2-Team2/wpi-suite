@@ -22,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller coordinates retrieving all of the Iterations
  * from the server.
  *
+ * @version $Revision: 1.0 $
  */
 public class GetIterationController implements ActionListener {
 
@@ -37,9 +38,9 @@ public class GetIterationController implements ActionListener {
 	}
 	
 	/**
+	
 	 * @return the instance of the GetIterationController or creates one if it does not
-	 * exist.
-	 */
+	 * exist. */
 	public static GetIterationController getInstance()
 	{
 		if(instance == null)
@@ -53,6 +54,8 @@ public class GetIterationController implements ActionListener {
 	/**
 	 * Sends an HTTP request to store a Iteration when the
 	 * update button is pressed
+	 * @param e ActionEvent
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

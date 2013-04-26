@@ -33,11 +33,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelector;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorMode;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementViewMode;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
+/**
+ */
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
-	private RequirementViewMode viewMode;
+	private ViewMode viewMode;
 	private Requirement activeRequirement;
 	private JTable subRequirementTable;
 	private JButton addNewButton;
@@ -51,14 +53,14 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	 * @param vm viewmode
 	 * @param requirementBeingEdited the current requirement being edited.
 	 */
-	public SubrequirementPanel(RequirementTabsPanel parentPanel, RequirementViewMode vm, Requirement requirementBeingEdited)
+	public SubrequirementPanel(RequirementTabsPanel parentPanel, ViewMode vm, Requirement requirementBeingEdited)
 	{
 		this.setLayout(new BorderLayout());
 		this.viewMode = vm;
 		this.activeRequirement = requirementBeingEdited;
 		existingReqSelector = new RequirementSelector(this, activeRequirement, RequirementSelectorMode.POSSIBLE_CHILDREN, false);
-		// Create new scroll pane for jtable
 		
+		// Create new scroll pane for jtable
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// Always show scroll bar
@@ -106,7 +108,7 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 		
 		this.refreshTable();
 		
-		if(viewMode == RequirementViewMode.CREATING)
+		if(viewMode == ViewMode.CREATING)
 		{
 			removeButton.setEnabled(false);
 			addNewButton.setEnabled(false);
@@ -116,8 +118,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 
 	/**
 	 * Constructs the jtable that holds all of the subrequirements.
-	 * @return the subrequirement table.
-	 */
+	
+	 * @return the subrequirement table. */
 	private JTable buildTable()
 	{
 		subRequirementTable = new JTable()
@@ -223,29 +225,54 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Overrides the requirementSelected method to signal to refresh the table when the
 	 * subrequirements are updated.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
 	 */
 	@Override
-	public void requirementSelected() {
+	public void requirementSelected(Object[] requirements) {
 		refreshTable();
 	}
 
+	/**
+	 * Method readyToRemove.
+	 * @return boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return true;
 	}
 
+	/**
+	 * Method fireDeleted.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
+	 */
 	@Override
 	public void fireDeleted(boolean b) {		
 	}
 
+	/**
+	 * Method fireValid.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
+	 */
 	@Override
 	public void fireValid(boolean b) {		
 	}
 
+	/**
+	 * Method fireChanges.
+	 * @param b boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
+	 */
 	@Override
 	public void fireChanges(boolean b) {		
 	}
 
+	/**
+	 * Method fireRefresh.
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireRefresh()
+	 */
 	@Override
 	public void fireRefresh() {
 		refreshTable();
