@@ -242,7 +242,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 	 */
 	public void refreshEstimate()
 	{
-		this.estimateBox.setText(String.valueOf(RequirementModel.getInstance().getRequirementEstimateForIteration(displayIteration)));
+		this.estimateBox.setText(String.valueOf(displayIteration.getEstimate()));
 	}
 	
 	/**

@@ -195,7 +195,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 			{	
 				ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
 			}
-			else if(node.getUserObject() instanceof String)
+			else
 			{
 				ViewEventController.getInstance().getIterationOverview().highlight(IterationModel.getInstance().getBacklog());
 			}

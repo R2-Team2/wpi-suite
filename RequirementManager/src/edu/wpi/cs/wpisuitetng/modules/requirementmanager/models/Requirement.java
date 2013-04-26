@@ -357,10 +357,6 @@ public class Requirement extends AbstractModel {
 		
 		int diff = estimate - this.estimate;
 		this.estimate = estimate;
-
-		Iteration iter = IterationModel.getInstance().getIteration(this.getIteration());
-		iter.setEstimate(iter.getEstimate() + diff);	
-
 	}
 
 	/**
@@ -623,11 +619,6 @@ public class Requirement extends AbstractModel {
 				this.setStatus(RequirementStatus.OPEN);
 			}
 		}
-		
-		//update estimates as needed
-		oldIteration.setEstimate(oldIteration.getEstimate() - this.estimate);
-		newIteration.setEstimate(newIteration.getEstimate() + this.estimate);
-		
 		this.iteration = newIterationName;
 	}
 

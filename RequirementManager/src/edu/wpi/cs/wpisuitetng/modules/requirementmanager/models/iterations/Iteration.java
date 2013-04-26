@@ -148,18 +148,7 @@ public class Iteration extends AbstractModel {
 	
 	 * @return the estimate */
 	public int getEstimate() {
-		return estimate;
-	}
-
-	/**
-	 * Setter for the estimate
-	 * 
-	 * @param estimate
-	 *            the estimate to set
-	 */
-	public void setEstimate(int estimate) {
-		this.estimate = estimate;
-		UpdateIterationController.getInstance().updateIteration(this);
+		return RequirementModel.getInstance().getRequirementEstimateForIteration(this);
 	}
 	
 	/**

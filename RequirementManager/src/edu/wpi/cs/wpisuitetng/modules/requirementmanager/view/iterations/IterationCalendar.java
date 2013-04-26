@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +77,42 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		this.addActionListener(this);
+		this.addMouseMotionListener(new MouseMotionListener()
+		{
+			@Override
+			public void mouseDragged(MouseEvent e) {				
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				
+				Date forLocation = IterationCalendar.this.getDayAtLocation(x, y);
+				
+				if(forLocation != null)
+				{
+					List<Iteration> atDate = IterationModel.getInstance().getIterationForDate(forLocation);
+					
+					if(atDate.size() > 0)
+					{
+						String toolTipText = "<html>";
+						
+						for(Iteration it : atDate)
+						{
+							toolTipText += it.getName() + "<br>";
+							toolTipText += "&nbsp &nbsp Estimate: " + it.getEstimate() + "<br>";
+						}
+						toolTipText += "</html>";
+						IterationCalendar.this.setToolTipText(toolTipText);
+					}
+					else
+					{
+						IterationCalendar.this.setToolTipText(null);
+					}
+				}
+			}		
+		});
 		
 		this.addMouseListener(new MouseAdapter()
 		{
