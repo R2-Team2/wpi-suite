@@ -9,6 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Enumeration;
@@ -43,7 +44,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	{
         this.setViewportView(tree);
         ViewEventController.getInstance().setOverviewTree(this);
-		this.refresh();        
+		this.refresh();  
 	}
 	
 	/**
