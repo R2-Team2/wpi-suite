@@ -59,7 +59,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	 */
 	public void refresh(){
 		
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(/*ConfigManager.getConfig().getProjectName()*/ "BEHOLD THE TREE"); //makes a starting node
 		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
 		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
@@ -114,16 +114,20 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		
 		if (e.getClickCount() == 2)
 		{
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-			if(node != null)
+			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
+			if(treePath != null)
 			{
-				if(node.getUserObject() instanceof Iteration)
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+				if(node != null)
 				{
-					ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
-				}
-				if(node.getUserObject() instanceof Requirement)
-				{
-					ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
+					if(node.getUserObject() instanceof Iteration)
+					{
+						ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
+					}
+					if(node.getUserObject() instanceof Requirement)
+					{
+						ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
+					}
 				}
 			}
 		}
@@ -184,14 +188,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 		if(node != null)
 		{
 			if(node.getUserObject() instanceof Iteration)
 			{	
 				ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
-			}	
+			}
+			else if(node.getUserObject() instanceof String)
+			{
+				ViewEventController.getInstance().getIterationOverview().highlight(IterationModel.getInstance().getBacklog());
+			}
 		}
 	}
 }

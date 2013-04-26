@@ -71,7 +71,7 @@ public class IterationOverviewPanel extends JPanel {
 		calendarPanel.add(calendarView, BorderLayout.CENTER);	
 		
 		
-		JPanel keyPanel = new JPanel(new MigLayout("height 100:100:100, width 100:100:100","", ""));
+		JPanel keyPanel = new JPanel(new MigLayout("height 100:100:100, width 150:150:150","", ""));
 		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		JLabel keyLabel = new JLabel("Key:");
 				
