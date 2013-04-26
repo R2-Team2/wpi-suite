@@ -245,6 +245,7 @@ public class RequirementSelector extends JScrollPane {
 
 		listener.requirementSelected(selectedList);
 		this.refreshList();
+		ViewEventController.getInstance().getOverviewTree().refresh();
 	}
 
 	/**

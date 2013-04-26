@@ -233,6 +233,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				UpdateRequirementController.getInstance().updateRequirement(currentRequirement);
 				ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement);
 				ViewEventController.getInstance().refreshEditRequirementPanel(oldParent);
+				ViewEventController.getInstance().getOverviewTree().refresh();
 			}	
 		});
 		
