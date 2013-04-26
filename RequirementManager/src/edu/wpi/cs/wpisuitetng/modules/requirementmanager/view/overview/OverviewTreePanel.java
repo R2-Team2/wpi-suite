@@ -133,10 +133,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		int y = e.getY();
 		if (e.getClickCount() == 2)
 		{
-			Object[] path = tree.getPathForLocation(e.getX(), e.getY()).getPath();
+			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
+			Object[] path = null;
+			if(treePath != null)
+				path = treePath.getPath();
 			
-			if (path.length == 2) ViewEventController.getInstance().editSelectedIteration();
-			else if (path.length > 2) {
+			if ((path != null) && (path.length == 2)) ViewEventController.getInstance().editSelectedIteration();
+			else if ((path != null) && (path.length > 2)) {
 				Requirement req = ((Requirement)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject());
 				ViewEventController.getInstance().editRequirement(req);
 			}
