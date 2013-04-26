@@ -168,7 +168,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	public void requirementSelected(Object[] requirements) {
 		for (Object obj : requirements) {
 			Requirement req = (Requirement) obj;
-			req.setIteration(activeIteration.getName(), false);
+			req.setIteration(activeIteration.getName());
 			UpdateRequirementController.getInstance().updateRequirement(req);
 		}
 		

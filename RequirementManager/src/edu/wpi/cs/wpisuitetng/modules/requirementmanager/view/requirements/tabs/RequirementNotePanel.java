@@ -146,7 +146,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 					buttonAddNote.setEnabled(false);
 
 					// Add note to requirement
-					currentRequirement.getNotes().add(msg);
+					currentRequirement.addNote(msg);
 
 					refresh();
 					notesAdded++;

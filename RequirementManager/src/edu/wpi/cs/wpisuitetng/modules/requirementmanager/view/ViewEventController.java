@@ -218,6 +218,9 @@ public class ViewEventController {
 	{
 		RequirementPanel exists = null;
 		
+		// set time stamp for transactions
+		toEdit.getHistory().setTimestamp(System.currentTimeMillis());
+		
 		for(RequirementPanel panel : listOfEditingPanels)
 		{
 			if(panel.getDisplayRequirement() == toEdit)
@@ -347,7 +350,7 @@ public class ViewEventController {
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration("Backlog", created);
+			toSendToBacklog.setIteration("Backlog");
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 

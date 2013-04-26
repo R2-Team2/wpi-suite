@@ -90,7 +90,7 @@ public class IterationTransferHandler extends TransferHandler{
 		}
 
 		// add the requirement to the iteration
-		requirement.setIteration(iteration.getName(), false);
+		requirement.setIteration(iteration.getName());
 
 		// update the Iteration Tree
 		ViewEventController.getInstance().getOverviewTree().refresh();

@@ -57,6 +57,9 @@ public class Requirement extends AbstractModel {
 	
 	/** flag to indicate when the requirement estimate was just edited */
 	private boolean estimateEdited;
+	
+	/** flag to indicate whether the requirement was just created or not */
+	private boolean wasCreated;
 
 	/** the actual effort of completing the requirement */
 	private int actualEffort;
@@ -216,6 +219,12 @@ public class Requirement extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
+		if ((name != this.name) && (!wasCreated)) {
+			String originalName = this.name;
+			String newName = name;
+			String message = ("Name changed from " + originalName + " to " + newName);
+			this.history.add(message);			
+		}
 		this.name = name;
 		if (name.length() > 100)
 			this.name = name.substring(0, 100);
@@ -237,6 +246,12 @@ public class Requirement extends AbstractModel {
 	 *            the release to set
 	 */
 	public void setRelease(String release) {
+		if ((release != this.release) && (!wasCreated)) {
+			String originalRelease = this.release;
+			String newRelease = release;
+			String message = ("Release # changed from " + originalRelease + " to " + newRelease);
+			this.history.add(message);			
+		}
 		this.release = release;
 	}
 
@@ -254,13 +269,9 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param status
 	 *            the status to set
-	 * @param created
-	 *            true if the requirement is being created added created to
-	 *            prevent a bug that occurs when the requirement is first
-	 *            created and stores a transaction in the history
 	 */
-	public void setStatus(RequirementStatus status, boolean created) {
-		if ((status != this.status) && (created == false)) {
+	public void setStatus(RequirementStatus status) {
+		if ((status != this.status) && (!wasCreated)) {
 			String originalStatus = this.status.toString();
 			String newStatus = status.toString();
 			String message = ("Status changed from " + originalStatus + " to " + newStatus);
@@ -287,6 +298,9 @@ public class Requirement extends AbstractModel {
 	 *            the description to set
 	 */
 	public void setDescription(String description) {
+		if ((description != this.description) && (!wasCreated)) {
+			this.history.add("Description changed");			
+		}
 		this.description = description;
 	}
 
@@ -329,11 +343,10 @@ public class Requirement extends AbstractModel {
 	 * Setter for the estimate
 	 * 
 	 * @param estimate
-	 *            the estimate to set
-	 * @param created boolean
+	 *            the estimate to set	 
 	 */
-	public void setEstimate(int estimate, boolean created) {
-		if ((estimate != this.estimate) && (created == false)) {
+	public void setEstimate(int estimate) {
+		if ((estimate != this.estimate) && (!wasCreated)) {
 			int originalEstimate = this.estimate;
 			int newEstimate = estimate;
 			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
@@ -382,13 +395,9 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param priority
 	 *            the priority to set
-	 * @param created
-	 *            true if the requirement is being created added created to
-	 *            prevent a bug that occurs when the requirement is first
-	 *            created and stores a transaction in the history
 	 */
-	public void setPriority(RequirementPriority priority, boolean created) {
-		if ((priority != this.priority) && (created == false)) {
+	public void setPriority(RequirementPriority priority) {
+		if ((priority != this.priority) && (!wasCreated)) {
 			String originalPriority = this.priority.toString();
 			String newPriority = priority.toString();
 			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
@@ -414,6 +423,12 @@ public class Requirement extends AbstractModel {
 	 *            the type to set the requirement to
 	 */
 	public void setType(RequirementType type) {
+		if ((type != this.type) && (!wasCreated)) {
+			String originalType = this.type.toString();
+			String newType = type.toString();
+			String message = ("Type changed from " + originalType + " to " + newType);
+			this.history.add(message);			
+		}
 		this.type = type;
 	}
 
@@ -425,6 +440,12 @@ public class Requirement extends AbstractModel {
 	 * @return the list of notes associated with the requirement */
 	public NoteList getNotes(){
 		return notes;
+	}
+	
+	public void addNote(String noteMsg) {
+		if  (!wasCreated) this.history.add("Note added");		
+		// Add note to requirement
+		this.getNotes().add(noteMsg);
 	}
 
 	/**
@@ -452,7 +473,7 @@ public class Requirement extends AbstractModel {
 	 * @param id the id to remove
 	 */
 	public void removeTask(int id) {
-		// iterate through the list looking for the note to remove
+		// iterate through the list looking for the task to remove
 		for (int i = 0; i < this.tasks.size(); i++) {
 			if (tasks.get(i).getId() == id) {
 				// remove the id
@@ -478,8 +499,10 @@ public class Requirement extends AbstractModel {
 	 *            the acceptance test to implement
 	 */
 	public void addTest(AcceptanceTest test) {
-		String msg = "Acceptance test '" + test.getName() + "' added.";
-		this.history.add(msg);
+		if (!wasCreated) {
+			String msg = "Acceptance test '" + test.getName() + "' added.";
+			this.history.add(msg);
+		}
 		tests.add(test);
 	}
 	
@@ -539,7 +562,7 @@ public class Requirement extends AbstractModel {
 	 *            ID of the attachment to be removed
 	 */
 	public void removeAttachment(int id) {
-		// iterate through the list looking for the note to remove
+		// iterate through the list looking for the attachment to remove
 		for (int i = 0; i < this.attachments.size(); i++) {
 			if (attachments.get(i).getId() == id) {
 				// remove the id
@@ -564,13 +587,9 @@ public class Requirement extends AbstractModel {
 	 * Iterations in the future.
 	 * 
 	 * @param newIterationName
-	 *            the iteration to assign the requirement to
-	 * @param created
-	 *            true if the requirement is being created added created to
-	 *            prevent a bug that occurs when the requirement is first
-	 *            created and stores a transaction in the history
+	 *            the iteration to assign the requirement to	
 	 */
-	public void setIteration(String newIterationName, boolean created) {
+	public void setIteration(String newIterationName) {
 		if(newIterationName.trim().length() == 0) newIterationName = "Backlog";
 		String curIter = this.iteration;
 
@@ -578,7 +597,7 @@ public class Requirement extends AbstractModel {
 		Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
 		
 		
-		if(!this.iteration.equals(newIterationName) && (created == false))
+		if(!this.iteration.equals(newIterationName) && (!wasCreated))
 		{
 			//create the transaction history
 			String message = ("Moved from "	+ curIter + " to " + newIteration);
@@ -589,18 +608,18 @@ public class Requirement extends AbstractModel {
 		if((this.status.equals(RequirementStatus.NEW) || this.status.equals(RequirementStatus.OPEN))
 				&& !newIterationName.equals("Backlog"))
 		{
-			this.setStatus(RequirementStatus.INPROGRESS, created);
+			this.setStatus(RequirementStatus.INPROGRESS);
 		}
 		
 		if(this.status.equals(RequirementStatus.INPROGRESS) && newIterationName.equals("Backlog"))
 		{
-			if(created)
+			if(wasCreated)
 			{
-				this.setStatus(RequirementStatus.NEW, created);
+				this.setStatus(RequirementStatus.NEW);
 			}
 			else
 			{
-				this.setStatus(RequirementStatus.OPEN, created);
+				this.setStatus(RequirementStatus.OPEN);
 			}
 		}
 		
@@ -813,8 +832,6 @@ public class Requirement extends AbstractModel {
 		this.tests = tests;
 	}
 	
-	
-
 	/**
 	 * Copies all of the values from the given requirement to this requirement.
 	 * 
@@ -849,5 +866,19 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setEstimateEdited(boolean b) {
 		this.estimateEdited = b;
+	}
+
+	/**
+	 * @return the wasCreated
+	 */
+	public boolean getWasCreated() {
+		return wasCreated;
+	}
+
+	/**
+	 * @param wasCreated the wasCreated to set
+	 */
+	public void setWasCreated(boolean wasCreated) {
+		this.wasCreated = wasCreated;
 	}
 }

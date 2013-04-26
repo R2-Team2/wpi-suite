@@ -68,9 +68,9 @@ public class EditRequirementPanelTest {
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
-		testRequirement.setStatus(RequirementStatus.NEW, true);
-		testRequirement.setPriority(RequirementPriority.LOW,true);
-		testRequirement.setEstimate(testEstimate, false);
+		testRequirement.setStatus(RequirementStatus.NEW);
+		testRequirement.setPriority(RequirementPriority.LOW);
+		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort);
 		
@@ -175,9 +175,9 @@ public class EditRequirementPanelTest {
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
-		testRequirement.setStatus(RequirementStatus.NEW, true);
-		testRequirement.setPriority(RequirementPriority.HIGH,true);
-		testRequirement.setEstimate(testEstimate, false);
+		testRequirement.setStatus(RequirementStatus.NEW);
+		testRequirement.setPriority(RequirementPriority.HIGH);
+		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort)/;
 		
@@ -222,9 +222,9 @@ public class EditRequirementPanelTest {
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
-		testRequirement.setStatus(RequirementStatus.NEW, true);
-		testRequirement.setPriority(RequirementPriority.MEDIUM,true);
-		testRequirement.setEstimate(testEstimate, false);
+		testRequirement.setStatus(RequirementStatus.NEW);
+		testRequirement.setPriority(RequirementPriority.MEDIUM);
+		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
 		//testRequirement.setEstimate(testActualEffort);
 		
@@ -276,11 +276,11 @@ public class EditRequirementPanelTest {
 		testRequirement.setName(testName);
 		testRequirement.setDescription(testDescription);
 		testRequirement.setRelease(testRelease);
-		testRequirement.setStatus(RequirementStatus.NEW, true);
-		testRequirement.setPriority(RequirementPriority.LOW,true);
-		testRequirement.setEstimate(testEstimate, false);
+		testRequirement.setStatus(RequirementStatus.NEW);
+		testRequirement.setPriority(RequirementPriority.LOW);
+		testRequirement.setEstimate(testEstimate);
 		testRequirement.setType(RequirementType.EPIC);
-		testRequirement.setIteration("Backlog",true);
+		testRequirement.setIteration("Backlog");
 		//testRequirement.setEstimate(testActualEffort);
 		
 		RequirementPanel testEdit = new RequirementPanel(testRequirement);

@@ -228,7 +228,7 @@ public class OverviewTable extends JTable
 	 */
 	public void saveChanges() {
 		// Set time stamp for transaction history
-		long timestamp = System.currentTimeMillis();
+		long timestamp = System.currentTimeMillis();	
 		
 		// iterate through the rows of the overview table
 		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
@@ -239,6 +239,9 @@ public class OverviewTable extends JTable
 			
 			// use the ID number in the row to retrieve the requirement represented by the row
 			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
+			
+			// indicate that the requirement were not just created
+			req.setWasCreated(false);
 									
 			// Set the time stamp for the transaction for the creation of the requirement
 			req.getHistory().setTimestamp(timestamp);
@@ -262,11 +265,11 @@ public class OverviewTable extends JTable
 			else {
 				cellEstimate = Integer.parseInt(cellEstimateStr);
 			}
-			req.setEstimate(cellEstimate, false);
+			req.setEstimate(cellEstimate);
 			
 			// updates requirement on the server
 			UpdateRequirementController.getInstance().updateRequirement(req);			
-		}	
+		}			
 		
 		// refresh table to get rid of cell highlights
 		this.refresh();
