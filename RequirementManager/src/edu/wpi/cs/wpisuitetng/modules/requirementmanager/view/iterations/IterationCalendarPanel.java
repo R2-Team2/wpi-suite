@@ -107,7 +107,7 @@ public class IterationCalendarPanel extends JScrollPane {
 		keyPanel.add(endStartDatePanel, "alignx left, push, span, wrap");
 		JPanel keyWrapper = new JPanel();
 		keyWrapper.add(keyPanel);
-		contentPanel.add(keyWrapper, "east");
+		calendarPanel.add(keyWrapper, BorderLayout.EAST);
 
 		this.setViewportView(contentPanel);	
 	}

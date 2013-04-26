@@ -101,8 +101,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		requirementTable = buildTable();
 		scroll.setViewportView(requirementTable);
 		
-		removeButton.setEnabled(vm == ViewMode.EDITING);
-		reqSelector.enableChildren(vm == ViewMode.EDITING);
+		if(vm == ViewMode.EDITING) reqSelector.enableChildren(false);
 		
 		this.refreshTable();
 	}
@@ -168,7 +167,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		{
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				removeButton.setEnabled(requirementTable.getSelectedRowCount() > 0);
+				removeButton.setEnabled(requirementTable.getSelectedRowCount() > 0 && viewMode == ViewMode.EDITING);
 			}		
 		});
 		
