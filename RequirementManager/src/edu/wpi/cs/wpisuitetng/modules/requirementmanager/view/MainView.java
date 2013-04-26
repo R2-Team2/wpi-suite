@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewP
  * 
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class MainView extends JTabbedPane {
 
@@ -224,8 +225,8 @@ public class MainView extends JTabbedPane {
 	
 	/**
 	 * Method getOverview.
-	 * @return OverviewPanel
-	 */
+	
+	 * @return OverviewPanel */
 	public OverviewPanel getOverview() {
 		return overview;
 	}

@@ -15,6 +15,7 @@ import java.util.Date;
  *The information for the Iteration's date
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class IterationDate {
 	private Date date;
@@ -28,8 +29,8 @@ public class IterationDate {
 	}
 
 	/**
-	 * @return the date
-	 *  */
+	
+	 *  * @return the date */
 	public Date getDate()
 	{
 		return this.date;

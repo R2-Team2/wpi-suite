@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 
 public class ViewEventController {
@@ -118,6 +119,7 @@ public class ViewEventController {
 	
 	/**
 	 * Opens a new tab for the editing of a iteration.
+	 * @param iter Iteration
 	 */
 	public void editIteration(Iteration iter) {
 		if(iter == IterationModel.getInstance().getBacklog()) return;
@@ -444,8 +446,8 @@ public class ViewEventController {
 
 	/**
 	 * Method getOverviewTree.
-	 * @return OverviewTreePanel
-	 */
+	
+	 * @return OverviewTreePanel */
 	public OverviewTreePanel getOverviewTree() {
 		return overviewTree;
 	}

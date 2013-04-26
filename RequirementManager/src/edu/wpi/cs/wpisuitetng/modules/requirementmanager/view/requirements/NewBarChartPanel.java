@@ -46,6 +46,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class NewBarChartPanel extends JScrollPane {
 private static String title;
@@ -210,8 +212,8 @@ private ChartPanel barChart;
 		}
 		
 		/**		
-		 * @return the created bar graph
-		 **/
+		
+		 * @return the created bar graph **/
 		public static ChartPanel createPanel() {
 			JFreeChart chart = createChart(setData(), title);
 			
@@ -225,6 +227,10 @@ private ChartPanel barChart;
 			return title;
 		}
 		
+		/**
+		 * Method paintComponent.
+		 * @param g Graphics
+		 */
 		@Override
 		public void paintComponent(Graphics g){
 			barChart.setChart(createChart(setData(), title));

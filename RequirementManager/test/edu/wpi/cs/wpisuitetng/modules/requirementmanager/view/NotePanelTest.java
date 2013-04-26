@@ -31,8 +31,8 @@ public class NotePanelTest {
 	/**
 	 * Sets up the mock network, iteration, and local variables
 	
-	 * @throws Exception
-	 * @throws java.lang.Exception */
+	
+	 * @throws Exception * @throws java.lang.Exception */
 	@Before
 	public void setUp() throws Exception {
 		req = new Requirement(1, "Name", "Description");

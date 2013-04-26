@@ -16,6 +16,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementHistoryPanel extends JScrollPane implements RequirementPanelListener {
 
@@ -47,9 +49,9 @@ public class RequirementHistoryPanel extends JScrollPane implements RequirementP
 
 	/**
 	 * Method readyToRemove.
-	 * @return boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
-	 */
+	
+	
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
 	@Override
 	public boolean readyToRemove() {
 		return true;
@@ -58,8 +60,8 @@ public class RequirementHistoryPanel extends JScrollPane implements RequirementP
 	/**
 	 * Method fireDeleted.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean) */
 	@Override
 	public void fireDeleted(boolean b) {		
 	}
@@ -67,8 +69,8 @@ public class RequirementHistoryPanel extends JScrollPane implements RequirementP
 	/**
 	 * Method fireValid.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean) */
 	@Override
 	public void fireValid(boolean b) {		
 	}
@@ -76,8 +78,8 @@ public class RequirementHistoryPanel extends JScrollPane implements RequirementP
 	/**
 	 * Method fireChanges.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean) */
 	@Override
 	public void fireChanges(boolean b) {
 	}

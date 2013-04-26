@@ -31,6 +31,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
@@ -69,9 +71,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	
 	/**
 	 * Method valueChanged.
-	 * @param e TreeSelectionEvent
-	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
-	 *//*
+	
+	
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent) *//*
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		
@@ -127,16 +129,24 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
 	//TODO figure out how to implement the mouse listener without messing up the opening of tree nodes
 	
+	/**
+	 * Method mouseClicked.
+	 * @param e MouseEvent
+	 * @see java.awt.event.MouseListener#mouseClicked(MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		if (e.getClickCount() == 2)
 		{
-			Object[] path = tree.getPathForLocation(e.getX(), e.getY()).getPath();
+			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
+			Object[] path = null;
+			if(treePath != null)
+				path = treePath.getPath();
 			
-			if (path.length == 2) ViewEventController.getInstance().editSelectedIteration();
-			else if (path.length > 2) {
+			if ((path != null) && (path.length == 2)) ViewEventController.getInstance().editSelectedIteration();
+			else if ((path != null) && (path.length > 2)) {
 				Requirement req = ((Requirement)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject());
 				ViewEventController.getInstance().editRequirement(req);
 			}
@@ -153,24 +163,44 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		    }
 		}
 
+	/**
+	 * Method mousePressed.
+	 * @param e MouseEvent
+	 * @see java.awt.event.MouseListener#mousePressed(MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Method mouseReleased.
+	 * @param e MouseEvent
+	 * @see java.awt.event.MouseListener#mouseReleased(MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Method mouseEntered.
+	 * @param e MouseEvent
+	 * @see java.awt.event.MouseListener#mouseEntered(MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Method mouseExited.
+	 * @param e MouseEvent
+	 * @see java.awt.event.MouseListener#mouseExited(MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -202,8 +232,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 //		}
 //	};
 	/**
-	 * @return the tree
-	 */
+	
+	 * @return the tree */
 	public JTree getTree() {
 		return tree;
 	}

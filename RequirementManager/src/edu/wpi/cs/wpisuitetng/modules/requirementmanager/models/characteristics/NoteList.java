@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * A list of notes that are added to a requirement.
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class NoteList {
 

@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 /**
  * Various types that a Requirement can be
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public enum RequirementType {
 	/** Indicates that the Requirement does not have an associated type */
@@ -40,8 +41,8 @@ public enum RequirementType {
 	
 	/**
 	 * Method toString.
-	 * @return String
-	 */
+	
+	 * @return String */
 	public String toString()
 	{
 		return name;

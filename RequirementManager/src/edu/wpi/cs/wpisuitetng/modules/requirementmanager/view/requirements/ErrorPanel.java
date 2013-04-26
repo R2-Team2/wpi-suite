@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ */
 public class ErrorPanel extends JLabel {
 
 	private List<String> errorList;
@@ -56,8 +58,8 @@ public class ErrorPanel extends JLabel {
 	}
 	
 	/**
-	 * @return whether there are outstanding errors
-	 */
+	
+	 * @return whether there are outstanding errors */
 	public boolean hasErrors()
 	{
 		return this.errorList.size() != 0;

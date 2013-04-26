@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * This contains the statuses an acceptance test can have
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public enum TestStatus {
 	/**

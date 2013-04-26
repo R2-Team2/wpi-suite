@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 /**
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class OverviewTableEstimateCellEditor extends DefaultCellEditor {
 
@@ -56,9 +57,9 @@ public class OverviewTableEstimateCellEditor extends DefaultCellEditor {
 	 * @param isSelected boolean
 	 * @param row int
 	 * @param column int
-	 * @return Component
-	 * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(JTable, Object, boolean, int, int)
-	 */
+	
+	
+	 * @return Component * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(JTable, Object, boolean, int, int) */
 	@Override
 	/**
 	 * Returns the table cell editor so that the table can edit the cells text fields
