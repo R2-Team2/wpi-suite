@@ -18,9 +18,15 @@ import java.awt.dnd.DragSource;
 import javax.activation.DataHandler;
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.JTree;
 import javax.swing.TransferHandler;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class OverviewTableTransferHandler extends TransferHandler {
 	private final DataFlavor localObjectFlavor;
@@ -34,14 +40,20 @@ public class OverviewTableTransferHandler extends TransferHandler {
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		assert (c == table);
-		return new DataHandler(table.getValueAt(table.getSelectedRow(), 1), localObjectFlavor.getMimeType());
+		Requirement req = (Requirement)table.getValueAt(table.getSelectedRow(), 1);
+		
+		if(req.getEstimate() > 0)
+		{
+			return new DataHandler(table.getValueAt(table.getSelectedRow(), 1), localObjectFlavor.getMimeType());
+		}
+		
+		return null;	
 	}
 
 	@Override
 	public boolean canImport(TransferHandler.TransferSupport info) {
-		boolean b = info.getComponent() == table && info.isDrop() && info.isDataFlavorSupported(localObjectFlavor);
-		table.setCursor(b ? DragSource.DefaultMoveDrop : DragSource.DefaultMoveNoDrop);
-		return b;
+		table.setCursor(DragSource.DefaultMoveNoDrop);
+		return false;
 	}
 
 	@Override
@@ -51,26 +63,24 @@ public class OverviewTableTransferHandler extends TransferHandler {
 
 	@Override
 	public boolean importData(TransferHandler.TransferSupport info) {
-		/*
-		JTable target = (JTable) info.getComponent();
-		JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
-		int index = dl.getRow();
-		int max = table.getModel().getRowCount();
-		if (index < 0 || index > max)
-			index = max;
-		target.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		try {
-			Integer rowFrom = (Integer) info.getTransferable().getTransferData(localObjectFlavor);
-			if (rowFrom != -1 && rowFrom != index) {
-				((Reorderable)table.getModel()).reorder(rowFrom, index);
-				if (index > rowFrom)
-					index--;
-				target.getSelectionModel().addSelectionInterval(index, index);
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		//getdrop location
+		JTree.DropLocation dl = (JTree.DropLocation)info.getDropLocation();
+		TreePath dest = dl.getPath();
+		DefaultMutableTreeNode parent = (DefaultMutableTreeNode)dest.getLastPathComponent();
+
+		
+		if(parent.getUserObject() instanceof Iteration)
+		{
+			Iteration newIteration = (Iteration)parent.getUserObject();
+			
+			Requirement req = (Requirement)table.getValueAt(table.getSelectedRow(), 1);
+			req.setIteration(newIteration.getName());
+			UpdateRequirementController.getInstance().updateRequirement(req);
+			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
+			return true;
+		}
+		
 		return false;
 	}
 
