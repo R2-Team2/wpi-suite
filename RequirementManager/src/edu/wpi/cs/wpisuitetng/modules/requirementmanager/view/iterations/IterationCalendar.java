@@ -31,6 +31,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
  */
 public class IterationCalendar extends JXMonthView implements ActionListener {
 	
+	public static final Color START_END_DAY = new Color(46, 79, 179);
+	public static final Color SELECTION = new Color(95,242,90);
+	public static final Color UNSELECTABLE = Color.red;
+	
 	private ViewMode viewMode;
 	private Date startDate = null;
 	private Date endDate = null;
@@ -49,8 +53,6 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		this.viewMode = vm;
 		this.parent = parent;
 		this.displayIteration = displayIteration;
-		this.setFlaggedDayForeground(new Color(46, 79, 179));
-		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		buildLayout();
 	}
 	
@@ -59,8 +61,6 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	 */
 	public IterationCalendar() {
 		this.isOverview = true;
-		this.setFlaggedDayForeground(new Color(29, 245, 0));
-		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		buildLayout();
 	}
 	
@@ -71,7 +71,9 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	{
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
-		this.setSelectionBackground(new Color(95,242,90));
+		this.setSelectionBackground(SELECTION);
+		this.setFlaggedDayForeground(START_END_DAY);
+		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		this.addActionListener(this);
 		
@@ -149,6 +151,22 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 
 		return unselectable || super.isUnselectableDate(date);
 	}
+	
+	public void highlightIteration(Iteration it)
+	{
+		if(it == IterationModel.getInstance().getBacklog())
+		{
+			startDate = null;
+			endDate = null;
+			clearSelection();
+		}
+		else
+		{
+			this.startDate = it.getStart().getDate();
+			this.endDate = it.getEnd().getDate();
+			setSelectionInterval(startDate, endDate);
+		}
+	}
 
 
 	/**
@@ -160,7 +178,12 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(isOverview)
 		{
-			this.getSelectionModel().clearSelection();
+			this.clearSelection();
+			if(startDate != null && endDate != null)
+			{
+				this.setSelectionInterval(startDate, endDate);
+			}
+			
 			return;
 		}
 		//check that the selected dates are valid dates.
@@ -202,5 +225,4 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 			}
 		}
 	}
-
 }

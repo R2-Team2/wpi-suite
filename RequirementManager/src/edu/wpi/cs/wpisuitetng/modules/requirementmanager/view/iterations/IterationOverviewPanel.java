@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -67,7 +68,30 @@ public class IterationOverviewPanel extends JPanel {
 		calendarView = new IterationCalendar();
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 				
-		calendarPanel.add(calendarView, BorderLayout.CENTER);		
+		calendarPanel.add(calendarView, BorderLayout.CENTER);	
+		
+		
+		JPanel keyPanel = new JPanel(new MigLayout("height 100:100:100, width 100:100:100","", ""));
+		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JLabel keyLabel = new JLabel("Key:");
+				
+		JPanel selectedIteration = new JPanel ();
+		selectedIteration.add(new JLabel("Selected Iteration"));
+		selectedIteration.setBackground(IterationCalendar.SELECTION);
+		 		
+		JPanel allIterations = new JPanel();
+		allIterations.add(new JLabel("All Iterations"));
+		allIterations.setBackground(IterationCalendar.START_END_DAY);
+		
+		keyPanel.add(keyLabel, "alignx center, push, span, wrap");
+		keyPanel.add(selectedIteration, "alignx left, push, span, wrap");
+		keyPanel.add(allIterations, "alignx left, push, span, wrap");
+		JPanel keyWrapper = new JPanel();
+		keyWrapper.add(keyPanel);
+		calendarPanel.add(keyWrapper, BorderLayout.EAST);
+		
+		
+		
 		contentPanel.add(calendarPanel, "alignx center, push, span");
 		
 		scrollPane.setViewportView(contentPanel);
@@ -181,13 +205,6 @@ public class IterationOverviewPanel extends JPanel {
 	 * @param iter the iteration to highlight.
 	 */
 	public void highlight(Iteration iter) {
-		if(iter != IterationModel.getInstance().getBacklog())
-		{
-			calendarView.setSelectionInterval(iter.getStart().getDate(), iter.getEnd().getDate());
-		}
-		else
-		{
-			calendarView.clearSelection();
-		}
+		calendarView.highlightIteration(iter);
 	}
 }

@@ -95,11 +95,11 @@ public class IterationCalendarPanel extends JScrollPane {
 		 		
 		JPanel endStartDatePanel = new JPanel();
 		endStartDatePanel.add(new JLabel("Start/End Days"));
-		endStartDatePanel.setBackground(new Color(46, 79, 179));
+		endStartDatePanel.setBackground(IterationCalendar.START_END_DAY);
 				
 		JPanel thisIteration = new JPanel();
 		thisIteration.add(new JLabel("This Iteration"));
-		thisIteration.setBackground(new Color(95,242,90));
+		thisIteration.setBackground(IterationCalendar.SELECTION);
 				
 		keyPanel.add(keyLabel, "alignx center, push, span, wrap");
 		keyPanel.add(thisIteration, "alignx left, push, span, wrap");

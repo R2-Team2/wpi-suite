@@ -231,7 +231,8 @@ public class IterationModel extends AbstractListModel {
 	 * @return the iterations */
 	public List<Iteration> getIterationForDate(Date date) {
 		List<Iteration> iter = new ArrayList<Iteration>();
-		
+		if(date == null) return iter;
+
 		for(Iteration it : listOfIterations)
 		{
 			if(it == backlog) continue;
