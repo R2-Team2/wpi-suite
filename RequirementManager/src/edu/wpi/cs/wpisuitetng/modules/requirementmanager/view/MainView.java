@@ -185,6 +185,15 @@ public class MainView extends JTabbedPane {
 				else {
 					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(false);
 				}
+				
+				if(MainView.this.getSelectedComponent() == iterationOverview)
+				{
+					overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+				}
+				else if(MainView.this.getSelectedComponent() == overview)
+				{
+					iterationOverview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+				}
 			}
 		});
 	}
@@ -239,23 +248,6 @@ public class MainView extends JTabbedPane {
 	public void setSelectedComponent(Component c){
 		this.lastTab = this.getSelectedComponent();
 		super.setSelectedComponent(c);
-	}
-	
-	@Override
-	public void setSelectedIndex(int index)
-	{
-		Component c = this.getComponentAt(index);
-		if(c instanceof IterationOverviewPanel)
-		{
-			iterationOverview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
-		}
-		
-		if(c instanceof OverviewPanel)
-		{
-			overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
-		}
-
-		super.setSelectedIndex(index);
 	}
 
 	/**
