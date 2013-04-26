@@ -254,7 +254,7 @@ public class MainView extends JTabbedPane {
 		{
 			overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
 		}
-		
+
 		super.setSelectedIndex(index);
 	}
 

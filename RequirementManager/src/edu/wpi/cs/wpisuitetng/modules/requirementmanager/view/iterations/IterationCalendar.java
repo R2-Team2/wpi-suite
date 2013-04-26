@@ -60,7 +60,7 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	public IterationCalendar() {
 		this.isOverview = true;
 		this.setFlaggedDayForeground(new Color(29, 245, 0));
-		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+		this.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		buildLayout();
 	}
 	

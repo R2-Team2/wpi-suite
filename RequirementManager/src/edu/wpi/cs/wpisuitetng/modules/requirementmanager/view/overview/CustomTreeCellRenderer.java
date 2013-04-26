@@ -19,7 +19,7 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 	Icon iterationIcon;
 
 	public CustomTreeCellRenderer() {
-		DefaultTreeCellRenderer temp = new DefaultTreeCellRenderer();
+		super();
 		requirementIcon = new RequirementIcon();
 		iterationIcon = new IterationIcon();
 	}
@@ -48,22 +48,23 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value,
 			boolean sel, boolean expanded, boolean leaf, int row,
 			boolean hasFocus) {
+
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
 				row, hasFocus);
-
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
 		if (node.getUserObject() instanceof Requirement) {
 			setIcon(requirementIcon);
 		} else {
 			setIcon(iterationIcon);
+			/*
 			DefaultMutableTreeNode firstLeaf = ((DefaultMutableTreeNode) tree
 					.getModel().getRoot());
 			tree.setSelectionPath(new TreePath(firstLeaf.getPath()));
 			String label = firstLeaf.toString(); //Does not work
 
-			setToolTipText("" + value);
+			setToolTipText("" + value);*/
 		}
-		return this;
+		return this; 
 	}
 }

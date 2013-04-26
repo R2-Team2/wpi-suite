@@ -55,11 +55,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 
         
         this.setViewportView(tree);
-        // added by raph start
-        tree.setTransferHandler(new IterationTransferHandler());
-        tree.setDragEnabled(true);
-        tree.setDropMode(DropMode.ON_OR_INSERT);
-        // end 
         ViewEventController.getInstance().setOverviewTree(this);
 
 		this.refresh();
@@ -114,9 +109,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		}
 
         tree = new JTree(top); //create the tree with the top node as the top
-        tree.setTransferHandler(new IterationTransferHandler());
-        tree.setDragEnabled(true);
-        tree.setDropMode(DropMode.ON_OR_INSERT);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); //tell it that it can only select one thing at a time
         tree.setToggleClickCount(0);
  
@@ -138,6 +130,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+		if(node.getUserObject() instanceof Iteration)
+		{
+			ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
+		}
 		if (e.getClickCount() == 2)
 		{
 			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
@@ -151,7 +149,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 				ViewEventController.getInstance().editRequirement(req);
 			}
 		}
-
+/*
 		    if (SwingUtilities.isRightMouseButton(e)) {
 
 		        int row = tree.getClosestRowForLocation(e.getX(), e.getY());
@@ -161,7 +159,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 				popup.add(new JMenuItem(label));
 				popup.show(tree, x, y);
 		    }
-		}
+		    */
+	}
 
 	/**
 	 * Method mousePressed.
