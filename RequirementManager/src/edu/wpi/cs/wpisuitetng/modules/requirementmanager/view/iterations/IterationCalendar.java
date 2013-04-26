@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
+import org.jdesktop.swingx.event.DateSelectionEvent;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
@@ -30,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
 
 /**
  */
-public class IterationCalendar extends JXMonthView implements ActionListener {
+public class IterationCalendar extends JXMonthView implements ActionListener, KeyListener {
 	
 	public static final Color START_END_DAY = new Color(46, 79, 179);
 	public static final Color SELECTION = new Color(95,242,90);
@@ -41,6 +44,7 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	private Date endDate = null;
 	private IterationPanel parent;
 	private Iteration displayIteration;
+	private IterationOverviewPanel overviewParent;
 	private boolean isOverview;
 	/**
 	 * Constructor for the iteration calendar.
@@ -60,7 +64,8 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	/**
 	 * Constructor for iteration calendar.
 	 */
-	public IterationCalendar() {
+	public IterationCalendar(IterationOverviewPanel parent) {
+		this.overviewParent = parent;
 		this.isOverview = true;
 		buildLayout();
 	}
@@ -135,6 +140,9 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 				}	
 			}
 		});
+		
+		this.addKeyListener(this);
+
 	}
 
 	/**
@@ -217,6 +225,75 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		}
 	}
 
+	private void handleSelectionForOverview()
+	{
+		if(isOverview)
+		{
+			Date tempStart = this.getSelectionModel().getFirstSelectionDate();
+
+			List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(tempStart);
+			
+			if(forDate.size() > 0)
+			{
+				this.overviewParent.highlight(forDate.get(0));
+				ViewEventController.getInstance().getOverviewTree().selectIteration(forDate.get(0));
+			}
+			else
+			{
+				this.clearSelection();
+				if(startDate != null && endDate != null)
+				{
+					this.setSelectionInterval(startDate, endDate);
+				}
+			}
+			return;
+		}
+	}
+	
+	private void handleSelectionForPanel()
+	{
+		if(!isOverview)
+		{
+			//check that the selected dates are valid dates.
+			boolean validSelection = true;
+
+			Date secondDate = this.getSelectionModel().getLastSelectionDate();
+			Calendar firstDate = Calendar.getInstance();
+			firstDate.setTime(this.getSelectionModel().getFirstSelectionDate());
+			
+			if(isUnselectableDate(firstDate.getTime()) || isUnselectableDate(secondDate)) validSelection = false;
+			
+			//if any date in the interval is unselectable, its invalid.
+			while(firstDate.getTime().before(secondDate))
+			{
+				if(isUnselectableDate(firstDate.getTime()))
+				{
+					validSelection = false;
+					break;
+				}
+				
+				firstDate.add(Calendar.DAY_OF_YEAR, 1);
+			}
+		
+			if(validSelection)
+			{
+				//if is valid date, update it as date in parent.
+				startDate = this.getSelectionModel().getFirstSelectionDate();
+				endDate = this.getSelectionModel().getLastSelectionDate();
+				
+				parent.setDates(startDate, endDate);
+			}
+			else
+			{
+				//otherwise, return back to previous selection.
+				this.getSelectionModel().clearSelection();
+				if(startDate != null && endDate != null)
+				{
+					this.getSelectionModel().setSelectionInterval(startDate, endDate);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method actionPerformed.
@@ -225,53 +302,25 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(isOverview)
-		{
-			this.clearSelection();
-			if(startDate != null && endDate != null)
-			{
-				this.setSelectionInterval(startDate, endDate);
-			}
-			
-			return;
-		}
-		//check that the selected dates are valid dates.
-		boolean validSelection = true;
+		handleSelectionForOverview();
+		handleSelectionForPanel();
+	}
 
-		Date secondDate = this.getSelectionModel().getLastSelectionDate();
-		Calendar firstDate = Calendar.getInstance();
-		firstDate.setTime(this.getSelectionModel().getFirstSelectionDate());
-		
-		if(isUnselectableDate(firstDate.getTime()) || isUnselectableDate(secondDate)) validSelection = false;
-		
-		//if any date in the interval is unselectable, its invalid.
-		while(firstDate.getTime().before(secondDate))
-		{
-			if(isUnselectableDate(firstDate.getTime()))
-			{
-				validSelection = false;
-				break;
-			}
-			
-			firstDate.add(Calendar.DAY_OF_YEAR, 1);
-		}
-	
-		if(validSelection)
-		{
-			//if is valid date, update it as date in parent.
-			startDate = this.getSelectionModel().getFirstSelectionDate();
-			endDate = this.getSelectionModel().getLastSelectionDate();
-			
-			parent.setDates(startDate, endDate);
-		}
-		else
-		{
-			//otherwise, return back to previous selection.
-			this.getSelectionModel().clearSelection();
-			if(startDate != null && endDate != null)
-			{
-				this.getSelectionModel().setSelectionInterval(startDate, endDate);
-			}
-		}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		handleSelectionForOverview();
+		handleSelectionForPanel();		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		handleSelectionForOverview();
+		handleSelectionForPanel();		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		handleSelectionForOverview();
+		handleSelectionForPanel();		
 	}
 }

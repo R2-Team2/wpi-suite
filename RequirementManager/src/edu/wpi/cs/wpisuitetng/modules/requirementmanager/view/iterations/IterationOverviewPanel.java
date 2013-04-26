@@ -67,7 +67,7 @@ public class IterationOverviewPanel extends JPanel {
 		contentPanel.add(buttonPanel, "alignx center, dock north");
 		 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new IterationCalendar();
+		calendarView = new IterationCalendar(this);
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 				
 		calendarPanel.add(calendarView, BorderLayout.CENTER);	

@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -199,6 +200,29 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 			{
 				ViewEventController.getInstance().getIterationOverview().highlight(IterationModel.getInstance().getBacklog());
 			}
+		}
+	}
+
+	public void selectIteration(Iteration iteration) {
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode)tree.getModel().getRoot();
+		Enumeration<DefaultMutableTreeNode> e = root.breadthFirstEnumeration();
+		
+		DefaultMutableTreeNode foundNode = null;
+		while(e.hasMoreElements())
+		{
+			DefaultMutableTreeNode node = e.nextElement();
+			if(node.getUserObject() == iteration)
+			{
+				foundNode = node;
+				break;
+			}
+		}
+		
+		if(foundNode != null) 
+		{
+			TreePath path = new TreePath(foundNode.getPath());
+			tree.setSelectionPath(path);
+			tree.scrollPathToVisible(path);
 		}
 	}
 }
