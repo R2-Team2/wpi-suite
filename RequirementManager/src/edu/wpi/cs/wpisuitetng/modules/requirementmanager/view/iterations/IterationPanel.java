@@ -190,7 +190,7 @@ public class IterationPanel extends JPanel implements KeyListener{
 		calPanel = new IterationCalendarPanel(this, vm, displayIteration);
 		tabs.addTab("Iteration Calendar", calPanel);
 		
-		requirements = new IterationRequirements(displayIteration);
+		requirements = new IterationRequirements(this, displayIteration);
 		tabs.addTab("Requirements", requirements);
 
 	
