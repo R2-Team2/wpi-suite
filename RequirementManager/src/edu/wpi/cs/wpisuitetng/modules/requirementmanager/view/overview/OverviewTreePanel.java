@@ -13,12 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.DropMode;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -33,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class OverviewTreePanel extends JScrollPane implements MouseListener{
+public class OverviewTreePanel extends JScrollPane implements MouseListener, TreeSelectionListener{
 
 	private JTree tree;
 	/**
@@ -51,7 +49,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
         
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-  
+        tree.addTreeSelectionListener(this);
 
         
         this.setViewportView(tree);
@@ -114,6 +112,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
  
         tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
         tree.addMouseListener(this); //add a listener to check for clicking
+        tree.addTreeSelectionListener(this);
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
@@ -131,11 +130,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-		if(node.getUserObject() instanceof Iteration)
-		{
-			ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
-		}
 		if (e.getClickCount() == 2)
 		{
 			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
@@ -202,5 +196,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 * @return the tree */
 	public JTree getTree() {
 		return tree;
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+		if(node.getUserObject() instanceof Iteration)
+		{
+			ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
+		}		
 	}
 }
