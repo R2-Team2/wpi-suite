@@ -28,6 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 /**
  * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationRequirementsPanel extends JPanel {
 	private JButton addRequirementButton;

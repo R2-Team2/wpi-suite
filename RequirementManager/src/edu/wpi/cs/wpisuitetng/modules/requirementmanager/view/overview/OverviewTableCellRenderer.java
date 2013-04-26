@@ -24,6 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -48,9 +50,9 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
      * @param hasFocus boolean
      * @param row int
      * @param column int
-     * @return Component
-     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int)
-     */
+    
+    
+     * @return Component * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int) */
     public Component getTableCellRendererComponent(JTable table, 
                                                    Object value,
                                                    boolean isSelected,

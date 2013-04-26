@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 /**
  * Various status' that a Requirement can have 
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public enum RequirementStatus {
 	/**
@@ -48,8 +49,8 @@ public enum RequirementStatus {
 	
 	/**
 	 * Method toString.
-	 * @return String
-	 */
+	
+	 * @return String */
 	public String toString()
 	{
 		return name;

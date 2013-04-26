@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewBarButton extends JPanel {
 	public OverviewBarButton(){

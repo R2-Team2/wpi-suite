@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * An iteration in a project. Requirements can be assigned to an iteration.
  * 
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class Iteration extends AbstractModel {
 	/** the ID of the iteration */
@@ -165,8 +166,8 @@ public class Iteration extends AbstractModel {
 	 * Getter for the requirements
 	 * 
 	 * Getter for the requirements 
-	 * @return list of requirements
-	 */
+	
+	 * @return list of requirements */
 	public List<Requirement> getRequirements() {
 		return RequirementModel.getInstance().getRequirementsForIteration(name);
 	}
@@ -174,8 +175,8 @@ public class Iteration extends AbstractModel {
 	/**
 	 * Gets a list model containing the iteration's requirements
 	 * 
-	 * @return list model of requirements
-	 */
+	
+	 * @return list model of requirements */
 	public ListModel<Requirement> getRequirementModel() {
 		DefaultListModel<Requirement> reqModel = new DefaultListModel<Requirement>();
 		List<Requirement> requirements = this.getRequirements();
@@ -223,7 +224,8 @@ public class Iteration extends AbstractModel {
 	 * represents iteration as a string which is currently just the name
 	 * 
 	
-	 * @return the name * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	
+	 * @return the name * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 */
 	// should this be extended for the other fields?
 	public String toString() {
@@ -273,9 +275,9 @@ public class Iteration extends AbstractModel {
 
 	/**
 	 * Method toJSON.
-	 * @return String
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
-	 */
+	
+	
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() */
 	public String toJSON() {
 		return new Gson().toJson(this, Iteration.class);
 	}
@@ -298,9 +300,9 @@ public class Iteration extends AbstractModel {
 	/**
 	 * Method identify.
 	 * @param o Object
-	 * @return Boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
-	 */
+	
+	
+	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) */
 	@Override
 	public Boolean identify(Object o) {
 		return null;

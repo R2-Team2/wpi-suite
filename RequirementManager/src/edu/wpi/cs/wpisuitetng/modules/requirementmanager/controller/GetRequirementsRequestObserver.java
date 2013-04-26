@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * This observer handles responses to requests for all requirements
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class GetRequirementsRequestObserver implements RequestObserver {
 	

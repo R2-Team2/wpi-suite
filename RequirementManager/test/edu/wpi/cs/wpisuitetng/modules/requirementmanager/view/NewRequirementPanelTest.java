@@ -25,6 +25,8 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class NewRequirementPanelTest {
 

@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
  * Class to display a note inside the EditRequirementPanel
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class SingleNotePanel extends JPanel {
 	

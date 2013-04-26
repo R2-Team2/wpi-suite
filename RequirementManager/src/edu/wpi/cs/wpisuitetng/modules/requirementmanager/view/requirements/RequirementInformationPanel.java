@@ -46,6 +46,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementInformationPanel extends JScrollPane implements KeyListener,
 ItemListener, RequirementPanelListener, RequirementSelectorListener {
@@ -343,24 +345,24 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	/**
 	 * Method fireDeleted.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean) */
 	@Override
 	public void fireDeleted(boolean b) {}
 
 	/**
 	 * Method fireValid.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean) */
 	@Override
 	public void fireValid(boolean b) {}
 
 	/**
 	 * Method fireChanges.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean) */
 	@Override
 	public void fireChanges(boolean b) {}
 
@@ -758,7 +760,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * saved.
 	 * 
 	
-	 * @return whether the panel can be removed. * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	
+	 * @return whether the panel can be removed. * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
 	 */
 	public boolean readyToRemove()
 	{	
@@ -801,8 +804,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	/**
 	 * Method itemStateChanged.
 	 * @param e ItemEvent
-	 * @see java.awt.event.ItemListener#itemStateChanged(ItemEvent)
-	 */
+	
+	 * @see java.awt.event.ItemListener#itemStateChanged(ItemEvent) */
 	@Override
 	public void itemStateChanged(ItemEvent e) {		
 		parentPanel.removeError("Cannot complete unless children are completed.");
@@ -841,8 +844,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	/**
 	 * Method keyReleased.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent) */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		this.parentPanel.fireValid(validateFields(false));
@@ -856,16 +859,16 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	/**
 	 * Method keyPressed.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent) */
 	@Override
 	public void keyPressed(KeyEvent e) {}
 
 	/**
 	 * Method keyTyped.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent) */
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
@@ -1007,8 +1010,9 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	/**
 	 * Method requirementSelected.
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
-	 */
+	
+	 * @param requirements Object[]
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected() */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		this.parentSelector.setVisible(false);

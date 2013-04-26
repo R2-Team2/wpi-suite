@@ -38,6 +38,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewButtonPanel;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class NewPieChartPanel extends JScrollPane {
 	private static String title;
@@ -209,8 +211,8 @@ public class NewPieChartPanel extends JScrollPane {
 
 	/**
 	 * Creates the piechart panel
-	 * @return the piechart panel
-	 */
+	
+	 * @return the piechart panel */
 	public static ChartPanel createPanel() {
 		JFreeChart chart = createChart(setData(), title);
 		return new ChartPanel(chart);
@@ -222,6 +224,10 @@ public class NewPieChartPanel extends JScrollPane {
 	public String getTitle(){
 		return title;
 	}
+	/**
+	 * Method paintComponent.
+	 * @param g Graphics
+	 */
 	@Override
 	public void paintComponent(Graphics g){
 		pieChart.setChart(createChart(setData(), title));

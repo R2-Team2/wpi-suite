@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementButtonPanel extends JPanel implements RequirementPanelListener
 {
@@ -126,8 +128,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	/**
 	 * Method fireDeleted.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean) */
 	@Override
 	public void fireDeleted(boolean b) 
 	{
@@ -137,8 +139,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	/**
 	 * Method fireValid.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean) */
 	@Override
 	public void fireValid(boolean b) {
 		valid = b;
@@ -148,8 +150,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	/**
 	 * Method fireChanges.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean) */
 	@Override
 	public void fireChanges(boolean b) {
 		changes = b;
@@ -159,9 +161,9 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	
 	/**
 	 * Method readyToRemove.
-	 * @return boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
-	 */
+	
+	
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
 	@Override
 	public boolean readyToRemove() {
 		return true;
@@ -176,8 +178,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	
 
 	/**
-	 * @return the error panel
-	 */
+	
+	 * @return the error panel */
 	public ErrorPanel getErrorPanel()
 	{
 		return this.errorDisplay;
@@ -185,32 +187,32 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	
 	/**
 	 * 
-	 * @return the clear button
-	 * */
+	
+	 * * @return the clear button */
 	public JButton getButtonClear() {
 		return buttonClear;
 	}
 	
 	/**
 	 *
-	 * @return the delete button 
-	 * */
+	
+	 * * @return the delete button  */
 	public JButton getButtonDelete() {
 		return buttonDelete;
 	}
 	
 	/**
 	 *
-	 * @return the ok button
-	 * */
+	
+	 * * @return the ok button */
 	public JButton getButtonOK() {
 		return buttonOK;
 	}
 	
 	/**
 	 *
-	 * @return the cancel button 
-	 * */
+	
+	 * * @return the cancel button  */
 	public JButton getButtonCancel() {
 		return buttonCancel;
 	}

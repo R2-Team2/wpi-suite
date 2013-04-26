@@ -36,6 +36,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class SubrequirementPanel extends JPanel implements RequirementSelectorListener, RequirementPanelListener
 {
@@ -225,8 +227,9 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Overrides the requirementSelected method to signal to refresh the table when the
 	 * subrequirements are updated.
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected()
-	 */
+	
+	 * @param requirements Object[]
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected() */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		refreshTable();
@@ -234,9 +237,9 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 
 	/**
 	 * Method readyToRemove.
-	 * @return boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
-	 */
+	
+	
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
 	@Override
 	public boolean readyToRemove() {
 		return true;
@@ -245,8 +248,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Method fireDeleted.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean) */
 	@Override
 	public void fireDeleted(boolean b) {		
 	}
@@ -254,8 +257,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Method fireValid.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean) */
 	@Override
 	public void fireValid(boolean b) {		
 	}
@@ -263,8 +266,8 @@ public class SubrequirementPanel extends JPanel implements RequirementSelectorLi
 	/**
 	 * Method fireChanges.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean) */
 	@Override
 	public void fireChanges(boolean b) {		
 	}

@@ -53,8 +53,8 @@ public class RequirementManagerTest {
 	
 	/**
 	 * Set up objects and create a mock session for testing
-	 * @throws Exception
-	 */
+	
+	 * @throws Exception */
 	@Before
 	public void setUp() throws Exception {
 		User admin = new User("admin", "admin", "1234", 27);
@@ -82,8 +82,8 @@ public class RequirementManagerTest {
 
 	/**
 	 * Stores a new requirement and ensures the correct data was stored
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
 		Requirement created = manager.makeEntity(defaultSession, req3.toJSON());
@@ -110,8 +110,8 @@ public class RequirementManagerTest {
 	/**
 	 * Ensures a NotFoundException is thrown when trying to
 	 * retrieve an invalid requirement
-	 * @throws NotFoundException
-	 */
+	
+	 * @throws NotFoundException */
 	@Test(expected=NotFoundException.class)
 	public void testGetBadId() throws NotFoundException {
 		manager.getEntity(defaultSession, "-1");
@@ -119,8 +119,8 @@ public class RequirementManagerTest {
 
 	/**
 	 * Ensures that requirements can be deleted
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void testDelete() throws WPISuiteException {
 		assertSame(req1, db.retrieve(Requirement.class, "id", 1).get(0));
@@ -131,8 +131,8 @@ public class RequirementManagerTest {
 	/**
 	 * Ensures a NotFoundException is thrown when trying to delete
 	 * an invalid requirement
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test(expected=NotFoundException.class)
 	public void testDeleteMissing() throws WPISuiteException {
 		manager.deleteEntity(adminSession, "4534");
@@ -165,8 +165,8 @@ public class RequirementManagerTest {
 
 	/**
 	 * Method testDeleteAllWhenEmpty.
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void testDeleteAllWhenEmpty() throws WPISuiteException {
 		manager.deleteAll(adminSession);
@@ -176,8 +176,8 @@ public class RequirementManagerTest {
 	
 	/**
 	 * Method testCount.
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void testCount() throws WPISuiteException {
 		assertEquals(2, manager.Count());
@@ -186,8 +186,8 @@ public class RequirementManagerTest {
 
 	/**
 	 * Method updateRequirementTest.
-	 * @throws WPISuiteException
-	 */
+	
+	 * @throws WPISuiteException */
 	@Test
 	public void updateRequirementTest() throws WPISuiteException {
 		Requirement updatedRequirement = manager.update(defaultSession, req1.toJSON());

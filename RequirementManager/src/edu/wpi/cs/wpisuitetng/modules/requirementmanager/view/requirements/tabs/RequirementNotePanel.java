@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,6 +35,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementNotePanel extends JPanel implements RequirementPanelListener {
 	private final ViewMode viewMode;
@@ -56,7 +59,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		viewMode = vm;
 		notesAdded = 0;
 		
-		this.buildNoteMessage();
+		Component noteField = this.buildNoteField();
 		noteScroll = new JScrollPane();
 
 		// Buttons to be added to the bottom of the NotePanel
@@ -90,7 +93,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 
 		c.gridy = 1; // Row 1
 		c.weighty = 0; // Fill 0% of vertical space
-		this.add(noteMessage, c);
+		this.add(noteField, c);
 
 		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom
 												// panel
@@ -173,7 +176,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	 * Method buildNoteMessage.
 	 * @return JTextArea
 	 */
-	private JTextArea buildNoteMessage(){		
+	private Component buildNoteField(){		
 		noteMessage.addKeyListener(new KeyAdapter()
 		{
 			@Override
@@ -196,14 +199,18 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	            BorderFactory.createEmptyBorder(4, 4, 4, 4));
 		noteMessage.setBorder(b);
 		
-		return noteMessage;
+		JScrollPane scroller = new JScrollPane(noteMessage);
+		scroller.setMinimumSize(new Dimension(50,50));
+		scroller.setPreferredSize(new Dimension(60,60));
+		
+		return scroller;
 	}
 
 	/**
 	 * Method readyToRemove.
-	 * @return boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
-	 */
+	
+	
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
 	@Override
 	public boolean readyToRemove() {
 		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == ViewMode.EDITING);
@@ -212,8 +219,8 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	/**
 	 * Method fireDeleted.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireDeleted(boolean) */
 	@Override
 	public void fireDeleted(boolean b) {
 	}
@@ -221,8 +228,8 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	/**
 	 * Method fireValid.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireValid(boolean) */
 	@Override
 	public void fireValid(boolean b) {		
 	}
@@ -230,8 +237,8 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	/**
 	 * Method fireChanges.
 	 * @param b boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean)
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#fireChanges(boolean) */
 	@Override
 	public void fireChanges(boolean b) {		
 	}
@@ -275,16 +282,16 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 
 	/**
 	 * Method getClearButton.
-	 * @return JButton
-	 */
+	
+	 * @return JButton */
 	public JButton getClearButton() {
 		return buttonClear;
 	}
 
 	/**
 	 * Method getErrorMsg.
-	 * @return JLabel
-	 */
+	
+	 * @return JLabel */
 	public JLabel getErrorMsg() {
 		return errorMsg;
 	}

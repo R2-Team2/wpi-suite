@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 
 public class ViewEventController {
@@ -118,6 +119,7 @@ public class ViewEventController {
 	
 	/**
 	 * Opens a new tab for the editing of a iteration.
+	 * @param iter Iteration
 	 */
 	public void editIteration(Iteration iter) {
 		if(iter == IterationModel.getInstance().getBacklog()) return;
@@ -400,23 +402,24 @@ public class ViewEventController {
 	/**
 	 * Closes all the tabs except for the one that was clicked.
 	 * 
-	 * @param indexOfTab Index of the tab that was clicked
 	 */
-	public void closeOthers(int indexOfTab) {
+	public void closeOthers() {
 		int tabCount = main.getTabCount();
-		Component compAtIndex = main.getComponentAt(indexOfTab);
+		Component selected = main.getSelectedComponent();
 
 		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 
-			if(toBeRemoved instanceof OverviewPanel) continue;
-
-			if(toBeRemoved == compAtIndex) continue;
+			if(toBeRemoved instanceof OverviewPanel){
+				continue;}
+			if(toBeRemoved == selected){
+				continue;}
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()){
+					break;}
 				this.listOfEditingPanels.remove(toBeRemoved);
 			}
 
@@ -446,8 +449,8 @@ public class ViewEventController {
 
 	/**
 	 * Method getOverviewTree.
-	 * @return OverviewTreePanel
-	 */
+	
+	 * @return OverviewTreePanel */
 	public OverviewTreePanel getOverviewTree() {
 		return overviewTree;
 	}

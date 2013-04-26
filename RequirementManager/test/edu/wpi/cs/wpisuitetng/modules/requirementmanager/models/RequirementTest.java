@@ -47,8 +47,8 @@ public class RequirementTest {
 
 	/**
 	 * Method setUp.
-	 * @throws Exception
-	 */
+	
+	 * @throws Exception */
 	@Before
 	public void setUp() throws Exception {
 		Network.initNetwork(new MockNetwork());

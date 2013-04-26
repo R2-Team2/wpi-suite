@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
  * 
  * 
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class Requirement extends AbstractModel {
 	/** the ID of the requirement */
@@ -749,9 +750,9 @@ public class Requirement extends AbstractModel {
 
 	/**
 	 * Method toJSON.
-	 * @return String
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
-	 */
+	
+	
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
 	 * 
@@ -778,9 +779,9 @@ public class Requirement extends AbstractModel {
 	/**
 	 * Method identify.
 	 * @param o Object
-	 * @return Boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
-	 */
+	
+	
+	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
@@ -789,9 +790,9 @@ public class Requirement extends AbstractModel {
 
 	/**
 	 * Method toString.
-	 * @return String
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
-	 */
+	
+	
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() */
 	@Override
 	public String toString() {
 		return this.getName();
@@ -855,8 +856,8 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * @return the estimateEdited
-	 */
+	
+	 * @return the estimateEdited */
 	public boolean getEstimateEdited() {
 		return estimateEdited;
 	}

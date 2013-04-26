@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * Various Priorities a requirement can have
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public enum RequirementPriority {
 	/**
@@ -45,8 +46,8 @@ public enum RequirementPriority {
 	
 	/**
 	 * Method toString.
-	 * @return String
-	 */
+	
+	 * @return String */
 	public String toString()
 	{
 		return name;

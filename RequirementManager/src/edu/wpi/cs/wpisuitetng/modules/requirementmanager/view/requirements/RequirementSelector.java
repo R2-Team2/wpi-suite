@@ -47,6 +47,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementSelector extends JScrollPane {
 	private final Dimension buttonDimensions = new Dimension(125, 25);
@@ -191,7 +193,11 @@ public class RequirementSelector extends JScrollPane {
 					activeRequirement);
 			break;
 		case ITERATION:
-			reqList = IterationModel.getInstance().getIteration("Backlog").getRequirementModel();
+			List<Requirement> possibleRequirements = IterationModel.getInstance().getIteration("Backlog").getRequirements();
+			for(Requirement req : possibleRequirements)
+			{
+				if(req.getEstimate() > 0) ((DefaultListModel<Requirement>)reqList).addElement(req);
+			}
 			break;
 		}
 

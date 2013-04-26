@@ -12,13 +12,14 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 /**
  * A task within a requirement
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class DevelopmentTask {
 
 	/**
 	 * Method getId.
-	 * @return int
-	 */
+	
+	 * @return int */
 	public int getId() {
 		// TODO Auto-generated method stub
 		return 0;
