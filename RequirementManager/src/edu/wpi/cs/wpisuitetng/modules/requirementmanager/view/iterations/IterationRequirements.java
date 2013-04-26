@@ -80,7 +80,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 				for(int i = 0; i < selectedObjects.length; i++)
 				{
 					Requirement toBeRemoved = (Requirement)requirementTable.getValueAt(selectedObjects[i], 1);
-					toBeRemoved.setIteration("Backlog", false);
+					toBeRemoved.setIteration("Backlog");
 					
 					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
 				}
