@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 import net.miginfocom.swing.MigLayout;
@@ -175,7 +176,18 @@ public class IterationOverviewPanel extends JPanel {
 		return this.calendarView;
 	}
 
+	/**
+	 * Highlights the given iteration on the iteration overview
+	 * @param iter the iteration to highlight.
+	 */
 	public void highlight(Iteration iter) {
-		calendarView.setSelectionInterval(iter.getStart().getDate(), iter.getEnd().getDate());
+		if(iter != IterationModel.getInstance().getBacklog())
+		{
+			calendarView.setSelectionInterval(iter.getStart().getDate(), iter.getEnd().getDate());
+		}
+		else
+		{
+			calendarView.clearSelection();
+		}
 	}
 }

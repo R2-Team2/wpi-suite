@@ -38,27 +38,10 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	 * Sets up the left hand panel of the overview
 	 */
 	public OverviewTreePanel()
-	{	
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		
-		for(int i=0; i<iterations.size(); i++){
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
-			top.add(newNode);
-		}
-        
-        tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        tree.addTreeSelectionListener(this);
-
-        
+	{
         this.setViewportView(tree);
         ViewEventController.getInstance().setOverviewTree(this);
-
-		this.refresh();
-
-        
-        System.out.println("finished constructing the tree");
+		this.refresh();        
 	}
 	
 	/**
@@ -132,15 +115,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		
 		if (e.getClickCount() == 2)
 		{
-			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
-			Object[] path = null;
-			if(treePath != null)
-				path = treePath.getPath();
 			
-			if ((path != null) && (path.length == 2)) ViewEventController.getInstance().editSelectedIteration();
-			else if ((path != null) && (path.length > 2)) {
-				Requirement req = ((Requirement)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject());
-				ViewEventController.getInstance().editRequirement(req);
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+			if(node.getUserObject() instanceof Iteration)
+			{
+				ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
+			}
+			if(node.getUserObject() instanceof Requirement)
+			{
+				ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
 			}
 		}
 /*

@@ -186,13 +186,17 @@ public class MainView extends JTabbedPane {
 					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(false);
 				}
 				
-				if(MainView.this.getSelectedComponent() == iterationOverview)
+				if(MainView.this.getSelectedComponent() == overview)
 				{
 					overview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+					overview.revalidate();
+					overview.repaint();
 				}
-				else if(MainView.this.getSelectedComponent() == overview)
+				else if(MainView.this.getSelectedComponent() == iterationOverview)
 				{
 					iterationOverview.add(ViewEventController.getInstance().getOverviewTree(), BorderLayout.WEST);
+					iterationOverview.revalidate();
+					iterationOverview.repaint();
 				}
 			}
 		});
