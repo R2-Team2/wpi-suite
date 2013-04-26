@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -83,6 +84,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
         tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
         tree.addMouseListener(this); //add a listener to check for clicking
         tree.addTreeSelectionListener(this);
+        
+        tree.setTransferHandler(new IterationTransferHandler());
+        tree.setDragEnabled(true);
+        tree.setDropMode(DropMode.ON);
+        
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
