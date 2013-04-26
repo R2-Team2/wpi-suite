@@ -11,6 +11,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons.IterationIcon;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons.RequirementIcon;
 
+/**
+ */
 public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 	Icon requirementIcon;
 	Icon iterationIcon;
@@ -21,6 +23,18 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 		iterationIcon = new IterationIcon();
 	}
 	
+	/**
+	 * Method getTreeCellRendererComponent.
+	 * @param tree JTree
+	 * @param value Object
+	 * @param sel boolean
+	 * @param expanded boolean
+	 * @param leaf boolean
+	 * @param row int
+	 * @param hasFocus boolean
+	 * @return Component
+	 * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(JTree, Object, boolean, boolean, boolean, int, boolean)
+	 */
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus){
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		

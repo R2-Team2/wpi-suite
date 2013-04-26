@@ -20,6 +20,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class RequirementModelTest {
 
@@ -27,8 +29,8 @@ public class RequirementModelTest {
 	
 	/**
 	 * Method setUp.
-	 * @throws Exception
-	 */
+	
+	 * @throws Exception */
 	@Before
 	public void setUp() throws Exception {
 		ViewEventController viewCon = ViewEventController.getInstance();

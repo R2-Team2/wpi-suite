@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 /**
  *
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class EditButtonsPanel extends JPanel{
 	
@@ -104,8 +105,8 @@ public class EditButtonsPanel extends JPanel{
 	
 	/**
 	 * Method getEditButton.
-	 * @return JButton
-	 */
+	
+	 * @return JButton */
 	public JButton getEditButton() {
 		return this.getEditButton();
 	}

@@ -24,6 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
+/**
+ */
 public class IterationCalendar extends JXMonthView implements ActionListener {
 	
 	private ViewMode viewMode;
@@ -34,6 +36,9 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	
 	/**
 	 * Constructor for the iteration calendar.
+	 * @param parent IterationPanel
+	 * @param vm ViewMode
+	 * @param displayIteration Iteration
 	 */
 	public IterationCalendar(IterationPanel parent, ViewMode vm, Iteration displayIteration)
 	{
@@ -49,6 +54,11 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		this.addActionListener(this);
 	}
 	
+	/**
+	 * Method isFlaggedDate.
+	 * @param date Date
+	 * @return boolean
+	 */
 	@Override
 	public boolean isFlaggedDate(Date date)
 	{		
@@ -65,6 +75,11 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 		return isFlaggedDate || super.isFlaggedDate(date);
 	}
 	
+	/**
+	 * Method isUnselectableDate.
+	 * @param date Date
+	 * @return boolean
+	 */
 	@Override
 	public boolean isUnselectableDate(Date date) {
 		List<Iteration> forDate = IterationModel.getInstance().getIterationForDate(date);
@@ -77,6 +92,11 @@ public class IterationCalendar extends JXMonthView implements ActionListener {
 	}
 
 
+	/**
+	 * Method actionPerformed.
+	 * @param e ActionEvent
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//check that the selected dates are valid dates.

@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class OverviewPanel extends JPanel {
 	

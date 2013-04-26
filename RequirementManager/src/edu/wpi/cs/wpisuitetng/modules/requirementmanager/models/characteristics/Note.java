@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * A Note for a requirement;
  * need an id, a username, timestamp, and a string for the note
  * @version $Revision: 1.0 $
+ * @author justinhess
  */
 public class Note {
 	

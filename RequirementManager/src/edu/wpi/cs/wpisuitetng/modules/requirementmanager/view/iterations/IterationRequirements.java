@@ -37,18 +37,27 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 /**
  * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationRequirements extends JPanel implements RequirementSelectorListener{
 	private JButton removeButton;
 	private JTable requirementTable;
 	private DefaultTableModel tableModel;
+	private IterationPanel parentPanel;
 	
 	private Iteration activeIteration;
 	
 	private RequirementSelector reqSelector;
 
-	public IterationRequirements(Iteration displayIteration) {
+	/**
+	 * Constructor for IterationRequirements.
+	 * @param displayIteration Iteration
+	 */
+	public IterationRequirements(IterationPanel parent, Iteration displayIteration) {
+	
 		activeIteration = displayIteration;
+		parentPanel = parent;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -62,7 +71,20 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		removeButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Remove requirement from iteration
+				int[] selectedObjects = requirementTable.getSelectedRows();
+				
+				for(int i = 0; i < selectedObjects.length; i++)
+				{
+					Requirement toBeRemoved = (Requirement)requirementTable.getValueAt(selectedObjects[i], 1);
+					toBeRemoved.setIteration("Backlog", false);
+					
+					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
+				}
+				refreshTable();
+				ViewEventController.getInstance().refreshTree();
+				ViewEventController.getInstance().refreshTable();
+				reqSelector.refreshList();
+				parentPanel.refreshEstimate();
 			}
 		});
 		removeButton.setEnabled(false);
@@ -78,6 +100,10 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		this.refreshTable();
 	}
 	
+	/**
+	 * Method buildTable.
+	 * @return JTable
+	 */
 	private JTable buildTable()
 	{
 		requirementTable = new JTable()
@@ -164,6 +190,11 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		}
 	}
 
+	/**
+	 * Method requirementSelected.
+	 * @param requirements Object[]
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected(Object[])
+	 */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		for (Object obj : requirements) {
@@ -175,6 +206,6 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		refreshTable();
 		ViewEventController.getInstance().refreshTree();
 		ViewEventController.getInstance().refreshTable();
-
+		parentPanel.refreshEstimate();
 	}
 }
