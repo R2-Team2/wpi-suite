@@ -27,6 +27,8 @@ public class IterationOverviewPanel extends JPanel {
 	private JButton prevMonth;
 	private JButton today;
 	
+	private JLabel selectionLabel;
+	
 	/**
 	 * Constructor for IterationOverviewPanel.
 	 */
@@ -70,6 +72,10 @@ public class IterationOverviewPanel extends JPanel {
 				
 		calendarPanel.add(calendarView, BorderLayout.CENTER);	
 		
+		JPanel selectionPanel = new JPanel(new MigLayout("height 100:100:100, width 150:150:150","",""));
+		selectionPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		selectionLabel = new JLabel("No Iteration Selected.");
+		selectionPanel.add(selectionLabel);
 		
 		JPanel keyPanel = new JPanel(new MigLayout("height 100:100:100, width 150:150:150","", ""));
 		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -86,8 +92,11 @@ public class IterationOverviewPanel extends JPanel {
 		keyPanel.add(keyLabel, "alignx center, push, span, wrap");
 		keyPanel.add(selectedIteration, "alignx left, push, span, wrap");
 		keyPanel.add(allIterations, "alignx left, push, span, wrap");
-		JPanel keyWrapper = new JPanel();
-		keyWrapper.add(keyPanel);
+		JPanel keyWrapper = new JPanel(new MigLayout());
+		
+		keyWrapper.add(keyPanel, "wrap");
+		keyWrapper.add(selectionPanel);
+		
 		calendarPanel.add(keyWrapper, BorderLayout.EAST);
 		
 		
@@ -206,5 +215,28 @@ public class IterationOverviewPanel extends JPanel {
 	 */
 	public void highlight(Iteration iter) {
 		calendarView.highlightIteration(iter);
+		updateSelection(iter);
 	}
+
+	/**
+	 * Updates the selection for the given iteration.
+	 * @param iter
+	 */
+	private void updateSelection(Iteration iter) {
+		if(iter == IterationModel.getInstance().getBacklog())
+		{
+			selectionLabel.setText("<html><b>No Iteration Selected.</b></html>");
+		}
+		else
+		{
+			String selectionText = "<html>";
+			selectionText += "<b>Name: </b>" + iter.getName() + "<br>";
+			selectionText += "<b>Estimate: </b>" + iter.getEstimate() + "<br>";
+			selectionText += "</html>";
+			
+			selectionLabel.setText(selectionText);
+		}
+	}
+	
+	
 }
