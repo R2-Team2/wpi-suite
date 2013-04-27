@@ -9,6 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
@@ -32,6 +34,8 @@ public class OverviewPanel extends JSplitPane {
 		OverviewTable table = new OverviewTable(data, columnNames);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
+		
+		table.setIntercellSpacing(new Dimension(6,0)); // Padding to the left of cells
 		
 		table.getColumnModel().getColumn(0).setMaxWidth(40); // ID
 		
