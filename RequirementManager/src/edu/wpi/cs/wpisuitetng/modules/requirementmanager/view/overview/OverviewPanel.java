@@ -34,9 +34,7 @@ public class OverviewPanel extends JSplitPane {
 		OverviewTable table = new OverviewTable(data, columnNames);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
-		
-		table.setIntercellSpacing(new Dimension(6,0)); // Padding to the left of cells
-		
+				
 		table.getColumnModel().getColumn(0).setMaxWidth(40); // ID
 		
 		table.getColumnModel().getColumn(1).setMaxWidth(200); // Name
