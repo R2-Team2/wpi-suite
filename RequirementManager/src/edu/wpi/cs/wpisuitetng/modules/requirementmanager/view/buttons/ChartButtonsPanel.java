@@ -36,7 +36,7 @@ public class ChartButtonsPanel extends JPanel{
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
-		JButton pieChart = new JButton("Pie Chart");
+		JButton pieChart = new JButton("View Pie Chart");
 		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
@@ -45,7 +45,7 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		JButton barChart = new JButton("Bar Chart");
+		JButton barChart = new JButton("View Bar Chart");
 		
 		barChart.addActionListener(new ActionListener(){
 			@Override
