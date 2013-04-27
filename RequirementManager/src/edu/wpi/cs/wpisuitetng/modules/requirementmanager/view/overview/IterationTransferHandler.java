@@ -1,118 +1,127 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Rolling Thunder
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DragSource;
+import java.io.IOException;
 
-import javax.swing.DropMode;
+import javax.activation.DataHandler;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
-/**
- *
- * @author justinhess
- * @version $Revision: 1.0 $
- */
-public class IterationTransferHandler extends TransferHandler{
+public class IterationTransferHandler extends TransferHandler {
+	DataFlavor nodesFlavor;
 
 	public IterationTransferHandler() {
-		super();		
-	}		
+		nodesFlavor = new DataFlavor(Requirement.class, "Requirement");
+	}
 
-	/**
-	 * Method canImport.
-	 * @param info TransferHandler.TransferSupport
-	 * @return boolean
-	 */
-	public boolean canImport(TransferHandler.TransferSupport info) {
-		if(!info.isDrop()) {
-			return false;
-		}        
-		if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+	public boolean canImport(TransferHandler.TransferSupport support) {
+		support.getComponent().setCursor(DragSource.DefaultMoveNoDrop);
+		
+		if(!support.isDrop()) {
 			return false;
 		}
-
-		// check if the source actions (a bitwise-OR of supported actions)
-		// contains the COPY action
-		boolean copySupported = (COPY & info.getSourceDropActions()) == COPY;
-		if (copySupported) {
-			info.setDropAction(COPY);
-			return true;
+		
+		support.setShowDropLocation(true);
+		
+		if(!support.isDataFlavorSupported(nodesFlavor)) {
+			return false;
 		}
+		
+		//make sure the drop location is valid.
+		JTree.DropLocation dl = (JTree.DropLocation)support.getDropLocation();
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)dl.getPath().getLastPathComponent();
+		Object nodeObject = node.getUserObject();
+		
+		//make sure the drop location is an iteration.
+		if(!(nodeObject instanceof Iteration)) return false;
+		
+		support.getComponent().setCursor(DragSource.DefaultMoveDrop);
+		
+		return true;
+	}
 
-		// COPY is not supported, so reject the transfer
+	protected Transferable createTransferable(JComponent c) {
+		JTree tree = (JTree)c;
+		TreePath path = tree.getSelectionPath();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
+				
+		if(node.getUserObject() instanceof Requirement)
+		{
+			Requirement req = (Requirement)node.getUserObject();
+			if(req.getEstimate() > 0 && req.getStatus() != RequirementStatus.COMPLETE && req.getStatus() != RequirementStatus.DELETED)
+			{
+				return new DataHandler(req, nodesFlavor.getMimeType());
+			}
+		}
+		
+		return null;
+	}
+
+	@Override
+	protected void exportDone(JComponent c, Transferable t, int act) {
+		c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+	
+	public int getSourceActions(JComponent c) {
+		return MOVE;
+	}
+
+	public boolean importData(TransferHandler.TransferSupport support) {
+		if(!canImport(support)) {
+			return false;
+		}
+		
+		// Get drop location info.
+		JTree.DropLocation dl = (JTree.DropLocation)support.getDropLocation();
+		TreePath dest = dl.getPath();
+		DefaultMutableTreeNode parent = (DefaultMutableTreeNode)dest.getLastPathComponent();
+
+		try {
+			Requirement child = (Requirement)support.getTransferable().getTransferData(nodesFlavor);
+			
+			if(parent.getUserObject() instanceof Iteration)
+			{
+				Iteration newIteration = (Iteration)parent.getUserObject();
+			
+				child.setIteration(newIteration.getName());
+				UpdateRequirementController.getInstance().updateRequirement(child);
+				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().refreshTree();
+				
+				return true;
+			}
+			
+		} catch (UnsupportedFlavorException e) {
+			System.err.println("Unsupported data exception with dragging.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("IO Exception with dragging");
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
-
-	/**
-	 * Method getSourceActions.
-	 * @param c JComponent
-	 * @return int
-	 */
-	public int getSourceActions(JComponent c) {
-		return TransferHandler.COPY;
-	}
-
-	/**
-	 * Method importData.
-	 * @param info TransferHandler.TransferSupport
-	 * @return boolean
-	 */
-	public boolean importData(TransferHandler.TransferSupport info) {
-
-		// TODO: checking to see if the requirement has estimate>0 should be done upon drag/export attempt
-
-		// make sure a drop is being handled
-		if (!info.isDrop()) {
-			return false;
-		}	        
-		// Get the string that is being dropped.
-		Transferable t = info.getTransferable();
-		int requirementID;
-		try {
-			requirementID = (Integer)t.getTransferData(DataFlavor.stringFlavor);
-		} 
-		catch (Exception e) { return false; }
-
-		// get location to insert requirement
-		JTree.DropLocation dl = (JTree.DropLocation)info.getDropLocation();	        
-		TreePath index = dl.getPath();
-
-		// TODO: use the treepath index to figure out what the Iteration is
-		Iteration iteration = null;
-
-		// retrieve the requirement with ID requirementID
-		Requirement requirement = RequirementModel.getInstance().getRequirement(requirementID);
-
-		// check to see if the requirement is already in the iteration
-		if (requirement.getIteration() == iteration.getName()) return false;
-
-		// TODO: ensure the target iteration is not in the past
-
-		// check to see if the requirement is not in Backlog
-		// TODO: if it isn't, prompt to confirm that the iteration should be changed
-		if (requirement.getIteration() == "Backlog") {
-
-		}
-
-		// add the requirement to the iteration
-		requirement.setIteration(iteration.getName(), false);
-
-		// update the Iteration Tree
-		ViewEventController.getInstance().getOverviewTree().refresh();
-
-		return true;       
-	}
-
 }

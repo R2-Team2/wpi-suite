@@ -233,6 +233,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				UpdateRequirementController.getInstance().updateRequirement(currentRequirement);
 				ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement);
 				ViewEventController.getInstance().refreshEditRequirementPanel(oldParent);
+				ViewEventController.getInstance().getOverviewTree().refresh();
 			}	
 		});
 		
@@ -547,10 +548,11 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 	/**
 	 * Updates the requirement based on whether it is being created or not
-	 * @param created whether the requirement is being created or edited.
+	 * @param wasCreated whether the requirement is being created or edited.
 	 */
-	private void updateRequirement(boolean created) {
-		if(created) currentRequirement.setId(RequirementModel.getInstance().getNextID());
+	private void updateRequirement(boolean wasCreated) {
+		if(wasCreated) currentRequirement.setId(RequirementModel.getInstance().getNextID());
+		currentRequirement.setWasCreated(wasCreated);
 		
 		// Extract the name, release number, and description from the GUI fields
 		String stringName = this.getBoxName().getText();
@@ -585,20 +587,15 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		else
 			priority = RequirementPriority.BLANK;
 
-		// Set the time stamp so that all transaction messages from this update
-		// will have the same time stamp
-		TransactionHistory requirementHistory = currentRequirement.getHistory();
-		requirementHistory.setTimestamp(System.currentTimeMillis());
-		
 		currentRequirement.setName(stringName);
 		currentRequirement.setRelease(stringReleaseNum);
 		currentRequirement.setDescription(stringDescription);
-		currentRequirement.setStatus(status, created);
-		currentRequirement.setPriority(priority, created);
-		currentRequirement.setEstimate(estimate, created);
-		currentRequirement.setIteration(stringIteration, created);
+		currentRequirement.setStatus(status);
+		currentRequirement.setPriority(priority);
+		currentRequirement.setEstimate(estimate);
+		currentRequirement.setIteration(stringIteration);
 		currentRequirement.setType(type);
-		if(created)
+		if(wasCreated)
 		{
 			// Set the time stamp for the transaction for the creation of the requirement
 			currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());

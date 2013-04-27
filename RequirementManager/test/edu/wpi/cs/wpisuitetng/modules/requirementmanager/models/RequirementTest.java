@@ -66,10 +66,10 @@ public class RequirementTest {
 		assertEquals(object.getPriority(), RequirementPriority.BLANK);
 
 		object.setRelease("1.1.01");
-		object.setStatus(RequirementStatus.INPROGRESS, true);
-		object.setPriority(RequirementPriority.MEDIUM, true);
+		object.setStatus(RequirementStatus.INPROGRESS);
+		object.setPriority(RequirementPriority.MEDIUM);
 		object.setEffort(10);
-		object.setEstimate(1, false);
+		object.setEstimate(1);
 
 		Requirement origObject = object; // change here
 		String jsonMessage = object.toJSON();
@@ -111,23 +111,23 @@ public class RequirementTest {
 		
 		// setStatus
 		//if requirement was just created
-		object.setStatus(RequirementStatus.OPEN, true);
+		object.setStatus(RequirementStatus.OPEN);
 		assertEquals(object.getStatus(), RequirementStatus.OPEN);
 		ListIterator<Transaction> iter = object.getHistory().getIterator(0);
 		assertFalse(iter.hasNext());
 		//normal status setting
 		object.setName("Name");	// makes checking the transaction history easier
-		object.setStatus(RequirementStatus.INPROGRESS, false);
+		object.setStatus(RequirementStatus.INPROGRESS);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
 		iter = object.getHistory().getIterator(0);
 		assertEquals(iter.next().getMessage(), "Status changed from Open to In Progress");
 		//if the you change it to the current status
-		object.setStatus(RequirementStatus.INPROGRESS, false);
+		object.setStatus(RequirementStatus.INPROGRESS);
 		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
 		//if you change it to the current status upon creation
-		object.setStatus(RequirementStatus.NEW, true);
+		object.setStatus(RequirementStatus.NEW);
 		assertEquals(object.getStatus(), RequirementStatus.NEW);
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
@@ -138,22 +138,22 @@ public class RequirementTest {
 
 		// setPriority
 		//if you change it to the current priority upon creation
-		object.setPriority(RequirementPriority.BLANK, true);
+		object.setPriority(RequirementPriority.BLANK);
 		assertEquals(object.getPriority(), RequirementPriority.BLANK);
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
 		//if requirement was just created
-		object.setPriority(RequirementPriority.HIGH, true);
+		object.setPriority(RequirementPriority.HIGH);
 		assertEquals(object.getPriority(), RequirementPriority.HIGH);
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
 		//normal priority setting
-		object.setPriority(RequirementPriority.HIGH, false);
+		object.setPriority(RequirementPriority.HIGH);
 		assertEquals(object.getPriority(), RequirementPriority.HIGH);
 		iter = object.getHistory().getIterator(1);
 		assertFalse(iter.hasNext());
 		//if the you change it to the current priority
-		object.setPriority(RequirementPriority.LOW, false);
+		object.setPriority(RequirementPriority.LOW);
 		assertEquals(object.getPriority(), RequirementPriority.LOW);
 		iter = object.getHistory().getIterator(1);
 		assertEquals(iter.next().getMessage(), "Priority changed from High to Low");
@@ -170,11 +170,11 @@ public class RequirementTest {
 	public void testCopyFromRequirement() {
 		Requirement r = new Requirement(0, "name", "desc");
 		r.setEffort(4);
-		r.setEstimate(4, false);
-		r.setIteration("",false);
-		r.setPriority(RequirementPriority.HIGH, true);
+		r.setEstimate(4);
+		r.setIteration("");
+		r.setPriority(RequirementPriority.HIGH);
 		r.setRelease("release 1");
-		r.setStatus(RequirementStatus.INPROGRESS, true);
+		r.setStatus(RequirementStatus.INPROGRESS);
 		r.setType(RequirementType.USERSTORY);
 		
 		Requirement r2 = new Requirement(0, "", "");
@@ -208,17 +208,17 @@ public class RequirementTest {
 	public void testSubRequirementEstimateSumming()
 	{
 		Requirement parentRequirement = new Requirement(0, "", "");
-		parentRequirement.setEstimate(1, false);
+		parentRequirement.setEstimate(1);
 		
 		Requirement childRequirement = new Requirement(1, "", "");
-		childRequirement.setEstimate(32, false);
+		childRequirement.setEstimate(32);
 		
 		
 		Requirement childRequirement2 = new Requirement(2, "", "");
-		childRequirement2.setEstimate(7, false);
+		childRequirement2.setEstimate(7);
 		
 		Requirement grandChildRequirement = new Requirement(3, "","");
-		grandChildRequirement.setEstimate(12, false);
+		grandChildRequirement.setEstimate(12);
 		
 		RequirementModel.getInstance().addRequirement(parentRequirement);
 		RequirementModel.getInstance().addRequirement(childRequirement);
@@ -253,7 +253,7 @@ public class RequirementTest {
 	public void testNoChildEstimate()
 	{
 		Requirement parentRequirement = new Requirement(0,"","");
-		parentRequirement.setEstimate(3, false);
+		parentRequirement.setEstimate(3);
 		
 		assertEquals(parentRequirement.getEstimate(),3);
 	}

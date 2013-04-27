@@ -192,11 +192,8 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 					
 					String title = testTitle.getText();
 					String msg = testMessage.getText(); // Get text from
-														// noteMessage
-					
-					currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());
-					currentRequirement.getHistory().add("Acceptance test added to this requirement.");
-					
+														// noteMessage					
+									
 					AcceptanceTest tempTest = new AcceptanceTest(testsAdded, title, msg);
 					// Clear all text areas
 					testTitle.setText("");
@@ -204,9 +201,9 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 					errorMsg.setText("");
 					buttonClear.setEnabled(false);
 					buttonAddTest.setEnabled(false);
-
-					// Add note to requirement
-					currentRequirement.getTests().add(tempTest);
+										
+					// Add acceptance test to requirement
+					currentRequirement.addTest(tempTest);
 
 					refresh();
 					testsAdded++;

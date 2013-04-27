@@ -9,24 +9,22 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
-import javax.swing.JPanel;
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
+import javax.swing.JSplitPane;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class OverviewPanel extends JPanel {
+public class OverviewPanel extends JSplitPane {
 	
 	/**
 	 * Sets up directory table of requirements in system
 	 */
 	public OverviewPanel()
 	{
-		SpringLayout overviewLayout = new SpringLayout();
-		this.setLayout(overviewLayout);
-
 		OverviewTreePanel filterPanel = new OverviewTreePanel();
 		
 		String[] columnNames = {"ID", "Name", "Release #", "Iteration", "Type", "Status", "Priority", "Estimate"};
@@ -36,7 +34,7 @@ public class OverviewPanel extends JPanel {
 		OverviewTable table = new OverviewTable(data, columnNames);
 		
 		JScrollPane tablePanel = new JScrollPane(table);
-		
+				
 		table.getColumnModel().getColumn(0).setMaxWidth(40); // ID
 		
 		table.getColumnModel().getColumn(1).setMaxWidth(200); // Name
@@ -58,19 +56,8 @@ public class OverviewPanel extends JPanel {
 		table.getColumnModel().getColumn(7).setMinWidth(75); // Estimate
 		table.getColumnModel().getColumn(7).setMaxWidth(75); // Estimate
 		
-		// Constrain the filtersPanel
-		overviewLayout.putConstraint(SpringLayout.NORTH, filterPanel, 0,SpringLayout.NORTH, this);
-		overviewLayout.putConstraint(SpringLayout.WEST, filterPanel, 0, SpringLayout.WEST, this);
-		overviewLayout.putConstraint(SpringLayout.SOUTH, filterPanel, 0, SpringLayout.SOUTH, this);
-		overviewLayout.putConstraint(SpringLayout.EAST, filterPanel, 200,SpringLayout.WEST, filterPanel);
-
-		// Constrain the table panel
-		overviewLayout.putConstraint(SpringLayout.NORTH, tablePanel, 0, SpringLayout.NORTH, this);
-		overviewLayout.putConstraint(SpringLayout.WEST, tablePanel, 0, SpringLayout.EAST, filterPanel);
-		overviewLayout.putConstraint(SpringLayout.EAST, tablePanel, 0, SpringLayout.EAST, this);
-		overviewLayout.putConstraint(SpringLayout.SOUTH, tablePanel, 0, SpringLayout.SOUTH, this);
-		
-		this.add(filterPanel);
-		this.add(tablePanel);
+		this.setLeftComponent(filterPanel);
+		this.setRightComponent(tablePanel);
+		this.setDividerLocation(180);
 	}
 }

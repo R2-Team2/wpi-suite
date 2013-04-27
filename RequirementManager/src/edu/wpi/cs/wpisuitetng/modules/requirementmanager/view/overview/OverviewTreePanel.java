@@ -9,17 +9,17 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
-import java.awt.event.MouseAdapter;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.DropMode;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -34,39 +34,17 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class OverviewTreePanel extends JScrollPane implements MouseListener{
+public class OverviewTreePanel extends JScrollPane implements MouseListener, TreeSelectionListener{
 
 	private JTree tree;
 	/**
 	 * Sets up the left hand panel of the overview
 	 */
 	public OverviewTreePanel()
-	{	
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE");
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		
-		for(int i=0; i<iterations.size(); i++){
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(iterations.get(i).getName());
-			top.add(newNode);
-		}
-        
-        tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
- 
-
-        
+	{
         this.setViewportView(tree);
-        // added by raph start
-        tree.setDragEnabled(true);
-        tree.setDropMode(DropMode.ON_OR_INSERT);
-        tree.setTransferHandler(new IterationTransferHandler());
-        // end 
         ViewEventController.getInstance().setOverviewTree(this);
-
-		this.refresh();
-
-        
-        System.out.println("finished constructing the tree");
+		this.refresh();  
 	}
 	
 	/**
@@ -84,7 +62,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 */
 	public void refresh(){
 		
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("BEHOLD THE TREE"); //makes a starting node
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(/*ConfigManager.getConfig().getProjectName()*/ "Iteration Tree"); //makes a starting node
 		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
 		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
@@ -93,22 +71,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 			List<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
 
 			//check to see if there are any requirements for the iteration
-			if(requirements != null){
-				//if so make a node for each one and add it to the iteration's node
-				for(int j=0; j<requirements.size(); j++){
-					DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
-					List<Requirement> children = requirements.get(j).getChildren();
-
-					//check to see if there are children for this requirement
-					if(children != null){
-						//if so make a node for each child
-						for(int k=0; k<children.size(); k++){
-							DefaultMutableTreeNode newChildNode = new DefaultMutableTreeNode(children.get(k));
-							newReqNode.add(newChildNode);
-						}
-							newIterNode.add(newReqNode);
-					}
-				}
+			if(requirements.size() > 0){
+				addRequirementsToTree(requirements, newIterNode);
 			}
 
 			top.add(newIterNode); //add the iteration's node to the top node
@@ -120,15 +84,32 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
  
         tree.setCellRenderer(new CustomTreeCellRenderer()); //set to custom cell renderer so that icons make sense
         tree.addMouseListener(this); //add a listener to check for clicking
+        tree.addTreeSelectionListener(this);
+        
+        tree.setTransferHandler(new IterationTransferHandler());
+        tree.setDragEnabled(true);
+        tree.setDropMode(DropMode.ON);
+        
         this.setViewportView(tree); //make panel display the tree
         
         ViewEventController.getInstance().setOverviewTree(this); //update the ViewEventControler so it contains the right tree
 
         System.out.println("finished refreshing the tree");
 	}
-
-	//TODO figure out how to implement the mouse listener without messing up the opening of tree nodes
 	
+	private void addRequirementsToTree(List<Requirement> requirements, DefaultMutableTreeNode parentNode) {
+		
+		for (int j = 0; j < requirements.size(); j++) {
+			DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
+			List<Requirement> children = requirements.get(j).getChildren();
+			if(children.size() > 0)
+			{
+				addRequirementsToTree(children, newReqNode);
+			}
+			parentNode.add(newReqNode);
+		}
+	}
+
 	/**
 	 * Method mouseClicked.
 	 * @param e MouseEvent
@@ -138,20 +119,27 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		
 		if (e.getClickCount() == 2)
 		{
 			TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
-			Object[] path = null;
 			if(treePath != null)
-				path = treePath.getPath();
-			
-			if ((path != null) && (path.length == 2)) ViewEventController.getInstance().editSelectedIteration();
-			else if ((path != null) && (path.length > 2)) {
-				Requirement req = ((Requirement)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject());
-				ViewEventController.getInstance().editRequirement(req);
+			{
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+				if(node != null)
+				{
+					if(node.getUserObject() instanceof Iteration)
+					{
+						ViewEventController.getInstance().editIteration((Iteration)node.getUserObject());
+					}
+					if(node.getUserObject() instanceof Requirement)
+					{
+						ViewEventController.getInstance().editRequirement((Requirement)node.getUserObject());
+					}
+				}
 			}
 		}
-
+/*
 		    if (SwingUtilities.isRightMouseButton(e)) {
 
 		        int row = tree.getClosestRowForLocation(e.getX(), e.getY());
@@ -161,7 +149,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 				popup.add(new JMenuItem(label));
 				popup.show(tree, x, y);
 		    }
-		}
+		    */
+	}
 
 	/**
 	 * Method mousePressed.
@@ -169,9 +158,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 * @see java.awt.event.MouseListener#mousePressed(MouseEvent)
 	 */
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(MouseEvent e) {		
 	}
 
 	/**
@@ -180,9 +167,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 * @see java.awt.event.MouseListener#mouseReleased(MouseEvent)
 	 */
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseReleased(MouseEvent e) {		
 	}
 
 	/**
@@ -192,8 +177,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**
@@ -202,35 +185,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 	 * @see java.awt.event.MouseListener#mouseExited(MouseEvent)
 	 */
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseExited(MouseEvent e) {		
 	}
-//    MouseAdapter ma = new MouseAdapter() {
-//		private void myPopupEvent(MouseEvent e) {
-//			int x = e.getX();
-//			int y = e.getY();
-//			JTree tree = (JTree)e.getSource();
-//			TreePath path = tree.getPathForLocation(x, y);
-//			if (path == null)
-//				return;	
-//
-//			tree.setSelectionPath(path);
-//
-//			My_Obj obj = (My_Obj)path.getLastPathComponent();
-//
-//			String label = "popup: " + obj.getTreeLabel();
-//			JPopupMenu popup = new JPopupMenu();
-//			popup.add(new JMenuItem(label));
-//			popup.show(tree, x, y);
-//		}
-//		public void mousePressed(MouseEvent e) {
-//			if (e.isPopupTrigger()) myPopupEvent(e);
-//		}
-//		public void mouseReleased(MouseEvent e) {
-//			if (e.isPopupTrigger()) myPopupEvent(e);
-//		}
-//	};
 	/**
 	
 	 * @return the tree */
@@ -238,13 +194,42 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener{
 		return tree;
 	}
 
-//	@Override
-//	public void valueChanged(TreeSelectionEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
-//	public JTree addRequirement(Iteration iteration, Requirement requirement){
-//		return null;
-//	} 
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+		if(node != null)
+		{
+			if(node.getUserObject() instanceof Iteration)
+			{	
+				ViewEventController.getInstance().getIterationOverview().highlight((Iteration)node.getUserObject());
+			}
+			else
+			{
+				ViewEventController.getInstance().getIterationOverview().highlight(IterationModel.getInstance().getBacklog());
+			}
+		}
+	}
+
+	public void selectIteration(Iteration iteration) {
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode)tree.getModel().getRoot();
+		Enumeration<DefaultMutableTreeNode> e = root.breadthFirstEnumeration();
+		
+		DefaultMutableTreeNode foundNode = null;
+		while(e.hasMoreElements())
+		{
+			DefaultMutableTreeNode node = e.nextElement();
+			if(node.getUserObject() == iteration)
+			{
+				foundNode = node;
+				break;
+			}
+		}
+		
+		if(foundNode != null) 
+		{
+			TreePath path = new TreePath(foundNode.getPath());
+			tree.setSelectionPath(path);
+			tree.scrollPathToVisible(path);
+		}
+	}
 }

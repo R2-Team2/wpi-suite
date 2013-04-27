@@ -39,22 +39,30 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
 /**
  * 
  *
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationRequirements extends JPanel implements RequirementSelectorListener{
 	private JButton removeButton;
 	private JTable requirementTable;
 	private DefaultTableModel tableModel;
+	private IterationPanel parentPanel;
+	private ViewMode viewMode;
 	
 	private Iteration activeIteration;
-	private IterationPanel parent;
-	private ViewMode vm;
 	
 	private RequirementSelector reqSelector;
 
-	public IterationRequirements(IterationPanel parent, ViewMode view, Iteration displayIteration) {
+	/**
+	 * Constructor for IterationRequirements.
+	 * @param displayIteration Iteration
+	 */
+	public IterationRequirements(IterationPanel parent, ViewMode vm,  Iteration displayIteration) {
+	
 		activeIteration = displayIteration;
-		this.vm = view;
-		this.parent = parent;
+		parentPanel = parent;
+		viewMode = vm;
+		
 		this.setLayout(new BorderLayout());
 		
 		reqSelector = new RequirementSelector(this, null, RequirementSelectorMode.ITERATION, false);
@@ -67,7 +75,20 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		removeButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Remove requirement from iteration
+				int[] selectedObjects = requirementTable.getSelectedRows();
+				
+				for(int i = 0; i < selectedObjects.length; i++)
+				{
+					Requirement toBeRemoved = (Requirement)requirementTable.getValueAt(selectedObjects[i], 1);
+					toBeRemoved.setIteration("Backlog");
+					
+					UpdateRequirementController.getInstance().updateRequirement(toBeRemoved);
+				}
+				refreshTable();
+				ViewEventController.getInstance().refreshTree();
+				ViewEventController.getInstance().refreshTable();
+				reqSelector.refreshList();
+				parentPanel.refreshEstimate();
 			}
 		});
 		removeButton.setEnabled(false);
@@ -80,12 +101,15 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		requirementTable = buildTable();
 		scroll.setViewportView(requirementTable);
 		
-		removeButton.setEnabled(vm == ViewMode.EDITING);
-		reqSelector.enableChildren(vm == ViewMode.EDITING);
+		if(vm == ViewMode.CREATING) reqSelector.enableChildren(false);
 		
 		this.refreshTable();
 	}
 	
+	/**
+	 * Method buildTable.
+	 * @return JTable
+	 */
 	private JTable buildTable()
 	{
 		requirementTable = new JTable()
@@ -143,7 +167,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		{
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				removeButton.setEnabled(requirementTable.getSelectedRowCount() > 0);
+				removeButton.setEnabled(requirementTable.getSelectedRowCount() > 0 && viewMode == ViewMode.EDITING);
 			}		
 		});
 		
@@ -152,7 +176,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	
 	private void refreshTable()
 	{
-		if(vm == ViewMode.CREATING) return;
+		if(viewMode == ViewMode.CREATING) return; 
 		tableModel.setRowCount(0); //clear the table
 
 		List<Requirement> requirements = activeIteration.getRequirements();
@@ -173,24 +197,28 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		}
 	}
 
+	/**
+	 * Method requirementSelected.
+	 * @param requirements Object[]
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected(Object[])
+	 */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		for (Object obj : requirements) {
 			Requirement req = (Requirement) obj;
-			req.setIteration(activeIteration.getName(), false);
+			req.setIteration(activeIteration.getName());
 			UpdateRequirementController.getInstance().updateRequirement(req);
 		}
 		
 		refreshTable();
-		parent.refreshEstimate();
 		ViewEventController.getInstance().refreshTree();
 		ViewEventController.getInstance().refreshTable();
-
+		parentPanel.refreshEstimate();
 	}
 	
 	/**
-	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
-	 * 
+	* Overrides the paintComponent method to retrieve the requirements on the first painting.
+	* 
 	 * @param g	The component object to paint
 	 */
 	@Override

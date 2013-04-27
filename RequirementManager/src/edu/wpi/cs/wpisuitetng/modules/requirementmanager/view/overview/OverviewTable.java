@@ -9,18 +9,22 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DropMode;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.TransferHandler;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
@@ -39,7 +43,9 @@ public class OverviewTable extends JTable
 	private DefaultTableModel tableModel = null;
 	private boolean initialized;
 	private boolean isInEditMode;
-	private boolean changedByRefresh = false;
+	private boolean changedByRefresh = false;	
+	private Border paddingBorder = BorderFactory.createEmptyBorder(0, 4, 0, 0);
+	
 	/**
 	 * Sets initial table view
 	 * 
@@ -52,11 +58,10 @@ public class OverviewTable extends JTable
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 		this.setDefaultEditor(Object.class, new OverviewTableEstimateCellEditor(new JTextField()));
-		 // added by raph start
-        this.setDragEnabled(true);
-        this.setDropMode(DropMode.ON_OR_INSERT);
-        this.setTransferHandler(new TransferHandler(getName()));
-        // end
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setDragEnabled(true);
+        this.setDropMode(DropMode.ON);
+        this.setTransferHandler(new OverviewTableTransferHandler(this));
 
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setAutoCreateRowSorter(true);
@@ -230,7 +235,7 @@ public class OverviewTable extends JTable
 	 */
 	public void saveChanges() {
 		// Set time stamp for transaction history
-		long timestamp = System.currentTimeMillis();
+		long timestamp = System.currentTimeMillis();	
 		
 		// iterate through the rows of the overview table
 		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
@@ -241,6 +246,9 @@ public class OverviewTable extends JTable
 			
 			// use the ID number in the row to retrieve the requirement represented by the row
 			Requirement req = RequirementModel.getInstance().getRequirement(rowID);
+			
+			// indicate that the requirement were not just created
+			req.setWasCreated(false);
 									
 			// Set the time stamp for the transaction for the creation of the requirement
 			req.getHistory().setTimestamp(timestamp);
@@ -264,11 +272,11 @@ public class OverviewTable extends JTable
 			else {
 				cellEstimate = Integer.parseInt(cellEstimateStr);
 			}
-			req.setEstimate(cellEstimate, false);
+			req.setEstimate(cellEstimate);
 			
 			// updates requirement on the server
 			UpdateRequirementController.getInstance().updateRequirement(req);			
-		}	
+		}			
 		
 		// refresh table to get rid of cell highlights
 		this.refresh();
@@ -313,4 +321,16 @@ public class OverviewTable extends JTable
 		// indicate that no changes were found by returning false
 		return false;
 	}
+	
+	@Override
+    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+        Component comp = super.prepareRenderer(renderer, row, column);
+
+        if (JComponent.class.isInstance(comp)){
+            ((JComponent)comp).setBorder(paddingBorder);
+        }
+		return comp;
+
+    }
+	
 }

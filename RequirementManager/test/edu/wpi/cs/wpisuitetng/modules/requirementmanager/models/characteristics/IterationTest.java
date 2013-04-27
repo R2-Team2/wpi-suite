@@ -54,11 +54,9 @@ public class IterationTest {
 		Iteration itr = new Iteration(3, "Rolling Thunder");
 		itr.setId(2);
 		itr.setName("Changed");
-		itr.setEstimate(5);
 		
 		assertEquals(2, itr.getId());
 		assertEquals("Changed", itr.getName());
-		assertEquals(5, itr.getEstimate());
 		
 		itr.setName("");
 		assertEquals("Backlog", itr.getName());

@@ -11,28 +11,20 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
-
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
-
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
@@ -52,6 +44,7 @@ public class ViewEventController {
 	private OverviewTreePanel overviewTree = null;
 	private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
 	private ArrayList<IterationPanel> listOfIterationPanels = new ArrayList<IterationPanel>();
+	private IterationOverviewPanel iterationOverview;
 	
 	/**
 	 * Sets the OverviewTable for the controller
@@ -220,6 +213,9 @@ public class ViewEventController {
 	{
 		RequirementPanel exists = null;
 		
+		// set time stamp for transactions
+		toEdit.getHistory().setTimestamp(System.currentTimeMillis());
+		
 		for(RequirementPanel panel : listOfEditingPanels)
 		{
 			if(panel.getDisplayRequirement() == toEdit)
@@ -349,7 +345,7 @@ public class ViewEventController {
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration("Backlog", created);
+			toSendToBacklog.setIteration("Backlog");
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 
@@ -383,11 +379,19 @@ public class ViewEventController {
 			Component toBeRemoved = main.getComponentAt(i);
 
 			if(toBeRemoved instanceof OverviewPanel) continue;
+			
+			if(toBeRemoved instanceof IterationOverviewPanel) continue;
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
 				if(!((RequirementPanel)toBeRemoved).readyToRemove()) continue;
 				this.listOfEditingPanels.remove(toBeRemoved);
+			}
+			
+			if(toBeRemoved instanceof IterationPanel)
+			{
+				if(!((IterationPanel)toBeRemoved).readyToRemove()) continue;
+				this.listOfIterationPanels.remove(toBeRemoved);
 			}
 
 			main.removeTabAt(i);
@@ -399,24 +403,32 @@ public class ViewEventController {
 	/**
 	 * Closes all the tabs except for the one that was clicked.
 	 * 
-	 * @param indexOfTab Index of the tab that was clicked
 	 */
-	public void closeOthers(int indexOfTab) {
+	public void closeOthers() {
 		int tabCount = main.getTabCount();
-		Component compAtIndex = main.getComponentAt(indexOfTab);
+		Component selected = main.getSelectedComponent();
 
 		for(int i = tabCount - 1; i >= 0; i--)
 		{
 			Component toBeRemoved = main.getComponentAt(i);
 
-			if(toBeRemoved instanceof OverviewPanel) continue;
-
-			if(toBeRemoved == compAtIndex) continue;
+			if(toBeRemoved instanceof OverviewPanel){
+				continue;}
+			if(toBeRemoved instanceof IterationOverviewPanel) continue;
+			if(toBeRemoved == selected){
+				continue;}
 
 			if(toBeRemoved instanceof RequirementPanel)
 			{
-				if(!((RequirementPanel)toBeRemoved).readyToRemove()) break;
+				if(!((RequirementPanel)toBeRemoved).readyToRemove()){
+					break;}
 				this.listOfEditingPanels.remove(toBeRemoved);
+			}
+			
+			if(toBeRemoved instanceof IterationPanel)
+			{
+				if(!((IterationPanel)toBeRemoved).readyToRemove()) continue;
+				this.listOfIterationPanels.remove(toBeRemoved);
 			}
 
 			main.removeTabAt(i);
@@ -444,6 +456,23 @@ public class ViewEventController {
 	}
 
 	/**
+	 * Gets the iteration overview
+	 */
+	public IterationOverviewPanel getIterationOverview()
+	{
+		return iterationOverview;
+	}
+	
+	/**
+	 * Sets the iteration overview
+	 * @param iOverview iterationoverview
+	 */
+	public void setIterationOverview(IterationOverviewPanel iOverview)
+	{
+		iterationOverview = iOverview;
+	}
+	
+	/**
 	 * Method getOverviewTree.
 	
 	 * @return OverviewTreePanel */
@@ -464,9 +493,12 @@ public class ViewEventController {
 	}
 	
 	public void editSelectedIteration() {
-		String name = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject()).getName();
-		Iteration iter = IterationModel.getInstance().getIteration(name);
+		DefaultMutableTreeNode selected = (DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent();
+		if(selected.getUserObject() instanceof Iteration)
+		{
+			Iteration iter = ((Iteration)((DefaultMutableTreeNode)overviewTree.getTree().getLastSelectedPathComponent()).getUserObject());
 		
-		ViewEventController.getInstance().editIteration(iter);
+			ViewEventController.getInstance().editIteration(iter);
+		}
 	}
 }

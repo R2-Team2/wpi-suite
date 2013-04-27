@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -58,7 +59,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 		viewMode = vm;
 		notesAdded = 0;
 		
-		this.buildNoteMessage();
+		Component noteField = this.buildNoteField();
 		noteScroll = new JScrollPane();
 
 		// Buttons to be added to the bottom of the NotePanel
@@ -92,7 +93,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 
 		c.gridy = 1; // Row 1
 		c.weighty = 0; // Fill 0% of vertical space
-		this.add(noteMessage, c);
+		this.add(noteField, c);
 
 		bc.anchor = GridBagConstraints.WEST; // Anchor buttons to west of bottom
 												// panel
@@ -148,7 +149,7 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 					buttonAddNote.setEnabled(false);
 
 					// Add note to requirement
-					currentRequirement.getNotes().add(msg);
+					currentRequirement.addNote(msg);
 
 					refresh();
 					notesAdded++;
@@ -173,9 +174,9 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 
 	/**
 	 * Method buildNoteMessage.
-	
-	 * @return JTextArea */
-	private JTextArea buildNoteMessage(){		
+	 * @return JTextArea
+	 */
+	private Component buildNoteField(){		
 		noteMessage.addKeyListener(new KeyAdapter()
 		{
 			@Override
@@ -198,7 +199,11 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	            BorderFactory.createEmptyBorder(4, 4, 4, 4));
 		noteMessage.setBorder(b);
 		
-		return noteMessage;
+		JScrollPane scroller = new JScrollPane(noteMessage);
+		scroller.setMinimumSize(new Dimension(50,50));
+		scroller.setPreferredSize(new Dimension(60,60));
+		
+		return scroller;
 	}
 
 	/**
