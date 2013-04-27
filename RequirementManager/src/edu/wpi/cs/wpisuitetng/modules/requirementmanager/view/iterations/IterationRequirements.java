@@ -101,7 +101,7 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 		requirementTable = buildTable();
 		scroll.setViewportView(requirementTable);
 		
-		if(vm == ViewMode.EDITING) reqSelector.enableChildren(false);
+		if(vm == ViewMode.CREATING) reqSelector.enableChildren(false);
 		
 		this.refreshTable();
 	}

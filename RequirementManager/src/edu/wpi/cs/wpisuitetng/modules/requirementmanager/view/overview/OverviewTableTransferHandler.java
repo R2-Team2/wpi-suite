@@ -64,32 +64,12 @@ public class OverviewTableTransferHandler extends TransferHandler {
 
 	@Override
 	public boolean importData(TransferHandler.TransferSupport info) {
-		//getdrop location
-		JTree.DropLocation dl = (JTree.DropLocation)info.getDropLocation();
-		TreePath dest = dl.getPath();
-		DefaultMutableTreeNode parent = (DefaultMutableTreeNode)dest.getLastPathComponent();
-
-		
-		if(parent.getUserObject() instanceof Iteration)
-		{
-			Iteration newIteration = (Iteration)parent.getUserObject();
-			
-			Requirement req = (Requirement)table.getValueAt(table.getSelectedRow(), 1);
-			req.setIteration(newIteration.getName());
-			UpdateRequirementController.getInstance().updateRequirement(req);
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
-			return true;
-		}
-		
 		return false;
 	}
 
 	@Override
 	protected void exportDone(JComponent c, Transferable t, int act) {
-		if (act == TransferHandler.MOVE) {
-			table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		}
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 }

@@ -82,9 +82,7 @@ public class IterationTransferHandler extends TransferHandler {
 
 	@Override
 	protected void exportDone(JComponent c, Transferable t, int act) {
-		if (act == TransferHandler.MOVE) {
-			c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		}
+		c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
 	public int getSourceActions(JComponent c) {

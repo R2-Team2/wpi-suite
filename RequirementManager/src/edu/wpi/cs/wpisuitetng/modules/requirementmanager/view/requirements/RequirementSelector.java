@@ -43,6 +43,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
@@ -196,7 +197,7 @@ public class RequirementSelector extends JScrollPane {
 			List<Requirement> possibleRequirements = IterationModel.getInstance().getIteration("Backlog").getRequirements();
 			for(Requirement req : possibleRequirements)
 			{
-				if(req.getEstimate() > 0) ((DefaultListModel<Requirement>)reqList).addElement(req);
+				if(req.getEstimate() > 0 && req.getStatus() != RequirementStatus.COMPLETE && req.getStatus() != RequirementStatus.DELETED) ((DefaultListModel<Requirement>)reqList).addElement(req);
 			}
 			break;
 		}
