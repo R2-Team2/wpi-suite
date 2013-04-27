@@ -62,7 +62,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	 */
 	public void refresh(){
 		
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode(/*ConfigManager.getConfig().getProjectName()*/ "BEHOLD THE TREE"); //makes a starting node
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(/*ConfigManager.getConfig().getProjectName()*/ "Iteration Tree"); //makes a starting node
 		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
 		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
