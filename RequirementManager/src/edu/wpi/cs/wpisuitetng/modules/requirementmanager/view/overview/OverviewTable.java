@@ -9,17 +9,22 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DropMode;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
@@ -38,7 +43,9 @@ public class OverviewTable extends JTable
 	private DefaultTableModel tableModel = null;
 	private boolean initialized;
 	private boolean isInEditMode;
-	private boolean changedByRefresh = false;
+	private boolean changedByRefresh = false;	
+	private Border paddingBorder = BorderFactory.createEmptyBorder(0, 4, 0, 0);
+	
 	/**
 	 * Sets initial table view
 	 * 
@@ -314,4 +321,16 @@ public class OverviewTable extends JTable
 		// indicate that no changes were found by returning false
 		return false;
 	}
+	
+	@Override
+    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+        Component comp = super.prepareRenderer(renderer, row, column);
+
+        if (JComponent.class.isInstance(comp)){
+            ((JComponent)comp).setBorder(paddingBorder);
+        }
+		return comp;
+
+    }
+	
 }
