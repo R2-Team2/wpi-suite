@@ -43,11 +43,11 @@ public class MainViewTest {
 
 	@Test
 	public void numberOfCreatedTabtest() {
-		assertEquals(1,vec.getMainView().getTabCount());
-		vec.getToolbar().getReqButton().getCreateButton().doClick();
 		assertEquals(2,vec.getMainView().getTabCount());
-		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
+		vec.getToolbar().getReqButton().getCreateButton().doClick();
 		assertEquals(3,vec.getMainView().getTabCount());
+		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
+		assertEquals(4,vec.getMainView().getTabCount());
 	}
 
 }

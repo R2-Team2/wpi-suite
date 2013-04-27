@@ -223,6 +223,8 @@ public class Requirement extends AbstractModel {
 		if ((name != this.name) && (!wasCreated)) {
 			String originalName = this.name;
 			String newName = name;
+			if (newName.length() > 100)
+				newName = newName.substring(0, 100);
 			String message = ("Name changed from " + originalName + " to " + newName);
 			this.history.add(message);			
 		}
