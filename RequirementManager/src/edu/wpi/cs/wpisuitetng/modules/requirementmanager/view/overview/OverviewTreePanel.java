@@ -102,10 +102,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		for (int j = 0; j < requirements.size(); j++) {
 			DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
 			List<Requirement> children = requirements.get(j).getChildren();
+			if((requirements.get(j).getParentID() != -1) && (parentNode.getUserObject() instanceof Iteration)){
+				System.out.println("breaking for " + requirements.get(j).getName());
+				continue;
+			}
 			if(children.size() > 0)
 			{
 				addRequirementsToTree(children, newReqNode);
 			}
+			System.out.println("adding " + requirements.get(j).getName());
 			parentNode.add(newReqNode);
 		}
 	}
