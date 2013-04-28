@@ -83,7 +83,7 @@ public class AcceptanceTestTest {
 	//===== SingleAcceptanceTestPanel.java tests =====
 	
 	@Test
-	public void testToSeeIFANotNullAcceptanceTestPanelCanBeMade() {
+	public void testToSeeIfANotNullAcceptanceTestPanelCanBeMade() {
 		Requirement testReq = new  Requirement(1, "reqName", "Description");
 		AcceptanceTest testAT = new AcceptanceTest(2, "Name", "An acceptance test for testing");
 		assertNotNull(new SingleAcceptanceTestPanel(testReq, testAT));
@@ -111,11 +111,26 @@ public class AcceptanceTestTest {
 	@Test
 	public void testUpdateTestStatus() {
 		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		testReq.addTest(new AcceptanceTest(1, "First Name", "Description"));
 		AcceptanceTest testAT = new AcceptanceTest(2, "Name", "Description");
 		testAT.setStatus(TestStatus.STATUS_FAILED);
 		testReq.addTest(testAT);
-		assertEquals("Failed", testReq.getTests().get(0).getStatus());
+		assertEquals("Failed", testReq.getTests().get(1).getStatus());
 		testReq.updateTestStatus(2, TestStatus.STATUS_PASSED);
-		assertEquals("Passed", testReq.getTests().get(0).getStatus());
+		assertEquals("Passed", testReq.getTests().get(1).getStatus());
+	}
+	
+	@Test
+	public void testRemovingAnAcceptanceTest() {
+		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		testReq.addTest(new AcceptanceTest(1, "First Name", "Description"));
+		testReq.addTest(new AcceptanceTest(2, "Second Name", "Description"));
+		assertEquals(2, testReq.getTests().size());
+		testReq.removeTest(2);
+		assertEquals(1, testReq.getTests().size());
+		testReq.removeTest(4);
+		assertEquals(1, testReq.getTests().size());
+		testReq.removeTest(1);
+		assertEquals(0, testReq.getTests().size());
 	}
 }

@@ -261,7 +261,7 @@ public class NewRequirementPanelTest {
 	{
 		// Create new requirement panel
 		RequirementPanel testNew = new RequirementPanel(-1);
-		
+
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
@@ -273,6 +273,7 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getBoxEstimate().setText("0");
 		testNew.getInfoPanel().keyReleased(null);
 		testNew.getInfoPanel().validateFields(true);
+
 		// click update (without closing in order to retrieve information)
 		testNew.getInfoPanel().update();
 		

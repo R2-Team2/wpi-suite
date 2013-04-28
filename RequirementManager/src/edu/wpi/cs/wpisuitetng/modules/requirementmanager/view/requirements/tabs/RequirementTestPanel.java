@@ -18,6 +18,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
- * @author justinhess
+ * @author Rolling Thunder
  * @version $Revision: 1.0 $
  */
 public class RequirementTestPanel extends JPanel implements RequirementPanelListener{
@@ -273,5 +274,25 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	@Override
 	public void fireRefresh() {
 		this.refresh();
+	}
+
+	public int getTestsAdded() {
+		return testsAdded;
+	}
+
+	public JButton getAddTestButton() {
+		return buttonAddTest;
+	}
+
+	public JTextField getTestTitle() {
+		return testTitle;
+	}
+
+	public JTextArea getTestMessage() {
+		return testMessage;
+	}
+
+	public JButton getClearButton() {
+		return buttonClear;
 	}
 }

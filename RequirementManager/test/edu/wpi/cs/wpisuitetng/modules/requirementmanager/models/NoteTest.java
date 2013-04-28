@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Month;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.SingleNotePanel;

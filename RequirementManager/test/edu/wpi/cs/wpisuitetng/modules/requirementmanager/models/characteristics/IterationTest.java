@@ -102,4 +102,10 @@ public class IterationTest {
 		assertEquals(returned.getId(), itr.getId());
 		assertEquals(returned.getName(), itr.getName());
 	}
+	
+	// this is a quick test for the functionality of the Month ENUM
+	@Test
+	public void testMonthENUM() {
+		assertEquals("January", Month.JANUARY.toString());
+	}
 }

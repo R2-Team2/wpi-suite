@@ -133,4 +133,8 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	public RequirementNotePanel getNotePanel() {
 		return notePanel;
 	}
+
+	public RequirementTestPanel getTestPanel() {
+		return testPanel;
+	}
 }
