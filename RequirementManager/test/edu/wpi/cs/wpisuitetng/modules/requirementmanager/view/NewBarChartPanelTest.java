@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBa
  * tests the functionality of the NewBarChatPanel source file
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class NewBarChartPanelTest {
 
@@ -47,8 +48,9 @@ public class NewBarChartPanelTest {
 	
 	static ViewEventController vec;
 	/**
-	 * @throws java.lang.Exception
-	 */
+	
+	 * @throws Exception
+	 * @throws java.lang.Exception */
 	@BeforeClass
 	public static void setUp() throws Exception {
 		String [][] exData = new String[1][8];

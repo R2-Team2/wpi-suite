@@ -322,6 +322,13 @@ public class OverviewTable extends JTable
 		return false;
 	}
 	
+	/**
+	 * Method prepareRenderer.
+	 * @param renderer TableCellRenderer
+	 * @param row int
+	 * @param column int
+	 * @return Component
+	 */
 	@Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component comp = super.prepareRenderer(renderer, row, column);

@@ -78,10 +78,18 @@ public class ChartButtonsPanel extends JPanel{
 		this.add(barChart);
 	}
 
+	/**
+	 * Method getBarChartButton.
+	 * @return JButton
+	 */
 	public JButton getBarChartButton() {
 		return barChart;
 	}
 
+	/**
+	 * Method getPieChartButton.
+	 * @return JButton
+	 */
 	public JButton getPieChartButton() {
 		return pieChart;
 	}

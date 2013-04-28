@@ -457,6 +457,7 @@ public class ViewEventController {
 
 	/**
 	 * Gets the iteration overview
+	 * @return IterationOverviewPanel
 	 */
 	public IterationOverviewPanel getIterationOverview()
 	{
@@ -502,10 +503,18 @@ public class ViewEventController {
 		}
 	}
 
+	/**
+	 * Method getListOfIterationPanels.
+	 * @return ArrayList<IterationPanel>
+	 */
 	public ArrayList<IterationPanel> getListOfIterationPanels() {
 		return listOfIterationPanels;
 	}
 
+	/**
+	 * Method getListOfRequirementPanels.
+	 * @return ArrayList<RequirementPanel>
+	 */
 	public ArrayList<RequirementPanel> getListOfRequirementPanels() {
 		return listOfEditingPanels;
 	}

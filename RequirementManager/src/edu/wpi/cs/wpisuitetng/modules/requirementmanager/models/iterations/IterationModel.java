@@ -97,7 +97,8 @@ public class IterationModel extends AbstractListModel {
 	 * 
 	
 	
-	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize() * @see javax.swing.ListModel#getSize()
+	
+	 * @return the number of Iterations in the project * @see javax.swing.ListModel#getSize() * @see javax.swing.ListModel#getSize() * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
 		return listOfIterations.size();
@@ -124,7 +125,8 @@ public class IterationModel extends AbstractListModel {
 	 *            The index of the Iteration to be returned
 	
 	
-	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int) * @see javax.swing.ListModel#getElementAt(int)
+	
+	 * @return the Iteration associated with the provided index * @see javax.swing.ListModel#getElementAt(int) * @see javax.swing.ListModel#getElementAt(int) * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
