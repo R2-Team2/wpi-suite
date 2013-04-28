@@ -18,6 +18,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class IterationOverviewPanel extends JSplitPane {	
 	private IterationCalendar calendarView;
 	

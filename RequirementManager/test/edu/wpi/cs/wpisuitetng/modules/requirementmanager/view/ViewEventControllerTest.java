@@ -19,14 +19,16 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewT
  * This is a test for basic functionality of the ViewEventController.java source file
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class ViewEventControllerTest {
 
 	ViewEventController vec;
 	
 	/**
-	 * @throws java.lang.Exception
-	 */
+	
+	 * @throws Exception
+	 * @throws java.lang.Exception */
 	@Before
 	public void setUp() throws Exception {
 		String [][] exData = new String[1][8];

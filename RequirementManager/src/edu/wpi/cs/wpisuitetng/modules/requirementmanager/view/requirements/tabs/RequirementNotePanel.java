@@ -174,8 +174,8 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 
 	/**
 	 * Method buildNoteMessage.
-	 * @return JTextArea
-	 */
+	
+	 * @return JTextArea */
 	private Component buildNoteField(){		
 		noteMessage.addKeyListener(new KeyAdapter()
 		{
@@ -210,7 +210,8 @@ public class RequirementNotePanel extends JPanel implements RequirementPanelList
 	 * Method readyToRemove.
 	
 	
-	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return noteMessage.getText().length() == 0 && (notesAdded == 0 || viewMode == ViewMode.EDITING);

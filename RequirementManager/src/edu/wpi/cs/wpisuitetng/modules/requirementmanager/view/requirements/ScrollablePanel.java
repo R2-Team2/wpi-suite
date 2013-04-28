@@ -26,7 +26,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 	 * Method getPreferredScrollableViewportSize.
 	
 	
-	 * @return Dimension * @see javax.swing.Scrollable#getPreferredScrollableViewportSize() */
+	 * @return Dimension * @see javax.swing.Scrollable#getPreferredScrollableViewportSize() * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
+	 */
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {
 		return getPreferredSize();
@@ -39,7 +40,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 	 * @param direction int
 	
 	
-	 * @return int * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int) */
+	 * @return int * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int) * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
+	 */
 	@Override
 	public int getScrollableUnitIncrement(Rectangle visibleRect,
 			int orientation, int direction) {
@@ -53,7 +55,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 	 * @param direction int
 	
 	
-	 * @return int * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int) */
+	 * @return int * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int) * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
+	 */
 	@Override
 	public int getScrollableBlockIncrement(Rectangle visibleRect,
 			int orientation, int direction) {
@@ -64,7 +67,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 	 * Method getScrollableTracksViewportWidth.
 	
 	
-	 * @return boolean * @see javax.swing.Scrollable#getScrollableTracksViewportWidth() */
+	 * @return boolean * @see javax.swing.Scrollable#getScrollableTracksViewportWidth() * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
+	 */
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
 		return true;
@@ -74,7 +78,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 	 * Method getScrollableTracksViewportHeight.
 	
 	
-	 * @return boolean * @see javax.swing.Scrollable#getScrollableTracksViewportHeight() */
+	 * @return boolean * @see javax.swing.Scrollable#getScrollableTracksViewportHeight() * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
+	 */
 	@Override
 	public boolean getScrollableTracksViewportHeight() {
 		return false;

@@ -56,6 +56,8 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	/**
 	 * Constructor for IterationRequirements.
 	 * @param displayIteration Iteration
+	 * @param parent IterationPanel
+	 * @param vm ViewMode
 	 */
 	public IterationRequirements(IterationPanel parent, ViewMode vm,  Iteration displayIteration) {
 	
@@ -108,8 +110,8 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	
 	/**
 	 * Method buildTable.
-	 * @return JTable
-	 */
+	
+	 * @return JTable */
 	private JTable buildTable()
 	{
 		requirementTable = new JTable()
@@ -200,8 +202,8 @@ public class IterationRequirements extends JPanel implements RequirementSelector
 	/**
 	 * Method requirementSelected.
 	 * @param requirements Object[]
-	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected(Object[])
-	 */
+	
+	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementSelectorListener#requirementSelected(Object[]) */
 	@Override
 	public void requirementSelected(Object[] requirements) {
 		for (Object obj : requirements) {

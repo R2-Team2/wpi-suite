@@ -29,15 +29,26 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class OverviewTableTransferHandler extends TransferHandler {
 	private final DataFlavor localObjectFlavor;
 	private JTable table;
 
+	/**
+	 * Constructor for OverviewTableTransferHandler.
+	 * @param table JTable
+	 */
 	public OverviewTableTransferHandler(JTable table) {
 		localObjectFlavor = new DataFlavor(Requirement.class, "Requirement");
 		this.table = table;
 	}
 
+	/**
+	 * Method createTransferable.
+	 * @param c JComponent
+	 * @return Transferable
+	 */
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		assert (c == table);
@@ -51,22 +62,43 @@ public class OverviewTableTransferHandler extends TransferHandler {
 		return null;	
 	}
 
+	/**
+	 * Method canImport.
+	 * @param info TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	@Override
 	public boolean canImport(TransferHandler.TransferSupport info) {
 		table.setCursor(DragSource.DefaultMoveNoDrop);
 		return false;
 	}
 
+	/**
+	 * Method getSourceActions.
+	 * @param c JComponent
+	 * @return int
+	 */
 	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.MOVE;
 	}
 
+	/**
+	 * Method importData.
+	 * @param info TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	@Override
 	public boolean importData(TransferHandler.TransferSupport info) {
 		return false;
 	}
 
+	/**
+	 * Method exportDone.
+	 * @param c JComponent
+	 * @param t Transferable
+	 * @param act int
+	 */
 	@Override
 	protected void exportDone(JComponent c, Transferable t, int act) {
 		table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

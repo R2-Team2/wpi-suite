@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class ErrorPanel extends JLabel {
 
