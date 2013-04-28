@@ -219,18 +219,18 @@ public class Requirement extends AbstractModel {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
-		if ((name != this.name) && (!wasCreated)) {
+	public void setName(String n) {
+		if (!n.equals(this.name) && !wasCreated) {
 			String originalName = this.name;
-			String newName = name;
+			String newName = n;
 			if (newName.length() > 100)
 				newName = newName.substring(0, 100);
 			String message = ("Name changed from " + originalName + " to " + newName);
 			this.history.add(message);			
 		}
-		this.name = name;
+		this.name = n;
 		if (name.length() > 100)
-			this.name = name.substring(0, 100);
+			this.name = n.substring(0, 100);
 	}
 
 	/**
@@ -248,14 +248,14 @@ public class Requirement extends AbstractModel {
 	 * @param release
 	 *            the release to set
 	 */
-	public void setRelease(String release) {
-		if ((release != this.release) && (!wasCreated)) {
+	public void setRelease(String rel) {
+		if (!rel.equals(this.release) && !wasCreated) {
 			String originalRelease = this.release;
-			String newRelease = release;
+			String newRelease = rel;
 			String message = ("Release # changed from " + originalRelease + " to " + newRelease);
 			this.history.add(message);			
 		}
-		this.release = release;
+		this.release = rel;
 	}
 
 	/**
@@ -300,11 +300,11 @@ public class Requirement extends AbstractModel {
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
-		if ((description != this.description) && (!wasCreated)) {
+	public void setDescription(String desc) {
+		if (!desc.equals(this.description) && !wasCreated) {
 			this.history.add("Description changed");			
 		}
-		this.description = description;
+		this.description = desc;
 	}
 
 	/**
@@ -647,8 +647,8 @@ public class Requirement extends AbstractModel {
 	public void setParentID(int parentReq) throws Exception {
 		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
-			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
-			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
+//			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
+//			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
 		} else {
 			throw new Exception("Cannot add ancestor as parent");
 		}
