@@ -144,4 +144,14 @@ public class ViewEventControllerTest {
 		assertEquals(prevTabCount + 1, vec.getMainView().getTabCount());
 		assertEquals(numReqs + 1, vec.getListOfRequirementPanels().size());
 	}
+	
+	@Test
+	public void testThatATabCanBeOpenedForCreatingAChildRequirement() {
+		int prevTabCount = vec.getMainView().getTabCount();
+		vec.createChildRequirement(1);
+		assertEquals(prevTabCount + 1, vec.getMainView().getTabCount());
+		// multiple children can be made for the same parent
+		vec.createChildRequirement(1);
+		assertEquals(prevTabCount + 2, vec.getMainView().getTabCount());
+	}
 }
