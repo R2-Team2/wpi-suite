@@ -149,6 +149,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxIteration = (new JComboBox<Iteration>(iterationArray));
 		boxIteration.addItemListener(this);
 		boxIteration.setBackground(Color.WHITE);
+		boxIteration.setMaximumSize(new Dimension(150, 25));
 
 		errorName = (new JLabel());
 		errorDescription = (new JLabel());
