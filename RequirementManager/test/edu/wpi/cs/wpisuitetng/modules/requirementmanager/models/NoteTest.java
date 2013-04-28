@@ -15,11 +15,12 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.SingleNotePanel;
 
 import static org.junit.Assert.*;
 
 /**
- * Tests the Note.java, NoteList.java, and NotePanel.java source files
+ * Tests the Note.java, NoteList.java, and SingleNotePanel.java source files
  * @author Rolling Thunder
  *
  * @version $Revision: 1.0 $
@@ -107,12 +108,12 @@ public class NoteTest {
 		assertEquals("third note added", list.getItem(2).getMessage());
 	}
 	
-	//===== NotePanel.java test =====
-	/*
+	//===== SingleNotePanel.java test =====
+	
 	@Test
 	public void makeANotePanelTest() {
 		Note testNote = new Note(3, "Rolling Thunder", 120, "Test note");
-		assertNotNull(new NotePanel(testNote));
+		assertNotNull(new SingleNotePanel(testNote));
 		
 	}
 	
@@ -122,6 +123,6 @@ public class NoteTest {
 		list.add("first note added");
 		list.add("second note added");
 		list.add("third note added");
-		assertNotNull(NotePanel.createList(list));
-	}*/
+		assertNotNull(SingleNotePanel.createList(list));
+	}
 }

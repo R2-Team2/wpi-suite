@@ -79,25 +79,18 @@ public class NewPieChartPanelTest {
 	@Test
 	public void creationOfStatusPieChartTabTest() {
 		ToolbarView tb = new ToolbarView(true);
-		assertEquals(2, vec.getMainView().getTabCount());
+		while(2 < vec.getMainView().getTabCount()) {
+			vec.getMainView().removeTabAt(2);	// remove any previously created tabs
+		}
 		tb.getChartButton().getPieChartButton().doClick();
 		assertEquals(3, vec.getMainView().getTabCount());
 	}
 
 	@Test
 	public void creationOfIterationPieChartTabTest() {
-//		IterationModel.getInstance().addIteration(new Iteration(2, "iter 2"));
-//		IterationModel.getInstance().addIteration(new Iteration(3, "iter 3"));
-//		List<String> assigned = new ArrayList<String>();
-//		assigned.add("Bob");
-//		req1.setAssignedTo(assigned);
-//		assigned.add("Sue");
-//		req2.setAssignedTo(assigned);
-//		RequirementModel.getInstance().emptyModel();
-//		RequirementModel.getInstance().addRequirement(req1);
-//		RequirementModel.getInstance().addRequirement(req2);
-		assertEquals(3, vec.getMainView().getTabCount());
-		vec.getMainView().removeTabAt(2);	// remove the previously created pie chart tab
+		while(2 < vec.getMainView().getTabCount()) {
+			vec.getMainView().removeTabAt(2);	// remove any previously created tabs
+		}
 		assertEquals(2, vec.getMainView().getTabCount());
 		vec.createPieChart("Iteration");
 		assertEquals(3, vec.getMainView().getTabCount());
@@ -108,16 +101,9 @@ public class NewPieChartPanelTest {
 	 */
 	@Test
 	public void testDataAssignedPieChart() {
-//		List<String> assigned = new ArrayList<String>();
-//		assigned.add("Bob");
-//		req1.setAssignedTo(assigned);
-//		assigned.add("Sue");
-//		req2.setAssignedTo(assigned);
-//		RequirementModel.getInstance().emptyModel();
-//		RequirementModel.getInstance().addRequirement(req1);
-//		RequirementModel.getInstance().addRequirement(req2);
-		assertEquals(3, vec.getMainView().getTabCount());
-		vec.getMainView().removeTabAt(2);	// remove the previously created bar chart tab
+		while(2 < vec.getMainView().getTabCount()) {
+			vec.getMainView().removeTabAt(2);	// remove any previously created tabs
+		}
 		assertEquals(2, vec.getMainView().getTabCount());
 		vec.createPieChart("Data");
 		assertEquals(3, vec.getMainView().getTabCount());

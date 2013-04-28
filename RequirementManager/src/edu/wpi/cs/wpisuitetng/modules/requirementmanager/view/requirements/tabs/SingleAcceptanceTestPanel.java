@@ -42,6 +42,7 @@ public class SingleAcceptanceTestPanel extends JPanel
 	
 	private AcceptanceTest test;
 	private Requirement requirement;
+	JComboBox<TestStatus> dropdownStatus;
 
 	/**
 	 * Constructor for the single acceptance test panel panel
@@ -72,7 +73,7 @@ public class SingleAcceptanceTestPanel extends JPanel
 		JLabel testName = new JLabel(" "+test.getName());
 		
 		// Get status and set drop down box to correct status
-		JComboBox<TestStatus> dropdownStatus = new JComboBox<TestStatus>(TestStatus.values());
+		dropdownStatus = new JComboBox<TestStatus>(TestStatus.values());
 		dropdownStatus.setBackground(Color.WHITE);
 		if (test.getStatus().equals("")) {
 			dropdownStatus.setSelectedItem(TestStatus.STATUS_BLANK);
@@ -163,6 +164,10 @@ public class SingleAcceptanceTestPanel extends JPanel
 		panel.add(dummy,c);
 		
 		return panel;
+	}
+
+	public JComboBox<TestStatus> getDropdownStatus() {
+		return dropdownStatus;
 	}
 
 }

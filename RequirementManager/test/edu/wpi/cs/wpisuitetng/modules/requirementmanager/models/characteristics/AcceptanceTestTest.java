@@ -14,16 +14,23 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.SingleAcceptanceTestPanel;
+
 /**
- * @author Dylan
+ * Tests the AcceptanceTest.java and SingleAcceptanceTestPanel.java souece files
+ * @author Rolling Thunder
  *
  * @version $Revision: 1.0 $
  */
 public class AcceptanceTestTest {
 
+	//===== AcceptanceTest.java tests =====
+	
 	/**
 	 * test the creation and retrieval of tests.
 	 */
@@ -60,7 +67,55 @@ public class AcceptanceTestTest {
 	@Test(expected=NullPointerException.class)
 	public void testNullName() {
 		// Assert an error is thrown when a name is not given
-		AcceptanceTest at = new AcceptanceTest(3, "", "desc");
+		new AcceptanceTest(3, "", "desc");
 	}
 	
+	@Test
+	public void makeANotNullAcceptanceTest() {
+		assertNotNull(new AcceptanceTest(1, "First Test", "a test for a test"));
+	}
+	
+	@Test
+	public void getAcceptanceTestIdTest() {
+		assertEquals(1, new AcceptanceTest(1, "test", "test description").getId());
+	}
+
+	//===== SingleAcceptanceTestPanel.java tests =====
+	
+	@Test
+	public void testToSeeIFANotNullAcceptanceTestPanelCanBeMade() {
+		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		AcceptanceTest testAT = new AcceptanceTest(2, "Name", "An acceptance test for testing");
+		assertNotNull(new SingleAcceptanceTestPanel(testReq, testAT));
+	}
+	
+	@Test
+	public void testSettingThePassFailDropDownStatus() {
+		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		AcceptanceTest testAT = new AcceptanceTest(2, "Name", "An acceptance test for testing");
+		testAT.setStatus(TestStatus.STATUS_PASSED);
+		SingleAcceptanceTestPanel ATpan = new SingleAcceptanceTestPanel(testReq, testAT);
+		assertEquals(TestStatus.STATUS_PASSED, ATpan.getDropdownStatus().getSelectedItem());
+		testAT.setStatus(TestStatus.STATUS_FAILED);
+		ATpan = new SingleAcceptanceTestPanel(testReq, testAT);
+		assertEquals(TestStatus.STATUS_FAILED, ATpan.getDropdownStatus().getSelectedItem());
+	}
+	
+	@Test
+	public void testAddingAnAcceptanceTestThroughARequirement() {
+		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		testReq.addTest(new AcceptanceTest(2, "Name", "Description"));
+		assertEquals(1, testReq.getTests().size());
+	}
+	
+	@Test
+	public void testUpdateTestStatus() {
+		Requirement testReq = new  Requirement(1, "reqName", "Description");
+		AcceptanceTest testAT = new AcceptanceTest(2, "Name", "Description");
+		testAT.setStatus(TestStatus.STATUS_FAILED);
+		testReq.addTest(testAT);
+		assertEquals("Failed", testReq.getTests().get(0).getStatus());
+		testReq.updateTestStatus(2, TestStatus.STATUS_PASSED);
+		assertEquals("Passed", testReq.getTests().get(0).getStatus());
+	}
 }
