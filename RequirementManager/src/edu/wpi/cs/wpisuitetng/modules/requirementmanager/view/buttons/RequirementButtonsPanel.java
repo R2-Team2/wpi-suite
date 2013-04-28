@@ -12,7 +12,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -37,7 +39,13 @@ public class RequirementButtonsPanel extends JPanel{
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
+		createButton.setIcon(new ImageIcon("../RequirementManager/resources/new-requirement-icon.png"));
+		createButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		createButton.setVerticalTextPosition(AbstractButton.BOTTOM);
 		
+		createIterationButton.setIcon(new ImageIcon("../RequirementManager/resources/new-iteration-icon.png"));
+		createIterationButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		createIterationButton.setVerticalTextPosition(AbstractButton.BOTTOM);
 
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
@@ -60,11 +68,8 @@ public class RequirementButtonsPanel extends JPanel{
 		//	}
 		});
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 5,SpringLayout.NORTH, this);
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createIterationButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createIterationButton, 5, SpringLayout.SOUTH, createButton);
+		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 15,SpringLayout.WEST, this);
+		toolbarLayout.putConstraint(SpringLayout.WEST, createIterationButton, 30, SpringLayout.EAST, createButton);
 		
 		this.add(createButton);
 		this.add(createIterationButton);

@@ -14,7 +14,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -55,6 +57,10 @@ public class EditButtonsPanel extends JPanel{
 		final JButton createCancelButton = new JButton("Cancel Changes");
 		
 		createCancelButton.setVisible(false);
+		
+		createEditButton.setIcon(new ImageIcon("../RequirementManager/resources/edit-estimates-icon.png"));
+		createEditButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		createEditButton.setVerticalTextPosition(AbstractButton.BOTTOM);
 		
 		createEditButton.setVisible(true);
 		// the action listener for the Edit Estimates button
