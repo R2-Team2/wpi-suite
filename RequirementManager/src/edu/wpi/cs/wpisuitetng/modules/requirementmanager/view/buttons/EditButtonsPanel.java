@@ -120,6 +120,6 @@ public class EditButtonsPanel extends JPanel{
 	
 	 * @return JButton */
 	public JButton getEditButton() {
-		return this.getEditButton();
+		return createEditButton;
 	}
 }

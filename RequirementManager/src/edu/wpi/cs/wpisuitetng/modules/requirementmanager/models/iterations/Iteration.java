@@ -18,6 +18,7 @@ import javax.swing.ListModel;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.UpdateIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -136,6 +137,15 @@ public class Iteration extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
+		
+		List<Requirement> forIter = RequirementModel.getInstance().getRequirementsForIteration(this.name);
+		
+		for(Requirement req : forIter)
+		{
+			req.setIteration(name);
+			UpdateRequirementController.getInstance().updateRequirement(req);
+		}
+		
 		this.name = name;
 		if (name.trim().length() == 0)
 			this.name = "Backlog";

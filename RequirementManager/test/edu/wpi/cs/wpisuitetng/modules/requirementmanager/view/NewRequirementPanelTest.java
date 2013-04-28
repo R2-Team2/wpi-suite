@@ -61,7 +61,6 @@ public class NewRequirementPanelTest {
 		assertEquals(false, testNew.getInfoPanel().getBoxIteration().isEnabled());
 		assertEquals(true, testNew.getInfoPanel().getDropdownType().isEnabled());
 		assertEquals(false, testNew.getInfoPanel().getDropdownStatus().isEnabled());
-		assertEquals(true, testNew.getInfoPanel().getPriorityBlank().isEnabled());
 		assertEquals(true, testNew.getInfoPanel().getBoxEstimate().isEnabled());
 		assertEquals(false, testNew.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(false, testNew.getButtonPanel().getButtonClear().isEnabled());
@@ -79,12 +78,7 @@ public class NewRequirementPanelTest {
 		RequirementPanel testNew = new RequirementPanel(-1);
 		
 		// Check
-		assertEquals(RequirementStatus.NEW, testNew.getInfoPanel().getDropdownStatus().getSelectedItem());
-		assertEquals(false, testNew.getInfoPanel().getPriorityHigh().isSelected());
-		assertEquals(false, testNew.getInfoPanel().getPriorityMedium().isSelected());
-		assertEquals(false, testNew.getInfoPanel().getPriorityLow().isSelected());
-		assertEquals(true, testNew.getInfoPanel().getPriorityBlank().isSelected());
-		
+		assertEquals(RequirementStatus.NEW, testNew.getInfoPanel().getDropdownStatus().getSelectedItem());		
 	}
 	
 	
@@ -238,7 +232,6 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getBoxName().setText(testName);
 		testNew.getInfoPanel().getBoxDescription().setText(testDescription);
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.THEME);
-		testNew.getInfoPanel().getPriorityHigh().doClick();
 		testNew.getInfoPanel().getBoxEstimate().setText("4");
 		testNew.getInfoPanel().getBoxIteration().addItem("Backlog");
 		testNew.getInfoPanel().getBoxIteration().setSelectedItem("Backlog");
@@ -270,7 +263,6 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getBoxName().setText(testName);
 		testNew.getInfoPanel().getBoxDescription().setText(testDescription);
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.SCENARIO);
-		testNew.getInfoPanel().getPriorityMedium().doClick();
 		testNew.getInfoPanel().getBoxEstimate().setText("0");
 		testNew.getInfoPanel().getBoxIteration().addItem("Backlog");
 		testNew.getInfoPanel().getBoxIteration().setSelectedItem("Backlog");
@@ -293,7 +285,6 @@ public class NewRequirementPanelTest {
 		
 		// add more fields
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.EPIC);
-		testNew.getInfoPanel().getPriorityLow().doClick();
 		testNew.getInfoPanel().validateFields(true);
 		testNew.getInfoPanel().update();
 
@@ -303,7 +294,6 @@ public class NewRequirementPanelTest {
 		
 		// add different fields
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.NONFUNCTIONAL);
-		testNew.getInfoPanel().getPriorityBlank().doClick();
 		testNew.getInfoPanel().validateFields(true);
 		testNew.getInfoPanel().update();
 

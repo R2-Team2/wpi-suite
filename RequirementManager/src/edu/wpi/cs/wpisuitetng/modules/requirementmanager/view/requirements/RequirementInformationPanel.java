@@ -23,6 +23,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -40,7 +41,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -55,10 +55,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private ViewMode viewMode;
 	private RequirementPanel parentPanel;
 
+	private int storedEstimate;
+	private Iteration storedIteration;
+	private RequirementStatus storedStatus;
+	
 	private JTextField boxName;
 	private JTextField boxReleaseNum;
 	private JTextArea boxDescription;
-	private JComboBox boxIteration;
+	private JComboBox<Iteration> boxIteration;
 	private JTextField boxChildEstimate;
 	private JLabel labelChildEstimate;
 	private JTextField boxTotalEstimate;
@@ -75,12 +79,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private RequirementSelector parentSelector;
 	private JComboBox<RequirementType> dropdownType;
 	private JComboBox<RequirementStatus> dropdownStatus;
-	private JRadioButton priorityHigh;
-	private JRadioButton priorityMedium;
-	private JRadioButton priorityLow;
-	private JRadioButton priorityBlank;
+	private JComboBox<RequirementPriority> dropdownPriority;
 	private JTextField boxEstimate;
-	private ButtonGroup group;
 
 	private RequirementStatus lastValidStatus;
 	private boolean fillingFieldsForRequirement = false;
@@ -141,13 +141,12 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		descrScroll.setViewportView(boxDescription);
 
 		List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		int size = iterations.size();
-		String[] iterationNames = new String[size];
+		Iteration[] iterationArray = new Iteration[iterations.size()];
 		for (int i = 0; i < iterations.size(); i++) {
 			Iteration iter = iterations.get(i);
-			iterationNames[i] = iter.getName();
+			iterationArray[i] = iter;
 		}
-		boxIteration = (new JComboBox(iterationNames));
+		boxIteration = (new JComboBox<Iteration>(iterationArray));
 		boxIteration.addItemListener(this);
 		boxIteration.setBackground(Color.WHITE);
 
@@ -167,27 +166,10 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 
 		// Radio buttons
 
-		priorityHigh = (new JRadioButton("High"));
-		priorityHigh.addItemListener(this);
-		priorityMedium = (new JRadioButton("Medium"));
-		priorityMedium.addItemListener(this);
-		priorityLow = (new JRadioButton("Low"));
-		priorityLow.addItemListener(this);
-		priorityBlank = (new JRadioButton("None"));
-		priorityBlank.addItemListener(this);
-
-		group = new ButtonGroup();
-		group.add(priorityBlank);
-		group.add(priorityHigh);
-		group.add(priorityMedium);
-		group.add(priorityLow);
-
-		JPanel priorityPanel = new JPanel();
-
-		priorityPanel.add(priorityLow);
-		priorityPanel.add(priorityMedium);
-		priorityPanel.add(priorityHigh);
-		priorityPanel.add(priorityBlank);
+		dropdownPriority = new JComboBox<RequirementPriority>(RequirementPriority.values());
+		dropdownPriority.setEditable(false);
+		dropdownPriority.setBackground(Color.WHITE);
+		dropdownPriority.addItemListener(this);
 
 		boxEstimate = (new JTextField());
 		boxEstimate.setPreferredSize(new Dimension(50, 20));
@@ -286,14 +268,14 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		leftColumn.add(labelTotalEstimate, "left, wrap");
 		leftColumn.add(boxTotalEstimate, "width 50px, left");
 
-		rightColumn.add(labelType, "right, wrap");
-		rightColumn.add(dropdownType, "right, wrap");
-		rightColumn.add(labelStatus, "right, wrap");
-		rightColumn.add(dropdownStatus, "right, wrap");
-		rightColumn.add(labelPriority, "right, wrap");
-		rightColumn.add(priorityPanel, "right, wrap");
-		rightColumn.add(currentParent,"right, wrap");
-		rightColumn.add(parentInfoPanel, "right, span, wrap");
+		rightColumn.add(labelType, "left, wrap");
+		rightColumn.add(dropdownType, "left, wrap");
+		rightColumn.add(labelStatus, "left, wrap");
+		rightColumn.add(dropdownStatus, "left, wrap");
+		rightColumn.add(labelPriority, "left, wrap");
+		rightColumn.add(dropdownPriority, "left, wrap");
+		rightColumn.add(currentParent,"left, wrap");
+		rightColumn.add(parentInfoPanel, "left, span, wrap");
 		
 		contentPanel.add(leftColumn, "left, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
@@ -308,8 +290,55 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	public void fireRefresh() {
 		parentSelector.refreshList();
+		repopulateIterationInformation();
+		refreshIteration();
+		refreshEstimate();
 		refreshParentInformation();
 		adjustFieldEnability();
+	}
+	
+	/**
+	 * Refresh the estimate if its been changed in the requirement
+	 */
+	private void refreshEstimate() {
+		if(currentRequirement.getEstimate() != storedEstimate)
+		{
+			storedEstimate = currentRequirement.getEstimate();
+			boxEstimate.setText(String.valueOf(storedEstimate));
+		}
+	}
+
+	/**
+	 * Repopulates the iteration information in case new iterations have been created.
+	 */
+	private void repopulateIterationInformation() {
+		Iteration selected = (Iteration)boxIteration.getSelectedItem();
+		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		Iteration[] iterationArray = new Iteration[iterations.size()];
+		for (int i = 0; i < iterations.size(); i++) {
+			Iteration iter = iterations.get(i);
+			iterationArray[i] = iter;
+		}
+		DefaultComboBoxModel<Iteration> aModel = new DefaultComboBoxModel<Iteration>(iterationArray);		
+		boxIteration.setModel(aModel);
+		boxIteration.setSelectedItem(selected);
+	}
+	
+	/**
+	 * Refreshes the selected iteration if its been changed in the requirement
+	 */
+	private void refreshIteration() {
+		Iteration cur = IterationModel.getInstance().getIteration(currentRequirement.getIteration());
+		if(cur != storedIteration)
+		{
+			storedIteration = cur;
+			boxIteration.setSelectedItem(storedIteration);
+		}
+		
+		if(storedStatus != currentRequirement.getStatus())
+		{
+			setStatus();
+		}
 	}
 	
 	/**
@@ -376,11 +405,39 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		fillingFieldsForRequirement = true;
 		boxName.setText(currentRequirement.getName());
 		boxDescription.setText(currentRequirement.getDescription());
+		storedEstimate = currentRequirement.getEstimate();
 		boxEstimate.setText(
-				String.valueOf(currentRequirement.getEstimate()));
+				String.valueOf(storedEstimate));
 		boxReleaseNum.setText(currentRequirement.getRelease());
-		boxIteration.setSelectedItem(currentRequirement.getIteration());
+		storedIteration = IterationModel.getInstance().getIteration(currentRequirement.getIteration());
+		boxIteration.setSelectedItem(storedIteration);
 
+
+		setStatus();
+
+		dropdownType.setSelectedItem(currentRequirement.getType());
+
+		this.dropdownPriority.setSelectedItem(currentRequirement.getPriority());
+
+		// reset the error messages.
+		errorEstimate.setText("");
+		boxEstimate.setBorder(defaultBorder);
+		errorDescription.setText("");
+		boxDescription.setBorder(defaultBorder);
+		errorName.setText("");
+		boxName.setBorder(defaultBorder);
+		boxChildEstimate.setText(Integer.toString(currentRequirement.getChildEstimate()));
+		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
+
+		fireRefresh();
+		fillingFieldsForRequirement = false;
+		repaint();
+	}
+
+	/**
+	 * Sets the status dropdown
+	 */
+	private void setStatus() {
 		if (currentRequirement.getStatus().equals(RequirementStatus.NEW)) {
 			dropdownStatus.removeAllItems();
 			dropdownStatus.addItem(RequirementStatus.NEW);
@@ -411,26 +468,9 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 				dropdownStatus.addItem(RequirementStatus.DELETED);
 			}
 		}
-		dropdownStatus.setSelectedItem(currentRequirement.getStatus());
-		lastValidStatus = currentRequirement.getStatus();
-
-		dropdownType.setSelectedItem(currentRequirement.getType());
-
-		this.setPriorityButton(currentRequirement.getPriority());
-
-		// reset the error messages.
-		errorEstimate.setText("");
-		boxEstimate.setBorder(defaultBorder);
-		errorDescription.setText("");
-		boxDescription.setBorder(defaultBorder);
-		errorName.setText("");
-		boxName.setBorder(defaultBorder);
-		boxChildEstimate.setText(Integer.toString(currentRequirement.getChildEstimate()));
-		boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
-
-		fireRefresh();
-		fillingFieldsForRequirement = false;
-		repaint();
+		storedStatus = currentRequirement.getStatus();
+		dropdownStatus.setSelectedItem(storedStatus);
+		lastValidStatus = currentRequirement.getStatus();		
 	}
 
 	/**
@@ -572,26 +612,12 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer
 				.parseInt(stringEstimate);
 
-		// Extract which radio is selected for the priority
-		boolean stateHigh = getPriorityHigh().isSelected();
-		boolean stateMedium = getPriorityMedium().isSelected();
-		boolean stateLow = getPriorityLow().isSelected();
-
-		// Convert the priority string to its corresponding enum
-		if (stateHigh)
-			priority = RequirementPriority.HIGH;
-		else if (stateMedium)
-			priority = RequirementPriority.MEDIUM;
-		else if (stateLow)
-			priority = RequirementPriority.LOW;
-		else
-			priority = RequirementPriority.BLANK;
 
 		currentRequirement.setName(stringName);
 		currentRequirement.setRelease(stringReleaseNum);
 		currentRequirement.setDescription(stringDescription);
 		currentRequirement.setStatus(status);
-		currentRequirement.setPriority(priority);
+		currentRequirement.setPriority((RequirementPriority)dropdownPriority.getSelectedItem());
 		currentRequirement.setEstimate(estimate);
 		currentRequirement.setIteration(stringIteration);
 		currentRequirement.setType(type);
@@ -652,10 +678,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.getDropdownType().setEnabled(!allDisabled);
 		this.getDropdownStatus().setEnabled(!isCreating);
 		this.getBoxIteration().setEnabled(validEstimate && !allDisabled);
-		this.getPriorityHigh().setEnabled(!allDisabled);
-		this.getPriorityMedium().setEnabled(!allDisabled);
-		this.getPriorityLow().setEnabled(!allDisabled);
-		this.getPriorityBlank().setEnabled(!allDisabled);
+		this.dropdownPriority.setEnabled(!allDisabled);
 		this.parentPanel.fireDeleted(allDisabled || inProgress || !allChildrenDeleted);	
 	}
 
@@ -697,7 +720,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxEstimate().getText().trim().equals("") || getBoxEstimate().getText().trim().equals("0"))){
 			return true;}
 
-		if (!getPriorityBlank().isSelected())
+		if (dropdownPriority.getSelectedItem() != RequirementPriority.BLANK)
 		{
 			return true;
 		}
@@ -732,23 +755,8 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			return true;}
 
 		RequirementPriority reqPriority = currentRequirement.getPriority();
-		boolean priorityChanged = false;
-		switch(reqPriority)
-		{
-		case BLANK:
-			priorityChanged = !getPriorityBlank().isSelected();
-			break;
-		case LOW:
-			priorityChanged = !getPriorityLow().isSelected();
-			break;
-		case MEDIUM:
-			priorityChanged = !getPriorityMedium().isSelected();
-			break;
-		case HIGH:
-			priorityChanged = !getPriorityHigh().isSelected();
-			break;
-		}
-		if (priorityChanged)
+		
+		if (reqPriority != dropdownPriority.getSelectedItem())
 		{
 			return true;
 		}
@@ -768,39 +776,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	public boolean readyToRemove()
 	{	
 		return !anythingChanged();
-	}
-	
-	/**
-	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
-	 * 
-	 * @param g	The component object to paint
-	 */
-	@Override
-	public void paintComponent(Graphics g)
-	{
-		fireRefresh();
-		super.paintComponent(g);
-	}
-
-	/**
-	 * Sets the priority button based on the priority inputted
-	 * @param priority the priority to be set.
-	 */
-	public void setPriorityButton(RequirementPriority priority) {
-		switch (priority) {
-		case BLANK:
-			getPriorityBlank().setSelected(true);
-			break;
-		case LOW:
-			getPriorityLow().setSelected(true);
-			break;
-		case MEDIUM:
-			getPriorityMedium().setSelected(true);
-			break;
-		case HIGH:
-			getPriorityHigh().setSelected(true);
-			break;
-		}
 	}
 
 	/**
@@ -983,31 +958,6 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * @return estimate box */
 	public JTextField getBoxEstimate() {
 		return boxEstimate;
-	}
-
-	/**
-	
-	 * @return high priority button */
-	public JRadioButton getPriorityHigh() {
-		return priorityHigh;
-	}
-	/**
-	
-	 * @return medium priority button */
-	public JRadioButton getPriorityMedium() {
-		return priorityMedium;
-	}
-	/**
-	
-	 * @return low priority button */
-	public JRadioButton getPriorityLow() {
-		return priorityLow;
-	}
-	/**
-	
-	 * @return blank priority button */
-	public JRadioButton getPriorityBlank() {
-		return priorityBlank;
 	}
 
 	/**
