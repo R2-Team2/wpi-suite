@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
-
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTableTransferHandler;
 /**
  * @author justinhess
  * @version $Revision: 1.0 $

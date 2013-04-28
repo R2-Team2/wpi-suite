@@ -105,7 +105,8 @@ public class IterationTransferHandler extends TransferHandler {
 			if(parent.getUserObject() instanceof Iteration)
 			{
 				Iteration newIteration = (Iteration)parent.getUserObject();
-			
+				
+				child.getHistory().setTimestamp(System.currentTimeMillis());
 				child.setIteration(newIteration.getName());
 				UpdateRequirementController.getInstance().updateRequirement(child);
 				ViewEventController.getInstance().refreshTable();

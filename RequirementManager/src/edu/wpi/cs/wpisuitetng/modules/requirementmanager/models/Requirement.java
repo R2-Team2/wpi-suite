@@ -643,6 +643,8 @@ public class Requirement extends AbstractModel {
 	public void setParentID(int parentReq) throws Exception {
 		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
+			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
+			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
 		} else {
 			throw new Exception("Cannot add ancestor as parent");
 		}
