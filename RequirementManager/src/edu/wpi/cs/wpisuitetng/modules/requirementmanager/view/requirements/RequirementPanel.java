@@ -38,7 +38,10 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	private RequirementButtonPanel buttonPanel;
 	
 	private boolean readyToClose = false;
+	private boolean readyToRemove = true;
 	
+	
+
 	/**
 	 * Constructor for editing a requirement
 	 * @param editingRequirement requirement to edit
@@ -213,7 +216,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	public boolean readyToRemove() {
 		if(readyToClose) return true;
 		
-		boolean readyToRemove = true;
+		
 		for(RequirementPanelListener listener : listeners)
 		{
 			readyToRemove &= listener.readyToRemove();
@@ -259,5 +262,13 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 * @return the tabs panel */
 	public RequirementTabsPanel getTabsPanel() {
 		return tabsPanel;
+	}
+	
+	public boolean isReadyToRemove() {
+		return readyToRemove;
+	}
+
+	public void setReadyToRemove(boolean readyToRemove) {
+		this.readyToRemove = readyToRemove;
 	}
 }

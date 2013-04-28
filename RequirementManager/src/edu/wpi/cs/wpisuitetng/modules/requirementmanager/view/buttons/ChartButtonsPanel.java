@@ -17,7 +17,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -39,7 +41,7 @@ public class ChartButtonsPanel extends JPanel{
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
-		pieChart = new JButton("View Pie Chart");
+		pieChart = new JButton("View Pie Charts");
 		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
@@ -48,7 +50,7 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		barChart = new JButton("View Bar Chart");
+		barChart = new JButton("View Bar Charts");
 		
 		barChart.addActionListener(new ActionListener(){
 			@Override
@@ -61,11 +63,16 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, pieChart, 5,SpringLayout.NORTH, this);
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, pieChart, 0, SpringLayout.HORIZONTAL_CENTER, this);
+		barChart.setIcon(new ImageIcon("../RequirementManager/resources/view-bar-charts-icon.png"));
+		barChart.setHorizontalTextPosition(AbstractButton.CENTER);
+		barChart.setVerticalTextPosition(AbstractButton.BOTTOM);
 		
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, barChart, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		toolbarLayout.putConstraint(SpringLayout.NORTH, barChart, 5, SpringLayout.SOUTH, pieChart);
+		pieChart.setIcon(new ImageIcon("../RequirementManager/resources/view-pie-charts-icon.png"));
+		pieChart.setHorizontalTextPosition(AbstractButton.CENTER);
+		pieChart.setVerticalTextPosition(AbstractButton.BOTTOM);
+		
+		toolbarLayout.putConstraint(SpringLayout.WEST, barChart, 35,SpringLayout.WEST, this);
+		toolbarLayout.putConstraint(SpringLayout.WEST, pieChart, 30, SpringLayout.EAST, barChart);
 		
 		this.add(pieChart);
 		this.add(barChart);
