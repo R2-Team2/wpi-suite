@@ -32,6 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationCalendar extends JXMonthView implements ActionListener, KeyListener {
 	
@@ -63,6 +65,7 @@ public class IterationCalendar extends JXMonthView implements ActionListener, Ke
 	
 	/**
 	 * Constructor for iteration calendar.
+	 * @param parent IterationOverviewPanel
 	 */
 	public IterationCalendar(IterationOverviewPanel parent) {
 		this.overviewParent = parent;
@@ -148,8 +151,8 @@ public class IterationCalendar extends JXMonthView implements ActionListener, Ke
 	/**
 	 * Method isFlaggedDate.
 	 * @param date Date
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	@Override
 	public boolean isFlaggedDate(Date date)
 	{
@@ -180,8 +183,8 @@ public class IterationCalendar extends JXMonthView implements ActionListener, Ke
 	/**
 	 * Method isUnselectableDate.
 	 * @param date Date
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	@Override
 	public boolean isUnselectableDate(Date date) {
 		boolean unselectable = false;
@@ -197,6 +200,10 @@ public class IterationCalendar extends JXMonthView implements ActionListener, Ke
 		return unselectable || super.isUnselectableDate(date);
 	}
 	
+	/**
+	 * Method highlightIteration.
+	 * @param it Iteration
+	 */
 	public void highlightIteration(Iteration it)
 	{
 		Calendar cal = Calendar.getInstance();
@@ -298,26 +305,41 @@ public class IterationCalendar extends JXMonthView implements ActionListener, Ke
 	/**
 	 * Method actionPerformed.
 	 * @param e ActionEvent
-	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-	 */
+	
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent) */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		handleSelectionForOverview();
 		handleSelectionForPanel();
 	}
 
+	/**
+	 * Method keyTyped.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		handleSelectionForOverview();
 		handleSelectionForPanel();		
 	}
 
+	/**
+	 * Method keyPressed.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		handleSelectionForOverview();
 		handleSelectionForPanel();		
 	}
 
+	/**
+	 * Method keyReleased.
+	 * @param e KeyEvent
+	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		handleSelectionForOverview();

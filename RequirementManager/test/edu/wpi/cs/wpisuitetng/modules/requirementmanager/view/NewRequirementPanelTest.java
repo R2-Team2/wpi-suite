@@ -183,6 +183,7 @@ public class NewRequirementPanelTest {
 		// add fields
 		testNew.getInfoPanel().getBoxName().setText(testName);
 		testNew.getInfoPanel().getBoxDescription().setText(testDescription);
+		testNew.getInfoPanel().getBoxEstimate().setText("2");
 		
 		testNew.getInfoPanel().keyReleased(null);
 		
@@ -261,7 +262,7 @@ public class NewRequirementPanelTest {
 	{
 		// Create new requirement panel
 		RequirementPanel testNew = new RequirementPanel(-1);
-		
+
 		String testName = "testName";
 		String testDescription = "testDescription";
 		
@@ -271,8 +272,12 @@ public class NewRequirementPanelTest {
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.SCENARIO);
 		testNew.getInfoPanel().getPriorityMedium().doClick();
 		testNew.getInfoPanel().getBoxEstimate().setText("0");
+		testNew.getInfoPanel().getBoxIteration().addItem("Backlog");
+		testNew.getInfoPanel().getBoxIteration().setSelectedItem("Backlog");
 		testNew.getInfoPanel().keyReleased(null);
 		testNew.getInfoPanel().validateFields(true);
+		testNew.getInfoPanel().getBoxIteration().setSelectedItem("");
+
 		// click update (without closing in order to retrieve information)
 		testNew.getInfoPanel().update();
 		

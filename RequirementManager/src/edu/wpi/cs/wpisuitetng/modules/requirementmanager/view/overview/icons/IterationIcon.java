@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationIcon implements Icon {
 	
@@ -20,9 +22,9 @@ public class IterationIcon implements Icon {
 	
 	/**
 	 * Method getIconHeight.
-	 * @return int
-	 * @see javax.swing.Icon#getIconHeight()
-	 */
+	
+	
+	 * @return int * @see javax.swing.Icon#getIconHeight() */
 	@Override
 	public int getIconHeight() {
 		return height;
@@ -30,9 +32,9 @@ public class IterationIcon implements Icon {
 
 	/**
 	 * Method getIconWidth.
-	 * @return int
-	 * @see javax.swing.Icon#getIconWidth()
-	 */
+	
+	
+	 * @return int * @see javax.swing.Icon#getIconWidth() */
 	@Override
 	public int getIconWidth() {
 		return width;
@@ -44,8 +46,8 @@ public class IterationIcon implements Icon {
 	 * @param g Graphics
 	 * @param x int
 	 * @param y int
-	 * @see javax.swing.Icon#paintIcon(Component, Graphics, int, int)
-	 */
+	
+	 * @see javax.swing.Icon#paintIcon(Component, Graphics, int, int) */
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		g.setColor(new Color(175, 0, 255));

@@ -219,16 +219,18 @@ public class Requirement extends AbstractModel {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
-		if ((name != this.name) && (!wasCreated)) {
+	public void setName(String n) {
+		if (!n.equals(this.name) && !wasCreated) {
 			String originalName = this.name;
-			String newName = name;
+			String newName = n;
+			if (newName.length() > 100)
+				newName = newName.substring(0, 100);
 			String message = ("Name changed from " + originalName + " to " + newName);
 			this.history.add(message);			
 		}
-		this.name = name;
+		this.name = n;
 		if (name.length() > 100)
-			this.name = name.substring(0, 100);
+			this.name = n.substring(0, 100);
 	}
 
 	/**
@@ -246,14 +248,17 @@ public class Requirement extends AbstractModel {
 	 * @param release
 	 *            the release to set
 	 */
-	public void setRelease(String release) {
-		if ((release != this.release) && (!wasCreated)) {
+	public void setRelease(String rel) {
+		if (!rel.equals(this.release) && !wasCreated) {
 			String originalRelease = this.release;
-			String newRelease = release;
-			String message = ("Release # changed from " + originalRelease + " to " + newRelease);
+			String newRelease = rel;
+			String message = null;
+			if (originalRelease.isEmpty()) message = ("Release Number set to '" + newRelease + "'");
+			else if (newRelease.isEmpty()) message = ("Release Number set to blank from '" + originalRelease + "'");
+			else message = ("Release Number changed from '" + originalRelease + "' to '" + newRelease + "'");
 			this.history.add(message);			
 		}
-		this.release = release;
+		this.release = rel;
 	}
 
 	/**
@@ -275,7 +280,7 @@ public class Requirement extends AbstractModel {
 		if ((status != this.status) && (!wasCreated)) {
 			String originalStatus = this.status.toString();
 			String newStatus = status.toString();
-			String message = ("Status changed from " + originalStatus + " to " + newStatus);
+			String message = ("Status changed from '" + originalStatus + "' to '" + newStatus + "'");
 			this.history.add(message);			
 		}
 
@@ -298,11 +303,11 @@ public class Requirement extends AbstractModel {
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
-		if ((description != this.description) && (!wasCreated)) {
+	public void setDescription(String desc) {
+		if (!desc.equals(this.description) && !wasCreated) {
 			this.history.add("Description changed");			
 		}
-		this.description = description;
+		this.description = desc;
 	}
 
 	/**
@@ -350,7 +355,7 @@ public class Requirement extends AbstractModel {
 		if ((estimate != this.estimate) && (!wasCreated)) {
 			int originalEstimate = this.estimate;
 			int newEstimate = estimate;
-			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
+			String message = ("Estimate changed from '" + originalEstimate + "' to '" + newEstimate + "'");
 			this.history.add(message);
 			this.setEstimateEdited(true);
 		}	
@@ -397,7 +402,7 @@ public class Requirement extends AbstractModel {
 		if ((priority != this.priority) && (!wasCreated)) {
 			String originalPriority = this.priority.toString();
 			String newPriority = priority.toString();
-			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
+			String message = ("Priority changed from '" + originalPriority + "' to '" + newPriority + "'");
 			this.history.add(message);			
 		}
 
@@ -420,10 +425,13 @@ public class Requirement extends AbstractModel {
 	 *            the type to set the requirement to
 	 */
 	public void setType(RequirementType type) {
-		if ((type != this.type) && (!wasCreated)) {
+		if ((type != this.type) && (!wasCreated)) {			
 			String originalType = this.type.toString();
 			String newType = type.toString();
-			String message = ("Type changed from " + originalType + " to " + newType);
+			String message = null;
+			if (originalType.isEmpty()) message = ("Type set to '" + newType + "'");
+			else if (newType.isEmpty()) message = ("Type set to blank from '" + originalType + "'");
+			else message = ("Type changed from '" + originalType + "' to '" + newType + "'");
 			this.history.add(message);			
 		}
 		this.type = type;
@@ -439,6 +447,10 @@ public class Requirement extends AbstractModel {
 		return notes;
 	}
 	
+	/**
+	 * Method addNote.
+	 * @param noteMsg String
+	 */
 	public void addNote(String noteMsg) {
 		if  (!wasCreated) this.history.add("Note added");		
 		// Add note to requirement
@@ -597,7 +609,7 @@ public class Requirement extends AbstractModel {
 		if(!this.iteration.equals(newIterationName) && (!wasCreated))
 		{
 			//create the transaction history
-			String message = ("Moved from "	+ curIter + " to " + newIteration);
+			String message = ("Moved from '"	+ curIter + "' to '" + newIteration + "'");
 			this.history.add(message);
 		}
 		
@@ -641,6 +653,8 @@ public class Requirement extends AbstractModel {
 	public void setParentID(int parentReq) throws Exception {
 		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
+//			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
+//			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
 		} else {
 			throw new Exception("Cannot add ancestor as parent");
 		}
@@ -743,7 +757,8 @@ public class Requirement extends AbstractModel {
 	 * Method toJSON.
 	
 	
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() */
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
 	 * 
@@ -772,7 +787,8 @@ public class Requirement extends AbstractModel {
 	 * @param o Object
 	
 	
-	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) */
+	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
@@ -783,7 +799,8 @@ public class Requirement extends AbstractModel {
 	 * Method toString.
 	
 	
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() */
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 */
 	@Override
 	public String toString() {
 		return this.getName();
@@ -861,8 +878,8 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * @return the wasCreated
-	 */
+	
+	 * @return the wasCreated */
 	public boolean getWasCreated() {
 		return wasCreated;
 	}

@@ -11,6 +11,7 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
  * @author Rolling Thunder
@@ -42,12 +43,25 @@ public class MainViewTest {
 	}
 
 	@Test
-	public void numberOfCreatedTabtest() {
-		assertEquals(1,vec.getMainView().getTabCount());
-		vec.getToolbar().getReqButton().getCreateButton().doClick();
+	public void numberOfCreatedtest() {
 		assertEquals(2,vec.getMainView().getTabCount());
-		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
+		vec.getToolbar().getReqButton().getCreateButton().doClick();
 		assertEquals(3,vec.getMainView().getTabCount());
+		vec.getToolbar().getReqButton().getCreateIterationButton().doClick();
+		assertEquals(4,vec.getMainView().getTabCount());
+		
 	}
+	
+	@Test
+	public void findTabWhenCreateTest()
+	{
+		RequirementPanel rp = new RequirementPanel(-1); 
+		int currentTabSize = vec.getMainView().getTabCount();
+		vec.getToolbar().getReqButton().getCreateButton().doClick();
+		assertEquals("New Req.",vec.getMainView().getTitleAt(2));
+		
+	}
+	
+
 
 }

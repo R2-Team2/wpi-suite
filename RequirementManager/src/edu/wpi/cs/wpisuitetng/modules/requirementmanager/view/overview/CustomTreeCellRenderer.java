@@ -22,6 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons.Ite
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.icons.RequirementIcon;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 	Icon requirementIcon;
@@ -50,10 +52,10 @@ public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 	 *            int
 	 * @param hasFocus
 	 *            boolean
-	 * @return Component
-	 * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(JTree,
-	 *      Object, boolean, boolean, boolean, int, boolean)
-	 */
+	
+	
+	 * @return Component * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(JTree,
+	 *      Object, boolean, boolean, boolean, int, boolean) */
 	public Component getTreeCellRendererComponent(JTree tree, Object value,
 			boolean sel, boolean expanded, boolean leaf, int row,
 			boolean hasFocus) {

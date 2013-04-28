@@ -52,7 +52,8 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
      * @param column int
     
     
-     * @return Component * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int) */
+     * @return Component * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int) * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(JTable, Object, boolean, boolean, int, int)
+     */
     public Component getTableCellRendererComponent(JTable table, 
                                                    Object value,
                                                    boolean isSelected,

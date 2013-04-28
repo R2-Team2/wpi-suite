@@ -13,7 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
  * Defines the month to be used for an Iteration
  *
  * @version $Revision: 1.0 $
- * @author justinhess
+ * @author Rolling Thunder
  */
 public enum Month {
 	/**

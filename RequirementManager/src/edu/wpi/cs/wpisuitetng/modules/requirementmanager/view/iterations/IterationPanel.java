@@ -313,8 +313,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 	
 	/**
 	 * Checks whether anything changed and updates buttons as needed.
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	private boolean checkForChanges()
 	{
 		boolean nameChanged = false;
@@ -346,8 +346,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 	/**
 	 * Method keyTyped.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent) */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		refreshPanel();
@@ -356,8 +356,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 	/**
 	 * Method keyPressed.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent) */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		refreshPanel();
@@ -366,8 +366,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 	/**
 	 * Method keyReleased.
 	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
-	 */
+	
+	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent) */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		refreshPanel();

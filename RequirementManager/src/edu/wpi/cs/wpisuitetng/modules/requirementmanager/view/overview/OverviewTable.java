@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
-
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTableTransferHandler;
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
@@ -322,6 +322,13 @@ public class OverviewTable extends JTable
 		return false;
 	}
 	
+	/**
+	 * Method prepareRenderer.
+	 * @param renderer TableCellRenderer
+	 * @param row int
+	 * @param column int
+	 * @return Component
+	 */
 	@Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component comp = super.prepareRenderer(renderer, row, column);

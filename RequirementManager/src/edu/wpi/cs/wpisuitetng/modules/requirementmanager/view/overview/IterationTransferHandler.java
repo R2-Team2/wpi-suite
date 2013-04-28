@@ -29,6 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
+/**
+ */
 public class IterationTransferHandler extends TransferHandler {
 	DataFlavor nodesFlavor;
 
@@ -36,6 +38,11 @@ public class IterationTransferHandler extends TransferHandler {
 		nodesFlavor = new DataFlavor(Requirement.class, "Requirement");
 	}
 
+	/**
+	 * Method canImport.
+	 * @param support TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	public boolean canImport(TransferHandler.TransferSupport support) {
 		support.getComponent().setCursor(DragSource.DefaultMoveNoDrop);
 		
@@ -63,6 +70,11 @@ public class IterationTransferHandler extends TransferHandler {
 		return true;
 	}
 
+	/**
+	 * Method createTransferable.
+	 * @param c JComponent
+	 * @return Transferable
+	 */
 	protected Transferable createTransferable(JComponent c) {
 		JTree tree = (JTree)c;
 		TreePath path = tree.getSelectionPath();
@@ -80,15 +92,31 @@ public class IterationTransferHandler extends TransferHandler {
 		return null;
 	}
 
+	/**
+	 * Method exportDone.
+	 * @param c JComponent
+	 * @param t Transferable
+	 * @param act int
+	 */
 	@Override
 	protected void exportDone(JComponent c, Transferable t, int act) {
 		c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
+	/**
+	 * Method getSourceActions.
+	 * @param c JComponent
+	 * @return int
+	 */
 	public int getSourceActions(JComponent c) {
 		return MOVE;
 	}
 
+	/**
+	 * Method importData.
+	 * @param support TransferHandler.TransferSupport
+	 * @return boolean
+	 */
 	public boolean importData(TransferHandler.TransferSupport support) {
 		if(!canImport(support)) {
 			return false;
@@ -105,7 +133,8 @@ public class IterationTransferHandler extends TransferHandler {
 			if(parent.getUserObject() instanceof Iteration)
 			{
 				Iteration newIteration = (Iteration)parent.getUserObject();
-			
+				
+				child.getHistory().setTimestamp(System.currentTimeMillis());
 				child.setIteration(newIteration.getName());
 				UpdateRequirementController.getInstance().updateRequirement(child);
 				ViewEventController.getInstance().refreshTable();
