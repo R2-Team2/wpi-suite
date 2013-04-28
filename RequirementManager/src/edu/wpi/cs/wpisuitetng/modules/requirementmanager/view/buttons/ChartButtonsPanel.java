@@ -14,29 +14,37 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
  *
  */
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class ChartButtonsPanel extends JPanel{
+public class ChartButtonsPanel extends ToolbarGroupView{
+	
+	private final JPanel contentPanel = new JPanel();
 	
 	public ChartButtonsPanel(){
-		setBorder(BorderFactory.createTitledBorder("Charts")); // add a border so you can see the panel
-		SpringLayout toolbarLayout = new SpringLayout();
-		this.setLayout(toolbarLayout);
+		super("");
 		
-		JButton pieChart = new JButton("View Pie Chart");
+		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		
+		JButton pieChart = new JButton("<html>View Pie<br />Chart</html>");
 		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
@@ -45,7 +53,7 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		JButton barChart = new JButton("View Bar Chart");
+		JButton barChart = new JButton("<html>View Bar<br />Chart</html>");
 		
 		barChart.addActionListener(new ActionListener(){
 			@Override
@@ -58,14 +66,20 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, pieChart, 5,SpringLayout.NORTH, this);
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, pieChart, 0, SpringLayout.HORIZONTAL_CENTER, this);
+		try {
+		    Image img = ImageIO.read(getClass().getResource("pie_chart.png"));
+		    pieChart.setIcon(new ImageIcon(img));
+		    
+		    img = ImageIO.read(getClass().getResource("bar_chart.png"));
+		    barChart.setIcon(new ImageIcon(img));
+		    
+		} catch (IOException ex) {}
 		
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, barChart, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		toolbarLayout.putConstraint(SpringLayout.NORTH, barChart, 5, SpringLayout.SOUTH, pieChart);
+		contentPanel.add(pieChart);
+		contentPanel.add(barChart);
+		contentPanel.setOpaque(false);
 		
-		this.add(pieChart);
-		this.add(barChart);
+		this.add(contentPanel);
 	}
 	
 }

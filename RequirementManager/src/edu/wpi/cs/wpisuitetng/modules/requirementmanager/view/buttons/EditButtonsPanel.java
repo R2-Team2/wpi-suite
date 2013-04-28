@@ -11,15 +11,23 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
@@ -27,9 +35,13 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @version $Revision: 1.0 $
  * @author justinhess
  */
-public class EditButtonsPanel extends JPanel{
+public class EditButtonsPanel extends ToolbarGroupView{
 	
-	JButton createEditButton = new JButton("Edit Estimates");
+	private final JPanel contentPanel = new JPanel();
+	JButton createEditButton = new JButton("<html>Edit<br />Estimates</html>");
+	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
+	private ImageIcon editImg = null;
+	private ImageIcon saveImg = null;
 	
 	/**
 	 *  disables the Edit Estimates/SaveChanges button 
@@ -46,15 +58,23 @@ public class EditButtonsPanel extends JPanel{
 	}
 
 	public EditButtonsPanel(){
+		super("");
 		
-		setBorder(BorderFactory.createTitledBorder("Edit Estimates")); // add a border so you can see the panel
+		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		this.setPreferredWidth(390);
 		
-		SpringLayout editButtonsLayout = new SpringLayout();
-		this.setLayout(editButtonsLayout);
-
-		final JButton createCancelButton = new JButton("Cancel Changes");
-		
+		createEditButton.setPreferredSize(new Dimension(150,50));	
 		createCancelButton.setVisible(false);
+		
+		try {
+		    Image img = ImageIO.read(getClass().getResource("cancel.png"));
+		    createCancelButton.setIcon(new ImageIcon(img));
+		    
+		    editImg = new ImageIcon(ImageIO.read(getClass().getResource("edit.png")));
+		    createEditButton.setIcon(editImg);
+		    saveImg = new ImageIcon(ImageIO.read(getClass().getResource("save.png")));
+		    
+		} catch (IOException ex) {}
 		
 		createEditButton.setVisible(true);
 		// the action listener for the Edit Estimates button
@@ -69,14 +89,10 @@ public class EditButtonsPanel extends JPanel{
 					// edits the Edit Button text based on whether in editing overview table mode or not
 					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 						ViewEventController.getInstance().getOverviewTable().repaint();
-						createEditButton.setText("Save Changes");
-						createEditButton.setEnabled(false);
-						createCancelButton.setVisible(true);												
+						setButtonToSave();
 					}	
 					else {
-						createEditButton.setText("Edit Estimates");
-						createEditButton.setEnabled(true);
-						createCancelButton.setVisible(false);
+						setButtonToEdit();
 					}
 				}
 			//}
@@ -87,20 +103,15 @@ public class EditButtonsPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// toggle the editing overview table mode
 				ViewEventController.getInstance().toggleEditingTable(true);			
-				createEditButton.setText("Edit Estimates");
-				createEditButton.setEnabled(true);
-				createCancelButton.setVisible(false);
+				setButtonToEdit();
 
 			}
 		});
+		contentPanel.add(createEditButton);
+		contentPanel.add(createCancelButton);
+		contentPanel.setOpaque(false);
 		
-		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createEditButton, 0,SpringLayout.HORIZONTAL_CENTER, this);
-		editButtonsLayout.putConstraint(SpringLayout.NORTH, createEditButton, 5,SpringLayout.NORTH, this);
-		this.add(createEditButton);
-		
-		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createCancelButton, 0,SpringLayout.HORIZONTAL_CENTER, createEditButton);
-		editButtonsLayout.putConstraint(SpringLayout.NORTH, createCancelButton, 5, SpringLayout.SOUTH, createEditButton);
-		this.add(createCancelButton);
+		this.add(contentPanel);
 	}
 	
 	/**
@@ -108,6 +119,20 @@ public class EditButtonsPanel extends JPanel{
 	
 	 * @return JButton */
 	public JButton getEditButton() {
-		return this.getEditButton();
+		return this.createEditButton;
+	}
+	public void setButtonToEdit(){
+		if (editImg != null){
+			createEditButton.setIcon(editImg);}
+		createEditButton.setText("<html>Edit<br />Estimates</html>");
+		createEditButton.setEnabled(true);
+		createCancelButton.setVisible(false);
+	}
+	public void setButtonToSave(){
+		if (saveImg != null){
+			createEditButton.setIcon(saveImg);}
+		createEditButton.setText("<html>Save<br />Changes</html>");
+		createEditButton.setEnabled(false);
+		createCancelButton.setVisible(true);
 	}
 }

@@ -41,3 +41,6 @@ Janeway/janeway.conf
 
 .idea
 .idea/*
+
+RequirementManager/build
+RequirementManager/bin

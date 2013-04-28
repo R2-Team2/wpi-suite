@@ -37,16 +37,17 @@ public class RequirementButtonsPanel extends ToolbarGroupView{
 	// initialize the main view toolbar buttons
 		private JButton createButton = new JButton("<html>Create<br />Requirement</html>");
 		
-		private final JButton createIterationButton = new JButton("<html><center>Create<br />Iteration</center></html>");
+		private final JButton createIterationButton = new JButton("<html>Create<br />Iteration</html>");
 		private final JPanel contentPanel = new JPanel();
 	
 	public RequirementButtonsPanel(){
 		super("");
 		
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		this.setPreferredWidth(350);
 		
-		this.createIterationButton.setSize(200, 200);
-		this.createButton.setPreferredSize(new Dimension(200, 200));
+		//this.createIterationButton.setSize(200, 200);
+		//this.createButton.setPreferredSize(new Dimension(200, 200));
 		this.createButton.setHorizontalAlignment(SwingConstants.CENTER);
 		try {
 		    Image img = ImageIO.read(getClass().getResource("new_req.png"));
