@@ -9,36 +9,54 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class RequirementButtonsPanel extends JPanel{
+public class RequirementButtonsPanel extends ToolbarGroupView{
 	
 	// initialize the main view toolbar buttons
-		private JButton createButton = new JButton("Create Requirement");
+		private JButton createButton = new JButton("<html>Create<br />Requirement</html>");
 		
-		private final JButton createIterationButton = new JButton("Create Iteration");
+		private final JButton createIterationButton = new JButton("<html><center>Create<br />Iteration</center></html>");
+		private final JPanel contentPanel = new JPanel();
 	
 	public RequirementButtonsPanel(){
-		setBorder(BorderFactory.createTitledBorder("Create")); // add a border so you can see the panel
+		super("");
 		
-		SpringLayout toolbarLayout = new SpringLayout();
-		this.setLayout(toolbarLayout);
+		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		
+		this.createIterationButton.setSize(200, 200);
+		this.createButton.setPreferredSize(new Dimension(200, 200));
+		this.createButton.setHorizontalAlignment(SwingConstants.CENTER);
+		try {
+		    Image img = ImageIO.read(getClass().getResource("new_req.png"));
+		    this.createButton.setIcon(new ImageIcon(img));
+		    
+		    img = ImageIO.read(getClass().getResource("new_itt.png"));
+		    this.createIterationButton.setIcon(new ImageIcon(img));
+		    
+		} catch (IOException ex) {}
 		
-
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
 			@Override
@@ -59,15 +77,12 @@ public class RequirementButtonsPanel extends JPanel{
 				}
 		//	}
 		});
+			
+		contentPanel.add(createButton);
+		contentPanel.add(createIterationButton);
+		contentPanel.setOpaque(false);
 		
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createButton, 5,SpringLayout.NORTH, this);
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		
-		toolbarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createIterationButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		toolbarLayout.putConstraint(SpringLayout.NORTH, createIterationButton, 5, SpringLayout.SOUTH, createButton);
-		
-		this.add(createButton);
-		this.add(createIterationButton);
+		this.add(contentPanel);
 	}
 	/**
 	 * Method getCreateButton.

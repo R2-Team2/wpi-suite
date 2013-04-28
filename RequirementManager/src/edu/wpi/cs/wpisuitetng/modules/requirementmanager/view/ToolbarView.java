@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.ChartButtonsPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.EditButtonsPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.RequirementButtonsPanel;
@@ -28,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
  * @version $Revision: 1.0 $
  * @author justinhess
  */
-public class ToolbarView extends JPanel {
+public class ToolbarView  extends DefaultToolbarView {
 
 	private ChartButtonsPanel chartButton = new ChartButtonsPanel();
 	private EditButtonsPanel editButton = new EditButtonsPanel();
@@ -41,14 +43,13 @@ public class ToolbarView extends JPanel {
 	public ToolbarView(boolean visible) {
 
 	//	this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
-		this.setLayout(new GridLayout(1, 3));
+		//this.setLayout(new GridLayout(1, 3));
 
-
+		this.addGroup(reqButton);
 	
-		this.add("Create", reqButton);
-		this.add("Edit Estimates", editButton);
-		this.add("Charts", chartButton);
-
+		//this.add("Create", reqButton);
+		//this.add("Edit Estimates", editButton);
+		//this.add("Charts", chartButton);
 
 
 	}

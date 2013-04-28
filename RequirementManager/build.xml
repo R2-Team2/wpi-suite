@@ -46,6 +46,9 @@
 				debuglevel="lines,vars,source">
 			<classpath refid="classpath"/>
 		</javac>
+		<copy todir="build">
+		    <fileset dir="src" includes="**/*.png" />
+		</copy>
 	</target>
 
 	<!-- Janeway and the Core need to load jars containing our module -->
