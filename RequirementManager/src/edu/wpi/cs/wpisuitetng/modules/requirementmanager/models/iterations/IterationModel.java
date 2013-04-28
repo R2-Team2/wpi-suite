@@ -199,13 +199,17 @@ public class IterationModel extends AbstractListModel {
 	}
 
 	/**
-	 * Returns the iteration that conflicts with the given dates
+	 * Returns the  earliest iteration that conflicts with the given dates
 	 * @param start the begin date
 	 * @param end the end date
 	
 	 * @return the conflicting iteration */
 	public Iteration getConflictingIteration(Date start, Date end) {
 		Iteration isValid = null;
+		
+		if (start == null || end == null) {
+			return isValid;
+		}
 		
 		for(Iteration iter : listOfIterations)
 		{

@@ -169,19 +169,68 @@ public class IterationModelTest {
 		itrModel.emptyModel();
 		itrModel.addIterations(itrList);
 		
+		// date with no iterations
 		List<Iteration> returnList = itrModel.getIterationForDate(new Date(2013, 4, 9));
 		assertEquals(0, returnList.size());
 		
+		// null data
+		returnList = itrModel.getIterationForDate(null);
+		assertEquals(0, returnList.size());
+		
+		// data in the middle of 1 iteration
 		returnList = itrModel.getIterationForDate(new Date(2013, 4, 17));
 		assertEquals("Iteration2", returnList.get(0).getName());
 		assertEquals(2, returnList.get(0).getId());
 		assertEquals(1, returnList.size());
 		
+		// data where 1 iteration stops and another starts
 		returnList = itrModel.getIterationForDate(new Date(2013, 4, 20));
 		assertEquals("Iteration1", returnList.get(0).getName());
 		assertEquals(1, returnList.get(0).getId());
 		assertEquals("Iteration2", returnList.get(1).getName());
 		assertEquals(2, returnList.get(1).getId());
 		assertEquals(2, returnList.size());
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testGetConflictingIterationFOrVariousDates() {
+		ViewEventController viewCon = ViewEventController.getInstance();
+		OverviewTable ovTable = new OverviewTable(null, null);
+		viewCon.setOverviewTable(ovTable);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
+		
+		Iteration itrList[] = new Iteration[]{
+			new Iteration(1, "Iteration1", new Date(2013, 4, 20), new Date(2013, 4, 28)),
+			new Iteration(2, "Iteration2", new Date(2013, 4, 10), new Date(2013, 4, 20)),
+			new Iteration(3, "Iteration3", new Date(2013, 3, 20), new Date(2013, 3, 28))	
+		};
+		IterationModel itrModel = IterationModel.getInstance();
+		itrModel.emptyModel();
+		itrModel.addIterations(itrList);
+		
+		// end date overlaps with a start date, should be fine
+		Iteration returnItr = itrModel.getConflictingIteration(new Date(2013, 4, 9), new Date(2013, 4, 10));
+		assertNull(returnItr);
+		
+		// null dates, so there should be no conflicts
+		returnItr = itrModel.getConflictingIteration(null, null);
+		assertNull(null);
+		
+		// data in the middle of 1 iteration
+		returnItr = itrModel.getConflictingIteration(new Date(2013, 4, 17), new Date(2013, 4, 18));
+		assertEquals("Iteration2", returnItr.getName());
+		assertEquals(2, returnItr.getId());
+		
+		// data surrounding 1 iteration
+		returnItr = itrModel.getConflictingIteration(new Date(2013, 3, 19), new Date(2013, 4, 2));
+		assertEquals("Iteration3", returnItr.getName());
+		assertEquals(3, returnItr.getId());
+		
+		// data starting in 1 iteration and ending in a different iteration
+		returnItr = itrModel.getConflictingIteration(new Date(2013, 4, 15), new Date(2013, 4, 25));
+		assertEquals("Iteration2", returnItr.getName());
+		assertEquals(2, returnItr.getId());
 	}
 }
