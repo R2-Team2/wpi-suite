@@ -62,6 +62,10 @@ public class EditButtonsPanel extends JPanel{
 		createEditButton.setHorizontalTextPosition(AbstractButton.CENTER);
 		createEditButton.setVerticalTextPosition(AbstractButton.BOTTOM);
 		
+		createCancelButton.setIcon(new ImageIcon("../RequirementManager/resources/cancel-icon.png"));
+		createCancelButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		createCancelButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+		
 		createEditButton.setVisible(true);
 		// the action listener for the Edit Estimates button
 		createEditButton.addActionListener(new ActionListener() {
@@ -76,11 +80,13 @@ public class EditButtonsPanel extends JPanel{
 					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
 						ViewEventController.getInstance().getOverviewTable().repaint();
 						createEditButton.setText("Save Changes");
+						createEditButton.setIcon(new ImageIcon("../RequirementManager/resources/save-icon.png"));
 						createEditButton.setEnabled(false);
 						createCancelButton.setVisible(true);												
 					}	
 					else {
 						createEditButton.setText("Edit Estimates");
+						createEditButton.setIcon(new ImageIcon("../RequirementManager/resources/edit-estimates-icon.png"));
 						createEditButton.setEnabled(true);
 						createCancelButton.setVisible(false);
 					}
@@ -94,18 +100,18 @@ public class EditButtonsPanel extends JPanel{
 				// toggle the editing overview table mode
 				ViewEventController.getInstance().toggleEditingTable(true);			
 				createEditButton.setText("Edit Estimates");
+				createEditButton.setIcon(new ImageIcon("../RequirementManager/resources/edit-estimates-icon.png"));
 				createEditButton.setEnabled(true);
 				createCancelButton.setVisible(false);
 
 			}
 		});
 		
-		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createEditButton, 0,SpringLayout.HORIZONTAL_CENTER, this);
-		editButtonsLayout.putConstraint(SpringLayout.NORTH, createEditButton, 5,SpringLayout.NORTH, this);
-		this.add(createEditButton);
+		editButtonsLayout.putConstraint(SpringLayout.WEST, createEditButton, 35,SpringLayout.WEST, this);
+		editButtonsLayout.putConstraint(SpringLayout.WEST, createCancelButton, 30, SpringLayout.EAST, createEditButton);
 		
-		editButtonsLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createCancelButton, 0,SpringLayout.HORIZONTAL_CENTER, createEditButton);
-		editButtonsLayout.putConstraint(SpringLayout.NORTH, createCancelButton, 5, SpringLayout.SOUTH, createEditButton);
+		
+		this.add(createEditButton);
 		this.add(createCancelButton);
 	}
 	
