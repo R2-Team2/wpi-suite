@@ -233,7 +233,8 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 	 * Method readyToRemove.
 	
 	
-	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	@Override
 	public boolean readyToRemove() {
 		return testMessage.getText().length() == 0 && testTitle.getText().length() == 0 && 
@@ -276,22 +277,42 @@ public class RequirementTestPanel extends JPanel implements RequirementPanelList
 		this.refresh();
 	}
 
+	/**
+	 * Method getTestsAdded.
+	 * @return int
+	 */
 	public int getTestsAdded() {
 		return testsAdded;
 	}
 
+	/**
+	 * Method getAddTestButton.
+	 * @return JButton
+	 */
 	public JButton getAddTestButton() {
 		return buttonAddTest;
 	}
 
+	/**
+	 * Method getTestTitle.
+	 * @return JTextField
+	 */
 	public JTextField getTestTitle() {
 		return testTitle;
 	}
 
+	/**
+	 * Method getTestMessage.
+	 * @return JTextArea
+	 */
 	public JTextArea getTestMessage() {
 		return testMessage;
 	}
 
+	/**
+	 * Method getClearButton.
+	 * @return JButton
+	 */
 	public JButton getClearButton() {
 		return buttonClear;
 	}

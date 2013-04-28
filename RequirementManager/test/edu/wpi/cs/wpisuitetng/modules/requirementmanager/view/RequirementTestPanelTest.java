@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * tests the functionality of the RequirementTestPanel.java source file
  * @author Rolling Thunder
  *
+ * @version $Revision: 1.0 $
  */
 public class RequirementTestPanelTest {
 
@@ -29,8 +30,9 @@ public class RequirementTestPanelTest {
 	RequirementPanel reqPan;
 	
 	/**
-	 * @throws java.lang.Exception
-	 */
+	
+	 * @throws Exception
+	 * @throws java.lang.Exception */
 	@Before
 	public void setUp() throws Exception {
 		req = new Requirement(1, "Name", "Description");

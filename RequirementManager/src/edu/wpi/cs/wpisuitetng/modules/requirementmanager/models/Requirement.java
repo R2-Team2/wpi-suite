@@ -441,6 +441,10 @@ public class Requirement extends AbstractModel {
 		return notes;
 	}
 	
+	/**
+	 * Method addNote.
+	 * @param noteMsg String
+	 */
 	public void addNote(String noteMsg) {
 		if  (!wasCreated) this.history.add("Note added");		
 		// Add note to requirement
@@ -643,6 +647,8 @@ public class Requirement extends AbstractModel {
 	public void setParentID(int parentReq) throws Exception {
 		if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
 			this.parentID = parentReq;
+			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
+			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
 		} else {
 			throw new Exception("Cannot add ancestor as parent");
 		}
@@ -745,7 +751,8 @@ public class Requirement extends AbstractModel {
 	 * Method toJSON.
 	
 	
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() */
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
 	 * 
@@ -774,7 +781,8 @@ public class Requirement extends AbstractModel {
 	 * @param o Object
 	
 	
-	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) */
+	 * @return Boolean * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
@@ -785,7 +793,8 @@ public class Requirement extends AbstractModel {
 	 * Method toString.
 	
 	
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() */
+	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 */
 	@Override
 	public String toString() {
 		return this.getName();
@@ -863,8 +872,8 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * @return the wasCreated
-	 */
+	
+	 * @return the wasCreated */
 	public boolean getWasCreated() {
 		return wasCreated;
 	}

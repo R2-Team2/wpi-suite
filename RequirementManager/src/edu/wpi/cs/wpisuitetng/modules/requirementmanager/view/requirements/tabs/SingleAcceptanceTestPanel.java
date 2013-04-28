@@ -166,6 +166,10 @@ public class SingleAcceptanceTestPanel extends JPanel
 		return panel;
 	}
 
+	/**
+	 * Method getDropdownStatus.
+	 * @return JComboBox<TestStatus>
+	 */
 	public JComboBox<TestStatus> getDropdownStatus() {
 		return dropdownStatus;
 	}

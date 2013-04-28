@@ -154,7 +154,7 @@ public class ViewEventController {
 				if(main.getTabComponentAt(i) instanceof NewPieChartPanel && (((NewPieChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))){
 					main.setSelectedIndex(i);
 					return;
-				}
+				}  
 				else{
 					main.remove(i);
 					
@@ -457,6 +457,7 @@ public class ViewEventController {
 
 	/**
 	 * Gets the iteration overview
+	 * @return IterationOverviewPanel
 	 */
 	public IterationOverviewPanel getIterationOverview()
 	{
@@ -500,5 +501,21 @@ public class ViewEventController {
 		
 			ViewEventController.getInstance().editIteration(iter);
 		}
+	}
+
+	/**
+	 * Method getListOfIterationPanels.
+	 * @return ArrayList<IterationPanel>
+	 */
+	public ArrayList<IterationPanel> getListOfIterationPanels() {
+		return listOfIterationPanels;
+	}
+
+	/**
+	 * Method getListOfRequirementPanels.
+	 * @return ArrayList<RequirementPanel>
+	 */
+	public ArrayList<RequirementPanel> getListOfRequirementPanels() {
+		return listOfEditingPanels;
 	}
 }

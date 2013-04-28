@@ -55,7 +55,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @param content an iteration that has been converted to Json
 	
 	
-	 * @return the iteration passed into the method converted from Json to an iteration * @throws WPISuiteException * @throws WPISuiteException
+	
+	 * @return the iteration passed into the method converted from Json to an iteration * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String) */
 	@Override
 	public Iteration makeEntity(Session s, String content) throws WPISuiteException {
@@ -73,7 +74,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return the Iteration matching the given id * @throws NotFoundException * @throws NotFoundException
+	
+	 * @return the Iteration matching the given id * @throws NotFoundException * @throws NotFoundException * @throws NotFoundException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(Session, String) */
 	@Override
 	public Iteration[] getEntity(Session s, String id) throws NotFoundException {
@@ -98,7 +100,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @param s the session
 	
 	
-	 * @return array of all stored Iterations * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
+	
+	 * @return array of all stored Iterations * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
 	public Iteration[] getAll(Session s) {
@@ -136,7 +139,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException
+	
+	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
@@ -149,7 +153,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	 * @param s the session
 	
 	
-	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) */
+	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
+	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
@@ -161,7 +166,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return number of Iterations stored * @throws WPISuiteException * @throws WPISuiteException
+	
+	 * @return number of Iterations stored * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
 	public int Count() throws WPISuiteException {
@@ -175,7 +181,8 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return the old iteration prior to updating * @throws WPISuiteException * @throws WPISuiteException
+	
+	 * @return the old iteration prior to updating * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String) */
 	@Override
 	public Iteration update(Session session, String content) throws WPISuiteException {
@@ -210,7 +217,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[]) */
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[]) * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[])
+	 */
 	@Override
 	public String advancedGet(Session arg0, String[] arg1) throws NotImplementedException {
 		throw new NotImplementedException();
@@ -224,7 +233,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String) */
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String) * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
+	 */
 	@Override
 	public String advancedPost(Session arg0, String arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();
@@ -238,7 +249,9 @@ public class IterationEntityManager implements EntityManager<Iteration> {
 	
 	
 	
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String) */
+	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String) * @throws NotImplementedException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
+	 */
 	@Override
 	public String advancedPut(Session arg0, String[] arg1, String arg2) throws NotImplementedException {
 		throw new NotImplementedException();

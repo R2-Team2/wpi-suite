@@ -264,10 +264,18 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		return tabsPanel;
 	}
 	
+	/**
+	 * Method isReadyToRemove.
+	 * @return boolean
+	 */
 	public boolean isReadyToRemove() {
 		return readyToRemove;
 	}
 
+	/**
+	 * Method setReadyToRemove.
+	 * @param readyToRemove boolean
+	 */
 	public void setReadyToRemove(boolean readyToRemove) {
 		this.readyToRemove = readyToRemove;
 	}

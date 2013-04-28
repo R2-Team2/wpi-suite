@@ -272,14 +272,26 @@ public class MainView extends JTabbedPane {
 		} catch (IllegalArgumentException e){}
 	}
 	
+	/**
+	 * Method getPopup.
+	 * @return JPopupMenu
+	 */
 	public JPopupMenu getPopup() {
 		return popup;
 	}
+	/**
+	 * Method getCloseAll.
+	 * @return JMenuItem
+	 */
 	public JMenuItem getCloseAll() {
 		return closeAll;
 	}
 
 
+	/**
+	 * Method getCloseOthers.
+	 * @return JMenuItem
+	 */
 	public JMenuItem getCloseOthers() {
 		return closeOthers;
 	}

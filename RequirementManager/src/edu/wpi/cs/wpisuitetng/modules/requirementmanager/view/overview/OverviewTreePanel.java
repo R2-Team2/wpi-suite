@@ -100,6 +100,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
         System.out.println("finished refreshing the tree");
 	}
 	
+	/**
+	 * Method addRequirementsToTree.
+	 * @param requirements List<Requirement>
+	 * @param parentNode DefaultMutableTreeNode
+	 */
 	private void addRequirementsToTree(List<Requirement> requirements, DefaultMutableTreeNode parentNode) {
 		
 		for (int j = 0; j < requirements.size(); j++) {
@@ -120,8 +125,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	/**
 	 * Method mouseClicked.
 	 * @param e MouseEvent
-	 * @see java.awt.event.MouseListener#mouseClicked(MouseEvent)
-	 */
+	
+	 * @see java.awt.event.MouseListener#mouseClicked(MouseEvent) */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
@@ -162,8 +167,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	/**
 	 * Method mousePressed.
 	 * @param e MouseEvent
-	 * @see java.awt.event.MouseListener#mousePressed(MouseEvent)
-	 */
+	
+	 * @see java.awt.event.MouseListener#mousePressed(MouseEvent) */
 	@Override
 	public void mousePressed(MouseEvent e) {		
 	}
@@ -171,8 +176,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	/**
 	 * Method mouseReleased.
 	 * @param e MouseEvent
-	 * @see java.awt.event.MouseListener#mouseReleased(MouseEvent)
-	 */
+	
+	 * @see java.awt.event.MouseListener#mouseReleased(MouseEvent) */
 	@Override
 	public void mouseReleased(MouseEvent e) {		
 	}
@@ -180,8 +185,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	/**
 	 * Method mouseEntered.
 	 * @param e MouseEvent
-	 * @see java.awt.event.MouseListener#mouseEntered(MouseEvent)
-	 */
+	
+	 * @see java.awt.event.MouseListener#mouseEntered(MouseEvent) */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
@@ -189,8 +194,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	/**
 	 * Method mouseExited.
 	 * @param e MouseEvent
-	 * @see java.awt.event.MouseListener#mouseExited(MouseEvent)
-	 */
+	
+	 * @see java.awt.event.MouseListener#mouseExited(MouseEvent) */
 	@Override
 	public void mouseExited(MouseEvent e) {		
 	}
@@ -201,6 +206,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		return tree;
 	}
 
+	/**
+	 * Method valueChanged.
+	 * @param e TreeSelectionEvent
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
@@ -217,6 +227,10 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		}
 	}
 
+	/**
+	 * Method selectIteration.
+	 * @param iteration Iteration
+	 */
 	public void selectIteration(Iteration iteration) {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode)tree.getModel().getRoot();
 		Enumeration<DefaultMutableTreeNode> e = root.breadthFirstEnumeration();
