@@ -31,12 +31,15 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  */
 public class ChartButtonsPanel extends JPanel{
 	
+	JButton pieChart;
+	JButton barChart;
+	
 	public ChartButtonsPanel(){
 		setBorder(BorderFactory.createTitledBorder("Charts")); // add a border so you can see the panel
 		SpringLayout toolbarLayout = new SpringLayout();
 		this.setLayout(toolbarLayout);
 		
-		JButton pieChart = new JButton("View Pie Chart");
+		pieChart = new JButton("View Pie Chart");
 		
 		pieChart.addActionListener(new ActionListener(){
 			@Override
@@ -45,7 +48,7 @@ public class ChartButtonsPanel extends JPanel{
 			}
 		});
 		
-		JButton barChart = new JButton("View Bar Chart");
+		barChart = new JButton("View Bar Chart");
 		
 		barChart.addActionListener(new ActionListener(){
 			@Override
@@ -66,6 +69,14 @@ public class ChartButtonsPanel extends JPanel{
 		
 		this.add(pieChart);
 		this.add(barChart);
+	}
+
+	public JButton getBarChartButton() {
+		return barChart;
+	}
+
+	public JButton getPieChartButton() {
+		return pieChart;
 	}
 	
 }

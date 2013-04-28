@@ -9,6 +9,14 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
+import java.util.LinkedList;
+
+import org.junit.Test;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the Note.java, NoteList.java, and NotePanel.java source files
@@ -19,13 +27,12 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 public class NoteTest {
 	
 	//===== Note.java tests =====
-	/*
+	
 	@Test
 	public void makeANoteTest() {
-		assertNotNull(new Note("Rolling Thunder", 120, "Test note"));
+		assertNotNull(new Note(3, "Rolling Thunder", 120, "Test note"));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void makeADepreciatedNoteTest() {
 		assertNotNull(new Note(3, "Rolling Thunder", 120, "Test note"));
@@ -35,24 +42,24 @@ public class NoteTest {
 	// causing the tests to fail if ran out of order.
 	@Test
 	public void getIdTest() {
-		Note testNote = new Note("Rolling Thunder", 120, "Test note");
+		Note testNote = new Note(3, "Rolling Thunder", 120, "Test note");
 		assertNotNull(testNote.getId());
-		@SuppressWarnings("deprecation")
 		Note testNote2 = new Note(3, "Rolling Thunder", 120, "Test note");
 		assertNotNull(testNote2.getId());
 	}
 	
 	@Test
 	public void allNoteGettersTest() {
-		Note testNote = new Note("Rolling Thunder", 120, "Test note");
+		Note testNote = new Note(3, "Rolling Thunder", 120, "Test note");
+		assertEquals(3, testNote.getId());
 		assertEquals("Rolling Thunder", testNote.getUser());
 		assertEquals(120, testNote.getTimestamp());
 		assertEquals("Test note", testNote.getMessage());
 	}
-	
+	/*
 	@Test
 	public void allNoteSettersTest() {
-		Note testNote = new Note("Rolling Thunder", 120, "Test note");
+		Note testNote = new Note(3, "Rolling Thunder", 120, "Test note");
 		testNote.setUser("Thunder Roller");
 		testNote.setTimestamp(360);
 		testNote.setMessage("Changed message");
@@ -61,7 +68,7 @@ public class NoteTest {
 		assertEquals(360, testNote.getTimestamp());
 		assertEquals("Changed message", testNote.getMessage());
 	}
-	
+	*/
 	//===== NoteList.java test =====
 	
 	@Test
@@ -101,10 +108,10 @@ public class NoteTest {
 	}
 	
 	//===== NotePanel.java test =====
-	
+	/*
 	@Test
 	public void makeANotePanelTest() {
-		Note testNote = new Note("Rolling Thunder", 120, "Test note");
+		Note testNote = new Note(3, "Rolling Thunder", 120, "Test note");
 		assertNotNull(new NotePanel(testNote));
 		
 	}
