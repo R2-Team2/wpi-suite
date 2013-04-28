@@ -252,7 +252,10 @@ public class Requirement extends AbstractModel {
 		if (!rel.equals(this.release) && !wasCreated) {
 			String originalRelease = this.release;
 			String newRelease = rel;
-			String message = ("Release # changed from " + originalRelease + " to " + newRelease);
+			String message = null;
+			if (originalRelease.isEmpty()) message = ("Release Number set to '" + newRelease + "'");
+			else if (newRelease.isEmpty()) message = ("Release Number set to blank from '" + originalRelease + "'");
+			else message = ("Release Number changed from '" + originalRelease + "' to '" + newRelease + "'");
 			this.history.add(message);			
 		}
 		this.release = rel;
@@ -277,7 +280,7 @@ public class Requirement extends AbstractModel {
 		if ((status != this.status) && (!wasCreated)) {
 			String originalStatus = this.status.toString();
 			String newStatus = status.toString();
-			String message = ("Status changed from " + originalStatus + " to " + newStatus);
+			String message = ("Status changed from '" + originalStatus + "' to '" + newStatus + "'");
 			this.history.add(message);			
 		}
 
@@ -352,7 +355,7 @@ public class Requirement extends AbstractModel {
 		if ((estimate != this.estimate) && (!wasCreated)) {
 			int originalEstimate = this.estimate;
 			int newEstimate = estimate;
-			String message = ("Estimate changed from " + originalEstimate + " to " + newEstimate);
+			String message = ("Estimate changed from '" + originalEstimate + "' to '" + newEstimate + "'");
 			this.history.add(message);
 			this.setEstimateEdited(true);
 		}	
@@ -399,7 +402,7 @@ public class Requirement extends AbstractModel {
 		if ((priority != this.priority) && (!wasCreated)) {
 			String originalPriority = this.priority.toString();
 			String newPriority = priority.toString();
-			String message = ("Priority changed from " + originalPriority + " to " + newPriority);
+			String message = ("Priority changed from '" + originalPriority + "' to '" + newPriority + "'");
 			this.history.add(message);			
 		}
 
@@ -422,10 +425,13 @@ public class Requirement extends AbstractModel {
 	 *            the type to set the requirement to
 	 */
 	public void setType(RequirementType type) {
-		if ((type != this.type) && (!wasCreated)) {
+		if ((type != this.type) && (!wasCreated)) {			
 			String originalType = this.type.toString();
 			String newType = type.toString();
-			String message = ("Type changed from " + originalType + " to " + newType);
+			String message = null;
+			if (originalType.isEmpty()) message = ("Type set to '" + newType + "'");
+			else if (newType.isEmpty()) message = ("Type set to blank from '" + originalType + "'");
+			else message = ("Type changed from '" + originalType + "' to '" + newType + "'");
 			this.history.add(message);			
 		}
 		this.type = type;
@@ -603,7 +609,7 @@ public class Requirement extends AbstractModel {
 		if(!this.iteration.equals(newIterationName) && (!wasCreated))
 		{
 			//create the transaction history
-			String message = ("Moved from "	+ curIter + " to " + newIteration);
+			String message = ("Moved from '"	+ curIter + "' to '" + newIteration + "'");
 			this.history.add(message);
 		}
 		
