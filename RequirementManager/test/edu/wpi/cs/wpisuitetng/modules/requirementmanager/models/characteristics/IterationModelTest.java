@@ -5,6 +5,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -150,5 +151,37 @@ public class IterationModelTest {
 		assertEquals(3, returnList.get(2).getId());
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testGetIterationForDateWithBoth1or2IterationsOnTheSameDate() {
+		ViewEventController viewCon = ViewEventController.getInstance();
+		OverviewTable ovTable = new OverviewTable(null, null);
+		viewCon.setOverviewTable(ovTable);
+		OverviewTreePanel ovTree = new OverviewTreePanel();
+		viewCon.setOverviewTree(ovTree);
+		
+		Iteration itrList[] = new Iteration[]{
+			new Iteration(1, "Iteration1", new Date(2013, 4, 20), new Date(2013, 4, 28)),
+			new Iteration(2, "Iteration2", new Date(2013, 4, 10), new Date(2013, 4, 20)),
+			new Iteration(3, "Iteration3", new Date(2013, 3, 20), new Date(2013, 3, 28))	
+		};
+		IterationModel itrModel = IterationModel.getInstance();
+		itrModel.emptyModel();
+		itrModel.addIterations(itrList);
+		
+		List<Iteration> returnList = itrModel.getIterationForDate(new Date(2013, 4, 9));
+		assertEquals(0, returnList.size());
+		
+		returnList = itrModel.getIterationForDate(new Date(2013, 4, 17));
+		assertEquals("Iteration2", returnList.get(0).getName());
+		assertEquals(2, returnList.get(0).getId());
+		assertEquals(1, returnList.size());
+		
+		returnList = itrModel.getIterationForDate(new Date(2013, 4, 20));
+		assertEquals("Iteration1", returnList.get(0).getName());
+		assertEquals(1, returnList.get(0).getId());
+		assertEquals("Iteration2", returnList.get(1).getName());
+		assertEquals(2, returnList.get(1).getId());
+		assertEquals(2, returnList.size());
+	}
 }
