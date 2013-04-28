@@ -12,7 +12,10 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.DropMode;
@@ -63,12 +66,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 	public void refresh(){
 		
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode(/*ConfigManager.getConfig().getProjectName()*/ "Iteration Tree"); //makes a starting node
-		List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
+		List<Iteration> iterations = sortIterations(IterationModel.getInstance().getIterations()); //retreive the list of all iterations
 		System.out.println("Num Iterations: " + iterations.size());
 		for(int i=0; i<iterations.size(); i++){
 
 			DefaultMutableTreeNode newIterNode = new DefaultMutableTreeNode(iterations.get(i)); //make a new iteration node to add
-			List<Requirement> requirements = iterations.get(i).getRequirements(); //gets the list of requirements that is associated with the iteration
+			List<Requirement> requirements = sortRequirements(iterations.get(i).getRequirements()); //gets the list of requirements that is associated with the iteration
 
 			//check to see if there are any requirements for the iteration
 			if(requirements.size() > 0){
@@ -101,7 +104,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 		
 		for (int j = 0; j < requirements.size(); j++) {
 			DefaultMutableTreeNode newReqNode = new DefaultMutableTreeNode(requirements.get(j));
-			List<Requirement> children = requirements.get(j).getChildren();
+			List<Requirement> children = sortRequirements(requirements.get(j).getChildren());
 //			if((requirements.get(j).getParentID() != -1) && (parentNode.getUserObject() instanceof Iteration)){
 //				System.out.println("breaking for " + requirements.get(j).getName());
 //				continue;
@@ -235,5 +238,54 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
 			tree.setSelectionPath(path);
 			tree.scrollPathToVisible(path);
 		}
+	}
+
+	/**
+	 * @param list the list of iterations to be sorted
+	 * @return the same list sorted by start date
+	 */
+	public List<Iteration> sortIterations(List<Iteration> list) {
+		
+		Collections.sort(list, new IterationComparator());
+
+		return list;
+	}
+	
+	/**
+	 * @param list requirements to be sorted
+	 * @return the same list sorted by name
+	 * 
+	 */
+	public List<Requirement> sortRequirements(List<Requirement> list) {
+		
+		Collections.sort(list, new RequirementComparator());
+
+		return list;
+	}
+}
+
+/**
+ * @author Kevin
+ * sorts the Iterations by date
+ *
+ */
+class IterationComparator implements Comparator<Iteration> {
+    public int compare(Iteration I1, Iteration I2) {
+       if(I1.getStart() == null) 
+    	   return -1;
+       if(I2.getStart() == null)
+    	   return 1;
+       return I1.getStart().getDate().compareTo(I2.getStart().getDate());
+    }
+}
+
+/**
+ * @author Kevin
+ * sorts Requirements by name
+ *
+ */
+class RequirementComparator implements Comparator<Requirement>{
+	public int compare(Requirement R1, Requirement R2){
+		return R1.getName().compareTo(R2.getName());
 	}
 }
