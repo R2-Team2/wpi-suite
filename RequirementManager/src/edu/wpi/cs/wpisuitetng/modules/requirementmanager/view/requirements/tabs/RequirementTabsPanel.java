@@ -66,7 +66,8 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	 * Method readyToRemove.
 	
 	
-	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() */
+	 * @return boolean * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove() * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
+	 */
 	public boolean readyToRemove() {
 		boolean readyToRemove = true;
 		for(RequirementPanelListener listener : listeners)
@@ -132,5 +133,13 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	 * @return the note panel */
 	public RequirementNotePanel getNotePanel() {
 		return notePanel;
+	}
+
+	/**
+	 * Method getTestPanel.
+	 * @return RequirementTestPanel
+	 */
+	public RequirementTestPanel getTestPanel() {
+		return testPanel;
 	}
 }

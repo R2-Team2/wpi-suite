@@ -51,6 +51,10 @@ public class MainView extends JTabbedPane {
 	private OverviewPanel overview = new OverviewPanel();
 	private IterationOverviewPanel iterationOverview = new IterationOverviewPanel();
 	private Component lastTab = null;
+	private final JPopupMenu popup = new JPopupMenu();
+	private JMenuItem closeAll = new JMenuItem("Close All Tabs");
+	private JMenuItem closeOthers = new JMenuItem("Close Others");
+
 
 
 	/**
@@ -61,7 +65,7 @@ public class MainView extends JTabbedPane {
 		this.addTab("Requirement Overview", overview);
 		this.addTab("Iteration Overview", iterationOverview);
 
-		JMenuItem closeAll = new JMenuItem("Close All Tabs");
+		
 		closeAll.addActionListener(new ActionListener()
 		{
 			@Override
@@ -70,8 +74,7 @@ public class MainView extends JTabbedPane {
 
 			}	
 		});
-
-		JMenuItem closeOthers = new JMenuItem("Close Others");
+		
 		closeOthers.addActionListener(new ActionListener()
 		{
 			@Override
@@ -105,7 +108,7 @@ public class MainView extends JTabbedPane {
 			}
 		});		
 		
-		final JPopupMenu popup = new JPopupMenu();
+		
 		popup.add(closeAll);
 		popup.add(closeOthers);
 
@@ -268,4 +271,29 @@ public class MainView extends JTabbedPane {
 				setSelectedComponent(this.lastTab);}
 		} catch (IllegalArgumentException e){}
 	}
+	
+	/**
+	 * Method getPopup.
+	 * @return JPopupMenu
+	 */
+	public JPopupMenu getPopup() {
+		return popup;
+	}
+	/**
+	 * Method getCloseAll.
+	 * @return JMenuItem
+	 */
+	public JMenuItem getCloseAll() {
+		return closeAll;
+	}
+
+
+	/**
+	 * Method getCloseOthers.
+	 * @return JMenuItem
+	 */
+	public JMenuItem getCloseOthers() {
+		return closeOthers;
+	}
+
 }

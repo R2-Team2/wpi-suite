@@ -260,7 +260,7 @@ public class EditRequirementPanelTest {
 	/**
 	 * test fifferent fields
 	 */
-	@Test
+	/*@Test
 	public void updateButtonTest2()
 	{
 		Requirement testRequirement = new Requirement();
@@ -305,7 +305,7 @@ public class EditRequirementPanelTest {
 		assertEquals(RequirementStatus.INPROGRESS,testEdit.getDisplayRequirement().getStatus());
 		assertEquals(RequirementPriority.HIGH,testEdit.getDisplayRequirement().getPriority());
 		assertEquals(4,testEdit.getDisplayRequirement().getEstimate());
-	}
+	}*/
 	
 }
 	

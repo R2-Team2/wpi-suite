@@ -26,6 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
+ * @author justinhess
+ * @version $Revision: 1.0 $
  */
 public class IterationCalendarPanel extends JScrollPane {
 	
