@@ -37,8 +37,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
  */
 public class IterationCalendar extends JXMonthView implements ActionListener, KeyListener {
 	
-	public static final Color START_END_DAY = new Color(46, 79, 179);
-	public static final Color SELECTION = new Color(95,242,90);
+	public static final Color START_END_DAY = new Color(47, 150, 9);
+	public static final Color SELECTION = new Color(236,252,144);
 	public static final Color UNSELECTABLE = Color.red;
 	
 	private ViewMode viewMode;
