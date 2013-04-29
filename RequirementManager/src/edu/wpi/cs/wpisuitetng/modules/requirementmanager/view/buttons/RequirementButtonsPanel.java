@@ -15,14 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-<<<<<<< HEAD
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-=======
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
->>>>>>> 0ab84756ec22bafa8be2cef9c4da6afdb52cff81
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -51,7 +47,6 @@ public class RequirementButtonsPanel extends ToolbarGroupView{
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
 		
-<<<<<<< HEAD
 		//this.createIterationButton.setSize(200, 200);
 		//this.createButton.setPreferredSize(new Dimension(200, 200));
 		this.createButton.setHorizontalAlignment(SwingConstants.CENTER);
@@ -64,16 +59,6 @@ public class RequirementButtonsPanel extends ToolbarGroupView{
 		    
 		} catch (IOException ex) {}
 		
-=======
-		createButton.setIcon(new ImageIcon("../RequirementManager/resources/new-requirement-icon.png"));
-		createButton.setHorizontalTextPosition(AbstractButton.CENTER);
-		createButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-		
-		createIterationButton.setIcon(new ImageIcon("../RequirementManager/resources/new-iteration-icon.png"));
-		createIterationButton.setHorizontalTextPosition(AbstractButton.CENTER);
-		createIterationButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-
->>>>>>> 0ab84756ec22bafa8be2cef9c4da6afdb52cff81
 		// the action listener for the Create Requirement Button
 		createButton.addActionListener(new ActionListener() {
 			@Override
@@ -99,15 +84,8 @@ public class RequirementButtonsPanel extends ToolbarGroupView{
 		contentPanel.add(createIterationButton);
 		contentPanel.setOpaque(false);
 		
-<<<<<<< HEAD
+
 		this.add(contentPanel);
-=======
-		toolbarLayout.putConstraint(SpringLayout.WEST, createButton, 15,SpringLayout.WEST, this);
-		toolbarLayout.putConstraint(SpringLayout.WEST, createIterationButton, 30, SpringLayout.EAST, createButton);
-		
-		this.add(createButton);
-		this.add(createIterationButton);
->>>>>>> 0ab84756ec22bafa8be2cef9c4da6afdb52cff81
 	}
 	/**
 	 * Method getCreateButton.
