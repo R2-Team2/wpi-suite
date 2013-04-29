@@ -137,13 +137,15 @@ public class Iteration extends AbstractModel {
 	 *            the name to set
 	 */
 	public void setName(String name) {
-		
-		List<Requirement> forIter = RequirementModel.getInstance().getRequirementsForIteration(this.name);
-		
-		for(Requirement req : forIter)
+		if(!(this.name.equals("Backlog") || this.name.equals("")))
 		{
-			req.setIteration(name);
-			UpdateRequirementController.getInstance().updateRequirement(req);
+			List<Requirement> forIter = RequirementModel.getInstance().getRequirementsForIteration(this.name);
+		
+			for(Requirement req : forIter)
+			{
+				req.setIteration(name);
+				UpdateRequirementController.getInstance().updateRequirement(req);
+			}
 		}
 		
 		this.name = name;
