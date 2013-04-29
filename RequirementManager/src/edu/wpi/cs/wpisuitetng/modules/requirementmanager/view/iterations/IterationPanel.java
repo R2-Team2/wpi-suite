@@ -219,8 +219,8 @@ public class IterationPanel extends JPanel implements KeyListener{
 		}
 		
 		forceRemove = true;
+		
 		ViewEventController.getInstance().removeTab(IterationPanel.this);
-
 	}
 	
 	/**

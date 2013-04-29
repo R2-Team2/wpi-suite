@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 

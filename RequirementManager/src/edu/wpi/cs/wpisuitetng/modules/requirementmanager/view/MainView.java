@@ -9,7 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -23,6 +22,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
@@ -33,6 +33,7 @@ import javax.swing.event.TableModelListener;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
  * This class sets the main view when user goes to the RequirementManager tab
@@ -182,26 +183,32 @@ public class MainView extends JTabbedPane {
 		final MainView panel = this;
 		this.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if (MainView.this.getSelectedComponent() == overview) {
-					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(true);
-				}
-				else {
-					ViewEventController.getInstance().getToolbar().getEditButton().setVisible(false);
-				}
+				JComponent selected = (JComponent)MainView.this.getSelectedComponent();
 				
-				if(MainView.this.getSelectedComponent() == overview)
+				ViewEventController.getInstance().getToolbar().getEditButton().getEditButton().setEnabled(false);
+
+				if(selected == overview)
 				{
+					ViewEventController.getInstance().getToolbar().getEditButton().getEditButton().setEnabled(true);
+					ViewEventController.getInstance().getOverviewTable().refresh();
+					ViewEventController.getInstance().getOverviewTree().refresh();
 					overview.setLeftComponent(ViewEventController.getInstance().getOverviewTree());
 					overview.setDividerLocation(180);
 					overview.revalidate();
 					overview.repaint();
 				}
-				else if(MainView.this.getSelectedComponent() == iterationOverview)
+				else if(selected == iterationOverview)
 				{
+					ViewEventController.getInstance().getOverviewTree().refresh();
 					iterationOverview.setLeftComponent(ViewEventController.getInstance().getOverviewTree());
 					iterationOverview.setDividerLocation(180);
 					iterationOverview.revalidate();
 					iterationOverview.repaint();
+				}
+				else if(selected instanceof RequirementPanel)
+				{
+					RequirementPanel req = (RequirementPanel)selected;
+					req.fireRefresh();
 				}
 			}
 		});

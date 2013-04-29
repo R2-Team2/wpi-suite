@@ -85,10 +85,6 @@ public class EditRequirementPanelTest {
 		assertEquals(false, testEdit.getInfoPanel().getBoxIteration().isEnabled());
 		assertEquals(true, testEdit.getInfoPanel().getDropdownType().isEnabled());
 		assertEquals(true, testEdit.getInfoPanel().getDropdownStatus().isEnabled());
-		assertEquals(true, testEdit.getInfoPanel().getPriorityHigh().isEnabled());
-		assertEquals(true, testEdit.getInfoPanel().getPriorityMedium().isEnabled());
-		assertEquals(true, testEdit.getInfoPanel().getPriorityLow().isEnabled());
-		assertEquals(true, testEdit.getInfoPanel().getPriorityBlank().isEnabled());
 		assertEquals(true, testEdit.getInfoPanel().getBoxEstimate().isEnabled());
 		assertEquals(false, testEdit.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(false, testEdit.getButtonPanel().getButtonClear().isEnabled());
@@ -100,7 +96,6 @@ public class EditRequirementPanelTest {
 		assertEquals(testDescription,testEdit.getInfoPanel().getBoxDescription().getText());
 		assertEquals(testRelease,testEdit.getInfoPanel().getBoxReleaseNum().getText());
 		assertEquals(RequirementStatus.NEW,testEdit.getInfoPanel().getDropdownStatus().getSelectedItem());
-		assertEquals(true,testEdit.getInfoPanel().getPriorityLow().isSelected());
 		assertEquals("0",testEdit.getInfoPanel().getBoxEstimate().getText());
 		assertEquals(RequirementType.EPIC,testEdit.getInfoPanel().getDropdownType().getSelectedItem());
 		
@@ -240,7 +235,6 @@ public class EditRequirementPanelTest {
 		testEdit.getInfoPanel().getBoxIteration().setSelectedItem("Iteration test");
 		testEdit.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.SCENARIO);
 		testEdit.getInfoPanel().getDropdownStatus().setSelectedItem(RequirementStatus.INPROGRESS);
-		testEdit.getInfoPanel().getPriorityMedium().doClick();
 		testEdit.getInfoPanel().getBoxEstimate().setText("4");
 		
 		
@@ -250,7 +244,6 @@ public class EditRequirementPanelTest {
 		assertEquals(testDescription,testEdit.getInfoPanel().getBoxDescription().getText());
 		assertEquals(testRelease,testEdit.getInfoPanel().getBoxReleaseNum().getText());
 		assertEquals(RequirementStatus.NEW,testEdit.getInfoPanel().getDropdownStatus().getSelectedItem());
-		assertEquals(true,testEdit.getInfoPanel().getPriorityMedium().isSelected());
 		assertEquals("0",testEdit.getInfoPanel().getBoxEstimate().getText());
 		assertEquals(RequirementType.EPIC,testEdit.getInfoPanel().getDropdownType().getSelectedItem());
 		
