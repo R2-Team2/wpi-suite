@@ -552,8 +552,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			getErrorEstimate().setForeground(Color.RED);
 			isEstimateValid = false;
 		} else if (((Integer.parseInt(getBoxEstimate().getText()) == 0) || (getBoxEstimate().getText().trim().length() == 0))
-				&& !(getBoxIteration().getSelectedItem().equals("Backlog") || getBoxIteration()
-						.getSelectedItem().equals(""))) {
+				&& !(getBoxIteration().getSelectedItem().equals(IterationModel.getInstance().getBacklog()))) {
 			getErrorEstimate()
 			.setText(
 					"Cannot have an estimate of 0 and be assigned to an iteration.");
