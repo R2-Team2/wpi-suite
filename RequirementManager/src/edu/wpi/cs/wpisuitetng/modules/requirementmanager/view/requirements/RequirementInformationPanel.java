@@ -712,7 +712,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals(""))){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!((getBoxIteration().getSelectedItem().toString().equals("")) || getBoxIteration().getSelectedItem().equals("Backlog"))){
+		if (!getBoxIteration().getSelectedItem().equals(IterationModel.getInstance().getBacklog())){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK)){
