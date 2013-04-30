@@ -37,12 +37,11 @@ public class OverviewPanel extends JSplitPane {
 				
 		table.getColumnModel().getColumn(0).setMaxWidth(40); // ID
 		
-		table.getColumnModel().getColumn(1).setMaxWidth(200); // Name
+		table.getColumnModel().getColumn(1).setMinWidth(250); // Name
 
 		table.getColumnModel().getColumn(2).setMinWidth(90); // Release #
-		table.getColumnModel().getColumn(2).setMaxWidth(90); // Release #
 		
-		table.getColumnModel().getColumn(3).setMaxWidth(90); // Iteration
+		table.getColumnModel().getColumn(3).setMinWidth(90); // Iteration
 		
 		table.getColumnModel().getColumn(4).setMinWidth(105); // Type
 		table.getColumnModel().getColumn(4).setMaxWidth(105); // Type
