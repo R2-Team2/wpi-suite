@@ -10,9 +10,12 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -54,10 +57,21 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 		subReqPanel = new SubrequirementPanel(this, this.viewMode, this.currentRequirement);
 		listeners.add(subReqPanel);
 		
-		this.add("Notes", notePanel);
-		this.add("Transaction History", historyPanel);
-		this.add("Acceptance Tests", testPanel);
-		this.add("Subrequirements", subReqPanel);
+		ImageIcon noteIcon = null;
+		ImageIcon historyIcon = null;
+		ImageIcon acceptanceIcon = null;
+		ImageIcon childrenIcon = null;
+		try {
+		    noteIcon = new ImageIcon(ImageIO.read(getClass().getResource("note-icon.png")));
+		    historyIcon = new ImageIcon(ImageIO.read(getClass().getResource("history-icon.png")));
+		    acceptanceIcon = new ImageIcon(ImageIO.read(getClass().getResource("acceptance-icon.png")));
+		    childrenIcon = new ImageIcon(ImageIO.read(getClass().getResource("children-icon.png")));
+		} catch (IOException ex) {}
+		
+		this.addTab("Notes", noteIcon, notePanel);
+		this.addTab("Transaction History", historyIcon, historyPanel);
+		this.addTab("Acceptance Tests", acceptanceIcon, testPanel);
+		this.addTab("Subrequirements", childrenIcon, subReqPanel);
 		
 		this.setMinimumSize(new Dimension(500,100));		
 	}
