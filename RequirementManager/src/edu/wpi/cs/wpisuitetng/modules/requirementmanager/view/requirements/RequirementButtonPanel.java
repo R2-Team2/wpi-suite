@@ -12,13 +12,17 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -82,6 +86,17 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 			clearString = "Undo Changes";
 			this.add(buttonDelete);
 		}
+		
+		try {
+		    Image img = ImageIO.read(getClass().getResource("save-icon.png"));
+		    buttonOK.setIcon(new ImageIcon(img));
+		    
+		    img = ImageIO.read(getClass().getResource("undo-icon.png"));
+		    buttonClear.setIcon(new ImageIcon(img));
+		    
+		    img = ImageIO.read(getClass().getResource("delete-icon.png"));
+		    buttonDelete.setIcon(new ImageIcon(img));
+		} catch (IOException ex) {}
 		
 		buttonOK.setText(okString);
 		buttonClear.setText(clearString);
