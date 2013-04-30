@@ -32,9 +32,9 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons.Requiremen
  */
 public class ToolbarView  extends DefaultToolbarView {
 
-	private ChartButtonsPanel chartButton = new ChartButtonsPanel();
-	private EditButtonsPanel editButton = new EditButtonsPanel();
-	private RequirementButtonsPanel reqButton = new RequirementButtonsPanel();
+	public ChartButtonsPanel chartButton = new ChartButtonsPanel();
+	public EditButtonsPanel editButton = new EditButtonsPanel();
+	public RequirementButtonsPanel reqButton = new RequirementButtonsPanel();
 	
 	/**
 	 * Creates and positions option buttons in upper toolbar

@@ -340,4 +340,21 @@ public class OverviewTable extends JTable
 
     }
 	
+	public void validateEdits(){
+		boolean errors = false;
+		for (int row = 0; row < this.tableModel.getRowCount(); row++) {		
+			// update the estimate with the value in the cell at row, column 7			
+			String cellEstimateStr = this.tableModel.getValueAt(row, 7).toString();
+			// make sure the value in the cell is a valid integer
+			try {
+				Integer.parseInt(cellEstimateStr);
+			}
+			catch (NumberFormatException nfe){
+				errors = true;
+				break;
+			}
+		}
+		ViewEventController.getInstance().getToolbar().editButton.setSaveEnabled(!errors);
+	}
+	
 }

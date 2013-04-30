@@ -70,6 +70,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         int columnRequirementPosition = 1;
         Requirement statusColumnValue = (Requirement) model.getValueAt(modelRow, columnRequirementPosition);
 
+        ViewEventController.getInstance().getOverviewTable().validateEdits();
 
         if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
         	// set deleted requirement backgrounds to gray if not in Multiple Requirement Editing Mode
@@ -135,7 +136,7 @@ public class OverviewTableCellRenderer extends DefaultTableCellRenderer {
         	if (formatError) {
         		// highlight the cell in red if there is an invalid entry and add a tool tip
         		if (column == 7) {
-        			setBackground(Color.red);	 
+        			setBackground(Color.red);
         			setToolTipText("Estimate must be a valid, non-negative integer.");
         		}
         	}

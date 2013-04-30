@@ -103,6 +103,7 @@ public class EditButtonsPanel extends ToolbarGroupView{
 				// toggle the editing overview table mode
 				ViewEventController.getInstance().toggleEditingTable(true);			
 				setButtonToEdit();
+				createEditButton.setEnabled(true);
 
 			}
 		});
@@ -133,5 +134,8 @@ public class EditButtonsPanel extends ToolbarGroupView{
 		createEditButton.setText("<html>Save<br />Changes</html>");
 		createEditButton.setEnabled(false);
 		createCancelButton.setVisible(true);
+	}
+	public void setSaveEnabled(boolean enabled){
+		createEditButton.setEnabled(enabled);
 	}
 }
