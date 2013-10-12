@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Janeway" default="compile.deps">
-	<import file="../build-common.xml"/>
-
+	<import file="../build-common.xml" />
 	<path id="classpath">
-		<pathelement path="../Network/build"/>
-		<pathelement path="../Core/WPISuite-Interfaces/build"/>
+		<pathelement path="../Network/build" />
+		<pathelement path="../Core/WPISuite-Interfaces/build" />
 		<fileset dir="${core-lib}">
-			<include name="commons-codec-1.7.jar"/>
+			<include name="commons-codec-1.7.jar" />
 		</fileset>
-		<pathelement path="build"/>
+		<fileset dir="${janeway-lib}">
+			<include name="jfreechart-1.0.14.jar"/>
+			<include name="jcommon-1.0.17.jar"/>
+			<include name="gnujaxp.jar"/>
+			<include name="iText-2.1.5.jar"/>
+			<include name="miglayout-4.0-swing.jar"/>
+			<include name="swingx-all-1.6.4.jar"/>
+		</fileset>
 	</path>
-
 	<path id="test-classpath">
-		<path refid="classpath"/>
-		<pathelement path="build-test"/>
-		<pathelement path="${junit-jar}"/>
+		<path refid="classpath" />
+		<pathelement path="build-test" />
+		<pathelement path="${junit-jar}" />
 	</path>
-
 	<target name="compile">
-		<mkdir dir="build"/>
-		<javac srcdir="src" destdir="build" includeJavaRuntime="yes" debug="true" target="1.6"
-				debuglevel="lines,vars,source">
-			<classpath refid="classpath"/>
+		<mkdir dir="build" />
+		<javac srcdir="src" destdir="build" includeJavaRuntime="yes" debug="true" target="${java-version}" debuglevel="lines,vars,source" includeantruntime="false">
+			<classpath refid="classpath" />
 		</javac>
 	</target>
-
 	<target name="compile-test" depends="compile">
-		<mkdir dir="build-test"/>
-		<javac srcdir="test" destdir="build-test" includeJavaRuntime="yes" debug="true" target="1.6"
-				debuglevel="lines,vars,source">
-			<classpath refid="test-classpath"/>
+		<mkdir dir="build-test" />
+		<javac srcdir="test" destdir="build-test" includeJavaRuntime="yes" debug="true" target="${java-version}" debuglevel="lines,vars,source" includeantruntime="false">
+			<classpath refid="test-classpath" />
 		</javac>
 	</target>
-
 	<target name="clean">
-		<delete dir="build"/>
-		<delete dir="build-test"/>
+		<delete dir="build" />
+		<delete dir="build-test" />
 	</target>
-
 	<target name="test" depends="compile-test">
 		<junit printsummary="yes" haltonfailure="no">
-			<classpath refid="test-classpath"/>
-			<formatter type="xml"/>
+			<classpath refid="test-classpath" />
+			<formatter type="xml" />
 			<batchtest fork="yes" todir="${test-results}">
 				<fileset dir="test">
-					<include name="**/*Test*.java"/>
+					<include name="**/*Test*.java" />
 				</fileset>
 			</batchtest>
 		</junit>
 	</target>
-
 	<target name="dist" depends="compile">
 		<jar destfile="${dist}/janeway/janeway.jar" filesetmanifest="mergewithoutmain">
 			<manifest>
-				<attribute name="Main-Class" value="edu.wpi.cs.wpisuitetng.janeway.Janeway"/>
-				<attribute name="Class-Path" value="."/>
+				<attribute name="Main-Class" value="edu.wpi.cs.wpisuitetng.janeway.Janeway" />
+				<attribute name="Class-Path" value="." />
 			</manifest>
-			<fileset dir="build"/>
-			<fileset dir="../Core/WPISuite-Interfaces/build"/>
-			<fileset dir="../Network/build"/>
-			<zipfileset src="${core-lib}/gson-2.2.2.jar"/>
-			<zipfileset src="${core-lib}/commons-codec-1.7.jar"/>
+			<fileset dir="build" />
+			<fileset dir="../Core/WPISuite-Interfaces/build" />
+			<fileset dir="../Network/build" />
+            <zipfileset src="./lib/swingx-all-1.6.4.jar"/>
+            <zipfileset src="./lib/miglayout-4.0-swing.jar"/>
+            <zipfileset src="./lib/iText-2.1.5.jar"/>
+            <zipfileset src="./lib/gnujaxp.jar"/>
+            <zipfileset src="./lib/jcommon-1.0.17.jar"/>
+            <zipfileset src="./lib/jfreechart-1.0.14.jar"/>
+			<zipfileset src="${core-lib}/gson-2.2.2.jar" />
+			<zipfileset src="${core-lib}/commons-codec-1.7.jar" />
 		</jar>
-		<copy file="modules.conf" todir="${dist}/janeway" overwrite="true"/>
+		<copy file="modules.conf" todir="${dist}/janeway/" overwrite="true" />
 	</target>
-
 </project>

@@ -16,11 +16,9 @@
 package edu.wpi.cs.wpisuitetng.modules.core.entitymanagers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -30,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.DatabaseException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.ManagerLayer;

@@ -18,8 +18,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.Gson;
-
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.SessionException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;

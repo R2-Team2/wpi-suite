@@ -4,6 +4,8 @@
 
 	<property name="core-lib" location="${dependencies.basedir}/Core/WPISuite/WebContent/WEB-INF/lib"/>
 	<property name="junit-jar" location="${dependencies.basedir}/junit-4.8.2.jar"/>
+	<property name="janeway-lib" location="${dependencies.basedir}/Janeway/lib"/>
+	<property name="java-version" value="1.7"/>
 
 	<!-- build.xml files that import this one should override the following targets -->
 
