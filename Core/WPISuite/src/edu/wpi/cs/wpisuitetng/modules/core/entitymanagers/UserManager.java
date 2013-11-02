@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.DatabaseException;
+import edu.wpi.cs.wpisuitetng.exceptions.ForbiddenException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.SerializationException;
@@ -251,12 +252,6 @@ public class UserManager implements EntityManager<User> {
 			{
 				toUpdate.setName(changes.getName());
 			}
-	
-			//shouldn't be able to change unique identifier
-			/*if(changes.getUsername() != null)
-			{
-				toUpdate.setUserName(changes.getUsername());
-			}*/
 			
 			if(changes.getPassword() != null)
 			{
@@ -268,6 +263,11 @@ public class UserManager implements EntityManager<User> {
 			{
 				if(s.getUser().getRole().equals(Role.ADMIN))
 				{
+					if (toUpdate.getRole().equals(Role.ADMIN) &&
+							!changes.getRole().equals(Role.ADMIN) &&
+							getAdminCount() <= 1) {
+						throw new ForbiddenException("There must be at least one admin account");
+					}
 					toUpdate.setRole(changes.getRole());
 				}
 				else
@@ -371,5 +371,8 @@ public class UserManager implements EntityManager<User> {
 		
 		return p;
 	}
-
+	
+	private int getAdminCount() throws WPISuiteException {
+		return data.retrieve(User.class, "role", Role.ADMIN).size();
+	}
 }
