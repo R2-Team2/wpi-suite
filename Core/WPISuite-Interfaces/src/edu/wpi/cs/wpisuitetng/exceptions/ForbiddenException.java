@@ -14,6 +14,14 @@ public class ForbiddenException extends WPISuiteException {
 
 	
 	private static final long serialVersionUID = -859475732000910990L;
+	
+	public ForbiddenException(String s) {
+		super(s);
+	}
+	
+	public ForbiddenException() {
+		
+	}
 
 	@Override
 	public int getStatus() {

@@ -78,6 +78,9 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			 Role r = Role.valueOf(deflated.get("role").getAsString());
 			 inflated.setRole(r);
 		 }
+		 else {
+			 inflated.setRole(null);
+		 }
 		 
 		 return inflated;
 	}
