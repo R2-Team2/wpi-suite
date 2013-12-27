@@ -10,14 +10,17 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/WPISuite-Interfaces.jar" sourcepath="/WPISuite-Interfaces"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/PostBoard.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/DefectTracker.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/RequirementManager.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/DefectTracker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PostBoard"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
+	<classpathentry kind="lib" path="/DefectTracker/src"/>
+	<classpathentry kind="lib" path="/PostBoard/src"/>
+	<classpathentry kind="lib" path="/RequirementManager/src"/>
+	<classpathentry kind="lib" path="/WPISuite-Interfaces/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
