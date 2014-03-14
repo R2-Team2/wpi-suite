@@ -17,6 +17,7 @@
 		</fileset>
 	</path>
 	<path id="test-classpath">
+		<pathelement path="build" />
 		<path refid="classpath" />
 		<pathelement path="build-test" />
 		<pathelement path="${junit-jar}" />
