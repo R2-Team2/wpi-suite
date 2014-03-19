@@ -34,6 +34,12 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class DataStore implements Data {
 
+	/*
+	 * Change the following line to rename the databse for
+	 * this instance of WPI Suite running on the server.
+	 * The default line is:
+	 * static String WPI_TNG_DB ="WPISuite_TNG_local";
+	 */
 	static String WPI_TNG_DB ="WPISuite_TNG_local";
 	private static DataStore myself = null;
 	static ObjectContainer theDB;
