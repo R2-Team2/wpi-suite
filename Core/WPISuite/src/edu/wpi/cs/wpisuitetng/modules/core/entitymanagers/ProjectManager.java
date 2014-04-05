@@ -366,6 +366,7 @@ public class ProjectManager implements EntityManager<Project>{
 			}
 		}
 		
+		save(s,p);
 		return gson.toJson(success.toArray(names),String[].class );
 	}
 
