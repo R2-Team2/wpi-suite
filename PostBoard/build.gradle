@@ -1,7 +1,8 @@
+
 dependencies{
 	compile 'com.google.code.gson:gson:2.2.2'
 	
 	runtime project(':Network')
-	runtime project(':Core:WPISuite-Interfaces')
+	runtime project(':WPISuite-Interfaces')
     runtime project(':Janeway')
 }

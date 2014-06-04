@@ -1,1 +1,8 @@
-include "Core:WPISuite-Interfaces", "Core:WPISuite", "Network", "Janeway", "DefectTracker", "RequirementManager", "PostBoard"
+//Core Suite
+include "WPISuite", "WPISuite-Interfaces", "Network", "Janeway"
+
+project(":WPISuite").projectDir = new File(settingsDir, 'Core/WPISuite')
+project(":WPISuite-Interfaces").projectDir = new File(settingsDir, 'Core/WPISuite-Interfaces')
+
+//Modules
+include "DefectTracker", "RequirementManager", "PostBoard"

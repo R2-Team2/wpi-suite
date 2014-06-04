@@ -1,8 +1,24 @@
+
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
+apply plugin: 'tomcat'
 
 dependencies {
-    compile project(':Core:WPISuite-Interfaces')
+	def tomcatVersion = '7.0.12'
+	
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+	
+//	tomcat {
+//		httpPort = 8090
+//		httpsPort = 8091
+//		enableSSL = true
+//	}
+	
+    runtime project(':WPISuite-Interfaces')
     
     //Modules
     runtime project(':DefectTracker')
