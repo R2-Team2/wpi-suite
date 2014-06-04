@@ -53,6 +53,7 @@ RequirementManager/bin
 # Eclipse project files
 .classpath
 .project
+.settings
 
 #Gradle
 .gradletasknamecache
