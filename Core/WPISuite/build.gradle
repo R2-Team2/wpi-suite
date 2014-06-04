@@ -1,0 +1,11 @@
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+
+dependencies {
+    compile project(':Core:WPISuite-Interfaces')
+    
+    //Modules
+    runtime project(':DefectTracker')
+    runtime project(':PostBoard')
+    runtime project(':RequirementManager')
+}

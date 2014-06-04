@@ -1,0 +1,1 @@
+include "Core:WPISuite-Interfaces", "Core:WPISuite", "Network", "Janeway", "DefectTracker", "RequirementManager", "PostBoard"

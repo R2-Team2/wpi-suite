@@ -1,0 +1,15 @@
+dependencies{
+	compile 'com.lowagie:itext:2.1.5'
+	compile 'org.swinglabs.swingx:swingx-all:1.6.4'
+	compile 'org.jfree:jfreechart:1.0.14'
+	compile 'org.jfree:jcommon:1.0.17'
+	compile 'com.miglayout:miglayout-swing:4.1' //Used to be 4.0, will this cause issues?
+
+	//		<include name="gnujaxp.jar"/> //Couldn't find this on Maven, will this cause issues?
+	//Manually import for safety?
+
+	//Module depends on client
+	runtime project(':Network')
+	runtime project(':Core:WPISuite-Interfaces')
+	runtime project(':Janeway')
+}

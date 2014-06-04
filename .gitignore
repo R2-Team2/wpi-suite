@@ -39,8 +39,23 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
 
+#RequirementManager module files
+RequirementManager/build
+RequirementManager/bin
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
 .idea
 .idea/*
 
-RequirementManager/build
-RequirementManager/bin
+# Eclipse project files
+.classpath
+.project
+
+#Gradle
+.gradletasknamecache
+.gradle/
+build/
+bin/

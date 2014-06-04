@@ -1,0 +1,3 @@
+dependencies{
+    compile 'org.simpleframework:simple:5.0.4'
+}
