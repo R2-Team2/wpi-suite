@@ -24,10 +24,10 @@ dependencies {
 //		enableSSL = true
 //	}
 	
-    runtime project(':WPISuite-Interfaces')
+    compile project(':WPISuite-Interfaces')
     
     //Modules
-    runtime project(':DefectTracker')
-    runtime project(':PostBoard')
-    runtime project(':RequirementManager')
+    compile project(':DefectTracker')
+    compile project(':PostBoard')
+    compile project(':RequirementManager')
 }

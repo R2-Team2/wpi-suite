@@ -1,12 +1,12 @@
 
 dependencies{
-	runtime 'com.lowagie:itext:2.1.5'
-	runtime 'org.swinglabs.swingx:swingx-all:1.6.4'
-	runtime 'org.jfree:jfreechart:1.0.14'
-	runtime 'org.jfree:jcommon:1.0.17'
-	runtime 'com.miglayout:miglayout-swing:4.1' //Used to be 4.0, will this cause issues?
+	compile 'com.lowagie:itext:2.1.5'
+	compile 'org.swinglabs.swingx:swingx-all:1.6.4'
+	compile 'org.jfree:jfreechart:1.0.14'
+	compile 'org.jfree:jcommon:1.0.17'
+	compile 'com.miglayout:miglayout-swing:4.1' //Used to be 4.0, will this cause issues?
 	
     //Core projects
-    runtime project(':WPISuite-Interfaces')
-    runtime project(':Network')
+    compile project(':WPISuite-Interfaces')
+    compile project(':Network')
 }
