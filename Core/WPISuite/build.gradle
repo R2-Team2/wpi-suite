@@ -1,5 +1,4 @@
 
-apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 apply plugin: 'tomcat'
 
@@ -9,8 +8,12 @@ apply plugin: 'tomcat'
 //	}
 //}
 
+webAppDirName = 'WebContent'
+
 dependencies {
 	def tomcatVersion = '7.0.12'
+	
+	providedCompile "javax.servlet:javax.servlet-api:3.0.1"
 	
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"

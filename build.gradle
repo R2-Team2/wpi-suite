@@ -14,6 +14,7 @@ buildscript {
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
+	apply plugin: 'eclipse-wtp'
 	//apply plugin: 'tomcat'
     //apply plugin: 'war'
 
@@ -67,10 +68,6 @@ subprojects {
         }
     }
 }
-
-
-
-
 
 //To make sure there is a script people can double click to install Gradle
 task wrapper(type: Wrapper) {
