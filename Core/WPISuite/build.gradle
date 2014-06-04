@@ -3,6 +3,12 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 apply plugin: 'tomcat'
 
+//repositories {
+//	maven {
+//		url "https://source.db4o.com/maven"
+//	}
+//}
+
 dependencies {
 	def tomcatVersion = '7.0.12'
 	
