@@ -1,3 +1,7 @@
+apply plugin: 'application'
+
+mainClassName = "edu.wpi.cs.wpisuitetng.janeway.Janeway"
+//applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 
 dependencies{
 	compile 'com.lowagie:itext:2.1.5'
