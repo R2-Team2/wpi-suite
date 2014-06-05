@@ -15,8 +15,7 @@ subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
 	apply plugin: 'eclipse-wtp'
-	//apply plugin: 'tomcat'
-    //apply plugin: 'war'
+    apply plugin: "jacoco"
 
 	//Java version 1.7
     sourceCompatibility = targetCompatibility = 1.7
@@ -38,6 +37,8 @@ subprojects {
         compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
 
 		testCompile 'junit:junit:4.8.2'
+        testCompile 'org.mockito:mockito-all:1.9.5'
+
         //Add mockito? easymock? cucumber??? code coverage???
 	}
     
@@ -66,6 +67,11 @@ subprojects {
                 srcDirs 'test'
             }
         }
+    }
+    
+    jacoco {
+        toolVersion = "0.6.2.201302030002"
+        //reportsDir = file("$buildDir/reports/jacoco")
     }
 }
 
