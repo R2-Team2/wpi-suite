@@ -26,19 +26,19 @@ subprojects {
 	}
 
 	dependencies {
-        compile 'commons-codec:commons-codec:1.7'
-        compile 'commons-logging:commons-logging:1.1.1'
-        compile 'org.apache.httpcomponents:httpcore:4.2.2'
+        	compile 'commons-codec:commons-codec:1.7'
+        	compile 'commons-logging:commons-logging:1.1.1'
+        	compile 'org.apache.httpcomponents:httpcore:4.2.2'
 		compile 'org.apache.httpcomponents:httpclient:4.2.2'
-        compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.1'
-        compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
-        compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
+        	compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.1'
+        	compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
+        	compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
         
-        //runtime files('libs/a.jar', 'libs/b.jar')
-        compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
+        	//runtime files('libs/a.jar', 'libs/b.jar')
+	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
 
 		testCompile 'junit:junit:4.8.2'
-        //Add mockito? easymock? cucumber??? code coverage???
+        	//Add mockito? easymock? cucumber??? code coverage???
 	}
     
     eclipse{
