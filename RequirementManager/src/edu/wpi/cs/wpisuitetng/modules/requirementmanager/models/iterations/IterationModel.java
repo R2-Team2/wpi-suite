@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.AddIterationController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.IterationDate;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
@@ -26,21 +27,21 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class IterationModel extends AbstractListModel {
-
+	
 	/**
 	 * The list in which all the Iterations for a single project are contained
 	 */
 	private ArrayList<Iteration> listOfIterations;
 	private int nextID; // the next available ID number for the Iterations that
 	                    // are added.
-
+	
 	private Iteration backlog;
-
+	
 	// the static object to allow the Iteration model to be
 	private static IterationModel instance;
 	private ViewEventController viewEventController;
 	private AddIterationController addIterationController;
-
+	
 	/**
 	 * Constructs an empty list of Iterations for the project
 	 */
@@ -48,11 +49,11 @@ public class IterationModel extends AbstractListModel {
 		backlog = null;
 		listOfIterations = new ArrayList<Iteration>();
 		nextID = 0;
-
+		
 		viewEventController = ViewEventController.getInstance();
 		addIterationController = AddIterationController.getInstance();
 	}
-
+	
 	/**
 	 * @return the instance of the Iteration model singleton.
 	 */
@@ -60,10 +61,10 @@ public class IterationModel extends AbstractListModel {
 		if (instance == null) {
 			instance = new IterationModel();
 		}
-
+		
 		return instance;
 	}
-
+	
 	/**
 	 * Sets the backlog iteration for the iteration model
 	 * 
@@ -72,7 +73,7 @@ public class IterationModel extends AbstractListModel {
 	public void setBacklog(Iteration iter) {
 		this.backlog = iter;
 	}
-
+	
 	/**
 	 * Adds a single Iteration to the Iterations of the project
 	 * 
@@ -83,12 +84,12 @@ public class IterationModel extends AbstractListModel {
 		try {
 			addIterationController.addIteration(newIter);
 		} catch (Exception e) {
-
+			
 		}
-
+		
 		viewEventController.refreshTree();
 	}
-
+	
 	/**
 	 * Provides the number of elements in the list of Iterations for the
 	 * project. This function is called internally by the JList in
@@ -101,7 +102,7 @@ public class IterationModel extends AbstractListModel {
 	public int getSize() {
 		return listOfIterations.size();
 	}
-
+	
 	/**
 	 * Provides the next ID number that should be used for a new Iteration that
 	 * is created.
@@ -109,10 +110,10 @@ public class IterationModel extends AbstractListModel {
 	 * @return the next open id number
 	 */
 	public int getNextID() {
-
+		
 		return this.nextID++;
 	}
-
+	
 	/**
 	 * This function takes an index and finds the Iteration in the list of
 	 * Iterations for the project. Used internally by the JList in
@@ -125,7 +126,7 @@ public class IterationModel extends AbstractListModel {
 	public Iteration getElementAt(int index) {
 		return listOfIterations.get(listOfIterations.size() - 1 - index);
 	}
-
+	
 	/**
 	 * Removes all Iterations from this model
 	 * NOTE: One cannot simply construct a new instance of the model, because
@@ -143,7 +144,7 @@ public class IterationModel extends AbstractListModel {
 		viewEventController.refreshTable();
 		viewEventController.refreshTree();
 	}
-
+	
 	/**
 	 * Adds the given array of Iterations to the list
 	 * 
@@ -155,23 +156,23 @@ public class IterationModel extends AbstractListModel {
 			if (iterations[i].getName().equals("Backlog")) {
 				backlog = iterations[i];
 			}
-
+			
 			this.listOfIterations.add(iterations[i]);
-
+			
 			if (iterations[i].getId() >= nextID) {
 				nextID = iterations[i].getId() + 1;
 			}
 		}
-
+		
 		if (backlog == null) {
 			backlog = new Iteration(getNextID(), "Backlog");
 			addIteration(backlog);
 		}
-
+		
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 		viewEventController.refreshTree();
 	}
-
+	
 	/**
 	 * Returns the list of the Iterations
 	 * 
@@ -180,7 +181,7 @@ public class IterationModel extends AbstractListModel {
 	public List<Iteration> getIterations() {
 		return listOfIterations;
 	}
-
+	
 	/**
 	 * Return the iteration with the specified name
 	 * 
@@ -191,15 +192,15 @@ public class IterationModel extends AbstractListModel {
 		if (forName == null || forName.isEmpty() || forName.equals("Backlog")) {
 			return backlog;
 		}
-
+		
 		for (Iteration iter : listOfIterations) {
 			if (iter.getName().equals(forName))
 				return iter;
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Returns the earliest iteration that conflicts with the given dates
 	 * 
@@ -211,23 +212,23 @@ public class IterationModel extends AbstractListModel {
 		if (start == null || end == null) {
 			return null;
 		}
-
+		
 		Iteration isValid = null;
-
+		
 		for (Iteration iter : listOfIterations) {
 			if (iter == backlog)
 				continue;
 			boolean startGreaterOrEqual = (start.after(iter.getEnd().getDate()) || start.equals(iter.getEnd().getDate()));
 			boolean endLessThanOrEqual = (end.before(iter.getStart().getDate()) || end.equals(iter.getStart().getDate()));
-
+			
 			if (!(startGreaterOrEqual || endLessThanOrEqual)) {
 				isValid = iter;
 			}
 		}
-
+		
 		return isValid;
 	}
-
+	
 	/**
 	 * Returns the iterations that the given date falls in.
 	 * A date can fall within 2 iterations if it is the end of one
@@ -240,22 +241,30 @@ public class IterationModel extends AbstractListModel {
 		List<Iteration> iter = new ArrayList<Iteration>();
 		if (date == null)
 			return iter;
-
+		
 		for (Iteration it : listOfIterations) {
 			if (it == backlog)
 				continue;
-
-			boolean startValid = it.getStart().getDate().before(date) || it.getStart().getDate().equals(date);
-			boolean endValid = it.getEnd().getDate().after(date) || it.getEnd().getDate().equals(date);
-
+			
+			IterationDate iterationStartDate = it.getStart();
+			IterationDate iterationEndDate = it.getEnd();
+			
+			Date startDate = iterationStartDate.getDate();
+			Date endDate = iterationEndDate.getDate();
+			
+			System.out.println(it.getName());
+			
+			boolean startValid = startDate.before(date) || startDate.equals(date);
+			boolean endValid = endDate.after(date) || endDate.equals(date);
+			
 			if (startValid && endValid) {
 				iter.add(it);
 			}
 		}
-
+		
 		return iter;
 	}
-
+	
 	/**
 	 * Returns the backlog iteration
 	 * 
@@ -264,61 +273,61 @@ public class IterationModel extends AbstractListModel {
 	public Iteration getBacklog() {
 		return backlog;
 	}
-
+	
 	/**
 	 * @return the listOfIterations
 	 */
 	protected ArrayList<Iteration> getListOfIterations() {
 		return this.listOfIterations;
 	}
-
+	
 	/**
 	 * @param listOfIterations the listOfIterations to set
 	 */
 	protected void setListOfIterations(ArrayList<Iteration> listOfIterations) {
 		this.listOfIterations = listOfIterations;
 	}
-
+	
 	/**
 	 * @param nextID the nextID to set
 	 */
 	protected void setNextID(int nextID) {
 		this.nextID = nextID;
 	}
-
+	
 	/**
 	 * @param instance the instance to set
 	 */
 	protected static void setInstance(IterationModel instance) {
 		IterationModel.instance = instance;
 	}
-
+	
 	/**
 	 * @return the viewEventController
 	 */
 	protected ViewEventController getViewEventController() {
 		return this.viewEventController;
 	}
-
+	
 	/**
 	 * @param viewEventController the viewEventController to set
 	 */
 	protected void setViewEventController(ViewEventController viewEventController) {
 		this.viewEventController = viewEventController;
 	}
-
+	
 	/**
 	 * @return the addIterationController
 	 */
 	protected AddIterationController getAddIterationController() {
 		return this.addIterationController;
 	}
-
+	
 	/**
 	 * @param addIterationController the addIterationController to set
 	 */
 	protected void setAddIterationController(AddIterationController addIterationController) {
 		this.addIterationController = addIterationController;
 	}
-
+	
 }
