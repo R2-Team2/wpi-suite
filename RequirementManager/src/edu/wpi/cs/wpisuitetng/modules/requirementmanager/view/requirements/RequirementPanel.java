@@ -4,13 +4,11 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,8 +26,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
  * @version $Revision: 1.0 $
  * @author Rolling Thunder
  */
-public class RequirementPanel extends JPanel implements RequirementButtonListener
-{
+public class RequirementPanel extends JPanel implements RequirementButtonListener {
+	private ViewEventController viewEventController;
+	private UpdateRequirementController updateRequirementController;
+	
 	private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
 	private Requirement displayRequirement;
 	private ViewMode viewMode;
@@ -41,47 +41,48 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	private boolean readyToClose = false;
 	private boolean readyToRemove = true;
 	
-	
-
 	/**
 	 * Constructor for editing a requirement
+	 * 
 	 * @param editingRequirement requirement to edit
 	 */
-	public RequirementPanel(Requirement editingRequirement)
-	{
+	public RequirementPanel(Requirement editingRequirement) {
 		viewMode = (ViewMode.EDITING);
 		
 		displayRequirement = editingRequirement;
 		this.buildLayout();
+		
+		viewEventController = ViewEventController.getInstance();
+		updateRequirementController = UpdateRequirementController.getInstance();
 	}
 	
 	/**
 	 * Constructor for creating a requirement
+	 * 
 	 * @param parentID the parent id, or -1 if no parent.
 	 */
-	public RequirementPanel(int parentID)
-	{
+	public RequirementPanel(int parentID) {
 		viewMode = (ViewMode.CREATING);
 		
 		displayRequirement = new Requirement();
 		displayRequirement.setId(-2);
 		
-		try 
-		{
+		try {
 			displayRequirement.setParentID(parentID);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		this.buildLayout();
 	}
 	
+	protected RequirementPanel() {
+		
+	}
+	
 	/**
 	 * Builds the layout of the panel.
 	 */
-	private void buildLayout()
-	{
+	private void buildLayout() {
 		buttonPanel = new RequirementButtonPanel(this, viewMode, displayRequirement);
 		listeners.add(buttonPanel);
 		tabsPanel = new RequirementTabsPanel(this, viewMode, displayRequirement);
@@ -95,8 +96,10 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
+	
 	/**
 	 * Method OKPressed.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#OKPressed()
 	 */
 	@Override
@@ -104,180 +107,273 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		if (infoPanel.validateFields(true)) {
 			infoPanel.update();
 			readyToClose = true;
-			ViewEventController.getInstance().removeTab(this);
-		}		
+			viewEventController.removeTab(this);
+		}
 	}
-
+	
 	/**
 	 * Method clearPressed.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#clearPressed()
 	 */
 	@Override
-	public void clearPressed() 
-	{
+	public void clearPressed() {
 		infoPanel.clearInfo();
 	}
-
+	
 	/**
 	 * Method cancelPressed.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#cancelPressed()
 	 */
 	@Override
-	public void cancelPressed() 
-	{
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().refreshTree();
-		ViewEventController.getInstance().removeTab(this);		
+	public void cancelPressed() {
+		viewEventController.refreshTable();
+		viewEventController.refreshTree();
+		viewEventController.removeTab(this);
 	}
 	
 	/**
 	 * Deletes the requirement. Sets all fields uneditable, sets status to
 	 * deleted and closes the tab.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementButtonListener#deletePressed()
 	 */
-	public void deletePressed() 
-	{
+	public void deletePressed() {
 		if (this.displayRequirement.getStatus() == RequirementStatus.INPROGRESS)
 			return;
 		readyToClose = true;
 		displayRequirement.setStatus(RequirementStatus.DELETED);
-
-		UpdateRequirementController.getInstance().updateRequirement(displayRequirement);
 		
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().refreshTree();
-		ViewEventController.getInstance().removeTab(this);	
-	}	
-
+		updateRequirementController.updateRequirement(displayRequirement);
+		
+		viewEventController.refreshTable();
+		viewEventController.refreshTree();
+		viewEventController.removeTab(this);
+	}
+	
 	/**
 	 * Fires to all listeners whether the requirement has been deleted or not
+	 * 
 	 * @param b whether the requirement has been deleted or not.
 	 */
-	public void fireDeleted(boolean b) {	
-		for(RequirementPanelListener listener : listeners)
-		{
+	public void fireDeleted(boolean b) {
+		for (RequirementPanelListener listener : listeners) {
 			listener.fireDeleted(b);
 		}
 	}
-
+	
 	/**
 	 * Fires to all listeners whether the requirement is valid or not
+	 * 
 	 * @param b whether the requirement is valid or not.
 	 */
-	public void fireValid(boolean b) {		
-		for(RequirementPanelListener listener : listeners)
-		{
+	public void fireValid(boolean b) {
+		for (RequirementPanelListener listener : listeners) {
 			listener.fireValid(b);
 		}
 	}
 	
 	/**
 	 * Fires to all listeners whether changes have occured
+	 * 
 	 * @param b whether changes have occured.
 	 */
-	public void fireChanges(boolean b) {	
-		for(RequirementPanelListener listener : listeners)
-		{
+	public void fireChanges(boolean b) {
+		for (RequirementPanelListener listener : listeners) {
 			listener.fireChanges(b);
-		}	
+		}
 	}
 	
 	/**
 	 * Fires to all listeners to refresh.
 	 */
-	public void fireRefresh()
-	{
-		for(RequirementPanelListener listener : listeners)
-		{
+	public void fireRefresh() {
+		for (RequirementPanelListener listener : listeners) {
 			listener.fireRefresh();
-		}	
+		}
 	}
-
+	
 	/**
-	 * 		displays the given error message
+	 * displays the given error message
+	 * 
 	 * @param msg the message to display.
 	 */
-	public void displayError(String msg)
-	{
+	public void displayError(String msg) {
 		buttonPanel.getErrorPanel().displayError(msg);
 	}
 	
 	/**
-	 * 		Removes the given error message
+	 * Removes the given error message
+	 * 
 	 * @param msg the message to display.
 	 */
-	public void removeError(String msg)
-	{
+	public void removeError(String msg) {
 		buttonPanel.getErrorPanel().removeError(msg);
 	}
 	
 	/**
-	
-	 * @return whether the requirement panel as a whole is ready to be removed. */
+	 * @return whether the requirement panel as a whole is ready to be removed.
+	 */
 	public boolean readyToRemove() {
-		if(readyToClose) return true;
+		if (readyToClose)
+			return true;
 		
-		
-		for(RequirementPanelListener listener : listeners)
-		{
+		for (RequirementPanelListener listener : listeners) {
 			readyToRemove &= listener.readyToRemove();
 		}
 		
-		if(readyToRemove)
-		{
+		if (readyToRemove) {
 			return true;
 		}
-		else
-		{
-			int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			
-			return result == 0;
-		}
+		
+		int result = JOptionPane.showConfirmDialog(this, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		
+		return result == 0;
 	}
 	
 	/**
-	
-	 * @return the requirement information panel. */
-	public RequirementInformationPanel getInfoPanel()
-	{
+	 * @return the requirement information panel.
+	 */
+	public RequirementInformationPanel getInfoPanel() {
 		return this.infoPanel;
 	}
 	
 	/**
-	
-	 * @return the button panel */
-	public RequirementButtonPanel getButtonPanel()
-	{
+	 * @return the button panel
+	 */
+	public RequirementButtonPanel getButtonPanel() {
 		return this.buttonPanel;
 	}
 	
 	/**
-	
-	 * @return the display requirement. */
+	 * @return the display requirement.
+	 */
 	public Requirement getDisplayRequirement() {
 		return displayRequirement;
 	}
-
-	/**
 	
-	 * @return the tabs panel */
+	/**
+	 * @return the tabs panel
+	 */
 	public RequirementTabsPanel getTabsPanel() {
 		return tabsPanel;
 	}
 	
 	/**
 	 * Method isReadyToRemove.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isReadyToRemove() {
 		return readyToRemove;
 	}
-
+	
 	/**
 	 * Method setReadyToRemove.
+	 * 
 	 * @param readyToRemove boolean
 	 */
 	public void setReadyToRemove(boolean readyToRemove) {
 		this.readyToRemove = readyToRemove;
 	}
+	
+	/**
+	 * @return the listeners
+	 */
+	protected List<RequirementPanelListener> getListeners() {
+		return this.listeners;
+	}
+	
+	/**
+	 * @param listeners the listeners to set
+	 */
+	protected void setListeners(List<RequirementPanelListener> listeners) {
+		this.listeners = listeners;
+	}
+	
+	/**
+	 * @return the viewMode
+	 */
+	protected ViewMode getViewMode() {
+		return this.viewMode;
+	}
+	
+	/**
+	 * @param viewMode the viewMode to set
+	 */
+	protected void setViewMode(ViewMode viewMode) {
+		this.viewMode = viewMode;
+	}
+	
+	/**
+	 * @return the readyToClose
+	 */
+	protected boolean isReadyToClose() {
+		return this.readyToClose;
+	}
+	
+	/**
+	 * @param readyToClose the readyToClose to set
+	 */
+	protected void setReadyToClose(boolean readyToClose) {
+		this.readyToClose = readyToClose;
+	}
+	
+	/**
+	 * @param displayRequirement the displayRequirement to set
+	 */
+	protected void setDisplayRequirement(Requirement displayRequirement) {
+		this.displayRequirement = displayRequirement;
+	}
+	
+	/**
+	 * @param infoPanel the infoPanel to set
+	 */
+	protected void setInfoPanel(RequirementInformationPanel infoPanel) {
+		this.infoPanel = infoPanel;
+	}
+	
+	/**
+	 * @param tabsPanel the tabsPanel to set
+	 */
+	protected void setTabsPanel(RequirementTabsPanel tabsPanel) {
+		this.tabsPanel = tabsPanel;
+	}
+	
+	/**
+	 * @param buttonPanel the buttonPanel to set
+	 */
+	protected void setButtonPanel(RequirementButtonPanel buttonPanel) {
+		this.buttonPanel = buttonPanel;
+	}
+	
+	/**
+	 * @return the viewEventController
+	 */
+	protected ViewEventController getViewEventController() {
+		return this.viewEventController;
+	}
+	
+	/**
+	 * @param viewEventController the viewEventController to set
+	 */
+	protected void setViewEventController(ViewEventController viewEventController) {
+		this.viewEventController = viewEventController;
+	}
+	
+	/**
+	 * @return the updateRequirementController
+	 */
+	protected UpdateRequirementController getUpdateRequirementController() {
+		return this.updateRequirementController;
+	}
+	
+	/**
+	 * @param updateRequirementController the updateRequirementController to set
+	 */
+	protected void setUpdateRequirementController(UpdateRequirementController updateRequirementController) {
+		this.updateRequirementController = updateRequirementController;
+	}
+	
 }
