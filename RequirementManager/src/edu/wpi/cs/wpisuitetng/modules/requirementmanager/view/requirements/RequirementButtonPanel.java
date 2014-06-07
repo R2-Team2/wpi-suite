@@ -52,10 +52,12 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	 * Constructor for the requirement button panel
 	 * @param parentPanel the panel this reports to
 	 * @param mode viewmode for the panel
-	 * @param curr current requirement
+	 * @param curr current requirement 
 	 */
 	public RequirementButtonPanel(RequirementPanel parentPanel, ViewMode mode, Requirement curr)
 	{
+		//Curr is unused?
+		
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		changes = false;
 		valid = false;
@@ -232,4 +234,55 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 	public JButton getButtonCancel() {
 		return buttonCancel;
 	}
+
+	/**
+	 * @return the changes
+	 */
+	protected boolean isChanges() {
+		return changes;
+	}
+
+	/**
+	 * @param changes the changes to set
+	 */
+	protected void setChanges(boolean changes) {
+		this.changes = changes;
+	}
+
+	/**
+	 * @return the valid
+	 */
+	public boolean isValid() {
+		return valid;
+	}
+
+	/**
+	 * @param valid the valid to set
+	 */
+	protected void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	/**
+	 * @return the parentPanel
+	 */
+	protected RequirementPanel getParentPanel() {
+		return parentPanel;
+	}
+
+	/**
+	 * @return the viewMode
+	 */
+	protected ViewMode getViewMode() {
+		return viewMode;
+	}
+
+	/**
+	 * @return the errorDisplay
+	 */
+	protected ErrorPanel getErrorDisplay() {
+		return errorDisplay;
+	}
+	
+	
 }

@@ -970,4 +970,344 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		this.parentSelector.setVisible(false);
 		this.chooseParent.setVisible(true);
 	}
+
+	/**
+	 * @return the currentRequirement
+	 */
+	protected Requirement getCurrentRequirement() {
+		return currentRequirement;
+	}
+
+	/**
+	 * @param currentRequirement the currentRequirement to set
+	 */
+	protected void setCurrentRequirement(Requirement currentRequirement) {
+		this.currentRequirement = currentRequirement;
+	}
+
+	/**
+	 * @return the viewMode
+	 */
+	protected ViewMode getViewMode() {
+		return viewMode;
+	}
+
+	/**
+	 * @param viewMode the viewMode to set
+	 */
+	protected void setViewMode(ViewMode viewMode) {
+		this.viewMode = viewMode;
+	}
+
+	/**
+	 * @return the parentPanel
+	 */
+	protected RequirementPanel getParentPanel() {
+		return parentPanel;
+	}
+
+	/**
+	 * @param parentPanel the parentPanel to set
+	 */
+	protected void setParentPanel(RequirementPanel parentPanel) {
+		this.parentPanel = parentPanel;
+	}
+
+	/**
+	 * @return the storedEstimate
+	 */
+	protected int getStoredEstimate() {
+		return storedEstimate;
+	}
+
+	/**
+	 * @param storedEstimate the storedEstimate to set
+	 */
+	protected void setStoredEstimate(int storedEstimate) {
+		this.storedEstimate = storedEstimate;
+	}
+
+	/**
+	 * @return the storedIteration
+	 */
+	protected Iteration getStoredIteration() {
+		return storedIteration;
+	}
+
+	/**
+	 * @param storedIteration the storedIteration to set
+	 */
+	protected void setStoredIteration(Iteration storedIteration) {
+		this.storedIteration = storedIteration;
+	}
+
+	/**
+	 * @return the storedStatus
+	 */
+	protected RequirementStatus getStoredStatus() {
+		return storedStatus;
+	}
+
+	/**
+	 * @param storedStatus the storedStatus to set
+	 */
+	protected void setStoredStatus(RequirementStatus storedStatus) {
+		this.storedStatus = storedStatus;
+	}
+
+	/**
+	 * @return the labelChildEstimate
+	 */
+	protected JLabel getLabelChildEstimate() {
+		return labelChildEstimate;
+	}
+
+	/**
+	 * @param labelChildEstimate the labelChildEstimate to set
+	 */
+	protected void setLabelChildEstimate(JLabel labelChildEstimate) {
+		this.labelChildEstimate = labelChildEstimate;
+	}
+
+	/**
+	 * @return the labelTotalEstimate
+	 */
+	protected JLabel getLabelTotalEstimate() {
+		return labelTotalEstimate;
+	}
+
+	/**
+	 * @param labelTotalEstimate the labelTotalEstimate to set
+	 */
+	protected void setLabelTotalEstimate(JLabel labelTotalEstimate) {
+		this.labelTotalEstimate = labelTotalEstimate;
+	}
+
+	/**
+	 * @return the currentParent
+	 */
+	protected JLabel getCurrentParent() {
+		return currentParent;
+	}
+
+	/**
+	 * @param currentParent the currentParent to set
+	 */
+	protected void setCurrentParent(JLabel currentParent) {
+		this.currentParent = currentParent;
+	}
+
+	/**
+	 * @return the editParent
+	 */
+	protected JButton getEditParent() {
+		return editParent;
+	}
+
+	/**
+	 * @param editParent the editParent to set
+	 */
+	protected void setEditParent(JButton editParent) {
+		this.editParent = editParent;
+	}
+
+	/**
+	 * @return the removeFromParent
+	 */
+	protected JButton getRemoveFromParent() {
+		return removeFromParent;
+	}
+
+	/**
+	 * @param removeFromParent the removeFromParent to set
+	 */
+	protected void setRemoveFromParent(JButton removeFromParent) {
+		this.removeFromParent = removeFromParent;
+	}
+
+	/**
+	 * @return the chooseParent
+	 */
+	protected JButton getChooseParent() {
+		return chooseParent;
+	}
+
+	/**
+	 * @param chooseParent the chooseParent to set
+	 */
+	protected void setChooseParent(JButton chooseParent) {
+		this.chooseParent = chooseParent;
+	}
+
+	/**
+	 * @return the noParentInfoPanel
+	 */
+	protected JPanel getNoParentInfoPanel() {
+		return noParentInfoPanel;
+	}
+
+	/**
+	 * @param noParentInfoPanel the noParentInfoPanel to set
+	 */
+	protected void setNoParentInfoPanel(JPanel noParentInfoPanel) {
+		this.noParentInfoPanel = noParentInfoPanel;
+	}
+
+	/**
+	 * @return the parentSelector
+	 */
+	protected RequirementSelector getParentSelector() {
+		return parentSelector;
+	}
+
+	/**
+	 * @param parentSelector the parentSelector to set
+	 */
+	protected void setParentSelector(RequirementSelector parentSelector) {
+		this.parentSelector = parentSelector;
+	}
+
+	/**
+	 * @return the dropdownPriority
+	 */
+	protected JComboBox<RequirementPriority> getDropdownPriority() {
+		return dropdownPriority;
+	}
+
+	/**
+	 * @param dropdownPriority the dropdownPriority to set
+	 */
+	protected void setDropdownPriority(
+			JComboBox<RequirementPriority> dropdownPriority) {
+		this.dropdownPriority = dropdownPriority;
+	}
+
+	/**
+	 * @return the lastValidStatus
+	 */
+	protected RequirementStatus getLastValidStatus() {
+		return lastValidStatus;
+	}
+
+	/**
+	 * @param lastValidStatus the lastValidStatus to set
+	 */
+	protected void setLastValidStatus(RequirementStatus lastValidStatus) {
+		this.lastValidStatus = lastValidStatus;
+	}
+
+	/**
+	 * @return the fillingFieldsForRequirement
+	 */
+	protected boolean isFillingFieldsForRequirement() {
+		return fillingFieldsForRequirement;
+	}
+
+	/**
+	 * @param fillingFieldsForRequirement the fillingFieldsForRequirement to set
+	 */
+	protected void setFillingFieldsForRequirement(
+			boolean fillingFieldsForRequirement) {
+		this.fillingFieldsForRequirement = fillingFieldsForRequirement;
+	}
+
+	/**
+	 * @return the defaultBorder
+	 */
+	protected Border getDefaultBorder() {
+		return defaultBorder;
+	}
+
+	/**
+	 * @return the errorBorder
+	 */
+	protected Border getErrorBorder() {
+		return errorBorder;
+	}
+
+	/**
+	 * @param boxName the boxName to set
+	 */
+	protected void setBoxName(JTextField boxName) {
+		this.boxName = boxName;
+	}
+
+	/**
+	 * @param boxReleaseNum the boxReleaseNum to set
+	 */
+	protected void setBoxReleaseNum(JTextField boxReleaseNum) {
+		this.boxReleaseNum = boxReleaseNum;
+	}
+
+	/**
+	 * @param boxDescription the boxDescription to set
+	 */
+	protected void setBoxDescription(JTextArea boxDescription) {
+		this.boxDescription = boxDescription;
+	}
+
+	/**
+	 * @param boxIteration the boxIteration to set
+	 */
+	protected void setBoxIteration(JComboBox<Iteration> boxIteration) {
+		this.boxIteration = boxIteration;
+	}
+
+	/**
+	 * @param boxChildEstimate the boxChildEstimate to set
+	 */
+	protected void setBoxChildEstimate(JTextField boxChildEstimate) {
+		this.boxChildEstimate = boxChildEstimate;
+	}
+
+	/**
+	 * @param boxTotalEstimate the boxTotalEstimate to set
+	 */
+	protected void setBoxTotalEstimate(JTextField boxTotalEstimate) {
+		this.boxTotalEstimate = boxTotalEstimate;
+	}
+
+	/**
+	 * @param dropdownType the dropdownType to set
+	 */
+	protected void setDropdownType(JComboBox<RequirementType> dropdownType) {
+		this.dropdownType = dropdownType;
+	}
+
+	/**
+	 * @param dropdownStatus the dropdownStatus to set
+	 */
+	protected void setDropdownStatus(JComboBox<RequirementStatus> dropdownStatus) {
+		this.dropdownStatus = dropdownStatus;
+	}
+
+	/**
+	 * @param boxEstimate the boxEstimate to set
+	 */
+	protected void setBoxEstimate(JTextField boxEstimate) {
+		this.boxEstimate = boxEstimate;
+	}
+
+	/**
+	 * @param errorName the errorName to set
+	 */
+	protected void setErrorName(JLabel errorName) {
+		this.errorName = errorName;
+	}
+
+	/**
+	 * @param errorDescription the errorDescription to set
+	 */
+	protected void setErrorDescription(JLabel errorDescription) {
+		this.errorDescription = errorDescription;
+	}
+
+	/**
+	 * @param errorEstimate the errorEstimate to set
+	 */
+	protected void setErrorEstimate(JLabel errorEstimate) {
+		this.errorEstimate = errorEstimate;
+	}
+	
+	
 }

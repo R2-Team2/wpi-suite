@@ -232,6 +232,8 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		return result == 0;
 	}
 	
+	//Getters and Setters
+	
 	/**
 	 * @return the requirement information panel.
 	 */
