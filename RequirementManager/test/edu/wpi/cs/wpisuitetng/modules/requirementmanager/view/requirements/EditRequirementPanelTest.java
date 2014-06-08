@@ -8,7 +8,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,9 +21,10 @@ import javax.swing.JSplitPane;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.AddIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
@@ -44,6 +47,16 @@ public class EditRequirementPanelTest {
 	TransactionHistory mockHistory;
 	ListIterator<Transaction> mockHistoryIterator;
 	
+	@Mock(name = "buttonPanel")
+	RequirementButtonPanel mockButtonPanel; // note the mock name attribute
+	
+	@Mock(name = "tabsPanel")
+	RequirementTabsPanel mockTabsPanel;
+	
+	@Mock(name = "infoPanel")
+	RequirementInformationPanel mockInfoPanel;
+	
+	@InjectMocks
 	RequirementPanel requirementPanel;
 	
 	@SuppressWarnings("unchecked")
@@ -54,8 +67,11 @@ public class EditRequirementPanelTest {
 		mockNetwork = mock(Network.class);
 		
 		mockRequirement = mock(Requirement.class);
-//		mockHistory = mock(TransactionHistory.class);
-//		mockHistoryIterator = mock(ListIterator.class);
+		mockHistory = mock(TransactionHistory.class);
+		mockHistoryIterator = mock(ListIterator.class);
+		// mockButtonPanel = mock(RequirementButtonPanel.class);
+		// mockTabsPanel = mock(RequirementTabsPanel.class);
+		// mockInfoPanel = mock()
 		
 		String testName = "test: Name";
 		String testDescription = "test: Description";
@@ -69,15 +85,15 @@ public class EditRequirementPanelTest {
 		when(mockRequirement.getPriority()).thenReturn(RequirementPriority.LOW);
 		when(mockRequirement.getEstimate()).thenReturn(testEstimate);
 		when(mockRequirement.getType()).thenReturn(RequirementType.EPIC);
-
-//		when(mockHistory.getIterator(0)).thenReturn(mockHistoryIterator);
 		
-//		when(mockHistoryIterator.hasNext()).thenReturn(false);
-	
+		when(mockHistory.getIterator(0)).thenReturn(mockHistoryIterator);
+		
+		when(mockHistoryIterator.hasNext()).thenReturn(false);
+		
 		requirementPanel = new RequirementPanel();
 		requirementPanel.setViewEventController(mockViewEventController);
 		requirementPanel.setUpdateRequirementController(mockUpdateRequirementController);
-//		requirementPanel.setAd
+		// requirementPanel.setAd
 		mockRequirement.getHistory();
 		
 		requirementPanel.setDisplayRequirement(mockRequirement);
@@ -90,48 +106,66 @@ public class EditRequirementPanelTest {
 		assertNotNull(newRequirementPanel);
 		assertEquals(ViewMode.CREATING, newRequirementPanel.getViewMode());
 		assertNotNull(newRequirementPanel.getDisplayRequirement());
-		assertTrue(newRequirementPanel.getDisplayRequirement() instanceof Requirement);
 		assertEquals(-2, newRequirementPanel.getDisplayRequirement().getId());
-		assertEquals(-1, newRequirementPanel.getDisplayRequirement().getParentID());
+		assertEquals(-1, newRequirementPanel.getDisplayRequirement()
+		        .getParentID());
 		
 		assertNotNull(newRequirementPanel.getButtonPanel());
-		assertTrue(newRequirementPanel.getButtonPanel() instanceof RequirementButtonPanel);
-		assertEquals(newRequirementPanel, newRequirementPanel.getButtonPanel().getParent());
-		assertEquals(ViewMode.CREATING, newRequirementPanel.getButtonPanel().getViewMode());
-//		assertEquals(mockRequirement, newRequirementPanel.getButtonPanel().getCurrentRequirement());
-		assertTrue(newRequirementPanel.getListeners().contains(newRequirementPanel.getButtonPanel()));
-
+		assertEquals(newRequirementPanel, newRequirementPanel.getButtonPanel()
+		        .getParent());
+		assertEquals(ViewMode.CREATING, newRequirementPanel.getButtonPanel()
+		        .getViewMode());
+		// assertEquals(mockRequirement,
+		// newRequirementPanel.getButtonPanel().getCurrentRequirement());
+		assertTrue(newRequirementPanel.getListeners().contains(
+		        newRequirementPanel.getButtonPanel()));
+		
 		assertNotNull(newRequirementPanel.getTabsPanel());
-		assertTrue(newRequirementPanel.getTabsPanel() instanceof RequirementTabsPanel);
-		assertEquals(newRequirementPanel, newRequirementPanel.getTabsPanel().getParent());
-		assertEquals(ViewMode.CREATING, newRequirementPanel.getTabsPanel().getViewMode());
-		assertEquals(mockRequirement, newRequirementPanel.getTabsPanel().getCurrentRequirement());
-		assertTrue(newRequirementPanel.getListeners().contains(newRequirementPanel.getTabsPanel()));
+		assertEquals(newRequirementPanel, newRequirementPanel.getTabsPanel()
+		        .getParent());
+		assertEquals(ViewMode.CREATING, newRequirementPanel.getTabsPanel()
+		        .getViewMode());
+		assertEquals(mockRequirement, newRequirementPanel.getTabsPanel()
+		        .getCurrentRequirement());
+		assertTrue(newRequirementPanel.getListeners().contains(
+		        newRequirementPanel.getTabsPanel()));
 		
 		assertNotNull(newRequirementPanel.getInfoPanel());
-		assertTrue(newRequirementPanel.getInfoPanel() instanceof RequirementInformationPanel);
-		assertEquals(newRequirementPanel, newRequirementPanel.getInfoPanel().getParent());
-		assertEquals(ViewMode.CREATING, newRequirementPanel.getInfoPanel().getViewMode());
-		assertEquals(mockRequirement, newRequirementPanel.getInfoPanel().getCurrentRequirement());
-		assertTrue(newRequirementPanel.getListeners().contains(newRequirementPanel.getInfoPanel()));
-
+		assertEquals(newRequirementPanel, newRequirementPanel.getInfoPanel()
+		        .getParent());
+		assertEquals(ViewMode.CREATING, newRequirementPanel.getInfoPanel()
+		        .getViewMode());
+		assertEquals(mockRequirement, newRequirementPanel.getInfoPanel()
+		        .getCurrentRequirement());
+		assertTrue(newRequirementPanel.getListeners().contains(
+		        newRequirementPanel.getInfoPanel()));
+		
 		assertNotNull(newRequirementPanel.getLayout());
 		assertTrue(newRequirementPanel.getLayout() instanceof BorderLayout);
 		
 		assertNotNull(newRequirementPanel.getComponent(0));
 		assertTrue(newRequirementPanel.getComponent(0) instanceof JSplitPane);
-		assertEquals(JSplitPane.HORIZONTAL_SPLIT, ((JSplitPane) newRequirementPanel.getComponent(0)).getOrientation());
-		assertTrue(((JSplitPane) newRequirementPanel.getComponent(0)).isContinuousLayout());
-		assertEquals(newRequirementPanel.getInfoPanel(), ((JSplitPane)newRequirementPanel.getComponent(0)).getLeftComponent());
-		assertEquals(newRequirementPanel.getTabsPanel(), ((JSplitPane)newRequirementPanel.getComponent(0)).getRightComponent());
-
+		assertEquals(JSplitPane.HORIZONTAL_SPLIT,
+		        ((JSplitPane) newRequirementPanel.getComponent(0))
+		                .getOrientation());
+		assertTrue(((JSplitPane) newRequirementPanel.getComponent(0))
+		        .isContinuousLayout());
+		assertEquals(newRequirementPanel.getInfoPanel(),
+		        ((JSplitPane) newRequirementPanel.getComponent(0))
+		                .getLeftComponent());
+		assertEquals(newRequirementPanel.getTabsPanel(),
+		        ((JSplitPane) newRequirementPanel.getComponent(0))
+		                .getRightComponent());
+		
 		assertNotNull(newRequirementPanel.getComponent(1));
 		assertTrue(newRequirementPanel.getComponent(1) instanceof RequirementButtonPanel);
-		assertEquals(newRequirementPanel.getButtonPanel(), newRequirementPanel.getComponent(1));
+		assertEquals(newRequirementPanel.getButtonPanel(),
+		        newRequirementPanel.getComponent(1));
 	}
 	
 	@Test
 	public void testConstructor_Requirement() {
-		RequirementPanel newRequirementPanel = new RequirementPanel (mockRequirement);
+		RequirementPanel newRequirementPanel = new RequirementPanel(
+		        mockRequirement);
 	}
 }

@@ -1,11 +1,9 @@
 /**
- *  * Copyright (c) 2013 -- WPI Suite
- *
+ * * Copyright (c) 2013 -- WPI Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
@@ -42,8 +40,7 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 	public ChartButtonsPanel() {
 		super("");
 
-		this.contentPanel.setLayout(new BoxLayout(contentPanel,
-				BoxLayout.X_AXIS));
+		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 
 		this.pieChart = new JButton("<html>View Pie<br />Chart</html>");
 
@@ -54,7 +51,7 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 			}
 		});
 
-		JButton barChart = new JButton("<html>View Bar<br />Chart</html>");
+		this.barChart = new JButton("<html>View Bar<br />Chart</html>");
 
 		barChart.addActionListener(new ActionListener() {
 			@Override
