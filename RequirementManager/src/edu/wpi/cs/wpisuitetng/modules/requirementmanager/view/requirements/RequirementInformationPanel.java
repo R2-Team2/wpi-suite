@@ -68,8 +68,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JTextField boxTotalEstimate;
 	private JLabel labelTotalEstimate;
 	private final Border defaultBorder = (new JTextField()).getBorder();
-	private final Border errorBorder = BorderFactory
-			.createLineBorder(Color.RED);
+	private final Border errorBorder = BorderFactory.createLineBorder(Color.RED);
 
 	private JLabel currentParent;
 	private JButton editParent;
@@ -89,20 +88,24 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	private JLabel errorDescription;
 	private JLabel errorEstimate;
 
+	private IterationModel iterationModel;
+	private ViewEventController viewEventController;
+	
 	/**
 	 * Constructs the requirement information panel
 	 * @param parentPanel the panel this info panel reports to
 	 * @param mode the current view mode.
 	 * @param curr the requirement being edited/created.
 	 */
-	public RequirementInformationPanel(RequirementPanel parentPanel,
-			ViewMode mode, Requirement curr) {
+	public RequirementInformationPanel(RequirementPanel parentPanel, ViewMode mode, Requirement curr) {
 		this.currentRequirement = curr;
 		this.parentPanel = parentPanel;
 		this.viewMode = mode;
 		this.setMinimumSize(new Dimension(500,200));
 		this.buildLayout();
 
+		this.iterationModel = IterationModel.getInstance();
+		
 		clearInfo();
 	}
 
@@ -140,7 +143,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxDescription.addKeyListener(this);
 		descrScroll.setViewportView(boxDescription);
 
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		List<Iteration> iterations = iterationModel.getIterations();
 		Iteration[] iterationArray = new Iteration[iterations.size()];
 		for (int i = 0; i < iterations.size(); i++) {
 			Iteration iter = iterations.get(i);
@@ -197,7 +200,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 			public void actionPerformed(ActionEvent e) {
 				if(currentRequirement.getParentID() != -1)
 				{
-					ViewEventController.getInstance().editRequirement(currentRequirement.getParent());
+					viewEventController.editRequirement(currentRequirement.getParent());
 				}
 			}		
 		});
@@ -214,9 +217,9 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 					e1.printStackTrace();
 				}
 				UpdateRequirementController.getInstance().updateRequirement(currentRequirement);
-				ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement);
-				ViewEventController.getInstance().refreshEditRequirementPanel(oldParent);
-				ViewEventController.getInstance().getOverviewTree().refresh();
+				viewEventController.refreshEditRequirementPanel(currentRequirement);
+				viewEventController.refreshEditRequirementPanel(oldParent);
+				viewEventController.getOverviewTree().refresh();
 			}	
 		});
 		
@@ -314,7 +317,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 */
 	private void repopulateIterationInformation() {
 		Iteration selected = (Iteration)boxIteration.getSelectedItem();
-		List<Iteration> iterations = IterationModel.getInstance().getIterations();
+		List<Iteration> iterations = iterationModel.getIterations();
 		Iteration[] iterationArray = new Iteration[iterations.size()];
 		for (int i = 0; i < iterations.size(); i++) {
 			Iteration iter = iterations.get(i);
@@ -329,7 +332,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 	 * Refreshes the selected iteration if its been changed in the requirement
 	 */
 	private void refreshIteration() {
-		Iteration cur = IterationModel.getInstance().getIteration(currentRequirement.getIteration());
+		Iteration cur = iterationModel.getIteration(currentRequirement.getIteration());
 		if(cur != storedIteration)
 		{
 			storedIteration = cur;
@@ -407,12 +410,10 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		boxName.setText(currentRequirement.getName());
 		boxDescription.setText(currentRequirement.getDescription());
 		storedEstimate = currentRequirement.getEstimate();
-		boxEstimate.setText(
-				String.valueOf(storedEstimate));
+		boxEstimate.setText(String.valueOf(storedEstimate));
 		boxReleaseNum.setText(currentRequirement.getRelease());
-		storedIteration = IterationModel.getInstance().getIteration(currentRequirement.getIteration());
+		storedIteration = iterationModel.getIteration(currentRequirement.getIteration());
 		boxIteration.setSelectedItem(storedIteration);
-
 
 		setStatus();
 
@@ -601,17 +602,15 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		String stringEstimate = this.getBoxEstimate().getText();
 		String stringIteration = (String) this.getBoxIteration().getSelectedItem().toString();
 
-		if (stringIteration.trim().equals(""))
+		if (stringIteration.trim().equals("")){
 			stringIteration = "Backlog";
+		}
 
 		RequirementPriority priority;
 		RequirementStatus status = (RequirementStatus) this.getDropdownStatus().getSelectedItem();
-		RequirementType type = (RequirementType) getDropdownType()
-				.getSelectedItem();
+		RequirementType type = (RequirementType) getDropdownType().getSelectedItem();
 
-		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer
-				.parseInt(stringEstimate);
-
+		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 
 		currentRequirement.setName(stringName);
 		currentRequirement.setRelease(stringReleaseNum);
@@ -634,12 +633,12 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		UpdateRequirementController.getInstance().updateRequirement(
 				currentRequirement);
 
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().refreshTree();
+		viewEventController.refreshTable();
+		viewEventController.refreshTree();
 
 		if(currentRequirement.getParentID() != -1)
 		{
-			ViewEventController.getInstance().refreshEditRequirementPanel(currentRequirement.getParent());
+			viewEventController.refreshEditRequirementPanel(currentRequirement.getParent());
 		}
 	}
 	
@@ -711,7 +710,7 @@ ItemListener, RequirementPanelListener, RequirementSelectorListener {
 		if (!(getBoxReleaseNum().getText().equals(""))){
 			return true;}
 		// Check if the user has changed the iteration number
-		if (!getBoxIteration().getSelectedItem().equals(IterationModel.getInstance().getBacklog())){
+		if (!getBoxIteration().getSelectedItem().equals(iterationModel.getBacklog())){
 			return true;}
 		// Check if the user has changed the type
 		if (!(((RequirementType)getDropdownType().getSelectedItem()) == RequirementType.BLANK)){
