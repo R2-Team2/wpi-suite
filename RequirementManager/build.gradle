@@ -6,10 +6,22 @@ dependencies{
 	compile 'org.jfree:jcommon:1.0.17'
 	compile 'com.miglayout:miglayout-swing:4.1' //Used to be 4.0, will this cause issues?
 
-	//		<include name="gnujaxp.jar"/> //Couldn't find this on Maven, will this cause issues?
-
 	//Module depends on client
 	compile project(':Network')
 	compile project(':WPISuite-Interfaces')
 	compile project(':Janeway')
+}
+
+jar.doLast{
+	tasks.janewayJar.execute()
+}
+
+task janewayJar(type: Copy){
+	
+	dependsOn "jar"
+	
+	from "${tasks['jar'].destinationDir}"
+	into "${project(':Janeway').projectDir}/modules/"
+	include '*.jar'
+	
 }

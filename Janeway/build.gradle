@@ -14,3 +14,9 @@ dependencies{
     compile project(':WPISuite-Interfaces')
     compile project(':Network')
 }
+
+run.dependsOn {
+	project(':RequirementManager').janewayJar
+	project(':DefectTracker').janewayJar
+	project(':PostBoard').janewayJar
+}
