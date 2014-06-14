@@ -1,5 +1,3 @@
-
-//Tomcat plugin for launching WPISuite easily?
 buildscript {
     repositories {
         jcenter()
@@ -15,8 +13,6 @@ subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
 	apply plugin: 'eclipse-wtp'
-	//apply plugin: 'tomcat'
-    //apply plugin: 'war'
 
 	//Java version 1.7
     sourceCompatibility = targetCompatibility = 1.7
@@ -47,26 +43,6 @@ subprojects {
             downloadJavadoc = true //This is false otherwise, we love to read JavaDoc to help use understand libraries :)
         }
     }
-    
-//    //Gradle looks for source code by default in diff dirs. More info: http://www.gradle.org/docs/current/userguide/java_plugin.html#N12119
-//    sourceSets {
-//        main {
-//            java {
-//                srcDir 'src'
-//            }
-//            
-//            //Will we use this ever?
-//            resources {
-//                srcDir 'resources'
-//            }
-//        }
-//        
-//        test {
-//            java {
-//                srcDirs 'test'
-//            }
-//        }
-//    }
 }
 
 //To make sure there is a script people can double click to install Gradle
