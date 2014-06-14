@@ -10,7 +10,12 @@
 
 package edu.wpi.cs.wpisuitetng.modules.postboard.view;
 
-import javax.swing.JPanel;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
 
@@ -20,29 +25,21 @@ import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
  * 
  * @author Chris Casola
  */
-@SuppressWarnings("serial")
-public class MainView extends JPanel {
+public class TestMainView {
     
-    /** The panel containing the post board */
-    private final BoardPanel boardPanel;
+    MainView mainView;
+    PostBoardModel mockBoardPanel;
     
-    /**
-     * Construct the panel.
-     * 
-     * @param boardModel
-     */
-    public MainView(PostBoardModel boardModel) {
-        // Add the board panel to this view
-        boardPanel = new BoardPanel(boardModel);
-        add(boardPanel);
+    @Before
+    public void setup() {
+        mockBoardPanel = mock(PostBoardModel.class);
+        
+        mainView = new MainView(mockBoardPanel);
     }
     
-    /**
-     * For testing
-     * 
-     * @return the boardPanel
-     */
-    BoardPanel getBoardPanel() {
-        return this.boardPanel;
+    @Test
+    public void testConstructor() {
+        assertNotNull(mainView.getBoardPanel());
+        assertEquals("Enter a message here.", mainView.getBoardPanel().getTxtNewMessage().getText());
     }
 }

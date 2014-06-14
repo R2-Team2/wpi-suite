@@ -1,13 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
- *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *    Chris Casola
+ * Chris Casola
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.postboard.view;
@@ -34,77 +32,120 @@ import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
  * a new message.
  * 
  * @author Chris Casola
- *
  */
-@SuppressWarnings({"serial"})
 public class BoardPanel extends JPanel {
-
-	/** A list box to display all the message on the board */
-	private final JList lstBoard;
-	
-	/** A text field where the user can enter a new message */
-	private final JTextField txtNewMessage;
-
-	/** A button for submitting new messages */
-	private final JButton btnSubmit;
-
-	/**
-	 * This is a model for the lstBoard component. Basically it
-	 * contains the data to be displayed in the list box.
-	 */
-	private final PostBoardModel lstBoardModel;
-
-	/**
-	 * Construct the panel, the three components, and add the
-	 * three components to the panel.
-	 * @param boardModel 
-	 */
-	public BoardPanel(PostBoardModel boardModel) {
-
-		// Construct the list box model
-		lstBoardModel = boardModel;
-		
-		// Construct the components to be displayed
-		lstBoard = new JList(lstBoardModel);
-		txtNewMessage = new JTextField("Enter a message here.");
-		btnSubmit = new JButton("Submit");
-		
-		// Change the font of the JList
-		lstBoard.setFont(lstBoard.getFont().deriveFont(11));
-		
-		// Construct the add message controller and add it to the submit button
-		btnSubmit.addActionListener(new AddMessageController(lstBoardModel, this));
-		
-		// Set the layout manager of this panel that controls the positions of the components
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS)); // components will  be arranged vertically
-		
-		// Put the listbox in a scroll pane
-		JScrollPane lstScrollPane = new JScrollPane(lstBoard);
-		lstScrollPane.setPreferredSize(new Dimension(500,400));
-		
-		// Clear the contents of the text field when the user clicks on it
-		txtNewMessage.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				txtNewMessage.setText("");
-			}
-		});
-		
-		// Adjust sizes and alignments
-		btnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Add the components to the panel
-		add(Box.createVerticalStrut(20)); // leave a 20 pixel gap
-		add(lstScrollPane);
-		add(Box.createVerticalStrut(20));
-		add(txtNewMessage);
-		add(Box.createVerticalStrut(20));
-		add(btnSubmit);
-	}
-	
-	/**
-	 * @return the txtNewMessage JTextField
-	 */
-	public JTextField getTxtNewMessage() {
-		return txtNewMessage;
-	}
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6568533712473785570L;
+    
+    /** A list box to display all the message on the board */
+    private final JList<PostBoardModel> lstBoard;
+    
+    /** A text field where the user can enter a new message */
+    private final JTextField txtNewMessage;
+    
+    /** A button for submitting new messages */
+    private final JButton btnSubmit;
+    
+    private final JScrollPane lstScrollPane;
+    
+    /**
+     * This is a model for the lstBoard component. Basically it
+     * contains the data to be displayed in the list box.
+     */
+    private final PostBoardModel lstBoardModel;
+    
+    /**
+     * Construct the panel, the three components, and add the
+     * three components to the panel.
+     * 
+     * @param boardModel
+     */
+    public BoardPanel(PostBoardModel boardModel) {
+        
+        // Construct the list box model
+        lstBoardModel = boardModel;
+        
+        // Construct the components to be displayed
+        lstBoard = new JList<PostBoardModel>(lstBoardModel);
+        txtNewMessage = new JTextField("Enter a message here.");
+        btnSubmit = new JButton("Submit");
+        
+        // Change the font of the JList
+        lstBoard.setFont(lstBoard.getFont().deriveFont(11));
+        
+        // Construct the add message controller and add it to the submit button
+        btnSubmit.addActionListener(new AddMessageController(lstBoardModel, this));
+        
+        // Set the layout manager of this panel that controls the positions of the components
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS)); // components will  be arranged vertically
+        
+        // Put the listbox in a scroll pane
+        this.lstScrollPane = new JScrollPane(lstBoard);
+        lstScrollPane.setPreferredSize(new Dimension(500, 400));
+        
+        // Clear the contents of the text field when the user clicks on it
+        txtNewMessage.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                txtNewMessage.setText("");
+            }
+        });
+        
+        // Adjust sizes and alignments
+        btnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Add the components to the panel
+        add(Box.createVerticalStrut(20)); // leave a 20 pixel gap
+        add(lstScrollPane);
+        add(Box.createVerticalStrut(20));
+        add(txtNewMessage);
+        add(Box.createVerticalStrut(20));
+        add(btnSubmit);
+    }
+    
+    /**
+     * @return the txtNewMessage JTextField
+     */
+    public JTextField getTxtNewMessage() {
+        return txtNewMessage;
+    }
+    
+    //For testing:
+    
+    /**
+     * @return the lstBoard
+     */
+    JList<PostBoardModel> getLstBoard() {
+        return this.lstBoard;
+    }
+    
+    /**
+     * @return the btnSubmit
+     */
+    JButton getBtnSubmit() {
+        return this.btnSubmit;
+    }
+    
+    /**
+     * @return the lstBoardModel
+     */
+    PostBoardModel getLstBoardModel() {
+        return this.lstBoardModel;
+    }
+    
+    /**
+     * @return the serialversionuid
+     */
+    static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+    
+    /**
+     * @return the lstScrollPane
+     */
+    JScrollPane getLstScrollPane() {
+        return this.lstScrollPane;
+    }
 }
