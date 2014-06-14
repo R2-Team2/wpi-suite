@@ -50,52 +50,10 @@ subprojects {
         }
     }
     
-<<<<<<< HEAD
-    //Gradle looks for source code by default in diff dirs. More info: http://www.gradle.org/docs/current/userguide/java_plugin.html#N12119
-    sourceSets {
-        main {
-            java {
-                srcDir 'src'
-            }
-            
-            //Will we use this ever?
-            resources {
-                srcDir 'resources'
-            }
-        }
-        
-        test {
-            java {
-                srcDirs 'test'
-            }
-        }
-    }
-    
     jacoco {
         toolVersion = "0.6.2.201302030002"
         //reportsDir = file("$buildDir/reports/jacoco")
     }
-=======
-//    //Gradle looks for source code by default in diff dirs. More info: http://www.gradle.org/docs/current/userguide/java_plugin.html#N12119
-//    sourceSets {
-//        main {
-//            java {
-//                srcDir 'src'
-//            }
-//            
-//            //Will we use this ever?
-//            resources {
-//                srcDir 'resources'
-//            }
-//        }
-//        
-//        test {
-//            java {
-//                srcDirs 'test'
-//            }
-//        }
-//    }
->>>>>>> 5facbcd... Move code to follow Gradle conventions
 }
 
 //To make sure there is a script people can double click to install Gradle
