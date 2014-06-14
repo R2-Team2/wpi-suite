@@ -7,10 +7,6 @@ dependencies{
 	compile project(':Janeway')
 }
 
-jar.doFirst{
-	tasks.janewayManifest.execute();
-}
-
 jar.doLast{
 	tasks.janewayJar.execute()
 }
@@ -23,10 +19,4 @@ task janewayJar(type: Copy){
 	into "${project(':Janeway').projectDir}/modules/"
 	include '*.jar'
 	
-}
-
-task janewayManifest(type: Copy){
-	from "${projectDir}"
-	into "${tasks['compileJava'].destinationDir}"
-	include 'manifest.txt'
 }

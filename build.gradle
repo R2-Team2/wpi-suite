@@ -1,5 +1,3 @@
-
-//Tomcat plugin for launching WPISuite easily?
 buildscript {
     repositories {
         jcenter()

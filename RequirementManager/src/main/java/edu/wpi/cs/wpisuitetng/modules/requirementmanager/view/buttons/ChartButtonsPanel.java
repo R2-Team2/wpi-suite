@@ -31,53 +31,51 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @version $Revision: 1.0 $
  */
 public class ChartButtonsPanel extends ToolbarGroupView {
-
 	private final JPanel contentPanel = new JPanel();
-
+	
 	JButton pieChart;
 	JButton barChart;
-
+	
 	public ChartButtonsPanel() {
 		super("");
-
+		
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
-
 		this.pieChart = new JButton("<html>View Pie<br />Chart</html>");
-
+		
 		pieChart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().createPieChart("Status");
 			}
 		});
-
+		
 		this.barChart = new JButton("<html>View Bar<br />Chart</html>");
-
+		
 		barChart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().createBarChart("Status");
-
 			}
 		});
-
+		
 		try {
-			Image img = ImageIO.read(getClass().getResource("pie_chart.png"));
+			Image img = ImageIO.read(this.getClass().getResourceAsStream("pie_chart.png"));
 			pieChart.setIcon(new ImageIcon(img));
-
-			img = ImageIO.read(getClass().getResource("bar_chart.png"));
+			
+			img = ImageIO.read(this.getClass().getResourceAsStream("bar_chart.png"));
 			barChart.setIcon(new ImageIcon(img));
-
+			
 		} catch (IOException ex) {
+			//TODO: Are we swallowing execeptions?!? We need to fix this ASAP
 		}
-
+		
 		contentPanel.add(pieChart);
 		contentPanel.add(barChart);
 		contentPanel.setOpaque(false);
-
+		
 		this.add(contentPanel);
 	}
-
+	
 	/**
 	 * Method getBarChartButton.
 	 * 
@@ -86,7 +84,7 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 	public JButton getBarChartButton() {
 		return barChart;
 	}
-
+	
 	/**
 	 * Method getPieChartButton.
 	 * 
@@ -95,5 +93,5 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 	public JButton getPieChartButton() {
 		return pieChart;
 	}
-
+	
 }
