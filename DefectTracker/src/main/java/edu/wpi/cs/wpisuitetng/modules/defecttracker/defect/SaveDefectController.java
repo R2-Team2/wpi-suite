@@ -46,7 +46,7 @@ public class SaveDefectController {
 		Request request;
 		panel.getParent().setInputEnabled(false);
 		request = Network.getInstance().makeRequest("defecttracker/defect", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-		request.setBody(panel.getEditedModel().toJSON());
+		request.setBody(panel.getEditedModel().toJson());
 		request.addObserver(requestObserver);
 		request.send();
 	}

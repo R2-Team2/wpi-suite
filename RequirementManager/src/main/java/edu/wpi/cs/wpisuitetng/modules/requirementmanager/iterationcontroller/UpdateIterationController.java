@@ -57,7 +57,7 @@ public class UpdateIterationController{
 	public void updateIteration(Iteration newIteration) 
 	{
 		Request request = Network.getInstance().makeRequest("requirementmanager/iteration", HttpMethod.POST); // POST == update
-		request.setBody(newIteration.toJSON()); // put the new Iteration in the body of the request
+		request.setBody(newIteration.toJson()); // put the new Iteration in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 
 	}

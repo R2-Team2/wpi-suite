@@ -139,7 +139,7 @@ public class User extends AbstractModel
 	 * 
 	 * @return	the JSON representation of this User
 	 */
-	public String toJSON()
+	public String toJson()
 	{
 		String json;
 		
@@ -162,7 +162,7 @@ public class User extends AbstractModel
 		
 		for(User a : u)
 		{
-			json += a.toJSON() + ", ";
+			json += a.toJson() + ", ";
 		}
 		
 		json += "]";
@@ -179,7 +179,7 @@ public class User extends AbstractModel
 	 */
 	public String toString()
 	{
-		return this.toJSON();
+		return this.toJson();
 	}
 
 	@Override

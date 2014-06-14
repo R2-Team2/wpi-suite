@@ -226,7 +226,7 @@ public class Defect extends AbstractModel {
 	 * Converts this Defect to a JSON string
 	 * @return a string in JSON representing this Defect
 	 */
-	public String toJSON() {
+	public String toJson() {
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(this, Defect.class);
@@ -247,7 +247,7 @@ public class Defect extends AbstractModel {
 	
 	@Override
 	public String toString() {
-		return toJSON();
+		return toJson();
 	}
 	
 	/**

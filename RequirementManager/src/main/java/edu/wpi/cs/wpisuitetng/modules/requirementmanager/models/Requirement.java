@@ -765,7 +765,7 @@ public class Requirement extends AbstractModel {
 	 * @return a Json encoded String representation of this requirement
 	 * 
 	 */
-	public String toJSON() {
+	public String toJson() {
 		return new Gson().toJson(this, Requirement.class);
 	}
 

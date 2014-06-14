@@ -97,7 +97,7 @@ public class IterationTest {
 	@Test
 	public void testToFromJson() {
 		Iteration itr = new Iteration(3, "Rolling Thunder");
-		String jsonitr = itr.toJSON();
+		String jsonitr = itr.toJson();
 		Iteration returned = Iteration.fromJson(jsonitr);
 		assertEquals(returned.getId(), itr.getId());
 		assertEquals(returned.getName(), itr.getName());

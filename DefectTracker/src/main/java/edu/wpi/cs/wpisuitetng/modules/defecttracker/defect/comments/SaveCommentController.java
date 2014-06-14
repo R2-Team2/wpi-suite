@@ -57,7 +57,7 @@ public class SaveCommentController {
 					"defecttracker/comment", HttpMethod.PUT);
 			final Comment comment = new Comment(model.getId(), model.getCreator(), view.getCommentField().getText());
 			view.getCommentField().setText("");
-			request.setBody(comment.toJSON());
+			request.setBody(comment.toJson());
 			request.addObserver(requestObserver);
 			request.send();
 		}

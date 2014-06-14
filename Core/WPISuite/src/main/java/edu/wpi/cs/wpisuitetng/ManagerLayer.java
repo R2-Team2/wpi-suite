@@ -201,7 +201,7 @@ public class ManagerLayer {
 			response = "[";
 			for(Model n : m)
 			{
-				response = response.concat(n.toJSON()+",");
+				response = response.concat(n.toJson()+",");
 			}
 			if(m.length > 0)
 			{
@@ -228,7 +228,7 @@ public class ManagerLayer {
 		Model m;
 		m = (Model) map.get(args[0]+args[1]).makeEntity(s,content);
         
-        return m.toJSON();
+        return m.toJson();
 	}
 	
 	/**update
@@ -246,7 +246,7 @@ public class ManagerLayer {
 		Model m;
 		m = (Model) map.get(args[0]+args[1]).update(s, content);
 		
-		return m.toJSON();
+		return m.toJson();
 	
 	}
 	

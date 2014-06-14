@@ -65,7 +65,7 @@ public class ProjectManager implements EntityManager<Project>{
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 		
-		return this.getEntity(s, s.getProject().getIdNum())[0].toJSON();
+		return this.getEntity(s, s.getProject().getIdNum())[0].toJson();
 	}
 
 	@Override

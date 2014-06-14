@@ -72,7 +72,7 @@ public class RequirementTest {
 		object.setEstimate(1);
 
 		Requirement origObject = object; // change here
-		String jsonMessage = object.toJSON();
+		String jsonMessage = object.toJson();
 		Requirement newObject = Requirement.fromJson(jsonMessage); // change
 																	// here...
 		assertEquals(origObject.getId(), 4);

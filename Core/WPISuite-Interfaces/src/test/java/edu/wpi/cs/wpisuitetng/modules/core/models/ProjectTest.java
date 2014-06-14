@@ -177,7 +177,7 @@ public class ProjectTest {
 
 	@Test
 	public void testProjectToJson() {
-		String deflated = p3.toJSON();
+		String deflated = p3.toJson();
 		
 		assertTrue(deflated.startsWith("{"));
 		assertTrue(deflated.endsWith("}"));
@@ -190,7 +190,7 @@ public class ProjectTest {
 		assertTrue(deflated.contains("proj3"));
 		
 		assertTrue(deflated.contains("owner"));
-		assertTrue(deflated.contains(u1.toJSON()));
+		assertTrue(deflated.contains(u1.toJson()));
 		
 		assertTrue(deflated.contains("team"));
 
