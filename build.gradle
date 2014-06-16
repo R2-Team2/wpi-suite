@@ -50,12 +50,19 @@ subprojects {
     }
     
     jacoco {
-        toolVersion = "0.6.2.201302030002"
+        
+        toolVersion = "0.7.1.201405082137"
         //reportsDir = file("$buildDir/reports/jacoco")
+    }
+//    java {
+//        jvmArgs '-XX:-UseSplitVerifier'
+//    }
+    test{
+        jvmArgs "-XX:-UseSplitVerifier"
     }
 }
 
-//To make sure there is a script people can double click to install Gradle
+//To make sure there is a script people can avoid having to install Gradle
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }

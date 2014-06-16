@@ -13,6 +13,7 @@ dist
 # Package Files #
 *.war
 *.ear
+*.jar
 *.eml
 
 # Module jar files #
