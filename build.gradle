@@ -14,7 +14,7 @@ subprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse-wtp'
     apply plugin: "jacoco"
-    apply plugin: 'findbugs'
+//    apply plugin: 'findbugs'
 
 	//Java version 1.7
     sourceCompatibility = targetCompatibility = 1.7
