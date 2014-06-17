@@ -75,10 +75,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		this.buildLayout();
 	}
 	
-	protected RequirementPanel() {
-		
-	}
-	
 	/**
 	 * Builds the layout of the panel.
 	 */
