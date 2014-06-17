@@ -10,7 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.postboard.view;
 
-import static edu.wpi.cs.wpisuitetng.modules.postboard.TestHelpers.contains;
+import static edu.wpi.cs.wpisuitetng.test.util.TestHelpers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

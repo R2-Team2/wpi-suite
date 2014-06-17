@@ -54,12 +54,10 @@ subprojects {
         toolVersion = "0.7.1.201405082137"
         //reportsDir = file("$buildDir/reports/jacoco")
     }
-//    java {
-//        jvmArgs '-XX:-UseSplitVerifier'
+    
+//    test{
+//        jvmArgs "-XX:-UseSplitVerifier"
 //    }
-    test{
-        jvmArgs "-XX:-UseSplitVerifier"
-    }
 }
 
 //To make sure there is a script people can avoid having to install Gradle
