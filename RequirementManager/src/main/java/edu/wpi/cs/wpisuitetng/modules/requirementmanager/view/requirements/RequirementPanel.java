@@ -27,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
  * @author Rolling Thunder
  */
 public class RequirementPanel extends JPanel implements RequirementButtonListener {
+	protected static final long serialVersionUID = -4952819151288519999L;
+	
 	private ViewEventController viewEventController;
 	private UpdateRequirementController updateRequirementController;
 	
@@ -39,7 +41,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	private RequirementButtonPanel buttonPanel;
 	
 	private boolean readyToClose = false;
-	private boolean readyToRemove = true;
 	
 	/**
 	 * Constructor for editing a requirement
@@ -215,6 +216,9 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 		if (readyToClose)
 			return true;
 		
+		
+		boolean readyToRemove = true;
+
 		for (RequirementPanelListener listener : listeners) {
 			readyToRemove &= listener.readyToRemove();
 		}
@@ -256,24 +260,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 	 */
 	public RequirementTabsPanel getTabsPanel() {
 		return tabsPanel;
-	}
-	
-	/**
-	 * Method isReadyToRemove.
-	 * 
-	 * @return boolean
-	 */
-	public boolean isReadyToRemove() {
-		return readyToRemove;
-	}
-	
-	/**
-	 * Method setReadyToRemove.
-	 * 
-	 * @param readyToRemove boolean
-	 */
-	public void setReadyToRemove(boolean readyToRemove) {
-		this.readyToRemove = readyToRemove;
 	}
 	
 	/**
