@@ -8,6 +8,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -17,6 +19,7 @@ import static org.powermock.api.support.membermodification.MemberModifier.suppre
 import java.util.ListIterator;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -92,8 +95,29 @@ public class EditRequirementPanelTest {
         when(mockHistoryIterator.hasNext()).thenReturn(false);
         
         requirementPanel = Whitebox.newInstance(RequirementPanel.class);
+        
         requirementPanel.setViewEventController(mockViewEventController);
         requirementPanel.setUpdateRequirementController(mockUpdateRequirementController);
         requirementPanel.setDisplayRequirement(mockRequirement);
+        requirementPanel.setViewMode(ViewMode.CREATING);
+        requirementPanel.setButtonPanel(mockButtonPanel);
+        requirementPanel.setInfoPanel(mockInfoPanel);
+        requirementPanel.setTabsPanel(mockTabsPanel);
+    }
+    
+    @Test
+    public void testCancelPressed(){
+    	requirementPanel.cancelPressed();
+    	
+    	verify(mockViewEventController, times(1)).refreshTable();
+    	verify(mockViewEventController, times(1)).refreshTree();
+    	verify(mockViewEventController, times(1)).removeTab(requirementPanel);
+    }
+    
+    @Test
+    public void testClearPressed(){
+    	requirementPanel.clearPressed();
+    	
+    	verify(mockInfoPanel, times(1)).clearInfo();
     }
 }

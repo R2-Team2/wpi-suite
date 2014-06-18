@@ -43,7 +43,6 @@ public class NewRequirementPanelTest {
 		// Mock Iteration
 		Iteration iterationTest = new Iteration(0,"Backlog");
 		IterationModel.getInstance().setBacklog(iterationTest);
-		 
 	}
 
 	/**
@@ -65,7 +64,6 @@ public class NewRequirementPanelTest {
 		assertEquals(false, testNew.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(false, testNew.getButtonPanel().getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonPanel().getButtonCancel().isEnabled());
-		
 	}
 	
 	/**
@@ -80,7 +78,6 @@ public class NewRequirementPanelTest {
 		// Check
 		assertEquals(RequirementStatus.NEW, testNew.getInfoPanel().getDropdownStatus().getSelectedItem());		
 	}
-	
 	
 	/**
 	 * check for enability when required fields are not filled in
@@ -114,8 +111,6 @@ public class NewRequirementPanelTest {
 		assertEquals(false, testNew.getButtonPanel().getButtonOK().isEnabled());
 		assertEquals(true, testNew.getButtonPanel().getButtonClear().isEnabled());
 		assertEquals(true, testNew.getButtonPanel().getButtonCancel().isEnabled());
-		
-
 	}
 	
 	/**
@@ -157,8 +152,6 @@ public class NewRequirementPanelTest {
 		// error messages are shown
 		assertEquals(errorMessageNoMore100,testNew.getInfoPanel().getErrorName().getText());
 		assertEquals(errorMessageNoninteger,testNew.getInfoPanel().getErrorEstimate().getText());
-		
-		
 	}
 
 	
@@ -211,8 +204,6 @@ public class NewRequirementPanelTest {
 		assertEquals("",testNew.getInfoPanel().getBoxName().getText());
 		assertEquals("",testNew.getInfoPanel().getErrorDescription().getText());
 		assertEquals("",testNew.getInfoPanel().getErrorEstimate().getText());
-		
-		
 	}
 	
 	
@@ -242,9 +233,6 @@ public class NewRequirementPanelTest {
 		assertEquals(true, testNew.getButtonPanel().getButtonCancel().isEnabled());
 		
 		testNew.getInfoPanel().update();
-		
-		
-		
 	}
 	
 	/**
@@ -282,7 +270,6 @@ public class NewRequirementPanelTest {
 		assertEquals(RequirementPriority.MEDIUM,testNew.getDisplayRequirement().getPriority());
 		assertEquals(0,testNew.getDisplayRequirement().getEstimate());
 		
-		
 		// add more fields
 		testNew.getInfoPanel().getDropdownType().setSelectedItem(RequirementType.EPIC);
 		testNew.getInfoPanel().validateFields(true);
@@ -299,8 +286,5 @@ public class NewRequirementPanelTest {
 
 		assertEquals(RequirementType.NONFUNCTIONAL,testNew.getDisplayRequirement().getType());
 		assertEquals(RequirementPriority.BLANK,testNew.getDisplayRequirement().getPriority());
-
-		
 	}
-
 }
