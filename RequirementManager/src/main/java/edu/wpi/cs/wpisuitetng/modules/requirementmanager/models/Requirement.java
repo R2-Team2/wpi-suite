@@ -217,21 +217,18 @@ public class Requirement extends AbstractModel {
     /**
      * setter for the name
      * 
-     * @param name
-     *            the name to set
+     * @param name the name to set
      */
     public void setName(String n) {
+        if (n.length() > 100)
+            n = n.substring(0, 100);
+        
         if (!n.equals(this.name) && !wasCreated) {
-            String originalName = this.name;
-            String newName = n;
-            if (newName.length() > 100)
-                newName = newName.substring(0, 100);
-            String message = ("Name changed from " + originalName + " to " + newName);
+            String message = ("Name changed from " + this.name + " to " + n);
             this.history.add(message);
         }
+        
         this.name = n;
-        if (name.length() > 100)
-            this.name = n.substring(0, 100);
     }
     
     /**
@@ -249,20 +246,19 @@ public class Requirement extends AbstractModel {
      * @param release
      *            the release to set
      */
-    public void setRelease(String rel) {
-        if (!rel.equals(this.release) && !wasCreated) {
-            String originalRelease = this.release;
-            String newRelease = rel;
-            String message = null;
-            if (originalRelease.isEmpty())
-                message = ("Release Number set to '" + newRelease + "'");
-            else if (newRelease.isEmpty())
-                message = ("Release Number set to blank from '" + originalRelease + "'");
+    public void setRelease(String release) {
+        if (!release.equals(this.release) && !wasCreated) {
+            String message;
+            if (this.release.isEmpty())
+                message = ("Release Number set to '" + release + "'");
+            else if (release.isEmpty())
+                message = ("Release Number set to blank from '" + this.release + "'");
             else
-                message = ("Release Number changed from '" + originalRelease + "' to '" + newRelease + "'");
+                message = ("Release Number changed from '" + this.release + "' to '" + release + "'");
             this.history.add(message);
         }
-        this.release = rel;
+        
+        this.release = release;
     }
     
     /**
@@ -782,7 +778,7 @@ public class Requirement extends AbstractModel {
      * 
      */
     public String toJson() {
-        return new Gson().toJson(this, Requirement.class);
+        return parser.toJson(this, Requirement.class);
     }
     
     /**
@@ -858,12 +854,21 @@ public class Requirement extends AbstractModel {
     }
     
     /**
+     * @param notes the notes to set
+     */
+    void setNotes(NoteList notes) {
+        this.notes = notes;
+    }
+    
+    /**
      * Copies all of the values from the given requirement to this requirement.
      * 
      * @param toCopyFrom
      *            the requirement to copy from.
      */
     public void copyFrom(Requirement toCopyFrom) {
+        //TODO Can't this be replaced by a default Java method?
+        //If not it can be with Requirement.fromJson(requirement.toJson)
         this.description = toCopyFrom.description;
         this.name = toCopyFrom.name;
         this.effort = toCopyFrom.effort;
