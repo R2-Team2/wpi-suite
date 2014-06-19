@@ -4,7 +4,6 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
 /**
@@ -13,15 +12,11 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,220 +24,194 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 
 /**
- * Tests the jSON conversion functions and all the getters and setters
- * TODO: Control logic should NOT be in a model, it should be in a controller! - RS
- * @author Benjamin Senecal, Robert Smieja
+ * Tests getters and setters with control logic
+ * TODO: Control logic should NOT be in a model, it should be in a controller!
+ * 
+ * @author Robert Smieja
  * @version $Revision: 1.0 $
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Network.class, IterationModel.class, RequirementModel.class})
+@PrepareForTest({ Network.class, IterationModel.class, RequirementModel.class })
 public class TestRequirement {
-
-	Network mockNetwork;
-	IterationModel mockIterationModel;
-	RequirementModel mockRequirementModel;
-	
-	GetRequirementsController controller;
-
-	/**
-	 * Method setUp.
-	
-	 * @throws Exception */
-	@Before
-	public void setUp() throws Exception {
-		mockStatic(Network.class);
-		mockStatic(IterationModel.class);
-		mockStatic(RequirementModel.class);
-		
-		mockNetwork = mock(Network.class);
-		mockIterationModel = mock(IterationModel.class);
-		mockRequirementModel = mock(RequirementModel.class);
-		
-		when(Network.getInstance()).thenReturn(mockNetwork);
-		when(IterationModel.getInstance()).thenReturn(mockIterationModel);
-		when(RequirementModel.getInstance()).thenReturn(mockRequirementModel);
-	}	
-	/**
-	 * Test the setting methods in the Requirement class in the src package
-	 * 
-	 */
-	@Test
-	public void settingRequirementFieldsTest () {
-		Requirement object = new Requirement(5, "Test", "This is a test");
-		
-		// setId
-		object.setId(10);
-		assertEquals(object.getId(), 10);
-		
-		// setName
-		object.setName("Changed");
-		assertEquals(object.getName(), "Changed");
-		object.setName("01234567890123456789012345678901234567890123456789012345678901234567890123545678901234567890123456789this is extra and should not be included");
-		assertEquals(object.getName(), "0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678");
-		
-		// setStatus
-		//if requirement was just created
-		object.setStatus(RequirementStatus.OPEN);
-		assertEquals(object.getStatus(), RequirementStatus.OPEN);
-		ListIterator<Transaction> iter = object.getHistory().getIterator(0);
-		assertTrue(iter.hasNext());
-		//normal status setting
-		object.setName("Name");	// makes checking the transaction history easier
-		object.setStatus(RequirementStatus.INPROGRESS);
-		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
-		iter = object.getHistory().getIterator(0);
-		assertEquals(iter.next().getMessage(), "Name changed from Test to Changed");
-		assertEquals(iter.next().getMessage(), "Name changed from Changed to 0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678");
-		assertEquals(iter.next().getMessage(), "Status changed from New to Open");
-		assertEquals(iter.next().getMessage(), "Name changed from 0123456789012345678901234567890123456789012345678901234567890123456789012354567890123456789012345678 to Name");
-		assertEquals(iter.next().getMessage(), "Status changed from Open to In Progress");
-		//if the you change it to the current status
-		object.setStatus(RequirementStatus.INPROGRESS);
-		assertEquals(object.getStatus(), RequirementStatus.INPROGRESS);
-		//if you change it to the current status upon creation
-		object.setStatus(RequirementStatus.NEW);
-		assertEquals(object.getStatus(), RequirementStatus.NEW);
-		iter = object.getHistory().getIterator(5);
-		assertEquals(iter.next().getMessage(), "Status changed from In Progress to New");
-		assertFalse(iter.hasNext());
-		// setDescription
-		object.setDescription("Changed the description too");
-		assertEquals(object.getDescription(), "Changed the description too");
-
-		// setPriority
-		//if you change it to the current priority upon creation
-		object.setPriority(RequirementPriority.BLANK);
-		assertEquals(object.getPriority(), RequirementPriority.BLANK);
-		iter = object.getHistory().getIterator(6);
-		assertEquals(iter.next().getMessage(), "Description changed");
-		assertFalse(iter.hasNext());
-		//if requirement was just created
-		object.setPriority(RequirementPriority.HIGH);
-		assertEquals(object.getPriority(), RequirementPriority.HIGH);
-		iter = object.getHistory().getIterator(7);
-		assertEquals(iter.next().getMessage(), "Priority changed from None to High");
-		assertFalse(iter.hasNext());
-		//normal priority setting
-		object.setPriority(RequirementPriority.HIGH);
-		assertEquals(object.getPriority(), RequirementPriority.HIGH);
-		iter = object.getHistory().getIterator(8);
-		assertFalse(iter.hasNext());	// same priority setting, so no history
-		//if the you change it to the current priority
-		object.setPriority(RequirementPriority.LOW);
-		assertEquals(object.getPriority(), RequirementPriority.LOW);
-		iter = object.getHistory().getIterator(8);
-		assertEquals(iter.next().getMessage(), "Priority changed from High to Low");
-		assertFalse(iter.hasNext());
-		
-		// setType
-		object.setType(RequirementType.USERSTORY);
-		assertEquals(object.getType(), RequirementType.USERSTORY);
-		iter = object.getHistory().getIterator(9);
-		assertEquals(iter.next().getMessage(), "Type changed from  to User Story");
-		assertFalse(iter.hasNext());
-		
-		// TODO: setIteration
-	}
-	
-	@Test
-	public void testCopyFromRequirement() {
-		Requirement r = new Requirement(0, "name", "desc");
-		r.setEffort(4);
-		r.setEstimate(4);
-		r.setIteration("");
-		r.setPriority(RequirementPriority.HIGH);
-		r.setRelease("release 1");
-		r.setStatus(RequirementStatus.INPROGRESS);
-		r.setType(RequirementType.USERSTORY);
-		
-		Requirement r2 = new Requirement(0, "", "");
-		r2.copyFrom(r);
-		
-		assertEquals(r.getId(), 0);
-		assertEquals(r.getName(), "name");
-		assertEquals(r.getDescription(), "desc");
-		assertEquals(r.getPriority(), RequirementPriority.HIGH);
-		assertEquals(r.getRelease(), "release 1");
-		assertEquals(r.getStatus(), RequirementStatus.INPROGRESS);
-		assertEquals(r.getType(), RequirementType.USERSTORY);
-	}
-	
-	@Test
-	public void testToString() {
-		Requirement r = new Requirement(0, "name", "desc");
-		assertEquals("name", r.toString());
-		assertEquals(r.toString(), r.getName());
-	}
-	
-	@Test
-	public void testAssigningRequirementsToPeople() {
-		List<String> peopleAssignedTo = Arrays.asList("Gabe", "Ben");
-		Requirement r = new Requirement(0, "name", "desc");
-		r.setAssignedTo(peopleAssignedTo);
-		assertEquals(r.getAssignedTo(), peopleAssignedTo);
-	}
-	
-	@Test
-	public void testSubRequirementEstimateSumming()
-	{
-		Requirement parentRequirement = new Requirement(0, "", "");
-		parentRequirement.setEstimate(1);
-		
-		Requirement childRequirement = new Requirement(1, "", "");
-		childRequirement.setEstimate(32);
-		
-		
-		Requirement childRequirement2 = new Requirement(2, "", "");
-		childRequirement2.setEstimate(7);
-		
-		Requirement grandChildRequirement = new Requirement(3, "","");
-		grandChildRequirement.setEstimate(12);
-		
-		RequirementModel.getInstance().addRequirement(parentRequirement);
-		RequirementModel.getInstance().addRequirement(childRequirement);
-		RequirementModel.getInstance().addRequirement(childRequirement2);
-		RequirementModel.getInstance().addRequirement(grandChildRequirement);
-		
-		try {
-			childRequirement.setParent(parentRequirement);		
-			childRequirement2.setParent(parentRequirement);
-			grandChildRequirement.setParent(childRequirement);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		assertEquals(parentRequirement.getTotalEstimate(), 52);
-		assertEquals(childRequirement.getTotalEstimate(), 44);
-		assertEquals(childRequirement2.getEstimate(), 7);
-		assertEquals(grandChildRequirement.getEstimate(), 12);
-		
-	}
-	
-	@Test
-	public void testZeroEstimate()
-	{
-		Requirement parentRequirement = new Requirement(0,"","");
-		
-		assertEquals(parentRequirement.getEstimate(), 0);
-	}
-	
-	@Test
-	public void testNoChildEstimate()
-	{
-		Requirement parentRequirement = new Requirement(0,"","");
-		parentRequirement.setEstimate(3);
-		
-		assertEquals(parentRequirement.getEstimate(),3);
-	}
-	
+    
+    Network mockNetwork;
+    IterationModel mockIterationModel;
+    RequirementModel mockRequirementModel;
+    
+    Gson mockParser;
+    Requirement mockRequirement;
+    
+    Requirement requirement;
+    
+    /**
+     * Method setUp.
+     * 
+     * @throws Exception
+     */
+    @Before
+    public void setUp() throws Exception {
+        mockStatic(Network.class);
+        mockStatic(IterationModel.class);
+        mockStatic(RequirementModel.class);
+        
+        mockNetwork = mock(Network.class);
+        mockIterationModel = mock(IterationModel.class);
+        mockRequirementModel = mock(RequirementModel.class);
+        
+        when(Network.getInstance()).thenReturn(mockNetwork);
+        when(IterationModel.getInstance()).thenReturn(mockIterationModel);
+        when(RequirementModel.getInstance()).thenReturn(mockRequirementModel);
+        
+        mockParser = mock(Gson.class);
+        mockRequirement = mock(Requirement.class);
+        
+        requirement = new Requirement();
+        Requirement.parser = mockParser;
+    }
+    
+    @Test
+    public void testConstructor() {
+        assertEquals("", requirement.getName());
+        assertEquals("", requirement.getRelease());
+        assertEquals(RequirementStatus.NEW, requirement.getStatus());
+        assertEquals(RequirementPriority.BLANK, requirement.getPriority());
+        assertEquals(0, requirement.getEstimate());
+        assertEquals(0, requirement.getEffort());
+        assertEquals("Backlog", requirement.getIteration());
+        assertEquals(RequirementType.BLANK, requirement.getType());
+        assertEquals(-1, requirement.getParentID());
+        assertNotNull(requirement.getHistory());
+        assertTrue(requirement.getHistory().getHistory().isEmpty());
+        assertNotNull(requirement.getNotes());
+        assertTrue(requirement.getNotes().getNotes().isEmpty());
+        assertNotNull(requirement.getTasks());
+        assertTrue(requirement.getTasks().isEmpty());
+        assertNotNull(requirement.getTests());
+        assertTrue(requirement.getTests().isEmpty());
+        assertNotNull(requirement.getAttachments());
+        assertTrue(requirement.getAttachments().isEmpty());
+    }
+    
+    @Test
+    public void testFromGson() {
+        when(mockParser.fromJson("Test JSON", Requirement.class)).thenReturn(mockRequirement);
+        
+        Requirement result = Requirement.fromJson("Test JSON");
+        
+        assertEquals(mockRequirement, result);
+    }
+    
+    @Test
+    public void testFromJsonArray() {
+        
+    }
+    
+    @Test
+    public void testToJson() {
+        
+    }
+    
+    @Test
+    public void testSetName() {
+        
+    }
+    
+    @Test
+    public void testSetRelease() {
+        
+    }
+    
+    @Test
+    public void testSetStatus() {
+        
+    }
+    
+    @Test
+    public void testSetDescription() {
+        
+    }
+    
+    @Test
+    public void testGetChildEstimate() {
+        
+    }
+    
+    @Test
+    public void testSetEstimate() {
+        
+    }
+    
+    @Test
+    public void testSetPriority() {
+        
+    }
+    
+    @Test
+    public void testSetType() {
+        
+    }
+    
+    @Test
+    public void testAddNote() {
+        
+    }
+    
+    @Test
+    public void testRemoveTask() {
+        
+    }
+    
+    @Test
+    public void testAddTest() {
+        
+    }
+    
+    @Test
+    public void testUpdateTestStatus() {
+        
+    }
+    
+    @Test
+    public void testRemoveTest() {
+        
+    }
+    
+    @Test
+    public void testRemoveAttachment() {
+        
+    }
+    
+    @Test
+    public void testSetIteration() {
+        
+    }
+    
+    @Test
+    public void testSetParentID() {
+        
+    }
+    
+    @Test
+    public void testHasAncestor() {
+        
+    }
+    
+    @Test
+    public void testIsAncestor() {
+        
+    }
+    
+    @Test
+    public void testCopyFrom() {
+        
+    }
 }
