@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Before;
@@ -30,6 +32,7 @@ import com.google.gson.Gson;
 public class TestPostBoardMessage {
     Gson mockParser;
     Date mockDate;
+    DateFormat mockDateFormat;
     
     PostBoardMessage message;
     
@@ -38,10 +41,13 @@ public class TestPostBoardMessage {
         mockParser = mock(Gson.class);
         mockDate = new Date(60L);
         
+        mockDateFormat = new SimpleDateFormat("");
+        
         PostBoardMessage.setParser(mockParser);
         
         message = new PostBoardMessage("Test Message");
         message.setDate(mockDate);
+        message.setDateFormat(mockDateFormat);
     }
     
     @Test
@@ -59,7 +65,7 @@ public class TestPostBoardMessage {
     public void testToString() {
         String result = message.toString();
         
-        assertEquals("12/31/69 07:00 PM:    Test Message", result);
+        assertEquals(":    Test Message", result);
     }
     
     @Test

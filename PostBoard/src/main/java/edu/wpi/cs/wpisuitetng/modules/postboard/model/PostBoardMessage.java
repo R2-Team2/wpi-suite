@@ -29,6 +29,9 @@ public class PostBoardMessage extends AbstractModel {
     /** Gson (JSON) parser */
     private static Gson parser = new Gson();
     
+    /** Format to use for toString() method */
+    private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
+    
     /** The message */
     private final String message;
     
@@ -82,8 +85,6 @@ public class PostBoardMessage extends AbstractModel {
     @Override
     public String toString() {
         // Format the date-time stamp
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
-        
         return dateFormat.format(date) + ":    " + message;
     }
     
@@ -140,5 +141,19 @@ public class PostBoardMessage extends AbstractModel {
      */
     Date getDate() {
         return this.date;
+    }
+    
+    /**
+     * @return the dateFormat
+     */
+    DateFormat getDateFormat() {
+        return this.dateFormat;
+    }
+    
+    /**
+     * @param dateFormat the dateFormat to set
+     */
+    void setDateFormat(DateFormat dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }
