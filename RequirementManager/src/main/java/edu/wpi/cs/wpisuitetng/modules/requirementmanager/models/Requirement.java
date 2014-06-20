@@ -23,8 +23,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 
 /**
  * Basic Requirement class that contains the data to be stored for a Requirement
@@ -58,10 +56,10 @@ public class Requirement extends AbstractModel {
     private int estimate;
     
     /** flag to indicate when the requirement estimate was just edited */
-    private boolean estimateEdited;
+    private boolean estimateEdited = false;
     
     /** flag to indicate whether the requirement was just created or not */
-    private boolean wasCreated;
+    private boolean wasCreated = false;
     
     /** the actual effort of completing the requirement */
     private int effort;
@@ -91,7 +89,7 @@ public class Requirement extends AbstractModel {
     private List<DevelopmentTask> tasks;
     
     /** acceptance tests associated with the requirement */
-    private ArrayList<AcceptanceTest> tests;
+    private List<AcceptanceTest> tests;
     
     /** attachments associated with the requirement */
     private List<Attachment> attachments;
@@ -278,14 +276,11 @@ public class Requirement extends AbstractModel {
      */
     public void setStatus(RequirementStatus status) {
         if ((status != this.status) && (!wasCreated)) {
-            String originalStatus = this.status.toString();
-            String newStatus = status.toString();
-            String message = ("Status changed from '" + originalStatus + "' to '" + newStatus + "'");
+            String message = ("Status changed from '" + this.status + "' to '" + status + "'");
             this.history.add(message);
         }
         
         this.status = status;
-        
     }
     
     /**
@@ -335,9 +330,6 @@ public class Requirement extends AbstractModel {
      */
     public int getChildEstimate() {
         List<Requirement> children = getChildren();
-        if (children.size() == 0)
-            return 0;
-        
         int childEstimates = 0;
         
         for (Requirement child : children)
@@ -473,6 +465,13 @@ public class Requirement extends AbstractModel {
     }
     
     /**
+     * @param tasks the tasks to set
+     */
+    void setTasks(List<DevelopmentTask> tasks) {
+        this.tasks = tasks;
+    }
+    
+    /**
      * Method to add a development task
      * 
      * @param task
@@ -503,8 +502,15 @@ public class Requirement extends AbstractModel {
      * 
      * @return the list of acceptance tests for the requirement
      */
-    public ArrayList<AcceptanceTest> getTests() {
+    public List<AcceptanceTest> getTests() {
         return tests;
+    }
+    
+    /**
+     * @param attachments the attachments to set
+     */
+    void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
     
     /**
@@ -515,8 +521,7 @@ public class Requirement extends AbstractModel {
      */
     public void addTest(AcceptanceTest test) {
         if (!wasCreated) {
-            String msg = "Acceptance test '" + test.getName() + "' added.";
-            this.history.add(msg);
+            this.history.add("Acceptance test '" + test.getName() + "' added.");
         }
         tests.add(test);
     }
@@ -606,18 +611,18 @@ public class Requirement extends AbstractModel {
      *            the iteration to assign the requirement to
      */
     public void setIteration(String newIterationName) {
-        if (newIterationName.trim().length() == 0)
+        if (newIterationName.trim().length() == 0) {
             newIterationName = "Backlog";
-        String curIter = this.iteration;
+        }
+        //        String curIter = this.iteration;
         
-        Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
-        Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
+        //        Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
+        //        Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
         
         if (!this.iteration.equals(newIterationName) && (!wasCreated))
         {
             //create the transaction history
-            String message = ("Moved from '" + oldIteration + "' to '" + newIteration + "'");
-            this.history.add(message);
+            this.history.add("Moved from '" + this.iteration + "' to '" + newIterationName + "'");
         }
         
         //update status as needed
@@ -849,7 +854,7 @@ public class Requirement extends AbstractModel {
     /**
      * @param tests the tests to set
      */
-    public void setTests(ArrayList<AcceptanceTest> tests) {
+    public void setTests(List<AcceptanceTest> tests) {
         this.tests = tests;
     }
     

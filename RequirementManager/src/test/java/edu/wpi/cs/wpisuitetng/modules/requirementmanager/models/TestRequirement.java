@@ -15,6 +15,10 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -22,6 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,10 +37,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Attachment;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.DevelopmentTask;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.NoteList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TestStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -57,11 +65,18 @@ public class TestRequirement {
     
     TransactionHistory mockHistory;
     NoteList mockNotes;
-    ArrayList<AcceptanceTest> mockTests;
+    AcceptanceTest mockTest;
+    DevelopmentTask mockTask;
+    Attachment mockAttachment;
     
     Gson mockParser;
     Requirement mockRequirement;
     Requirement[] mockRequirements;
+    
+    List<Attachment> mockAttachments;
+    List<AcceptanceTest> mockTests;
+    List<DevelopmentTask> mockTasks;
+    List<Requirement> mockChildren;
     
     Requirement requirement;
     
@@ -82,17 +97,39 @@ public class TestRequirement {
         
         mockHistory = mock(TransactionHistory.class);
         mockNotes = mock(NoteList.class);
+        mockTest = mock(AcceptanceTest.class);
+        mockTask = mock(DevelopmentTask.class);
+        mockAttachment = mock(Attachment.class);
+        
+        mockParser = mock(Gson.class);
+        mockRequirement = mock(Requirement.class);
+        
+        mockAttachments = new ArrayList<Attachment>();
+        mockAttachments.add(mockAttachment);
+        
         mockTests = new ArrayList<AcceptanceTest>();
+        mockTests.add(mockTest);
+        
+        mockChildren = new ArrayList<Requirement>();
+        mockChildren.add(mockRequirement);
+        
+        mockTasks = new ArrayList<DevelopmentTask>();
+        mockTasks.add(mockTask);
         
         when(Network.getInstance()).thenReturn(mockNetwork);
         when(IterationModel.getInstance()).thenReturn(mockIterationModel);
         when(RequirementModel.getInstance()).thenReturn(mockRequirementModel);
         
-        mockParser = mock(Gson.class);
-        mockRequirement = mock(Requirement.class);
+        when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
         
         requirement = new Requirement();
         Requirement.parser = mockParser;
+        requirement.setHistory(mockHistory);
+        requirement.setAttachments(mockAttachments);
+        requirement.setNotes(mockNotes);
+        requirement.setTests(mockTests);
+        requirement.setTasks(mockTasks);
+        //        requirement.setIteration("TestIteration");
         
         mockRequirements = new Requirement[1];
         mockRequirements[0] = mockRequirement;
@@ -100,25 +137,26 @@ public class TestRequirement {
     
     @Test
     public void testConstructor() {
-        assertEquals("", requirement.getName());
-        assertEquals("", requirement.getRelease());
-        assertEquals(RequirementStatus.NEW, requirement.getStatus());
-        assertEquals(RequirementPriority.BLANK, requirement.getPriority());
-        assertEquals(0, requirement.getEstimate());
-        assertEquals(0, requirement.getEffort());
-        assertEquals("Backlog", requirement.getIteration());
-        assertEquals(RequirementType.BLANK, requirement.getType());
-        assertEquals(-1, requirement.getParentID());
-        assertNotNull(requirement.getHistory());
-        assertTrue(requirement.getHistory().getHistory().isEmpty());
-        assertNotNull(requirement.getNotes());
-        assertTrue(requirement.getNotes().getNotes().isEmpty());
-        assertNotNull(requirement.getTasks());
-        assertTrue(requirement.getTasks().isEmpty());
-        assertNotNull(requirement.getTests());
-        assertTrue(requirement.getTests().isEmpty());
-        assertNotNull(requirement.getAttachments());
-        assertTrue(requirement.getAttachments().isEmpty());
+        Requirement newRequirement = new Requirement();
+        assertEquals("", newRequirement.getName());
+        assertEquals("", newRequirement.getRelease());
+        assertEquals(RequirementStatus.NEW, newRequirement.getStatus());
+        assertEquals(RequirementPriority.BLANK, newRequirement.getPriority());
+        assertEquals(0, newRequirement.getEstimate());
+        assertEquals(0, newRequirement.getEffort());
+        assertEquals("Backlog", newRequirement.getIteration());
+        assertEquals(RequirementType.BLANK, newRequirement.getType());
+        assertEquals(-1, newRequirement.getParentID());
+        assertNotNull(newRequirement.getHistory());
+        assertTrue(newRequirement.getHistory().getHistory().isEmpty());
+        assertNotNull(newRequirement.getNotes());
+        assertTrue(newRequirement.getNotes().getNotes().isEmpty());
+        assertNotNull(newRequirement.getTasks());
+        assertTrue(newRequirement.getTasks().isEmpty());
+        assertNotNull(newRequirement.getTests());
+        assertTrue(newRequirement.getTests().isEmpty());
+        assertNotNull(newRequirement.getAttachments());
+        assertTrue(newRequirement.getAttachments().isEmpty());
     }
     
     @Test
@@ -150,8 +188,6 @@ public class TestRequirement {
     
     @Test
     public void testSetName() {
-        requirement.setHistory(mockHistory);
-        
         requirement.setName("TestName");
         
         assertEquals("TestName", requirement.getName());
@@ -160,8 +196,6 @@ public class TestRequirement {
     
     @Test
     public void testSetName_SameName() {
-        requirement.setHistory(mockHistory);
-        
         requirement.setName("TestName");
         
         assertEquals("TestName", requirement.getName());
@@ -184,8 +218,6 @@ public class TestRequirement {
         String overMaxChars = maxChars;
         overMaxChars += 'a';
         
-        requirement.setHistory(mockHistory);
-        
         requirement.setName(overMaxChars);
         
         assertEquals(maxChars, requirement.getName());
@@ -194,7 +226,6 @@ public class TestRequirement {
     
     @Test
     public void testSetName_wasCreated() {
-        requirement.setHistory(mockHistory);
         requirement.setWasCreated(true);
         
         requirement.setName("TestName");
@@ -213,7 +244,6 @@ public class TestRequirement {
         String overMaxChars = maxChars;
         overMaxChars += 'a';
         
-        requirement.setHistory(mockHistory);
         requirement.setWasCreated(true);
         
         requirement.setName(overMaxChars);
@@ -224,8 +254,6 @@ public class TestRequirement {
     
     @Test
     public void testSetRelease() {
-        requirement.setHistory(mockHistory);
-        
         requirement.setRelease("TestRelease");
         
         assertEquals("TestRelease", requirement.getRelease());
@@ -234,7 +262,6 @@ public class TestRequirement {
     
     @Test
     public void testSetRelease_wasCreated() {
-        requirement.setHistory(mockHistory);
         requirement.setWasCreated(true);
         
         requirement.setRelease("TestRelease");
@@ -245,8 +272,6 @@ public class TestRequirement {
     
     @Test
     public void testSetRelease_originalReleaseNotEmpty() {
-        requirement.setHistory(mockHistory);
-        
         requirement.setRelease("TestRelease");
         
         assertEquals("TestRelease", requirement.getRelease());
@@ -260,8 +285,6 @@ public class TestRequirement {
     
     @Test
     public void testSetRelease_newReleaseEmpty() {
-        requirement.setHistory(mockHistory);
-        
         requirement.setRelease("TestRelease");
         
         assertEquals("TestRelease", requirement.getRelease());
@@ -275,82 +298,281 @@ public class TestRequirement {
     
     @Test
     public void testSetStatus() {
+        requirement.setStatus(RequirementStatus.INPROGRESS);
         
+        assertEquals(RequirementStatus.INPROGRESS, requirement.getStatus());
+        verify(mockHistory, times(1)).add("Status changed from 'New' to 'In Progress'");
+    }
+    
+    @Test
+    public void testSetStatus_wasCreated() {
+        requirement.setWasCreated(true);
+        
+        requirement.setStatus(RequirementStatus.INPROGRESS);
+        
+        assertEquals(RequirementStatus.INPROGRESS, requirement.getStatus());
+        verify(mockHistory, never()).add(anyString());
+    }
+    
+    @Test
+    public void testSetStatus_sameStatus() {
+        requirement.setStatus(RequirementStatus.NEW);
+        
+        assertEquals(RequirementStatus.NEW, requirement.getStatus());
+        verify(mockHistory, never()).add(anyString());
     }
     
     @Test
     public void testSetDescription() {
+        requirement.setDescription("TestDesc");
         
+        assertEquals("TestDesc", requirement.getDescription());
+        verify(mockHistory, times(1)).add("Description changed");
+    }
+    
+    @Test
+    public void testSetDescription_sameDescription() {
+        requirement.setDescription("TestDesc");
+        
+        assertEquals("TestDesc", requirement.getDescription());
+        verify(mockHistory, times(1)).add("Description changed");
+        
+        requirement.setDescription("TestDesc");
+        
+        assertEquals("TestDesc", requirement.getDescription());
+        verify(mockHistory, times(1)).add("Description changed");
+    }
+    
+    @Test
+    public void testSetDescription_wasCreated() {
+        requirement.setWasCreated(true);
+        
+        requirement.setDescription("TestDesc");
+        
+        assertEquals("TestDesc", requirement.getDescription());
+        verify(mockHistory, never()).add(anyString());
     }
     
     @Test
     public void testGetChildEstimate() {
+        when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
+        when(mockRequirement.getTotalEstimate()).thenReturn(5);
         
+        int result = requirement.getChildEstimate();
+        
+        assertEquals(5, result);
+    }
+    
+    @Test
+    public void testGetChildEstimate_noChildren() {
+        when(mockRequirementModel.getChildren(requirement)).thenReturn(new ArrayList<Requirement>());
+        
+        int result = requirement.getChildEstimate();
+        
+        assertEquals(0, result);
     }
     
     @Test
     public void testSetEstimate() {
+        requirement.setEstimate(5);
         
+        assertEquals(5, requirement.getEstimate());
+        verify(mockHistory, times(1)).add("Estimate changed from '0' to '5'");
+    }
+    
+    @Test
+    public void testSetEstimate_sameValue() {
+        requirement.setEstimate(0);
+        
+        assertEquals(0, requirement.getEstimate());
+        verify(mockHistory, never()).add(anyString());
+    }
+    
+    @Test
+    public void testSetEstimate_wasCreated() {
+        requirement.setWasCreated(true);
+        
+        requirement.setEstimate(5);
+        
+        assertEquals(5, requirement.getEstimate());
+        verify(mockHistory, never()).add(anyString());
     }
     
     @Test
     public void testSetPriority() {
+        requirement.setPriority(RequirementPriority.HIGH);
         
+        assertEquals(RequirementPriority.HIGH, requirement.getPriority());
+        verify(mockHistory, times(1)).add("Priority changed from 'None' to 'High'");
+    }
+    
+    @Test
+    public void testSetPriority_samePriority() {
+        requirement.setPriority(RequirementPriority.BLANK);
+        
+        assertEquals(RequirementPriority.BLANK, requirement.getPriority());
+        verify(mockHistory, never()).add(anyString());
+    }
+    
+    @Test
+    public void testSetPriority_wasCreated() {
+        requirement.setWasCreated(true);
+        
+        requirement.setPriority(RequirementPriority.HIGH);
+        
+        assertEquals(RequirementPriority.HIGH, requirement.getPriority());
+        verify(mockHistory, never()).add(anyString());
     }
     
     @Test
     public void testSetType() {
+        requirement.setType(RequirementType.SCENARIO);
         
+        assertEquals(RequirementType.SCENARIO, requirement.getType());
+        verify(mockHistory, times(1)).add("Type set to 'Scenario'");
     }
     
     @Test
     public void testAddNote() {
+        requirement.addNote("TestNote");
         
+        verify(mockHistory, times(1)).add("Note added");
+        verify(mockNotes, times(1)).add("TestNote");
+    }
+    
+    @Test
+    public void testAddNote_wasCreated() {
+        requirement.setWasCreated(true);
+        requirement.addNote("TestNote");
+        
+        verify(mockHistory, never()).add(anyString());
+        verify(mockNotes, times(1)).add("TestNote");
     }
     
     @Test
     public void testRemoveTask() {
+        assertEquals(1, mockTasks.size());
         
+        when(mockTask.getId()).thenReturn(5);
+        
+        requirement.removeTask(5);
+        
+        assertEquals(0, requirement.getTasks().size());
     }
     
     @Test
     public void testAddTest() {
+        assertEquals(1, requirement.getTests().size());
+        when(mockTest.getName()).thenReturn("MockTestName");
         
+        requirement.addTest(mockTest);
+        
+        assertEquals(2, requirement.getTests().size());
+        verify(mockHistory, times(1)).add("Acceptance test 'MockTestName' added.");
+    }
+    
+    @Test
+    public void testAddTest_wasCreated() {
+        assertEquals(1, requirement.getTests().size());
+        requirement.setWasCreated(true);
+        when(mockTest.getName()).thenReturn("MockTestName");
+        
+        requirement.addTest(mockTest);
+        
+        assertEquals(2, requirement.getTests().size());
+        verify(mockHistory, never()).add(anyString());
     }
     
     @Test
     public void testUpdateTestStatus() {
+        when(mockTest.getId()).thenReturn(4);
         
+        requirement.updateTestStatus(4, TestStatus.STATUS_PASSED);
+        
+        verify(mockTest, times(1)).setStatus(TestStatus.STATUS_PASSED);
+    }
+    
+    @Test
+    public void testUpdateTestStatus_noMatch() {
+        when(mockTest.getId()).thenReturn(5);
+        
+        requirement.updateTestStatus(4, TestStatus.STATUS_PASSED);
+        
+        verify(mockTest, never()).setStatus(any(TestStatus.class));
     }
     
     @Test
     public void testRemoveTest() {
+        when(mockTest.getId()).thenReturn(5);
         
+        assertEquals(1, mockTests.size());
+        requirement.removeTest(5);
+        
+        assertEquals(0, mockTests.size());
+    }
+    
+    @Test
+    public void testRemoveTest_noMatch() {
+        when(mockTest.getId()).thenReturn(5);
+        
+        assertEquals(1, mockTests.size());
+        requirement.removeTest(4);
+        
+        assertEquals(1, mockTests.size());
     }
     
     @Test
     public void testRemoveAttachment() {
+        when(mockAttachment.getId()).thenReturn(5);
         
+        assertEquals(1, mockAttachments.size());
+        requirement.removeAttachment(5);
+        
+        assertEquals(0, mockAttachments.size());
+    }
+    
+    @Test
+    public void testRemoveAttachment_noMatch() {
+        when(mockAttachment.getId()).thenReturn(5);
+        
+        assertEquals(1, mockAttachments.size());
+        requirement.removeAttachment(4);
+        
+        assertEquals(1, mockAttachments.size());
+    }
+    
+    @Test
+    public void testSetIteration_empty() {
+        requirement.setIteration("");
+        
+        assertEquals("Backlog", requirement.getIteration());
     }
     
     @Test
     public void testSetIteration() {
-        
+        //        when(mockIterationModel.getIteration(""));
+        //        
+        //        requirement.setIteration("TestIteration");
+        //        
+        //        assertEquals("Backlog", requirement.getIteration());
+        fail("Not yet implemented");
     }
     
     @Test
-    public void testSetParentID() {
+    public void testSetParentID_negativeOne() throws Throwable {
+        requirement.setParentID(-1);
         
+        assertEquals(-1, requirement.getParentID());
     }
     
     @Test
     public void testHasAncestor() {
-        
+        fail("Not yet implemented");
     }
     
     @Test
     public void testIsAncestor() {
-        
+        fail("Not yet implemented");
     }
     
     @Test
@@ -388,6 +610,5 @@ public class TestRequirement {
         assertEquals(mockNotes, newRequirement.getNotes());
         assertEquals(mockTests, newRequirement.getTests());
         assertEquals(-1, newRequirement.getParentID());
-        
     }
 }
