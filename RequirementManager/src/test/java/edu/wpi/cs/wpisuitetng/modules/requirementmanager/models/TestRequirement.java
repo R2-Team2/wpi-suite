@@ -23,6 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.util.ArrayList;
@@ -549,13 +550,76 @@ public class TestRequirement {
     }
     
     @Test
+    public void testSetIteration_emptyStringAndIsBacklog() {
+    	requirement = spy(requirement);
+    	
+    	requirement.setIteration(" ");
+
+    	assertEquals("Backlog", requirement.getIteration());
+    	verify(mockHistory, never()).add(anyString());
+    	verify(requirement, never()).setStatus(any(RequirementStatus.class));
+    }
+    
+    @Test
     public void testSetIteration() {
-        //        when(mockIterationModel.getIteration(""));
-        //        
-        //        requirement.setIteration("TestIteration");
-        //        
-        //        assertEquals("Backlog", requirement.getIteration());
-        fail("Not yet implemented");
+    	requirement = spy(requirement);
+    	
+    	requirement.setIteration("TestIteration");
+
+    	assertEquals("TestIteration", requirement.getIteration());
+    	verify(mockHistory, times(1)).add("Moved from 'Backlog' to 'TestIteration'");
+    	verify(requirement, times(1)).setStatus(RequirementStatus.INPROGRESS);
+    }
+    
+    @Test
+    public void testSetIteration_statusIsOpen() {
+    	requirement = spy(requirement);
+    	requirement.setStatus(RequirementStatus.OPEN);
+    	
+    	requirement.setIteration("TestIteration");
+
+    	assertEquals("TestIteration", requirement.getIteration());
+    	verify(mockHistory, times(1)).add("Moved from 'Backlog' to 'TestIteration'");
+    	verify(requirement, times(1)).setStatus(RequirementStatus.INPROGRESS);
+    }
+    
+    @Test
+    public void testSetIteration_wasCreated() {
+    	requirement = spy(requirement);
+    	requirement.setWasCreated(true);
+    	
+    	requirement.setIteration("TestIteration");
+
+    	assertEquals("TestIteration", requirement.getIteration());
+    	verify(mockHistory, never()).add(anyString());
+    	verify(requirement, times(1)).setStatus(RequirementStatus.INPROGRESS);
+    }
+
+    @Test
+    public void testSetIteration_isBacklogAndIsInProgress() {
+    	requirement = spy(requirement);
+    	requirement.setStatus(RequirementStatus.INPROGRESS);
+    	verify(mockHistory, times(1)).add("Status changed from 'New' to 'In Progress'");
+    	
+    	requirement.setIteration(" ");
+
+    	assertEquals("Backlog", requirement.getIteration());
+    	verify(mockHistory, times(1)).add("Status changed from 'In Progress' to 'Open'");
+    	verify(mockHistory, times(2)).add(anyString());
+    	verify(requirement, times(1)).setStatus(RequirementStatus.OPEN);
+    }
+    
+    @Test
+    public void testSetIteration_isBacklogAndIsInProgressAndWasCreated() {
+    	requirement = spy(requirement);
+    	requirement.setWasCreated(true);
+    	requirement.setStatus(RequirementStatus.INPROGRESS);
+    	
+    	requirement.setIteration(" ");
+
+    	assertEquals("Backlog", requirement.getIteration());
+    	verify(mockHistory, never()).add(anyString());
+    	verify(requirement, times(1)).setStatus(RequirementStatus.NEW);
     }
     
     @Test

@@ -614,8 +614,7 @@ public class Requirement extends AbstractModel {
         if (newIterationName.trim().length() == 0) {
             newIterationName = "Backlog";
         }
-        //        String curIter = this.iteration;
-        
+        //TODO: Do we really need these to through null pointer exceptions if the iterations don't exist? Why not use the controller to prevent this instead
         //        Iteration oldIteration = IterationModel.getInstance().getIteration(curIter);
         //        Iteration newIteration = IterationModel.getInstance().getIteration(newIterationName);
         
