@@ -62,7 +62,7 @@ public class TestAddMessageRequestObserver {
         observer.responseError(mockRequest);
         
         System.setErr(null);
-        assertEquals("The request to add a message failed.\r\n", errContent.toString());
+        assertEquals("The request to add a message failed." + System.getProperty("line.separator"), errContent.toString());
     }
     
     @Test
@@ -73,7 +73,7 @@ public class TestAddMessageRequestObserver {
         observer.fail(mockRequest, null);
         
         System.setErr(null);
-        assertEquals("The request to add a message failed.\r\n", errContent.toString());
+        assertEquals("The request to add a message failed." + System.getProperty("line.separator"), errContent.toString());
     }
     
 }
