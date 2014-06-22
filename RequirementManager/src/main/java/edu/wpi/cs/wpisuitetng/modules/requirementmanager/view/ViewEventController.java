@@ -162,10 +162,7 @@ public class ViewEventController {
                     main.setSelectedIndex(i);
                     return;
                 }
-                else {
-                    main.remove(i);
-                    
-                }
+                main.remove(i);
             }
         }
         NewPieChartPanel newPie = new NewPieChartPanel(title);
@@ -188,9 +185,7 @@ public class ViewEventController {
                     main.setSelectedIndex(i);
                     return;
                 }
-                else {
-                    main.remove(i);
-                }
+                main.remove(i);
             }
         }
         NewBarChartPanel newBar = new NewBarChartPanel(title);
@@ -283,14 +278,16 @@ public class ViewEventController {
         }
     }
     
-    /** @return overviewTable
+    /**
+     * @return overviewTable
      */
     public OverviewTable getOverviewTable() {
         return overviewTable;
         
     }
     
-    /** @return toolbar
+    /**
+     * @return toolbar
      */
     public ToolbarView getToolbar() {
         return toolbar;
@@ -355,7 +352,7 @@ public class ViewEventController {
         int[] selection = overviewTable.getSelectedRows();
         
         // Set to false to indicate the requirement is being newly created
-        boolean created = false;
+        //        boolean created = false;
         
         for (int i = 0; i < selection.length; i++)
         {
