@@ -658,12 +658,12 @@ public class Requirement extends AbstractModel {
      * Setter for parentID
      * Assign the parent ID for this requirement
      * 
-     * @param parentReq ID of the parent @throws Exception if the parent is an
+     * @param parentID ID of the parent @throws Exception if the parent is an
      *            ancestor of the child already
      */
-    public void setParentID(int parentReq) throws Exception {
-        if (parentReq == -1 || !RequirementModel.getInstance().getRequirement(parentReq).isAncestor(this.getId())) {
-            this.parentID = parentReq;
+    public void setParentID(int parentID) throws Exception {
+        if (parentID == -1 || !RequirementModel.getInstance().getRequirement(parentID).isAncestor(this.getId())) {
+            this.parentID = parentID;
             //			Requirement parentRequirement = RequirementModel.getInstance().getRequirement(parentID);
             //			parentRequirement.getHistory().add(this.getName() + " was added as a Child Requirement");
         } else {

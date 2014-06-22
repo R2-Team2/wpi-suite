@@ -13,9 +13,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
@@ -623,6 +623,28 @@ public class TestRequirement {
     }
     
     @Test
+    public void testSetParentID() throws Exception{
+    	requirement.setId(4);
+    	when(mockRequirementModel.getRequirement(5)).thenReturn(mockRequirement);
+    	when(mockRequirement.isAncestor(4)).thenReturn(Boolean.FALSE);  
+    	
+    	requirement.setParentID(5);
+    	
+    	assertEquals(5, requirement.getParentID());
+    }
+    
+    @Test(expected=Exception.class)
+    public void testSetParentID_exception() throws Exception{
+    	requirement.setId(4);
+    	when(mockRequirementModel.getRequirement(5)).thenReturn(mockRequirement);
+    	when(mockRequirement.isAncestor(4)).thenReturn(Boolean.TRUE);  
+    	
+    	requirement.setParentID(5);
+    	
+    	assertEquals(5, requirement.getParentID());
+    }
+    
+    @Test
     public void testSetParentID_negativeOne() throws Throwable {
         requirement.setParentID(-1);
         
@@ -630,13 +652,58 @@ public class TestRequirement {
     }
     
     @Test
-    public void testHasAncestor() {
-        fail("Not yet implemented");
+    public void testHasAncestor() throws Exception {
+    	requirement.setId(2);
+    	when(mockRequirementModel.getRequirement(1)).thenReturn(mockRequirement);
+    	when(mockRequirement.isAncestor(1)).thenReturn(Boolean.TRUE);
+    	requirement.setParentID(1);
+    	
+    	when(mockRequirement.hasAncestor(1)).thenReturn(true);  
+
+    	assertTrue(requirement.hasAncestor(1));
+    }    
+    
+    @Test
+    public void testHasAncestor_sameAsParentID() throws Exception {
+    	requirement.setId(2);
+    	when(mockRequirementModel.getRequirement(1)).thenReturn(mockRequirement);
+    	when(mockRequirement.isAncestor(1)).thenReturn(Boolean.TRUE);
+    	requirement.setParentID(1);
+
+    	when(mockRequirement.hasAncestor(1)).thenReturn(false);  
+
+    	assertTrue(requirement.hasAncestor(1));
+    }  
+    
+    @Test
+    public void testHasAncestor_negativeOne() {
+        assertFalse(requirement.hasAncestor(-1));
     }
     
     @Test
     public void testIsAncestor() {
-        fail("Not yet implemented");
+    	when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
+    	when(mockRequirement.getId()).thenReturn(3);
+    	
+    	assertTrue(requirement.isAncestor(3));
+    }
+    
+    @Test
+    public void testIsAncestor_grandAncestor() {
+    	when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
+    	when(mockRequirement.getId()).thenReturn(2);
+    	when(mockRequirement.isAncestor(3)).thenReturn(Boolean.TRUE);
+    	
+    	assertTrue(requirement.isAncestor(3));
+    }
+    
+    @Test
+    public void testIsAncestor_noAncestor() {
+    	when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
+    	when(mockRequirement.getId()).thenReturn(2);
+    	when(mockRequirement.isAncestor(3)).thenReturn(Boolean.FALSE);
+    	
+    	assertFalse(requirement.isAncestor(3));
     }
     
     @Test
