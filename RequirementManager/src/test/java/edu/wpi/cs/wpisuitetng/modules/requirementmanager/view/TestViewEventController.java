@@ -8,6 +8,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,6 +46,7 @@ public class TestViewEventController {
     MainView mockMainView;
     RequirementPanel mockRequirementPanel;
     IterationPanel mockIterationPanel;
+    ToolbarView mockToolbarView;
     
     ViewEventController viewEventController;
     
@@ -62,12 +64,21 @@ public class TestViewEventController {
         mockMainView = mock(MainView.class);
         mockRequirementPanel = mock(RequirementPanel.class);
         mockIterationModel = mock(IterationModel.class);
+        mockToolbarView = mock(ToolbarView.class);
         
         whenNew(RequirementPanel.class).withAnyArguments().thenReturn(mockRequirementPanel);
         whenNew(IterationPanel.class).withAnyArguments().thenReturn(mockIterationPanel);
         
         viewEventController = new ViewEventController();
         viewEventController.setMainView(mockMainView);
+    }
+    
+    @Test
+    public void testSetToolbar() {
+        viewEventController.setToolBar(mockToolbarView);
+        
+        assertEquals(mockToolbarView, viewEventController.getToolbar());
+        verify(mockToolbarView, times(1)).repaint();
     }
     
     @Test
