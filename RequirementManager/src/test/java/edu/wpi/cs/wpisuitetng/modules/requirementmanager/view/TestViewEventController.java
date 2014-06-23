@@ -28,6 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
@@ -38,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
  */
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({ "javax.swing" })
-@PrepareForTest({ ViewEventController.class, IterationModel.class, UpdateRequirementController.class, RequirementPanel.class, IterationPanel.class })
+@PrepareForTest({ ViewEventController.class, IterationModel.class, UpdateRequirementController.class, RequirementPanel.class, IterationPanel.class, NewPieChartPanel.class, NewBarChartPanel.class })
 public class TestViewEventController {
     IterationModel mockIterationModel;
     UpdateRequirementController mockUpdateRequirementController;
@@ -48,6 +50,8 @@ public class TestViewEventController {
     IterationPanel mockIterationPanel;
     ToolbarView mockToolbarView;
     Iteration mockIteration;
+    NewPieChartPanel mockPieChartPanel;
+    NewBarChartPanel mockBarChartPanel;
     
     ViewEventController viewEventController;
     
@@ -65,12 +69,16 @@ public class TestViewEventController {
         mockToolbarView = mock(ToolbarView.class);
         mockIteration = mock(Iteration.class);
         mockIterationPanel = mock(IterationPanel.class);
+        mockPieChartPanel = mock(NewPieChartPanel.class);
+        mockBarChartPanel = mock(NewBarChartPanel.class);
         
         when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
         when(IterationModel.getInstance()).thenReturn(mockIterationModel);
         
         whenNew(RequirementPanel.class).withAnyArguments().thenReturn(mockRequirementPanel);
         whenNew(IterationPanel.class).withAnyArguments().thenReturn(mockIterationPanel);
+        whenNew(NewPieChartPanel.class).withArguments("TestPieChart").thenReturn(mockPieChartPanel);
+        whenNew(NewBarChartPanel.class).withArguments("TestBarChart").thenReturn(mockBarChartPanel);
         
         viewEventController = new ViewEventController();
         viewEventController.setMainView(mockMainView);
@@ -144,11 +152,37 @@ public class TestViewEventController {
     
     @Test
     public void testCreatePieChart() {
+        when(mockMainView.getTabCount()).thenReturn(1);
+        when(mockMainView.getTitleAt(0)).thenReturn("Not a Pie Chart");
+        
+        viewEventController.createPieChart("TestPieChart");
+        
+        verify(mockMainView, times(1)).addTab("Pie Chart", null, mockPieChartPanel, "PieChart");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
+        verify(mockMainView, times(1)).setSelectedComponent(mockPieChartPanel);
+    }
+    
+    @Test
+    public void testCreatePieChart_chartAlreadyExists() {
         fail();
     }
     
     @Test
     public void testCreateBarChart() {
+        when(mockMainView.getTabCount()).thenReturn(1);
+        when(mockMainView.getTitleAt(0)).thenReturn("Not a Bar Chart");
+        
+        viewEventController.createBarChart("TestBarChart");
+        
+        verify(mockMainView, times(1)).addTab("Bar Graph", null, mockBarChartPanel, "BarGraph");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
+        verify(mockMainView, times(1)).setSelectedComponent(mockBarChartPanel);
+    }
+    
+    @Test
+    public void testCreateBarChart_chartAlreadyExists() {
         fail();
     }
     
