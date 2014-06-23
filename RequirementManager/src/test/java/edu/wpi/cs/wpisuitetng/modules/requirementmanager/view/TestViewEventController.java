@@ -25,20 +25,20 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
  * TODO: Since ViewEventController is in PrepareForTest, Code Coverage will not
- * be accurate.
- * Code should be refactored so PowerMock can be replaced.
+ * be accurate. Code should be refactored so PowerMock can be removed.
  * 
  * @author Robert Smieja
  */
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({ "javax.swing" })
-@PrepareForTest({ IterationModel.class, UpdateRequirementController.class, RequirementPanel.class, ViewEventController.class, IterationPanel.class })
+@PrepareForTest({ ViewEventController.class, IterationModel.class, UpdateRequirementController.class, RequirementPanel.class, IterationPanel.class })
 public class TestViewEventController {
     IterationModel mockIterationModel;
     UpdateRequirementController mockUpdateRequirementController;
@@ -47,6 +47,7 @@ public class TestViewEventController {
     RequirementPanel mockRequirementPanel;
     IterationPanel mockIterationPanel;
     ToolbarView mockToolbarView;
+    Iteration mockIteration;
     
     ViewEventController viewEventController;
     
@@ -58,19 +59,23 @@ public class TestViewEventController {
         mockUpdateRequirementController = mock(UpdateRequirementController.class);
         mockIterationModel = mock(IterationModel.class);
         
-        when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
-        when(IterationModel.getInstance()).thenReturn(mockIterationModel);
-        
         mockMainView = mock(MainView.class);
         mockRequirementPanel = mock(RequirementPanel.class);
         mockIterationModel = mock(IterationModel.class);
         mockToolbarView = mock(ToolbarView.class);
+        mockIteration = mock(Iteration.class);
+        mockIterationPanel = mock(IterationPanel.class);
+        
+        when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
+        when(IterationModel.getInstance()).thenReturn(mockIterationModel);
         
         whenNew(RequirementPanel.class).withAnyArguments().thenReturn(mockRequirementPanel);
         whenNew(IterationPanel.class).withAnyArguments().thenReturn(mockIterationPanel);
         
         viewEventController = new ViewEventController();
         viewEventController.setMainView(mockMainView);
+        viewEventController.getListOfIterationPanels().add(mockIterationPanel);
+        viewEventController.getListOfRequirementPanels().add(mockRequirementPanel);
     }
     
     @Test
@@ -102,8 +107,39 @@ public class TestViewEventController {
     }
     
     @Test
+    public void testEditIteration_backlog() {
+        when(mockIterationModel.getBacklog()).thenReturn(mockIteration);
+        
+        viewEventController.editIteration(mockIteration);
+        
+        verify(mockIterationModel, times(1)).getBacklog();
+    }
+    
+    @Test
     public void testEditIteration() {
-        fail();
+        when(mockIterationModel.getBacklog()).thenReturn(null);
+        when(mockIterationPanel.getDisplayIteration()).thenReturn(mockIteration);
+        
+        viewEventController.editIteration(mockIteration);
+        
+        verify(mockIterationModel, times(1)).getBacklog();
+        verify(mockMainView, times(1)).setSelectedComponent(mockIterationPanel);
+    }
+    
+    @Test
+    public void testEditIteration_doesntExist() {
+        when(mockIterationModel.getBacklog()).thenReturn(null);
+        when(mockIterationPanel.getDisplayIteration()).thenReturn(null);
+        when(mockIteration.getName()).thenReturn("TestIteration");
+        
+        viewEventController.editIteration(mockIteration);
+        
+        assertEquals(2, viewEventController.getListOfIterationPanels().size());
+        verify(mockIterationModel, times(1)).getBacklog();
+        verify(mockMainView, times(1)).addTab("TestIteration", null, mockIterationPanel, "Editing TestIteration");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
+        verify(mockMainView, times(1)).setSelectedComponent(mockIterationPanel);
     }
     
     @Test
