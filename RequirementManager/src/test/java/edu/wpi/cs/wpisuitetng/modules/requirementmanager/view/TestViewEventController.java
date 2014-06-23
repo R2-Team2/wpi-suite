@@ -33,8 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
- * TODO: Since ViewEventController is in PrepareForTest, Code Coverage will not
- * be accurate. Code should be refactored so PowerMock can be removed.
+ * TODO: Since ViewEventController is in PrepareForTest, Code Coverage will not be accurate. Code should be refactored so PowerMock can be removed.
  * 
  * @author Robert Smieja
  */

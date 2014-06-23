@@ -39,7 +39,9 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
  * @version $Revision: 1.0 $
  */
 public class NewBarChartPanel extends JScrollPane {
-    private static String title;
+    static final long serialVersionUID = 2930864775768057902L;
+    
+    private String title;
     private ChartPanel barChart;
     
     /**
@@ -48,7 +50,7 @@ public class NewBarChartPanel extends JScrollPane {
      * @param title String
      */
     public NewBarChartPanel(String title) {
-        NewBarChartPanel.title = title;//title of the chart, either status or iteration
+        this.title = title;//title of the chart, either status or iteration
         JPanel panel = new JPanel(new BorderLayout());
         barChart = createPanel();
         OverviewBarButton buttons = new OverviewBarButton();
@@ -58,10 +60,11 @@ public class NewBarChartPanel extends JScrollPane {
         this.setViewportView(panel);
     }
     
-    /** @return the data set depending on the type of data called for either
+    /**
+     * @return the data set depending on the type of data called for either
      *         status or iteration
      */
-    private static CategoryDataset setData() {
+    private CategoryDataset setData() {
         if (title.equals("Iteration")) {
             return setDataIteration();
         } else if (title.equals("Status")) {
@@ -72,7 +75,8 @@ public class NewBarChartPanel extends JScrollPane {
         
     }
     
-    /** @return the dataset based upon the statuses of all requirements
+    /**
+     * @return the dataset based upon the statuses of all requirements
      */
     private static CategoryDataset setDataStatus() {
         int numStatusNew = 0;
@@ -103,7 +107,8 @@ public class NewBarChartPanel extends JScrollPane {
         return dataSet;
     }
     
-    /** @return the data of iterations to be displayed by the bar chart
+    /**
+     * @return the data of iterations to be displayed by the bar chart
      */
     private static CategoryDataset setDataIteration() {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -129,7 +134,8 @@ public class NewBarChartPanel extends JScrollPane {
         return dataSet;
     }
     
-    /** @return the data of the number of requirements a user has assigned to
+    /**
+     * @return the data of the number of requirements a user has assigned to
      *         them
      */
     private static CategoryDataset setDataAssignTo() {
@@ -171,7 +177,8 @@ public class NewBarChartPanel extends JScrollPane {
     
     /**
      * @param dataset the data to be shown by the chart
-     * @param title the title of the chart(either status or iteration) @return the created bar graph
+     * @param title the title of the chart(either status or iteration) @return
+     *            the created bar graph
      */
     private static JFreeChart createChart(CategoryDataset dataset, String title) {
         JFreeChart chart = ChartFactory.createBarChart(
@@ -198,15 +205,17 @@ public class NewBarChartPanel extends JScrollPane {
         return chart;
     }
     
-    /** @return the created bar graph
+    /**
+     * @return the created bar graph
      **/
-    public static ChartPanel createPanel() {
+    public ChartPanel createPanel() {
         JFreeChart chart = createChart(setData(), title);
         
         return new ChartPanel(chart);
     }
     
-    /** @return the title of the chart
+    /**
+     * @return the title of the chart
      */
     public String getTitle() {
         return title;

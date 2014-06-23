@@ -37,7 +37,9 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewB
  * @version $Revision: 1.0 $
  */
 public class NewPieChartPanel extends JScrollPane {
-    private static String title;
+    static final long serialVersionUID = -3387199841857168798L;
+    
+    private String title;
     private ChartPanel pieChart;
     
     /**
@@ -46,7 +48,7 @@ public class NewPieChartPanel extends JScrollPane {
      *            displaying based on status, iteration, or users assigned to.
      */
     public NewPieChartPanel(String title) {
-        NewPieChartPanel.title = title;
+        this.title = title;
         JPanel panel = new JPanel(new BorderLayout());
         OverviewButtonPanel buttons = new OverviewButtonPanel();
         pieChart = createPanel();
@@ -57,9 +59,10 @@ public class NewPieChartPanel extends JScrollPane {
         
     }
     
-    /** @return the specific data set based on the the title of the chart
+    /**
+     * @return the specific data set based on the the title of the chart
      */
-    private static PieDataset setData() {
+    private PieDataset setData() {
         if (title.equals("Iteration")) {
             return setDataIteration();
         } else if (title.equals("Status")) {
@@ -70,7 +73,8 @@ public class NewPieChartPanel extends JScrollPane {
         
     }
     
-    /** @return the data with the percentage of requirements with a given status
+    /**
+     * @return the data with the percentage of requirements with a given status
      *         to be displayed by the pie chart
      */
     private static PieDataset setDataStatus() {
@@ -103,7 +107,8 @@ public class NewPieChartPanel extends JScrollPane {
         return dataSet;
     }
     
-    /** @return the data of iterations to be displayed by the pie chart
+    /**
+     * @return the data of iterations to be displayed by the pie chart
      */
     private static PieDataset setDataIteration() {
         DefaultPieDataset dataSet = new DefaultPieDataset();
@@ -129,7 +134,8 @@ public class NewPieChartPanel extends JScrollPane {
         return dataSet;
     }
     
-    /** @return the data of the number of requirements a user has assigned to
+    /**
+     * @return the data of the number of requirements a user has assigned to
      *         them
      */
     private static PieDataset setDataAssignTo() {
@@ -202,12 +208,13 @@ public class NewPieChartPanel extends JScrollPane {
      * 
      * @return the piechart panel
      */
-    public static ChartPanel createPanel() {
+    public ChartPanel createPanel() {
         JFreeChart chart = createChart(setData(), title);
         return new ChartPanel(chart);
     }
     
-    /** @return the title of the chart
+    /**
+     * @return the title of the chart
      */
     public String getTitle() {
         return title;
