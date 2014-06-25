@@ -55,9 +55,10 @@ subprojects {
         //reportsDir = file("$buildDir/reports/jacoco")
     }
     
-//    test{
+    test{
 //        jvmArgs "-XX:-UseSplitVerifier"
-//    }
+		ignoreFailures = true
+    }
 }
 
 //To make sure there is a script people can avoid having to install Gradle
