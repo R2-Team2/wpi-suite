@@ -43,6 +43,11 @@ subprojects {
             downloadJavadoc = true //This is false otherwise, we love to read JavaDoc to help use understand libraries :)
         }
     }
+    
+    test{
+//        jvmArgs "-XX:-UseSplitVerifier"
+		ignoreFailures = true
+    }
 }
 
 //To make sure there is a script people can double click to install Gradle
