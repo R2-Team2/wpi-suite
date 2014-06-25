@@ -5,9 +5,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *    rchamer, Robert Smieja
+ * Robert Smieja
  *******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.database;
@@ -39,10 +38,9 @@ import com.db4o.reflect.Reflector;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+//TODO: Finish rewrite using mocks
 @RunWith(PowerMockRunner.class)
 public class TestDataStore {
-	//TODO: Finish rewrite using mocks - RS
-	
 	ClientConfiguration mockConfig;
 	CommonConfiguration mockCommonConfig;
 	ObjectContainer mockDb;
@@ -79,7 +77,6 @@ public class TestDataStore {
 		DataStore.server = null;
 	}
 	
-	//TODO: FIX FAILURE
 	@Test
 	@PrepareForTest({Db4oClientServer.class})
 	public void testDelete() throws WPISuiteException{
