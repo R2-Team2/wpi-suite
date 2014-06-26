@@ -86,6 +86,7 @@ public class TestViewEventController {
         whenNew(RequirementPanel.class).withArguments(-1).thenReturn(mockRequirementPanel);
         whenNew(RequirementPanel.class).withArguments(3).thenReturn(mockRequirementPanel);
         whenNew(IterationPanel.class).withNoArguments().thenReturn(mockIterationPanel);
+        whenNew(IterationPanel.class).withArguments(mockIteration).thenReturn(mockIterationPanel);
         whenNew(NewPieChartPanel.class).withArguments("TestPieChart").thenReturn(mockPieChartPanel);
         whenNew(NewBarChartPanel.class).withArguments("TestBarChart").thenReturn(mockBarChartPanel);
         
