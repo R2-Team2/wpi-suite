@@ -164,7 +164,14 @@ public class TestViewEventController {
     
     @Test
     public void testCreatePieChart_chartAlreadyExists() {
-        fail();
+        when(mockMainView.getTabCount()).thenReturn(1);
+        when(mockMainView.getTitleAt(0)).thenReturn("Pie Chart");
+        when(mockMainView.getTabComponentAt(0)).thenReturn(mockPieChartPanel);
+        when(mockPieChartPanel.getTitle()).thenReturn("Pie Chart");
+        
+        viewEventController.createPieChart("Pie Chart");
+        
+        verify(mockMainView, times(1)).setSelectedIndex(0);
     }
     
     @Test
@@ -182,7 +189,14 @@ public class TestViewEventController {
     
     @Test
     public void testCreateBarChart_chartAlreadyExists() {
-        fail();
+        when(mockMainView.getTabCount()).thenReturn(1);
+        when(mockMainView.getTitleAt(0)).thenReturn("Bar Graph");
+        when(mockMainView.getTabComponentAt(0)).thenReturn(mockBarChartPanel);
+        when(mockBarChartPanel.getTitle()).thenReturn("Bar Graph");
+        
+        viewEventController.createBarChart("Bar Graph");
+        
+        verify(mockMainView, times(1)).setSelectedIndex(0);
     }
     
     @Test
