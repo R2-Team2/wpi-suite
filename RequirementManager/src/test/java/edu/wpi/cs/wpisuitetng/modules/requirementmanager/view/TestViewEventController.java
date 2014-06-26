@@ -81,6 +81,7 @@ public class TestViewEventController {
         when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
         when(IterationModel.getInstance()).thenReturn(mockIterationModel);
         when(mockRequirementPanel.getDisplayRequirement()).thenReturn(mockRequirement);
+        when(mockRequirement.getId()).thenReturn(4);
         when(mockRequirement.getHistory()).thenReturn(mockHistory);
         
         whenNew(RequirementPanel.class).withArguments(-1).thenReturn(mockRequirementPanel);
@@ -221,16 +222,43 @@ public class TestViewEventController {
     }
     
     @Test
-    public void testEditRequirement() {
+    public void testEditRequirement() throws Exception {
+    	when(mockRequirement.getName()).thenReturn("Short");
+    	when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
+    	
+    	whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
+    	
     	viewEventController.editRequirement(mockRequirement);
     	
-    	verify(mockHistory, times(1)).setTimestamp(anyLong());
+    	assertEquals(2, viewEventController.getListOfRequirementPanels().size());
+        verify(mockMainView, times(1)).addTab("4. Short", null, mockRequirementPanel, "Short");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
+    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testEditRequirement_nameTooLong() throws Exception {
+    	when(mockRequirement.getName()).thenReturn("TestName");
+    	when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
+    	
+    	whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
+    	
+    	viewEventController.editRequirement(mockRequirement);
+    	
+    	assertEquals(2, viewEventController.getListOfRequirementPanels().size());
+        verify(mockMainView, times(1)).addTab("4. TestNam..", null, mockRequirementPanel, "TestName");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
     	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
     public void testEditRequirement_alreadyExists() {
-        fail();
+    	viewEventController.editRequirement(mockRequirement);
+    	
+    	verify(mockHistory, times(1)).setTimestamp(anyLong());
+    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
