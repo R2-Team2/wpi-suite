@@ -10,6 +10,7 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -25,6 +26,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.TransactionHistory;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
@@ -51,6 +54,8 @@ public class TestViewEventController {
     Iteration mockIteration;
     NewPieChartPanel mockPieChartPanel;
     NewBarChartPanel mockBarChartPanel;
+    Requirement mockRequirement;
+    TransactionHistory mockHistory;
     
     ViewEventController viewEventController;
     
@@ -70,12 +75,17 @@ public class TestViewEventController {
         mockIterationPanel = mock(IterationPanel.class);
         mockPieChartPanel = mock(NewPieChartPanel.class);
         mockBarChartPanel = mock(NewBarChartPanel.class);
+        mockRequirement = mock(Requirement.class);
+        mockHistory = mock(TransactionHistory.class);
         
         when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
         when(IterationModel.getInstance()).thenReturn(mockIterationModel);
+        when(mockRequirementPanel.getDisplayRequirement()).thenReturn(mockRequirement);
+        when(mockRequirement.getHistory()).thenReturn(mockHistory);
         
-        whenNew(RequirementPanel.class).withAnyArguments().thenReturn(mockRequirementPanel);
-        whenNew(IterationPanel.class).withAnyArguments().thenReturn(mockIterationPanel);
+        whenNew(RequirementPanel.class).withArguments(-1).thenReturn(mockRequirementPanel);
+        whenNew(RequirementPanel.class).withArguments(3).thenReturn(mockRequirementPanel);
+        whenNew(IterationPanel.class).withNoArguments().thenReturn(mockIterationPanel);
         whenNew(NewPieChartPanel.class).withArguments("TestPieChart").thenReturn(mockPieChartPanel);
         whenNew(NewBarChartPanel.class).withArguments("TestBarChart").thenReturn(mockBarChartPanel);
         
@@ -201,11 +211,24 @@ public class TestViewEventController {
     
     @Test
     public void testCreateChildRequirement() {
-        fail();
+        viewEventController.createChildRequirement(3);
+        
+        verify(mockMainView, times(1)).addTab("Add Child Req.", null, mockRequirementPanel, "Add Child Requirement");
+        verify(mockMainView, times(1)).invalidate();
+        verify(mockMainView, times(1)).repaint();
+        verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
     public void testEditRequirement() {
+    	viewEventController.editRequirement(mockRequirement);
+    	
+    	verify(mockHistory, times(1)).setTimestamp(anyLong());
+    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testEditRequirement_alreadyExists() {
         fail();
     }
     
