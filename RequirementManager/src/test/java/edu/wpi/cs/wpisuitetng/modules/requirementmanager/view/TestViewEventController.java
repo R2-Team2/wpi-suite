@@ -10,7 +10,6 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,7 +20,9 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
@@ -64,6 +66,9 @@ public class TestViewEventController {
     Requirement mockRequirement;
     TransactionHistory mockHistory;
     OverviewTable mockOverviewTable;
+    OverviewTreePanel mockOverviewTreePanel;
+    JTree mockTree;
+    DefaultMutableTreeNode mockTreeNode;
     TableCellEditor mockTableCellEditor;
     
     ViewEventController viewEventController;
@@ -87,6 +92,9 @@ public class TestViewEventController {
         mockRequirement = mock(Requirement.class);
         mockHistory = mock(TransactionHistory.class);
         mockOverviewTable = mock(OverviewTable.class);
+        mockOverviewTreePanel = mock(OverviewTreePanel.class);
+        mockTree = mock(JTree.class);
+        mockTreeNode = mock(DefaultMutableTreeNode.class);
         mockTableCellEditor = mock(TableCellEditor.class);
         
         when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
@@ -95,6 +103,7 @@ public class TestViewEventController {
         when(mockRequirement.getId()).thenReturn(4);
         when(mockRequirement.getHistory()).thenReturn(mockHistory);
         when(mockOverviewTable.getCellEditor()).thenReturn(mockTableCellEditor);
+        when(mockOverviewTreePanel.getTree()).thenReturn(mockTree);
         
         whenNew(RequirementPanel.class).withArguments(-1).thenReturn(mockRequirementPanel);
         whenNew(RequirementPanel.class).withArguments(3).thenReturn(mockRequirementPanel);
@@ -108,6 +117,7 @@ public class TestViewEventController {
         viewEventController.getListOfIterationPanels().add(mockIterationPanel);
         viewEventController.getListOfRequirementPanels().add(mockRequirementPanel);
         viewEventController.setOverviewTable(mockOverviewTable);
+        viewEventController.setOverviewTree(mockOverviewTreePanel);
     }
     
     @Test
@@ -501,27 +511,178 @@ public class TestViewEventController {
     
     @Test
     public void testEditSelectedRequirement() {
+        viewEventController = spy(viewEventController);
+        doNothing().when(viewEventController).editRequirement(mockRequirement);
         
-        fail();
+        when(mockOverviewTable.getSelectedRows()).thenReturn(new int[] { 0 });
+        when(mockOverviewTable.getValueAt(0, 1)).thenReturn(mockRequirement);
+        
+        viewEventController.editSelectedRequirement();
+        
+        verify(viewEventController, times(1)).editRequirement(mockRequirement);
+    }
+    
+    @Test
+    public void testEditSelectedRequirement_none() {
+        viewEventController = spy(viewEventController);
+        doNothing().when(viewEventController).editRequirement(mockRequirement);
+        
+        when(mockOverviewTable.getSelectedRows()).thenReturn(new int[] {});
+        
+        viewEventController.editSelectedRequirement();
+        
+        verify(viewEventController, times(0)).editRequirement(mockRequirement);
+    }
+    
+    @Test
+    public void testEditSelectedRequirement_moreThanOne() {
+        viewEventController = spy(viewEventController);
+        doNothing().when(viewEventController).editRequirement(mockRequirement);
+        
+        when(mockOverviewTable.getSelectedRows()).thenReturn(new int[] { 0, 1 });
+        
+        viewEventController.editSelectedRequirement();
+        
+        verify(viewEventController, times(0)).editRequirement(mockRequirement);
     }
     
     @Test
     public void testCloseAllTabs() {
-        fail();
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(true);
+        when(mockIterationPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.closeAllTabs();
+        
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(1)).removeTabAt(0);
+        verify(mockMainView, times(1)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
     }
     
     @Test
-    public void testCloseOthers() {
-        fail();
+    public void testCloseAllTabs_notReadyToRemove() {
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(false);
+        when(mockIterationPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.closeAllTabs();
+        
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).removeTabAt(0);
+        verify(mockMainView, times(0)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
+    }
+    
+    @Test
+    public void testCloseOthers_requirementPanelSelected() {
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        when(mockMainView.getSelectedComponent()).thenReturn(mockRequirementPanel);
+        
+        when(mockIterationPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.closeOthers();
+        
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).removeTabAt(0);
+        verify(mockMainView, times(1)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
+    }
+    
+    @Test
+    public void testCloseOthers_iterationPanelSelected() {
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        when(mockMainView.getSelectedComponent()).thenReturn(mockIterationPanel);
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.closeOthers();
+        
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(1)).removeTabAt(0);
+        verify(mockMainView, times(0)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
+    }
+    
+    @Test
+    public void testCloseOthers_requirementPanelSelected_notReadyToRemove() {
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        when(mockMainView.getSelectedComponent()).thenReturn(mockRequirementPanel);
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.closeOthers();
+        
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).removeTabAt(0);
+        verify(mockMainView, times(0)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
+    }
+    
+    @Test
+    public void testCloseOthers_iterationPanelSelected_notReadyToRemove() {
+        when(mockMainView.getTabCount()).thenReturn(2);
+        when(mockMainView.getComponentAt(0)).thenReturn(mockRequirementPanel);
+        when(mockMainView.getComponentAt(1)).thenReturn(mockIterationPanel);
+        when(mockMainView.getSelectedComponent()).thenReturn(mockIterationPanel);
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.closeOthers();
+        
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).removeTabAt(0);
+        verify(mockMainView, times(0)).removeTabAt(1);
+        
+        verify(mockMainView, times(1)).repaint();
     }
     
     @Test
     public void testRefreshEditRequirementPanel() {
-        fail();
+        viewEventController.refreshEditRequirementPanel(mockRequirement);
+        
+        verify(mockRequirementPanel, times(1)).fireRefresh();
     }
     
     @Test
     public void testEditSelectedIteration() {
-        fail();
+        viewEventController = spy(viewEventController);
+        doNothing().when(viewEventController).editIteration(mockIteration);
+        
+        when(mockTree.getLastSelectedPathComponent()).thenReturn(mockTreeNode);
+        when(mockTreeNode.getUserObject()).thenReturn(mockIteration);
+        
+        viewEventController.editSelectedIteration();
+        
+        verify(viewEventController, times(1)).editIteration(mockIteration);
     }
 }

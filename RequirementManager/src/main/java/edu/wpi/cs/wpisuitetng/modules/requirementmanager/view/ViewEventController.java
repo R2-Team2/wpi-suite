@@ -385,7 +385,6 @@ public class ViewEventController {
      * Closes all of the tabs besides the overview tab in the main view.
      */
     public void closeAllTabs() {
-        
         int tabCount = main.getTabCount();
         
         for (int i = tabCount - 1; i >= 0; i--)
@@ -411,10 +410,8 @@ public class ViewEventController {
                     continue;
                 this.listOfIterationPanels.remove(toBeRemoved);
             }
-            
             main.removeTabAt(i);
         }
-        
         main.repaint();
     }
     
@@ -472,9 +469,7 @@ public class ViewEventController {
                 newEditPanel.fireRefresh();
                 break;
             }
-            
         }
-        
     }
     
     /**
@@ -525,7 +520,7 @@ public class ViewEventController {
         {
             Iteration iter = ((Iteration) ((DefaultMutableTreeNode) overviewTree.getTree().getLastSelectedPathComponent()).getUserObject());
             
-            ViewEventController.getInstance().editIteration(iter);
+            this.editIteration(iter);
         }
     }
     
