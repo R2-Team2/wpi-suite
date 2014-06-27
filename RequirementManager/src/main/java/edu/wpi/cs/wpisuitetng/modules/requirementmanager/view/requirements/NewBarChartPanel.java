@@ -215,13 +215,6 @@ public class NewBarChartPanel extends JScrollPane {
     }
     
     /**
-     * @return the title of the chart
-     */
-    public String getTitle() {
-        return title;
-    }
-    
-    /**
      * Method paintComponent.
      * 
      * @param g Graphics
@@ -230,5 +223,35 @@ public class NewBarChartPanel extends JScrollPane {
     public void paintComponent(Graphics g) {
         barChart.setChart(createChart(setData(), title));
         super.paintComponent(g);
+    }
+    
+    //Getters and setters
+    
+    /**
+     * @return the barChart
+     */
+    ChartPanel getBarChart() {
+        return this.barChart;
+    }
+    
+    /**
+     * @param barChart the barChart to set
+     */
+    void setBarChart(ChartPanel barChart) {
+        this.barChart = barChart;
+    }
+    
+    /**
+     * @return the title of the chart
+     */
+    public String getTitle() {
+        return title;
+    }
+    
+    /**
+     * @param title the title to set
+     */
+    void setTitle(String title) {
+        this.title = title;
     }
 }

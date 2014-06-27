@@ -9,7 +9,7 @@
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +30,9 @@ public class TestNewBarChartPanel {
     
     @Test
     public void testConstructor() {
-        
-    }
-    
-    @Test
-    public void testDataSetIteration() {
-        fail();
+        assertEquals("TestBarChart", barChartPanel.getTitle());
+        assertNotNull(barChartPanel.getBarChart());
+        assertNotNull(barChartPanel.getViewport());
     }
     
     @Test

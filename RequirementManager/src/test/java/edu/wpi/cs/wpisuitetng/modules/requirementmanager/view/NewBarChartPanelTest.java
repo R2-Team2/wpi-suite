@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 
 /**
  * tests the functionality of the NewBarChatPanel source file
@@ -74,11 +73,5 @@ public class NewBarChartPanelTest {
         assertEquals(2, vec.getMainView().getTabCount());
         tb.getChartButton().getBarChartButton().doClick();
         assertEquals(3, vec.getMainView().getTabCount());
-    }
-    
-    @Test
-    public void testGetBarChartTitle() {
-        NewBarChartPanel bc = new NewBarChartPanel("The Name");
-        assertEquals("The Name", bc.getTitle());
     }
 }
