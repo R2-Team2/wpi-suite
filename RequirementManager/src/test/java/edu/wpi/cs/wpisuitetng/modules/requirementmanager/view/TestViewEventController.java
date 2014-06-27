@@ -358,8 +358,107 @@ public class TestViewEventController {
     }
     
     @Test
-    public void testRemoveTab() {
-        fail();
+    public void testRemoveTab_requirementPanel() {
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.removeTab(mockRequirementPanel);
+        
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(1)).remove(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_requirementPanel_notReadyToRemove() {
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.removeTab(mockRequirementPanel);
+        
+        assertEquals(1, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).remove(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_requirementPanel_notInList() {
+        viewEventController.getListOfRequirementPanels().remove(mockRequirementPanel);
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.removeTab(mockRequirementPanel);
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(1)).remove(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_requirementPanel_notInList_notReadyToRemove() {
+        viewEventController.getListOfRequirementPanels().remove(mockRequirementPanel);
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        when(mockRequirementPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.removeTab(mockRequirementPanel);
+        assertEquals(0, viewEventController.getListOfRequirementPanels().size());
+        
+        verify(mockMainView, times(0)).remove(mockRequirementPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_iterationPanel() {
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        
+        when(mockIterationPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.removeTab(mockIterationPanel);
+        
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        
+        verify(mockMainView, times(1)).remove(mockIterationPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_iterationPanel_notReadyToRemove() {
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        
+        when(mockIterationPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.removeTab(mockIterationPanel);
+        
+        assertEquals(1, viewEventController.getListOfIterationPanels().size());
+        
+        verify(mockMainView, times(0)).remove(mockIterationPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_iterationPanel_notInList() {
+        viewEventController.getListOfIterationPanels().remove(mockIterationPanel);
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        
+        when(mockIterationPanel.readyToRemove()).thenReturn(true);
+        
+        viewEventController.removeTab(mockIterationPanel);
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        
+        verify(mockMainView, times(1)).remove(mockIterationPanel);
+    }
+    
+    @Test
+    public void testRemoveTab_iterationPanel_notInList_notReadyToRemove() {
+        viewEventController.getListOfIterationPanels().remove(mockIterationPanel);
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        
+        when(mockIterationPanel.readyToRemove()).thenReturn(false);
+        
+        viewEventController.removeTab(mockIterationPanel);
+        assertEquals(0, viewEventController.getListOfIterationPanels().size());
+        
+        verify(mockMainView, times(0)).remove(mockIterationPanel);
     }
     
     @Test
