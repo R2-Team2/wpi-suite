@@ -8,13 +8,16 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
@@ -463,21 +466,42 @@ public class TestViewEventController {
     
     @Test
     public void testRefreshTable() {
-        fail();
+        viewEventController.refreshTable();
+        
+        verify(mockOverviewTable, times(1)).refresh();
     }
     
     @Test
     public void testGetTableSelection() {
-        fail();
+        when(mockOverviewTable.getSelectedRows()).thenReturn(new int[] { 0, 1, 2 });
+        int[] result = viewEventController.getTableSelection();
+        
+        assertArrayEquals(new int[] { 0, 1, 2 }, result);
+        
+        verify(mockOverviewTable, times(1)).getSelectedRows();
     }
     
     @Test
     public void testAssignSelectionToBacklog() {
-        fail();
+        viewEventController = spy(viewEventController);
+        doNothing().when(viewEventController).refreshTable();
+        doNothing().when(viewEventController).refreshTree();
+        
+        when(mockOverviewTable.getSelectedRows()).thenReturn(new int[] { 0 });
+        when(mockOverviewTable.getValueAt(0, 1)).thenReturn(mockRequirement);
+        
+        viewEventController.assignSelectionToBacklog();
+        
+        verify(mockRequirement, times(1)).setIteration("Backlog");
+        verify(mockUpdateRequirementController, times(1)).updateRequirement(mockRequirement);
+        
+        verify(viewEventController, times(1)).refreshTable();
+        verify(viewEventController, times(1)).refreshTree();
     }
     
     @Test
     public void testEditSelectedRequirement() {
+        
         fail();
     }
     
