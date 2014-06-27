@@ -18,6 +18,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+import javax.swing.table.TableCellEditor;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,12 +33,14 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewBarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.NewPieChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
 
 /**
- * TODO: Since ViewEventController is in PrepareForTest, Code Coverage will not be accurate. Code should be refactored so PowerMock can be removed.
+ * TODO: Since ViewEventController is in PrepareForTest, Code Coverage will not
+ * be accurate. Code should be refactored so PowerMock can be removed.
  * 
  * @author Robert Smieja
  */
@@ -56,6 +60,8 @@ public class TestViewEventController {
     NewBarChartPanel mockBarChartPanel;
     Requirement mockRequirement;
     TransactionHistory mockHistory;
+    OverviewTable mockOverviewTable;
+    TableCellEditor mockTableCellEditor;
     
     ViewEventController viewEventController;
     
@@ -77,12 +83,15 @@ public class TestViewEventController {
         mockBarChartPanel = mock(NewBarChartPanel.class);
         mockRequirement = mock(Requirement.class);
         mockHistory = mock(TransactionHistory.class);
+        mockOverviewTable = mock(OverviewTable.class);
+        mockTableCellEditor = mock(TableCellEditor.class);
         
         when(UpdateRequirementController.getInstance()).thenReturn(mockUpdateRequirementController);
         when(IterationModel.getInstance()).thenReturn(mockIterationModel);
         when(mockRequirementPanel.getDisplayRequirement()).thenReturn(mockRequirement);
         when(mockRequirement.getId()).thenReturn(4);
         when(mockRequirement.getHistory()).thenReturn(mockHistory);
+        when(mockOverviewTable.getCellEditor()).thenReturn(mockTableCellEditor);
         
         whenNew(RequirementPanel.class).withArguments(-1).thenReturn(mockRequirementPanel);
         whenNew(RequirementPanel.class).withArguments(3).thenReturn(mockRequirementPanel);
@@ -95,6 +104,7 @@ public class TestViewEventController {
         viewEventController.setMainView(mockMainView);
         viewEventController.getListOfIterationPanels().add(mockIterationPanel);
         viewEventController.getListOfRequirementPanels().add(mockRequirementPanel);
+        viewEventController.setOverviewTable(mockOverviewTable);
     }
     
     @Test
@@ -223,47 +233,128 @@ public class TestViewEventController {
     
     @Test
     public void testEditRequirement() throws Exception {
-    	when(mockRequirement.getName()).thenReturn("Short");
-    	when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
-    	
-    	whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
-    	
-    	viewEventController.editRequirement(mockRequirement);
-    	
-    	assertEquals(2, viewEventController.getListOfRequirementPanels().size());
+        when(mockRequirement.getName()).thenReturn("Short");
+        when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
+        
+        whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
+        
+        viewEventController.editRequirement(mockRequirement);
+        
+        assertEquals(2, viewEventController.getListOfRequirementPanels().size());
         verify(mockMainView, times(1)).addTab("4. Short", null, mockRequirementPanel, "Short");
         verify(mockMainView, times(1)).invalidate();
         verify(mockMainView, times(1)).repaint();
-    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
+        verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
     public void testEditRequirement_nameTooLong() throws Exception {
-    	when(mockRequirement.getName()).thenReturn("TestName");
-    	when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
-    	
-    	whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
-    	
-    	viewEventController.editRequirement(mockRequirement);
-    	
-    	assertEquals(2, viewEventController.getListOfRequirementPanels().size());
+        when(mockRequirement.getName()).thenReturn("TestName");
+        when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
+        
+        whenNew(RequirementPanel.class).withArguments(mockRequirement).thenReturn(mockRequirementPanel);
+        
+        viewEventController.editRequirement(mockRequirement);
+        
+        assertEquals(2, viewEventController.getListOfRequirementPanels().size());
         verify(mockMainView, times(1)).addTab("4. TestNam..", null, mockRequirementPanel, "TestName");
         verify(mockMainView, times(1)).invalidate();
         verify(mockMainView, times(1)).repaint();
-    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
+        verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
     public void testEditRequirement_alreadyExists() {
-    	viewEventController.editRequirement(mockRequirement);
-    	
-    	verify(mockHistory, times(1)).setTimestamp(anyLong());
-    	verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
+        viewEventController.editRequirement(mockRequirement);
+        
+        verify(mockHistory, times(1)).setTimestamp(anyLong());
+        verify(mockMainView, times(1)).setSelectedComponent(mockRequirementPanel);
     }
     
     @Test
-    public void testToggleEditingTable() {
-        fail();
+    public void testToggleEditingTable_onToOff_cancelTrue() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(true, true, false);
+        when(mockOverviewTable.isEditing()).thenReturn(false);
+        
+        viewEventController.toggleEditingTable(true);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(false);
+        verify(mockOverviewTable, times(1)).refresh();
+    }
+    
+    @Test
+    public void testToggleEditingTable_onToOff_cancelTrue_isEditing() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(true, true, false);
+        when(mockOverviewTable.isEditing()).thenReturn(true);
+        
+        viewEventController.toggleEditingTable(true);
+        
+        verify(mockTableCellEditor, times(1)).stopCellEditing();
+        verify(mockOverviewTable, times(1)).setEditFlag(false);
+        verify(mockOverviewTable, times(1)).refresh();
+    }
+    
+    @Test
+    public void testToggleEditingTable_onToOff_cancelFalse() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(true, true, false);
+        when(mockOverviewTable.isEditing()).thenReturn(false);
+        
+        viewEventController.toggleEditingTable(false);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(false);
+        verify(mockOverviewTable, times(1)).saveChanges();
+    }
+    
+    @Test
+    public void testToggleEditingTable_onToOff_cancelFalse_isEditing() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(true, true, false);
+        when(mockOverviewTable.isEditing()).thenReturn(true);
+        
+        viewEventController.toggleEditingTable(false);
+        
+        verify(mockTableCellEditor, times(1)).stopCellEditing();
+        verify(mockOverviewTable, times(1)).setEditFlag(false);
+        verify(mockOverviewTable, times(1)).saveChanges();
+    }
+    
+    @Test
+    public void testToggleEditingTable_offToOn_cancelTrue() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(false, false, true);
+        when(mockOverviewTable.isEditing()).thenReturn(false);
+        
+        viewEventController.toggleEditingTable(true);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(true);
+    }
+    
+    @Test
+    public void testToggleEditingTable_offToOn_cancelTrue_isEditing() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(false, false, true);
+        when(mockOverviewTable.isEditing()).thenReturn(false);
+        
+        viewEventController.toggleEditingTable(true);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(true);
+    }
+    
+    @Test
+    public void testToggleEditingTable_offToOn_cancelFalse() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(false, false, true);
+        when(mockOverviewTable.isEditing()).thenReturn(false);
+        
+        viewEventController.toggleEditingTable(false);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(true);
+    }
+    
+    @Test
+    public void testToggleEditingTable_offToOn_cancelFalse_isEditing() {
+        when(mockOverviewTable.getEditFlag()).thenReturn(false, false, true);
+        when(mockOverviewTable.isEditing()).thenReturn(true);
+        
+        viewEventController.toggleEditingTable(false);
+        
+        verify(mockOverviewTable, times(1)).setEditFlag(true);
     }
     
     @Test

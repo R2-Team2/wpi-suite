@@ -49,7 +49,8 @@ public class RequirementModel extends AbstractListModel {
         nextID = 0;
     }
     
-    /** @return the instance of the requirement model singleton.
+    /**
+     * @return the instance of the requirement model singleton.
      */
     public static RequirementModel getInstance()
     {
@@ -84,8 +85,9 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Returns the Requirement with the given ID
      * 
-     * @param id The ID number of the requirement to be returned @return the requirement for the id or null if the requirement is not
-     *         found
+     * @param id The ID number of the requirement to be returned @return the
+     *            requirement for the id or null if the requirement is not
+     *            found
      */
     public Requirement getRequirement(int id)
     {
@@ -129,10 +131,11 @@ public class RequirementModel extends AbstractListModel {
      * function is called internally by the JList in NewRequirementPanel.
      * Returns elements
      * in reverse order, so the newest requirement is returned first.
-     * @return the number of requirements in the project * @see
-     *         javax.swing.ListModel#getSize() * @see
-     *         javax.swing.ListModel#getSize() * @see
-     *         javax.swing.ListModel#getSize()
+     * 
+     * @return the number of requirements in the project
+     * @see javax.swing.ListModel#getSize()
+     * @see javax.swing.ListModel#getSize()
+     * @see javax.swing.ListModel#getSize()
      */
     public int getSize() {
         return requirements.size();
@@ -141,6 +144,7 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Provides the next ID number that should be used for a new requirement
      * that is created.
+     * 
      * @return the next open id number
      */
     public int getNextID()
@@ -154,10 +158,11 @@ public class RequirementModel extends AbstractListModel {
      * requirements
      * for the project. Used internally by the JList in NewRequirementModel.
      * 
-     * @param index The index of the requirement to be returned @return the requirement associated with the provided index * @see
-     *         javax.swing.ListModel#getElementAt(int) * @see
-     *         javax.swing.ListModel#getElementAt(int) * @see
-     *         javax.swing.ListModel#getElementAt(int)
+     * @param index The index of the requirement to be returned @return the
+     *            requirement associated with the provided index * @see
+     *            javax.swing.ListModel#getElementAt(int) * @see
+     *            javax.swing.ListModel#getElementAt(int) * @see
+     *            javax.swing.ListModel#getElementAt(int)
      */
     public Requirement getElementAt(int index) {
         return requirements.get(requirements.size() - 1 - index);
@@ -214,7 +219,8 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Returns the list of children for the given requirement.
      * 
-     * @param requirement the parent requirement to find children for. @return The list of children.
+     * @param requirement the parent requirement to find children for. @return
+     *            The list of children.
      */
     public List<Requirement> getChildren(Requirement requirement) {
         List<Requirement> children = new ArrayList<Requirement>();
@@ -231,7 +237,8 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Returns the possible children for the given requirement.
      * 
-     * @param req the given requirement @return the list model of possiblechildren
+     * @param req the given requirement @return the list model of
+     *            possiblechildren
      */
     public ListModel<Requirement> getPossibleChildren(Requirement req)
     {
@@ -254,7 +261,8 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Returns the possible parents for the given requirement.
      * 
-     * @param req the given requirement @return the list model of possibleParents
+     * @param req the given requirement @return the list model of
+     *            possibleParents
      */
     public ListModel<Requirement> getPossibleParents(Requirement req)
     {
@@ -310,7 +318,8 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Gets the summed estimates of all requirements in the given iteration.
      * 
-     * @param displayIteration the iteration to get requirements for @return the summed estimates of the requirements.
+     * @param displayIteration the iteration to get requirements for @return the
+     *            summed estimates of the requirements.
      */
     public int getRequirementEstimateForIteration(Iteration displayIteration) {
         int estimate = 0;
