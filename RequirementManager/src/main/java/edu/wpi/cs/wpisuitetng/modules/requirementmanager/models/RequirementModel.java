@@ -29,8 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @version $Revision: 1.0 $
  * @author justinhess
  */
-@SuppressWarnings("serial")
-public class RequirementModel extends AbstractListModel {
+public class RequirementModel extends AbstractListModel<Requirement> {
+    static final long serialVersionUID = 8609340016893431330L;
     
     /**
      * The list in which all the requirements for a single project are contained
@@ -44,7 +44,7 @@ public class RequirementModel extends AbstractListModel {
     /**
      * Constructs an empty list of requirements for the project
      */
-    private RequirementModel() {
+    RequirementModel() {
         requirements = new ArrayList<Requirement>();
         nextID = 0;
     }
@@ -78,7 +78,8 @@ public class RequirementModel extends AbstractListModel {
             ViewEventController.getInstance().refreshTree();
         } catch (Exception e)
         {
-            
+            //TODO: Stop swallowing exceptions
+            e.printStackTrace();
         }
     }
     
@@ -149,7 +150,6 @@ public class RequirementModel extends AbstractListModel {
      */
     public int getNextID()
     {
-        
         return this.nextID++;
     }
     
@@ -199,8 +199,9 @@ public class RequirementModel extends AbstractListModel {
     public void addRequirements(Requirement[] requirements) {
         for (int i = 0; i < requirements.length; i++) {
             this.requirements.add(requirements[i]);
-            if (requirements[i].getId() >= nextID)
+            if (requirements[i].getId() >= nextID) {
                 nextID = requirements[i].getId() + 1;
+            }
         }
         this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
         ViewEventController.getInstance().refreshTable();
@@ -332,5 +333,4 @@ public class RequirementModel extends AbstractListModel {
         
         return estimate;
     }
-    
 }
