@@ -97,39 +97,6 @@ public class TestRequirementNotePanel {
         assertFalse(notePanel.readyToRemove());
     }
     
-    //    @Test
-    //    public void AddNoteTest() {
-    //        // make sure there are no notes yet
-    //        assertEquals(0, reqPan.getTabsPanel().getNotePanel().
-    //                getRequirement().getNotes().getNotes().toArray().length);
-    //        assertFalse(reqPan.getTabsPanel().getNotePanel().
-    //                getAddNoteButton().isEnabled());
-    //        
-    //        reqPan.getTabsPanel().getNotePanel().getNoteMessage().setText("Test string");
-    //        assertEquals("Test string", reqPan.getTabsPanel().getNotePanel().
-    //                getNoteMessage().getText());
-    //        reqPan.getTabsPanel().getNotePanel().getAddNoteButton().setEnabled(true);
-    //        assertTrue(reqPan.getTabsPanel().getNotePanel().getAddNoteButton().isEnabled());
-    //        reqPan.getTabsPanel().getNotePanel().getAddNoteButton().doClick();	// add a new note
-    //        assertFalse(reqPan.getTabsPanel().getNotePanel().getAddNoteButton().isEnabled());
-    //        
-    //        // check to see if the note was added
-    //        assertEquals(1, reqPan.getTabsPanel().getNotePanel().getRequirement().getNotes().getNotes().toArray().length);
-    //        assertEquals("Test string", reqPan.getTabsPanel().getNotePanel().getRequirement().getNotes().getItem(0).getMessage());
-    //    }
-    //    
-    //    @Test
-    //    public void NoteClearButtonTest() {
-    //        assertEquals("", reqPan.getTabsPanel().getNotePanel().getNoteMessage().getText());
-    //        reqPan.getTabsPanel().getNotePanel().getNoteMessage().setText("This should not be here when this test is over");
-    //        assertEquals("This should not be here when this test is over", reqPan.getTabsPanel().getNotePanel().
-    //                getNoteMessage().getText());
-    //        reqPan.getTabsPanel().getNotePanel().getClearButton().setEnabled(true);
-    //        reqPan.getTabsPanel().getNotePanel().getClearButton().doClick();	// clear the note text box
-    //        assertFalse(reqPan.getTabsPanel().getNotePanel().getClearButton().isEnabled());
-    //        assertEquals("", reqPan.getTabsPanel().getNotePanel().getNoteMessage().getText());
-    //    }
-    
     @Test
     public void testSerialVersionUID() {
         assertEquals(-3114980850099223953L, RequirementNotePanel.serialVersionUID);
