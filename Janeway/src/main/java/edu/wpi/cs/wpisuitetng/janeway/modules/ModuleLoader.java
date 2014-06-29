@@ -163,7 +163,7 @@ public class ModuleLoader<T> {
         String[] children = jarDir.list();
         
         if (children == null) {
-            System.err.println("Could not find any jar files in: " + path);
+            System.err.println("Could not find any jar files in: " + jarDir.getAbsolutePath());
             return retVal;
         }
         
