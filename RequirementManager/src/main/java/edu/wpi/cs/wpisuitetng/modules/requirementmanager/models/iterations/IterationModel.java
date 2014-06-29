@@ -84,7 +84,8 @@ public class IterationModel extends AbstractListModel {
         try {
             addIterationController.addIteration(newIter);
         } catch (Exception e) {
-            
+            //TODO Stop swallowing exceptions
+            e.printStackTrace();
         }
         
         viewEventController.refreshTree();
