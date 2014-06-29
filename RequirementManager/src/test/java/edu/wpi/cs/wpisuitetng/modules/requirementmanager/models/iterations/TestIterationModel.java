@@ -224,6 +224,20 @@ public class TestIterationModel {
     }
     
     @Test
+    public void testGetIterationForDate_middleOFIteration() {
+        when(mockIteration1.getStart()).thenReturn(mockStartDate1);
+        when(mockIteration1.getEnd()).thenReturn(mockEndDate1);
+        when(mockStartDate1.getDate()).thenReturn(createDate(2014, 5, 29, 0, 0, 0));
+        when(mockEndDate1.getDate()).thenReturn(createDate(2014, 6, 1, 0, 0, 0));
+        iterationModel.addIteration(mockIteration1);
+        
+        List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 30, 0, 0, 0));
+        
+        assertEquals(1, result.size());
+        assertTrue(result.contains(mockIteration1));
+    }
+    
+    @Test
     public void testGetIterationForDate_twoIterations() {
         when(mockIteration1.getStart()).thenReturn(mockStartDate1);
         when(mockIteration1.getEnd()).thenReturn(mockEndDate1);
