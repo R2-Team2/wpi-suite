@@ -15,6 +15,7 @@ subprojects {
     apply plugin: 'eclipse-wtp'
     apply plugin: 'idea'
     apply plugin: "jacoco"
+    apply plugin: 'pmd'
 //    apply plugin: 'findbugs'
 
 	//Java version 1.7
@@ -58,7 +59,11 @@ subprojects {
     
     test{
 //        jvmArgs "-XX:-UseSplitVerifier"
-		ignoreFailures = true
+		ignoreFailures = true //Lets builds pass with failing tests
+    }
+    
+    pmd{ //Static analysis by PMD
+        ignoreFailures = true
     }
 }
 
