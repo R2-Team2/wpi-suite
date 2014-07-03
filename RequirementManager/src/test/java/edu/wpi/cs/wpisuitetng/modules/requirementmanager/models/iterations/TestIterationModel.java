@@ -246,6 +246,11 @@ public class TestIterationModel {
         
         iterationModel.addIteration(mockIteration1);
         
+        List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
+        
+        assertEquals(1, result.size());
+        assertTrue(result.contains(mockIteration1));
+        
         when(mockIteration2.getStart()).thenReturn(mockStartDate2);
         when(mockIteration2.getEnd()).thenReturn(mockEndDate2);
         when(mockStartDate2.getDate()).thenReturn(createDate(2014, 5, 28, 0, 0, 0));
@@ -253,7 +258,7 @@ public class TestIterationModel {
         
         iterationModel.addIteration(mockIteration2);
         
-        List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
+        result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
         
         assertEquals(2, result.size());
         assertTrue(result.contains(mockIteration1));
