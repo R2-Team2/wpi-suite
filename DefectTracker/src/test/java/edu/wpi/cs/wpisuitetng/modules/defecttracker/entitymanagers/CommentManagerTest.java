@@ -59,7 +59,7 @@ public class CommentManagerTest {
 
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Comment created = manager.makeEntity(defaultSession, goodComment.toJSON());
+		Comment created = manager.makeEntity(defaultSession, goodComment.toJson());
 		assertEquals(1, created.getDefectId());
 		assertSame(created, defect.getEvents().get(0));
 		assertSame(testProject, created.getProject());
@@ -68,7 +68,7 @@ public class CommentManagerTest {
 	@Test(expected=BadRequestException.class)
 	public void testMakeBadEntity() throws WPISuiteException {
 		goodComment.setBody(null); // make sure the validator is being used
-		manager.makeEntity(defaultSession, goodComment.toJSON());
+		manager.makeEntity(defaultSession, goodComment.toJson());
 	}
 
 }

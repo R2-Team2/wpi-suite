@@ -156,4 +156,40 @@ public class RequirementTabsPanel extends JTabbedPane implements RequirementPane
 	public RequirementTestPanel getTestPanel() {
 		return testPanel;
 	}
+
+	/**
+	 * @return the listeners
+	 */
+	protected List<RequirementPanelListener> getListeners() {
+		return listeners;
+	}
+
+	/**
+	 * @return the viewMode
+	 */
+	public ViewMode getViewMode() {
+		return viewMode;
+	}
+
+	/**
+	 * @return the currentRequirement
+	 */
+	public Requirement getCurrentRequirement() {
+		return currentRequirement;
+	}
+
+	/**
+	 * @return the historyPanel
+	 */
+	protected RequirementHistoryPanel getHistoryPanel() {
+		return historyPanel;
+	}
+
+	/**
+	 * @return the subReqPanel
+	 */
+	protected SubrequirementPanel getSubReqPanel() {
+		return subReqPanel;
+	}
+	
 }

@@ -11,7 +11,7 @@ apply plugin: 'tomcat'
 webAppDirName = 'WebContent'
 
 dependencies {
-	def tomcatVersion = '7.0.12'
+	def tomcatVersion = '7.0.47'
 	
 	providedCompile "javax.servlet:javax.servlet-api:3.0.1"
 	

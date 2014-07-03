@@ -126,7 +126,7 @@ public class Project extends AbstractModel
 	 * 	a JSON string.
 	 * @return	the JSON string representation of this Project
 	 */
-	public String toJSON()
+	public String toJson()
 	{
 		String json = null;
 		
@@ -138,7 +138,7 @@ public class Project extends AbstractModel
 		
 		if(this.owner != null)
 		{
-			json += ",\"owner\":" + this.owner.toJSON();
+			json += ",\"owner\":" + this.owner.toJson();
 		}
 		
 		if(this.supportedModules != null && this.supportedModules.length > 0)
@@ -162,7 +162,7 @@ public class Project extends AbstractModel
 		
 			for(User u : this.team)
 			{
-				json += u.toJSON() + ",";
+				json += u.toJson() + ",";
 			}
 			//remove that last comma
 			json = json.substring(0, json.length()-1);
@@ -220,7 +220,7 @@ public class Project extends AbstractModel
 	 */
 	public String toString()
 	{
-		return this.toJSON();
+		return this.toJson();
 	}
 	
 	@Override

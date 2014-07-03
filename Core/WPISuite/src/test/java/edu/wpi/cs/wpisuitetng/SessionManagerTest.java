@@ -132,7 +132,7 @@ public class SessionManagerTest {
 		
 		try
 		{
-			projects.makeEntity(originalSession, p.toJSON());
+			projects.makeEntity(originalSession, p.toJson());
 		}
 		catch(ConflictException e)
 		{
@@ -150,7 +150,7 @@ public class SessionManagerTest {
 		
 		try
 		{
-			projects.deleteEntity(projectSession, p.toJSON());	
+			projects.deleteEntity(projectSession, p.toJson());	
 		}
 		catch(NotFoundException e)
 		{

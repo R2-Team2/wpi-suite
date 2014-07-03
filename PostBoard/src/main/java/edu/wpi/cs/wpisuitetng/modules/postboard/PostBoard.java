@@ -1,13 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
- *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *    Chris Casola
+ * Chris Casola
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.postboard;
@@ -29,54 +27,60 @@ import edu.wpi.cs.wpisuitetng.modules.postboard.view.ToolbarView;
  * by all users. Think of it as a cork board on your wall, but only for text.
  * 
  * @author Chris Casola
- *
  */
 public class PostBoard implements IJanewayModule {
-	
-	/**
-	 * A list of tabs owned by this module
-	 */
-	List<JanewayTabModel> tabs;
-	
-	/**
-	 * Constructs the main views for this module. Namely one tab, containing
-	 * a toolbar and a main content panel.
-	 */
-	public PostBoard() {
-
-		// Initialize the model that holds the messages
-		PostBoardModel boardModel = new PostBoardModel();
-		
-		// Initialize the list of tabs (however, this module has only one tab)
-		tabs = new ArrayList<JanewayTabModel>();
-		
-		// Create a JPanel to hold the toolbar for the tab
-		ToolbarView toolbarView = new ToolbarView(boardModel);
-		
-		// Constructs and adds the MainPanel
-		MainView mainView = new MainView(boardModel);
-		
-		// Create a tab model that contains the toolbar panel and the main content panel
-		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainView);
-		
-		// Add the tab to the list of tabs owned by this module
-		tabs.add(tab1);
-	}
-
-	/*
-	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
-	 */
-	@Override
-	public String getName() {
-		return "PostBoard";
-	}
-
-	/*
-	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
-	 */
-	@Override
-	public List<JanewayTabModel> getTabs() {
-		return tabs;
-	}
-
+    
+    /**
+     * A list of tabs owned by this module
+     */
+    List<JanewayTabModel> tabs;
+    
+    /**
+     * Variables, used for tests
+     */
+    PostBoardModel boardModel;
+    ToolbarView toolbarView;
+    MainView mainView;
+    JanewayTabModel tab1;
+    
+    /**
+     * Constructs the main views for this module. Namely one tab, containing
+     * a toolbar and a main content panel.
+     */
+    public PostBoard() {
+        
+        // Initialize the model that holds the messages
+        this.boardModel = new PostBoardModel();
+        
+        // Initialize the list of tabs (however, this module has only one tab)
+        this.tabs = new ArrayList<JanewayTabModel>();
+        
+        // Create a JPanel to hold the toolbar for the tab
+        this.toolbarView = new ToolbarView(this.boardModel);
+        
+        // Constructs and adds the MainPanel
+        this.mainView = new MainView(this.boardModel);
+        
+        // Create a tab model that contains the toolbar panel and the main content panel
+        this.tab1 = new JanewayTabModel(getName(), new ImageIcon(), this.toolbarView, this.mainView);
+        
+        // Add the tab to the list of tabs owned by this module
+        this.tabs.add(tab1);
+    }
+    
+    /*
+     * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
+     */
+    @Override
+    public String getName() {
+        return "PostBoard";
+    }
+    
+    /*
+     * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
+     */
+    @Override
+    public List<JanewayTabModel> getTabs() {
+        return tabs;
+    }
 }

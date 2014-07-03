@@ -17,12 +17,9 @@ jar.doLast{
 }
 
 task janewayJar(type: Copy){
-	
 	dependsOn "jar"
 	
 	from "${tasks['jar'].destinationDir}"
 	into "${project(':Janeway').projectDir}/modules/"
 	include '*.jar'
-	
 }
-

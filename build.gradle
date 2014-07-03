@@ -10,9 +10,12 @@ buildscript {
 
 //Common dependencies
 subprojects {
+    apply plugin: 'java'
 	apply plugin: 'eclipse'
-	apply plugin: 'java'
-	apply plugin: 'eclipse-wtp'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'idea'
+    apply plugin: "jacoco"
+//    apply plugin: 'findbugs'
 
 	//Java version 1.7
     sourceCompatibility = targetCompatibility = 1.7
@@ -22,19 +25,22 @@ subprojects {
 	}
 
 	dependencies {
-        	compile 'commons-codec:commons-codec:1.7'
-        	compile 'commons-logging:commons-logging:1.1.1'
-        	compile 'org.apache.httpcomponents:httpcore:4.2.2'
-		compile 'org.apache.httpcomponents:httpclient:4.2.2'
-        	compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.1'
-        	compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
-        	compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
+        compile 'commons-codec:commons-codec:1.7'
+        compile 'commons-logging:commons-logging:1.1.1'
+        compile 'org.apache.httpcomponents:httpcore:4.2.2'
+        compile 'org.apache.httpcomponents:httpclient:4.2.2'
+        compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.1'
+        compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
         
         	//runtime files('libs/a.jar', 'libs/b.jar')
 	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
 
-		testCompile 'junit:junit:4.8.2'
-        	//Add mockito? easymock? cucumber??? code coverage???
+		testCompile 'junit:junit:4.11'
+        testCompile 'org.mockito:mockito-all:1.9.5'
+		testCompile 'org.powermock:powermock-api-mockito:1.5.5'
+		testCompile 'org.powermock:powermock-module-junit4:1.5.5'
+        //Add code coverage? cucumber?
 	}
     
     eclipse{
@@ -44,13 +50,19 @@ subprojects {
         }
     }
     
+    jacoco {
+        
+        toolVersion = "0.7.1.201405082137"
+        //reportsDir = file("$buildDir/reports/jacoco")
+    }
+    
     test{
 //        jvmArgs "-XX:-UseSplitVerifier"
 		ignoreFailures = true
     }
 }
 
-//To make sure there is a script people can double click to install Gradle
+//To make sure there is a script people can avoid having to install Gradle
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+    gradleVersion = '2.0'
 }

@@ -86,7 +86,7 @@ public class RequirementManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Requirement created = manager.makeEntity(defaultSession, req3.toJSON());
+		Requirement created = manager.makeEntity(defaultSession, req3.toJson());
 		assertEquals(3, created.getId()); // IDs are unique across projects
 		assertEquals("Jim", created.getName());
 		assertEquals("3.0", created.getRelease());
@@ -155,7 +155,7 @@ public class RequirementManagerTest {
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
 		Requirement anotherRequirement = new Requirement();
-		manager.makeEntity(defaultSession, anotherRequirement.toJSON());
+		manager.makeEntity(defaultSession, anotherRequirement.toJson());
 		assertEquals(2, db.retrieveAll(new Requirement(), testProject).size());
 		manager.deleteAll(adminSession);
 		assertEquals(0, db.retrieveAll(new Requirement(), testProject).size());
@@ -190,7 +190,7 @@ public class RequirementManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void updateRequirementTest() throws WPISuiteException {
-		Requirement updatedRequirement = manager.update(defaultSession, req1.toJSON());
+		Requirement updatedRequirement = manager.update(defaultSession, req1.toJson());
 		assertEquals(req1.getName(), updatedRequirement.getName());
 		assertEquals(req1.getId(), updatedRequirement.getId());
 	}

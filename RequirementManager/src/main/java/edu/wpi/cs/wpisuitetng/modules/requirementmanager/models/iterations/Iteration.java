@@ -281,7 +281,7 @@ public class Iteration extends AbstractModel {
 	
 	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
-	public String toJSON() {
+	public String toJson() {
 		return new Gson().toJson(this, Iteration.class);
 	}
 

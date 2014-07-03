@@ -79,7 +79,7 @@ public class Comment extends DefectEvent {
 	}
 
 	@Override
-	public String toJSON() {
+	public String toJson() {
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(this, Comment.class);

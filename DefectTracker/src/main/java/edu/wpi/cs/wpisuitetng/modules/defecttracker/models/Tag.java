@@ -55,7 +55,7 @@ public class Tag extends AbstractModel {
 	}
 
 	@Override
-	public String toJSON() {
+	public String toJson() {
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(this, Tag.class);

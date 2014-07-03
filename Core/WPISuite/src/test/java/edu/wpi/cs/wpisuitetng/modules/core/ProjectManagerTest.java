@@ -71,7 +71,7 @@ public class ProjectManagerTest {
 		Project u = null;
 		temp.setPermission(Permission.WRITE, tempUser);
 		try {
-			u = test.makeEntity(new Session(tempUser, mockSsid), temp.toJSON());
+			u = test.makeEntity(new Session(tempUser, mockSsid), temp.toJson());
 		} catch (WPISuiteException e) {
 			fail("unexpected exception");
 		}

@@ -12,7 +12,9 @@
 
 package edu.wpi.cs.wpisuitetng;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -29,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Db4oDatabaseTest {
 	
-
 	@Test
 	public void testSaveandRetrieve() throws WPISuiteException {
 		Data db = DataStore.getDataStore();
@@ -42,17 +43,6 @@ public class Db4oDatabaseTest {
 	}
 	
 	@Test
-	public void testDelete() throws WPISuiteException{
-		Data db = DataStore.getDataStore();
-		User[] arr = new User[1];
-		User firstUser = new User("Ryan", "rchamer", "password", 0);
-		db.save(firstUser);
-		db.delete(firstUser);
-		User me = db.retrieve(User.class, "username", "rchamer").toArray(arr)[0];
-		assertEquals(me, null);
-	}
-	
-	@Test
 	public void testUpdate() throws WPISuiteException{
 		Data db = DataStore.getDataStore();
 		User[] arr = new User[2];
@@ -62,8 +52,6 @@ public class Db4oDatabaseTest {
 		User Mjolnir = db.retrieve(User.class, "username", "rchamer").toArray(arr)[0];
 		assertEquals(firstUser, Mjolnir);
 		db.delete(Mjolnir);
-		
-		
 	}
 	
 	@Test
@@ -114,11 +102,11 @@ public class Db4oDatabaseTest {
 	@Test
 	public void testRetrieveWithProjects() throws WPISuiteException{
 		Data db = DataStore.getDataStore();
-		User[] arr = new User[2];
+//		User[] arr = new User[2];
 		User firstUser = new User("Brian", "bgaffey", "password", 0);
-		User secondUser = new User("Alex", "alex", "password1", 1);
+//		User secondUser = new User("Alex", "alex", "password1", 1);
 		Project myProject = new Project("myProject", "0");
-		Project notMyProject = new Project("notMyProject", "1");
+//		Project notMyProject = new Project("notMyProject", "1");
 		db.save(firstUser);
 		db.save(myProject);
 //		User result = db.retrieve(User.class, "username", "bgaffey", myProject).toArray(arr)[0];
@@ -131,7 +119,7 @@ public class Db4oDatabaseTest {
 	public void testOrRetrieve() throws WPISuiteException, IllegalAccessException, InvocationTargetException{
 		Data db = DataStore.getDataStore();
 		
-		User[] arr = new User[2];
+//		User[] arr = new User[2];
 		User firstUser = new User("Ryan", "rchamer", "password", 0);
 		User secondUser = new User("Bryan", "bgaffey", "pword", 1);
 		List<User> both = new ArrayList<User>();
@@ -155,7 +143,7 @@ public class Db4oDatabaseTest {
 	
 		Data db = DataStore.getDataStore();
 		
-		User[] arr = new User[2];
+//		User[] arr = new User[2];
 		User firstUser = new User("Ryan", "rchamer", "password", 0);
 		User secondUser = new User("Bryan", "rchamer", "pword", 1);
 		List<User> first = new ArrayList<User>();
@@ -175,10 +163,9 @@ public class Db4oDatabaseTest {
 	
 	@Test
 	public void testComplexRetrieve() throws WPISuiteException, IllegalAccessException, InvocationTargetException{
-Data db = DataStore.getDataStore();
+		Data db = DataStore.getDataStore();
 		
-		
-		User[] arr = new User[2];
+//		User[] arr = new User[2];
 		User firstUser = new User("Ryan", "rchamer", "password", 0);
 		User secondUser = new User("Bryan", "rchamer", "pword", 1);
 		User thirdUser = new User("Tyler", "twack", "word", 2);

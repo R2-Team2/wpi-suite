@@ -139,7 +139,7 @@ public class UserTest {
 	@Test
 	public void testSerialize()
 	{
-		String serialized = u3.toJSON();
+		String serialized = u3.toJson();
 		
 		assertTrue(serialized.startsWith("{"));
 		assertTrue(serialized.endsWith("}"));

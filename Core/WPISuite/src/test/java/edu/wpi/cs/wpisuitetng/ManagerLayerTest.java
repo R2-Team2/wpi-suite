@@ -166,7 +166,7 @@ public class ManagerLayerTest {
 			response = "[";
 			for(Model n : fakeList)
 			{
-				response = response.concat(n.toJSON()+",");
+				response = response.concat(n.toJson()+",");
 			}
 			response = response.substring(0, response.length() - 1); // remove trailing comma
 			response = response.concat("]");
@@ -216,7 +216,7 @@ public class ManagerLayerTest {
 			response = "[";
 			for(Model n : doubleFakeList)
 			{
-				response = response.concat(n.toJSON()+",");
+				response = response.concat(n.toJson()+",");
 			}
 			response = response.substring(0, response.length() - 1); // remove trailing comma
 			response = response.concat("]");
@@ -237,7 +237,7 @@ public class ManagerLayerTest {
 			fail("Unexpected exception");
 		}
 		
-		assertEquals(s,uniqueFake.toJSON());
+		assertEquals(s,uniqueFake.toJson());
 	}
 	/**
 	 * Test method for {@link edu.wpi.cs.wpisuitetng.ManagerLayer#create(java.lang.String[], java.lang.String, javax.servlet.http.Cookie[])}.
@@ -262,7 +262,7 @@ public class ManagerLayerTest {
 			fail("Unexpected exception");
 		}
 		
-		assertEquals(s,uniqueFake.toJSON());
+		assertEquals(s,uniqueFake.toJson());
 	}
 	
 	/**

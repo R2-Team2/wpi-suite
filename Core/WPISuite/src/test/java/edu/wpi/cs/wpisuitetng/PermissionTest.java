@@ -35,7 +35,7 @@ public class PermissionTest {
 			}
 
 			@Override
-			public String toJSON() {
+			public String toJson() {
 				return null;
 			}
 

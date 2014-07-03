@@ -53,7 +53,7 @@ public class DefectTest {
 	
 	@Test
 	public void testfromJSON() {
-		String json = d1.toJSON();
+		String json = d1.toJson();
 		Defect newDefect = Defect.fromJSON(json);
 		assertTrue(newDefect.getEvents().get(0) instanceof DefectChangeset);
 		assertTrue(newDefect.getEvents().get(1) instanceof Comment);

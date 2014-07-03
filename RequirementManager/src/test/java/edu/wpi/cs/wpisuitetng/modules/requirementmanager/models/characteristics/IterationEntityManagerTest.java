@@ -67,7 +67,7 @@ public class IterationEntityManagerTest {
 	 * @throws WPISuiteException if not valid request */
 	@Test
 	public void testMakeIterationEntityManager() throws WPISuiteException {
-		assertNotNull(manager.makeEntity(defaultSession, itr.toJSON()));
+		assertNotNull(manager.makeEntity(defaultSession, itr.toJson()));
 	}
 	
 	/**
@@ -202,13 +202,13 @@ public class IterationEntityManagerTest {
 		assertEquals(3, manager.getEntity(defaultSession, "3")[0].getId());
 		assertEquals("test 3", manager.getEntity(defaultSession, "3")[0].getName());
 		
-		manager.update(defaultSession, (new Iteration(3, "changed")).toJSON());
+		manager.update(defaultSession, (new Iteration(3, "changed")).toJson());
 		assertEquals(1, manager.Count());
 		assertEquals("changed", manager.getEntity(defaultSession, "3")[0].getName());
 		
 		boolean exceptionThrown = false;
 		try {
-			manager.update(defaultSession, new Iteration(4, "change Id 4").toJSON());
+			manager.update(defaultSession, new Iteration(4, "change Id 4").toJson());
 		} catch (BadRequestException e) {
 			exceptionThrown = true;
 		}

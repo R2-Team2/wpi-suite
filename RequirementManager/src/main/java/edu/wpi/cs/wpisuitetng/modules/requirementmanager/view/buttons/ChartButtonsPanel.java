@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @version $Revision: 1.0 $
  */
 public class ChartButtonsPanel extends ToolbarGroupView {
-	
 	private final JPanel contentPanel = new JPanel();
 	
 	JButton pieChart;
@@ -41,8 +40,7 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 		super("");
 		
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
-		
-		JButton pieChart = new JButton("<html>View Pie<br />Chart</html>");
+		this.pieChart = new JButton("<html>View Pie<br />Chart</html>");
 		
 		pieChart.addActionListener(new ActionListener() {
 			@Override
@@ -51,13 +49,12 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 			}
 		});
 		
-		JButton barChart = new JButton("<html>View Bar<br />Chart</html>");
+		this.barChart = new JButton("<html>View Bar<br />Chart</html>");
 		
 		barChart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().createBarChart("Status");
-				
 			}
 		});
 		
@@ -69,7 +66,7 @@ public class ChartButtonsPanel extends ToolbarGroupView {
 			barChart.setIcon(new ImageIcon(img));
 			
 		} catch (IOException ex) {
-			System.out.println(ex.getStackTrace());
+			//TODO: Are we swallowing execeptions?!? We need to fix this ASAP
 		}
 		
 		contentPanel.add(pieChart);

@@ -73,7 +73,7 @@ public class UserManagerTest {
 	public void testMakeEntity() {
 		User u = null;
 		
-		String jsonUser = temp.toJSON();
+		String jsonUser = temp.toJson();
 		jsonUser = jsonUser.substring(0, jsonUser.length() - 1);
 		jsonUser += ", \"password\":\"abcde\"}";
 		System.out.println(jsonUser);

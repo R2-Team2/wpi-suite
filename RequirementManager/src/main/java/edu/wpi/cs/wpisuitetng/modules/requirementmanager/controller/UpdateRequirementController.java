@@ -57,7 +57,7 @@ public class UpdateRequirementController{
 	public void updateRequirement(Requirement newRequirement) 
 	{
 		Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.POST); // POST == update
-		request.setBody(newRequirement.toJSON()); // put the new requirement in the body of the request
+		request.setBody(newRequirement.toJson()); // put the new requirement in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 
 	}

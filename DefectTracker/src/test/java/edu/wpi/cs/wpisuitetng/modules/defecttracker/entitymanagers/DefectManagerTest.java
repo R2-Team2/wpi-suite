@@ -95,7 +95,7 @@ public class DefectManagerTest {
 
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Defect created = manager.makeEntity(defaultSession, newDefect.toJSON());
+		Defect created = manager.makeEntity(defaultSession, newDefect.toJson());
 		assertEquals(3, created.getId()); // IDs are unique across projects
 		assertEquals("A new defect", created.getTitle());
 		assertSame(db.retrieve(Defect.class, "id", 3).get(0), created);
@@ -105,7 +105,7 @@ public class DefectManagerTest {
 	public void testMakeBadEntity() throws WPISuiteException {
 		newDefect.setTitle(""); // invalid title
 		// make sure it's being passed through the validator
-		manager.makeEntity(defaultSession, newDefect.toJSON());
+		manager.makeEntity(defaultSession, newDefect.toJson());
 	}
 	
 	@Test
@@ -164,7 +164,7 @@ public class DefectManagerTest {
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
 		Defect anotherDefect = new Defect(-1, "a title", "a description", existingUser);
-		manager.makeEntity(defaultSession, anotherDefect.toJSON());
+		manager.makeEntity(defaultSession, anotherDefect.toJson());
 		assertEquals(2, db.retrieveAll(new Defect(), testProject).size());
 		manager.deleteAll(adminSession);
 		assertEquals(0, db.retrieveAll(new Defect(), testProject).size());
@@ -192,7 +192,7 @@ public class DefectManagerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testUpdate() throws WPISuiteException {
-		Defect updated = manager.update(defaultSession, goodUpdatedDefect.toJSON());
+		Defect updated = manager.update(defaultSession, goodUpdatedDefect.toJson());
 		assertSame(existingDefect, updated);
 		assertEquals(goodUpdatedDefect.getTitle(), updated.getTitle()); // make sure ModelMapper is used
 		assertEquals(1, updated.getEvents().size());
@@ -218,13 +218,13 @@ public class DefectManagerTest {
 	@Test(expected=BadRequestException.class)
 	public void testBadUpdate() throws WPISuiteException {
 		goodUpdatedDefect.setTitle("");
-		manager.update(defaultSession, goodUpdatedDefect.toJSON());
+		manager.update(defaultSession, goodUpdatedDefect.toJson());
 	}
 	
 	@Test
 	public void testNoUpdate() throws WPISuiteException {
 		Date origLastModified = existingDefect.getLastModifiedDate();
-		Defect updated = manager.update(defaultSession, existingDefect.toJSON());
+		Defect updated = manager.update(defaultSession, existingDefect.toJson());
 		assertSame(existingDefect, updated);
 		// there were no changes - make sure lastModifiedDate is same, no new events
 		assertEquals(origLastModified, updated.getLastModifiedDate());
@@ -235,7 +235,7 @@ public class DefectManagerTest {
 	public void testProjectChangeIgnored() throws WPISuiteException {
 		Defect existingDefectCopy = new Defect(1, "An existing defect", "", existingUser);
 		existingDefectCopy.setProject(otherProject);
-		Defect updated = manager.update(defaultSession, existingDefectCopy.toJSON());
+		Defect updated = manager.update(defaultSession, existingDefectCopy.toJson());
 		assertEquals(0, updated.getEvents().size());
 		assertSame(testProject, updated.getProject());
 	}

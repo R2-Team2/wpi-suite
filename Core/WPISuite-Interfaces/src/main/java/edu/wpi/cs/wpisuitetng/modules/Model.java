@@ -37,7 +37,7 @@ public interface Model {
 	/** toJSON : serializing this Model's contents into a JSON/GSON string
 	 * @return	A string containing the serialized JSON representation of this Model.
 	 */
-	public String toJSON();
+	public String toJson();
 	
 	/* deserializing */
 	
