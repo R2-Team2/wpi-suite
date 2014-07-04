@@ -3,6 +3,10 @@ apply plugin: 'application'
 mainClassName = "edu.wpi.cs.wpisuitetng.janeway.Janeway"
 //applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 
+evaluationDependsOn(':DefectTracker')
+evaluationDependsOn(':RequirementManager')
+evaluationDependsOn(':PostBoard')
+
 dependencies{
 	compile 'com.lowagie:itext:2.1.5'
 	compile 'org.swinglabs.swingx:swingx-all:1.6.4'
@@ -16,7 +20,7 @@ dependencies{
 }
 
 run.dependsOn {
-	project(':RequirementManager').janewayJar
-	project(':DefectTracker').janewayJar
-	project(':PostBoard').janewayJar
+    project(':DefectTracker').jar
+    project(':RequirementManager').jar
+    project(':PostBoard').jar
 }

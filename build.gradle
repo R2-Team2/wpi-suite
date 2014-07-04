@@ -8,7 +8,13 @@ buildscript {
     }
 }
 
-//Common dependencies
+//We depend on the core projects, and should fail if they fail
+dependencies {
+    project ':WPISuite'
+    project ':WPISuite-Interfaces'
+}
+
+//Common config for all WPISuite projects
 subprojects {
     apply plugin: 'java'
 	apply plugin: 'eclipse'
@@ -16,7 +22,7 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: "jacoco"
     apply plugin: 'pmd'
-//    apply plugin: 'findbugs'
+    apply plugin: 'findbugs'
 
 	//Java version 1.7
     sourceCompatibility = targetCompatibility = 1.7
@@ -34,7 +40,7 @@ subprojects {
         compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
         compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
         
-        	//runtime files('libs/a.jar', 'libs/b.jar')
+        //runtime files('libs/a.jar', 'libs/b.jar')
 	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
 
 		testCompile 'junit:junit:4.11'
@@ -51,19 +57,23 @@ subprojects {
         }
     }
     
+    test{
+        //jvmArgs "-XX:-UseSplitVerifier"
+		ignoreFailures = true //Lets builds pass with failing tests
+    }
+    
     jacoco {
         
         toolVersion = "0.7.1.201405082137"
         //reportsDir = file("$buildDir/reports/jacoco")
     }
     
-    test{
-//        jvmArgs "-XX:-UseSplitVerifier"
-		ignoreFailures = true //Lets builds pass with failing tests
+    pmd{ //Static analysis by PMD
+        ignoreFailures = true //Lets builds pass with failing tests
     }
     
-    pmd{ //Static analysis by PMD
-        ignoreFailures = true
+    findbugs{
+        ignoreFailures = true //Lets builds pass with failing tests
     }
 }
 
@@ -71,3 +81,4 @@ subprojects {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
 }
+

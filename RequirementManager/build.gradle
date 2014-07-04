@@ -11,15 +11,3 @@ dependencies{
 	compile project(':WPISuite-Interfaces')
 	compile project(':Janeway')
 }
-
-jar.doLast{
-	tasks.janewayJar.execute()
-}
-
-task janewayJar(type: Copy){
-	dependsOn "jar"
-	
-	from "${tasks['jar'].destinationDir}"
-	into "${project(':Janeway').projectDir}/modules/"
-	include '*.jar'
-}
