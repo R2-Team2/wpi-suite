@@ -246,8 +246,13 @@ public class TestIterationModel {
         
         iterationModel.addIteration(mockIteration1);
         
+        //Ensure the iteration was added properly
+        assertEquals(1, iterationModel.getSize());
+        assertTrue(iterationModel.getIterations().contains(mockIteration1));
+        
         List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
         
+        //Ensure getIterationForDate worked
         assertEquals(1, result.size());
         assertTrue(result.contains(mockIteration1));
         
@@ -258,8 +263,13 @@ public class TestIterationModel {
         
         iterationModel.addIteration(mockIteration2);
         
+        //Ensure the iteration was added properly
+        assertEquals(2, iterationModel.getSize());
+        assertTrue(iterationModel.getIterations().contains(mockIteration2));
+        
         result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
         
+        //Ensure getIterationForDate worked
         assertEquals(2, result.size());
         assertTrue(result.contains(mockIteration1));
         assertTrue(result.contains(mockIteration2));
