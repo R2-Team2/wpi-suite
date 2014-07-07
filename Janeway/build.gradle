@@ -15,8 +15,14 @@ dependencies{
 	compile 'com.miglayout:miglayout-swing:4.1' //Used to be 4.0, will this cause issues?
 	
     //Core projects
+	compile project(':JanewayAPI')
     compile project(':WPISuite-Interfaces')
     compile project(':Network')
+	
+	//Modules
+	runtime project(':DefectTracker')
+	runtime project(':RequirementManager')
+	runtime project(':PostBoard')
 }
 
-run.dependsOn(':DefectTracker:jar', ':RequirementManager:jar', ':PostBoard:jar')
+//run.dependsOn(':DefectTracker:jar', ':RequirementManager:jar', ':PostBoard:jar')

@@ -9,5 +9,5 @@ dependencies{
 	//Module depends on client
 	compile project(':Network')
 	compile project(':WPISuite-Interfaces')
-	compile project(':Janeway')
+	compile project(':JanewayAPI')
 }

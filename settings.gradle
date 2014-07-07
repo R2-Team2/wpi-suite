@@ -1,6 +1,7 @@
 //Core Suite
-include "WPISuite", "WPISuite-Interfaces", "Network", "Janeway"
+include "WPISuite", "WPISuite-Interfaces", "Network", "Janeway", "JanewayAPI"
 
+//Set directories for projects in the Core folder
 project(":WPISuite").projectDir = new File(settingsDir, 'Core/WPISuite')
 project(":WPISuite-Interfaces").projectDir = new File(settingsDir, 'Core/WPISuite-Interfaces')
 
