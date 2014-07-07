@@ -42,7 +42,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
      */
     public OverviewTreePanel()
     {
-        this.setViewportView(tree);
+        this.setViewportView(null);
+        //        this.setViewportView(tree);
         ViewEventController.getInstance().setOverviewTree(this);
         this.refresh();
     }
@@ -127,8 +128,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener, Tre
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+        //        int x = e.getX();
+        //        int y = e.getY();
         
         if (e.getClickCount() == 2)
         {
