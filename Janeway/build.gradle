@@ -19,6 +19,4 @@ dependencies{
     compile project(':Network')
 }
 
-run.dependsOn(':DefectTracker:jar')
-run.dependsOn(':RequirementManager:jar')
-run.dependsOn(':PostBoard:jar')
+run.dependsOn(':DefectTracker:jar', ':RequirementManager:jar', ':PostBoard:jar')
