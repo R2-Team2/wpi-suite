@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 apply plugin: 'application'
 
 mainClassName = "edu.wpi.cs.wpisuitetng.janeway.Janeway"
@@ -27,6 +29,10 @@ dependencies{
 
 eclipse{
 	project{
-		buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules.launch'
+		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+			buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Windows.launch'
+		} else {
+			buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Unix.launch'
+		}
 	}
 }
