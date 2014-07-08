@@ -51,6 +51,12 @@ subprojects {
 	}
     
     eclipse{
+		
+		project{
+			//Mark as Gradle project for Gradle plugin
+			natures 'org.springsource.ide.eclipse.gradle.core.nature'
+		}
+		
         classpath{
             downloadSources = true
             downloadJavadoc = true //This is false otherwise, we love to read JavaDoc to help use understand libraries :)

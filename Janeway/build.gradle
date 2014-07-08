@@ -25,4 +25,8 @@ dependencies{
 	runtime project(':PostBoard')
 }
 
-//run.dependsOn(':DefectTracker:jar', ':RequirementManager:jar', ':PostBoard:jar')
+eclipse{
+	project{
+		buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules.launch'
+	}
+}
