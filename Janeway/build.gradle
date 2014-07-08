@@ -1,13 +1,15 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
+def modules = ['DefectTracker', 'RequirementManager', 'PostBoard']
+
 apply plugin: 'application'
 
 mainClassName = "edu.wpi.cs.wpisuitetng.janeway.Janeway"
 //applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 
-evaluationDependsOn(':DefectTracker')
-evaluationDependsOn(':RequirementManager')
-evaluationDependsOn(':PostBoard')
+modules.each {
+    evaluationDependsOn(":${it}")
+}
 
 dependencies{
 	compile 'com.lowagie:itext:2.1.5'
@@ -22,9 +24,9 @@ dependencies{
     compile project(':Network')
 	
 	//Modules
-	runtime project(':DefectTracker')
-	runtime project(':RequirementManager')
-	runtime project(':PostBoard')
+    modules.each {
+	    runtime project(":${it}")
+        }
 }
 
 eclipse{
