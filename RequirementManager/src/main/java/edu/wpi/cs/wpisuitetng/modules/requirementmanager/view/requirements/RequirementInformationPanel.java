@@ -99,9 +99,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.parentPanel = parentPanel;
         this.viewMode = mode;
         this.setMinimumSize(new Dimension(500, 200));
-        this.buildLayout();
-        
         this.iterationModel = IterationModel.getInstance();
+        this.buildLayout();
         
         clearInfo();
     }
@@ -113,7 +112,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     private void buildLayout() {
         ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "", "shrink"));
-        //instantialize everything.
+        //instantiate everything.
         JLabel labelName = new JLabel("Name *");
         JLabel labelReleaseNum = new JLabel("Release Number");
         JLabel labelDescription = new JLabel("Description *");
@@ -157,14 +156,12 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         dropdownType.setBackground(Color.WHITE);
         dropdownType.addItemListener(this);
         
-        dropdownStatus = (new JComboBox<RequirementStatus>(
-                RequirementStatus.values()));
+        dropdownStatus = (new JComboBox<RequirementStatus>(RequirementStatus.values()));
         dropdownStatus.setEditable(false);
         dropdownStatus.setBackground(Color.WHITE);
         dropdownStatus.addItemListener(this);
         
         // Radio buttons
-        
         dropdownPriority = new JComboBox<RequirementPriority>(RequirementPriority.values());
         dropdownPriority.setEditable(false);
         dropdownPriority.setBackground(Color.WHITE);
@@ -308,7 +305,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     }
     
     /**
-     * Repopulates the iteration information in case new iterations have been
+     * Re-populates the iteration information in case new iterations have been
      * created.
      */
     private void repopulateIterationInformation() {
@@ -478,7 +475,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
      * Validates the values of the fields in the requirement panel to ensure
      * they are valid
      * 
-     * @param warn whether to warn the user or not @return whether fields are valid.
+     * @param warn whether to warn the user or not
+     * @return whether fields are valid.
      */
     public boolean validateFields(boolean warn) {
         boolean isNameValid;
@@ -680,7 +678,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.parentPanel.fireDeleted(allDisabled || inProgress || !allChildrenDeleted);
     }
     
-    /** @return Returns whether any field in the panel has been changed
+    /**
+     * @return Returns whether any field in the panel has been changed
      */
     public boolean anythingChanged()
     {
@@ -688,13 +687,12 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         {
             return anythingChangedCreating();
         }
-        else
-        {
-            return anythingChangedEditing();
-        }
+        //else
+        return anythingChangedEditing();
     }
     
-    /** @return Returns whether any fields in the panel have been changed
+    /**
+     * @return Returns whether any fields in the panel have been changed
      */
     private boolean anythingChangedCreating() {
         // Check if the user has changed the name
@@ -730,7 +728,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         return false;
     }
     
-    /** @return whether any fields have been changed.
+    /**
+     * @return whether any fields have been changed.
      */
     private boolean anythingChangedEditing() {
         // Check if the user has changed the name
@@ -776,16 +775,9 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
      * Returns whether the panel is ready to be removed or not based on if there
      * are changes that haven't been
      * saved.
-     * @return whether the panel can be removed. * @see
-     *         edu.wpi.cs.wpisuitetng.modules
-     *         .requirementmanager.view.requirements
-     *         .RequirementPanelListener#readyToRemove() * @see
-     *         edu.wpi.cs.wpisuitetng
-     *         .modules.requirementmanager.view.requirements
-     *         .RequirementPanelListener#readyToRemove() * @see
-     *         edu.wpi.cs.wpisuitetng
-     *         .modules.requirementmanager.view.requirements
-     *         .RequirementPanelListener#readyToRemove()
+     * 
+     * @return whether the panel can be removed.
+     * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
      */
     public boolean readyToRemove()
     {
@@ -795,7 +787,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     /**
      * Method itemStateChanged.
      * 
-     * @param e ItemEvent @see java.awt.event.ItemListener#itemStateChanged(ItemEvent)
+     * @param e ItemEvent
+     * @see java.awt.event.ItemListener#itemStateChanged(ItemEvent)
      */
     @Override
     public void itemStateChanged(ItemEvent e) {
@@ -867,8 +860,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     /**
      * Checks if the input string is an integer
      * 
-     * @param input
-     *            the string to test @return true if input is an integer, false otherwise
+     * @param input the string to test
+     * @return true if input is an integer, false otherwise
      */
     public boolean isInteger(String input) {
         try {
@@ -888,7 +881,8 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         return errorName;
     }
     
-    /** @return the error description label
+    /**
+     * @return the error description label
      */
     public JLabel getErrorDescription() {
         return errorDescription;
