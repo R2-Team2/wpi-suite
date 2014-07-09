@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,27 +27,28 @@ import com.google.gson.Gson;
 //Unfortunately, we need PowerMockito for GSON
 //AVOID POWERMOCK AT ALL COSTS IF POSSIBLE
 //If you don't know what you are doing you will cause more harm than good
+//If you are using PowerMock for code that you wrote, you are doing it wrong
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ Gson.class })
+@PrepareForTest({ Gson.class, SimpleDateFormat.class, PostBoardMessage.class })
 public class TestPostBoardMessage {
     Gson mockParser;
     Date mockDate;
-    DateFormat mockDateFormat;
+    SimpleDateFormat mockDateFormat;
     
     PostBoardMessage message;
     
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         mockParser = mock(Gson.class);
         mockDate = new Date(60L);
         
         mockDateFormat = new SimpleDateFormat("");
         
-        PostBoardMessage.setParser(mockParser);
+        whenNew(Gson.class).withNoArguments().thenReturn(mockParser);
+        whenNew(SimpleDateFormat.class).withArguments("MM/dd/yy hh:mm a").thenReturn(mockDateFormat);
         
         message = new PostBoardMessage("Test Message");
         message.setDate(mockDate);
-        message.setDateFormat(mockDateFormat);
     }
     
     @Test
@@ -57,8 +58,6 @@ public class TestPostBoardMessage {
         assertNotNull(newMessage);
         assertEquals("Test Message", newMessage.getMessage());
         assertNotNull(newMessage.getDate());
-        assertNotNull(PostBoardMessage.getParser());
-        assertEquals(mockParser, PostBoardMessage.getParser());
     }
     
     @Test

@@ -1,12 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ *
  * Contributors:
- * Chris Casola
- * Andrew Hurle
+ *    Chris Casola
+ *    Andrew Hurle
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.postboard.model;
@@ -26,12 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 public class PostBoardMessage extends AbstractModel {
     
-    /** Gson (JSON) parser */
-    private static Gson parser = new Gson();
-    
-    /** Format to use for toString() method */
-    private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
-    
     /** The message */
     private final String message;
     
@@ -45,7 +41,7 @@ public class PostBoardMessage extends AbstractModel {
      */
     public PostBoardMessage(String message) {
         this.message = message;
-        this.date = new Date();
+        date = new Date();
     }
     
     /**
@@ -53,7 +49,7 @@ public class PostBoardMessage extends AbstractModel {
      */
     @Override
     public String toJson() {
-        return parser.toJson(this, PostBoardMessage.class);
+        return new Gson().toJson(this, PostBoardMessage.class);
     }
     
     /**
@@ -64,6 +60,7 @@ public class PostBoardMessage extends AbstractModel {
      * @return the PostBoardMessage contained in the given JSON
      */
     public static PostBoardMessage fromJson(String json) {
+        final Gson parser = new Gson();
         return parser.fromJson(json, PostBoardMessage.class);
     }
     
@@ -76,7 +73,30 @@ public class PostBoardMessage extends AbstractModel {
      *         string
      */
     public static PostBoardMessage[] fromJsonArray(String json) {
+        final Gson parser = new Gson();
         return parser.fromJson(json, PostBoardMessage[].class);
+    }
+    
+    //Getters and Setters
+    /**
+     * @return the date
+     */
+    Date getDate() {
+        return this.date;
+    }
+    
+    /**
+     * @param date the date to set
+     */
+    void setDate(Date date) {
+        this.date = date;
+    }
+    
+    /**
+     * @return the message
+     */
+    String getMessage() {
+        return this.message;
     }
     
     /*
@@ -85,6 +105,8 @@ public class PostBoardMessage extends AbstractModel {
     @Override
     public String toString() {
         // Format the date-time stamp
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
+        
         return dateFormat.format(date) + ":    " + message;
     }
     
@@ -106,54 +128,4 @@ public class PostBoardMessage extends AbstractModel {
         return null;
     }
     
-    //For tests
-    
-    /**
-     * @return the message
-     */
-    String getMessage() {
-        return this.message;
-    }
-    
-    /**
-     * @return the parser
-     */
-    static Gson getParser() {
-        return parser;
-    }
-    
-    /**
-     * @param parser the parser to set
-     */
-    static void setParser(Gson parser) {
-        PostBoardMessage.parser = parser;
-    }
-    
-    /**
-     * @param date the date to set
-     */
-    void setDate(Date date) {
-        this.date = date;
-    }
-    
-    /**
-     * @return the date
-     */
-    Date getDate() {
-        return this.date;
-    }
-    
-    /**
-     * @return the dateFormat
-     */
-    DateFormat getDateFormat() {
-        return this.dateFormat;
-    }
-    
-    /**
-     * @param dateFormat the dateFormat to set
-     */
-    void setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-    }
 }
