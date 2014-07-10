@@ -52,8 +52,12 @@ task modules(type: Copy) {
     }
 }
 
+applicationDistribution.from(modulesConf)
 applicationDistribution.from(modules) {
     into modulesDir
 }
 
-applicationDistribution.from(modulesConf)
+applicationDistribution.excludes = ["${project.name}.jar"]
+modulesList.each{
+    applicationDistribution.excludes.add("${it}.jar")
+}
