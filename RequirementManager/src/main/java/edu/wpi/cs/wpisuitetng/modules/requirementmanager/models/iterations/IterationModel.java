@@ -253,8 +253,8 @@ public class IterationModel extends AbstractListModel {
             Date startDate = iterationStartDate.getDate();
             Date endDate = iterationEndDate.getDate();
             
-            boolean startValid = startDate.before(date) || startDate.equals(date);
-            boolean endValid = endDate.after(date) || endDate.equals(date);
+            boolean startValid = startDate.compareTo(date) <= 0;
+            boolean endValid = endDate.compareTo(date) >= 0;
             
             if (startValid && endValid) {
                 iter.add(it);
