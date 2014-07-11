@@ -1,8 +1,10 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
+//Settings for Janeway related to modules and creating the distribution
 def modulesList = ['DefectTracker', 'RequirementManager', 'PostBoard']
 def modulesDir = 'modules'
 def modulesConf = 'modules.conf'
+def libsDir = 'libs'
 
 apply plugin: 'application'
 
@@ -41,6 +43,15 @@ eclipse{
 	}
 }
 
+jar {
+    manifest{
+        attributes('Class-Path': configurations.runtime.files.collect {
+            if(!modulesList.contains(it.name.minus(".jar")) || 'Janeway'.equals(it.name.minus("jar")))
+            {"${libsDir}/${it.name}"}}.join(' ') )
+        attributes('Main-Class': "${mainClassName}")
+    }
+}
+
 task modules(type: Copy) {
     dependsOn jar
     
@@ -52,12 +63,39 @@ task modules(type: Copy) {
     }
 }
 
-applicationDistribution.from(modulesConf)
-applicationDistribution.from(modules) {
-    into modulesDir
+//TODO Start using when Distribution plugin is further developed
+//Until then a custom task is more ideal
+
+distZip.enabled = false
+distTar.enabled = false
+installApp.enabled = false
+startScripts.enabled = false
+
+task distribution(type: Zip){
+    archiveName = "${project.name}.zip"
+    
+    //Main jar
+    from(jar)
+    
+    //Scripts to launch
+    //from(startScripts)
+    
+    //Libraries
+    from(configurations.runtime){
+        into "${libsDir}"
+        //Exclude modules
+        modulesList.each{
+            excludes.add("${it}.jar")
+        }
+    }
+    
+    //Modules
+    from(modules) {
+        into modulesDir
+        
+    }
+    
+    //Module configuration file
+    from(modulesConf)
 }
 
-applicationDistribution.excludes = ["${project.name}.jar"]
-modulesList.each{
-    applicationDistribution.excludes.add("${it}.jar")
-}
