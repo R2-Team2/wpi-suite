@@ -81,6 +81,20 @@ subprojects {
     findbugs{
         ignoreFailures = true //Lets builds pass with failing tests
     }
+    
+    //Disable PMD on tests
+    pmdTest{
+        enabled = false
+    }
+    
+    //Disable findBugs
+    findbugsMain{
+        enabled = false
+    }
+    
+    findbugsTest{
+        enabled = false
+    }
 }
 
 //To make sure there is a script people can avoid having to install Gradle

@@ -75,14 +75,16 @@ task distribution(type: Zip){
     archiveName = "${project.name}.zip"
     
     //Main jar
-    from(jar)
+    from(jar){
+        into "${project.name}"
+    }
     
     //Scripts to launch
     //from(startScripts)
     
     //Libraries
     from(configurations.runtime){
-        into "${libsDir}"
+        into "${project.name}/${libsDir}"
         //Exclude modules
         modulesList.each{
             excludes.add("${it}.jar")
@@ -91,11 +93,13 @@ task distribution(type: Zip){
     
     //Modules
     from(modules) {
-        into modulesDir
+        into "${project.name}/${modulesDir}"
         
     }
     
     //Module configuration file
-    from(modulesConf)
+    from(modulesConf){
+        into "${project.name}"
+    }
 }
 
