@@ -241,8 +241,8 @@ public class TestIterationModel {
     public void testGetIterationForDate_twoIterations() {
         when(mockIteration1.getStart()).thenReturn(mockStartDate1);
         when(mockIteration1.getEnd()).thenReturn(mockEndDate1);
-        when(mockStartDate1.getDate()).thenReturn(createDate(2014, 5, 29, 0, 0, 0));
-        when(mockEndDate1.getDate()).thenReturn(createDate(2014, 5, 30, 0, 0, 0));
+        when(mockStartDate1.getDate()).thenReturn(createDate(2014, 5, 1, 0, 0, 0));
+        when(mockEndDate1.getDate()).thenReturn(createDate(2014, 5, 2, 0, 0, 0));
         
         iterationModel.addIteration(mockIteration1);
         
@@ -250,7 +250,7 @@ public class TestIterationModel {
         assertTrue(iterationModel.getIterations().contains(mockIteration1));
         assertEquals(1, iterationModel.getSize());
         
-        List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
+        List<Iteration> result = iterationModel.getIterationForDate(createDate(2014, 5, 2, 0, 0, 0));
         
         //Ensure getIterationForDate worked
         assertTrue(result.contains(mockIteration1));
@@ -258,8 +258,8 @@ public class TestIterationModel {
         
         when(mockIteration2.getStart()).thenReturn(mockStartDate2);
         when(mockIteration2.getEnd()).thenReturn(mockEndDate2);
-        when(mockStartDate2.getDate()).thenReturn(createDate(2014, 5, 28, 0, 0, 0));
-        when(mockEndDate2.getDate()).thenReturn(createDate(2014, 5, 29, 0, 0, 0));
+        when(mockStartDate2.getDate()).thenReturn(createDate(2014, 5, 2, 0, 0, 0));
+        when(mockEndDate2.getDate()).thenReturn(createDate(2014, 5, 3, 0, 0, 0));
         
         iterationModel.addIteration(mockIteration2);
         
@@ -267,7 +267,7 @@ public class TestIterationModel {
         assertTrue(iterationModel.getIterations().contains(mockIteration2));
         assertEquals(2, iterationModel.getSize());
         
-        result = iterationModel.getIterationForDate(createDate(2014, 5, 29, 0, 0, 0));
+        result = iterationModel.getIterationForDate(createDate(2014, 5, 2, 0, 0, 0));
         
         //Ensure getIterationForDate worked
         assertTrue(result.contains(mockIteration1));
