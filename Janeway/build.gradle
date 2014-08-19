@@ -53,6 +53,9 @@ jar {
 }
 
 task modules(type: Copy) {
+	description = "Copy over each module .jar file for Janeway into the modules folder"
+	group = "Application"
+	
     dependsOn jar
     
     modulesList.each{
@@ -66,14 +69,19 @@ task modules(type: Copy) {
 //TODO Start using when Distribution plugin is further developed
 //Until then a custom task is more ideal
 
-distZip.enabled = false
-distTar.enabled = false
-installApp.enabled = false
-startScripts.enabled = false
+//distZip.enabled = false
+//distTar.enabled = false
+//installApp.enabled = false
+//startScripts.enabled = false
+
+tasks.removeAll([distZip, distTar, installApp, startScripts])
 
 task distribution(type: Zip){
-    archiveName = "${project.name}.zip"
-    
+	description = "Create a .zip distribution for Janeway"
+	group = "Application"
+	
+	archiveName = "${project.name}.zip"
+	
     //Main jar
     from(jar){
         into "${project.name}"
