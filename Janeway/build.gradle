@@ -11,6 +11,7 @@ apply plugin: 'application'
 mainClassName = "edu.wpi.cs.wpisuitetng.janeway.Janeway"
 //applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 
+//Janeway depends on it's modules, look at the modules first
 modulesList.each {
     evaluationDependsOn(":${it}")
 }
@@ -27,30 +28,41 @@ dependencies{
     compile project(':WPISuite-Interfaces')
     compile project(':Network')
 	
-	//Modules
+    //We depend on each modules
     modulesList.each {
-	    runtime project(":${it}")
-        }
+        runtime project(":${it}")
+    }
 }
 
+//Workaround so that Eclipse knows how to run the Gradle tasks 'modules' in order to prepare modules. 'modules' is dependency for running Janeway
+//TODO Pretty sure there is a better way of doing this
 eclipse{
-	project{
-		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-			buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Windows.launch'
-		} else {
-			buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Unix.launch'
-		}
-	}
+    project{
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Windows.launch'
+        } else {
+            buildCommand 'org.eclipse.ui.externaltools.ExternalToolBuilder', LaunchConfigHandle: '<project>/.externalToolBuilders/Gradle - Prepare Modules - Unix.launch'
+        }
+    }
 }
 
+//Add the dependencies to the .jar manifest
 jar {
     manifest{
         attributes('Class-Path': configurations.runtime.files.collect {
-            if(!modulesList.contains(it.name.minus(".jar")) || 'Janeway'.equals(it.name.minus("jar")))
+            //Don't include the modules in the manifest, we're including them in the modules folder
+            if(!modulesList.contains(it.name.minus(".jar"))) 
             {"${libsDir}/${it.name}"}}.join(' ') )
         attributes('Main-Class': "${mainClassName}")
     }
 }
+
+//Remove the default distribution tasks, since Janeway requires more complicated configuration
+tasks.removeAll([distZip, distTar, installApp, startScripts])
+
+/**
+ * Custom Gradle tasks to prepare the Janeway modules, and create a distribution. Equivalent to Ant targets
+ */
 
 task modules(type: Copy) {
 	description = "Copy over each module .jar file for Janeway into the modules folder"
@@ -66,16 +78,6 @@ task modules(type: Copy) {
     }
 }
 
-//TODO Start using when Distribution plugin is further developed
-//Until then a custom task is more ideal
-
-//distZip.enabled = false
-//distTar.enabled = false
-//installApp.enabled = false
-//startScripts.enabled = false
-
-tasks.removeAll([distZip, distTar, installApp, startScripts])
-
 task distribution(type: Zip){
 	description = "Create a .zip distribution for Janeway"
 	group = "Application"
@@ -86,9 +88,6 @@ task distribution(type: Zip){
     from(jar){
         into "${project.name}"
     }
-    
-    //Scripts to launch
-    //from(startScripts)
     
     //Libraries
     from(configurations.runtime){

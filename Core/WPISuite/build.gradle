@@ -1,37 +1,30 @@
+//Import the Tomcat plugin
 buildscript {
     repositories {
         jcenter()
-    //  maven {
-    //      url "https://source.db4o.com/maven"
-    //  }
     }
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.3'
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.4'
     }
 }
 
+//Apply plugins
 apply plugin: 'war'
 apply plugin: 'tomcat'
 
-webAppDirName = 'WebContent'
+//Which version of Tomcat should be used
+def tomcatVersion = '7.0.54'
 
 dependencies {
-	def tomcatVersion = '7.0.54'
-	
-	providedCompile "javax.servlet:javax.servlet-api:3.0.1"
-	
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    
+    //Depend on tomcat
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
+    tomcat "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
     tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
         exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }
 	
-//	tomcat {
-//		httpPort = 8090
-//		httpsPort = 8091
-//		enableSSL = true
-//	}
-	
+    //Core project dependency	
     compile project(':WPISuite-Interfaces')
     
     //Modules
