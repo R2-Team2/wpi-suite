@@ -56,9 +56,3 @@ subprojects {
         //reportsDir = file("$buildDir/reports/jacoco")
     }
 }
-
-//To make sure there is a script people can avoid having to install Gradle
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
-}
-
