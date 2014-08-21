@@ -1,12 +1,17 @@
+buildscript {
+    repositories {
+        jcenter()
+    //  maven {
+    //      url "https://source.db4o.com/maven"
+    //  }
+    }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.3'
+    }
+}
 
 apply plugin: 'war'
 apply plugin: 'tomcat'
-
-//repositories {
-//	maven {
-//		url "https://source.db4o.com/maven"
-//	}
-//}
 
 webAppDirName = 'WebContent'
 
