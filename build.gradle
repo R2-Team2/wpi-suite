@@ -26,7 +26,8 @@ subprojects {
 	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies placed in the libs directory
 
 		testCompile 'junit:junit:4.11'
-        testCompile 'org.mockito:mockito-all:1.9.5'
+        testCompile 'org.mockito:mockito-core:1.9.5'
+        //TODO: Remove
 		testCompile 'org.powermock:powermock-api-mockito:1.5.5'
 		testCompile 'org.powermock:powermock-module-junit4:1.5.5'
         //Add code coverage? cucumber?
