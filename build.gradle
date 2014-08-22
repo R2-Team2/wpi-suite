@@ -23,7 +23,7 @@ subprojects {
         compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
         
         //runtime files('libs/a.jar', 'libs/b.jar')
-	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies
+	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies placed in the libs directory
 
 		testCompile 'junit:junit:4.11'
         testCompile 'org.mockito:mockito-all:1.9.5'
@@ -35,7 +35,7 @@ subprojects {
     eclipse{
 		
 		project{
-			//Mark as Gradle project for Gradle plugin
+			//Mark as Gradle project for Gradle plugin in case it is installed
 			natures 'org.springsource.ide.eclipse.gradle.core.nature'
 		}
 		
@@ -54,5 +54,25 @@ subprojects {
         
         toolVersion = "0.7.1.201405082137"
         //reportsDir = file("$buildDir/reports/jacoco")
+    }
+    
+    //Using << ensures that the task will not be executed when being evaluated
+    task initModule << {
+        description = "Generate the folders required for a WPI-Suite module. Comes with empty files to allow it to be checked into Git"
+        //group = "Other"
+        
+        //Create folders that will contain code, with an empty file if they are empty directories, so they can be checked into Git for each directory
+        project.sourceSets*.java.srcDirs*.each {
+            it.mkdirs()
+            if ((it.list() as List).empty){
+                new File("$it/empty").createNewFile()
+            }
+        }
+        project.sourceSets*.resources.srcDirs*.each {
+            it.mkdirs()
+            if ((it.list() as List).empty){
+                new File("$it/empty").createNewFile()
+            }
+        }
     }
 }
