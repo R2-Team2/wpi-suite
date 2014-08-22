@@ -6,21 +6,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.google.gson.Gson;
 
@@ -30,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 
-@RunWith(PowerMockRunner.class)
 public class TestPostBoardEntityManager {
     Data mockDb;
     Session mockSession;
@@ -68,38 +62,6 @@ public class TestPostBoardEntityManager {
     @Test
     public void testConstructor() {
         assertEquals(mockDb, entityManager.getDb());
-    }
-    
-    @Test
-    @PrepareForTest({ PostBoardMessage.class })
-    public void testMakeEntity() throws WPISuiteException {
-        mockStatic(PostBoardMessage.class);
-        
-        when(PostBoardMessage.fromJson("Test Json")).thenReturn(mockMessage1);
-        when(mockDb.save(mockMessage1, mockProject)).thenReturn(true);
-        
-        PostBoardMessage result = entityManager.makeEntity(mockSession, "Test Json");
-        
-        assertEquals(mockMessage1, result);
-        
-        verify(mockDb, times(1)).save(mockMessage1, mockProject);
-        verifyStatic(times(1));
-    }
-    
-    @Test(expected = WPISuiteException.class)
-    @PrepareForTest(PostBoardMessage.class)
-    public void testMakeEntity_Exception() throws WPISuiteException {
-        mockStatic(PostBoardMessage.class);
-        
-        when(PostBoardMessage.fromJson("Test Json")).thenReturn(mockMessage1);
-        when(mockDb.save(mockMessage1, mockProject)).thenReturn(false);
-        
-        PostBoardMessage result = entityManager.makeEntity(mockSession, "Test Json");
-        
-        verify(mockDb, times(1)).save(mockMessage1, mockProject);
-        verifyStatic(times(1));
-        
-        assertNull(result);
     }
     
     @Test(expected = WPISuiteException.class)
