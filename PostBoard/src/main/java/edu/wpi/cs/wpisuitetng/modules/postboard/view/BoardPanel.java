@@ -44,12 +44,14 @@ public class BoardPanel extends JPanel {
     private final JList<PostBoardModel> lstBoard;
     
     /** A text field where the user can enter a new message */
-    private final JTextField txtNewMessage;
+    private JTextField txtNewMessage;
     
     /** A button for submitting new messages */
     private final JButton btnSubmit;
     
     private final JScrollPane lstScrollPane;
+    
+    private final MouseAdapter mouseListener;
     
     /**
      * This is a model for the lstBoard component. Basically it
@@ -73,6 +75,12 @@ public class BoardPanel extends JPanel {
         txtNewMessage = new JTextField("Enter a message here.");
         btnSubmit = new JButton("Submit");
         
+        mouseListener = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                txtNewMessage.setText("");
+            }
+        };
+        
         // Change the font of the JList
         lstBoard.setFont(lstBoard.getFont().deriveFont(11));
         
@@ -87,11 +95,7 @@ public class BoardPanel extends JPanel {
         lstScrollPane.setPreferredSize(new Dimension(500, 400));
         
         // Clear the contents of the text field when the user clicks on it
-        txtNewMessage.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                txtNewMessage.setText("");
-            }
-        });
+        txtNewMessage.addMouseListener(mouseListener);
         
         // Adjust sizes and alignments
         btnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -112,7 +116,12 @@ public class BoardPanel extends JPanel {
         return txtNewMessage;
     }
     
-    //For testing:
+    /**
+     * @param txtNewMessage the txtNewMessage to set
+     */
+    void setTxtNewMessage(JTextField txtNewMessage) {
+        this.txtNewMessage = txtNewMessage;
+    }
     
     /**
      * @return the lstBoard
@@ -147,5 +156,12 @@ public class BoardPanel extends JPanel {
      */
     JScrollPane getLstScrollPane() {
         return this.lstScrollPane;
+    }
+    
+    /**
+     * @return the mouseListener
+     */
+    MouseAdapter getMouseListener() {
+        return this.mouseListener;
     }
 }
