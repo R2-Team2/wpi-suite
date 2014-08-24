@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -31,15 +33,17 @@ public class TestPostBoardEntityManager {
     private Project mockProject = mock(Project.class);
     
     private PostBoardMessage message = new PostBoardMessage("Test");
+    private Date messageDate = new Date(0L);
+    private String messageDateJson = new Gson().toJson(messageDate);
     private PostBoardMessage mockMessage1 = mock(PostBoardMessage.class);
     private PostBoardMessage mockMessage2 = mock(PostBoardMessage.class);
     private List<PostBoardMessage> mockMessageList = new ArrayList<PostBoardMessage>();
     
-    PostBoardEntityManager entityManager = new PostBoardEntityManager(mockDb);
+    private PostBoardEntityManager entityManager = new PostBoardEntityManager(mockDb);
     
     @Before
     public void setup() {
-        message.setDate(new Date(0L));
+        message.setDate(messageDate);
         
         mockMessageList.add(mockMessage1);
         mockMessageList.add(mockMessage2);
@@ -55,14 +59,13 @@ public class TestPostBoardEntityManager {
     @Test
     public void testMakeEntity() throws WPISuiteException {
         ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
-        String messageJson = "{\"message\":\"Test\",\"date\":\"Dec 31, 1969 7:00:00 PM\"}";
+        String messageJson = "{\"message\":\"Test\",\"date\":" + messageDateJson + "}";
         
         when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(true);
         
         PostBoardMessage result = entityManager.makeEntity(mockSession, messageJson);
         
         assertEquals(message, result);
-        //TODO Fails in a different timezone!
         assertEquals(message, messageCaptor.getValue());
         
         verify(mockDb, times(1)).save(message, mockProject);
@@ -72,7 +75,7 @@ public class TestPostBoardEntityManager {
     //
     public void testMakeEntity_Exception() throws WPISuiteException {
         ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
-        String messageJson = "{\"message\":\"Test\",\"date\":\"Dec 31, 1969 7:00:00 PM\"}";
+        String messageJson = "{\"message\":\"Test\",\"date\":" + messageDateJson + "}";
         
         when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(false);
         
