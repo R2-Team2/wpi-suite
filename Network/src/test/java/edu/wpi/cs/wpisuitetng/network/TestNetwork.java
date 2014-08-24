@@ -59,7 +59,7 @@ public class TestNetwork {
 
 	@Test
 	public void testInitNetwork(){
-		Network.initNetwork(network);
+		Network.setInstance(network);
 		
 		assertEquals(Network.getInstance(), network);
 	}

@@ -70,7 +70,7 @@ public class Network {
 	 * used to replace instance with subclasses of Network for testing purposes.
 	 * @param network the new Network instance
 	 */
-	public static void initNetwork(Network network) {
+	public static void setInstance(Network network) {
 		instance = network;
 	}
 	
