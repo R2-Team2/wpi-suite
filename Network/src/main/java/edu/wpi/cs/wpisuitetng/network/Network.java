@@ -81,6 +81,7 @@ public class Network {
 	 * 
 	 * @throws RuntimeException if the defaultNetworkConfiguration is null.
 	 */
+	//TODO Replace RuntimeException with WPISuiteException?
 	public NetworkConfiguration getDefaultNetworkConfiguration() {
 		if (defaultNetworkConfiguration == null) {
 			throw new RuntimeException("Default network configuration is null.");

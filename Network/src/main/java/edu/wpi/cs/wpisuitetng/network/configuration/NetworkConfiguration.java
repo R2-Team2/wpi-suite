@@ -54,7 +54,7 @@ public class NetworkConfiguration {
 		}
 
 		// Copy observers from networkConfiguration
-		for (RequestObserver observer : networkConfiguration.observers) {
+		for (RequestObserver observer : networkConfiguration.getObservers()) {
 			this.addObserver(observer);
 		}
 	}
@@ -144,7 +144,7 @@ public class NetworkConfiguration {
 
 		observers.add(observer);
 	}
-
+	
 	/**
 	 * Adds a header to the default request headers.
 	 * 
