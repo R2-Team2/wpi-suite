@@ -81,21 +81,21 @@ public class PostBoardMessage extends AbstractModel {
     /**
      * @return the date
      */
-    Date getDate() {
+    public Date getDate() {
         return this.date;
     }
     
     /**
      * @param date the date to set
      */
-    void setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     
     /**
      * @return the message
      */
-    String getMessage() {
+    public String getMessage() {
         return this.message;
     }
     
