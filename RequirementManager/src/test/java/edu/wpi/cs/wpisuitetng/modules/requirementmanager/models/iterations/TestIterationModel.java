@@ -279,6 +279,7 @@ public class TestIterationModel {
     private Date createDate(int year, int month, int day, int hour, int min, int second) {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, min, second);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
 }
