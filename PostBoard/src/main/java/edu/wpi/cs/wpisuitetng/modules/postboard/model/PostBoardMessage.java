@@ -128,4 +128,45 @@ public class PostBoardMessage extends AbstractModel {
         return null;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.date == null) ? 0 : this.date.hashCode());
+        result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
+        return result;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        
+        PostBoardMessage other = (PostBoardMessage) obj;
+        
+        if (this.date == null) {
+            if (other.date != null)
+                return false;
+        } else if (!this.date.equals(other.date))
+            return false;
+        if (this.message == null) {
+            if (other.message != null)
+                return false;
+        } else if (!this.message.equals(other.message))
+            return false;
+        
+        return true;
+    }
 }

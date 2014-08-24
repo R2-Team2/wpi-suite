@@ -6,23 +6,18 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.google.gson.Gson;
+import org.mockito.ArgumentCaptor;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -30,37 +25,24 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 
-@RunWith(PowerMockRunner.class)
 public class TestPostBoardEntityManager {
-    Data mockDb;
-    Session mockSession;
-    Project mockProject;
+    private Data mockDb = mock(Data.class);
+    private Session mockSession = mock(Session.class);
+    private Project mockProject = mock(Project.class);
     
-    Gson mockParser;
+    private PostBoardMessage message = new PostBoardMessage("Test");
+    private PostBoardMessage mockMessage1 = mock(PostBoardMessage.class);
+    private PostBoardMessage mockMessage2 = mock(PostBoardMessage.class);
+    private List<PostBoardMessage> mockMessageList = new ArrayList<PostBoardMessage>();
     
-    PostBoardMessage mockMessage1;
-    PostBoardMessage mockMessage2;
-    List<PostBoardMessage> mockMessageList;
-    List<Model> mockModelList;
-    
-    PostBoardEntityManager entityManager;
+    PostBoardEntityManager entityManager = new PostBoardEntityManager(mockDb);
     
     @Before
     public void setup() {
-        mockDb = mock(Data.class);
-        mockSession = mock(Session.class);
-        mockProject = mock(Project.class);
+        message.setDate(new Date(0L));
         
-        mockMessage1 = mock(PostBoardMessage.class);
-        mockMessage2 = mock(PostBoardMessage.class);
-        
-        mockMessageList = new ArrayList<PostBoardMessage>();
         mockMessageList.add(mockMessage1);
         mockMessageList.add(mockMessage2);
-        
-        mockModelList = new ArrayList<Model>(mockMessageList);
-        
-        entityManager = new PostBoardEntityManager(mockDb);
         
         when(mockSession.getProject()).thenReturn(mockProject);
     }
@@ -71,33 +53,32 @@ public class TestPostBoardEntityManager {
     }
     
     @Test
-    @PrepareForTest({ PostBoardMessage.class })
     public void testMakeEntity() throws WPISuiteException {
-        mockStatic(PostBoardMessage.class);
+        ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
+        String messageJson = "{\"message\":\"Test\",\"date\":\"Dec 31, 1969 7:00:00 PM\"}";
         
-        when(PostBoardMessage.fromJson("Test Json")).thenReturn(mockMessage1);
-        when(mockDb.save(mockMessage1, mockProject)).thenReturn(true);
+        when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(true);
         
-        PostBoardMessage result = entityManager.makeEntity(mockSession, "Test Json");
+        PostBoardMessage result = entityManager.makeEntity(mockSession, messageJson);
         
-        assertEquals(mockMessage1, result);
+        assertEquals(message, result);
+        //TODO Fails in a different timezone!
+        assertEquals(message, messageCaptor.getValue());
         
-        verify(mockDb, times(1)).save(mockMessage1, mockProject);
-        verifyStatic(times(1));
+        verify(mockDb, times(1)).save(message, mockProject);
     }
     
     @Test(expected = WPISuiteException.class)
-    @PrepareForTest(PostBoardMessage.class)
+    //
     public void testMakeEntity_Exception() throws WPISuiteException {
-        mockStatic(PostBoardMessage.class);
+        ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
+        String messageJson = "{\"message\":\"Test\",\"date\":\"Dec 31, 1969 7:00:00 PM\"}";
         
-        when(PostBoardMessage.fromJson("Test Json")).thenReturn(mockMessage1);
-        when(mockDb.save(mockMessage1, mockProject)).thenReturn(false);
+        when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(false);
         
-        PostBoardMessage result = entityManager.makeEntity(mockSession, "Test Json");
+        PostBoardMessage result = entityManager.makeEntity(mockSession, messageJson);
         
         verify(mockDb, times(1)).save(mockMessage1, mockProject);
-        verifyStatic(times(1));
         
         assertNull(result);
     }
@@ -109,6 +90,8 @@ public class TestPostBoardEntityManager {
     
     @Test
     public void testGetAll() throws WPISuiteException {
+        List<Model> mockModelList = new ArrayList<Model>(mockMessageList);
+        
         when(mockDb.retrieveAll(any(PostBoardMessage.class), eq(mockProject))).thenReturn(mockModelList);
         
         PostBoardMessage[] result = entityManager.getAll(mockSession);
