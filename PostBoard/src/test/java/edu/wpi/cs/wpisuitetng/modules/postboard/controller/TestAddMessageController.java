@@ -1,22 +1,18 @@
 package edu.wpi.cs.wpisuitetng.modules.postboard.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.mockito.Mockito.when;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.JTextField;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.ArgumentCaptor;
 
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
@@ -25,69 +21,55 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-@RunWith(PowerMockRunner.class)
-@PowerMockIgnore({ "javax.swing.*" })
 public class TestAddMessageController {
     
-    PostBoardModel mockModel;
-    BoardPanel mockView;
+    private PostBoardModel mockModel = mock(PostBoardModel.class);
+    private BoardPanel mockView = mock(BoardPanel.class);
     
-    Network mockNetwork;
-    Request mockRequest;
-    AddMessageRequestObserver mockObserver;
+    private Network mockNetwork = mock(Network.class);
+    private Request mockRequest = mock(Request.class);
     
-    ActionEvent mockActionEvent;
-    JTextField mockTextField;
-    PostBoardMessage mockMessage;
+    private ActionEvent mockActionEvent = mock(ActionEvent.class);
+    private JTextField mockTextField = mock(JTextField.class);
+    private PostBoardMessage message = new PostBoardMessage("Test Message");
     
-    AddMessageController controller;
-    
-    @Before
-    public void setup() {
-        mockModel = mock(PostBoardModel.class);
-        mockView = mock(BoardPanel.class);
-        
-        mockNetwork = mock(Network.class);
-        mockRequest = mock(Request.class);
-        mockObserver = mock(AddMessageRequestObserver.class);
-        
-        mockTextField = mock(JTextField.class);
-        mockActionEvent = mock(ActionEvent.class);
-        
-        mockMessage = mock(PostBoardMessage.class);
-        
-        controller = new AddMessageController(mockModel, mockView);
-    }
+    private AddMessageController controller = new AddMessageController(mockModel, mockView);
     
     @Test
-    @PrepareForTest({ Network.class, PostBoardMessage.class, AddMessageRequestObserver.class, AddMessageController.class })
     public void testActionPerformed() throws Exception {
-        mockStatic(Network.class);
-        mockStatic(PostBoardMessage.class);
-        mockStatic(AddMessageRequestObserver.class);
+        ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<AddMessageRequestObserver> observerCaptor = ArgumentCaptor.forClass(AddMessageRequestObserver.class);
+        Network.setInstance(mockNetwork);
         
         when(mockView.getTxtNewMessage()).thenReturn(mockTextField);
         when(mockTextField.getText()).thenReturn("Test Message");
         when(mockNetwork.makeRequest("postboard/postboardmessage", HttpMethod.PUT)).thenReturn(mockRequest);
-        when(Network.getInstance()).thenReturn(mockNetwork);
-        when(mockMessage.toJson()).thenReturn("Test Json");
+        //        when(message.toJson()).thenReturn("Test Json");
         
-        whenNew(PostBoardMessage.class).withArguments("Test Message").thenReturn(mockMessage);
-        whenNew(AddMessageRequestObserver.class).withArguments(controller).thenReturn(mockObserver);
+        //        whenNew(PostBoardMessage.class).withArguments("Test Message").thenReturn(mockMessage);
+        //        whenNew(AddMessageRequestObserver.class).withArguments(controller).thenReturn(mockObserver);
         
         controller.actionPerformed(mockActionEvent);
         
         verify(mockView, times(2)).getTxtNewMessage();
         verify(mockTextField, times(1)).setText("");
         
-        verify(mockRequest, times(1)).setBody("Test Json");
-        verify(mockRequest, times(1)).addObserver(mockObserver);
+        verify(mockRequest, times(1)).setBody(stringCaptor.capture());
+        verify(mockRequest, times(1)).addObserver(observerCaptor.capture());
         verify(mockRequest, times(1)).send();
+        
+        String requestBody = stringCaptor.getValue();
+        AddMessageRequestObserver requestObserver = observerCaptor.getValue();
+        
+        //Because of date, we can't use assertEquals...
+        assertTrue(requestBody.contains("{\"message\":\"Test Message\",\"date\":\""));
+        assertTrue(requestBody.contains("\",\"permissionMap\":{}}"));
+        
+        assertEquals(controller, requestObserver.getController());
     }
     
     @Test
     public void testActionPerformed_EmptyMessage() throws Exception {
-        mockStatic(Network.class);
         when(mockView.getTxtNewMessage()).thenReturn(mockTextField);
         when(mockTextField.getText()).thenReturn("");
         
@@ -99,8 +81,8 @@ public class TestAddMessageController {
     
     @Test
     public void testAddMessage() {
-        controller.addMessageToModel(mockMessage);
+        controller.addMessageToModel(message);
         
-        verify(mockModel, times(1)).addMessage(mockMessage);
+        verify(mockModel, times(1)).addMessage(message);
     }
 }
