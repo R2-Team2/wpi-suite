@@ -3,52 +3,26 @@ package edu.wpi.cs.wpisuitetng.modules.postboard.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.google.gson.Gson;
 
 /**
- * Unit test example using PowerMock/PowerMockito
+ * Unit test example
  * 
  * @author Robert Smieja
  */
 
-//Unfortunately, we need PowerMockito for GSON
-//AVOID POWERMOCK AT ALL COSTS IF POSSIBLE
-//If you don't know what you are doing you will cause more harm than good
-//If you are using PowerMock for code that you wrote, you are doing it wrong
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Gson.class, SimpleDateFormat.class, PostBoardMessage.class })
 public class TestPostBoardMessage {
-    Gson mockParser;
-    Date mockDate;
-    SimpleDateFormat mockDateFormat;
+    Date date = new Date(0L);
     
-    PostBoardMessage message;
+    PostBoardMessage message = new PostBoardMessage("Test Message");
     
     @Before
     public void setup() throws Exception {
-        mockParser = mock(Gson.class);
-        mockDate = new Date(60L);
-        
-        mockDateFormat = new SimpleDateFormat("");
-        
-        whenNew(Gson.class).withNoArguments().thenReturn(mockParser);
-        whenNew(SimpleDateFormat.class).withArguments("MM/dd/yy hh:mm a").thenReturn(mockDateFormat);
-        
-        message = new PostBoardMessage("Test Message");
-        message.setDate(mockDate);
+        message.setDate(date);
     }
     
     @Test
@@ -64,32 +38,26 @@ public class TestPostBoardMessage {
     public void testToString() {
         String result = message.toString();
         
-        assertEquals(":    Test Message", result);
+        assertEquals("12/31/69 07:00 PM:    Test Message", result);
     }
     
     @Test
     public void testToJson() {
-        when(mockParser.toJson(message, PostBoardMessage.class)).thenReturn("Mock JSON");
-        
         String result = message.toJson();
         
-        assertEquals("Mock JSON", result);
+        assertEquals("{\"message\":\"Test Message\",\"date\":\"Dec 31, 1969 7:00:00 PM\",\"permissionMap\":{}}", result);
     }
     
     @Test
     public void testFromJson() {
-        when(mockParser.fromJson("Mock JSON", PostBoardMessage.class)).thenReturn(message);
-        
-        PostBoardMessage result = PostBoardMessage.fromJson("Mock JSON");
+        PostBoardMessage result = PostBoardMessage.fromJson("{\"message\":\"Test Message\",\"date\":\"Dec 31, 1969 7:00:00 PM\",\"permissionMap\":{}}");
         
         assertEquals(message, result);
     }
     
     @Test
     public void testFromJsonArray() {
-        when(mockParser.fromJson("Mock JSON", PostBoardMessage[].class)).thenReturn(new PostBoardMessage[] { message });
-        
-        PostBoardMessage[] result = PostBoardMessage.fromJsonArray("Mock JSON");
+        PostBoardMessage[] result = PostBoardMessage.fromJsonArray("[{\"message\":\"Test Message\",\"date\":\"Dec 31, 1969 7:00:00 PM\",\"permissionMap\":{}}]");
         
         assertEquals(1, result.length);
         assertEquals(message, result[0]);
