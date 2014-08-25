@@ -10,4 +10,8 @@ dependencies{
 	compile project(':Network')
 	compile project(':WPISuite-Interfaces')
 	compile project(':JanewayAPI')
+    
+    //TODO: Remove
+    testCompile 'org.powermock:powermock-api-mockito:1.5.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.5.5'
 }
