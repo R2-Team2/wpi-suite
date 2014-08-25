@@ -1,60 +1,52 @@
 package edu.wpi.cs.wpisuitetng.modules.postboard.controller;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.mockito.Mockito.when;
+
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.ArgumentCaptor;
 
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-@RunWith(PowerMockRunner.class)
 public class TestGetMessagesRequestObserver {
 
-    GetMessagesController mockController;
-    IRequest mockRequest;
-    ResponseModel mockResponse;
-    PostBoardMessage[] mockMessages;
-    PostBoardMessage mockMessage;
+    GetMessagesController mockController = mock(GetMessagesController.class);
+    IRequest mockRequest = mock(IRequest.class);
+    ResponseModel mockResponse = mock(ResponseModel.class);
 
-    GetMessagesRequestObserver observer;
+    PostBoardMessage[] messages = new PostBoardMessage[1];
+    PostBoardMessage message = new PostBoardMessage("Test Message");
+
+    GetMessagesRequestObserver observer = new GetMessagesRequestObserver(mockController);
 
     @Before
     public void setup() {
-        mockController = mock(GetMessagesController.class);
-        mockRequest = mock(IRequest.class);
-        mockResponse = mock(ResponseModel.class);
-        mockMessages = new PostBoardMessage[1];
-        mockMessage = mock(PostBoardMessage.class);
-
-        mockMessages[0] = mockMessage;
-
-        observer = new GetMessagesRequestObserver(mockController);
-
+        message.setDate(new Date(0L));
+        messages[0] = message;
     }
 
     @Test
-    @PrepareForTest(PostBoardMessage.class)
     public void testResponseSuccess() throws Exception {
-        mockStatic(PostBoardMessage.class);
-
+        ArgumentCaptor<PostBoardMessage[]> messagesCaptor = ArgumentCaptor.forClass(PostBoardMessage[].class);
         when(mockRequest.getResponse()).thenReturn(mockResponse);
-        when(mockResponse.getBody()).thenReturn("Test Response Body");
-        when(PostBoardMessage.fromJsonArray("Test Response Body")).thenReturn(mockMessages);
+        when(mockResponse.getBody()).thenReturn("[{\"message\":\"Test Message\",\"date\":\"Dec 31, 1969 7:00:00 PM\",\"permissionMap\":{}}]");
 
         observer.responseSuccess(mockRequest);
 
-        verify(mockController, times(1)).receivedMessages(mockMessages);
+        verify(mockController, times(1)).receivedMessages(messagesCaptor.capture());
+
+        assertArrayEquals(messages, messagesCaptor.getValue());
     }
 
     @Test
@@ -67,12 +59,18 @@ public class TestGetMessagesRequestObserver {
     }
 
     @Test
-    @PrepareForTest({ GetMessagesRequestObserver.class, PostBoardMessage.class })
     public void testFail() throws Exception {
-        whenNew(PostBoardMessage.class).withArguments("Error retrieving messages.").thenReturn(mockMessage);
+        ArgumentCaptor<PostBoardMessage[]> messagesCaptor = ArgumentCaptor.forClass(PostBoardMessage[].class);
 
         observer.fail(mockRequest, null);
 
-        verify(mockController, times(1)).receivedMessages(mockMessages);
+        verify(mockController, times(1)).receivedMessages(messagesCaptor.capture());
+
+        PostBoardMessage[] errorMessages = messagesCaptor.getValue();
+        assertEquals(1, errorMessages.length);
+
+        PostBoardMessage errorMessage = errorMessages[0];
+        assertEquals("Error retrieving messages.", errorMessage.getMessage());
+        assertNotNull(errorMessage.getDate()); //We can't verify the exact date, but we can verify that one exists
     }
 }
