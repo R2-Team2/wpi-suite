@@ -15,13 +15,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.BoxLayout;
+import javax.swing.JTextField;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
@@ -31,16 +34,9 @@ import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
  */
 public class TestBoardPanel {
     
-    PostBoardModel mockPostBoardModel;
+    PostBoardModel mockPostBoardModel = mock(PostBoardModel.class);
     
-    BoardPanel boardPanel;
-    
-    @Before
-    public void setup() {
-        mockPostBoardModel = mock(PostBoardModel.class);
-        
-        boardPanel = new BoardPanel(mockPostBoardModel);
-    }
+    BoardPanel boardPanel = new BoardPanel(mockPostBoardModel);
     
     @Test
     public void testConstructor() {
@@ -65,6 +61,18 @@ public class TestBoardPanel {
         assertTrue(contains(boardPanel.getComponents(), boardPanel.getLstScrollPane()));
         assertTrue(contains(boardPanel.getComponents(), boardPanel.getTxtNewMessage()));
         assertTrue(contains(boardPanel.getComponents(), boardPanel.getBtnSubmit()));
+    }
+    
+    @Test
+    public void testMouseListener() {
+        JTextField mockTxtField = mock(JTextField.class);
+        boardPanel.setTxtNewMessage(mockTxtField);
+        
+        MouseAdapter mouseListener = boardPanel.getMouseListener();
+        
+        mouseListener.mouseClicked(null);
+        
+        verify(mockTxtField, times(1)).setText("");
     }
     
     @Test

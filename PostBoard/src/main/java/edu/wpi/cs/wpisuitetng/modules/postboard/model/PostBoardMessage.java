@@ -81,21 +81,21 @@ public class PostBoardMessage extends AbstractModel {
     /**
      * @return the date
      */
-    Date getDate() {
+    public Date getDate() {
         return this.date;
     }
     
     /**
      * @param date the date to set
      */
-    void setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     
     /**
      * @return the message
      */
-    String getMessage() {
+    public String getMessage() {
         return this.message;
     }
     
@@ -126,19 +126,6 @@ public class PostBoardMessage extends AbstractModel {
     @Override
     public Boolean identify(Object o) {
         return null;
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((this.date == null) ? 0 : this.date.hashCode());
-        result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
-        return result;
     }
     
     /*

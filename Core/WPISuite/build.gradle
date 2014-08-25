@@ -31,4 +31,8 @@ dependencies {
     compile project(':DefectTracker')
     compile project(':PostBoard')
     compile project(':RequirementManager')
+    
+    //TODO: Remove
+    testCompile 'org.powermock:powermock-api-mockito:1.5.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.5.5'
 }

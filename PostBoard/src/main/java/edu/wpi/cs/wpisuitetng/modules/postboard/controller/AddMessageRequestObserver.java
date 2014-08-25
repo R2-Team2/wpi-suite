@@ -60,4 +60,10 @@ public class AddMessageRequestObserver implements RequestObserver {
         System.err.println("The request to add a message failed.");
     }
     
+    /**
+     * @return the controller
+     */
+    public AddMessageController getController() {
+        return this.controller;
+    }
 }
