@@ -1,19 +1,19 @@
 //Common config for all WPISuite projects
 subprojects {
     apply plugin: 'java'
-	apply plugin: 'eclipse'
+    apply plugin: 'eclipse'
     apply plugin: 'eclipse-wtp'
     apply plugin: 'idea'
     apply plugin: "jacoco"
-
-	//Java version 1.7'
+    
+    //Java version 1.7'
     //sourceCompatibility = 1.7
-	
-	repositories {
-		mavenCentral()
-	}
-
-	dependencies {
+    
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
         compile 'commons-codec:commons-codec:1.7'
         compile 'commons-logging:commons-logging:1.1.1'
         compile 'org.apache.httpcomponents:httpcore:4.2.2'
@@ -23,20 +23,20 @@ subprojects {
         compile 'com.fasterxml.jackson.core:jackson-databind:2.1.0'
         
         //runtime files('libs/a.jar', 'libs/b.jar')
-	 	compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies placed in the libs directory
-
-		testCompile 'junit:junit:4.11'
+        compile fileTree(dir: rootDir.toString()+'/libs', includes: ['*.jar']) //db4o jar that isn't on Maven, and any other new dependencies placed in the libs directory
+        
+        testCompile 'junit:junit:4.11'
         testCompile 'org.mockito:mockito-core:1.9.5'
         //Add code coverage? cucumber?
-	}
+    }
     
     eclipse{
-		
-		project{
-			//Mark as Gradle project for Gradle plugin in case it is installed
-			natures 'org.springsource.ide.eclipse.gradle.core.nature'
-		}
-		
+        
+        project{
+            //Mark as Gradle project for Gradle plugin in case it is installed
+            natures 'org.springsource.ide.eclipse.gradle.core.nature'
+        }
+        
         classpath{
             downloadSources = true
             downloadJavadoc = true //This is false otherwise, we love to read JavaDoc to help use understand libraries :)
@@ -44,14 +44,16 @@ subprojects {
     }
     
     test{
-        //jvmArgs "-XX:-UseSplitVerifier"
-		ignoreFailures = true //Lets builds pass with failing tests
+        ignoreFailures = true //Lets builds pass with failing tests
     }
     
     jacoco {
-        
         toolVersion = "0.7.1.201405082137"
-        //reportsDir = file("$buildDir/reports/jacoco")
+    }
+    
+    jacocoTestReport {
+        //Exclude tests from code coverage report
+        sourceDirectories = files(project.sourceSets.main.allJava.srcDirs)
     }
     
     //Using << ensures that the task will not be executed when being evaluated
