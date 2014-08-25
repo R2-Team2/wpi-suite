@@ -130,19 +130,6 @@ public class PostBoardMessage extends AbstractModel {
     
     /*
      * (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((this.date == null) ? 0 : this.date.hashCode());
-        result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
-        return result;
-    }
-    
-    /*
-     * (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

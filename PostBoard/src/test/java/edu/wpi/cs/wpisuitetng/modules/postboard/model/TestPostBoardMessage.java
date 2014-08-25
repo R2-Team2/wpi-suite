@@ -1,8 +1,10 @@
 package edu.wpi.cs.wpisuitetng.modules.postboard.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -77,5 +79,28 @@ public class TestPostBoardMessage {
         assertNotNull(message);
         assertEquals("Test Message", message.getMessage());
         assertNotNull(message.getDate());
+    }
+    
+    @Test
+    public void testEquals() {
+        assertTrue(message.equals(message));
+        assertFalse(message.equals(null));
+        assertFalse(message.equals(new String()));
+        
+        PostBoardMessage otherMessage = new PostBoardMessage("Test Message");
+        
+        otherMessage.setDate(null);
+        assertFalse(otherMessage.equals(message));
+        
+        otherMessage.setDate(new Date(1L));
+        assertFalse(otherMessage.equals(message));
+        
+        otherMessage = new PostBoardMessage(null);
+        otherMessage.setDate(date);
+        assertFalse(otherMessage.equals(message));
+        
+        otherMessage = new PostBoardMessage("Different Value");
+        otherMessage.setDate(date);
+        assertFalse(otherMessage.equals(message));
     }
 }
