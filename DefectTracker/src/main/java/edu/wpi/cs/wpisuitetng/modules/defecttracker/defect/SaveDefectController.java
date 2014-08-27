@@ -42,10 +42,10 @@ public class SaveDefectController {
 	 */
 	public void save() {
 		final DefectPanel panel = (DefectPanel) view.getDefectPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateDefectRequestObserver(view) : new UpdateDefectRequestObserver(view);
+		final RequestObserver requestObserver = (panel.getMode() == Mode.CREATE) ? new CreateDefectRequestObserver(view) : new UpdateDefectRequestObserver(view);
 		Request request;
 		panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("defecttracker/defect", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
+		request = Network.getInstance().makeRequest("defecttracker/defect", (panel.getMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		request.setBody(panel.getEditedModel().toJson());
 		request.addObserver(requestObserver);
 		request.send();
