@@ -238,9 +238,7 @@ public class TestRequirementPanel {
     public void testReadyToRemove_optionPaneYes() {
         when(mockListener1.readyToRemove()).thenReturn(Boolean.TRUE);
         when(mockListener2.readyToRemove()).thenReturn(Boolean.FALSE);
-
-        //        when(JOptionPane.showConfirmDialog(requirementPanel, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
-        //                .thenReturn(0);
+        when(mockConfirmDialog.confirmExit(requirementPanel)).thenReturn(true);
 
         assertTrue(requirementPanel.readyToRemove());
     }
@@ -249,9 +247,7 @@ public class TestRequirementPanel {
     public void testReadyToRemove_optionPaneNo() {
         when(mockListener1.readyToRemove()).thenReturn(Boolean.FALSE);
         when(mockListener2.readyToRemove()).thenReturn(Boolean.FALSE);
-
-        //        when(JOptionPane.showConfirmDialog(requirementPanel, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
-        //                .thenReturn(1);
+        when(mockConfirmDialog.confirmExit(requirementPanel)).thenReturn(false);
 
         assertFalse(requirementPanel.readyToRemove());
     }

@@ -57,7 +57,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
         viewEventController = ViewEventController.getInstance();
         updateRequirementController = UpdateRequirementController.getInstance();
 
-        confirmDialog = new RequirementConfirmationDialogImpl();
+        confirmDialog = new RequirementConfirmationDialog();
     }
 
     /**

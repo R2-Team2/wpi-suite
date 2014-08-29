@@ -10,12 +10,24 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Component;
 
-public interface RequirementConfirmationDialog {
+import javax.swing.JOptionPane;
+
+/**
+ * Displays a pop-up dialog box that confirms that the user wants to discard unsaved changes
+ * 
+ * @author Robert Smieja
+ */
+public class RequirementConfirmationDialog {
 
     /**
-     * Creates a confirmation prompt
+     * Displays a pop-up dialog box that confirms that the user wants to discard unsaved changes
      * 
-     * @return true if Yes was pressed, false if No was pressed
+     * @param component Which component should display the dialog
+     * @return True if Yes was selected, False if No was selected
      */
-    boolean confirmExit(Component component);
+    public boolean confirmExit(Component component) {
+        int result = JOptionPane.showConfirmDialog(component, "Discard unsaved changes and close tab?", "Discard Changes?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        return result == 0;
+    }
 }
