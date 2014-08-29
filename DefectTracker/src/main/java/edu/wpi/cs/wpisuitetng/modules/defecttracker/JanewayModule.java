@@ -71,7 +71,7 @@ public class JanewayModule implements IJanewayModule {
     }
 
     @SuppressWarnings("serial")
-    protected void registerKeyboardShortcuts(MainTabController mainTabController, JanewayTabModel tab, String osName) {
+    protected void registerKeyboardShortcuts(final MainTabController mainTabController, JanewayTabModel tab, String osName) {
 
         // control + tab: switch to right tab
         tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control TAB"), new AbstractAction() {
