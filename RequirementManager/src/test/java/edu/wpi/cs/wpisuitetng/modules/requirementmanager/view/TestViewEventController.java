@@ -23,6 +23,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
@@ -95,6 +96,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testCreateRequirement() {
         viewEventController.createRequirement();
 
@@ -105,6 +107,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testCreateIteration() {
         viewEventController.createIteration();
 
@@ -135,6 +138,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testEditIteration_doesntExist() {
         when(mockIterationModel.getBacklog()).thenReturn(null);
         when(mockIterationPanel.getDisplayIteration()).thenReturn(null);
@@ -151,6 +155,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testCreatePieChart() {
         when(mockMainView.getTabCount()).thenReturn(1);
         when(mockMainView.getTitleAt(0)).thenReturn("Not a Pie Chart");
@@ -176,6 +181,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testCreateBarChart() {
         when(mockMainView.getTabCount()).thenReturn(1);
         when(mockMainView.getTitleAt(0)).thenReturn("Not a Bar Chart");
@@ -201,6 +207,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testCreateChildRequirement() {
         viewEventController.createChildRequirement(3);
 
@@ -211,6 +218,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testEditRequirement() throws Exception {
         when(mockRequirement.getName()).thenReturn("Short");
         when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
@@ -227,6 +235,7 @@ public class TestViewEventController {
     }
 
     @Test
+    @Ignore
     public void testEditRequirement_nameTooLong() throws Exception {
         when(mockRequirement.getName()).thenReturn("TestName");
         when(mockRequirementPanel.getDisplayRequirement()).thenReturn(null);
