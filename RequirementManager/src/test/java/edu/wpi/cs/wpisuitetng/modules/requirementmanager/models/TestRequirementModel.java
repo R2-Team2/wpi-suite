@@ -45,7 +45,7 @@ public class TestRequirementModel {
     Requirement[] mockRequirementArray;
     List<Requirement> mockRequirementList;
     
-    RequirementModel requirementModel;
+    RequirementModel requirementModel = new RequirementModel();
     
     @Before
     public void setUp() throws Exception {
@@ -64,8 +64,6 @@ public class TestRequirementModel {
         
         when(ViewEventController.getInstance()).thenReturn(mockViewEventController);
         when(AddRequirementController.getInstance()).thenReturn(mockAddRequirementController);
-        
-        requirementModel = new RequirementModel();
     }
     
     @Test

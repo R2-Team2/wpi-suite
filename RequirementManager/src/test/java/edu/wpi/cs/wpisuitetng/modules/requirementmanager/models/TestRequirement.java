@@ -1,14 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * Contributors: Team Rolling Thunder
+ * Contributors: Robert Smieja
  ******************************************************************************/
-/**
- * 
- */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -22,7 +19,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -31,11 +27,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.Attachment;
@@ -56,30 +47,30 @@ import edu.wpi.cs.wpisuitetng.network.Network;
  * @author Robert Smieja
  * @version $Revision: 1.0 $
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Network.class, IterationModel.class, RequirementModel.class, Gson.class })
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest({ Network.class, IterationModel.class, RequirementModel.class, Gson.class })
 public class TestRequirement {
     
-    Network mockNetwork;
-    IterationModel mockIterationModel;
-    RequirementModel mockRequirementModel;
+    Network mockNetwork = mock(Network.class);
+    IterationModel mockIterationModel = mock(IterationModel.class);
+    RequirementModel mockRequirementModel = mock(RequirementModel.class);
     
-    TransactionHistory mockHistory;
-    NoteList mockNotes;
-    AcceptanceTest mockTest;
-    DevelopmentTask mockTask;
-    Attachment mockAttachment;
+    TransactionHistory mockHistory = mock(TransactionHistory.class);
+    NoteList mockNotes = mock(NoteList.class);
+    AcceptanceTest mockTest = mock(AcceptanceTest.class);
+    DevelopmentTask mockTask = mock(DevelopmentTask.class);
+    Attachment mockAttachment = mock(Attachment.class);
     
-    Gson mockParser;
-    Requirement mockRequirement;
-    Requirement[] mockRequirements;
+//    Gson mockParser = mock(Gson.class);
+    Requirement mockRequirement = mock(Requirement.class);
+    Requirement[] mockRequirements = new Requirement[1];
     
-    List<Attachment> mockAttachments;
-    List<AcceptanceTest> mockTests;
-    List<DevelopmentTask> mockTasks;
-    List<Requirement> mockChildren;
+    List<Attachment> mockAttachments = new ArrayList<Attachment>();
+    List<AcceptanceTest> mockTests = new ArrayList<AcceptanceTest>();
+    List<DevelopmentTask> mockTasks = new ArrayList<DevelopmentTask>();
+    List<Requirement> mockChildren = new ArrayList<Requirement>();
     
-    Requirement requirement;
+    Requirement requirement = new Requirement();
     
     /**
      * Method setUp.
@@ -88,43 +79,21 @@ public class TestRequirement {
      */
     @Before
     public void setUp() throws Exception {
-        mockStatic(Network.class);
-        mockStatic(IterationModel.class);
-        mockStatic(RequirementModel.class);
+    	Network.setInstance(mockNetwork);
+        IterationModel.setInstance(mockIterationModel);
+        RequirementModel.setInstance(mockRequirementModel);
         
-        mockNetwork = mock(Network.class);
-        mockIterationModel = mock(IterationModel.class);
-        mockRequirementModel = mock(RequirementModel.class);
-        
-        mockHistory = mock(TransactionHistory.class);
-        mockNotes = mock(NoteList.class);
-        mockTest = mock(AcceptanceTest.class);
-        mockTask = mock(DevelopmentTask.class);
-        mockAttachment = mock(Attachment.class);
-        
-        mockParser = mock(Gson.class);
-        mockRequirement = mock(Requirement.class);
-        
-        mockAttachments = new ArrayList<Attachment>();
         mockAttachments.add(mockAttachment);
         
-        mockTests = new ArrayList<AcceptanceTest>();
         mockTests.add(mockTest);
         
-        mockChildren = new ArrayList<Requirement>();
         mockChildren.add(mockRequirement);
         
-        mockTasks = new ArrayList<DevelopmentTask>();
         mockTasks.add(mockTask);
-        
-        when(Network.getInstance()).thenReturn(mockNetwork);
-        when(IterationModel.getInstance()).thenReturn(mockIterationModel);
-        when(RequirementModel.getInstance()).thenReturn(mockRequirementModel);
         
         when(mockRequirementModel.getChildren(requirement)).thenReturn(mockChildren);
         
-        requirement = new Requirement();
-        Requirement.parser = mockParser;
+//        Requirement.parser = mockParser;
         requirement.setHistory(mockHistory);
         requirement.setAttachments(mockAttachments);
         requirement.setNotes(mockNotes);
@@ -132,7 +101,6 @@ public class TestRequirement {
         requirement.setTasks(mockTasks);
         //        requirement.setIteration("TestIteration");
         
-        mockRequirements = new Requirement[1];
         mockRequirements[0] = mockRequirement;
     }
     
@@ -162,7 +130,7 @@ public class TestRequirement {
     
     @Test
     public void testFromGson() {
-        when(mockParser.fromJson("Test JSON", Requirement.class)).thenReturn(mockRequirement);
+//        when(mockParser.fromJson("Test JSON", Requirement.class)).thenReturn(mockRequirement);
         
         Requirement result = Requirement.fromJson("Test JSON");
         
@@ -171,7 +139,7 @@ public class TestRequirement {
     
     @Test
     public void testFromJsonArray() {
-        when(mockParser.fromJson("Test JSON Array", Requirement[].class)).thenReturn(mockRequirements);
+//        when(mockParser.fromJson("Test JSON Array", Requirement[].class)).thenReturn(mockRequirements);
         
         Requirement[] result = Requirement.fromJsonArray("Test JSON Array");
         
@@ -180,7 +148,7 @@ public class TestRequirement {
     
     @Test
     public void testToJson() {
-        when(mockParser.toJson(requirement, Requirement.class)).thenReturn("Test To JSON");
+//        when(mockParser.toJson(requirement, Requirement.class)).thenReturn("Test To JSON");
         
         String result = requirement.toJson();
         

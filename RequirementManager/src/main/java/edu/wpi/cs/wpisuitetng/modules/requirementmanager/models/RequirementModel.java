@@ -44,7 +44,7 @@ public class RequirementModel extends AbstractListModel<Requirement> {
     /**
      * Constructs an empty list of requirements for the project
      */
-    RequirementModel() {
+    protected RequirementModel() {
         requirements = new ArrayList<Requirement>();
         nextID = 0;
     }
@@ -332,5 +332,13 @@ public class RequirementModel extends AbstractListModel<Requirement> {
         }
         
         return estimate;
+    }
+
+    /**
+     * Sets the instance of RequirementModel
+     * @param instance
+     */
+	public static void setInstance(RequirementModel instance) {
+	    RequirementModel.instance = instance;
     }
 }

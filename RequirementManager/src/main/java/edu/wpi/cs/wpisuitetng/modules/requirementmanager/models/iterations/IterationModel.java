@@ -297,7 +297,7 @@ public class IterationModel extends AbstractListModel {
     /**
      * @param instance the instance to set
      */
-    protected static void setInstance(IterationModel instance) {
+    public static void setInstance(IterationModel instance) {
         IterationModel.instance = instance;
     }
     
