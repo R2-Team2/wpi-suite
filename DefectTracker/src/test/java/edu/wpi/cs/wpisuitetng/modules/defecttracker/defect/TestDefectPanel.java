@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.defecttracker.defect;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -16,6 +17,8 @@ public class TestDefectPanel {
 
     @Test
     public void testConstructor() {
+        assertNotNull(panel);
+
         assertEquals(view, panel.getParent());
         assertEquals(defect, panel.getModel());
         assertEquals(Mode.CREATE, panel.getMode());

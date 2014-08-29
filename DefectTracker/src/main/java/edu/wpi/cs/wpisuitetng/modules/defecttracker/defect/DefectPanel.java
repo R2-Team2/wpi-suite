@@ -50,18 +50,11 @@ public class DefectPanel extends JPanel {
     /** The Defect displayed in this panel */
     private Defect model;
 
-    /*
-     * Form elements
-     */
-    protected JTextField txtTitle;
-    protected JTextArea txtDescription;
-    protected JComboBox cmbStatus;
-    protected JLabel txtCreatedDate;
-    protected JLabel txtModifiedDate;
-    protected JTextField txtCreator;
-    protected JTextField txtAssignee;
-    protected JLabel lblCreatedDate;
-    protected JLabel lblModifiedDate;
+    /** A flag indicating if input is enabled on the form */
+    protected boolean inputEnabled;
+
+    /** An enum indicating if the form is in create mode or edit mode */
+    private Mode mode;
 
     /** The panel containing GUI components for adding tags to defects */
     protected TagPanel tagPanel;
@@ -79,19 +72,26 @@ public class DefectPanel extends JPanel {
     protected SpringLayout layout;
 
     /*
+     * Form elements
+     */
+    protected JTextField txtTitle;
+    protected JTextArea txtDescription;
+    protected JComboBox cmbStatus;
+    protected JLabel txtCreatedDate;
+    protected JLabel txtModifiedDate;
+    protected JTextField txtCreator;
+    protected JTextField txtAssignee;
+    protected JLabel lblCreatedDate;
+    protected JLabel lblModifiedDate;
+
+    /*
      * Listeners for the form fields
      */
-    protected final TextUpdateListener txtTitleListener;
-    protected final TextUpdateListener txtDescriptionListener;
-    protected final ComboUpdateListener cmbStatusListener;
-    protected final TextUpdateListener txtCreatorListener;
-    protected final TextUpdateListener txtAssigneeListener;
-
-    /** A flag indicating if input is enabled on the form */
-    protected boolean inputEnabled;
-
-    /** An enum indicating if the form is in create mode or edit mode */
-    private Mode mode;
+    protected TextUpdateListener txtTitleListener;
+    protected TextUpdateListener txtDescriptionListener;
+    protected ComboUpdateListener cmbStatusListener;
+    protected TextUpdateListener txtCreatorListener;
+    protected TextUpdateListener txtAssigneeListener;
 
     /*
      * Constants used to layout the form
@@ -121,43 +121,13 @@ public class DefectPanel extends JPanel {
         this.setLayout(layout);
 
         // Add all components to this panel
-        addComponents();
+        this.addComponents();
 
-        // Add TextUpdateListeners. These check if the text component's text differs from the panel's Defect 
-        // model and highlights them accordingly every time a key is pressed.
-        txtTitleListener = new TextUpdateListener(this, txtTitle);
-        txtTitle.addKeyListener(txtTitleListener);
-
-        txtDescriptionListener = new TextUpdateListener(this, txtDescription);
-        txtDescription.addKeyListener(txtDescriptionListener);
-
-        cmbStatusListener = new ComboUpdateListener(this, cmbStatus);
-        cmbStatus.addItemListener(cmbStatusListener);
-
-        txtCreatorListener = new TextUpdateListener(this, txtCreator);
-        txtCreator.addKeyListener(txtCreatorListener);
-
-        txtAssigneeListener = new TextUpdateListener(this, txtAssignee);
-        txtAssignee.addKeyListener(txtAssigneeListener);
-
-        // prevent tab key from inserting tab characters into the description field
-        txtDescription.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.VK_TAB) {
-                    if (event.getModifiers() == 0) {
-                        txtDescription.transferFocus();
-                    }
-                    else {
-                        txtDescription.transferFocusBackward();
-                    }
-                    event.consume();
-                }
-            }
-        });
+        //Set up listeners for events
+        this.setListeners();
 
         // Populate the form with the contents of the Defect model and update the TextUpdateListeners.
-        updateFields();
+        this.updateFields();
     }
 
     /**
@@ -359,7 +329,7 @@ public class DefectPanel extends JPanel {
     /**
      * Updates the DefectPanel's fields to match those in the current model.
      */
-    private void updateFields() {
+    protected void updateFields() {
         txtTitle.setText(model.getTitle());
         txtDescription.setText(model.getDescription());
         for (int i = 0; i < cmbStatus.getItemCount(); i++) {
@@ -467,5 +437,40 @@ public class DefectPanel extends JPanel {
      */
     public DefectEventListModel getDefectEventListModel() {
         return defectEventListModel;
+    }
+
+    protected void setListeners() {
+        // Add TextUpdateListeners. These check if the text component's text differs from the panel's Defect 
+        // model and highlights them accordingly every time a key is pressed.
+        txtTitleListener = new TextUpdateListener(this, txtTitle);
+        txtTitle.addKeyListener(txtTitleListener);
+
+        txtDescriptionListener = new TextUpdateListener(this, txtDescription);
+        txtDescription.addKeyListener(txtDescriptionListener);
+
+        cmbStatusListener = new ComboUpdateListener(this, cmbStatus);
+        cmbStatus.addItemListener(cmbStatusListener);
+
+        txtCreatorListener = new TextUpdateListener(this, txtCreator);
+        txtCreator.addKeyListener(txtCreatorListener);
+
+        txtAssigneeListener = new TextUpdateListener(this, txtAssignee);
+        txtAssignee.addKeyListener(txtAssigneeListener);
+
+        // prevent tab key from inserting tab characters into the description field
+        txtDescription.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (event.getModifiers() == 0) {
+                        txtDescription.transferFocus();
+                    }
+                    else {
+                        txtDescription.transferFocusBackward();
+                    }
+                    event.consume();
+                }
+            }
+        });
     }
 }
