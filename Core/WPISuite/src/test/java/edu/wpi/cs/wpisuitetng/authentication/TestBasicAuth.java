@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class BasicAuthTest {
+public class TestBasicAuth {
 	String header = "Authorization: Basic "; // the static BasicAuth header
 	BasicAuth basic;
 	

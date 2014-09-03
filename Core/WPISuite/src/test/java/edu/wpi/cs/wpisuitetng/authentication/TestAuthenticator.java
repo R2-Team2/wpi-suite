@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  * @author twack
  *
  */
-public class AuthenticatorTest {
+public class TestAuthenticator {
 	Authenticator auth;
 	User u;
 	ManagerLayer man;
