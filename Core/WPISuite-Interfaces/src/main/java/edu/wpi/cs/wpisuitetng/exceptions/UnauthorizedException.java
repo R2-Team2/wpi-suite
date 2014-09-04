@@ -20,7 +20,7 @@ public class UnauthorizedException extends WPISuiteException {
 	 * Exception thrown when attempting an action not allowed for that user's permission
 	 * level
 	 */
-	private static final long serialVersionUID = 9127615601542990581L;
+	protected static final long serialVersionUID = 9127615601542990581L;
 	
 	public UnauthorizedException()
 	{
@@ -35,5 +35,4 @@ public class UnauthorizedException extends WPISuiteException {
 	public int getStatus() {
 		return HttpServletResponse.SC_UNAUTHORIZED; //401
 	}
-
 }

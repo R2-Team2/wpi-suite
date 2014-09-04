@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Base WPI Suite Exception class. 
+ * 
  * @author twack
- *
  */
 public class WPISuiteException extends Exception {
 

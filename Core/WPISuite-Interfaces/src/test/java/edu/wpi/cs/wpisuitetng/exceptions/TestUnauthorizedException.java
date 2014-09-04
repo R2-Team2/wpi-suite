@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-public class TestWPISuiteException {
+public class TestUnauthorizedException {
 	
 	@Test
 	public void testConstructor() {
-		WPISuiteException exception = new WPISuiteException();
+		UnauthorizedException exception = new UnauthorizedException();
 		
 		assertNotNull(exception);
 		assertNull(exception.getMessage());
@@ -31,7 +31,7 @@ public class TestWPISuiteException {
 	
 	@Test
 	public void testConstructorWithMessage() {
-		WPISuiteException exception = new WPISuiteException("TestException");
+		UnauthorizedException exception = new UnauthorizedException("TestException");
 		
 		assertNotNull(exception);
 		assertEquals("TestException", exception.getMessage());
@@ -39,13 +39,13 @@ public class TestWPISuiteException {
 	
 	@Test
 	public void testGetStatus(){
-		WPISuiteException exception = new WPISuiteException();
+		UnauthorizedException exception = new UnauthorizedException();
 
-		assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, exception.getStatus());
+		assertEquals(HttpServletResponse.SC_UNAUTHORIZED, exception.getStatus());
 	}
 	
 	@Test
 	public void testSerialVersionUID() {
-		assertEquals(-5271354512939175980L, WPISuiteException.serialVersionUID);
+		assertEquals(9127615601542990581L, UnauthorizedException.serialVersionUID);
 	}
 }
