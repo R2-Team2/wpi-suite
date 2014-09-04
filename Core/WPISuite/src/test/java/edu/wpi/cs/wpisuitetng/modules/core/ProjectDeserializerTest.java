@@ -55,7 +55,7 @@ public class ProjectDeserializerTest {
 		Project inflated = deserializer.fromJson(jsonProject, Project.class);
 		
 		assertTrue(inflated.getName().equals("TestProj"));
-		assertTrue(inflated.getIdNum().equals("1"));
+		assertTrue(inflated.getIdNum_Deprecated().equals("1"));
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class ProjectDeserializerTest {
 		
 		Project inflated = deserializer.fromJson(jsonProject, Project.class);
 		
-		assertTrue(inflated.getIdNum().equals("2"));
+		assertTrue(inflated.getIdNum_Deprecated().equals("2"));
 		assertTrue(inflated.getName().equals(""));
 	}
 	

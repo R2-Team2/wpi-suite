@@ -277,7 +277,7 @@ public class ProjectManagerTest {
 				return null;
 			}
 			}
-		).deleteEntity(null, temp.getIdNum());
+		).deleteEntity(null, temp.getIdNum_Deprecated());
 	}
 	
 	@Test
@@ -381,7 +381,7 @@ public class ProjectManagerTest {
 				return null;
 			}
 			}
-		).deleteEntity(tempSession, temp.getIdNum());
+		).deleteEntity(tempSession, temp.getIdNum_Deprecated());
 	}
 
 	@Test
@@ -420,7 +420,7 @@ public class ProjectManagerTest {
 		
 		// TODO: find a way to retrieve the User from storage to run assertions on.
 		
-		assertTrue(newTemp.getIdNum().equals("2"));
+		assertTrue(newTemp.getIdNum_Deprecated().equals("2"));
 		assertTrue(newTemp.getName().equals("proj2"));
 	}
 	
