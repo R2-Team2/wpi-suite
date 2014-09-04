@@ -23,7 +23,7 @@ public class WPISuiteException extends Exception {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5271354512939175980L;
+	protected static final long serialVersionUID = -5271354512939175980L;
 	
 	/**
 	 * 
