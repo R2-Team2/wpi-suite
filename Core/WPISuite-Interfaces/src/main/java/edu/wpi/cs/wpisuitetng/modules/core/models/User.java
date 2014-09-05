@@ -13,22 +13,24 @@
 
 package edu.wpi.cs.wpisuitetng.modules.core.models;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 /**
- * The Data Model representation of a User. Implements
- * 	database interaction and serializing.
+ * The Data Model representation of a User. 
+ * Implements database interaction and serializing.
+ * 
  * @author mdelladonna, twack, bgaffey
  */
 
 public class User extends AbstractModel
 {
-
-	private String name;
-	private String username;
-	private int idNum;
-	private Role role;
+	@Expose private int idNum;
+	@Expose private String username;
+	@Expose private String name;
+	@Expose private Role role;
 	
 	transient private String password; // excluded from serialization, still stored.
 	
