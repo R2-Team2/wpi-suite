@@ -230,7 +230,7 @@ public class DataStore implements Data {
 						return false;
 					}
 					else{
-						return (anObject.getProject().getIdNum_Deprecated().equals(theProject.getIdNum_Deprecated())) &&
+						return (anObject.getProject().getIdNum().equals(theProject.getIdNum())) &&
 								theGetter.invoke(anObjectQueried.cast(anObject)).equals(theGivenValue);
 						//objects that have the same ProjectID and aFieldName equal to theGivenValue get added to the list
 					}
@@ -285,7 +285,7 @@ public class DataStore implements Data {
 		List<Model> allResults = theDB.queryByExample(aSample.getClass());
 		for(Model theModel : allResults) {
 			if(theModel.getProject() != null &&
-					theModel.getProject().getIdNum_Deprecated().equalsIgnoreCase(aProject.getIdNum_Deprecated())){
+					theModel.getProject().getIdNum().equalsIgnoreCase(aProject.getIdNum())){
 				result.add(theModel);
 			}
 		}
@@ -727,7 +727,7 @@ public class DataStore implements Data {
 			result = theDB.query(new Predicate<Model>(){
 				public boolean match(Model anObject){
 					try {
-						return anObject.getProject().getIdNum_Deprecated().equals(aProject.getIdNum_Deprecated()) && 
+						return anObject.getProject().getIdNum().equals(aProject.getIdNum()) && 
 								getBack.invoke(anObjectQueried.cast(anObject)).equals(givenValue);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
@@ -814,7 +814,7 @@ public class DataStore implements Data {
 			result = theDB.query(new Predicate<Model>(){
 				public boolean match(Model anObject){
 					try {
-						return anObject.getProject().getIdNum_Deprecated().equals(aProject.getIdNum_Deprecated()) && 
+						return anObject.getProject().getIdNum().equals(aProject.getIdNum()) && 
 								getBack.invoke(anObjectQueried.cast(anObject)).equals(givenValue);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();

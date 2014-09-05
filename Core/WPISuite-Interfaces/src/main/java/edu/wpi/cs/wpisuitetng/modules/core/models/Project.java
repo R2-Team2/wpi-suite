@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 
 /**
  * The Data Model representation of a Project. Offers
@@ -33,7 +34,7 @@ public class Project extends AbstractModel
  {
 
 	private String name;
-	private Integer idNum;
+	private String idNum;
 	private String[] supportedModules;
 	private User owner;
 	private ArrayList<User> team;
@@ -46,41 +47,21 @@ public class Project extends AbstractModel
 	 * @param team - The User[] who are associated with the project
 	 * @param supportedModules - the modules supported by this project
 	 */
-	@Deprecated
 	public Project(String name, String idNum, User owner, User[] team, String[] supportedModules)
 	{
-		this(name, Integer.parseInt(idNum), owner, team, supportedModules);
-	}
-	
-	/**
-	 * Primary constructor for a Project
-	 * @param name - the project name
-	 * @param idNum - the project ID number as a string
-	 * @param owner - The User who owns this project
-	 * @param team - The User[] who are associated with the project
-	 * @param supportedModules - the modules supported by this project
-	 */
-	public Project(String name, Integer idNum, User owner, User[] team, String[] supportedModules) {
 		this.name = name;
 		this.idNum = idNum;
 		this.owner = owner;
 		this.supportedModules = supportedModules;
-
-		if (team != null) {
+		
+		if(team != null)
+		{
 			this.team = new ArrayList<User>(Arrays.asList(team));
-		} else {
+		}
+		else
+		{
 			this.team = new ArrayList<User>();
 		}
-	}
-
-	/**
-	 * Secondary constructor for a Project
-	 * @param name	the project name
-	 * @param idNum	the ID number to associate with this Project.
-	 */
-	@Deprecated
-	public Project(String name, String idNum) {
-		this(name, Integer.parseInt(idNum));
 	}
 	
 	/**
@@ -88,7 +69,8 @@ public class Project extends AbstractModel
 	 * @param name	the project name
 	 * @param idNum	the ID number to associate with this Project.
 	 */
-	public Project(String name, int idNum) {
+	public Project(String name, String idNum)
+	{
 		this.name = name;
 		this.idNum = idNum;
 	}
@@ -99,13 +81,7 @@ public class Project extends AbstractModel
 		return name;
 	}
 	
-	@Deprecated
-	public String getIdNum_Deprecated()
-	{
-		return new Integer(this.getIdNum()).toString();
-	}
-	
-	public Integer getIdNum()
+	public String getIdNum()
 	{
 		return idNum;
 	}
@@ -116,6 +92,10 @@ public class Project extends AbstractModel
 		this.name = newName;
 	}
 	
+	private void setIdNum(String newId)
+	{
+		this.idNum = newId;
+	}
 	
 	/* database interaction */
 	
@@ -250,14 +230,14 @@ public class Project extends AbstractModel
 		
 		if(o instanceof Project)
 		{
-			if(((Project) o).getIdNum().equals(this.idNum))
+			if(((Project) o).getIdNum().equalsIgnoreCase(this.idNum))
 				{
 					b = true;
 				}
 		}
 		
 		if(o instanceof String)
-			if(((String) o).equals((this.idNum)))
+			if(((String) o).equalsIgnoreCase((this.idNum)))
 				b = true;
 		
 		

@@ -65,7 +65,7 @@ public class ProjectManager implements EntityManager<Project>{
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 		
-		return this.getEntity(s, s.getProject().getIdNum_Deprecated())[0].toJson();
+		return this.getEntity(s, s.getProject().getIdNum())[0].toJson();
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class ProjectManager implements EntityManager<Project>{
 		logger.log(Level.FINE, "New project: "+ p.getName() +" submitted by: "+ theUser.getName() );
 		p.setOwner(theUser);
 		
-		if(getEntity(s,p.getIdNum_Deprecated())[0] == null)
+		if(getEntity(s,p.getIdNum())[0] == null)
 		{
 			if(getEntityByName(s, p.getName())[0] == null)
 			{
@@ -264,7 +264,7 @@ public class ProjectManager implements EntityManager<Project>{
 				{
 					// check for conflict for changing the project name
 					Project isConflict = getEntityByName(s, change.getName())[0];
-					if(isConflict != null && !isConflict.getIdNum_Deprecated().equals(change.getIdNum_Deprecated()))
+					if(isConflict != null && !isConflict.getIdNum().equals(change.getIdNum()))
 					{
 						throw new ConflictException("ProjectManager attempted to update a Project's name to be the same as an existing project");
 					}

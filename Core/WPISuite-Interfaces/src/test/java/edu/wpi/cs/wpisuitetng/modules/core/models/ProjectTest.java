@@ -106,7 +106,7 @@ public class ProjectTest {
 	@Test
 	public void testGetIdNum()
 	{
-		assertTrue(p1.getIdNum_Deprecated().equals("proj1"));
+		assertTrue(p1.getIdNum().equals("proj1"));
 	}
 	
 	@Test
