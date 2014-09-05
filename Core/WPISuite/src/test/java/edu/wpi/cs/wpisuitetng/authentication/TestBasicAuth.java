@@ -75,7 +75,7 @@ public class TestBasicAuth {
     @Test
     public void TestIsValidBasicAuth()
     {
-        String[] basicAuth = { "Basic", "QmFzZTY0" };
+        String[] basicAuth = { "Basic", "Base64" };
 
         assertTrue(basic.isValidBasicAuth(basicAuth));
     }
