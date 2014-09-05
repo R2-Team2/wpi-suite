@@ -16,20 +16,21 @@ import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.SessionManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+@Deprecated
 public class MockSessionManager extends SessionManager {
 
-	Session ses;
-	
-	public MockSessionManager(User u)
-	{
-		super();
-		String ssid = createSession(u);
-		ses = getSession(ssid);
-	}
-	
-	public Session getTestSession()
-	{
-		return ses;
-	}
+    Session ses;
+
+    public MockSessionManager(User u)
+    {
+        super();
+        String ssid = createSession(u);
+        ses = getSession(ssid);
+    }
+
+    public Session getTestSession()
+    {
+        return ses;
+    }
 
 }
