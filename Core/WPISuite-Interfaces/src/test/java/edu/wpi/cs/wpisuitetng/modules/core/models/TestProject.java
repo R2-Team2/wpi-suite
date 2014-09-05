@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.core.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -38,6 +40,15 @@ public class TestProject {
     Project project2 = new Project("postBoard", "proj2");
     Project project3 = new Project("calendar", "proj3", user1, team, support);
 
+    @Test
+    public void testNewProjectWithNullTeam()
+    {
+        Project project = new Project("calendar", "proj3", user1, null, support);
+
+        assertNotNull(project);
+        assertEquals(0, project.getTeam().length);
+    }
+
     /**
      * Tests the Object.equals override implemented by Project
      */
@@ -51,22 +62,12 @@ public class TestProject {
     }
 
     /**
-     * Ensures that the Project.getProject() method returns null. A project should
-     * not belong to another project. No recursive relationships.
-     */
-    @Test
-    public void testGetProject()
-    {
-        assertTrue(project1.getProject() == null);
-    }
-
-    /**
      * Tests the getName function of Project
      */
     @Test
     public void testGetName()
     {
-        assertTrue(project1.getName().equals("defectTracker"));
+        assertEquals("defectTracker", project1.getName());
     }
 
     @Test
@@ -82,9 +83,22 @@ public class TestProject {
     }
 
     @Test
+    public void testSetIdNum()
+    {
+        project1.setIdNum("test1");
+        assertEquals("test1", project1.getIdNum());
+    }
+
+    @Test
     public void testGetIdNum()
     {
         assertTrue(project1.getIdNum().equals("proj1"));
+    }
+
+    @Test
+    public void testGetProjectName()
+    {
+        assertEquals("defectTracker", project1.getProjectName());
     }
 
     /**
@@ -94,10 +108,8 @@ public class TestProject {
     @Test
     public void testAddTeamMember()
     {
-        int initCount = project3.getTeam().length;
-
         assertTrue(project3.addTeamMember(user4));
-        assertEquals(initCount + 1, project3.getTeam().length);
+        assertEquals(4, project3.getTeam().length);
 
         assertFalse(project3.addTeamMember(user4));
     }
@@ -154,7 +166,7 @@ public class TestProject {
     }
 
     @Test
-    public void testProjectToJson() {
+    public void testToJson() {
         String deflated = project3.toJson();
 
         assertTrue(deflated.startsWith("{"));
@@ -173,5 +185,54 @@ public class TestProject {
         assertTrue(deflated.contains("team"));
 
         assertTrue(deflated.contains("supportedModules"));
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals(project3.toJson(), project3.toString());
+    }
+
+    @Test
+    public void testIdentify_anotherProject() {
+        Project project = new Project("copyOfDefectTracker", "proj1");
+
+        assertTrue(project1.identify(project));
+    }
+
+    @Test
+    public void testIdentify_string() {
+        assertTrue(project1.identify("proj1"));
+    }
+
+    /*
+     * Unimplemented methods
+     */
+
+    /**
+     * Ensures that the Project.getProject() method returns null. A project should
+     * not belong to another project. No recursive relationships.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetProject()
+    {
+        assertNull(project1.getProject());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetProject()
+    {
+        project1.setProject(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSave()
+    {
+        project1.save();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testDelete()
+    {
+        project1.delete();
     }
 }
