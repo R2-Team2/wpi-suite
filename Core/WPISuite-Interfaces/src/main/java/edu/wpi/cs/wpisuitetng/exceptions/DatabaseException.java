@@ -16,17 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * DatabaseException is thrown for database errors.
+ * 
  * @author twack
- *
  */
 public class DatabaseException extends WPISuiteException {
-	
-	public DatabaseException(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = -5331052450756798923L;
 
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_INTERNAL_SERVER_ERROR; //500
-	}
+    public DatabaseException(String message) {
+        super(message);
+    }
+
+    @Override
+    public int getStatus() {
+        return HttpServletResponse.SC_INTERNAL_SERVER_ERROR; //500
+    }
 }

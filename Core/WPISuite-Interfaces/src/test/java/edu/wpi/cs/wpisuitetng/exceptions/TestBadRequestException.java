@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-public class TestUnauthorizedException {
+public class TestBadRequestException {
     @Test
     public void testConstructor() {
-        UnauthorizedException exception = new UnauthorizedException();
+        BadRequestException exception = new BadRequestException();
 
         assertNotNull(exception);
         assertNull(exception.getMessage());
@@ -30,7 +30,7 @@ public class TestUnauthorizedException {
 
     @Test
     public void testConstructorWithMessage() {
-        UnauthorizedException exception = new UnauthorizedException("TestException");
+        BadRequestException exception = new BadRequestException("TestException");
 
         assertNotNull(exception);
         assertEquals("TestException", exception.getMessage());
@@ -38,8 +38,8 @@ public class TestUnauthorizedException {
 
     @Test
     public void testGetStatus() {
-        UnauthorizedException exception = new UnauthorizedException();
+        BadRequestException exception = new BadRequestException();
 
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, exception.getStatus());
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, exception.getStatus());
     }
 }

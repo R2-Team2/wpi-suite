@@ -13,33 +13,22 @@ package edu.wpi.cs.wpisuitetng.exceptions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-public class TestUnauthorizedException {
-    @Test
-    public void testConstructor() {
-        UnauthorizedException exception = new UnauthorizedException();
-
-        assertNotNull(exception);
-        assertNull(exception.getMessage());
-    }
+public class TestConflictException {
+    private ConflictException exception = new ConflictException("TestException");
 
     @Test
     public void testConstructorWithMessage() {
-        UnauthorizedException exception = new UnauthorizedException("TestException");
-
         assertNotNull(exception);
         assertEquals("TestException", exception.getMessage());
     }
 
     @Test
     public void testGetStatus() {
-        UnauthorizedException exception = new UnauthorizedException();
-
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, exception.getStatus());
+        assertEquals(HttpServletResponse.SC_CONFLICT, exception.getStatus());
     }
 }

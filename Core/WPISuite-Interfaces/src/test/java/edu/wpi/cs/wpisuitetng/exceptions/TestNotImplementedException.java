@@ -19,27 +19,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-public class TestUnauthorizedException {
+public class TestNotImplementedException {
+    private NotImplementedException exception = new NotImplementedException();
+
     @Test
     public void testConstructor() {
-        UnauthorizedException exception = new UnauthorizedException();
-
         assertNotNull(exception);
         assertNull(exception.getMessage());
     }
 
     @Test
-    public void testConstructorWithMessage() {
-        UnauthorizedException exception = new UnauthorizedException("TestException");
-
-        assertNotNull(exception);
-        assertEquals("TestException", exception.getMessage());
-    }
-
-    @Test
     public void testGetStatus() {
-        UnauthorizedException exception = new UnauthorizedException();
-
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, exception.getStatus());
+        assertEquals(HttpServletResponse.SC_NOT_IMPLEMENTED, exception.getStatus());
     }
 }

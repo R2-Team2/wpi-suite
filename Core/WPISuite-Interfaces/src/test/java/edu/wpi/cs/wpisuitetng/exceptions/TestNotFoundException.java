@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-public class TestUnauthorizedException {
+public class TestNotFoundException {
     @Test
     public void testConstructor() {
-        UnauthorizedException exception = new UnauthorizedException();
+        NotFoundException exception = new NotFoundException();
 
         assertNotNull(exception);
         assertNull(exception.getMessage());
@@ -30,7 +30,7 @@ public class TestUnauthorizedException {
 
     @Test
     public void testConstructorWithMessage() {
-        UnauthorizedException exception = new UnauthorizedException("TestException");
+        NotFoundException exception = new NotFoundException("TestException");
 
         assertNotNull(exception);
         assertEquals("TestException", exception.getMessage());
@@ -38,8 +38,8 @@ public class TestUnauthorizedException {
 
     @Test
     public void testGetStatus() {
-        UnauthorizedException exception = new UnauthorizedException();
+        NotFoundException exception = new NotFoundException();
 
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, exception.getStatus());
+        assertEquals(HttpServletResponse.SC_NOT_FOUND, exception.getStatus());
     }
 }

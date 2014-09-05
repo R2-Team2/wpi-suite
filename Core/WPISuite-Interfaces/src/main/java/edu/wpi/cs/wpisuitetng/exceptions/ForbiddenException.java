@@ -11,20 +11,17 @@ package edu.wpi.cs.wpisuitetng.exceptions;
 import javax.servlet.http.HttpServletResponse;
 
 public class ForbiddenException extends WPISuiteException {
+    private static final long serialVersionUID = -859475732000910990L;
 
-	
-	private static final long serialVersionUID = -859475732000910990L;
-	
-	public ForbiddenException(String s) {
-		super(s);
-	}
-	
-	public ForbiddenException() {
-		
-	}
+    public ForbiddenException(String s) {
+        super(s);
+    }
 
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_FORBIDDEN; //403
-	}
+    public ForbiddenException() {
+    }
+
+    @Override
+    public int getStatus() {
+        return HttpServletResponse.SC_FORBIDDEN; //403
+    }
 }
