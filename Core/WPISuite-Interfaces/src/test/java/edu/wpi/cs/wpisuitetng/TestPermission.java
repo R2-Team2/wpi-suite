@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.core.models;
+package edu.wpi.cs.wpisuitetng;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,18 +9,18 @@ import org.junit.Test;
  * 
  * @author Robert Smieja
  */
-public class TestRole {
+public class TestPermission {
     @Test
     public void testValues()
     {
-        assertEquals(2, Role.values().length);
+        assertEquals(2, Permission.values().length);
     }
 
     @Test
     public void testValueOf()
     {
-        for (Role value : Role.values()) {
-            assertEquals(value, Role.valueOf(value.toString()));
+        for (Permission value : Permission.values()) {
+            assertEquals(value, Permission.valueOf(value.toString()));
         }
     }
 }
