@@ -36,7 +36,7 @@ public class TestAbstractModel {
 
 	@Test
 	public void testSetAndGetProject() {
-		Project project = new Project("Test Project", 1);
+		Project project = new Project("Test Project", "1");
 
 		model.setProject(project);
 		assertEquals(project, model.getProject());
