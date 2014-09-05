@@ -29,8 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  * @author mdelladonna, twack, bgaffey
  */
 
-public class Project extends AbstractModel
-{
+public class Project extends AbstractModel {
 
     private String name;
     private String idNum;
@@ -47,19 +46,15 @@ public class Project extends AbstractModel
      * @param team - The User[] who are associated with the project
      * @param supportedModules - the modules supported by this project
      */
-    public Project(String name, String idNum, User owner, User[] team, String[] supportedModules)
-    {
+    public Project(String name, String idNum, User owner, User[] team, String[] supportedModules) {
         this.name = name;
         this.idNum = idNum;
         this.owner = owner;
         this.supportedModules = supportedModules;
 
-        if (team != null)
-        {
+        if (team != null) {
             this.team = new HashSet<User>(Arrays.asList(team));
-        }
-        else
-        {
+        } else {
             this.team = new HashSet<User>();
         }
     }
@@ -70,31 +65,27 @@ public class Project extends AbstractModel
      * @param name the project name
      * @param idNum the ID number to associate with this Project.
      */
-    public Project(String name, String idNum)
-    {
+    public Project(String name, String idNum) {
         this.name = name;
         this.idNum = idNum;
+        this.team = new HashSet<User>();
     }
 
     /* Accessors */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getIdNum()
-    {
+    public String getIdNum() {
         return idNum;
     }
 
     /* Mutators */
-    public void setName(String newName)
-    {
+    public void setName(String newName) {
         this.name = newName;
     }
 
-    protected void setIdNum(String newId)
-    {
+    protected void setIdNum(String newId) {
         this.idNum = newId;
     }
 
@@ -103,16 +94,14 @@ public class Project extends AbstractModel
     /**
      * Implements Model-specific save logic
      */
-    public void save()
-    {
+    public void save() {
         throw new UnsupportedOperationException(); // TODO: implement saving during API - DB Layer Link up
     }
 
     /**
      * Implements Model-specific delete logic
      */
-    public void delete()
-    {
+    public void delete() {
         throw new UnsupportedOperationException(); // TODO: implement deleting during API - DB Layer Link up
     }
 
@@ -128,24 +117,20 @@ public class Project extends AbstractModel
      * 
      * @return the JSON string representation of this Project
      */
-    public String toJson()
-    {
+    public String toJson() {
         String json = null;
 
         json = "{";
         json += "\"name\":\"" + this.name + "\"";
         json += ",\"idNum\":\"" + this.idNum + "\"";
 
-        if (this.owner != null)
-        {
+        if (this.owner != null) {
             json += ",\"owner\":" + this.owner.toJson();
         }
 
-        if (this.supportedModules != null && this.supportedModules.length > 0)
-        {
+        if (this.supportedModules != null && this.supportedModules.length > 0) {
             json += ",\"supportedModules\":[";
-            for (String str : this.supportedModules)
-            {
+            for (String str : this.supportedModules) {
                 json += "\"" + str + "\",";
             }
 
@@ -154,12 +139,10 @@ public class Project extends AbstractModel
             json += "]";
         }
 
-        if (this.team != null && this.team.size() > 0)
-        {
+        if (this.team != null && this.team.size() > 0) {
             json += ",\"team\":[";
 
-            for (User u : this.team)
-            {
+            for (User u : this.team) {
                 json += u.toJson() + ",";
             }
             //remove that last comma
@@ -177,8 +160,7 @@ public class Project extends AbstractModel
      * @param u The list of Projects to serialize
      * @return a comma delimited list of Project JSON strings.
      */
-    public static String toJSON(Project[] u)
-    {
+    public static String toJSON(Project[] u) {
         String json = "";
         Gson gson = new Gson();
 
@@ -191,8 +173,7 @@ public class Project extends AbstractModel
      * 
      * @return the Project from the given JSON string representation
      */
-    public static Project fromJSON(String json)
-    {
+    public static Project fromJSON(String json) {
         Gson gson;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Project.class, new ProjectDeserializer());
@@ -211,20 +192,16 @@ public class Project extends AbstractModel
      * @return the String returned by toJSON()
      * @see Project.toJSON()
      */
-    public String toString()
-    {
+    public String toString() {
         return toJson();
     }
 
     @Override
-    public Boolean identify(Object o)
-    {
+    public Boolean identify(Object o) {
         Boolean b = false;
 
-        if (o instanceof Project)
-        {
-            if (((Project) o).getIdNum().equalsIgnoreCase(this.idNum))
-            {
+        if (o instanceof Project) {
+            if (((Project) o).getIdNum().equalsIgnoreCase(this.idNum)) {
                 b = true;
             }
         }
@@ -312,8 +289,7 @@ public class Project extends AbstractModel
      * @param u - the user to add to the team
      * @return true if the user was added, false if the user was already in the team
      */
-    public boolean addTeamMember(User user)
-    {
+    public boolean addTeamMember(User user) {
         return team.add(user);
     }
 
@@ -323,8 +299,7 @@ public class Project extends AbstractModel
      * @param u - the team member to remove from the team
      * @return - true if the member was removed, false if they were not in the team
      */
-    public boolean removeTeamMember(User user)
-    {
+    public boolean removeTeamMember(User user) {
         return team.remove(user);
     }
 

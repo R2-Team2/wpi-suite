@@ -69,28 +69,28 @@ public class ProjectManager implements EntityManager<Project>{
 	}
 
 	@Override
-	public Project makeEntity(Session s, String content) throws WPISuiteException {	
-		User theUser = s.getUser();
+	public Project makeEntity(Session session, String content) throws WPISuiteException {	
+		User theUser = session.getUser();
 		
 		logger.log(Level.FINER, "Attempting new Project creation...");
 		
-		Project p;
+		Project project;
 		try{
-			p = Project.fromJSON(content);
+			project = Project.fromJSON(content);
 		} catch(JsonSyntaxException e){
 			logger.log(Level.WARNING, "Invalid Project entity creation string.");
 			throw new BadRequestException("The entity creation string had invalid format. Entity String: " + content);
 		}
 		
 		 
-		logger.log(Level.FINE, "New project: "+ p.getName() +" submitted by: "+ theUser.getName() );
-		p.setOwner(theUser);
+		logger.log(Level.FINE, "New project: "+ project.getName() +" submitted by: "+ theUser.getName() );
+		project.setOwner(theUser);
 		
-		if(getEntity(s,p.getIdNum())[0] == null)
+		if(getEntity(session,project.getIdNum())[0] == null)
 		{
-			if(getEntityByName(s, p.getName())[0] == null)
+			if(getEntityByName(session, project.getName())[0] == null)
 			{
-				save(s,p);
+				save(session,project);
 			}
 			else
 			{
@@ -105,7 +105,7 @@ public class ProjectManager implements EntityManager<Project>{
 		}
 		
 		logger.log(Level.FINER, "Project creation success!");
-		return p;
+		return project;
 	}
 
 	@Override

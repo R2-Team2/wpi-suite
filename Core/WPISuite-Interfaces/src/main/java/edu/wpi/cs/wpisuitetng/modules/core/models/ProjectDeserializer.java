@@ -34,8 +34,7 @@ public class ProjectDeserializer implements JsonDeserializer<Project> {
         JsonObject deflated = projectElement.getAsJsonObject();
 
         // check for the unique identifier <idNum> field.
-        if (!deflated.has("idNum"))
-        {
+        if (!deflated.has("idNum")) {
             throw new JsonParseException("The serialized Project did not contain the required idNum field.");
         }
 
@@ -50,22 +49,20 @@ public class ProjectDeserializer implements JsonDeserializer<Project> {
         User[] team = null;
         String[] supportedModules = null;
 
-        if (deflated.has("name"))
-        {
+        if (deflated.has("name")) {
             name = deflated.get("name").getAsString();
         }
 
-        if (deflated.has("owner"))
-        {
-            owner = User.fromJSON(deflated.get("owner").getAsString());
+        if (deflated.has("owner")) {
+            JsonElement ownerJson = deflated.get("owner");
+            ownerString = ownerJson.toString();
+            owner = User.fromJSON(ownerString);
         }
 
-        if (deflated.has("supportedModules"))
-        {
+        if (deflated.has("supportedModules")) {
             ArrayList<String> tempList = new ArrayList<String>();
             JsonArray tempMods = deflated.get("supportedModules").getAsJsonArray();
-            for (JsonElement mod : tempMods)
-            {
+            for (JsonElement mod : tempMods) {
                 tempList.add(mod.getAsString());
             }
             String[] tempSM = new String[1];
@@ -74,11 +71,9 @@ public class ProjectDeserializer implements JsonDeserializer<Project> {
 
         Project inflated = new Project(name, idNum, owner, team, supportedModules);
 
-        if (deflated.has("team"))
-        {
+        if (deflated.has("team")) {
             JsonArray tempTeam = deflated.get("team").getAsJsonArray();
-            for (JsonElement member : tempTeam)
-            {
+            for (JsonElement member : tempTeam) {
                 inflated.addTeamMember(User.fromJSON(member.getAsString()));
             }
         }

@@ -31,15 +31,13 @@ public class MockDataStore implements Data {
 
     private static MockDataStore myself = null;
 
-    public static MockDataStore getMockDataStore()
-    {
+    public static MockDataStore getMockDataStore() {
         if (myself == null)
             myself = new MockDataStore();
         return myself;
     }
 
-    private MockDataStore()
-    {
+    private MockDataStore() {
         models = new ArrayList<Model>();
         models.add(new Project("test", "5"));
         models.add(new User("steve", "steve", null, 0));
@@ -54,8 +52,7 @@ public class MockDataStore implements Data {
 
     }
 
-    public Model save(String json, Class<? extends Model> type)
-    {
+    public Model save(String json, Class<? extends Model> type) {
         Gson gson = new Gson();
         Model m = gson.fromJson(json, type);
         Model[] n = retrieve(type, m);
@@ -64,50 +61,37 @@ public class MockDataStore implements Data {
         return (n == null) ? m : n[0];
     }
 
-    public Model[] retrieve(Class<? extends Model> type, Object id)
-    {
+    public Model[] retrieve(Class<? extends Model> type, Object id) {
         List<Model> list = new ArrayList<Model>();
         Model[] mlist = new Model[1];
-        if (id != null)
-        {
-            for (Model m : models)
-            {
-                if (m.getClass() == type && m.identify(id))
-                {
+        if (id != null) {
+            for (Model m : models) {
+                if (m.getClass() == type && m.identify(id)) {
                     list.add(m);
                     return list.toArray(mlist);
                 }
             }
             return null;
         }
-        else
-        {
-            for (Model m : models)
-            {
-                if (m.getClass() == type)
-                    list.add(m);
-            }
-            return list.toArray(mlist);
+        for (Model m : models) {
+            if (m.getClass() == type)
+                list.add(m);
         }
+        return list.toArray(mlist);
     }
 
-    public Model[] retrieve(Class<? extends Model> type, Object id, Project aProject)
-    {
+    public Model[] retrieve(Class<? extends Model> type, Object id, Project aProject) {
         return retrieve(type, id);
     }
 
-    public String remove(Class<? extends Model> type, Object id)
-    {
-        if (id != null)
-        {
-            for (Model m : models)
-            {
-                if (m.identify(id) && m.getClass() == type)
-                {
-                    if (models.remove(m))
+    public String remove(Class<? extends Model> type, Object id) {
+        if (id != null) {
+            for (Model m : models) {
+                if (m.identify(id) && m.getClass() == type) {
+                    if (models.remove(m)) {
                         return null;
-                    else
-                        return "entry not found";
+                    }
+                    return "entry not found";
                 }
             }
             return "entry not found";
@@ -123,38 +107,30 @@ public class MockDataStore implements Data {
     }
 
     @Override
-    public List<Model> retrieve(Class anObjectQueried, String aFieldName,
-            Object theGivenValue) {
+    public List<Model> retrieve(Class<?> anObjectQueried, String aFieldName, Object theGivenValue) {
         System.out.println("DEBUG: Inside retreive");
         System.out.println("DEBUG anObjectQueried: " + anObjectQueried);
         System.out.println("DEBUG aFieldName: " + aFieldName);
         System.out.println("DEBUG theGivenValue: " + theGivenValue);
         List<Model> list = new ArrayList<Model>();
-        if (theGivenValue != null)
-        {
-            for (Model m : models)
-            {
-                if (m.getClass() == anObjectQueried && m.identify(theGivenValue))
-                {
+        if (theGivenValue != null) {
+            for (Model m : models) {
+                if (m.getClass() == anObjectQueried && m.identify(theGivenValue)) {
                     list.add(m);
                     return list;
                 }
             }
             return list;
         }
-        else
-        {
-            for (Model m : models)
-            {
-                if (m.getClass() == anObjectQueried)
-                    list.add(m);
+        for (Model m : models) {
+            if (m.getClass() == anObjectQueried) {
+                list.add(m);
             }
-            return list;
         }
+        return list;
     }
 
-    public List<Model> retrieve(Class anObjectQueried, String aFieldName,
-            Object theGivenValue, Project aProject) {
+    public List<Model> retrieve(Class<?> anObjectQueried, String aFieldName, Object theGivenValue, Project aProject) {
         return retrieve(anObjectQueried, aFieldName, theGivenValue);
     }
 
@@ -166,8 +142,7 @@ public class MockDataStore implements Data {
     }
 
     @Override
-    public void update(Class anObjectToBeModified, String fieldName,
-            Object uniqueID, String changeField, Object changeValue) {
+    public void update(Class<?> anObjectToBeModified, String fieldName, Object uniqueID, String changeField, Object changeValue) {
         // TODO Auto-generated method stub
 
     }
@@ -202,26 +177,19 @@ public class MockDataStore implements Data {
         return null;
     }
 
-    public List<Model> notRetrieve(Class anObjectQueried, String aFieldName,
-            Object theGivenValue) {
+    public List<Model> notRetrieve(Class<?> anObjectQueried, String aFieldName, Object theGivenValue) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Model> andRetrieve(Class anObjectQueried,
-            String[] aFieldNameList, List<Object> theGivenValueList)
-            throws WPISuiteException, IllegalArgumentException,
-            IllegalAccessException, InvocationTargetException {
+    public List<Model> andRetrieve(Class<?> anObjectQueried, String[] aFieldNameList, List<Object> theGivenValueList) throws WPISuiteException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Model> orRetrieve(Class anObjectQueried,
-            String[] aFieldNameList, List<Object> theGivenValueList)
-            throws WPISuiteException, IllegalAccessException,
-            InvocationTargetException {
+    public List<Model> orRetrieve(Class<?> anObjectQueried, String[] aFieldNameList, List<Object> theGivenValueList) throws WPISuiteException, IllegalAccessException, InvocationTargetException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -232,12 +200,7 @@ public class MockDataStore implements Data {
         return null;
     }
 
-    public List<Model> complexRetrieve(Class andanObjectQueried,
-            String[] andFieldNameList, List<Object> andGivenValueList,
-            Class orAnObjectQueried, String[] orFieldNameList,
-            List<Object> orGivenValueList) throws WPISuiteException,
-            IllegalArgumentException, IllegalAccessException,
-            InvocationTargetException {
+    public List<Model> complexRetrieve(Class<?> andanObjectQueried, String[] andFieldNameList, List<Object> andGivenValueList, Class<?> orAnObjectQueried, String[] orFieldNameList, List<Object> orGivenValueList) throws WPISuiteException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         // TODO Auto-generated method stub
         return null;
     }
