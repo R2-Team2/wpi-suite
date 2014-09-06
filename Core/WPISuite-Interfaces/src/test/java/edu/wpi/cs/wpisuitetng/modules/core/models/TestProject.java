@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2014 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -7,11 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    twack
+ *    twack, Robert Smieja
  *******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.core.models;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -19,13 +20,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import org.junit.Test;
 
 /**
  * Test suite for the Project model
  * 
- * @author twack
+ * @author twack, Robert Smieja
  */
 public class TestProject {
     User user1 = new User("James Bond", "jbond", "abcde", 7);
@@ -34,16 +36,15 @@ public class TestProject {
     User user4 = new User("M", "m", null, 0);
 
     User[] team = { user1, user2, user3 };
-    String[] support = { "defecttracker", "postboard" };
+    String[] supportedModules = { "defecttracker", "postboard" };
 
     Project project1 = new Project("defectTracker", "proj1");
     Project project2 = new Project("postBoard", "proj2");
-    Project project3 = new Project("calendar", "proj3", user1, team, support);
+    Project project3 = new Project("calendar", "proj3", user1, team, supportedModules);
 
     @Test
-    public void testNewProjectWithNullTeam()
-    {
-        Project project = new Project("calendar", "proj3", user1, null, support);
+    public void testNewProjectWithNullTeam() {
+        Project project = new Project("calendar", "proj3", user1, null, supportedModules);
 
         assertNotNull(project);
         assertEquals(0, project.getTeam().length);
@@ -53,26 +54,72 @@ public class TestProject {
      * Tests the Object.equals override implemented by Project
      */
     @Test
-    public void testEquals()
-    {
-        Object p1match = new Project("defectTracker", "proj1");
+    public void testEquals() {
+        Project otherProject = new Project("defectTracker", "proj1");
 
-        assertTrue(project1.equals(p1match));
-        assertFalse(project1.equals(project2));
+        assertTrue(project1.equals(project1));
+        assertFalse(project1.equals(null));
+        assertFalse(project1.equals(""));
+
+        otherProject.setIdNum(null);
+        assertFalse(project1.equals(otherProject));
+
+        project1.setIdNum(null);
+        assertTrue(project1.equals(otherProject));
+
+        otherProject.setIdNum("proj1");
+        assertFalse(project1.equals(otherProject));
+
+        project1.setIdNum("proj1");
+        project1.setName(null);
+        assertFalse(project1.equals(otherProject));
+
+        otherProject.setName(null);
+        assertTrue(project1.equals(otherProject));
+
+        project1.setName("proj1");
+        otherProject.setName("proj2");
+        assertFalse(project1.equals(otherProject));
+
+        otherProject.setName("proj1");
+        otherProject.setOwner(user1);
+        assertFalse(project1.equals(otherProject));
+
+        project1.setOwner(user1);
+        assertTrue(project1.equals(otherProject));
+
+        otherProject.setOwner(user2);
+        assertFalse(project1.equals(otherProject));
+
+        otherProject.setOwner(user1);
+        project1.setSupportedModules(supportedModules);
+        assertFalse(project1.equals(otherProject));
+
+        otherProject.setSupportedModules(supportedModules);
+        project1.team = null;
+        assertFalse(project1.equals(otherProject));
+
+        otherProject.team = null;
+        assertTrue(project1.equals(otherProject));
+
+        project1.team = new LinkedHashSet<User>();
+        otherProject.team = new LinkedHashSet<User>();
+        assertTrue(project1.equals(otherProject));
+
+        otherProject.addTeamMember(user1);
+        assertFalse(project1.equals(otherProject));
     }
 
     /**
      * Tests the getName function of Project
      */
     @Test
-    public void testGetName()
-    {
+    public void testGetName() {
         assertEquals("defectTracker", project1.getName());
     }
 
     @Test
-    public void testSetName()
-    {
+    public void testSetName() {
         String name = "messageBoard";
 
         assertTrue(project1.getName().equals("defectTracker"));
@@ -83,21 +130,18 @@ public class TestProject {
     }
 
     @Test
-    public void testSetIdNum()
-    {
+    public void testSetIdNum() {
         project1.setIdNum("test1");
         assertEquals("test1", project1.getIdNum());
     }
 
     @Test
-    public void testGetIdNum()
-    {
+    public void testGetIdNum() {
         assertTrue(project1.getIdNum().equals("proj1"));
     }
 
     @Test
-    public void testGetProjectName()
-    {
+    public void testGetProjectName() {
         assertEquals("defectTracker", project1.getProjectName());
     }
 
@@ -106,8 +150,7 @@ public class TestProject {
      * return values as well as the size of the team.
      */
     @Test
-    public void testAddTeamMember()
-    {
+    public void testAddTeamMember() {
         assertTrue(project3.addTeamMember(user4));
         assertEquals(4, project3.getTeam().length);
 
@@ -118,8 +161,7 @@ public class TestProject {
      * Tests removing a team member from the list.
      */
     @Test
-    public void testRemoveTeamMember()
-    {
+    public void testRemoveTeamMember() {
         int initCount = project3.getTeam().length;
 
         assertTrue(project3.removeTeamMember(user1));
@@ -128,8 +170,7 @@ public class TestProject {
     }
 
     @Test
-    public void testGetTeam()
-    {
+    public void testGetTeam() {
         ArrayList<User> teamList = new ArrayList<User>();
         teamList.add(user1);
         teamList.add(user2);
@@ -141,23 +182,20 @@ public class TestProject {
         assertEquals(teamList.size(), teamSize);
 
         // check that the lists are the same
-        for (int i = 0; i < teamSize; i++)
-        {
+        for (int i = 0; i < teamSize; i++) {
             assertTrue(teamList.contains(team[i]));
         }
     }
 
     @Test
-    public void testGetOwner()
-    {
+    public void testGetOwner() {
         User owner = project3.getOwner();
 
         assertTrue(owner.equals(user1));
     }
 
     @Test
-    public void testSetOwner()
-    {
+    public void testSetOwner() {
         User oldOwner = project3.getOwner();
 
         project3.setOwner(user2);
@@ -166,25 +204,75 @@ public class TestProject {
     }
 
     @Test
+    public void testGetSupportedModules() {
+        assertArrayEquals(supportedModules, project3.getSupportedModules());
+    }
+
+    @Test
+    public void testSetSupportedModules() {
+        String[] supportedModules = { "testModule" };
+        assertNull(project1.getSupportedModules());
+
+        project1.setSupportedModules(supportedModules);
+        assertArrayEquals(supportedModules, project1.getSupportedModules());
+    }
+
+    @Test
     public void testToJson() {
-        String deflated = project3.toJson();
+        String expectedJson = "{\"name\":\"calendar\","
+                              + "\"idNum\":\"proj3\","
+                              + "\"owner\":{\"idNum\":7,"
+                              + "\"username\":\"jbond\","
+                              + "\"name\":\"James Bond\","
+                              + "\"role\":\"USER\"},"
+                              + "\"supportedModules\":[\"defecttracker\",\"postboard\"],"
+                              + "\"team\":["
+                              + "{\"idNum\":7,\"username\":\"jbond\",\"name\":\"James Bond\",\"role\":\"USER\"},"
+                              + "{\"idNum\":2,\"username\":\"mpenny\",\"name\":\"Money Penny\",\"role\":\"USER\"},"
+                              + "{\"idNum\":1,\"username\":\"q\",\"name\":\"Q\",\"role\":\"USER\"}"
+                              + "]}";
 
-        assertTrue(deflated.startsWith("{"));
-        assertTrue(deflated.endsWith("}"));
+        String actualJson = project3.toJson();
 
-        assertTrue(deflated.contains("name"));
-        assertTrue(deflated.contains("calendar"));
-        assertTrue(deflated.contains("name"));
+        assertEquals(expectedJson, actualJson);
+    }
 
-        assertTrue(deflated.contains("idNum"));
-        assertTrue(deflated.contains("proj3"));
+    @Test
+    public void testFromJson() {
+        String projectJson = "{\"name\":\"calendar\","
+                             + "\"idNum\":\"proj3\","
+                             + "\"owner\":{\"idNum\":7,"
+                             + "\"username\":\"jbond\","
+                             + "\"name\":\"James Bond\","
+                             + "\"role\":\"USER\"},"
+                             + "\"supportedModules\":[\"defecttracker\",\"postboard\"],"
+                             + "\"team\":["
+                             + "{\"idNum\":7,\"username\":\"jbond\",\"name\":\"James Bond\",\"role\":\"USER\"},"
+                             + "{\"idNum\":2,\"username\":\"mpenny\",\"name\":\"Money Penny\",\"role\":\"USER\"},"
+                             + "{\"idNum\":1,\"username\":\"q\",\"name\":\"Q\",\"role\":\"USER\"}"
+                             + "]}";
 
-        assertTrue(deflated.contains("owner"));
-        assertTrue(deflated.contains(user1.toJson()));
+        Project projectFromJson = Project.fromJson(projectJson);
 
-        assertTrue(deflated.contains("team"));
+        assertEquals(project3, projectFromJson);
+    }
 
-        assertTrue(deflated.contains("supportedModules"));
+    @Test
+    public void testToJson_projectArray() {
+        String expectedJson = "[{\"name\":\"calendar\","
+                              + "\"idNum\":\"proj3\","
+                              + "\"supportedModules\":[\"defecttracker\",\"postboard\"],"
+                              + "\"owner\":{\"idNum\":7,\"username\":\"jbond\",\"name\":\"James Bond\",\"role\":\"USER\",\"permissionMap\":{}},"
+                              + "\"team\":["
+                              + "{\"idNum\":7,\"username\":\"jbond\",\"name\":\"James Bond\",\"role\":\"USER\",\"permissionMap\":{}},"
+                              + "{\"idNum\":2,\"username\":\"mpenny\",\"name\":\"Money Penny\",\"role\":\"USER\",\"permissionMap\":{}},"
+                              + "{\"idNum\":1,\"username\":\"q\",\"name\":\"Q\",\"role\":\"USER\",\"permissionMap\":{}}"
+                              + "],\"permissionMap\":{}}]";
+
+        Project[] projectArray = { project3 };
+        String actualJson = Project.toJson(projectArray);
+
+        assertEquals(expectedJson, actualJson);
     }
 
     @Test
@@ -213,26 +301,22 @@ public class TestProject {
      * not belong to another project. No recursive relationships.
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testGetProject()
-    {
+    public void testGetProject() {
         assertNull(project1.getProject());
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testSetProject()
-    {
+    public void testSetProject() {
         project1.setProject(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testSave()
-    {
+    public void testSave() {
         project1.save();
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testDelete()
-    {
+    public void testDelete() {
         project1.delete();
     }
 }

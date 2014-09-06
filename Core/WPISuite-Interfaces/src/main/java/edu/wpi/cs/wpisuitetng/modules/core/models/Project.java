@@ -15,7 +15,7 @@
 package edu.wpi.cs.wpisuitetng.modules.core.models;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +35,7 @@ public class Project extends AbstractModel {
     private String idNum;
     private String[] supportedModules;
     private User owner;
-    private HashSet<User> team;
+    protected LinkedHashSet<User> team;
 
     /**
      * Primary constructor for a Project
@@ -53,9 +53,9 @@ public class Project extends AbstractModel {
         this.supportedModules = supportedModules;
 
         if (team != null) {
-            this.team = new HashSet<User>(Arrays.asList(team));
+            this.team = new LinkedHashSet<User>(Arrays.asList(team));
         } else {
-            this.team = new HashSet<User>();
+            this.team = new LinkedHashSet<User>();
         }
     }
 
@@ -68,7 +68,7 @@ public class Project extends AbstractModel {
     public Project(String name, String idNum) {
         this.name = name;
         this.idNum = idNum;
-        this.team = new HashSet<User>();
+        this.team = new LinkedHashSet<User>();
     }
 
     /* Accessors */
@@ -160,12 +160,8 @@ public class Project extends AbstractModel {
      * @param u The list of Projects to serialize
      * @return a comma delimited list of Project JSON strings.
      */
-    public static String toJSON(Project[] u) {
-        String json = "";
-        Gson gson = new Gson();
-
-        json = gson.toJson(u, Project[].class);
-        return json;
+    public static String toJson(Project[] projects) {
+        return new Gson().toJson(projects, Project[].class);
     }
 
     /**
@@ -173,11 +169,11 @@ public class Project extends AbstractModel {
      * 
      * @return the Project from the given JSON string representation
      */
-    public static Project fromJSON(String json) {
+    public static Project fromJson(String json) {
         Gson gson;
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Project.class, new ProjectDeserializer());
 
+        builder.registerTypeAdapter(Project.class, new ProjectDeserializer());
         gson = builder.create();
 
         return gson.fromJson(json, Project.class);

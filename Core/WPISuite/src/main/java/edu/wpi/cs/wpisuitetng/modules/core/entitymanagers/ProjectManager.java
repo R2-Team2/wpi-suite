@@ -76,7 +76,7 @@ public class ProjectManager implements EntityManager<Project>{
 		
 		Project project;
 		try{
-			project = Project.fromJSON(content);
+			project = Project.fromJson(content);
 		} catch(JsonSyntaxException e){
 			logger.log(Level.WARNING, "Invalid Project entity creation string.");
 			throw new BadRequestException("The entity creation string had invalid format. Entity String: " + content);
@@ -257,7 +257,7 @@ public class ProjectManager implements EntityManager<Project>{
 			try
 			{
 				logger.log(Level.FINE, "Project update being attempted...");
-				Project change = Project.fromJSON(changeSet);
+				Project change = Project.fromJson(changeSet);
 			
 				// check if the changes contains each field of name
 				if(change.getName() != null && !change.getName().equals(""))

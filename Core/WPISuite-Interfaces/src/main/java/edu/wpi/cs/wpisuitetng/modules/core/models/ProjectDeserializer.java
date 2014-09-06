@@ -74,7 +74,7 @@ public class ProjectDeserializer implements JsonDeserializer<Project> {
         if (deflated.has("team")) {
             JsonArray tempTeam = deflated.get("team").getAsJsonArray();
             for (JsonElement member : tempTeam) {
-                inflated.addTeamMember(User.fromJSON(member.getAsString()));
+                inflated.addTeamMember(User.fromJSON(member.toString()));
             }
         }
         return inflated;
