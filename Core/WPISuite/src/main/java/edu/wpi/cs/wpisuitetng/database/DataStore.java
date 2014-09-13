@@ -41,7 +41,7 @@ public class DataStore implements Data {
      * static String WPI_TNG_DB ="WPISuite_TNG_local";
      */
     static String WPI_TNG_DB = "WPISuite_TNG_local";
-    static DataStore myself = null;
+    static DataStore instance = null;
     static ObjectContainer theDB;
     static ObjectServer server;
     static int PORT = 0;
@@ -57,9 +57,9 @@ public class DataStore implements Data {
      * @return the only instance of the Database
      */
     public static DataStore getDataStore() {
-        if (myself == null) {
+        if (instance == null) {
             logger.log(Level.FINE, "Opening connection to db4o database...");
-            myself = new DataStore();
+            instance = new DataStore();
             // accessLocalServer
             // Please see Wiki for more information on the ServerConfiguration.
             ServerConfiguration config = Db4oClientServer.newServerConfiguration();
@@ -73,7 +73,7 @@ public class DataStore implements Data {
             theDB = server.openClient();
             logger.log(Level.FINE, "Connected to db4o database!");
         }
-        return myself;
+        return instance;
     }
 
     /**
