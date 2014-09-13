@@ -13,6 +13,24 @@ subprojects {
         mavenCentral()
     }
     
+    //Create a source set for the functional test files
+    sourceSets {
+        // Note that just declaring this sourceset creates two configurations.
+        funcTest {
+            java {
+                compileClasspath += main.output
+                runtimeClasspath += main.output
+            }
+        }
+    }
+    
+    //Create dependecy configuration for functional tests, depending on whatever is required for unit tests
+    //This allows us to specify dependencies only for functional tests
+    configurations {
+        funcTestCompile.extendsFrom testCompile
+        funcTestRuntime.extendsFrom testRuntime
+    }
+    
     dependencies {
         compile 'commons-codec:commons-codec:1.7'
         compile 'commons-logging:commons-logging:1.1.1'
@@ -73,5 +91,12 @@ subprojects {
                 new File("$it/empty").createNewFile()
             }
         }
+    }
+    
+    //Gradle task to run the functional tests
+    task funcTest(type:Test){
+        description = "Run integration tests (located in src/funcTest/...)."
+        testClassesDir = project.sourceSets.funcTest.output.classesDir
+        classpath = project.sourceSets.funcTest.runtimeClasspath
     }
 }
