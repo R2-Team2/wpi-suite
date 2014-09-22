@@ -1,3 +1,6 @@
+//Configuration for root project
+apply plugin: 'build-dashboard'
+
 //Common config for all WPISuite projects
 subprojects {
     apply plugin: 'java'
