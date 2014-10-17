@@ -48,8 +48,6 @@ import edu.wpi.cs.wpisuitetng.network.Network;
  * @author Robert Smieja
  * @version $Revision: 1.0 $
  */
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest({ Network.class, IterationModel.class, RequirementModel.class, Gson.class })
 public class TestRequirement {
 
     Network mockNetwork = mock(Network.class);
@@ -132,24 +130,16 @@ public class TestRequirement {
     @Ignore
     public void testFromJson() {
         String json = "{\"id\":0,"
-                + "\"name\":\"\","
-                + "\"release\":\"\","
-                + "\"status\":\"NEW\","
-                + "\"priority\":\"BLANK\","
-                + "\"description\":\"\","
-                + "\"estimate\":0,"
-                + "\"estimateEdited\":false,"
-                + "\"wasCreated\":false,"
-                + "\"effort\":0,"
-                + "\"history\":{\"history\":[],\"TimeStamp\":0}"
-                + ",\"type\":\"BLANK\","
-                + "\"notes\":{\"notes\":[]}"
-                + ",\"iteration\":\"Backlog\","
-                + "\"parentID\":-1,"
-                + "\"tasks\":[],"
-                + "\"tests\":[],"
-                + "\"attachments\":[],"
-                + "\"permissionMap\":{}}";
+                      + "\"name\":\"\"," + "\"release\":\"\","
+                      + "\"status\":\"NEW\"," + "\"priority\":\"BLANK\","
+                      + "\"description\":\"\"," + "\"estimate\":0,"
+                      + "\"estimateEdited\":false," + "\"wasCreated\":false,"
+                      + "\"effort\":0,"
+                      + "\"history\":{\"history\":[],\"TimeStamp\":0}"
+                      + ",\"type\":\"BLANK\"," + "\"notes\":{\"notes\":[]}"
+                      + ",\"iteration\":\"Backlog\"," + "\"parentID\":-1,"
+                      + "\"tasks\":[]," + "\"tests\":[],"
+                      + "\"attachments\":[]," + "\"permissionMap\":{}}";
         Requirement newRequirement = new Requirement();
         Requirement result = Requirement.fromJson(json);
 
@@ -161,24 +151,16 @@ public class TestRequirement {
     @Ignore
     public void testFromJsonArray() {
         String json = "[{\"id\":0,"
-                + "\"name\":\"\","
-                + "\"release\":\"\","
-                + "\"status\":\"NEW\","
-                + "\"priority\":\"BLANK\","
-                + "\"description\":\"\","
-                + "\"estimate\":0,"
-                + "\"estimateEdited\":false,"
-                + "\"wasCreated\":false,"
-                + "\"effort\":0,"
-                + "\"history\":{\"history\":[],\"TimeStamp\":0}"
-                + ",\"type\":\"BLANK\","
-                + "\"notes\":{\"notes\":[]}"
-                + ",\"iteration\":\"Backlog\","
-                + "\"parentID\":-1,"
-                + "\"tasks\":[],"
-                + "\"tests\":[],"
-                + "\"attachments\":[],"
-                + "\"permissionMap\":{}}]";
+                      + "\"name\":\"\"," + "\"release\":\"\","
+                      + "\"status\":\"NEW\"," + "\"priority\":\"BLANK\","
+                      + "\"description\":\"\"," + "\"estimate\":0,"
+                      + "\"estimateEdited\":false," + "\"wasCreated\":false,"
+                      + "\"effort\":0,"
+                      + "\"history\":{\"history\":[],\"TimeStamp\":0}"
+                      + ",\"type\":\"BLANK\"," + "\"notes\":{\"notes\":[]}"
+                      + ",\"iteration\":\"Backlog\"," + "\"parentID\":-1,"
+                      + "\"tasks\":[]," + "\"tests\":[],"
+                      + "\"attachments\":[]," + "\"permissionMap\":{}}]";
         Requirement newRequirement = new Requirement();
         Requirement[] expected = { newRequirement };
         Requirement[] result = Requirement.fromJsonArray(json);
@@ -192,24 +174,19 @@ public class TestRequirement {
         Requirement newRequirement = new Requirement();
         String result = newRequirement.toJson();
         String expectedJson = "{\"id\":0,"
-                + "\"name\":\"\","
-                + "\"release\":\"\","
-                + "\"status\":\"NEW\","
-                + "\"priority\":\"BLANK\","
-                + "\"description\":\"\","
-                + "\"estimate\":0,"
-                + "\"estimateEdited\":false,"
-                + "\"wasCreated\":false,"
-                + "\"effort\":0,"
-                + "\"history\":{\"history\":[],\"TimeStamp\":0}"
-                + ",\"type\":\"BLANK\","
-                + "\"notes\":{\"notes\":[]}"
-                + ",\"iteration\":\"Backlog\","
-                + "\"parentID\":-1,"
-                + "\"tasks\":[],"
-                + "\"tests\":[],"
-                + "\"attachments\":[],"
-                + "\"permissionMap\":{}}";
+                              + "\"name\":\"\"," + "\"release\":\"\","
+                              + "\"status\":\"NEW\","
+                              + "\"priority\":\"BLANK\","
+                              + "\"description\":\"\"," + "\"estimate\":0,"
+                              + "\"estimateEdited\":false,"
+                              + "\"wasCreated\":false," + "\"effort\":0,"
+                              + "\"history\":{\"history\":[],\"TimeStamp\":0}"
+                              + ",\"type\":\"BLANK\","
+                              + "\"notes\":{\"notes\":[]}"
+                              + ",\"iteration\":\"Backlog\","
+                              + "\"parentID\":-1," + "\"tasks\":[],"
+                              + "\"tests\":[]," + "\"attachments\":[],"
+                              + "\"permissionMap\":{}}";
 
         assertEquals(expectedJson, result);
     }
