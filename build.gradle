@@ -1,3 +1,6 @@
+//Configuration for root project
+apply plugin: 'build-dashboard'
+
 //Common config for all WPISuite projects
 subprojects {
     apply plugin: 'java'
@@ -11,6 +14,24 @@ subprojects {
     
     repositories {
         mavenCentral()
+    }
+    
+    //Create a source set for the functional test files
+    sourceSets {
+        // Note that just declaring this sourceset creates two configurations.
+        funcTest {
+            java {
+                compileClasspath += main.output
+                runtimeClasspath += main.output
+            }
+        }
+    }
+    
+    //Create dependecy configuration for functional tests, depending on whatever is required for unit tests
+    //This allows us to specify dependencies only for functional tests
+    configurations {
+        funcTestCompile.extendsFrom testCompile
+        funcTestRuntime.extendsFrom testRuntime
     }
     
     dependencies {
@@ -27,7 +48,6 @@ subprojects {
         
         testCompile 'junit:junit:4.11'
         testCompile 'org.mockito:mockito-core:1.9.5'
-        //Add code coverage? cucumber?
     }
     
     eclipse{
@@ -74,5 +94,12 @@ subprojects {
                 new File("$it/empty").createNewFile()
             }
         }
+    }
+    
+    //Gradle task to run the functional tests
+    task funcTest(type:Test){
+        description = "Run integration tests (located in src/funcTest/...)."
+        testClassesDir = project.sourceSets.funcTest.output.classesDir
+        classpath = project.sourceSets.funcTest.runtimeClasspath
     }
 }

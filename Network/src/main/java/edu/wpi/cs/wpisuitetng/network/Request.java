@@ -279,20 +279,6 @@ public class Request extends RequestModel {
 		return isAsynchronous;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Adds a RequestObserver to this Observable.
 	 * 

@@ -16,23 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Thrown for serialization errors in Models and EntityManagers.
+ * 
  * @author twack
- *
  */
 public class SerializationException extends WPISuiteException {
+    private static final long serialVersionUID = 3607525121952037935L;
 
-	/**`
-	 * 
-	 */
-	private static final long serialVersionUID = 3607525121952037935L;
-	
-	public SerializationException(String message)
-	{
-		super(message);
-	}
+    public SerializationException(String message)
+    {
+        super(message);
+    }
 
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_INTERNAL_SERVER_ERROR; // 500
-	}
+    @Override
+    public int getStatus() {
+        return HttpServletResponse.SC_INTERNAL_SERVER_ERROR; // 500
+    }
 }

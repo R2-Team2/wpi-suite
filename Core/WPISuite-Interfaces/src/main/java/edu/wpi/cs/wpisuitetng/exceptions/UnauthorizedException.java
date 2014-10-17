@@ -14,26 +14,23 @@ package edu.wpi.cs.wpisuitetng.exceptions;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Exception thrown when attempting an action not allowed for that user's permission
+ * level
+ */
 public class UnauthorizedException extends WPISuiteException {
+    private static final long serialVersionUID = 9127615601542990581L;
 
-	/**
-	 * Exception thrown when attempting an action not allowed for that user's permission
-	 * level
-	 */
-	private static final long serialVersionUID = 9127615601542990581L;
-	
-	public UnauthorizedException()
-	{
-	}
-	
-	public UnauthorizedException(String message)
-	{
-		super(message);
-	}
+    public UnauthorizedException() {
+    }
 
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_UNAUTHORIZED; //401
-	}
+    public UnauthorizedException(String message)
+    {
+        super(message);
+    }
 
+    @Override
+    public int getStatus() {
+        return HttpServletResponse.SC_UNAUTHORIZED; //401
+    }
 }

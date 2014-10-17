@@ -6,28 +6,22 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.exceptions;
 
 import javax.servlet.http.HttpServletResponse;
 
 public class NotFoundException extends WPISuiteException {
+    private static final long serialVersionUID = -2573827722743846840L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2573827722743846840L;
+    public NotFoundException(String message) {
+        super(message);
+    }
 
-	public NotFoundException(String message) {
-		super(message);
-	}
-	
-	public NotFoundException() {
-	}
+    public NotFoundException() {
+    }
 
-	@Override
-	public int getStatus() {
-		return HttpServletResponse.SC_NOT_FOUND; //404
-	}
-
+    @Override
+    public int getStatus() {
+        return HttpServletResponse.SC_NOT_FOUND; //404
+    }
 }

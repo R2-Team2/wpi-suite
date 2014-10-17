@@ -81,21 +81,21 @@ public class PostBoardMessage extends AbstractModel {
     /**
      * @return the date
      */
-    Date getDate() {
+    public Date getDate() {
         return this.date;
     }
     
     /**
      * @param date the date to set
      */
-    void setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     
     /**
      * @return the message
      */
-    String getMessage() {
+    public String getMessage() {
         return this.message;
     }
     
@@ -128,4 +128,32 @@ public class PostBoardMessage extends AbstractModel {
         return null;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        
+        PostBoardMessage other = (PostBoardMessage) obj;
+        
+        if (this.date == null) {
+            if (other.date != null)
+                return false;
+        } else if (!this.date.equals(other.date))
+            return false;
+        if (this.message == null) {
+            if (other.message != null)
+                return false;
+        } else if (!this.message.equals(other.message))
+            return false;
+        
+        return true;
+    }
 }

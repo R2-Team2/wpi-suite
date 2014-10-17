@@ -12,10 +12,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import com.google.gson.Gson;
 
@@ -26,35 +28,25 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 
 public class TestPostBoardEntityManager {
-    Data mockDb;
-    Session mockSession;
-    Project mockProject;
+    private Data mockDb = mock(Data.class);
+    private Session mockSession = mock(Session.class);
+    private Project mockProject = mock(Project.class);
     
-    Gson mockParser;
+    private PostBoardMessage message = new PostBoardMessage("Test");
+    private Date messageDate = new Date(0L);
+    private String messageDateJson = new Gson().toJson(messageDate);
+    private PostBoardMessage mockMessage1 = mock(PostBoardMessage.class);
+    private PostBoardMessage mockMessage2 = mock(PostBoardMessage.class);
+    private List<PostBoardMessage> mockMessageList = new ArrayList<PostBoardMessage>();
     
-    PostBoardMessage mockMessage1;
-    PostBoardMessage mockMessage2;
-    List<PostBoardMessage> mockMessageList;
-    List<Model> mockModelList;
-    
-    PostBoardEntityManager entityManager;
+    private PostBoardEntityManager entityManager = new PostBoardEntityManager(mockDb);
     
     @Before
     public void setup() {
-        mockDb = mock(Data.class);
-        mockSession = mock(Session.class);
-        mockProject = mock(Project.class);
+        message.setDate(messageDate);
         
-        mockMessage1 = mock(PostBoardMessage.class);
-        mockMessage2 = mock(PostBoardMessage.class);
-        
-        mockMessageList = new ArrayList<PostBoardMessage>();
         mockMessageList.add(mockMessage1);
         mockMessageList.add(mockMessage2);
-        
-        mockModelList = new ArrayList<Model>(mockMessageList);
-        
-        entityManager = new PostBoardEntityManager(mockDb);
         
         when(mockSession.getProject()).thenReturn(mockProject);
     }
@@ -64,6 +56,36 @@ public class TestPostBoardEntityManager {
         assertEquals(mockDb, entityManager.getDb());
     }
     
+    @Test
+    public void testMakeEntity() throws WPISuiteException {
+        ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
+        String messageJson = "{\"message\":\"Test\",\"date\":" + messageDateJson + "}";
+        
+        when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(true);
+        
+        PostBoardMessage result = entityManager.makeEntity(mockSession, messageJson);
+        
+        assertEquals(message, result);
+        assertEquals(message, messageCaptor.getValue());
+        
+        verify(mockDb, times(1)).save(message, mockProject);
+    }
+    
+    @Test(expected = WPISuiteException.class)
+    //
+    public void testMakeEntity_Exception() throws WPISuiteException {
+        ArgumentCaptor<PostBoardMessage> messageCaptor = ArgumentCaptor.forClass(PostBoardMessage.class);
+        String messageJson = "{\"message\":\"Test\",\"date\":" + messageDateJson + "}";
+        
+        when(mockDb.save(messageCaptor.capture(), eq(mockProject))).thenReturn(false);
+        
+        PostBoardMessage result = entityManager.makeEntity(mockSession, messageJson);
+        
+        verify(mockDb, times(1)).save(mockMessage1, mockProject);
+        
+        assertNull(result);
+    }
+    
     @Test(expected = WPISuiteException.class)
     public void testGetEntity() throws WPISuiteException {
         entityManager.getEntity(mockSession, "Test ID");
@@ -71,6 +93,8 @@ public class TestPostBoardEntityManager {
     
     @Test
     public void testGetAll() throws WPISuiteException {
+        List<Model> mockModelList = new ArrayList<Model>(mockMessageList);
+        
         when(mockDb.retrieveAll(any(PostBoardMessage.class), eq(mockProject))).thenReturn(mockModelList);
         
         PostBoardMessage[] result = entityManager.getAll(mockSession);

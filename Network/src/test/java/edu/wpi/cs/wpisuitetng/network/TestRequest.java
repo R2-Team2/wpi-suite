@@ -17,8 +17,8 @@ package edu.wpi.cs.wpisuitetng.network;
 import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
-import org.junit.*;
 
+import org.junit.*;
 
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
@@ -53,14 +53,12 @@ public class TestRequest {
 
 		}
 	}
-
-	private NetworkConfiguration config;
+	
 	private static int port = 38512;
 
-	@Before
-	public void setUp() {
-		config = new NetworkConfiguration("http://localhost:" + port);
-	}
+	private NetworkConfiguration config = new NetworkConfiguration("http://localhost:" + port);
+	private NetworkConfiguration configMalformed = new NetworkConfiguration("Not Correct");
+	
 
 	/**
 	 * Test that a NullPointerException is thrown when a null networkConfiguration is passed to the Request constructor.
@@ -81,12 +79,32 @@ public class TestRequest {
 	}
 
 	/**
+	 * Test that a RuntimeException is thrown when a malformed URL is provided
+	 */
+	@Test(expected = RuntimeException.class)
+	public void testMalformedURLExceptionOnConstructor() throws MalformedURLException{
+		Request r = new Request(configMalformed, null, HttpMethod.POST);
+	}
+	
+	/**
 	 * Test that a NullPointerException is thrown when a null body is passed to the Request#setRequestBody.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testRequestSetRequestBodyNullPointerException() {
 		Request r = new Request(config, null, HttpMethod.POST);
 		r.setBody(null);
+	}
+	
+	/**
+	 * Test adding Header to the Request
+	 */
+	@Test
+	public void testAddHeader() {
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = false;
+		assertEquals(r.getHeaders().size(), 0);
+		r.addHeader("key", "value");
+		assertEquals(r.getHeaders().size(), 1);
 	}
 	
 	/**
@@ -97,6 +115,18 @@ public class TestRequest {
 		Request r = new Request(config, null, HttpMethod.GET);
 		r.running = true;
 		r.addHeader("key", "value");
+	}
+	
+	/**
+	 * Test adding query data to the Request
+	 */
+	@Test
+	public void testAddQueryData() {
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = false;
+		assertEquals(r.getHeaders().size(), 0);
+		r.addQueryData("key", "value");
+		assertEquals(r.getHeaders().size(), 1);
 	}
 	
 	/**
@@ -143,6 +173,17 @@ public class TestRequest {
 	}
 	
 	/**
+	 * Test setting connectTimeout when running is false
+	 */
+	@Test
+	public void testSetConnectTimeout() {
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = false;
+		r.setConnectTimeout(1000);
+		assertEquals(1000, r.connectTimeout);
+	}
+	
+	/**
 	 * Test the setConnectTimeout method for an IllegalStateException.
 	 */
 	@Test(expected = IllegalStateException.class)
@@ -150,6 +191,17 @@ public class TestRequest {
 		Request r = new Request(config, null, HttpMethod.GET);
 		r.running = true;
 		r.setConnectTimeout(1000);
+	}
+	
+	/**
+	 * Test setting readTimeout when running is false
+	 */
+	@Test
+	public void testSetReadTimeout() {
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = false;
+		r.setReadTimeout(1000);
+		assertEquals(1000, r.getReadTimeout());
 	}
 	
 	/**
@@ -271,4 +323,60 @@ public class TestRequest {
 
 		server.stop();
 	}
+	
+	/**
+	 * Test the notifyObserversResponseError function for IllegalStateException
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testNotifyObserversResponseErrorIllegalStateException() throws IllegalStateException{
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = true;
+		r.notifyObserversResponseError();
+	}
+	
+	/**
+	 * Test the notifyObserversFail function for IllegalStateException
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testNotifyObserversFailIllegalStateException() throws IllegalStateException{
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = true;
+		Exception e = new Exception();
+		r.notifyObserversFail(e);
+	}
+	
+	/**
+	 * Test the notifyObserversResponseSuccess function for IllegalStateException
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testNotifyObserversResponseSuccessIllegalStateException() throws IllegalStateException{
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = true;
+		r.notifyObserversResponseSuccess();
+	}
+	
+	/**
+	 * Test the addObserver function for IllegalStateException
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testaddObserverIllegalStateException() throws IllegalStateException{
+		Request r = new Request(config, null, HttpMethod.GET);
+		r.running = true;
+		r.addObserver(new MockObserver());
+	}
+	
+	/**
+	 * Test observer count in countObservers
+	 */
+	@Test
+	public void testCountObservers() {
+		Request r = new Request(config, null, HttpMethod.GET);
+		MockObserver obs1 = new MockObserver();
+		MockObserver obs2 = new MockObserver();
+		r.addObserver(obs1);
+		r.addObserver(obs2);
+		assertEquals(2, r.countObservers());
+		
+	}
+	
 }

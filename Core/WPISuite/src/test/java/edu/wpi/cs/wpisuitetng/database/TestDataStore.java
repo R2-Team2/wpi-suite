@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2014 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,11 +11,11 @@
 
 package edu.wpi.cs.wpisuitetng.database;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectServer;
@@ -27,39 +27,24 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 //TODO: Finish rewrite using mocks
 public class TestDataStore {
-    ClientConfiguration mockConfig;
-    CommonConfiguration mockCommonConfig;
-    ObjectContainer mockDb;
-    ObjectServer mockServer;
-    ObjectSet<Object> mockUserSet;
-    
-    User mockUser;
-    
-    Data dataStore;
-    
-    @SuppressWarnings("unchecked")
+    ClientConfiguration mockConfig = mock(ClientConfiguration.class);
+    CommonConfiguration mockCommonConfig = mock(CommonConfiguration.class);
+    ObjectContainer mockDb = mock(ObjectContainer.class);
+    ObjectServer mockServer = mock(ObjectServer.class);
+
+    @SuppressWarnings("unchecked") ObjectSet<Object> mockUserSet = mock(ObjectSet.class);
+
+    User user = new User("Ryan", "rchamer", "password", 0);
+    DataStore dataStore = new DataStore();
+
     @Before
     public void setup() {
-        mockConfig = mock(ClientConfiguration.class);
-        mockCommonConfig = mock(CommonConfiguration.class);
-        mockDb = mock(ObjectContainer.class);
-        mockServer = mock(ObjectServer.class);
-        
-        mockUser = new User("Ryan", "rchamer", "password", 0);
-        mockUserSet = mock(ObjectSet.class);
-        dataStore = new DataStore();
-        
-        DataStore.theDB = mockDb;
-        DataStore.server = mockServer;
-        
-        when(mockConfig.common()).thenReturn(mockCommonConfig);
+        DataStore.instance = dataStore;
     }
-    
-    @After
-    public void cleanup() {
-        //Ensure static constant variables will be reset after the one test I replace them with mocks...
-        //TODO: Port every test to use mocks and remove this line
-        DataStore.theDB = null;
-        DataStore.server = null;
+
+    @Test
+    public void testConstructor() {
+        assertNotNull(dataStore);
     }
+
 }
