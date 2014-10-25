@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.tabs.
 public class RequirementPanel extends JPanel implements RequirementButtonListener {
     protected static final long serialVersionUID = -4952819151288519999L;
 
-    private ViewEventController viewEventController;
+    private ViewEventController viewEventController = ViewEventController.getInstance();
     private UpdateRequirementController updateRequirementController;
 
     private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
@@ -54,7 +54,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
         displayRequirement = editingRequirement;
         this.buildLayout();
 
-        viewEventController = ViewEventController.getInstance();
         updateRequirementController = UpdateRequirementController.getInstance();
 
         confirmDialog = new RequirementConfirmationDialog();

@@ -44,7 +44,7 @@ public class ViewEventController {
     private ArrayList<RequirementPanel> listOfEditingPanels = new ArrayList<RequirementPanel>();
     private ArrayList<IterationPanel> listOfIterationPanels = new ArrayList<IterationPanel>();
     private IterationOverviewPanel iterationOverview;
-    
+
     /**
      * Sets the OverviewTable for the controller
      * 
@@ -53,14 +53,14 @@ public class ViewEventController {
     public void setOverviewTable(OverviewTable overviewTable) {
         this.overviewTable = overviewTable;
     }
-    
+
     /**
      * Default constructor for ViewEventController. Is protected to prevent
      * instantiation.
      */
     protected ViewEventController() {
     }
-    
+
     /**
      * Returns the singleton instance of the vieweventcontroller.
      * 
@@ -72,7 +72,16 @@ public class ViewEventController {
         }
         return instance;
     }
-    
+
+    /**
+     * Sets the singleton instance of the vieweventcontroller. For testing
+     * 
+     * @return The instance of this controller.
+     */
+    public static void setInstance(ViewEventController instance) {
+        ViewEventController.instance = instance;
+    }
+
     /**
      * Sets the main view to the given view.
      * 
@@ -81,7 +90,7 @@ public class ViewEventController {
     public void setMainView(MainView mainview) {
         main = mainview;
     }
-    
+
     /**
      * Sets the toolbarview to the given toolbar
      * 
@@ -91,7 +100,7 @@ public class ViewEventController {
         toolbar = tb;
         toolbar.repaint();
     }
-    
+
     /**
      * Opens a new tab for the creation of a requirement.
      */
@@ -102,7 +111,7 @@ public class ViewEventController {
         main.repaint();
         main.setSelectedComponent(newReq);
     }
-    
+
     /**
      * Opens a new tab for the creation of a iteration.
      */
@@ -113,7 +122,7 @@ public class ViewEventController {
         main.repaint();
         main.setSelectedComponent(newIter);
     }
-    
+
     /**
      * Opens a new tab for the editing of a iteration.
      * 
@@ -122,33 +131,29 @@ public class ViewEventController {
     public void editIteration(Iteration iter) {
         if (iter == IterationModel.getInstance().getBacklog())
             return;
-        
+
         IterationPanel exists = null;
-        
-        for (IterationPanel panel : listOfIterationPanels)
-        {
-            if (panel.getDisplayIteration() == iter)
-            {
+
+        for (IterationPanel panel : listOfIterationPanels) {
+            if (panel.getDisplayIteration() == iter) {
                 exists = panel;
                 break;
             }
         }
-        
-        if (exists == null)
-        {
+
+        if (exists == null) {
             IterationPanel editIter = new IterationPanel(iter);
             listOfIterationPanels.add(editIter);
-            main.addTab(iter.getName(), null, editIter, "Editing " + iter.getName());
+            main.addTab(iter.getName(), null, editIter, "Editing " +
+                                                        iter.getName());
             main.invalidate(); //force the tabbedpane to redraw.
             main.repaint();
             main.setSelectedComponent(editIter);
-        }
-        else
-        {
+        } else {
             main.setSelectedComponent(exists);
         }
     }
-    
+
     /**
      * Opens a new tab for the creation of a pie chart.
      * 
@@ -158,7 +163,8 @@ public class ViewEventController {
         int i;
         for (i = 0; i < main.getTabCount(); i++) {
             if (main.getTitleAt(i).equals("Pie Chart")) {
-                if (main.getTabComponentAt(i) instanceof NewPieChartPanel && (((NewPieChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))) {
+                if (main.getTabComponentAt(i) instanceof NewPieChartPanel &&
+                    (((NewPieChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))) {
                     main.setSelectedIndex(i);
                     return;
                 }
@@ -170,9 +176,9 @@ public class ViewEventController {
         main.invalidate();
         main.repaint();
         main.setSelectedComponent(newPie);
-        
+
     }
-    
+
     /**
      * Method createBarChart.
      * 
@@ -181,7 +187,8 @@ public class ViewEventController {
     public void createBarChart(String title) {
         for (int i = 0; i < main.getTabCount(); i++) {
             if (main.getTitleAt(i).equals("Bar Graph")) {
-                if (main.getTabComponentAt(i) instanceof NewBarChartPanel && (((NewBarChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))) {
+                if (main.getTabComponentAt(i) instanceof NewBarChartPanel &&
+                    (((NewBarChartPanel) main.getTabComponentAt(i)).getTitle().equals(title))) {
                     main.setSelectedIndex(i);
                     return;
                 }
@@ -194,7 +201,7 @@ public class ViewEventController {
         main.repaint();
         main.setSelectedComponent(newBar);
     }
-    
+
     /**
      * Opens a child requirement panel to create the child requirement for the
      * given parent.
@@ -208,32 +215,28 @@ public class ViewEventController {
         main.repaint();
         main.setSelectedComponent(newReq);
     }
-    
+
     /**
      * Opens a new tab for the editing of a requirement
      * 
      * @param toEdit the req to edit
      */
-    public void editRequirement(Requirement toEdit)
-    {
+    public void editRequirement(Requirement toEdit) {
         RequirementPanel exists = null;
-        
+
         // set time stamp for transactions
         toEdit.getHistory().setTimestamp(System.currentTimeMillis());
-        
-        for (RequirementPanel panel : listOfEditingPanels)
-        {
-            if (panel.getDisplayRequirement() == toEdit)
-            {
+
+        for (RequirementPanel panel : listOfEditingPanels) {
+            if (panel.getDisplayRequirement() == toEdit) {
                 exists = panel;
                 break;
             }
         }
-        
-        if (exists == null)
-        {
+
+        if (exists == null) {
             RequirementPanel editPanel = new RequirementPanel(toEdit);
-            
+
             StringBuilder tabName = new StringBuilder();
             tabName.append(toEdit.getId());
             tabName.append(". ");
@@ -241,19 +244,17 @@ public class ViewEventController {
             tabName.append(toEdit.getName().substring(0, subStringLength));
             if (toEdit.getName().length() > 6)
                 tabName.append("..");
-            
+
             main.addTab(tabName.toString(), null, editPanel, toEdit.getName());
             this.listOfEditingPanels.add(editPanel);
             main.invalidate();
             main.repaint();
             main.setSelectedComponent(editPanel);
-        }
-        else
-        {
+        } else {
             main.setSelectedComponent(exists);
         }
     }
-    
+
     /**
      * Toggles the Overview Table multiple requirement editing mode
      * 
@@ -265,10 +266,10 @@ public class ViewEventController {
             // ends the cell editing and stores the entered value			
             this.overviewTable.getCellEditor().stopCellEditing();
         }
-        
+
         // toggle the edit flag
         this.overviewTable.setEditFlag(!this.overviewTable.getEditFlag());
-        
+
         // check to see if the overview table is now out of editing mode
         if (!this.overviewTable.getEditFlag()) {
             if (cancel)
@@ -277,46 +278,43 @@ public class ViewEventController {
                 this.overviewTable.saveChanges();
         }
     }
-    
+
     /**
      * @return overviewTable
      */
     public OverviewTable getOverviewTable() {
         return overviewTable;
-        
+
     }
-    
+
     /**
      * @return toolbar
      */
     public ToolbarView getToolbar() {
         return toolbar;
     }
-    
+
     /**
      * Removes the tab for the given JComponent
      * 
      * @param comp the component to remove
      */
-    public void removeTab(JComponent comp)
-    {
-        if (comp instanceof RequirementPanel)
-        {
+    public void removeTab(JComponent comp) {
+        if (comp instanceof RequirementPanel) {
             if (!((RequirementPanel) comp).readyToRemove())
                 return;
             this.listOfEditingPanels.remove(comp);
-            
+
         }
-        
-        if (comp instanceof IterationPanel)
-        {
+
+        if (comp instanceof IterationPanel) {
             if (!((IterationPanel) comp).readyToRemove())
                 return;
             this.listOfIterationPanels.remove(comp);
         }
         main.remove(comp);
     }
-    
+
     /**
      * Tells the table to update its listings based on the data in the
      * requirement model
@@ -324,17 +322,16 @@ public class ViewEventController {
     public void refreshTable() {
         overviewTable.refresh();
     }
-    
+
     /**
      * Returns an array of the currently selected rows in the table.
      * 
      * @return the currently selected rows in the table
      */
-    public int[] getTableSelection()
-    {
+    public int[] getTableSelection() {
         return overviewTable.getSelectedRows();
     }
-    
+
     /**
      * Returns the main view
      * 
@@ -343,69 +340,63 @@ public class ViewEventController {
     public MainView getMainView() {
         return main;
     }
-    
+
     /**
      * Assigns all currently selected rows to the backlog.
      */
-    public void assignSelectionToBacklog()
-    {
+    public void assignSelectionToBacklog() {
         int[] selection = overviewTable.getSelectedRows();
-        
+
         // Set to false to indicate the requirement is being newly created
         //        boolean created = false;
-        
-        for (int i = 0; i < selection.length; i++)
-        {
+
+        for (int i = 0; i < selection.length; i++) {
             Requirement toSendToBacklog = (Requirement) overviewTable.getValueAt(selection[i], 1);
             toSendToBacklog.setIteration("Backlog");
             UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
         }
-        
+
         this.refreshTable();
         this.refreshTree();
     }
-    
+
     /**
      * Edits the currently selected requirement. If more than 1 requirement is
      * selected, does nothing.
      */
-    public void editSelectedRequirement()
-    {
+    public void editSelectedRequirement() {
         int[] selection = overviewTable.getSelectedRows();
-        
+
         if (selection.length != 1)
             return;
-        
+
         Requirement toEdit = (Requirement) overviewTable.getValueAt(selection[0], 1);
-        
+
         editRequirement(toEdit);
     }
-    
+
     /**
      * Closes all of the tabs besides the overview tab in the main view.
      */
     public void closeAllTabs() {
         int tabCount = main.getTabCount();
-        
-        for (int i = tabCount - 1; i >= 0; i--)
-        {
+
+        for (int i = tabCount - 1; i >= 0; i--) {
             Component toBeRemoved = main.getComponentAt(i);
-            
+
             if (toBeRemoved instanceof OverviewPanel)
                 continue;
-            
+
             if (toBeRemoved instanceof IterationOverviewPanel)
                 continue;
-            
-            if (toBeRemoved instanceof RequirementPanel)
-            {
+
+            if (toBeRemoved instanceof RequirementPanel) {
                 if (!((RequirementPanel) toBeRemoved).readyToRemove())
                     continue;
                 this.listOfEditingPanels.remove(toBeRemoved);
             }
-            
-            if (toBeRemoved instanceof IterationPanel)
-            {
+
+            if (toBeRemoved instanceof IterationPanel) {
                 if (!((IterationPanel) toBeRemoved).readyToRemove())
                     continue;
                 this.listOfIterationPanels.remove(toBeRemoved);
@@ -414,18 +405,17 @@ public class ViewEventController {
         }
         main.repaint();
     }
-    
+
     /**
      * Closes all the tabs except for the one that was clicked.
      */
     public void closeOthers() {
         int tabCount = main.getTabCount();
         Component selected = main.getSelectedComponent();
-        
-        for (int i = tabCount - 1; i >= 0; i--)
-        {
+
+        for (int i = tabCount - 1; i >= 0; i--) {
             Component toBeRemoved = main.getComponentAt(i);
-            
+
             if (toBeRemoved instanceof OverviewPanel) {
                 continue;
             }
@@ -434,64 +424,58 @@ public class ViewEventController {
             if (toBeRemoved == selected) {
                 continue;
             }
-            
-            if (toBeRemoved instanceof RequirementPanel)
-            {
+
+            if (toBeRemoved instanceof RequirementPanel) {
                 if (!((RequirementPanel) toBeRemoved).readyToRemove()) {
                     break;
                 }
                 this.listOfEditingPanels.remove(toBeRemoved);
             }
-            
-            if (toBeRemoved instanceof IterationPanel)
-            {
+
+            if (toBeRemoved instanceof IterationPanel) {
                 if (!((IterationPanel) toBeRemoved).readyToRemove())
                     continue;
                 this.listOfIterationPanels.remove(toBeRemoved);
             }
-            
+
             main.removeTabAt(i);
         }
         main.repaint();
-        
+
     }
-    
+
     /**
      * Refreshes the EditRequirementPanel after creating a new child
      * 
      * @param newChild req that is being created
      */
     public void refreshEditRequirementPanel(Requirement newChild) {
-        for (RequirementPanel newEditPanel : listOfEditingPanels)
-        {
-            if (newEditPanel.getDisplayRequirement() == newChild)
-            {
+        for (RequirementPanel newEditPanel : listOfEditingPanels) {
+            if (newEditPanel.getDisplayRequirement() == newChild) {
                 newEditPanel.fireRefresh();
                 break;
             }
         }
     }
-    
+
     /**
      * Gets the iteration overview
      * 
      * @return IterationOverviewPanel
      */
-    public IterationOverviewPanel getIterationOverview()
-    {
+    public IterationOverviewPanel getIterationOverview() {
         return iterationOverview;
     }
-    
+
     /**
      * Sets the iteration overview
      * 
      * @param iOverview iterationoverview
      */
-    public void setIterationOverview(IterationOverviewPanel iOverview)
-    {
+    public void setIterationOverview(IterationOverviewPanel iOverview) {
         iterationOverview = iOverview;
     }
-    
+
     /**
      * Method getOverviewTree.
      * 
@@ -500,7 +484,7 @@ public class ViewEventController {
     public OverviewTreePanel getOverviewTree() {
         return overviewTree;
     }
-    
+
     /**
      * Method setOverviewTree.
      * 
@@ -509,21 +493,20 @@ public class ViewEventController {
     public void setOverviewTree(OverviewTreePanel overviewTree) {
         this.overviewTree = overviewTree;
     }
-    
+
     public void refreshTree() {
         this.overviewTree.refresh();
     }
-    
+
     public void editSelectedIteration() {
         DefaultMutableTreeNode selected = (DefaultMutableTreeNode) overviewTree.getTree().getLastSelectedPathComponent();
-        if (selected.getUserObject() instanceof Iteration)
-        {
+        if (selected.getUserObject() instanceof Iteration) {
             Iteration iter = ((Iteration) ((DefaultMutableTreeNode) overviewTree.getTree().getLastSelectedPathComponent()).getUserObject());
-            
+
             this.editIteration(iter);
         }
     }
-    
+
     /**
      * Method getListOfIterationPanels.
      * 
@@ -532,7 +515,7 @@ public class ViewEventController {
     public ArrayList<IterationPanel> getListOfIterationPanels() {
         return listOfIterationPanels;
     }
-    
+
     /**
      * Method getListOfRequirementPanels.
      * 

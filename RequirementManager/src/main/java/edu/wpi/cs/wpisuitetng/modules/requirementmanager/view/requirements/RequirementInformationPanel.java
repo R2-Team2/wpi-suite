@@ -45,16 +45,15 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @author justinhess
  * @version $Revision: 1.0 $
  */
-public class RequirementInformationPanel extends JScrollPane implements KeyListener,
-        ItemListener, RequirementPanelListener, RequirementSelectorListener {
+public class RequirementInformationPanel extends JScrollPane implements KeyListener, ItemListener, RequirementPanelListener, RequirementSelectorListener {
     private Requirement currentRequirement;
     private ViewMode viewMode;
     private RequirementPanel parentPanel;
-    
+
     private int storedEstimate;
     private Iteration storedIteration;
     private RequirementStatus storedStatus;
-    
+
     private JTextField boxName;
     private JTextField boxReleaseNum;
     private JTextArea boxDescription;
@@ -65,7 +64,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     private JLabel labelTotalEstimate;
     private final Border defaultBorder = (new JTextField()).getBorder();
     private final Border errorBorder = BorderFactory.createLineBorder(Color.RED);
-    
+
     private JLabel currentParent;
     private JButton editParent;
     private JButton removeFromParent;
@@ -76,17 +75,17 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     private JComboBox<RequirementStatus> dropdownStatus;
     private JComboBox<RequirementPriority> dropdownPriority;
     private JTextField boxEstimate;
-    
+
     private RequirementStatus lastValidStatus;
     private boolean fillingFieldsForRequirement = false;
-    
+
     private JLabel errorName;
     private JLabel errorDescription;
     private JLabel errorEstimate;
-    
+
     private IterationModel iterationModel;
     private ViewEventController viewEventController;
-    
+
     /**
      * Constructs the requirement information panel
      * 
@@ -100,11 +99,12 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.viewMode = mode;
         this.setMinimumSize(new Dimension(500, 200));
         this.iterationModel = IterationModel.getInstance();
+        this.viewEventController = ViewEventController.getInstance();
         this.buildLayout();
-        
+
         clearInfo();
     }
-    
+
     /**
      * Builds the layout panel.
      */
@@ -126,17 +126,17 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         JPanel parentInfoPanel = new JPanel();
         boxName = new JTextField();
         boxName.addKeyListener(this);
-        
+
         boxReleaseNum = (new JTextField());
         boxReleaseNum.addKeyListener(this);
-        
+
         JScrollPane descrScroll = new JScrollPane();
         boxDescription = new JTextArea();
         boxDescription.setLineWrap(true);
         boxDescription.setBorder(defaultBorder);
         boxDescription.addKeyListener(this);
         descrScroll.setViewportView(boxDescription);
-        
+
         List<Iteration> iterations = iterationModel.getIterations();
         Iteration[] iterationArray = new Iteration[iterations.size()];
         for (int i = 0; i < iterations.size(); i++) {
@@ -147,26 +147,26 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boxIteration.addItemListener(this);
         boxIteration.setBackground(Color.WHITE);
         boxIteration.setMaximumSize(new Dimension(150, 25));
-        
+
         errorName = (new JLabel());
         errorDescription = (new JLabel());
-        
+
         dropdownType = (new JComboBox<RequirementType>(RequirementType.values()));
         dropdownType.setEditable(false);
         dropdownType.setBackground(Color.WHITE);
         dropdownType.addItemListener(this);
-        
+
         dropdownStatus = (new JComboBox<RequirementStatus>(RequirementStatus.values()));
         dropdownStatus.setEditable(false);
         dropdownStatus.setBackground(Color.WHITE);
         dropdownStatus.addItemListener(this);
-        
+
         // Radio buttons
         dropdownPriority = new JComboBox<RequirementPriority>(RequirementPriority.values());
         dropdownPriority.setEditable(false);
         dropdownPriority.setBackground(Color.WHITE);
         dropdownPriority.addItemListener(this);
-        
+
         boxEstimate = (new JTextField());
         boxEstimate.setPreferredSize(new Dimension(50, 20));
         boxEstimate.addKeyListener(this);
@@ -175,31 +175,28 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boxTotalEstimate = new JTextField();
         boxTotalEstimate.setEnabled(false);
         errorEstimate = (new JLabel());
-        
+
         boolean hasChildren = !currentRequirement.getChildren().isEmpty();
         labelChildEstimate.setVisible(hasChildren);
         boxChildEstimate.setVisible(hasChildren);
-        
+
         labelTotalEstimate.setVisible(hasChildren);
         boxTotalEstimate.setVisible(hasChildren);
-        
+
         currentParent = new JLabel();
         editParent = new JButton("Edit Parent");
         editParent.setAlignmentX(RIGHT_ALIGNMENT);
-        editParent.addActionListener(new ActionListener()
-        {
+        editParent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentRequirement.getParentID() != -1)
-                {
+                if (currentRequirement.getParentID() != -1) {
                     viewEventController.editRequirement(currentRequirement.getParent());
                 }
             }
         });
         removeFromParent = new JButton("Remove From Parent");
         removeFromParent.setAlignmentX(RIGHT_ALIGNMENT);
-        removeFromParent.addActionListener(new ActionListener()
-        {
+        removeFromParent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Requirement oldParent = currentRequirement.getParent();
@@ -214,23 +211,22 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
                 viewEventController.getOverviewTree().refresh();
             }
         });
-        
+
         parentSelector = new RequirementSelector(this, currentRequirement, RequirementSelectorMode.POSSIBLE_PARENTS, false);
-        
+
         chooseParent = new JButton("Choose Parent");
         chooseParent.setAlignmentX(RIGHT_ALIGNMENT);
-        chooseParent.addActionListener(new ActionListener()
-        {
-            
+        chooseParent.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 chooseParent.setVisible(false);
                 parentSelector.setVisible(true);
                 repaint();
             }
-            
+
         });
-        
+
         parentInfoPanel.setLayout(new BoxLayout(parentInfoPanel, BoxLayout.Y_AXIS));
         currentParent.setAlignmentX(LEFT_ALIGNMENT);
         noParentInfoPanel = new JPanel();
@@ -242,13 +238,13 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         chooseParent.setVisible(true);
         parentSelector.setVisible(false);
         //setup the top.
-        
+
         contentPanel.add(labelName, "wrap");
         contentPanel.add(boxName, "growx, pushx, shrinkx, span, wrap");
-        
+
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
-        
+
         //setup columns.
         JPanel leftColumn = new JPanel(new MigLayout());
         JPanel rightColumn = new JPanel(new MigLayout());
@@ -262,7 +258,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         leftColumn.add(boxChildEstimate, "width 50px, left, wrap");
         leftColumn.add(labelTotalEstimate, "left, wrap");
         leftColumn.add(boxTotalEstimate, "width 50px, left");
-        
+
         rightColumn.add(labelType, "left, wrap");
         rightColumn.add(dropdownType, "left, wrap");
         rightColumn.add(labelStatus, "left, wrap");
@@ -271,14 +267,14 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         rightColumn.add(dropdownPriority, "left, wrap");
         rightColumn.add(currentParent, "left, wrap");
         rightColumn.add(parentInfoPanel, "left, span, wrap");
-        
+
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
-        
+
         fireRefresh();
         this.setViewportView(contentPanel);
     }
-    
+
     /**
      * Refreshes the information of the requirement.
      * 
@@ -292,18 +288,17 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         refreshParentInformation();
         adjustFieldEnability();
     }
-    
+
     /**
      * Refresh the estimate if its been changed in the requirement
      */
     private void refreshEstimate() {
-        if (currentRequirement.getEstimate() != storedEstimate)
-        {
+        if (currentRequirement.getEstimate() != storedEstimate) {
             storedEstimate = currentRequirement.getEstimate();
             boxEstimate.setText(String.valueOf(storedEstimate));
         }
     }
-    
+
     /**
      * Re-populates the iteration information in case new iterations have been
      * created.
@@ -320,47 +315,43 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boxIteration.setModel(aModel);
         boxIteration.setSelectedItem(selected);
     }
-    
+
     /**
      * Refreshes the selected iteration if its been changed in the requirement
      */
     private void refreshIteration() {
         Iteration cur = iterationModel.getIteration(currentRequirement.getIteration());
-        if (cur != storedIteration)
-        {
+        if (cur != storedIteration) {
             storedIteration = cur;
             boxIteration.setSelectedItem(storedIteration);
         }
-        
-        if (storedStatus != currentRequirement.getStatus())
-        {
+
+        if (storedStatus != currentRequirement.getStatus()) {
             setStatus();
         }
     }
-    
+
     /**
      * Refresh information about the parent
      */
-    private void refreshParentInformation()
-    {
+    private void refreshParentInformation() {
         boolean isCreating = viewMode == ViewMode.CREATING;
         boolean hasChildren = !currentRequirement.getChildren().isEmpty();
         labelChildEstimate.setVisible(hasChildren);
-        boxChildEstimate.setText(
-                Integer.toString(currentRequirement.getChildEstimate()));
+        boxChildEstimate.setText(Integer.toString(currentRequirement.getChildEstimate()));
         boxChildEstimate.setVisible(hasChildren);
         boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
         boxTotalEstimate.setVisible(hasChildren);
         labelTotalEstimate.setVisible(hasChildren);
-        
+
         if (currentRequirement.getParentID() != -1) {
-            currentParent.setText("Parent: " + currentRequirement.getParent().getName());
+            currentParent.setText("Parent: " +
+                                  currentRequirement.getParent().getName());
             currentParent.setVisible(true);
             editParent.setVisible(true && !isCreating);
             removeFromParent.setVisible(true && !isCreating);
             noParentInfoPanel.setVisible(false);
-        }
-        else {
+        } else {
             currentParent.setText("Parent: ");
             currentParent.setVisible(true && !isCreating);
             editParent.setVisible(false);
@@ -368,7 +359,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
             noParentInfoPanel.setVisible(true);
         }
     }
-    
+
     /**
      * Method fireDeleted.
      * 
@@ -377,7 +368,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     @Override
     public void fireDeleted(boolean b) {
     }
-    
+
     /**
      * Method fireValid.
      * 
@@ -386,7 +377,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     @Override
     public void fireValid(boolean b) {
     }
-    
+
     /**
      * Method fireChanges.
      * 
@@ -395,7 +386,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     @Override
     public void fireChanges(boolean b) {
     }
-    
+
     /**
      * Fills the fields of the edit requirement panel based on the current
      * settings of the edited requirement.
@@ -410,13 +401,13 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boxReleaseNum.setText(currentRequirement.getRelease());
         storedIteration = iterationModel.getIteration(currentRequirement.getIteration());
         boxIteration.setSelectedItem(storedIteration);
-        
+
         setStatus();
-        
+
         dropdownType.setSelectedItem(currentRequirement.getType());
-        
+
         this.dropdownPriority.setSelectedItem(currentRequirement.getPriority());
-        
+
         // reset the error messages.
         errorEstimate.setText("");
         boxEstimate.setBorder(defaultBorder);
@@ -426,12 +417,12 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boxName.setBorder(defaultBorder);
         boxChildEstimate.setText(Integer.toString(currentRequirement.getChildEstimate()));
         boxTotalEstimate.setText(Integer.toString(currentRequirement.getTotalEstimate()));
-        
+
         fireRefresh();
         fillingFieldsForRequirement = false;
         repaint();
     }
-    
+
     /**
      * Sets the status dropdown
      */
@@ -440,20 +431,16 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
             dropdownStatus.removeAllItems();
             dropdownStatus.addItem(RequirementStatus.NEW);
             dropdownStatus.addItem(RequirementStatus.DELETED);
-        } else if (currentRequirement.getStatus().equals(
-                RequirementStatus.INPROGRESS)) {
+        } else if (currentRequirement.getStatus().equals(RequirementStatus.INPROGRESS)) {
             dropdownStatus.removeAllItems();
             dropdownStatus.addItem(RequirementStatus.INPROGRESS);
             dropdownStatus.addItem(RequirementStatus.COMPLETE);
-        } else if (currentRequirement.getStatus()
-                .equals(RequirementStatus.OPEN)) {
+        } else if (currentRequirement.getStatus().equals(RequirementStatus.OPEN)) {
             dropdownStatus.removeAllItems();
             dropdownStatus.addItem(RequirementStatus.OPEN);
             dropdownStatus.addItem(RequirementStatus.DELETED);
-        } else if (currentRequirement.getStatus().equals(
-                RequirementStatus.COMPLETE)
-                || currentRequirement.getStatus().equals(
-                        RequirementStatus.DELETED)) {
+        } else if (currentRequirement.getStatus().equals(RequirementStatus.COMPLETE) ||
+                   currentRequirement.getStatus().equals(RequirementStatus.DELETED)) {
             if (currentRequirement.getIteration().equals("Backlog")) {
                 dropdownStatus.removeAllItems();
                 dropdownStatus.addItem(RequirementStatus.OPEN);
@@ -470,7 +457,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         dropdownStatus.setSelectedItem(storedStatus);
         lastValidStatus = currentRequirement.getStatus();
     }
-    
+
     /**
      * Validates the values of the fields in the requirement panel to ensure
      * they are valid
@@ -482,13 +469,13 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         boolean isNameValid;
         boolean isDescriptionValid;
         boolean isEstimateValid;
-        
+
         parentPanel.removeError("Name can be no more than 100 chars.");
         parentPanel.removeError("Name is required.");
         parentPanel.removeError("Description is required.");
         parentPanel.removeError("Estimate must be non-negative integer");
         parentPanel.removeError("Cannot have an estimate of 0 and be assigned to an iteration.");
-        
+
         if (getBoxName().getText().length() >= 100) {
             isNameValid = false;
             getErrorName().setText("No more than 100 chars");
@@ -497,63 +484,55 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
             parentPanel.displayError("Name can be no more than 100 chars.");
         } else if (getBoxName().getText().trim().length() <= 0) {
             isNameValid = false;
-            if (warn)
-            {
+            if (warn) {
                 getErrorName().setText("** Name is REQUIRED");
                 getBoxName().setBorder(errorBorder);
                 getErrorName().setForeground(Color.RED);
             }
             parentPanel.displayError("Name is required.");
         } else {
-            if (warn)
-            {
+            if (warn) {
                 getErrorName().setText("");
                 getBoxName().setBorder(defaultBorder);
             }
             isNameValid = true;
-            
+
         }
         if (getBoxDescription().getText().trim().length() <= 0) {
             isDescriptionValid = false;
-            if (warn)
-            {
+            if (warn) {
                 getErrorDescription().setText("** Description is REQUIRED");
                 getErrorDescription().setForeground(Color.RED);
                 getBoxDescription().setBorder(errorBorder);
             }
             parentPanel.displayError("Description is required.");
         } else {
-            if (warn)
-            {
+            if (warn) {
                 getErrorDescription().setText("");
                 getBoxDescription().setBorder(defaultBorder);
             }
             isDescriptionValid = true;
         }
-        
+
         if (getBoxEstimate().getText().trim().length() <= 0) {
             getBoxEstimate().setText("");
             getErrorEstimate().setText("");
             getBoxEstimate().setBorder(defaultBorder);
             isEstimateValid = true;
         } else if (!(isInteger(getBoxEstimate().getText()))) {
-            getErrorEstimate()
-                    .setText("Estimate must be non-negative integer");
+            getErrorEstimate().setText("Estimate must be non-negative integer");
             getBoxEstimate().setBorder(errorBorder);
             getBoxEstimate().setBorder((new JTextField()).getBorder());
             getErrorEstimate().setForeground(Color.RED);
             isEstimateValid = false;
         } else if (Integer.parseInt(getBoxEstimate().getText()) < 0) {
-            getErrorEstimate()
-                    .setText("Estimate must be non-negative integer");
+            getErrorEstimate().setText("Estimate must be non-negative integer");
             getBoxEstimate().setBorder(errorBorder);
             getErrorEstimate().setForeground(Color.RED);
             isEstimateValid = false;
-        } else if (((Integer.parseInt(getBoxEstimate().getText()) == 0) || (getBoxEstimate().getText().trim().length() == 0))
-                && !(getBoxIteration().getSelectedItem().equals(IterationModel.getInstance().getBacklog()))) {
-            getErrorEstimate()
-                    .setText(
-                            "Cannot have an estimate of 0 and be assigned to an iteration.");
+        } else if (((Integer.parseInt(getBoxEstimate().getText()) == 0) || (getBoxEstimate().getText().trim().length() == 0)) &&
+                   !(getBoxIteration().getSelectedItem() == IterationModel.getInstance().getBacklog())) {
+            getErrorEstimate().setText("Cannot have an estimate of 0 and be assigned to an iteration.");
             getBoxEstimate().setBorder(errorBorder);
             getErrorEstimate().setForeground(Color.RED);
             isEstimateValid = false;
@@ -565,25 +544,24 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         parentPanel.displayError(getErrorEstimate().getText());
         return isNameValid && isDescriptionValid && isEstimateValid;
     }
-    
+
     /**
      * Resets the information back to default
      */
-    public void clearInfo()
-    {
+    public void clearInfo() {
         this.fillFieldsForRequirement(); //if editing, revert back to old info
-        
+
         //no changes have been made, so let the parent know.
         this.parentPanel.fireChanges(false);
     }
-    
+
     /**
      * Updates the requirement/creates the requirement based on the view mode.
      */
     public void update() {
         updateRequirement(viewMode == ViewMode.CREATING);
     }
-    
+
     /**
      * Updates the requirement based on whether it is being created or not
      * 
@@ -593,24 +571,24 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         if (wasCreated)
             currentRequirement.setId(RequirementModel.getInstance().getNextID());
         currentRequirement.setWasCreated(wasCreated);
-        
+
         // Extract the name, release number, and description from the GUI fields
         String stringName = this.getBoxName().getText();
         String stringReleaseNum = this.getBoxReleaseNum().getText();
         String stringDescription = this.getBoxDescription().getText();
         String stringEstimate = this.getBoxEstimate().getText();
         String stringIteration = (String) this.getBoxIteration().getSelectedItem().toString();
-        
+
         if (stringIteration.trim().equals("")) {
             stringIteration = "Backlog";
         }
-        
+
         RequirementPriority priority;
         RequirementStatus status = (RequirementStatus) this.getDropdownStatus().getSelectedItem();
         RequirementType type = (RequirementType) getDropdownType().getSelectedItem();
-        
+
         int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
-        
+
         currentRequirement.setName(stringName);
         currentRequirement.setRelease(stringReleaseNum);
         currentRequirement.setDescription(stringDescription);
@@ -619,54 +597,47 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         currentRequirement.setEstimate(estimate);
         currentRequirement.setIteration(stringIteration);
         currentRequirement.setType(type);
-        if (wasCreated)
-        {
+        if (wasCreated) {
             // Set the time stamp for the transaction for the creation of the requirement
             currentRequirement.getHistory().setTimestamp(System.currentTimeMillis());
             currentRequirement.getHistory().add("Requirement created");
-            
+
             RequirementModel.getInstance().addRequirement(currentRequirement);
         }
-        
-        UpdateRequirementController.getInstance().updateRequirement(
-                currentRequirement);
-        
+
+        UpdateRequirementController.getInstance().updateRequirement(currentRequirement);
+
         viewEventController.refreshTable();
         viewEventController.refreshTree();
-        
-        if (currentRequirement.getParentID() != -1)
-        {
+
+        if (currentRequirement.getParentID() != -1) {
             viewEventController.refreshEditRequirementPanel(currentRequirement.getParent());
         }
     }
-    
+
     /**
      * Enables or disables components as needed
      */
-    private void adjustFieldEnability()
-    {
+    private void adjustFieldEnability() {
         boolean allDisabled = getDropdownStatus().getSelectedItem() == RequirementStatus.DELETED;
         allDisabled |= getDropdownStatus().getSelectedItem() == RequirementStatus.COMPLETE;
         boolean inProgress = getDropdownStatus().getSelectedItem() == RequirementStatus.INPROGRESS;
         boolean validEstimate = false;
         boolean isCreating = viewMode == ViewMode.CREATING;
-        
+
         boolean allChildrenDeleted = true;
-        for (Requirement child : currentRequirement.getChildren())
-        {
+        for (Requirement child : currentRequirement.getChildren()) {
             allChildrenDeleted &= child.getStatus() == RequirementStatus.DELETED;
         }
-        
-        try
-        {
+
+        try {
             Integer estimate = new Integer(getBoxEstimate().getText().trim());
-            
+
             validEstimate = estimate > 0;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             validEstimate = false;
         }
-        
+
         this.getBoxName().setEnabled(!allDisabled);
         this.getBoxDescription().setEnabled(!allDisabled);
         this.getBoxEstimate().setEnabled(!inProgress && !allDisabled);
@@ -675,22 +646,21 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.getDropdownStatus().setEnabled(!isCreating);
         this.getBoxIteration().setEnabled(validEstimate && !allDisabled);
         this.dropdownPriority.setEnabled(!allDisabled);
-        this.parentPanel.fireDeleted(allDisabled || inProgress || !allChildrenDeleted);
+        this.parentPanel.fireDeleted(allDisabled ||
+                                     inProgress || !allChildrenDeleted);
     }
-    
+
     /**
      * @return Returns whether any field in the panel has been changed
      */
-    public boolean anythingChanged()
-    {
-        if (viewMode == ViewMode.CREATING)
-        {
+    public boolean anythingChanged() {
+        if (viewMode == ViewMode.CREATING) {
             return anythingChangedCreating();
         }
         //else
         return anythingChangedEditing();
     }
-    
+
     /**
      * @return Returns whether any fields in the panel have been changed
      */
@@ -719,15 +689,14 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         if (!(getBoxEstimate().getText().trim().equals("") || getBoxEstimate().getText().trim().equals("0"))) {
             return true;
         }
-        
-        if (dropdownPriority.getSelectedItem() != RequirementPriority.BLANK)
-        {
+
+        if (dropdownPriority.getSelectedItem() != RequirementPriority.BLANK) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * @return whether any fields have been changed.
      */
@@ -760,17 +729,16 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         if (!(getBoxEstimate().getText().trim().equals(String.valueOf(currentRequirement.getEstimate())))) {
             return true;
         }
-        
+
         RequirementPriority reqPriority = currentRequirement.getPriority();
-        
-        if (reqPriority != dropdownPriority.getSelectedItem())
-        {
+
+        if (reqPriority != dropdownPriority.getSelectedItem()) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Returns whether the panel is ready to be removed or not based on if there
      * are changes that haven't been
@@ -779,11 +747,10 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
      * @return whether the panel can be removed.
      * @see edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanelListener#readyToRemove()
      */
-    public boolean readyToRemove()
-    {
+    public boolean readyToRemove() {
         return !anythingChanged();
     }
-    
+
     /**
      * Method itemStateChanged.
      * 
@@ -794,28 +761,24 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     public void itemStateChanged(ItemEvent e) {
         parentPanel.removeError("Cannot complete unless children are completed.");
         parentPanel.removeError("Cannot delete when non-deleted children exist.");
-        if (!fillingFieldsForRequirement)
-        {
+        if (!fillingFieldsForRequirement) {
             boolean allChildrenCompleted = true;
             boolean allChildrenDeleted = true;
             for (Requirement Child : currentRequirement.getChildren()) {
                 allChildrenCompleted &= Child.getStatus() == RequirementStatus.COMPLETE;
                 allChildrenDeleted &= Child.getStatus() == RequirementStatus.DELETED;
             }
-            
-            if (!allChildrenCompleted && dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE)
-            {
+
+            if (!allChildrenCompleted &&
+                dropdownStatus.getSelectedItem() == RequirementStatus.COMPLETE) {
                 dropdownStatus.setSelectedItem(lastValidStatus);
                 parentPanel.displayError("Cannot complete unless children are completed.");
-            }
-            else if (!allChildrenDeleted && this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED)
-            {
+            } else if (!allChildrenDeleted &&
+                       this.dropdownStatus.getSelectedItem() == RequirementStatus.DELETED) {
                 dropdownStatus.setSelectedItem(lastValidStatus);
                 parentPanel.displayError("Cannot delete when non-deleted children exist.");
-            }
-            else
-            {
-                
+            } else {
+
                 lastValidStatus = (RequirementStatus) this.dropdownStatus.getSelectedItem();
             }
         }
@@ -824,7 +787,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         adjustFieldEnability();
         this.repaint();
     }
-    
+
     /**
      * Method keyReleased.
      * 
@@ -835,10 +798,10 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.parentPanel.fireValid(validateFields(false));
         this.parentPanel.fireChanges(anythingChanged());
         adjustFieldEnability();
-        
+
         this.repaint();
     }
-    
+
     /**
      * Method keyPressed.
      * 
@@ -847,7 +810,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     @Override
     public void keyPressed(KeyEvent e) {
     }
-    
+
     /**
      * Method keyTyped.
      * 
@@ -856,7 +819,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
+
     /**
      * Checks if the input string is an integer
      * 
@@ -871,7 +834,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
             return false;
         }
     }
-    
+
     /**
      * Returns the error name label
      * 
@@ -880,84 +843,84 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     public JLabel getErrorName() {
         return errorName;
     }
-    
+
     /**
      * @return the error description label
      */
     public JLabel getErrorDescription() {
         return errorDescription;
     }
-    
+
     /**
      * @return the error estimate label
      */
     public JLabel getErrorEstimate() {
         return errorEstimate;
     }
-    
+
     /**
      * @return box name
      */
     public JTextField getBoxName() {
         return boxName;
     }
-    
+
     /**
      * @return box release num
      */
     public JTextField getBoxReleaseNum() {
         return boxReleaseNum;
     }
-    
+
     /**
      * @return box description
      */
     public JTextArea getBoxDescription() {
         return boxDescription;
     }
-    
+
     /**
      * @return box iteration
      */
     public JComboBox getBoxIteration() {
         return boxIteration;
     }
-    
+
     /**
      * @return box child estimate
      */
     public JTextField getBoxChildEstimate() {
         return boxChildEstimate;
     }
-    
+
     /**
      * @return box total estimate
      */
     public JTextField getBoxTotalEstimate() {
         return boxTotalEstimate;
     }
-    
+
     /**
      * @return type dropdown
      */
     public JComboBox<RequirementType> getDropdownType() {
         return dropdownType;
     }
-    
+
     /**
      * @return status dropdown
      */
     public JComboBox<RequirementStatus> getDropdownStatus() {
         return dropdownStatus;
     }
-    
+
     /**
      * @return estimate box
      */
     public JTextField getBoxEstimate() {
         return boxEstimate;
     }
-    
+
     /**
      * Method requirementSelected.
      * 
@@ -969,343 +932,341 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         this.parentSelector.setVisible(false);
         this.chooseParent.setVisible(true);
     }
-    
+
     /**
      * @return the currentRequirement
      */
     protected Requirement getCurrentRequirement() {
         return currentRequirement;
     }
-    
+
     /**
      * @param currentRequirement the currentRequirement to set
      */
     protected void setCurrentRequirement(Requirement currentRequirement) {
         this.currentRequirement = currentRequirement;
     }
-    
+
     /**
      * @return the viewMode
      */
     protected ViewMode getViewMode() {
         return viewMode;
     }
-    
+
     /**
      * @param viewMode the viewMode to set
      */
     protected void setViewMode(ViewMode viewMode) {
         this.viewMode = viewMode;
     }
-    
+
     /**
      * @return the parentPanel
      */
     protected RequirementPanel getParentPanel() {
         return parentPanel;
     }
-    
+
     /**
      * @param parentPanel the parentPanel to set
      */
     protected void setParentPanel(RequirementPanel parentPanel) {
         this.parentPanel = parentPanel;
     }
-    
+
     /**
      * @return the storedEstimate
      */
     protected int getStoredEstimate() {
         return storedEstimate;
     }
-    
+
     /**
      * @param storedEstimate the storedEstimate to set
      */
     protected void setStoredEstimate(int storedEstimate) {
         this.storedEstimate = storedEstimate;
     }
-    
+
     /**
      * @return the storedIteration
      */
     protected Iteration getStoredIteration() {
         return storedIteration;
     }
-    
+
     /**
      * @param storedIteration the storedIteration to set
      */
     protected void setStoredIteration(Iteration storedIteration) {
         this.storedIteration = storedIteration;
     }
-    
+
     /**
      * @return the storedStatus
      */
     protected RequirementStatus getStoredStatus() {
         return storedStatus;
     }
-    
+
     /**
      * @param storedStatus the storedStatus to set
      */
     protected void setStoredStatus(RequirementStatus storedStatus) {
         this.storedStatus = storedStatus;
     }
-    
+
     /**
      * @return the labelChildEstimate
      */
     protected JLabel getLabelChildEstimate() {
         return labelChildEstimate;
     }
-    
+
     /**
      * @param labelChildEstimate the labelChildEstimate to set
      */
     protected void setLabelChildEstimate(JLabel labelChildEstimate) {
         this.labelChildEstimate = labelChildEstimate;
     }
-    
+
     /**
      * @return the labelTotalEstimate
      */
     protected JLabel getLabelTotalEstimate() {
         return labelTotalEstimate;
     }
-    
+
     /**
      * @param labelTotalEstimate the labelTotalEstimate to set
      */
     protected void setLabelTotalEstimate(JLabel labelTotalEstimate) {
         this.labelTotalEstimate = labelTotalEstimate;
     }
-    
+
     /**
      * @return the currentParent
      */
     protected JLabel getCurrentParent() {
         return currentParent;
     }
-    
+
     /**
      * @param currentParent the currentParent to set
      */
     protected void setCurrentParent(JLabel currentParent) {
         this.currentParent = currentParent;
     }
-    
+
     /**
      * @return the editParent
      */
     protected JButton getEditParent() {
         return editParent;
     }
-    
+
     /**
      * @param editParent the editParent to set
      */
     protected void setEditParent(JButton editParent) {
         this.editParent = editParent;
     }
-    
+
     /**
      * @return the removeFromParent
      */
     protected JButton getRemoveFromParent() {
         return removeFromParent;
     }
-    
+
     /**
      * @param removeFromParent the removeFromParent to set
      */
     protected void setRemoveFromParent(JButton removeFromParent) {
         this.removeFromParent = removeFromParent;
     }
-    
+
     /**
      * @return the chooseParent
      */
     protected JButton getChooseParent() {
         return chooseParent;
     }
-    
+
     /**
      * @param chooseParent the chooseParent to set
      */
     protected void setChooseParent(JButton chooseParent) {
         this.chooseParent = chooseParent;
     }
-    
+
     /**
      * @return the noParentInfoPanel
      */
     protected JPanel getNoParentInfoPanel() {
         return noParentInfoPanel;
     }
-    
+
     /**
      * @param noParentInfoPanel the noParentInfoPanel to set
      */
     protected void setNoParentInfoPanel(JPanel noParentInfoPanel) {
         this.noParentInfoPanel = noParentInfoPanel;
     }
-    
+
     /**
      * @return the parentSelector
      */
     protected RequirementSelector getParentSelector() {
         return parentSelector;
     }
-    
+
     /**
      * @param parentSelector the parentSelector to set
      */
     protected void setParentSelector(RequirementSelector parentSelector) {
         this.parentSelector = parentSelector;
     }
-    
+
     /**
      * @return the dropdownPriority
      */
     protected JComboBox<RequirementPriority> getDropdownPriority() {
         return dropdownPriority;
     }
-    
+
     /**
      * @param dropdownPriority the dropdownPriority to set
      */
-    protected void setDropdownPriority(
-            JComboBox<RequirementPriority> dropdownPriority) {
+    protected void setDropdownPriority(JComboBox<RequirementPriority> dropdownPriority) {
         this.dropdownPriority = dropdownPriority;
     }
-    
+
     /**
      * @return the lastValidStatus
      */
     protected RequirementStatus getLastValidStatus() {
         return lastValidStatus;
     }
-    
+
     /**
      * @param lastValidStatus the lastValidStatus to set
      */
     protected void setLastValidStatus(RequirementStatus lastValidStatus) {
         this.lastValidStatus = lastValidStatus;
     }
-    
+
     /**
      * @return the fillingFieldsForRequirement
      */
     protected boolean isFillingFieldsForRequirement() {
         return fillingFieldsForRequirement;
     }
-    
+
     /**
      * @param fillingFieldsForRequirement the fillingFieldsForRequirement to set
      */
-    protected void setFillingFieldsForRequirement(
-            boolean fillingFieldsForRequirement) {
+    protected void setFillingFieldsForRequirement(boolean fillingFieldsForRequirement) {
         this.fillingFieldsForRequirement = fillingFieldsForRequirement;
     }
-    
+
     /**
      * @return the defaultBorder
      */
     protected Border getDefaultBorder() {
         return defaultBorder;
     }
-    
+
     /**
      * @return the errorBorder
      */
     protected Border getErrorBorder() {
         return errorBorder;
     }
-    
+
     /**
      * @param boxName the boxName to set
      */
     protected void setBoxName(JTextField boxName) {
         this.boxName = boxName;
     }
-    
+
     /**
      * @param boxReleaseNum the boxReleaseNum to set
      */
     protected void setBoxReleaseNum(JTextField boxReleaseNum) {
         this.boxReleaseNum = boxReleaseNum;
     }
-    
+
     /**
      * @param boxDescription the boxDescription to set
      */
     protected void setBoxDescription(JTextArea boxDescription) {
         this.boxDescription = boxDescription;
     }
-    
+
     /**
      * @param boxIteration the boxIteration to set
      */
     protected void setBoxIteration(JComboBox<Iteration> boxIteration) {
         this.boxIteration = boxIteration;
     }
-    
+
     /**
      * @param boxChildEstimate the boxChildEstimate to set
      */
     protected void setBoxChildEstimate(JTextField boxChildEstimate) {
         this.boxChildEstimate = boxChildEstimate;
     }
-    
+
     /**
      * @param boxTotalEstimate the boxTotalEstimate to set
      */
     protected void setBoxTotalEstimate(JTextField boxTotalEstimate) {
         this.boxTotalEstimate = boxTotalEstimate;
     }
-    
+
     /**
      * @param dropdownType the dropdownType to set
      */
     protected void setDropdownType(JComboBox<RequirementType> dropdownType) {
         this.dropdownType = dropdownType;
     }
-    
+
     /**
      * @param dropdownStatus the dropdownStatus to set
      */
     protected void setDropdownStatus(JComboBox<RequirementStatus> dropdownStatus) {
         this.dropdownStatus = dropdownStatus;
     }
-    
+
     /**
      * @param boxEstimate the boxEstimate to set
      */
     protected void setBoxEstimate(JTextField boxEstimate) {
         this.boxEstimate = boxEstimate;
     }
-    
+
     /**
      * @param errorName the errorName to set
      */
     protected void setErrorName(JLabel errorName) {
         this.errorName = errorName;
     }
-    
+
     /**
      * @param errorDescription the errorDescription to set
      */
     protected void setErrorDescription(JLabel errorDescription) {
         this.errorDescription = errorDescription;
     }
-    
+
     /**
      * @param errorEstimate the errorEstimate to set
      */
     protected void setErrorEstimate(JLabel errorEstimate) {
         this.errorEstimate = errorEstimate;
     }
-    
+
 }
