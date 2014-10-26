@@ -43,9 +43,9 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Requi
  * @author justinhess
  */
 public class MainView extends JTabbedPane {
-    
+
     static final long serialVersionUID = 7957462092495599897L;
-    
+
     private boolean dragging = false;
     private Image tabImage = null;
     private Point currentMouseLocation = null;
@@ -56,7 +56,7 @@ public class MainView extends JTabbedPane {
     private final JPopupMenu popup = new JPopupMenu();
     private JMenuItem closeAll = new JMenuItem("Close All Tabs");
     private JMenuItem closeOthers = new JMenuItem("Close Others");
-    
+
     /**
      * Adds main subtab when user goes to RequirementManager
      */
@@ -64,32 +64,30 @@ public class MainView extends JTabbedPane {
         this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         this.addTab("Requirement Overview", overview);
         this.addTab("Iteration Overview", iterationOverview);
-        
-        closeAll.addActionListener(new ActionListener()
-        {
+
+        closeAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ViewEventController.getInstance().closeAllTabs();
-                
+
             }
         });
-        
-        closeOthers.addActionListener(new ActionListener()
-        {
+
+        closeOthers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ViewEventController.getInstance().closeOthers();
-                
+
             }
         });
-        
+
         // add listener for changes in the overview tables
         ViewEventController.getInstance().getOverviewTable().getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 // check for Editing Multiple Requirements Mode	and a change not caused by a refresh	
-                if (ViewEventController.getInstance().getOverviewTable().getEditFlag()
-                        && !ViewEventController.getInstance().getOverviewTable().wasChangedByRefresh()) {
+                if (ViewEventController.getInstance().getOverviewTable().getEditFlag() &&
+                    !ViewEventController.getInstance().getOverviewTable().wasChangedByRefresh()) {
                     // find the cell that was changed
                     int otRow = e.getLastRow();
                     int otCol = e.getColumn();
@@ -97,31 +95,30 @@ public class MainView extends JTabbedPane {
                     Object value = ViewEventController.getInstance().getOverviewTable().getModel().getValueAt(otRow, otCol);
                     // highlight the cell
                     ViewEventController.getInstance().getOverviewTable().getCellRenderer(otRow, otCol).getTableCellRendererComponent(ViewEventController.getInstance().getOverviewTable(), value, true, true, otRow, otCol);
-                    
+
                     // check for changes and enable/disable the Save Changes button accordingly
                     if (ViewEventController.getInstance().getOverviewTable().hasChanges()) {
                         ViewEventController.getInstance().getToolbar().getEditButton().enableCreateEditButton();
-                    }
-                    else
+                    } else
                         ViewEventController.getInstance().getToolbar().getEditButton().disableCreateEditButton();
                 }
             }
         });
-        
+
         popup.add(closeAll);
         popup.add(closeOthers);
-        
+
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                
+
                 if (!dragging) {
                     // Gets the tab index based on the mouse position
                     int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), e.getY());
-                    
+
                     if (tabNumber >= 0) {
                         draggedTabIndex = tabNumber;
                         Rectangle bounds = getUI().getTabBounds(MainView.this, tabNumber);
-                        
+
                         // Paint the tabbed pane to a buffer
                         Image totalImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                         Graphics totalGraphics = totalImage.getGraphics();
@@ -129,35 +126,35 @@ public class MainView extends JTabbedPane {
                         // Don't be double buffered when painting to a static image.
                         setDoubleBuffered(false);
                         paintComponent(totalGraphics);
-                        
+
                         // Paint just the dragged tab to the buffer
                         tabImage = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
                         Graphics graphics = tabImage.getGraphics();
-                        graphics.drawImage(totalImage, 0, 0, bounds.width, bounds.height, bounds.x, bounds.y, bounds.x + bounds.width, bounds.y + bounds.height, MainView.this);
-                        
+                        graphics.drawImage(totalImage, 0, 0, bounds.width, bounds.height, bounds.x, bounds.y, bounds.x +
+                                                                                                              bounds.width, bounds.y +
+                                                                                                                            bounds.height, MainView.this);
+
                         dragging = true;
                         repaint();
                     }
                 } else {
                     currentMouseLocation = e.getPoint();
-                    
+
                     // Need to repaint
                     repaint();
                 }
-                
+
                 super.mouseDragged(e);
             }
         });
-        
-        this.addMouseListener(new MouseAdapter()
-        {
+
+        this.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e)
-            {
+            public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger())
                     popup.show(e.getComponent(), e.getX(), e.getY());
             }
-            
+
             public void mouseReleased(MouseEvent e) {
                 if (dragging) {
                     int tabNumber = getUI().tabForCoordinate(MainView.this, e.getX(), e.getY());
@@ -171,7 +168,7 @@ public class MainView extends JTabbedPane {
                         }
                     }
                 }
-                
+
                 dragging = false;
                 tabImage = null;
             }
@@ -180,11 +177,10 @@ public class MainView extends JTabbedPane {
         this.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 JComponent selected = (JComponent) MainView.this.getSelectedComponent();
-                
+
                 ViewEventController.getInstance().getToolbar().getEditButton().getEditButton().setEnabled(false);
-                
-                if (selected == overview)
-                {
+
+                if (selected == overview) {
                     ViewEventController.getInstance().getToolbar().getEditButton().getEditButton().setEnabled(true);
                     ViewEventController.getInstance().getOverviewTable().refresh();
                     ViewEventController.getInstance().getOverviewTree().refresh();
@@ -192,24 +188,20 @@ public class MainView extends JTabbedPane {
                     overview.setDividerLocation(180);
                     overview.revalidate();
                     overview.repaint();
-                }
-                else if (selected == iterationOverview)
-                {
+                } else if (selected == iterationOverview) {
                     ViewEventController.getInstance().getOverviewTree().refresh();
                     iterationOverview.setLeftComponent(ViewEventController.getInstance().getOverviewTree());
                     iterationOverview.setDividerLocation(180);
                     iterationOverview.revalidate();
                     iterationOverview.repaint();
-                }
-                else if (selected instanceof RequirementPanel)
-                {
+                } else if (selected instanceof RequirementPanel) {
                     RequirementPanel req = (RequirementPanel) selected;
                     req.fireRefresh();
                 }
             }
         });
     }
-    
+
     /**
      * Method paintComponent.
      * 
@@ -217,14 +209,14 @@ public class MainView extends JTabbedPane {
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         // Are we dragging?
         if (dragging && currentMouseLocation != null && tabImage != null) {
             // Draw the dragged tab
             g.drawImage(tabImage, currentMouseLocation.x, currentMouseLocation.y, this);
         }
     }
-    
+
     /**
      * Overridden insertTab function to add the closable tab element.
      * 
@@ -235,14 +227,14 @@ public class MainView extends JTabbedPane {
      * @param index Location of the tab
      */
     @Override
-    public void insertTab(String title, Icon icon, Component component,
-            String tip, int index) {
+    public void insertTab(String title, Icon icon, Component component, String tip, int index) {
         super.insertTab(title, icon, component, tip, index);
-        if (!(component instanceof OverviewPanel) && !(component instanceof IterationOverviewPanel)) {
+        if (!(component instanceof OverviewPanel) &&
+            !(component instanceof IterationOverviewPanel)) {
             setTabComponentAt(index, new ClosableTabComponent(this));
         }
     }
-    
+
     /**
      * Method getOverview.
      * 
@@ -251,7 +243,7 @@ public class MainView extends JTabbedPane {
     public OverviewPanel getOverview() {
         return overview;
     }
-    
+
     /**
      * Method setSelectedComponent.
      * 
@@ -262,7 +254,7 @@ public class MainView extends JTabbedPane {
         this.lastTab = this.getSelectedComponent();
         super.setSelectedComponent(c);
     }
-    
+
     /**
      * Method removeTabAt.
      * 
@@ -276,9 +268,11 @@ public class MainView extends JTabbedPane {
                 setSelectedComponent(this.lastTab);
             }
         } catch (IllegalArgumentException e) {
+            //TODO Stop swallowing exceptions
+            e.printStackTrace();
         }
     }
-    
+
     //Getters and setters
     /**
      * Method getPopup.
@@ -288,7 +282,7 @@ public class MainView extends JTabbedPane {
     public JPopupMenu getPopup() {
         return popup;
     }
-    
+
     /**
      * Method getCloseAll.
      * 
@@ -297,7 +291,7 @@ public class MainView extends JTabbedPane {
     public JMenuItem getCloseAll() {
         return closeAll;
     }
-    
+
     /**
      * Method getCloseOthers.
      * 
@@ -306,105 +300,105 @@ public class MainView extends JTabbedPane {
     public JMenuItem getCloseOthers() {
         return closeOthers;
     }
-    
+
     /**
      * @return the dragging
      */
     boolean isDragging() {
         return this.dragging;
     }
-    
+
     /**
      * @param dragging the dragging to set
      */
     void setDragging(boolean dragging) {
         this.dragging = dragging;
     }
-    
+
     /**
      * @return the tabImage
      */
     Image getTabImage() {
         return this.tabImage;
     }
-    
+
     /**
      * @param tabImage the tabImage to set
      */
     void setTabImage(Image tabImage) {
         this.tabImage = tabImage;
     }
-    
+
     /**
      * @return the currentMouseLocation
      */
     Point getCurrentMouseLocation() {
         return this.currentMouseLocation;
     }
-    
+
     /**
      * @param currentMouseLocation the currentMouseLocation to set
      */
     void setCurrentMouseLocation(Point currentMouseLocation) {
         this.currentMouseLocation = currentMouseLocation;
     }
-    
+
     /**
      * @return the draggedTabIndex
      */
     int getDraggedTabIndex() {
         return this.draggedTabIndex;
     }
-    
+
     /**
      * @param draggedTabIndex the draggedTabIndex to set
      */
     void setDraggedTabIndex(int draggedTabIndex) {
         this.draggedTabIndex = draggedTabIndex;
     }
-    
+
     /**
      * @return the iterationOverview
      */
     IterationOverviewPanel getIterationOverview() {
         return this.iterationOverview;
     }
-    
+
     /**
      * @param iterationOverview the iterationOverview to set
      */
     void setIterationOverview(IterationOverviewPanel iterationOverview) {
         this.iterationOverview = iterationOverview;
     }
-    
+
     /**
      * @return the lastTab
      */
     Component getLastTab() {
         return this.lastTab;
     }
-    
+
     /**
      * @param lastTab the lastTab to set
      */
     void setLastTab(Component lastTab) {
         this.lastTab = lastTab;
     }
-    
+
     /**
      * @param overview the overview to set
      */
     void setOverview(OverviewPanel overview) {
         this.overview = overview;
     }
-    
+
     /**
      * @param closeAll the closeAll to set
      */
     void setCloseAll(JMenuItem closeAll) {
         this.closeAll = closeAll;
     }
-    
+
     /**
      * @param closeOthers the closeOthers to set
      */
