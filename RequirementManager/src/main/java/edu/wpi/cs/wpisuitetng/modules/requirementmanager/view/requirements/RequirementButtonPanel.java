@@ -44,6 +44,8 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
 
     private final String deleteString = "Delete";
     private final String cancelString = "Cancel";
+    private String okString;
+    private String clearString;
 
     /**
      * Constructor for the requirement button panel
@@ -62,14 +64,6 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
         this.parentPanel = parentPanel;
         this.viewMode = mode;
 
-        String okString;
-        String clearString;
-
-        buttonOK = new JButton();
-        buttonCancel = new JButton(cancelString);
-        buttonClear = new JButton();
-        buttonDelete = new JButton(deleteString);
-
         if (viewMode == ViewMode.CREATING) {
             okString = "Create";
             clearString = "Clear";
@@ -77,6 +71,14 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
             okString = "Update";
             clearString = "Undo Changes";
         }
+
+        buttonOK = new JButton(okString);
+        buttonCancel = new JButton(cancelString);
+        buttonClear = new JButton(clearString);
+        buttonDelete = new JButton(deleteString);
+
+        buttonOK.setEnabled(false);
+        buttonClear.setEnabled(false);
 
         try {
             Image img = ImageIO.read(getClass().getResource("save-icon.png"));
@@ -91,11 +93,6 @@ public class RequirementButtonPanel extends JPanel implements RequirementPanelLi
             //TODO: Stop swallowing exceptions
             ex.printStackTrace();
         }
-
-        buttonOK.setText(okString);
-        buttonClear.setText(clearString);
-        buttonOK.setEnabled(false);
-        buttonClear.setEnabled(false);
 
         this.add(buttonOK);
         this.add(buttonClear);
