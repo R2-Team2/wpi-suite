@@ -46,6 +46,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  * @version $Revision: 1.0 $
  */
 public class RequirementInformationPanel extends JScrollPane implements KeyListener, ItemListener, RequirementPanelListener, RequirementSelectorListener {
+    private static final long serialVersionUID = -5988025271419152743L;
+
     private Requirement currentRequirement;
     private ViewMode viewMode;
     private RequirementPanel parentPanel;
@@ -108,7 +110,6 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     /**
      * Builds the layout panel.
      */
-    @SuppressWarnings("rawtypes")
     private void buildLayout() {
         ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "", "shrink"));
@@ -271,6 +272,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
 
+        fireValid(true);
         fireRefresh();
         this.setViewportView(contentPanel);
     }
@@ -391,7 +393,6 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
      * Fills the fields of the edit requirement panel based on the current
      * settings of the edited requirement.
      */
-    @SuppressWarnings("unchecked")
     private void fillFieldsForRequirement() {
         fillingFieldsForRequirement = true;
         boxName.setText(currentRequirement.getName());
@@ -577,13 +578,12 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
         String stringReleaseNum = this.getBoxReleaseNum().getText();
         String stringDescription = this.getBoxDescription().getText();
         String stringEstimate = this.getBoxEstimate().getText();
-        String stringIteration = (String) this.getBoxIteration().getSelectedItem().toString();
+        String stringIteration = this.getBoxIteration().getSelectedItem().toString();
 
         if (stringIteration.trim().equals("")) {
             stringIteration = "Backlog";
         }
 
-        RequirementPriority priority;
         RequirementStatus status = (RequirementStatus) this.getDropdownStatus().getSelectedItem();
         RequirementType type = (RequirementType) getDropdownType().getSelectedItem();
 
@@ -882,6 +882,7 @@ public class RequirementInformationPanel extends JScrollPane implements KeyListe
     /**
      * @return box iteration
      */
+    @SuppressWarnings("rawtypes")
     public JComboBox getBoxIteration() {
         return boxIteration;
     }

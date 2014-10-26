@@ -29,7 +29,7 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
     protected static final long serialVersionUID = -4952819151288519999L;
 
     private ViewEventController viewEventController = ViewEventController.getInstance();
-    private UpdateRequirementController updateRequirementController;
+    private UpdateRequirementController updateRequirementController = UpdateRequirementController.getInstance();
 
     private List<RequirementPanelListener> listeners = new LinkedList<RequirementPanelListener>();
     private Requirement displayRequirement;
@@ -53,8 +53,6 @@ public class RequirementPanel extends JPanel implements RequirementButtonListene
 
         displayRequirement = editingRequirement;
         this.buildLayout();
-
-        updateRequirementController = UpdateRequirementController.getInstance();
 
         confirmDialog = new RequirementConfirmationDialog();
     }

@@ -47,7 +47,6 @@ public class TestRequirementInformationPanel {
 
     @Test
     public void testConstructor() {
-
         RequirementInformationPanel newPanel = new RequirementInformationPanel(mockRequirementPanel, mode, mockRequirement);
 
         assertNotNull(newPanel);
