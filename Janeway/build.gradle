@@ -68,9 +68,9 @@ task modules(type: Copy) {
 	description = "Copy over each module .jar file for Janeway into the modules folder"
 	group = "Application"
 	
-    dependsOn jar
-    
     modulesList.each{
+        dependsOn ":${it}:jar"
+    
         from(project(":${it}").libsDir) {
             include '*.jar'
         }
