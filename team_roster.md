@@ -7,3 +7,4 @@
 - Selim Tanriverdi
 - Gareth Solbeck
 - Peerapat Luxsuwong
+- Nolan Manor
