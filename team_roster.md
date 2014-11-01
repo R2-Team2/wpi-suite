@@ -2,3 +2,4 @@
 
 - Caleb Stepanian
 - Gareth Solbeck
+- Seth Norton
