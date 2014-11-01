@@ -2,3 +2,4 @@
 
 - Caleb Stepanian
 - Seth Norton
+- Dmytro Bogatov
