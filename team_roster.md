@@ -3,7 +3,6 @@
 - Caleb Stepanian
 - Seth Norton
 - Matthew Forman
-- Seth Norton
 - Dmytro Bogatov
 - Selim Tanriverdi
 - Gareth Solbeck
