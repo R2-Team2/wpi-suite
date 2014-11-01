@@ -4,6 +4,8 @@
 - Seth Norton
 - Matthew Forman
 - Dmytro Bogatov
+- Selim Tanriverdi
 - Gareth Solbeck
 - Peter Chambers
 - Peerapat Luxsuwong
+- Nolan Manor
