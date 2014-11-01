@@ -10,3 +10,5 @@
 - Peerapat Luxsuwong
 - Nolan Manor
 - Daniel Fox
+- Lucine Bahtiarian
+
