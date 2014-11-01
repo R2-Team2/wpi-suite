@@ -6,3 +6,4 @@
 - Seth Norton
 - Dmytro Bogatov
 - Gareth Solbeck
+- Daniel Fox
