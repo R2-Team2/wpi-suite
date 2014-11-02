@@ -1,14 +1,13 @@
 ## Members of R2-Team2
 
 - Caleb Stepanian
-- Seth Norton
-- Matthew Forman
-- Dmytro Bogatov
-- Selim Tanriverdi
-- Gareth Solbeck
-- Peter Chambers
-- Peerapat Luxsuwong
-- Nolan Manor
 - Daniel Fox
+- Dmytro Bogatov
+- Gareth Solbeck
 - Lucine Bahtiarian
-
+- Matthew Forman
+- Nolan Manor
+- Peerapat Luxsuwong
+- Peter Chambers
+- Selim Tanriverdi
+- Seth Norton
