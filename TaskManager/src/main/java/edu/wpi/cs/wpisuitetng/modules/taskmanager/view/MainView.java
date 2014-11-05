@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -22,10 +23,14 @@ public class MainView extends JPanel {
     
     
     /**
-     * Construct the panel.
+     * Construct the panel. There is some test text inside the panel.
      */
     public MainView() {
-    	
+    	JLabel testLabel = new JLabel();
+    	testLabel.setText("We're 80% done, Your Excellence...");
+    	this.add(testLabel);
+    	testLabel.setVisible(true);
     }
+    
     
 }
