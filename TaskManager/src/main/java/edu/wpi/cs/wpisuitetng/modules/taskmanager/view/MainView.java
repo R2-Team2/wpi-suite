@@ -27,7 +27,7 @@ public class MainView extends JPanel {
      */
     public MainView() {
     	JLabel testLabel = new JLabel();
-    	testLabel.setText("We're 80% done, Your Excellence...");
+    	testLabel.setText("We're 80% done, Your Excellence!");
     	this.add(testLabel);
     	testLabel.setVisible(true);
     }
