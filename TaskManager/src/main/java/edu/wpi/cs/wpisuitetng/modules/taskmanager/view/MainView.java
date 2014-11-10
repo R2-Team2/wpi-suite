@@ -18,6 +18,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
+
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
  */
@@ -59,13 +61,16 @@ public class MainView extends JTabbedPane {
             }
         });
 
+        WorkFlowView myWorkFlowView = new WorkFlowView();
+        this.add(myWorkFlowView);
+        /*
         // Add Workflow JPanel here, currently test code
         JPanel testPanel = new JPanel();
         testPanel.setLayout(new BorderLayout());
         JTextField workflowPanel = new JTextField("Workflow Panel Here");
         testPanel.add(workflowPanel, BorderLayout.CENTER);
         this.add(testPanel);
-
+		*/
     }
 
 }
