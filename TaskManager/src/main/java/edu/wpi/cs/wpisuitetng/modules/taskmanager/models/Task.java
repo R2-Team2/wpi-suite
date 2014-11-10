@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-
-public class Task extends AbstractModel {
+public class Task extends AbstractModel implements ITask {
 
 	private int id;
 	private String title;
@@ -101,6 +100,27 @@ public class Task extends AbstractModel {
 		return this.status;
 	}
 
+	public void setStatus(String status) {
+		switch (status.toLowerCase()) {
+			case "new":
+				this.setStatus(TaskStatus.NEW);
+				break;
+			case "scheduled":
+				this.setStatus(TaskStatus.SCHEDULED);
+				break;
+			case "in_progress":
+				this.setStatus(TaskStatus.IN_PROGRESS);
+				break;
+			case "complete":
+				this.setStatus(TaskStatus.COMPLETE);
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
+				
+		}
+	}
+	
 	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
