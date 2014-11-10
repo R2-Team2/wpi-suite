@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ToolbarView;
 
@@ -63,6 +64,8 @@ public class TaskManager implements IJanewayModule {
         
         // Add the tab to the list of tabs owned by this module
         this.tabs.add(tab1);
+        
+        ViewEventController.getInstance().setMainView(mainView);
     }
     
     /*
