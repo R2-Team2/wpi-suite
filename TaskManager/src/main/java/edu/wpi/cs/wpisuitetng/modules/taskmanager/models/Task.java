@@ -100,7 +100,7 @@ public class Task extends AbstractModel implements ITask {
 		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public ITask setStatus(String status) {
 		switch (status.toLowerCase()) {
 			case "new":
 				this.setStatus(TaskStatus.NEW);
@@ -119,6 +119,7 @@ public class Task extends AbstractModel implements ITask {
 						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
 				
 		}
+		return this;
 	}
 	
 	public void setStatus(TaskStatus status) {

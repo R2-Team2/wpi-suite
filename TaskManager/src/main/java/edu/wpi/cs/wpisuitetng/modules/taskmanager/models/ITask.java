@@ -20,6 +20,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 public interface ITask {
 	
 	String getTitle();
-	void setTaskStatus(String status);
+	ITask setStatus(String status);
 	
 }
