@@ -27,6 +27,7 @@ public class WorkFlowView extends JPanel {
 		
 		txtText = new JTextField();
 		txtText.setText("Workflow View Goes Here");
+		txtText.setEditable(false);
 		this.add(txtText, BorderLayout.NORTH);
 		txtText.setColumns(20);
 		
