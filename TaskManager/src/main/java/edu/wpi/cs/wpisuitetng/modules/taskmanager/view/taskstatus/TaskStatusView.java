@@ -26,11 +26,14 @@ import java.util.ArrayList;
 
 public class TaskStatusView extends JPanel {
 
+	public TaskStatus taskStatusObj;
+	
 	/**
 	 * Create the panel.
 	 */
-	public TaskStatusView() {
-		setLayout(new MigLayout("", "[200px,grow]", "[40px][200px,grow]"));
+	public TaskStatusView(String title) {
+		setLayout(new MigLayout("", "[200px,grow]", "[40px][200px]"));
+		this.taskStatusObj = new TaskStatus(title);
 		
 		String[] ar = {"one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"};
 		
@@ -40,7 +43,7 @@ public class TaskStatusView extends JPanel {
 		JTextPane txtpnTitle = new JTextPane();
 		txtpnTitle.setEditable(false);
 		txtpnTitle.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtpnTitle.setText("Title of Section");
+		txtpnTitle.setText(this.taskStatusObj.getName());
 		add(txtpnTitle, "cell 0 0,width 150,height 40");
 		JList scrollableList = new JList(ar);
 		JScrollPane scrollPane = new JScrollPane(scrollableList);

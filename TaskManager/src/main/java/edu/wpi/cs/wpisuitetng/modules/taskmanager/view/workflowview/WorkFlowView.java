@@ -33,11 +33,14 @@ public class WorkFlowView extends JPanel {
 		taskStatusPanel = new JPanel();
 		this.add(taskStatusPanel, BorderLayout.CENTER);
 		taskStatusPanel.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		taskStatusPanel.add(new TaskStatusView());
-		taskStatusPanel.add(new TaskStatusView());
-		taskStatusPanel.add(new TaskStatusView());
-		taskStatusPanel.add(new TaskStatusView());
+		TaskStatusView taskStatusNew = new TaskStatusView("New");
+		TaskStatusView taskStatusSelDev = new TaskStatusView("Selected for Development");
+		TaskStatusView taskStatusInDev = new TaskStatusView("Currently in Development");
+		TaskStatusView taskStatusDone = new TaskStatusView("Completed");
+		taskStatusPanel.add(taskStatusNew);
+		taskStatusPanel.add(taskStatusSelDev);
+		taskStatusPanel.add(taskStatusInDev);
+		taskStatusPanel.add(taskStatusDone);
 		
 	}
 
