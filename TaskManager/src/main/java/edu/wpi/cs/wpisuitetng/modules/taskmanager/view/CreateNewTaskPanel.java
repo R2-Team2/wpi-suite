@@ -1,60 +1,142 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import javax.swing.JPanel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.GridLayout;
+
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JComboBox;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CreateNewTaskPanel extends JPanel {
+	private JTextField txtEnterTitle;
+	private JTextField txtEnterEffort;
 
 	/**
 	 * Create the panel.
 	 */
 	public CreateNewTaskPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(new MigLayout("", "[grow]", "[grow][grow][108.00,grow][grow][137.00,grow][80.00,grow]"));
+		
+		JPanel panel_5 = new JPanel();
+		add(panel_5, "cell 0 0,grow");
+		panel_5.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		
+		JPanel panel_7 = new JPanel();
+		panel_5.add(panel_7, "cell 0 0,grow");
+		
+		JLabel lblTitle = new JLabel("Title:");
+		panel_7.add(lblTitle);
+		
+		txtEnterTitle = new JTextField();
+		panel_7.add(txtEnterTitle);
+		txtEnterTitle.setColumns(10);
+		
+		JPanel panel_6 = new JPanel();
+		panel_5.add(panel_6, "cell 1 0,grow");
+		
+		JLabel lblEstimatedEffort = new JLabel("Estimated Effort:");
+		panel_6.add(lblEstimatedEffort);
+		
+		txtEnterEffort = new JTextField();
+		txtEnterEffort.setToolTipText("");
+		panel_6.add(txtEnterEffort);
+		txtEnterEffort.setColumns(10);
+		
+		JPanel panel_4 = new JPanel();
+		add(panel_4, "cell 0 1,grow");
+		panel_4.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		
+		JPanel panel_9 = new JPanel();
+		panel_4.add(panel_9, "cell 0 0,grow");
+		
+		JLabel lblDescription = new JLabel("Description");
+		panel_9.add(lblDescription);
+		
+		JPanel panel_8 = new JPanel();
+		panel_4.add(panel_8, "cell 1 0,grow");
+		
+		JLabel lblDueDate = new JLabel("Due Date");
+		panel_8.add(lblDueDate);
+		
+		JPanel panel_3 = new JPanel();
+		add(panel_3, "cell 0 2,grow");
+		panel_3.setLayout(new MigLayout("", "[489.00,grow][493.00,grow]", "[grow]"));
+		
+		JPanel panel_11 = new JPanel();
+		panel_3.add(panel_11, "cell 0 0,grow");
+		panel_11.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		panel_11.add(textArea, "cell 0 0,grow");
+		
+		JPanel panel_10 = new JPanel();
+		panel_3.add(panel_10, "cell 1 0,grow");
+		
+		JComboBox comboBox = new JComboBox();
+		panel_10.add(comboBox);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		panel_10.add(comboBox_1);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		panel_10.add(comboBox_2);
 		
 		JPanel panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 0;
-		add(panel_2, gbc_panel_2);
+		add(panel_2, "cell 0 3,grow");
+		panel_2.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		panel_2.add(lblNewLabel);
+		JPanel panel_13 = new JPanel();
+		panel_2.add(panel_13, "cell 0 0,grow");
+		
+		JLabel lblAssignee = new JLabel("Assignee:");
+		panel_13.add(lblAssignee);
+		
+		JComboBox comboBox_3 = new JComboBox();
+		panel_13.add(comboBox_3);
+		
+		JPanel panel_12 = new JPanel();
+		panel_2.add(panel_12, "cell 1 0,grow");
+		
+		JLabel lblRelatedRequirement = new JLabel("Related Requirement:");
+		panel_12.add(lblRelatedRequirement);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		panel_12.add(comboBox_4);
 		
 		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
-		add(panel_1, gbc_panel_1);
+		add(panel_1, "cell 0 4,grow");
+		panel_1.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		panel_1.add(lblNewLabel_1);
+		JPanel panel_15 = new JPanel();
+		panel_1.add(panel_15, "cell 0 0,grow");
+		
+		JPanel panel_14 = new JPanel();
+		panel_1.add(panel_14, "cell 1 0,grow");
 		
 		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 2;
-		add(panel, gbc_panel);
+		add(panel, "cell 0 5,grow");
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnCreate = new JButton("Create");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Clicked Create Button");
+			}
+		});
+		panel.add(btnCreate);
+		
+		JButton btnCancel = new JButton("Cancel");
+		panel.add(btnCancel);
 
 	}
 
