@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 public class Task extends AbstractModel implements ITask {
 
 	private int id;
@@ -173,6 +175,11 @@ public class Task extends AbstractModel implements ITask {
 		return this.activityList;
 	}
 
+	public static Task fromJson(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, Task.class);
+    }
+
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
@@ -187,8 +194,7 @@ public class Task extends AbstractModel implements ITask {
 
 	@Override
 	public String toJson() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Gson().toJson(this, Task.class);
 	}
 
 	@Override
@@ -196,6 +202,5 @@ public class Task extends AbstractModel implements ITask {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
