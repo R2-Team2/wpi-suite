@@ -17,9 +17,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+
 public class CreateNewTaskPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtEnterTitle;
 	private JTextField txtEnterEffort;
+	private JTextArea txtEnterDescription;
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 
 	/**
@@ -78,9 +85,9 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_3.add(panel_11, "cell 0 0,grow");
 		panel_11.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		panel_11.add(textArea, "cell 0 0,grow");
+		txtEnterDescription = new JTextArea();
+		txtEnterDescription.setLineWrap(true);
+		panel_11.add(txtEnterDescription, "cell 0 0,grow");
 		
 		JPanel panel_10 = new JPanel();
 		panel_3.add(panel_10, "cell 1 0,grow");
@@ -146,11 +153,7 @@ public class CreateNewTaskPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
 			}
 		});
-		btnCreate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
-			}
-		});
+		btnCreate.addActionListener(new AddTaskController(this));
 		panel.add(btnCreate);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -161,6 +164,22 @@ public class CreateNewTaskPanel extends JPanel {
 		});
 		panel.add(btnCancel);
 
+	}
+	
+	/**
+	 * Returns the JTextField holding the title information
+	 * @return JTextField
+	 */
+	public JTextField getTitle() {
+		return txtEnterTitle;
+	}
+	
+	/**
+	 * Returns the JTextArea holding the description information
+	 * @return JTextArea
+	 */
+	public JTextArea getDescription() {
+		return txtEnterDescription;
 	}
 
 }

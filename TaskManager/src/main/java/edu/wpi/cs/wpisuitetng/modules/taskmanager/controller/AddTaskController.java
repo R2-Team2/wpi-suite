@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.BoardPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
@@ -39,16 +39,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddTaskController implements ActionListener {
 	
-	private final PostBoardModel model;
-	private final BoardPanel view;
+	private final CreateNewTaskPanel view;
 	
 	/**
 	 * Construct an AddTaskController for the given model, view pair
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddTaskController(PostBoardModel model, BoardPanel view) {
-		this.model = model;
+	public AddTaskController(CreateNewTaskPanel view) {
 		this.view = view;
 	}
 
@@ -61,14 +59,16 @@ public class AddTaskController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		List<User> userList = new ArrayList<User>();
 		Date date = new Date();
-		int id = 14;
-		String title = "Title";
+		int id = (int)(Math.random() * 1000);
+		String title = view.getTitle().getText();
+		String description = view.getDescription().getText();
 		
 		
 		// Get the text that was entered
 		//String message = view.getTxtNewMessage().getText();
-		Task newTask = new Task(id, title, "Description", userList, 0, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
+		Task newTask = new Task(id, title, description, userList, 0, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
 		
+		System.out.println("Created task successfully");
 		
 		// Make sure there is text
 		if (/*message.length() > 0*/true) {
@@ -80,14 +80,7 @@ public class AddTaskController implements ActionListener {
 			request.setBody(newTask.toJson()); // put the new message in the body of the request
 			request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
+			System.out.println("Sent task to database");
 		}
-	}
-
-	/**
-	 * When the new message is received back from the server, add it to the local model.
-	 * @param message
-	 */
-	public void addMessageToModel(PostBoardMessage message) {
-		model.addMessage(message);
 	}
 }
