@@ -26,11 +26,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * 
  * @author Chris Casola
  */
-public class GetMessagesController implements ActionListener {
+public class GetTasksController implements ActionListener {
     
     private final PostBoardModel model;
     
-    public GetMessagesController(PostBoardModel model) {
+    public GetTasksController(PostBoardModel model) {
         this.model = model;
     }
     
@@ -38,14 +38,14 @@ public class GetMessagesController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Send a request to the core to save this message
         final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
-        request.addObserver(new GetMessagesRequestObserver(this)); // add an observer to process the response
+        request.addObserver(new GetTasksRequestObserver(this)); // add an observer to process the response
         request.send(); // send the request
     }
     
     /**
      * Add the given messages to the local model (they were received from the
      * core).
-     * This method is called by the GetMessagesRequestObserver
+     * This method is called by the GetTasksRequestObserver
      * 
      * @param messages an array of messages received from the server
      */

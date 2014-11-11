@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddMessageController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 
 /**
@@ -85,7 +85,7 @@ public class BoardPanel extends JPanel {
         lstBoard.setFont(lstBoard.getFont().deriveFont(11));
         
         // Construct the add message controller and add it to the submit button
-        btnSubmit.addActionListener(new AddMessageController(lstBoardModel, this));
+        btnSubmit.addActionListener(new AddTaskController(lstBoardModel, this));
         
         // Set the layout manager of this panel that controls the positions of the components
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS)); // components will  be arranged vertically
