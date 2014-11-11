@@ -70,4 +70,8 @@ public class ViewEventController {
         main.repaint();
         main.setSelectedComponent(newTask);
     }
+    
+    public void removeTab() {
+    	main.removeTabAt(main.getSelectedIndex());
+    }
 }

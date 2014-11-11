@@ -31,9 +31,11 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 @SuppressWarnings("serial")
 public class MainView extends JTabbedPane {
     
+	
     private final JPopupMenu popup = new JPopupMenu();
     private JMenuItem closeAll = new JMenuItem("Close All Tabs");
     private JMenuItem closeOthers = new JMenuItem("Close Others");
+    
     
     /**
      * Construct the panel. There is some test text inside the panel.
@@ -72,6 +74,7 @@ public class MainView extends JTabbedPane {
                     popup.show(e.getComponent(), e.getX(), e.getY());
             }
         });
+        
         
     	/*
     	JLabel testLabel = new JLabel();

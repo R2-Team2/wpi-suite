@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 public class CreateNewTaskPanel extends JPanel {
 	private JTextField txtEnterTitle;
 	private JTextField txtEnterEffort;
+	private ViewEventController viewEventController = ViewEventController.getInstance();
 
 	/**
 	 * Create the panel.
@@ -47,6 +48,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_6.add(lblEstimatedEffort);
 		
 		txtEnterEffort = new JTextField();
+		txtEnterEffort.setEnabled(false);
 		txtEnterEffort.setToolTipText("");
 		panel_6.add(txtEnterEffort);
 		txtEnterEffort.setColumns(10);
@@ -83,12 +85,15 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_3.add(panel_10, "cell 1 0,grow");
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setEnabled(false);
 		panel_10.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setEnabled(false);
 		panel_10.add(comboBox_1);
 		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setEnabled(false);
 		panel_10.add(comboBox_2);
 		
 		JPanel panel_2 = new JPanel();
@@ -102,6 +107,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_13.add(lblAssignee);
 		
 		JComboBox comboBox_3 = new JComboBox();
+		comboBox_3.setEnabled(false);
 		panel_13.add(comboBox_3);
 		
 		JPanel panel_12 = new JPanel();
@@ -111,6 +117,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_12.add(lblRelatedRequirement);
 		
 		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setEnabled(false);
 		panel_12.add(comboBox_4);
 		
 		JPanel panel_1 = new JPanel();
@@ -130,12 +137,17 @@ public class CreateNewTaskPanel extends JPanel {
 		JButton btnCreate = new JButton("Create");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked Create Button");
+				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
 			}
 		});
 		panel.add(btnCreate);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewEventController.removeTab();
+			}
+		});
 		panel.add(btnCancel);
 
 	}
