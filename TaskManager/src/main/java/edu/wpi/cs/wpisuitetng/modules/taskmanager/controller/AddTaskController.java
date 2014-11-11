@@ -20,6 +20,7 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.BoardPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;

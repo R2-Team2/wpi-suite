@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class CreateNewTaskPanel extends JPanel {
 	private JTextField txtEnterTitle;
@@ -85,14 +86,17 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_3.add(panel_10, "cell 1 0,grow");
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Day", "1", "2", "3"}));
 		comboBox.setEnabled(false);
 		panel_10.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
 		comboBox_1.setEnabled(false);
 		panel_10.add(comboBox_1);
 		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Year", "2014", "2015", "2016"}));
 		comboBox_2.setEnabled(false);
 		panel_10.add(comboBox_2);
 		
@@ -107,6 +111,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_13.add(lblAssignee);
 		
 		JComboBox comboBox_3 = new JComboBox();
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Username"}));
 		comboBox_3.setEnabled(false);
 		panel_13.add(comboBox_3);
 		
@@ -117,6 +122,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_12.add(lblRelatedRequirement);
 		
 		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Requirement"}));
 		comboBox_4.setEnabled(false);
 		panel_12.add(comboBox_4);
 		
@@ -135,6 +141,11 @@ public class CreateNewTaskPanel extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnCreate = new JButton("Create");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
+			}
+		});
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
