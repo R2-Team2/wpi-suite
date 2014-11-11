@@ -14,33 +14,39 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.BoardPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller responds when the user clicks the Submit button by
- * adding the contents of the message text field to the model as a new
- * message.
+ * adding the contents of the task text field to the model as a new
+ * task.
  * 
- * @author Chris Casola
+ * @author R2-Team2
  *
  */
-public class AddMessageController implements ActionListener {
+public class AddTaskController implements ActionListener {
 	
 	private final PostBoardModel model;
 	private final BoardPanel view;
 	
 	/**
-	 * Construct an AddMessageController for the given model, view pair
+	 * Construct an AddTaskController for the given model, view pair
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddMessageController(PostBoardModel model, BoardPanel view) {
+	public AddTaskController(PostBoardModel model, BoardPanel view) {
 		this.model = model;
 		this.view = view;
 	}
@@ -52,18 +58,26 @@ public class AddMessageController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		List<User> userList = new ArrayList<User>();
+		Date date = new Date();
+		int id = 14;
+		String title = "Title";
+		
+		
 		// Get the text that was entered
-		String message = view.getTxtNewMessage().getText();
+		//String message = view.getTxtNewMessage().getText();
+		Task newTask = new Task(id, title, "Description", userList, 0, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
+		
 		
 		// Make sure there is text
-		if (message.length() > 0) {
+		if (/*message.length() > 0*/true) {
 			// Clear the text field
-			view.getTxtNewMessage().setText("");
+			//view.getTxtNewMessage().setText("");
 			
 			// Send a request to the core to save this message
-			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
-			request.setBody(new PostBoardMessage(message).toJson()); // put the new message in the body of the request
-			request.addObserver(new AddMessageRequestObserver(this)); // add an observer to process the response
+			final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
+			request.setBody(newTask.toJson()); // put the new message in the body of the request
+			request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
 	}

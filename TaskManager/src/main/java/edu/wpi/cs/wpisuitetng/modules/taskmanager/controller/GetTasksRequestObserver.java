@@ -22,11 +22,11 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * 
  * @author Chris Casola
  */
-public class GetMessagesRequestObserver implements RequestObserver {
+public class GetTasksRequestObserver implements RequestObserver {
     
-    private GetMessagesController controller;
+    private GetTasksController controller;
     
-    public GetMessagesRequestObserver(GetMessagesController controller) {
+    public GetTasksRequestObserver(GetTasksController controller) {
         this.controller = controller;
     }
     
@@ -61,7 +61,7 @@ public class GetMessagesRequestObserver implements RequestObserver {
     /**
      * @return the controller
      */
-    public GetMessagesController getController() {
+    public GetTasksController getController() {
         return this.controller;
     }
 }
