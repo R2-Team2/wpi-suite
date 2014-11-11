@@ -62,13 +62,15 @@ public class AddTaskController implements ActionListener {
 		int id = (int)(Math.random() * 1000);
 		String title = view.getTitle().getText();
 		String description = view.getDescription().getText();
+		int effort = Integer.parseInt(view.getEffort().getText());
 		
 		
 		// Get the text that was entered
 		//String message = view.getTxtNewMessage().getText();
-		Task newTask = new Task(id, title, description, userList, 0, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
+		Task newTask = new Task(id, title, description, userList, effort, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
 		
 		System.out.println("Created task successfully");
+		
 		
 		// Make sure there is text
 		if (/*message.length() > 0*/true) {

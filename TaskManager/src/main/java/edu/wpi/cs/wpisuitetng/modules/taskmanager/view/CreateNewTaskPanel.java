@@ -56,7 +56,7 @@ public class CreateNewTaskPanel extends JPanel {
 		panel_6.add(lblEstimatedEffort);
 		
 		txtEnterEffort = new JTextField();
-		txtEnterEffort.setEnabled(false);
+		txtEnterEffort.setEnabled(true);
 		txtEnterEffort.setToolTipText("");
 		panel_6.add(txtEnterEffort);
 		txtEnterEffort.setColumns(10);
@@ -182,4 +182,7 @@ public class CreateNewTaskPanel extends JPanel {
 		return txtEnterDescription;
 	}
 
+	public JTextField getEffort(){
+		return txtEnterEffort;
+	}
 }
