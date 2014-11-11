@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
+
 @SuppressWarnings("serial")
 public class WorkFlowView extends JPanel {
 	private JTextField txtText;
@@ -32,26 +34,10 @@ public class WorkFlowView extends JPanel {
 		this.add(taskStatusPanel, BorderLayout.CENTER);
 		taskStatusPanel.setLayout(new GridLayout(1, 4, 0, 0));
 		
-		txt1 = new JTextField();
-		txt1.setText("The thing");
-		taskStatusPanel.add(txt1);
-		txt1.setColumns(10);
-		
-		txt2 = new JTextField();
-		txt2.setText("The Other thing");
-		taskStatusPanel.add(txt2);
-		txt2.setColumns(10);
-		
-		txt3 = new JTextField();
-		txt3.setText("The Thing that Works");
-		taskStatusPanel.add(txt3);
-		txt3.setColumns(10);
-		
-		txt4 = new JTextField();
-		txt4.setText("Something Else");
-		taskStatusPanel.add(txt4);
-		txt4.setColumns(10);
-		
+		taskStatusPanel.add(new TaskStatusView());
+		taskStatusPanel.add(new TaskStatusView());
+		taskStatusPanel.add(new TaskStatusView());
+		taskStatusPanel.add(new TaskStatusView());
 		
 	}
 
