@@ -62,7 +62,8 @@ public class MainView extends JTabbedPane {
         });
 
         WorkFlowView myWorkFlowView = new WorkFlowView();
-        this.add(myWorkFlowView);
+        //this.add(myWorkFlowView);
+        this.addTab("Work Flow", null, myWorkFlowView, "Work Flow");
         /*
         // Add Workflow JPanel here, currently test code
         JPanel testPanel = new JPanel();
