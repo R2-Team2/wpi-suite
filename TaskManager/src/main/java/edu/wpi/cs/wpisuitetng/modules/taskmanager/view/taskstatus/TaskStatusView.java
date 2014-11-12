@@ -23,10 +23,6 @@ import javax.swing.ScrollPaneConstants;
 
 import java.awt.Font;
 import java.util.ArrayList;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 
 public class TaskStatusView extends JPanel {
 

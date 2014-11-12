@@ -25,11 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  */
 @SuppressWarnings("serial")
 public class MainView extends JTabbedPane {
-
     private final JPopupMenu popup = new JPopupMenu();
     private JMenuItem closeAll = new JMenuItem("Close All Tabs");
     private JMenuItem closeOthers = new JMenuItem("Close Others");
-
     /**
      * Construct the panel. There is some test text inside the panel.
      */
@@ -62,16 +60,7 @@ public class MainView extends JTabbedPane {
         });
 
         WorkFlowView myWorkFlowView = new WorkFlowView();
-        //this.add(myWorkFlowView);
         this.addTab("Work Flow", null, myWorkFlowView, "Work Flow");
-        /*
-        // Add Workflow JPanel here, currently test code
-        JPanel testPanel = new JPanel();
-        testPanel.setLayout(new BorderLayout());
-        JTextField workflowPanel = new JTextField("Workflow Panel Here");
-        testPanel.add(workflowPanel, BorderLayout.CENTER);
-        this.add(testPanel);
-		*/
     }
 
 }

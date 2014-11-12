@@ -13,7 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.GetMessagesController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.GetTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 
 /**
@@ -41,7 +41,7 @@ public class ToolbarPanel extends JPanel {
         btnRefresh = new JButton("Refresh");
         
         // Add the get messages controller to the button
-        btnRefresh.addActionListener(new GetMessagesController(boardModel));
+        btnRefresh.addActionListener(new GetTasksController(boardModel));
         
         // Add the button to this panel
         // add(btnRefresh);

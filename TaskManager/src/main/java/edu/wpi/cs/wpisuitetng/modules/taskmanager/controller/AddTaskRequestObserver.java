@@ -21,11 +21,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * 
  * @author Chris Casola
  */
-public class AddMessageRequestObserver implements RequestObserver {
+public class AddTaskRequestObserver implements RequestObserver {
     
-    private final AddMessageController controller;
+    private final AddTaskController controller;
     
-    public AddMessageRequestObserver(AddMessageController controller) {
+    public AddTaskRequestObserver(AddTaskController controller) {
         this.controller = controller;
     }
     
@@ -40,12 +40,6 @@ public class AddMessageRequestObserver implements RequestObserver {
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
-        
-        // Parse the message out of the response body
-        final PostBoardMessage message = PostBoardMessage.fromJson(response.getBody());
-        
-        // Pass the messages back to the controller
-        controller.addMessageToModel(message);
     }
     
     @Override
@@ -63,7 +57,7 @@ public class AddMessageRequestObserver implements RequestObserver {
     /**
      * @return the controller
      */
-    public AddMessageController getController() {
+    public AddTaskController getController() {
         return this.controller;
     }
 }

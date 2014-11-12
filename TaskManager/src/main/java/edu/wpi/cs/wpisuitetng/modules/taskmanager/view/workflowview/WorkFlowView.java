@@ -11,10 +11,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 import net.miginfocom.swing.MigLayout;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.SpringLayout;
 
 @SuppressWarnings("serial")
