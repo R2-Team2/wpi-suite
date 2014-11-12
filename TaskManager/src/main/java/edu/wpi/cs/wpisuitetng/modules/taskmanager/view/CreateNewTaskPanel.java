@@ -150,10 +150,15 @@ public class CreateNewTaskPanel extends JPanel {
 		JButton btnCreate = new JButton("Create");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
+				//JOptionPane.showMessageDialog(null, txtEnterTitle.getText());
 			}
 		});
 		btnCreate.addActionListener(new AddTaskController(this));
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewEventController.removeTab();
+			}
+		});
 		panel.add(btnCreate);
 		
 		JButton btnCancel = new JButton("Cancel");
