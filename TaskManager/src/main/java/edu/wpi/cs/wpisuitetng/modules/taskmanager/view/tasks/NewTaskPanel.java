@@ -14,10 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-/**
- * @author dbogatov
- *
- */
+
 public class NewTaskPanel extends JPanel {
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 	

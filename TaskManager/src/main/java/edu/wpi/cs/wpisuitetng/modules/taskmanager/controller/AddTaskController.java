@@ -33,9 +33,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the Submit button by
  * adding the contents of the task text field to the model as a new
  * task.
- * 
- * @author R2-Team2
- *
  */
 public class AddTaskController implements ActionListener {
 	

@@ -16,10 +16,6 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 
-/**
- * @author Lucine Bahtiarian
- *
- */
 public class CreateNewClass implements ICreateNewTask {
 
 	/* (non-Javadoc)

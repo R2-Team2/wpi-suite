@@ -21,13 +21,10 @@ import javax.swing.AbstractListModel;
  * to be displayed on the board. It extends AbstractListModel so that
  * it can provide the model data to the JList component in the BoardPanel.
  * 
- * @author Chris Casola
  */
 public class PostBoardModel extends AbstractListModel {
     
-    /**
-     * 
-     */
+   
     private static final long serialVersionUID = -8385236147593098321L;
     
     /** The list of messages on the board */

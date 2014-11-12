@@ -23,10 +23,7 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-/**
- * @author dbogatov
- *
- */
+
 public class TaskButtonsPanel extends ToolbarGroupView {
 	// initialize the main view toolbar buttons
 		private final JButton createButton = new JButton("<html>Create<br />Task</html>");
