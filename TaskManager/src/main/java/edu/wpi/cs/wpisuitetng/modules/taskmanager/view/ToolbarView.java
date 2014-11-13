@@ -1,0 +1,45 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors: Team R2-Team2
+ ******************************************************************************/
+
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
+
+import javax.swing.JToolBar;
+
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons.TaskButtonsPanel;
+
+
+/**
+ * This is the toolbar for the Task Manager module
+ */
+@SuppressWarnings("serial")
+public class ToolbarView extends DefaultToolbarView {
+    
+	public TaskButtonsPanel newButton = new TaskButtonsPanel();
+    
+    /**
+     * Construct this view and prevent it from being moved
+     */
+    public ToolbarView() {
+        
+        // Prevent this toolbar from being moved
+        setFloatable(false);
+        this.addGroup(newButton);
+        
+    }
+    
+    /**
+	 * Method getNewButton.
+	
+	 * @return TaskButtonsPanel */
+	public TaskButtonsPanel getReqButton() {
+		return newButton;
+	}
+    
+}
