@@ -9,6 +9,8 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
@@ -20,7 +22,12 @@ public class NewTaskPanel extends JPanel {
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 	
 	public NewTaskPanel() {
-
+		
+		CreateNewTaskPanel mainPanel = new CreateNewTaskPanel();
+		this.add(mainPanel);
+		//JLabel testLabel = new JLabel();
+    	//testLabel.setText("We're 80% done, Your Excellence!");
+    	//this.add(testLabel);
 	}
 	
 }

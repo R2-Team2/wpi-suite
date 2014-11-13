@@ -1,6 +1,6 @@
 dependencies{
 
-	compile group:'com.miglayout', name:'miglayout', version:'3.7.4'	
+    compile group:'com.miglayout', name:'miglayout', version:'3.7.4'
 
     compile project(':Network')
     compile project(':WPISuite-Interfaces')

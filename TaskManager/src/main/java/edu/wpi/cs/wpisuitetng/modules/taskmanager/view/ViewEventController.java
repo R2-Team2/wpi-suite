@@ -51,13 +51,27 @@ public class ViewEventController {
     }
 	
     /**
+     * Sets the main view to the given view.
+     * 
+     * @param mainview MainView
+     */
+    public void setMainView(MainView mainview) {
+        main = mainview;
+    }
+    
+    /**
      * Opens a new tab for the creation of a requirement.
      */
-    public void createRequirement() {
+    public void createTask() {
     	NewTaskPanel newTask = new NewTaskPanel();
-        main.addTab("New Task", null, newTask, "New Requirement");
+        
+    	main.addTab("New Task", null, newTask, "New Task");
         main.invalidate(); //force the tabbedpane to redraw.
         main.repaint();
         main.setSelectedComponent(newTask);
+    }
+    
+    public void removeTab() {
+    	main.removeTabAt(main.getSelectedIndex());
     }
 }
