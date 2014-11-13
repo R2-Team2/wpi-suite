@@ -6,11 +6,13 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractListModel;
+
 /**
  * @author pluxsuwong
  * This class contains the fields and methods for the Taskstatus
  */
-public class TaskStatus {
+public class TaskStatus extends AbstractListModel {
 	
 	private String name;
 	private List<String> taskList;
@@ -57,4 +59,29 @@ public class TaskStatus {
     public void setTaskList(List<String> taskList) {
     	this.taskList = taskList;
     }
+    
+    /**
+     * Adds a task to the tasklist
+     * @param task String
+     */
+    public void addTask(String task) {
+    	this.taskList.add(task);
+    }
+    
+    /**
+     * Removes a task from the tasklist
+     * @param task String
+     */
+    public void remTask(String task) {
+    	this.taskList.remove(task);
+    }
+    
+    public int getSize() {
+    	return this.taskList.size();
+    }
+    
+    public String getElementAt(int index) {
+    	return this.taskList.get(index);
+    }
+    
 }
