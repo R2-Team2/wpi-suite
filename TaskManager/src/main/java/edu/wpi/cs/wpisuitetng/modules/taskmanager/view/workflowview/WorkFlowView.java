@@ -15,12 +15,8 @@ import javax.swing.SpringLayout;
 
 @SuppressWarnings("serial")
 public class WorkFlowView extends JPanel {
-	private JTextField txtText;
+	private String title;
 	private JPanel taskStatusPanel;
-	private JTextField txt1;
-	private JTextField txt2;
-	private JTextField txt3;
-	private JTextField txt4;
 
 	/**
 	 * Create the panel.
@@ -28,13 +24,6 @@ public class WorkFlowView extends JPanel {
 	public WorkFlowView() {
 		
 		setLayout(new BorderLayout());
-		
-		txtText = new JTextField();
-		txtText.setText("Default Work Flow View");
-		txtText.setEditable(false);
-		this.add(txtText, BorderLayout.NORTH);
-		txtText.setColumns(20);
-		
 		taskStatusPanel = new JPanel();
 		this.add(taskStatusPanel, BorderLayout.CENTER);
 		TaskStatusView taskStatusNew = new TaskStatusView("New");
