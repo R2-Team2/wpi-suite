@@ -8,26 +8,101 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
+import java.awt.BorderLayout;
 
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
- * @author dbogatov
+ * @author R2-Team2
  *
  */
+@SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
+
+	private NewTaskInformationPanel infoPanel;
+    private NewTaskButtonPanel buttonPanel;
+    
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 	
+	/**
+	 * Constructor for the NewTaskPanel
+	 */
 	public NewTaskPanel() {
 		
-		CreateNewTaskPanel mainPanel = new CreateNewTaskPanel();
-		this.add(mainPanel);
-		//JLabel testLabel = new JLabel();
-    	//testLabel.setText("We're 80% done, Your Excellence!");
-    	//this.add(testLabel);
+		this.buildLayout();
+		
+	}
+	
+	/**
+	 * Creates the GUI for the NewTaskPanel
+	 */
+	private void buildLayout() {
+        buttonPanel = new NewTaskButtonPanel(this);
+        infoPanel = new NewTaskInformationPanel(this);
+        JPanel j = new JPanel();
+
+        JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, infoPanel, j);
+
+        this.setLayout(new BorderLayout());
+        this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
+        this.add(buttonPanel, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Called when the Create Button is pressed
+	 * Creates a Task from the NewTask Info
+	 */
+	public void createPressed() {
+		new AddTaskController(this);
+		viewEventController.removeTab();
+	}
+	
+	/**
+	 * Called when the Cancel Button is pressed
+	 * Closes out the NewTask Tab
+	 */
+	public void cancelPressed() {
+		viewEventController.removeTab();
+	}
+	
+	/**
+	 * Returns the JTextField holding the title information
+	 * @return JTextField
+	 */
+	public JTextField getTitle() {
+		return infoPanel.getTitle();
+	}
+	
+	/**
+	 * Returns the JTextArea holding the description information
+	 * @return JTextArea
+	 */
+	public JTextArea getDescription() {
+		return infoPanel.getDescription();
+	}
+	
+	/**
+	 * Retrieves the Estimated Effort Spinner from infoPanel
+	 * @return JSpinner The Spinner for Estimated Effort
+	 */
+	public JSpinner getEstimatedEffort(){
+		return infoPanel.getEstimatedEffort();
+	}
+	
+	/**
+	 * Retrieves the Actual Effort Spinner from infoPanel
+	 * @return JSpinner The Spinner for Actual Effort
+	 */
+	public JSpinner getActualEffort(){
+		return infoPanel.getActualEffort();
 	}
 	
 }
