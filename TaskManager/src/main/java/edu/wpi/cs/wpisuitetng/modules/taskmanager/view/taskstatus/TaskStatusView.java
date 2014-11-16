@@ -36,16 +36,17 @@ import java.awt.event.KeyEvent;
 public class TaskStatusView extends JPanel {
 
 	TaskStatus taskStatusObj;
+	JTextPane txtpnTitle = new JTextPane();
 	JPanel panel = new JPanel();
 	
 	/**
 	 * Create the panel.
 	 */
 	public TaskStatusView(String title) {
-		this.taskStatusObj = new TaskStatus(title);
+		
 		setLayout(new MigLayout("", "[236px]", "[26px][200px,grow 500]"));
 		
-		JTextPane txtpnTitle = new JTextPane();
+		this.taskStatusObj = new TaskStatus(title);
 		txtpnTitle.setForeground(new Color(0, 0, 0));
 		txtpnTitle.setEditable(false);
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(txtpnTitle.getFont().getSize() + 5f));
@@ -58,19 +59,19 @@ public class TaskStatusView extends JPanel {
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
-		taskStatusObj.addTask("Go to sleep with a really long title that's kind of boring");
-		taskStatusObj.addTask("Help Team");
-		taskStatusObj.addTask("Get Ready");
-		taskStatusObj.addTask("Aww Yeah");
-		taskStatusObj.addTask("Fun Fun");
-		taskStatusObj.addTask("Get Crunk");
+		PopulateTaskStatusViewCards();
+	}
+	
+	
+	/**
+	 * Populate TaskStatusView with Cards Associated with the Status
+	 */
+	public void PopulateTaskStatusViewCards(){
+		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
 		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
 			TaskCard card = new TaskCard();
 			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
 			panel.add(card, "newline");
-			System.out.println("Adding Card to Panel");
 		}
 	}
 }
-
-

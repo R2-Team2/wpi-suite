@@ -44,7 +44,8 @@ import javax.swing.border.BevelBorder;
 
 public class TaskCard extends JPanel {
 
-	JTextPane taskName = new JTextPane();	
+	JTextPane taskName = new JTextPane();
+	
 	/**
 	 * Create the panel.
 	 */
