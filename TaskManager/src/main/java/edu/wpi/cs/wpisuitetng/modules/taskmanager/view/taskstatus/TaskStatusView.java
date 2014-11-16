@@ -2,6 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JTextPane;
@@ -34,6 +36,7 @@ import java.awt.event.KeyEvent;
 public class TaskStatusView extends JPanel {
 
 	TaskStatus taskStatusObj;
+	JPanel panel = new JPanel();
 	
 	/**
 	 * Create the panel.
@@ -48,15 +51,26 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(txtpnTitle.getFont().getSize() + 5f));
 		txtpnTitle.setText(this.taskStatusObj.getName());
 		add(txtpnTitle, "cell 0 0,alignx left,aligny top");
-
-		JList scrollableList = new JList(this.taskStatusObj);
-		JScrollPane scrollPane = new JScrollPane(scrollableList);
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPane, "cell 0 1,grow");
 		
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
+		taskStatusObj.addTask("Go to sleep with a really long title that's kind of boring");
+		taskStatusObj.addTask("Help Team");
+		taskStatusObj.addTask("Get Ready");
+		taskStatusObj.addTask("Aww Yeah");
+		taskStatusObj.addTask("Fun Fun");
+		taskStatusObj.addTask("Get Crunk");
+		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
+			TaskCard card = new TaskCard();
+			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
+			panel.add(card, "newline");
+			System.out.println("Adding Card to Panel");
+		}
 	}
-
 }
 
 

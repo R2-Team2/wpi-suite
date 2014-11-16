@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 /**
  * @author pluxsuwong
  * This class contains the fields and methods for the Taskstatus

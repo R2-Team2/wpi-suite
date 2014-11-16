@@ -44,6 +44,7 @@ import javax.swing.border.BevelBorder;
 
 public class TaskCard extends JPanel {
 
+	JTextPane taskName = new JTextPane();	
 	/**
 	 * Create the panel.
 	 */
@@ -51,7 +52,7 @@ public class TaskCard extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 		
-		JTextPane taskName = new JTextPane();	
+		
 		taskName.setText("This text will represent a title in the near future!");
 		taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		taskName.setBackground(UIManager.getColor("Button.background"));
@@ -68,6 +69,10 @@ public class TaskCard extends JPanel {
 		JLabel username = new JLabel("mcforman...");
 		username.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		infoPanel.add(username, "cell 1 0,alignx right");
+	}
+	
+	public void setTaskCardName(String name){
+		taskName.setText(name);
 	}
 
 }
