@@ -13,14 +13,20 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
+import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
 import edu.wpi.cs.wpisuitetng.database.Data;
 
 public class TaskEntityManager implements EntityManager<Task> {
@@ -54,31 +60,24 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 */
 	@Override
 	public Task[] getEntity(Session s, String id) throws NotFoundException,
-			WPISuiteException {
-		List<Model> tasks = db.retrieveAll(new Task(Integer.parseInt(id), id,
-				id, null, 0, 0, null, null, 0, null), s.getProject());
+	WPISuiteException {
+		List<Model> tasks = db.retrieve(Task.class, "id", Integer.parseInt(id), s.getProject());
 		return tasks.toArray(new Task[0]);
 	}
 
-	/*
-	 * Returns all of the tasks that have been stored.
-	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng
-	 * .Session)
+	/**
+	 * Retrieves all Tasks from the given session database
+	 * @param s Session which is querying the server
+	 * @return all Tasks in the session database
 	 */
 	@Override
 	public Task[] getAll(Session s) throws WPISuiteException {
-		// Ask the database to retrieve all objects of the type
-		// PostBoardMessage.
-		// Passing a dummy PostBoardMessage lets the db know what type of object
-		// to retrieve
-		// Passing the project makes it only get messages from that project
-		List<Model> messages = db.retrieveAll(new Task(0, null, null, null, 0,
+		//Retrieve all Tasks (no arguments specified)
+		List<Model> tasks = db.retrieveAll(new Task(0, null, null, null, 0,
 				0, null, null, 0, null), s.getProject());
 
-		// Return the list of messages as an array
-		return messages.toArray(new Task[0]);
+		//Convert the List into an array
+		return tasks.toArray(new Task[0]);
 	}
 
 	/*
@@ -88,10 +87,23 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 */
 	@Override
 	public Task update(Session s, String content) throws WPISuiteException {
-		// TODO
-		// This module does not allow PostBoardMessages to be modified, so throw
-		// an exception
-		throw new WPISuiteException();
+		Task updatedTask = Task.fromJson(content);
+
+		// Retrieve the original Task
+		List<Model> oldTasks = db.retrieve(Task.class, "id", updatedTask.getID(), s.getProject());
+		if(oldTasks.size() < 1 || oldTasks.get(0) == null) {
+			throw new BadRequestException("Task with ID does not exist.");
+		}
+
+		// Update the original Task with new values
+		Task existingTask = (Task)oldTasks.get(0);		
+		existingTask.update(updatedTask);
+
+		// Save the original Task, now updated
+		if(!db.save(existingTask, s.getProject())) {
+			throw new WPISuiteException();
+		}
+		return existingTask;
 	}
 
 	/*
@@ -104,25 +116,23 @@ public class TaskEntityManager implements EntityManager<Task> {
 		db.save(model);
 	}
 
-	/*
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.
-	 * wpisuitetng.Session, java.lang.String)
+	/**
+	 * Deletes the Task with the given id, if the session has ADMIN permissions
+	 * @param s Session which is querying the server
+	 * @param id ID number of the Task to be deleted
+	 * @return The deleted Task
+	 * @throws WPISuiteException
 	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-		// TODO
-		throw new WPISuiteException();
+		ensureRole(s, Role.ADMIN);
+		Task deletedObject = db.delete(getEntity(s, id)[0]);
+		return (deletedObject != null);
 	}
 
-	/*
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng
-	 * .Session)
-	 */
+	// TaskManager does not support deleting all tasks at once
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
-		// TODO
 		throw new WPISuiteException();
 	}
 
@@ -137,11 +147,28 @@ public class TaskEntityManager implements EntityManager<Task> {
 				.size();
 	}
 
+	/**
+	 * Gets all Tasks where the property args[0] has the value args[1]
+	 * @param s Session which is querying the server
+	 * @param args Array of arguments sent in the request
+	 * @return List of Tasks that have the desired value for the given field
+	 */
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Model> tasks;
+		if (args.length < 2) {
+			throw new WPISuiteException();
+		}
+
+		switch (args[0]) {
+		case "status":
+			tasks = db.retrieve(Task.class, "status", TaskStatus.valueOf(args[1]), s.getProject());
+			break;
+		default:
+			throw new WPISuiteException();
+		}
+		return new Gson().toJson(tasks.toArray(new Task[0]), Task[].class);
 	}
 
 	@Override
@@ -158,4 +185,17 @@ public class TaskEntityManager implements EntityManager<Task> {
 		return null;
 	}
 
+	/**
+	 * Ensures that a user is of the specified role
+	 *  Originally written for RequirementsManager, should probably be a common library
+	 * @param session the session
+	 * @param role the role being verified
+	 * @throws WPISuiteException user isn't authorized for the given role
+	 */
+	private void ensureRole(Session session, Role role) throws WPISuiteException {
+		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		if(!user.getRole().equals(role)) {
+			throw new UnauthorizedException();
+		}
+	}
 }
