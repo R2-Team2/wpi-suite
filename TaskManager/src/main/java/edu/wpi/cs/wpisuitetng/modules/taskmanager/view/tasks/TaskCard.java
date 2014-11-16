@@ -3,20 +3,35 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.border.LineBorder;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
+
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.GridLayout;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 
 public class TaskCard extends JPanel {
 
@@ -24,46 +39,27 @@ public class TaskCard extends JPanel {
 	 * Create the panel.
 	 */
 	public TaskCard() {
-		setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {300};
-		gridBagLayout.rowHeights = new int[] {100, 0, 100};
-		gridBagLayout.columnWeights = new double[]{1.0};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 1.0};
-		setLayout(gridBagLayout);
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		add(panel, gbc_panel);
+		JTextPane taskName = new JTextPane();	
+		taskName.setText("This text will represent a title in the near future!");
+		taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		taskName.setBackground(UIManager.getColor("Button.background"));
+		add(taskName, "cell 0 0,alignx center,aligny center");
 		
-		JTextPane txtpnSleeflsjsldfjDlsfJlsdj = new JTextPane();
-		txtpnSleeflsjsldfjDlsfJlsdj.setText("SLEeflsjs;ldfj dlsf jlsdj flds fkldsj fklsdj flksd jlkf dslk fklds fl dlsk fkldsf");
-		panel.add(txtpnSleeflsjsldfjDlsfJlsdj);
+		JPanel infoPanel = new JPanel();
+		add(infoPanel, "cell 0 1,grow");
+		infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 		
-		JSeparator separator = new JSeparator();
-		GridBagConstraints gbc_separator = new GridBagConstraints();
-		gbc_separator.insets = new Insets(0, 0, 5, 0);
-		gbc_separator.gridx = 0;
-		gbc_separator.gridy = 1;
-		add(separator, gbc_separator);
+		JLabel date = new JLabel("11/15/2014");
+		date.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		infoPanel.add(date, "cell 0 0,alignx left");
 		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 2;
-		add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JLabel label_1 = new JLabel("11/16/14");
-		panel_1.add(label_1);
-		
-		JLabel lblDmytro = new JLabel("Dima4ka");
-		panel_1.add(lblDmytro);
+		JLabel username = new JLabel("mcforman...");
+		username.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		infoPanel.add(username, "cell 1 0,alignx right");
+
 
 	}
 
