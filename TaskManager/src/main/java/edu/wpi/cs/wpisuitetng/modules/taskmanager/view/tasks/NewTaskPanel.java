@@ -47,12 +47,9 @@ public class NewTaskPanel extends JPanel {
 	private void buildLayout() {
         buttonPanel = new NewTaskButtonPanel(this);
         infoPanel = new NewTaskInformationPanel(this);
-        JPanel j = new JPanel();
-
-        JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, infoPanel, j);
-
+        
         this.setLayout(new BorderLayout());
-        this.add(contentPanel, BorderLayout.CENTER); // Add scroll pane to panel
+        this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	

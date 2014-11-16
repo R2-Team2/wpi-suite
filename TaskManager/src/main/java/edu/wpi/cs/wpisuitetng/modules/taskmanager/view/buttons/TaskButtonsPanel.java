@@ -63,7 +63,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				public void actionPerformed(ActionEvent e) {
 					// bring up a create task pane
 					
-					ViewEventController.getInstance().createTask();
+					//ViewEventController.getInstance().createTask();
 				}
 			});
 			
