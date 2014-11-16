@@ -75,5 +75,4 @@ public class TaskCard extends JPanel {
 	public void setTaskCardName(String name){
 		taskName.setText(name);
 	}
-
 }
