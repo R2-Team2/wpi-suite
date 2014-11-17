@@ -10,6 +10,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -17,9 +18,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 /**
  *
@@ -44,16 +47,6 @@ public class NewTaskPanel extends JPanel {
 	}
 	
 	/**
-	 * Constructor for the NewTaskPanel
-	 */
-//	public NewTaskPanel(WorkFlowSplitView parentPanel) {
-//		this.parentPanel = parentPanel;
-//		
-//		this.buildLayout();
-//		
-//	}
-	
-	/**
 	 * Creates the GUI for the NewTaskPanel
 	 */
 	private void buildLayout() {
@@ -70,9 +63,14 @@ public class NewTaskPanel extends JPanel {
 	 * Creates a Task from the NewTask Info
 	 */
 	public void createPressed() {
-		new AddTaskController(this);
-		//viewEventController.removeTab();
-		//parentPanel.hideCreateNewTaskPanel();
+		// create a task, send to to controller
+//		new AddTaskController(this);
+		AddTaskController addNewTask = new AddTaskController(this);
+		addNewTask.addTask();
+		// TODO: create task card
+		// TODO: put task card in proper task status
+		ViewEventController.getInstance().closeNewTaskPanel();
+//		parentPanel.hideCreateNewTaskPanel();
 	}
 	
 	/**
@@ -80,6 +78,7 @@ public class NewTaskPanel extends JPanel {
 	 * Closes out the NewTask Tab
 	 */
 	public void cancelPressed() {
+		ViewEventController.getInstance().closeNewTaskPanel();
 		//viewEventController.removeTab();
 		//parentPanel.hideCreateNewTaskPanel();
 	}
@@ -121,7 +120,7 @@ public class NewTaskPanel extends JPanel {
 	 * @return String
 	 */
 	public String getStatus() {
-		return (String)infoPanel.getStatus().getSelectedItem();
+		return infoPanel.getStatus().getSelectedItem().toString();
 	}
 	
 	/**
@@ -152,8 +151,8 @@ public class NewTaskPanel extends JPanel {
 	 * Retrieves the Chosen Members from infoPanel
 	 * @return String[]
 	 */
-	public String[] getAssignees() {
-		return infoPanel.getAssignees();
+	public List<User> getAssignedUsers() {
+		return infoPanel.getAssignedUsers();
 	}
 	
 }

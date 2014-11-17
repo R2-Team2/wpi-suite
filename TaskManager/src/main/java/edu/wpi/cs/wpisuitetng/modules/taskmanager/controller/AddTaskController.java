@@ -21,10 +21,10 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -35,10 +35,10 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * task.
  *
  */
-public class AddTaskController implements ActionListener {
-	
+public class AddTaskController {
+
 	private final NewTaskPanel view;
-	
+
 	/**
 	 * Construct an AddTaskController for the given model, view pair
 	 * @param model the model containing the messages
@@ -53,32 +53,34 @@ public class AddTaskController implements ActionListener {
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		List<User> userList = new ArrayList<User>();
-		Date date = new Date();
-		int id = (int)(Math.random() * 1000);
+	public void addTask() {
+		int taskID = 0; // generate task ID somehow
 		String title = view.getTitle();
 		String description = view.getDescription();
-		int effort = (int)view.getEstimatedEffort();
-		
+		int estimatedEffort = view.getEstimatedEffort();
+		int actualEffort = view.getActualEffort();
+		String status = view.getStatus();
+		String requirement = view.getRequirement();
+		Date startDate = view.getStartDate();
+		Date dueDate = view.getDueDate();
+		List<User> assignedUsers = view.getAssignedUsers();
+		System.out.println("Inside AddTaskController");
 		// Get the text that was entered
 		//String message = view.getTxtNewMessage().getText();
-		Task newTask = new Task(id, title, description, userList, effort, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
-		
-		System.out.println("Created task successfully");
-		
+		Task newTask = new Task(taskID, title, description, estimatedEffort, actualEffort, new TaskStatus(status), requirement, startDate, dueDate, assignedUsers);
+		//		System.out.println("Created task successfully");
+
 		// Make sure there is text
-		if (/*message.length() > 0*/true) {
-			// Clear the text field
-			//view.getTxtNewMessage().setText("");
-			
-			// Send a request to the core to save this message
-			final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
-			request.setBody(newTask.toJson()); // put the new message in the body of the request
-			request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
-			request.send(); // send the request
-			System.out.println("Sent task to database");
-		}
+		//		if (/*message.length() > 0*/true) {
+		// Clear the text field
+		//view.getTxtNewMessage().setText("");
+		
+		// Send a request to the core to save this message
+		final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
+		request.setBody(newTask.toJson()); // put the new message in the body of the request
+		request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+		System.out.println("Sent task to database");
+		//		}
 	}
 }

@@ -91,4 +91,8 @@ public class TaskStatus extends AbstractListModel {
     	return this.taskList.get(index);
     }
     
+    public String toString() {
+    	return this.name;
+    }
+    
 }

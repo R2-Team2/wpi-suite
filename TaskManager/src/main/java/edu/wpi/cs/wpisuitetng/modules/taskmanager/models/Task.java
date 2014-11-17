@@ -14,7 +14,9 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
+
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,29 +26,33 @@ import com.google.gson.Gson;
 
 public class Task extends AbstractModel implements ITask {
 
-	private int id;
+	private int taskID;
 	private String title;
 	private String description;
-	private List<User> assignedUsers;
 	private int estimatedEffort;
 	private int actualEffort;
-	private Date dueDate;
-	private List<String> activityList;
-	private int requirementID;
 	private TaskStatus status;
+	private String requirement;
+	private Date startDate;
+	private Date dueDate;
+	private List<User> assignedUsers;
+	private List<String> activityList;
+	
+	
 
-	public Task(int id, String title, String description, List<User> assignedUsers, int estimatedEffort, 
-			int actualEffort, Date dueDate, List<String> activityList, int requirementID, TaskStatus status) {
-		this.id = id;
+	public Task(int taskID, String title, String description, int estimatedEffort, int actualEffort, TaskStatus status,
+			String requirement, Date startDate, Date dueDate, List<User> assignedUsers) {
+		this.taskID = taskID;
 		this.title = title;
 		this.description = description;
-		this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
 		this.estimatedEffort = estimatedEffort;
 		this.actualEffort = actualEffort;
-		this.dueDate = dueDate;
-		this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
-		this.requirementID = requirementID;
 		this.status = status;
+		this.requirement = requirement;
+		this.startDate = startDate;
+		this.dueDate = dueDate;
+		this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
+		this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
 	}
 
 
@@ -82,6 +88,14 @@ public class Task extends AbstractModel implements ITask {
 		this.actualEffort = actualEffort;
 	}
 
+	public Date getStartDate() {
+		return this.startDate;
+	}
+	
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	public Date getDueDate() {
 		return this.dueDate;
 	}
@@ -90,48 +104,51 @@ public class Task extends AbstractModel implements ITask {
 		this.dueDate = dueDate;
 	}
 
-	public int getRequirementID() {
-		return this.requirementID;
+	public String getRequirement() {
+		return this.requirement;
 	}
 
-	public void setRequirementID(int requirementID) {
-		this.requirementID = requirementID;
+	public void setRequirement(String requirement) {
+		this.requirement = requirement;
 	}
 
 	public TaskStatus getStatus() {
 		return this.status;
 	}
-
+	
 	public ITask setStatus(String status) {
 		switch (status.toLowerCase()) {
 			case "new":
-				this.setStatus(TaskStatus.NEW);
+				this.setStatus(new TaskStatus("new"));
 				break;
 			case "scheduled":
-				this.setStatus(TaskStatus.SCHEDULED);
+				this.setStatus(new TaskStatus("scheduled"));
 				break;
-			case "in_progress":
-				this.setStatus(TaskStatus.IN_PROGRESS);
+			case "in progress":
+				this.setStatus(new TaskStatus("in progress"));
 				break;
 			case "complete":
-				this.setStatus(TaskStatus.COMPLETE);
+				this.setStatus(new TaskStatus("complete"));
 				break;
 			default:
 				throw new IllegalArgumentException(
 						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
-
 		}
 		return this;
 	}
-
+	
 	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 
-	public int getID() {
-		return this.id;
+	public int getTaskID() {
+		return this.taskID;
 	}
 
+	public void setTaskID(int taskID) {
+		this.taskID = taskID;
+	}
+	
 	/**
 	 * Adds a user to the assigned users.
 	 * Will not add a user that is already in the list
@@ -211,7 +228,7 @@ public class Task extends AbstractModel implements ITask {
 		this.actualEffort = updatedTask.actualEffort;
 		this.dueDate = updatedTask.dueDate;
 		this.activityList = updatedTask.activityList;
-		this.requirementID = updatedTask.requirementID;
+		this.requirement = updatedTask.requirement;
 		this.status = updatedTask.status;
 	}
 
