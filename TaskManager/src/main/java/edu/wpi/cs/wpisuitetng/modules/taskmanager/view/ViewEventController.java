@@ -58,12 +58,8 @@ public class ViewEventController {
      * Opens a new tab for the creation of a requirement.
      */
     public void createTask() {
-    	NewTaskPanel newTask = new NewTaskPanel();
+    	main.showCreateTaskView();
         
-    	main.addTab("New Task", null, newTask, "New Task");
-        main.invalidate(); //force the tabbedpane to redraw.
-        main.repaint();
-        main.setSelectedComponent(newTask);
     }
     
     /*

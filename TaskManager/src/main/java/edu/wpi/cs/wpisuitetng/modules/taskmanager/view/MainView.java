@@ -6,19 +6,16 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
@@ -28,6 +25,7 @@ public class MainView extends JTabbedPane {
     private final JPopupMenu popup = new JPopupMenu();
     private JMenuItem closeAll = new JMenuItem("Close All Tabs");
     private JMenuItem closeOthers = new JMenuItem("Close Others");
+    private WorkFlowSplitView workflow = new WorkFlowSplitView();
     /**
      * Construct the panel. There is some test text inside the panel.
      */
@@ -59,8 +57,11 @@ public class MainView extends JTabbedPane {
             }
         });
 
-        WorkFlowView myWorkFlowView = new WorkFlowView();
-        this.addTab("Work Flow", null, myWorkFlowView, "Work Flow");
+        this.addTab("Work Flow", null, workflow, "Work Flow");
+    }
+    
+    public void showCreateTaskView(){
+    	workflow.createNewTaskPanel();
     }
 
 }

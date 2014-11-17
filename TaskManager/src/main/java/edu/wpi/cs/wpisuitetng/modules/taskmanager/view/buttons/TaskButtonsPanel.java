@@ -57,13 +57,12 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				// Hopefully, won't get here
 			}
 			
-			// the action listener for the Create Requirement Button
+			// the action listener for the Create Action Button
 			createButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// bring up a create task pane
-					
-					//ViewEventController.getInstance().createTask();
+					ViewEventController.getInstance().createTask();
 				}
 			});
 			
