@@ -24,9 +24,10 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
- * @author dbogatov
+ * @author R2-Team2
  *
  */
+@SuppressWarnings("serial")
 public class TaskButtonsPanel extends ToolbarGroupView {
 	// initialize the main view toolbar buttons
 		private final JButton createButton = new JButton("<html>Create<br />Task</html>");
@@ -61,7 +62,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// bring up a create task pane
-					
 					ViewEventController.getInstance().createTask();
 				}
 			});
