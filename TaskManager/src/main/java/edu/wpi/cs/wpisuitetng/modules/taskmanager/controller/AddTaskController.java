@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -36,14 +36,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddTaskController implements ActionListener {
 	
-	private final CreateNewTaskPanel view;
+	private final NewTaskPanel view;
 	
 	/**
 	 * Construct an AddTaskController for the given model, view pair
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddTaskController(CreateNewTaskPanel view) {
+	public AddTaskController(NewTaskPanel view) {
 		this.view = view;
 	}
 
@@ -57,17 +57,15 @@ public class AddTaskController implements ActionListener {
 		List<User> userList = new ArrayList<User>();
 		Date date = new Date();
 		int id = (int)(Math.random() * 1000);
-		String title = view.getTitle().getText();
-		String description = view.getDescription().getText();
-		int effort = Integer.parseInt(view.getEffort().getText());
-		
+		String title = view.getTitle();
+		String description = view.getDescription();
+		int effort = (int)view.getEstimatedEffort();
 		
 		// Get the text that was entered
 		//String message = view.getTxtNewMessage().getText();
 		Task newTask = new Task(id, title, description, userList, effort, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);
 		
 		System.out.println("Created task successfully");
-		
 		
 		// Make sure there is text
 		if (/*message.length() > 0*/true) {

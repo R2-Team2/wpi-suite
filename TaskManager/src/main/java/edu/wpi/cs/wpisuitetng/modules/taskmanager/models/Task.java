@@ -33,22 +33,22 @@ public class Task extends AbstractModel implements ITask {
 	private List<String> activityList;
 	private int requirementID;
 	private TaskStatus status;
-	
+
 	public Task(int id, String title, String description, List<User> assignedUsers, int estimatedEffort, 
 			int actualEffort, Date dueDate, List<String> activityList, int requirementID, TaskStatus status) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.assignedUsers = new ArrayList<User>(assignedUsers);
+		this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
 		this.estimatedEffort = estimatedEffort;
 		this.actualEffort = actualEffort;
 		this.dueDate = dueDate;
-		this.activityList = new ArrayList<String>(activityList);
+		this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
 		this.requirementID = requirementID;
 		this.status = status;
 	}
-	
-	
+
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -88,7 +88,7 @@ public class Task extends AbstractModel implements ITask {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-	
+
 	public int getRequirementID() {
 		return this.requirementID;
 	}
@@ -118,11 +118,11 @@ public class Task extends AbstractModel implements ITask {
 			default:
 				throw new IllegalArgumentException(
 						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
-				
+
 		}
 		return this;
 	}
-	
+
 	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
@@ -145,7 +145,7 @@ public class Task extends AbstractModel implements ITask {
 		}
 		this.assignedUsers.add(u);
 	}
-	
+
 	/**
 	 * Deletes a user, given the user's ID number
 	 * 
@@ -161,7 +161,7 @@ public class Task extends AbstractModel implements ITask {
 		}
 		return null;
 	}
-	
+
 	public List<User> getAssignedUsers() {
 		return this.assignedUsers;
 	}
@@ -169,15 +169,15 @@ public class Task extends AbstractModel implements ITask {
 	public void addActivity(String a) {
 		this.activityList.add(a);
 	}
-	
+
 	public List<String> getActivityList() {
 		return this.activityList;
 	}
 
 	public static Task fromJson(String json) {
-        final Gson parser = new Gson();
-        return parser.fromJson(json, Task.class);
-    }
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Task.class);
+	}
 
 	@Override
 	public void save() {
@@ -200,6 +200,18 @@ public class Task extends AbstractModel implements ITask {
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void update(Task updatedTask) {
+		this.title = updatedTask.title;
+		this.description = updatedTask.description;
+		this.assignedUsers = updatedTask.assignedUsers;
+		this.estimatedEffort = updatedTask.estimatedEffort;
+		this.actualEffort = updatedTask.actualEffort;
+		this.dueDate = updatedTask.dueDate;
+		this.activityList = updatedTask.activityList;
+		this.requirementID = updatedTask.requirementID;
+		this.status = updatedTask.status;
 	}
 
 }
