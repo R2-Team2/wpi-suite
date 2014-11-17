@@ -57,7 +57,6 @@ public class MainView extends JTabbedPane {
             }
         });
 
- 
         this.addTab("Work Flow", null, workflow, "Work Flow");
     }
     
