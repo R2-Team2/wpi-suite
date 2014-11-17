@@ -21,9 +21,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-/**
- *
- */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
 
