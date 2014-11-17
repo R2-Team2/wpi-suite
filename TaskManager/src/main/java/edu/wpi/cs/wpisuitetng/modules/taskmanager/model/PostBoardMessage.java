@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 /**
  * Model to contain a single message on the PostBoard
  * 
- * @author Chris Casola
  */
 public class PostBoardMessage extends AbstractModel {
     

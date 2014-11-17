@@ -6,8 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    R2-Team2
+ * 
  *******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;

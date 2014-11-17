@@ -17,9 +17,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 /**
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
- * 
- * 
- * @author R2-Team2
  */
 public class ViewEventController {
 	
