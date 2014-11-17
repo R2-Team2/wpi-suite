@@ -17,7 +17,6 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 /**
- * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class ScrollablePanel extends JPanel implements Scrollable {
