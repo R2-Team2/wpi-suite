@@ -65,6 +65,7 @@ public class AddTaskController implements ActionListener {
 		int effort = Integer.parseInt(view.getEffort().getText());
 		
 		
+		
 		// Get the text that was entered
 		//String message = view.getTxtNewMessage().getText();
 		Task newTask = new Task(id, title, description, userList, effort, 0, date, new ArrayList<String>(), 0, TaskStatus.NEW);

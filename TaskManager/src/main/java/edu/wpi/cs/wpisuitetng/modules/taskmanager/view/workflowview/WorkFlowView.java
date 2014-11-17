@@ -1,8 +1,12 @@
 
+
+
+//this class has depricated through task 24- create collapsing sidebar.
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,6 +18,8 @@ import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 
 @SuppressWarnings("serial")
+
+
 public class WorkFlowView extends JPanel {
 	private JTextField txtText;
 	private JPanel taskStatusPanel;
@@ -22,6 +28,7 @@ public class WorkFlowView extends JPanel {
 	private JTextField txt3;
 	private JTextField txt4;
 
+	
 	/**
 	 * Create the panel.
 	 */
