@@ -68,6 +68,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	/**
 	 * Retrieves all Tasks from the given session database
 	 * @param s Session which is querying the server
+	 * 
 	 * @return all Tasks in the session database
 	 */
 	@Override
@@ -120,7 +121,9 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 * Deletes the Task with the given id, if the session has ADMIN permissions
 	 * @param s Session which is querying the server
 	 * @param id ID number of the Task to be deleted
+	 * 
 	 * @return The deleted Task
+	 * 
 	 * @throws WPISuiteException
 	 */
 	@Override
@@ -151,6 +154,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 * Gets all Tasks where the property args[0] has the value args[1]
 	 * @param s Session which is querying the server
 	 * @param args Array of arguments sent in the request
+	 * 
 	 * @return List of Tasks that have the desired value for the given field
 	 */
 	@Override
@@ -190,6 +194,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 *  Originally written for RequirementsManager, should probably be a common library
 	 * @param session the session
 	 * @param role the role being verified
+	 * 
 	 * @throws WPISuiteException user isn't authorized for the given role
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
