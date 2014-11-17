@@ -60,9 +60,9 @@ public class AddTaskController implements ActionListener {
 		List<User> userList = new ArrayList<User>();
 		Date date = new Date();
 		int id = (int)(Math.random() * 1000);
-		String title = view.getTitle().getText();
-		String description = view.getDescription().getText();
-		int effort = (int)view.getEstimatedEffort().getValue();
+		String title = view.getTitle();
+		String description = view.getDescription();
+		int effort = (int)view.getEstimatedEffort();
 		
 		
 		// Get the text that was entered

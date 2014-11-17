@@ -5,6 +5,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -32,8 +34,8 @@ public class NewTaskInformationPanel extends JScrollPane {
 	//Class Variables
 	private NewTaskPanel parentPanel;
 	
-	private String[] listOfChosenAssignees = new String[] {"None"};
-	private String[] listOfPossibleAssignees = new String[] {"None"};
+	private String[] listOfChosenAssignees = new String[] {"None", "a1", "a2", "a3"};
+	private String[] listOfPossibleAssignees = new String[] {"None", "a4", "a5", "a6"};
 	private String[] listOfStatuses = new String[] {"None"};
 	private String[] listOfRequirements = new String[] {"None"};
 	
@@ -153,8 +155,87 @@ public class NewTaskInformationPanel extends JScrollPane {
         
 		contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
+        
+        setupListeners();
 		
 		this.setViewportView(contentPanel);
+	}
+	
+	/**
+	 * Sets up the listeners for the buttons in the New Task Information Panel
+	 */
+	private void setupListeners() {
+		buttonAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+//                if(!listPossibleAssignees.isSelectionEmpty()) {
+//                	String[] a = listOfPossibleAssignees;
+//                	String[] b = listOfChosenAssignees;
+//                	int[] c = listPossibleAssignees.getSelectedIndices();
+//                	String[] tempA = new String[a.length - c.length];
+//                	String[] tempB = new String[b.length + c.length];
+//                	for(int i = 0; i < b.length; i++) {
+//                		tempB[i] = b[i];
+//                	}
+//                	int counterA = 0;
+//                	int counterB = b.length;
+//                	for(int i = 0; i < a.length; i++) {
+//                		boolean canAdd = true;
+//                		for(int x : c) {
+//                			if(x == i) {
+//                				tempB[counterB] = a[i];
+//                				counterB++;
+//                			}
+//                			else {
+//                				tempA[counterA] = a[i];
+//                				counterA++;
+//                			}
+//                		}
+//                	}
+//                	listOfPossibleAssignees = tempA;
+//                	listOfChosenAssignees = tempB;
+//                	//Repaint the GUI
+//                	listChosenAssignees.repaint();
+//                	listPossibleAssignees.repaint();
+//                }
+            }
+        });
+
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                if(!listChosenAssignees.isSelectionEmpty()) {
+//                	String[] a = listOfChosenAssignees;
+//                	String[] b = listOfPossibleAssignees;
+//                	int[] c = listChosenAssignees.getSelectedIndices();
+//                	String[] tempA = new String[a.length - c.length];
+//                	String[] tempB = new String[b.length + c.length];
+//                	for(int i = 0; i < b.length; i++) {
+//                		tempB[i] = b[i];
+//                	}
+//                	int counterA = 0;
+//                	int counterB = b.length;
+//                	for(int i = 0; i < a.length; i++) {
+//                		boolean canAdd = true;
+//                		for(int x : c) {
+//                			if(x == i) {
+//                				tempB[counterB] = a[i];
+//                				counterB++;
+//                			}
+//                			else {
+//                				tempA[counterA] = a[i];
+//                				counterA++;
+//                			}
+//                		}
+//                	}
+//                	listOfPossibleAssignees = tempB;
+//                	listOfChosenAssignees = tempA;
+//                	//Repaint the GUI
+//                	listChosenAssignees.repaint();
+//                	listPossibleAssignees.repaint();
+//                }
+            }
+
+        });
 	}
 	
 	/**
@@ -219,6 +300,14 @@ public class NewTaskInformationPanel extends JScrollPane {
 	 */
 	public JCalendar getDueDate() {
 		return calDueDate;
+	}
+	
+	/**
+	 * Returns the JList holding the Chosen Members
+	 * @return JList<String>
+	 */
+	public String[] getAssignees() {
+		return listOfChosenAssignees;
 	}
 }
 

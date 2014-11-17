@@ -9,6 +9,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -27,6 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
 
+	//private WorkFlowSplitView parentPanel;
+	
 	private NewTaskInformationPanel infoPanel;
     private NewTaskButtonPanel buttonPanel;
     
@@ -40,6 +43,16 @@ public class NewTaskPanel extends JPanel {
 		this.buildLayout();
 		
 	}
+	
+	/**
+	 * Constructor for the NewTaskPanel
+	 */
+//	public NewTaskPanel(WorkFlowSplitView parentPanel) {
+//		this.parentPanel = parentPanel;
+//		
+//		this.buildLayout();
+//		
+//	}
 	
 	/**
 	 * Creates the GUI for the NewTaskPanel
@@ -59,7 +72,8 @@ public class NewTaskPanel extends JPanel {
 	 */
 	public void createPressed() {
 		new AddTaskController(this);
-		viewEventController.removeTab();
+		//viewEventController.removeTab();
+		//parentPanel.hideCreateNewTaskPanel();
 	}
 	
 	/**
@@ -67,39 +81,80 @@ public class NewTaskPanel extends JPanel {
 	 * Closes out the NewTask Tab
 	 */
 	public void cancelPressed() {
-		viewEventController.removeTab();
+		//viewEventController.removeTab();
+		//parentPanel.hideCreateNewTaskPanel();
 	}
 	
 	/**
-	 * Returns the JTextField holding the title information
-	 * @return JTextField
+	 * Returns the title information from infoPanel
+	 * @return String
 	 */
-	public JTextField getTitle() {
-		return infoPanel.getTitle();
+	public String getTitle() {
+		return infoPanel.getTitle().getText();
 	}
 	
 	/**
-	 * Returns the JTextArea holding the description information
-	 * @return JTextArea
+	 * Returns the description information from infoPanel
+	 * @return String
 	 */
-	public JTextArea getDescription() {
-		return infoPanel.getDescription();
+	public String getDescription() {
+		return infoPanel.getDescription().getText();
 	}
 	
 	/**
-	 * Retrieves the Estimated Effort Spinner from infoPanel
-	 * @return JSpinner The Spinner for Estimated Effort
+	 * Retrieves the Estimated Effort from infoPanel
+	 * @return int
 	 */
-	public JSpinner getEstimatedEffort(){
-		return infoPanel.getEstimatedEffort();
+	public int getEstimatedEffort(){
+		return (int)infoPanel.getEstimatedEffort().getValue();
 	}
 	
 	/**
-	 * Retrieves the Actual Effort Spinner from infoPanel
-	 * @return JSpinner The Spinner for Actual Effort
+	 * Retrieves the Actual Effort from infoPanel
+	 * @return int
 	 */
-	public JSpinner getActualEffort(){
-		return infoPanel.getActualEffort();
+	public int getActualEffort(){
+		return (int)infoPanel.getActualEffort().getValue();
+	}
+	
+	/**
+	 * Retrieves the Status from infoPanel
+	 * @return String
+	 */
+	public String getStatus() {
+		return (String)infoPanel.getStatus().getSelectedItem();
+	}
+	
+	/**
+	 * Retrieves the Requirement from infoPanel
+	 * @return String
+	 */
+	public String getRequirement() {
+		return (String)infoPanel.getRequirement().getSelectedItem();
+	}
+	
+	/**
+	 * Retrieves the StartDate from infoPanel
+	 * @return Date
+	 */
+	public Date getStartDate() {
+		return infoPanel.getStartDate().getDate();
+	}
+	
+	/**
+	 * Retrieves the DueDate from infoPanel
+	 * @return Date
+	 */
+	public Date getDueDate() {
+		return infoPanel.getDueDate().getDate();
+	}
+	
+	/**
+	 * Retrieves the Chosen Members from infoPanel
+	 * @return String[]
+	 */
+	public String[] getAssignees() {
+		return infoPanel.getAssignees();
 	}
 	
 }
