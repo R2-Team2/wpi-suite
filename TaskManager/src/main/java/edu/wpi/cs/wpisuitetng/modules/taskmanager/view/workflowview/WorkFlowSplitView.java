@@ -12,7 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
+//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
 public class WorkFlowSplitView extends JSplitPane{
 	public WorkFlowSplitView(){
@@ -32,7 +33,7 @@ public class WorkFlowSplitView extends JSplitPane{
 		//this.setDividerLocation(0.0);
 	}
 	public void createNewTaskPanel(){
-		this.setRightComponent(new JScrollPane(new CreateNewTaskPanel()));
+		this.setRightComponent(new JScrollPane(new NewTaskPanel()));
 		this.setOneTouchExpandable(true);
 		this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
