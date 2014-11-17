@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
- * @author R2-Team2
  *
  */
 @SuppressWarnings("serial")
