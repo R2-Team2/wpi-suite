@@ -25,15 +25,26 @@ import javax.swing.text.StyledDocument;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaskStatusView.
+ */
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
+	/** The task status obj. */
 	TaskStatus taskStatusObj;
+	
+	/** The txtpn title. */
 	JTextPane txtpnTitle = new JTextPane();
+	
+	/** The panel. */
 	JPanel panel = new JPanel();
 	
 	/**
 	 * Create the panel.
+	 *
+	 * @param title the title
 	 */
 	public TaskStatusView(String title) {
 
@@ -69,7 +80,7 @@ public class TaskStatusView extends JPanel {
 	
 	
 	/**
-	 * Populate TaskStatusView with Cards Associated with the Status
+	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
 	public void PopulateTaskStatusViewCards(){
 		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();

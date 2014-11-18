@@ -27,11 +27,19 @@ import javax.swing.SpringLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkFlowView.
+ */
 @SuppressWarnings("serial")
 
 
 public class WorkFlowView extends JPanel {
+	
+	/** The title. */
 	private String title;
+	
+	/** The task status panel. */
 	private JPanel taskStatusPanel;
 
 	
@@ -49,7 +57,7 @@ public class WorkFlowView extends JPanel {
 		
 		taskStatusPanel = new JPanel();
 		this.add(taskStatusPanel, BorderLayout.CENTER);
-		TaskStatusView taskStatusNew = new TaskStatusView("TITLE THAT IS SUPER UBER LONG OMG THIS IS REALLY LONG AAAAAAA AAAAA AAAAA  AAA AAAAA");
+		TaskStatusView taskStatusNew = new TaskStatusView("New");
 		TaskStatusView taskStatusSelDev = new TaskStatusView("Selected for Development");
 		TaskStatusView taskStatusInDev = new TaskStatusView("Currently in Development");
 		TaskStatusView taskStatusDone = new TaskStatusView("Completed");
