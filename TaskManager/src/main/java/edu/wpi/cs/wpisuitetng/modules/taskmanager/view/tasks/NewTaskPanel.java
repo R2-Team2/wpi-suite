@@ -26,7 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
-
+/**
+ * The Class NewTaskPanel.
+ */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
 
