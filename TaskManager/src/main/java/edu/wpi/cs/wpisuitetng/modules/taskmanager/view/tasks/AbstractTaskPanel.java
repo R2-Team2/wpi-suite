@@ -44,8 +44,8 @@ public abstract class AbstractTaskPanel extends JPanel {
 		protected void buildLayout()
 		{
 			this.setLayout(new BorderLayout());
+			this.add(buttonPanel, BorderLayout.SOUTH);
 	        this.add(infoPanel, BorderLayout.CENTER);
-	        this.add(buttonPanel, BorderLayout.SOUTH);
 		}
 		
 		/**
