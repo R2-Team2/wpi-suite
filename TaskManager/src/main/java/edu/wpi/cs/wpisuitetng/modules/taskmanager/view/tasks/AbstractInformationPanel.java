@@ -34,6 +34,7 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 
@@ -154,6 +155,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		setupListeners();
 
 		this.setViewportView(contentPanel);
+		
+		new RetrieveUsersController(this).requestUsers();
 	}
 
 	/**
@@ -295,6 +298,13 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	 */
 	public JCalendar getDueDate() {
 		return calDueDate;
+	}
+	
+	public void populateUsers(User[] users) {
+		System.out.println("Users retrieved!");
+		for (User u : users) {
+			System.out.println(u.getUsername());
+		}
 	}
 
 	/**
