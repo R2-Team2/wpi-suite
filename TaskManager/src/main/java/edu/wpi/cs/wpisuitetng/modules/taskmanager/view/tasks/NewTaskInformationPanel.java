@@ -41,8 +41,8 @@ public class NewTaskInformationPanel extends JScrollPane {
 	//Class Variables
 	private NewTaskPanel parentPanel;
 	
-	private String[] listOfChosenAssignees = new String[] {"None", "a1", "a2", "a3"};
-	private String[] listOfPossibleAssignees = new String[] {"None", "a4", "a5", "a6"};
+	private String[] listOfChosenAssignees = new String[] {"None"};
+	private String[] listOfPossibleAssignees = new String[] {"None"};
 	private String[] listOfStatuses = new String[] {"None"};
 	private String[] listOfRequirements = new String[] {"None"};
 	
