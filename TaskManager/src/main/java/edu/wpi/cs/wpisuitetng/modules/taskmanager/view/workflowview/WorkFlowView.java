@@ -16,10 +16,12 @@ import java.awt.GridLayout;
 
 
 
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import net.miginfocom.swing.MigLayout;
 
@@ -33,6 +35,8 @@ import javax.swing.SpringLayout;
 
 
 public class WorkFlowView extends JPanel {
+	private WorkFlow workFlowObj;
+	
 	private JTextField txtText;
 	private JPanel taskStatusPanel;
 	private JTextField txt1;
@@ -44,6 +48,7 @@ public class WorkFlowView extends JPanel {
 	 * Create the panel.
 	 */
 	public WorkFlowView() {
+		workFlowObj = new WorkFlow();
 		
 		setLayout(new BorderLayout());
 		
@@ -65,6 +70,14 @@ public class WorkFlowView extends JPanel {
 		taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
 		taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
 		
+	}
+
+	public WorkFlow getWorkFlowObj() {
+		return workFlowObj;
+	}
+
+	public void setWorkFlowObj(WorkFlow workFlowObj) {
+		this.workFlowObj = workFlowObj;
 	}
 
 }

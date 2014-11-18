@@ -11,6 +11,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
 
@@ -35,6 +37,8 @@ import javax.swing.ScrollPaneConstants;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -69,6 +73,10 @@ public class TaskStatusView extends JPanel {
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
+		
+		taskStatusObj.addTask(new Task(101, "A Title", "A Title", 100, 200, new TaskStatus("new"),
+			"poop", new Date(), new Date(), new ArrayList<User> ()));
+		
 		PopulateTaskStatusViewCards();
 	}
 	
@@ -79,8 +87,7 @@ public class TaskStatusView extends JPanel {
 	public void PopulateTaskStatusViewCards(){
 		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
 		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
-			TaskCard card = new TaskCard();
-			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
+			TaskCard card = new TaskCard(taskStatusObj.getTaskList().get(i).getTitle(), taskStatusObj.getTaskList().get(i).getDueDate().toString(), "");
 			panel.add(card, "newline");
 		}
 	}

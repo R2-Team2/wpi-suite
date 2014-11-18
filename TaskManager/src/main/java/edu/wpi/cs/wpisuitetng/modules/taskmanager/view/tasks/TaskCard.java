@@ -42,19 +42,22 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 public class TaskCard extends JPanel {
 
+	private Task taskObj;
 	JTextPane taskName = new JTextPane();
 	
 	/**
 	 * Create the panel.
 	 */
-	public TaskCard() {
+	public TaskCard(String nameData, String dateData, String userNameData) {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 		
 		
-		taskName.setText("This text will represent a title in the near future!");
+		taskName.setText(nameData);
 		taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		taskName.setBackground(UIManager.getColor("Button.background"));
 		add(taskName, "cell 0 0,alignx center,aligny center");
@@ -63,16 +66,24 @@ public class TaskCard extends JPanel {
 		add(infoPanel, "cell 0 1,grow");
 		infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 		
-		JLabel date = new JLabel("11/15/2014");
+		JLabel date = new JLabel(dateData);
 		date.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		infoPanel.add(date, "cell 0 0,alignx left");
 		
-		JLabel username = new JLabel("mcforman...");
-		username.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		infoPanel.add(username, "cell 1 0,alignx right");
+		JLabel userName = new JLabel(userNameData);
+		userName.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		infoPanel.add(userName, "cell 1 0,alignx right");
 	}
-	
-	public void setTaskCardName(String name){
-		taskName.setText(name);
+//	
+//	public void setTaskCardName(String name){
+//		taskName.setText(name);
+//	}
+
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
 	}
 }
