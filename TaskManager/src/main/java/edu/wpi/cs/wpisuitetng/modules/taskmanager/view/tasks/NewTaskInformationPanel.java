@@ -9,7 +9,10 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-// TODO: Auto-generated Javadoc
+import java.awt.Dimension;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 /**
  * The Class NewTaskInformationPanel.
  * @author R2-Team2
@@ -28,6 +31,11 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		//this.setMinimumSize(new Dimension(540, 200));
         
 		this.buildLayout();
+	}
+
+	public void setTask(Task aTask)
+	{
+
 	}
 }
 

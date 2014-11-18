@@ -35,6 +35,7 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 
@@ -44,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -102,6 +103,8 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The cal due date. */
     protected JCalendar calDueDate;
+
+    public abstract void setTask(Task aTask);
 
     /**
      * Builds the layout.
