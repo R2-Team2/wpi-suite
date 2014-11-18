@@ -19,18 +19,23 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 /**
  *
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
+	
+	protected NewTaskPanel parentPanel;
+	
 
 	/**
 	 * Constructor for the NewTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
@@ -39,13 +44,31 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		String createString = "Create";
 		String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(createString);
+		buttonCreate = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
+
+		this.add(buttonCreate);
+		this.add(buttonCancel);
+//		parentPanel.createPressed();
+		super.setupListeners();
+		this.setupListeners();
+	}
+	protected void setupListeners() {
+		buttonCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.createPressed();
+			}
+		});
+	}
+	
+	//public void setTask()
+	{
 		buttonLeft.setEnabled(false);
 		this.add(buttonLeft);
 		this.add(buttonCancel);
 
 		setupListeners();
+
 	}
 
 }

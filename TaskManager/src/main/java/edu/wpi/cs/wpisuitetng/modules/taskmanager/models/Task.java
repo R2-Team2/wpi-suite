@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * Copyright (c) 2012 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
@@ -154,7 +155,6 @@ public class Task extends AbstractModel implements ITask {
 	public int getActualEffort() {
 		return this.actualEffort;
 	}
-
 	/**
 	 * Sets the actual effort.
 	 *

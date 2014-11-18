@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
  */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
+	//protected NewTaskPanel parentPanel;
 
 	private WorkFlowSplitTabbedPanel parentPanel;
 	

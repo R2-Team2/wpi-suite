@@ -13,8 +13,10 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -27,16 +29,16 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetTasksController implements ActionListener {
     
-    private final PostBoardModel model;
+    private Task getTask;
     
-    public GetTasksController(PostBoardModel model) {
-        this.model = model;
+    public GetTasksController(Task aTask) {
+        this.getTask = aTask;
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         // Send a request to the core to save this message
-        final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
+        final Request request = Network.getInstance().makeRequest("taskmanager/task/" + getTask.getTaskID(), HttpMethod.GET); // GET == read
         request.addObserver(new GetTasksRequestObserver(this)); // add an observer to process the response
         request.send(); // send the request
     }
@@ -50,13 +52,13 @@ public class GetTasksController implements ActionListener {
      */
     public void receivedMessages(PostBoardMessage[] messages) {
         // Empty the local model to eliminate duplications
-        model.emptyModel();
+        //Model model = new message();
         
         // Make sure the response was not null
         if (messages != null) {
             
             // add the messages to the local model
-            model.addMessages(messages);
+          //  ((Model) getTask).addMessages(messages);
         }
     }
 }

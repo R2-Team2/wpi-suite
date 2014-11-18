@@ -10,6 +10,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -40,7 +42,7 @@ public class ToolbarPanel extends JPanel {
         btnRefresh = new JButton("Refresh");
         
         // Add the get messages controller to the button
-        btnRefresh.addActionListener(new GetTasksController(boardModel));
+        btnRefresh.addActionListener(null);//new GetTasksController(boardModel));
         
         // Add the button to this panel
         // add(btnRefresh);

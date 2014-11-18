@@ -24,29 +24,24 @@ import javax.swing.JPanel;
 public abstract class AbstractButtonPanel extends JPanel {
 	//Class Variables
 	protected AbstractTaskPanel parentPanel;
-	
-	protected JButton buttonLeft;
+
+	protected JButton buttonSave;
+	protected JButton buttonCreate;
 	protected JButton buttonCancel;
-	
-	
+
+
 
 	/**
 	 * Sets up the listeners for the buttons in the New Task Button Panel
 	 */
 	protected void setupListeners() {
-		buttonLeft.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.createPressed();
-            }
-        });
+		buttonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.cancelPressed();
+			}
 
-        buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
-
-        });
+		});
 	}
 	
 	public void validateTaskInfo(){
