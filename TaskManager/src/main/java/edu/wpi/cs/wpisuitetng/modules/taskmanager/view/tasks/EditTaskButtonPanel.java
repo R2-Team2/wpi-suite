@@ -23,23 +23,21 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class NewTaskButtonPanel extends AbstractButtonPanel {
-	//Class Variables
-	
+public class EditTaskButtonPanel extends AbstractButtonPanel{
 	/**
-	 * Constructor for the NewTaskButtonPanel
+	 * Constructor for the EditTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public void NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public void EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
 		this.parentPanel = parentPanel;
 		//Set Button Messages
-		String createString = "Create";
+		String saveString = "Save";
 		String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(createString);
+		buttonLeft = new JButton(saveString);
 		buttonCancel = new JButton(cancelString);
 		this.add(buttonLeft);
 		this.add(buttonCancel);
@@ -47,4 +45,3 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		setupListeners();
 	}
 }
-

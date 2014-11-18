@@ -13,16 +13,16 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
+import com.db4o.ObjectSet;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
@@ -47,7 +47,7 @@ public class NewTaskPanel extends JPanel {
 	 * Creates the GUI for the NewTaskPanel
 	 */
 	private void buildLayout() {
-        buttonPanel = new NewTaskButtonPanel(this);
+        buttonPanel = new NewTaskButtonPanel();
         infoPanel = new NewTaskInformationPanel(this);
         
         this.setLayout(new BorderLayout());
@@ -152,4 +152,13 @@ public class NewTaskPanel extends JPanel {
 		return infoPanel.getAssignedUsers();
 	}
 	
+	public void setInfoPanel(NewTaskInformationPanel aPanel)
+	{
+		this.infoPanel = aPanel;
+	}
+	
+	public void setButtPanel(NewTaskButtonPanel aPanel)
+	{
+		this.buttonPanel = aPanel;
+	}
 }
