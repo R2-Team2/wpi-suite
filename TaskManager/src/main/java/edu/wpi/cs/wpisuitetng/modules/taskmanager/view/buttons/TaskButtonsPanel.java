@@ -23,9 +23,6 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-/**
- * The Class TaskButtonsPanel.
- */
 @SuppressWarnings("serial")
 public class TaskButtonsPanel extends ToolbarGroupView {
 	// initialize the main view toolbar buttons
@@ -54,7 +51,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				this.helpButton.setIcon(new ImageIcon(img));
 			} catch (IOException ex) {
 				// Hopefully, won't get here
-				System.out.print("exception");
 			}
 			
 			// the action listener for the Create Action Button

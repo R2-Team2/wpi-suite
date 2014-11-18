@@ -16,7 +16,6 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 /**
  * Provides an interface for interaction with the main GUI elements
@@ -26,7 +25,6 @@ public class ViewEventController {
 	
 	 private static ViewEventController instance = null;
 	 private MainView main = null;
-	 private WorkFlowSplitTabbedPanel split = null;
 	
     /**
      * Default constructor for ViewEventController. Is protected to prevent
@@ -56,10 +54,6 @@ public class ViewEventController {
         main = mainview;
     }
     
-    public void setSplitTabbedPanel(WorkFlowSplitTabbedPanel splitTabbedPanel) {
-    	split = splitTabbedPanel;
-    }
-    
     /**
      * Opens a new tab for the creation of a requirement.
      */
@@ -81,11 +75,7 @@ public class ViewEventController {
      * 
      * @param comp the component to remove
      */
-    public void removeTab() {
-        main.removeTabAt(main.getSelectedIndex());
-    }
-    
-    public void removeSplitTab() {
-    	split.removeTabAt(split.getSelectedIndex());
+    public void removeTab(JComponent comp) {
+        main.remove(comp);
     }
 }

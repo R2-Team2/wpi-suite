@@ -12,8 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,15 +40,6 @@ public abstract class AbstractButtonPanel extends JPanel {
 			}
 
 		});
-	}
-	
-	public void validateTaskInfo(){
-		if(parentPanel.infoPanel.boxTitle.getText().length() <= 0){
-			buttonLeft.setEnabled(false);
-		}
-		else{
-			buttonLeft.setEnabled(true);
-		}
 	}
 
 }

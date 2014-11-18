@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * Contributors:
- * 	Team R2-Team2
+ * Contributors
+ *  Team R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
@@ -42,9 +42,6 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
-/**
- * The Class TaskCard.
- */
 public class TaskCard extends JPanel {
 
 	JTextPane taskName = new JTextPane();
@@ -53,7 +50,7 @@ public class TaskCard extends JPanel {
 	 * Create the panel.
 	 */
 	public TaskCard() {
-		setBorder(new LineBorder(Color.black));
+		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 		
 		
