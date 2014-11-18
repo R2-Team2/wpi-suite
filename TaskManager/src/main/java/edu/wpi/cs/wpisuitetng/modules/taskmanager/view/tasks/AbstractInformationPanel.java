@@ -124,39 +124,46 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		JPanel leftColumn = new JPanel(new MigLayout());
 		JPanel rightColumn = new JPanel(new MigLayout());
 		JPanel centerColumn = new JPanel(new MigLayout());
+		
+		JPanel top = new JPanel(new MigLayout());
+		JPanel bottom = new JPanel(new MigLayout());
+		
+		JPanel bottomLeft = new JPanel(new MigLayout());
+		JPanel bottomCenter = new JPanel(new MigLayout());
+		JPanel bottomRight = new JPanel(new MigLayout());
 
+		bottomLeft.add(labelPossibleAssignee, "left, wrap");
+		bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+		bottomCenter.add(buttonRemove, "center, wrap");
+		bottomCenter.add(buttonAdd, "center, wrap");
+		bottomRight.add(labelChosenAssignee, "left, wrap");
+		bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+		bottom.add(bottomLeft);
+		bottom.add(bottomCenter);
+		bottom.add(bottomRight);
+		
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
-
 		leftColumn.add(labelRequirement, "left, wrap");
 		leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
-
 		leftColumn.add(labelStartDate, "left, wrap");
 		leftColumn.add(calStartDate, "left, wrap");
-
-		leftColumn.add(labelPossibleAssignee, "left, wrap");
-		leftColumn.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
-
-		centerColumn.add(buttonAdd, "center, wrap");
-
 		rightColumn.add(labelEstimatedEffort, "left, wrap");
 		rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
-
 		rightColumn.add(labelActualEffort, "left, wrap");
 		rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
-
 		rightColumn.add(labelDueDate, "left, wrap");
 		rightColumn.add(calDueDate, "left, wrap");
 
-		rightColumn.add(labelChosenAssignee, "left, wrap");
-		rightColumn.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+		top.add(leftColumn, "left, spany, growy, push");
+		top.add(rightColumn, "right, spany, growy, push");
+		
+		//contentPanel.add(leftColumn, "left, spany, growy, push");
+		//contentPanel.add(rightColumn, "right, spany, growy, push");
 
-		centerColumn.add(buttonRemove, "center, wrap");
-
-		contentPanel.add(leftColumn, "left, spany, growy, push");
-		contentPanel.add(centerColumn,"center, spany, growy, push");
-		contentPanel.add(rightColumn, "right, spany, growy, push");
-
+		contentPanel.add(top,"left, spany, growy, push");
+		contentPanel.add(bottom,"left, spany, growy, push");
+		
 		setupListeners();
 
 		this.setViewportView(contentPanel);
