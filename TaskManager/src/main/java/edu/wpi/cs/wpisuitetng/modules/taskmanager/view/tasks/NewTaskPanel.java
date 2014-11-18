@@ -20,11 +20,11 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
@@ -76,6 +76,10 @@ public class NewTaskPanel extends JPanel {
 //		new AddTaskController(this);
 		AddTaskController addNewTask = new AddTaskController(this);
 		addNewTask.addTask();
+		
+//		RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+//		retrieveTasks.requestTasks();
+		
 		// TODO: create task card
 		// TODO: put task card in proper task status
 		ViewEventController.getInstance().closeNewTaskPanel();

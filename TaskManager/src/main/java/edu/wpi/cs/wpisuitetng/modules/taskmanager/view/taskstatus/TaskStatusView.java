@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
@@ -44,9 +45,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-<<<<<<< HEAD
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -56,10 +57,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-=======
+
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
->>>>>>> develop
 
 // TODO: Auto-generated Javadoc
 /**
@@ -77,6 +77,9 @@ public class TaskStatusView extends JPanel {
 	/** The panel. */
 	JPanel panel = new JPanel();
 	
+	/** The TaskStatus title */
+	private String title;
+	
 	/**
 	 * Create the panel.
 	 *
@@ -84,8 +87,9 @@ public class TaskStatusView extends JPanel {
 	 */
 	public TaskStatusView(String title) {
 
+		this.title = title;
 		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-		this.taskStatusObj = new TaskStatus(title);
+		this.taskStatusObj = new TaskStatus(this.title);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
@@ -115,17 +119,31 @@ public class TaskStatusView extends JPanel {
 		taskStatusObj.addTask(new Task(101, "A Title", "A Title", 100, 200, new TaskStatus("new"),
 			"poop", new Date(), new Date(), new ArrayList<User> ()));
 		
-		PopulateTaskStatusViewCards();
+		requestTasksFromDb();
 	}
 	
 	
 	/**
 	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
-	public void PopulateTaskStatusViewCards(){
+	public void requestTasksFromDb() {
 		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
-		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
-			TaskCard card = new TaskCard(taskStatusObj.getTaskList().get(i).getTitle(), taskStatusObj.getTaskList().get(i).getDueDate().toString(), "");
+		RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
+		retrieveTasks.requestTasks();
+	}
+	
+	public void fillTaskList(Task[] taskArray) {
+		List<Task> taskList = Arrays.asList(taskArray);
+		taskStatusObj.setTaskList(new ArrayList<Task>(taskList));
+		populateTaskStatusViewCards();
+	}
+	
+	public void populateTaskStatusViewCards() {
+		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
+		List<Task> taskList = taskStatusObj.getTaskList();
+		for (int i = 0; i < taskList.size(); i++) {
+			Task t = taskList.get(i);
+			TaskCard card = new TaskCard(t.getTitle(), t.getDueDate().toString(), t.getUserForTaskCard());
 			panel.add(card, "newline");
 		}
 	}

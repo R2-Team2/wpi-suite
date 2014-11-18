@@ -42,7 +42,6 @@ import javax.swing.ScrollPaneConstants;
 
 
 public class WorkFlowView extends JPanel {
-<<<<<<< HEAD
 	private WorkFlow workFlowObj;
 	
 	private JTextField txtText;
@@ -51,15 +50,9 @@ public class WorkFlowView extends JPanel {
 	private JTextField txt2;
 	private JTextField txt3;
 	private JTextField txt4;
-=======
 	
 	/** The title. */
 	private String title;
-	
-	/** The task status panel. */
-	private JPanel taskStatusPanel;
-
->>>>>>> develop
 	
 	/**
 	 * Create the panel.

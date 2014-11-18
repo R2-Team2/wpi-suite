@@ -389,4 +389,17 @@ public class Task extends AbstractModel {
 		this.status = updatedTask.status;
 	}
 
+	/**
+     * Returns an array of Tasks parsed from the given JSON-encoded
+     * string.
+     * 
+     * @param json a string containing a JSON-encoded array of Tasks
+     * @return an array of Tasks deserialized from the given json
+     *         string
+     */
+    public static Task[] fromJsonArray(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, Task[].class);
+    }
+
 }
