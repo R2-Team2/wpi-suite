@@ -18,12 +18,16 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 /**
  * The Class AbstractTaskPanel.
  */
 public abstract class AbstractTaskPanel extends JPanel {
 		
+
+		protected WorkFlowSplitTabbedPanel parentPanel;
+
 		protected AbstractInformationPanel infoPanel;
 	    protected AbstractButtonPanel buttonPanel;
 		private ViewEventController viewEventController = ViewEventController.getInstance();
@@ -32,14 +36,20 @@ public abstract class AbstractTaskPanel extends JPanel {
 			
 		}
 		
+
+		public AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
+			this.parentPanel = parentPanel;
+		}
+		
+
 		/**
 		 * Creates the GUI for the NewTaskPanel
 		 */
 		protected void buildLayout()
 		{
 			this.setLayout(new BorderLayout());
+			this.add(buttonPanel, BorderLayout.SOUTH);
 	        this.add(infoPanel, BorderLayout.CENTER);
-	        this.add(buttonPanel, BorderLayout.SOUTH);
 		}
 
 		/**
@@ -47,9 +57,8 @@ public abstract class AbstractTaskPanel extends JPanel {
 		 * Closes out the NewTask Tab
 		 */
 		public void cancelPressed() {
-			ViewEventController.getInstance().closeNewTaskPanel();
-			//viewEventController.removeTab();
-			//parentPanel.hideCreateNewTaskPanel();
+			ViewEventController.getInstance().removeSplitTab();
+			parentPanel.checkForHide();
 		}
 		
 		/**

@@ -31,10 +31,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         
 		this.buildLayout();
 	}
-	
-	public void setTask(Task aTask)
-	{
-		
-	}
+
 }
 

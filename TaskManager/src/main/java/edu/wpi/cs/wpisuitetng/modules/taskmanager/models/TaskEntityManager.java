@@ -1,13 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
- *
+ * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- *
- *******************************************************************************/
+ * Contributors:
+ * 	Team R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.List;
@@ -28,6 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.database.Data;
 
+/**
+ * The Class TaskEntityManager.
+ */
 public class TaskEntityManager implements EntityManager<Task> {
 
 	private Data db;
@@ -107,7 +109,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 		}
 
 		// Update the original Task with new values
-		Task existingTask = (Task)oldTasks.get(0);		
+		Task existingTask = (Task)oldTasks.get(0);
 		existingTask.update(updatedTask);
 
 		// Save the original Task, now updated

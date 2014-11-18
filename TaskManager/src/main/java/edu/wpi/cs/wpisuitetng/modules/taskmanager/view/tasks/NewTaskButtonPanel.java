@@ -30,6 +30,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	
 	protected NewTaskPanel parentPanel;
 	
+
 	/**
 	 * Constructor for the NewTaskButtonPanel
 	 * @param parentPanel
@@ -45,6 +46,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		//Create Buttons
 		buttonCreate = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
+
 		this.add(buttonCreate);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
@@ -61,6 +63,13 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	
 	//public void setTask()
 	{
+		buttonLeft.setEnabled(false);
+		this.add(buttonLeft);
+		this.add(buttonCancel);
+
+		setupListeners();
+
 	}
+
 }
 
