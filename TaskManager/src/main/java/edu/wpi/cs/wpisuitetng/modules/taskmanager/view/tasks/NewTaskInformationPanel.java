@@ -15,6 +15,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,7 +33,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
 import com.toedter.calendar.JCalendar;
-
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
+//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -41,9 +46,11 @@ public class NewTaskInformationPanel extends JScrollPane {
 	//Class Variables
 	private NewTaskPanel parentPanel;
 	
-	private String[] listOfChosenAssignees = new String[] {"None"};
-	private String[] listOfPossibleAssignees = new String[] {"None"};
-	private String[] listOfStatuses = new String[] {"None"};
+
+	private User[] listOfChosenAssignees = new User[]{};
+	private User[] listOfPossibleAssignees = new User[]{};
+	private String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), 
+			new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 	private String[] listOfRequirements = new String[] {"None"};
 	
     private final Border defaultBorder = (new JTextField()).getBorder();
@@ -52,8 +59,8 @@ public class NewTaskInformationPanel extends JScrollPane {
 	private JTextArea boxDescription;
 	private JComboBox<String> dropdownStatus;
 	private JComboBox<String> dropdownRequirement;
-	private JList<String> listChosenAssignees;
-	private JList<String> listPossibleAssignees;
+	private JList<User> listChosenAssignees;
+	private JList<User> listPossibleAssignees;
 	private JSpinner spinnerEstimatedEffort;
 	private JSpinner spinnerActualEffort;
 	private JButton buttonAdd;
@@ -109,8 +116,8 @@ public class NewTaskInformationPanel extends JScrollPane {
 		dropdownStatus.setEnabled(false);
 		dropdownStatus.setBackground(Color.WHITE);
 		//Lists
-		listChosenAssignees = new JList<String>(listOfChosenAssignees);
-		listPossibleAssignees = new JList<String>(listOfPossibleAssignees);
+		listChosenAssignees = new JList<User> (); //new JList<User>(listOfChosenAssignees);
+		listPossibleAssignees = new JList<User> ();//new JList<User>(listOfPossibleAssignees);
 		//Spinners
 		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
 		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
@@ -313,8 +320,8 @@ public class NewTaskInformationPanel extends JScrollPane {
 	 * Returns the JList holding the Chosen Members
 	 * @return JList<String>
 	 */
-	public String[] getAssignees() {
-		return listOfChosenAssignees;
+	public List<User> getAssignedUsers() {
+		return new ArrayList<User> (Arrays.asList(listOfChosenAssignees));
 	}
 }
 

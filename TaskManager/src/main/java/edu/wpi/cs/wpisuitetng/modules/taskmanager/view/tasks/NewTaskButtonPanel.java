@@ -47,6 +47,7 @@ public class NewTaskButtonPanel extends JPanel {
 		buttonCancel = new JButton(cancelString);
 		this.add(buttonCreate);
 		this.add(buttonCancel);
+//		parentPanel.createPressed();
 		setupListeners();
 	}
 	
