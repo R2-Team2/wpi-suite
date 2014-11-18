@@ -63,5 +63,9 @@ public class MainView extends JTabbedPane {
     public void showCreateTaskView(){
     	workflow.createNewTaskPanel();
     }
+    
+    public void hideCreateTaskView() {
+    	workflow.hideCreateNewTaskPanel();
+    }
 
 }

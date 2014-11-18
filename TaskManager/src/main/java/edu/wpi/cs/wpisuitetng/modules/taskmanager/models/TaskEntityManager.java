@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.database.Data;
 
 public class TaskEntityManager implements EntityManager<Task> {
@@ -73,8 +73,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 	@Override
 	public Task[] getAll(Session s) throws WPISuiteException {
 		//Retrieve all Tasks (no arguments specified)
-		List<Model> tasks = db.retrieveAll(new Task(0, null, null, null, 0,
-				0, null, null, 0, null), s.getProject());
+		List<Model> tasks = db.retrieveAll(new Task(0, "", "", 0, 0,
+				new TaskStatus("new"), "", null, null, null), s.getProject());
 
 		//Convert the List into an array
 		return tasks.toArray(new Task[0]);
@@ -90,7 +90,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 		Task updatedTask = Task.fromJson(content);
 
 		// Retrieve the original Task
-		List<Model> oldTasks = db.retrieve(Task.class, "id", updatedTask.getID(), s.getProject());
+		List<Model> oldTasks = db.retrieve(Task.class, "id", updatedTask.getTaskID(), s.getProject());
 		if(oldTasks.size() < 1 || oldTasks.get(0) == null) {
 			throw new BadRequestException("Task with ID does not exist.");
 		}
@@ -145,7 +145,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	public int Count() throws WPISuiteException {
 		// Return the number of PostBoardMessages currently in the database
 		return db.retrieveAll(
-				new Task(0, null, null, null, 0, 0, null, null, 0, null))
+				new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null))
 				.size();
 	}
 
@@ -166,7 +166,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 		switch (args[0]) {
 		case "status":
-			tasks = db.retrieve(Task.class, "status", TaskStatus.valueOf(args[1]), s.getProject());
+			tasks = db.retrieve(Task.class, "status", "new", s.getProject());
 			break;
 		default:
 			throw new WPISuiteException();

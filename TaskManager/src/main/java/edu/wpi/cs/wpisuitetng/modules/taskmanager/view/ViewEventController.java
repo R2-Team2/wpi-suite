@@ -62,8 +62,8 @@ public class ViewEventController {
     /*
      * Removes the current tab
      */
-    public void removeTab() {
-    	main.removeTabAt(main.getSelectedIndex());
+    public void closeNewTaskPanel() {
+    	main.hideCreateTaskView();
     }
     
 
