@@ -30,7 +30,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 * Constructor for the NewTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public void NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel

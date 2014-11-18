@@ -11,11 +11,10 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 public abstract class AbstractTaskPanel extends JPanel {
-	//private WorkFlowSplitView parentPanel;
-	
-		private AbstractInformationPanel infoPanel;
-	    private AbstractButtonPanel buttonPanel;
-	    
+		
+		protected AbstractTaskPanel parentPanel;
+		protected AbstractInformationPanel infoPanel;
+	    protected AbstractButtonPanel buttonPanel;
 		private ViewEventController viewEventController = ViewEventController.getInstance();
 		
 		/**

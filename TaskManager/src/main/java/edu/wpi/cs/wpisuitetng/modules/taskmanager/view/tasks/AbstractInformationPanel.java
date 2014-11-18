@@ -31,25 +31,25 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 public abstract class AbstractInformationPanel extends JScrollPane{
 	protected AbstractTaskPanel parentPanel;
 
-	private User[] listOfChosenAssignees = new User[]{};
-	private User[] listOfPossibleAssignees = new User[]{};
-	private String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
-	private String[] listOfRequirements = new String[] {"None"};
+	protected User[] listOfChosenAssignees = new User[]{};
+	protected User[] listOfPossibleAssignees = new User[]{};
+	protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+	protected String[] listOfRequirements = new String[] {"None"};
 
-	private final Border defaultBorder = (new JTextField()).getBorder();
+	protected final Border defaultBorder = (new JTextField()).getBorder();
 
-	private JTextField boxTitle;
-	private JTextArea boxDescription;
-	private JComboBox<String> dropdownStatus;
-	private JComboBox<String> dropdownRequirement;
-	private JList<User> listChosenAssignees;
-	private JList<User> listPossibleAssignees;
-	private JSpinner spinnerEstimatedEffort;
-	private JSpinner spinnerActualEffort;
-	private JButton buttonAdd;
-	private JButton buttonRemove;
-	private JCalendar calStartDate;
-	private JCalendar calDueDate;
+	protected JTextField boxTitle;
+	protected JTextArea boxDescription;
+	protected JComboBox<String> dropdownStatus;
+	protected JComboBox<String> dropdownRequirement;
+	protected JList<User> listChosenAssignees;
+	protected JList<User> listPossibleAssignees;
+	protected JSpinner spinnerEstimatedEffort;
+	protected JSpinner spinnerActualEffort;
+	protected JButton buttonAdd;
+	protected JButton buttonRemove;
+	protected JCalendar calStartDate;
+	protected JCalendar calDueDate;
 
 	protected void buildLayout() {
 		//Set the Panel

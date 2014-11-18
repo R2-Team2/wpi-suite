@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 @SuppressWarnings("serial")
-public class NewTaskPanel extends JPanel {
+public class NewTaskPanel extends AbstractTaskPanel {
 
 	//private WorkFlowSplitView parentPanel;
 	
@@ -46,8 +46,8 @@ public class NewTaskPanel extends JPanel {
 	/**
 	 * Creates the GUI for the NewTaskPanel
 	 */
-	private void buildLayout() {
-        buttonPanel = new NewTaskButtonPanel();
+	protected void buildLayout() {
+        buttonPanel = new NewTaskButtonPanel(this);
         infoPanel = new NewTaskInformationPanel(this);
         
         this.setLayout(new BorderLayout());

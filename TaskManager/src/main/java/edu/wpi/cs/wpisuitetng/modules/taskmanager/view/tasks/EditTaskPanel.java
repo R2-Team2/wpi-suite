@@ -4,32 +4,30 @@ import java.awt.BorderLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-public class EditTaskPanel {
-	//private WorkFlowSplitView parentPanel;
-	
-		private NewTaskInformationPanel infoPanel;
-	    private NewTaskButtonPanel buttonPanel;
-	    
-		private ViewEventController viewEventController = ViewEventController.getInstance();
-		
+public class EditTaskPanel extends AbstractTaskPanel {
 		/**
 		 * Constructor for the NewTaskPanel
+		 * @return 
 		 */
-		public NewTaskPanel() {
-			
+		public EditTaskPanel() {
 			this.buildLayout();
-			
 		}
 		
 		/**
 		 * Creates the GUI for the NewTaskPanel
 		 */
-		private void buildLayout() {
+		protected void buildLayout() {
 	        buttonPanel = new EditTaskButtonPanel(this);
 	        infoPanel = new EditTaskInformationPanel(this);
 	        
 	        this.setLayout(new BorderLayout());
 	        this.add(infoPanel, BorderLayout.CENTER);
 	        this.add(buttonPanel, BorderLayout.SOUTH);
+		}
+
+		@Override
+		public void createPressed() {
+			// TODO Auto-generated method stub
+			
 		}
 }

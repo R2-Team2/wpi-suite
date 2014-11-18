@@ -28,7 +28,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 	 * Constructor for the EditTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public void EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
