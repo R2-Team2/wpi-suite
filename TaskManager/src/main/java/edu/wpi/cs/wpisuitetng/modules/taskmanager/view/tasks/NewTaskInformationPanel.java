@@ -114,7 +114,7 @@ public class NewTaskInformationPanel extends JScrollPane {
 		dropdownRequirement.setBackground(Color.WHITE);
 		dropdownStatus = new JComboBox<String>();
 		dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
-		dropdownStatus.setEnabled(false);
+		//dropdownStatus.setEnabled(false);
 		dropdownStatus.setBackground(Color.WHITE);
 		//Lists
 		listChosenAssignees = new JList<User> (); //new JList<User>(listOfChosenAssignees);

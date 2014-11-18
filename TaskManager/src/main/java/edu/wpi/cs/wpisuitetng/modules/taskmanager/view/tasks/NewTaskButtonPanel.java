@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 /**
  *
  */
@@ -58,6 +60,7 @@ public class NewTaskButtonPanel extends JPanel {
 		buttonCreate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 parentPanel.createPressed();
+                ViewEventController.getInstance().refreshWorkFlowView();
             }
         });
 

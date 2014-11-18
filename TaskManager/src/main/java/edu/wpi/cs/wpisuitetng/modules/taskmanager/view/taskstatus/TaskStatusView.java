@@ -15,9 +15,11 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 
 import javax.swing.JTextPane;
 
@@ -80,16 +82,20 @@ public class TaskStatusView extends JPanel {
 	/** The TaskStatus title */
 	private String title;
 	
+	/** Represents whether the view has been initialized */
+	private boolean initialized;
 	/**
 	 * Create the panel.
 	 *
 	 * @param title the title
 	 */
-	public TaskStatusView(String title) {
+	public TaskStatusView(String title, String statusType) {
 
+		this.initialized = false;
 		this.title = title;
+		
 		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-		this.taskStatusObj = new TaskStatus(this.title);
+		this.taskStatusObj = new TaskStatus(statusType);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
@@ -109,17 +115,12 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setForeground(new Color(0, 0, 0));
 		txtpnTitle.setEditable(false);
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-		txtpnTitle.setText(this.taskStatusObj.getName());		
+		txtpnTitle.setText(this.title);	
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
 		panel.setBackground(Color.WHITE);
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
-		
-		taskStatusObj.addTask(new Task(101, "A Title", "A Title", 100, 200, new TaskStatus("new"),
-			"poop", new Date(), new Date(), new ArrayList<User> ()));
-		
-		requestTasksFromDb();
 	}
 	
 	
@@ -127,24 +128,39 @@ public class TaskStatusView extends JPanel {
 	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
 	public void requestTasksFromDb() {
-		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
 		RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
 		retrieveTasks.requestTasks();
 	}
 	
 	public void fillTaskList(Task[] taskArray) {
-		List<Task> taskList = Arrays.asList(taskArray);
-		taskStatusObj.setTaskList(new ArrayList<Task>(taskList));
+		taskStatusObj.setTaskList(new ArrayList<Task>());
+		for (Task t : taskArray) {
+			if (taskStatusObj.getName().equals(t.getStatus().getName())) {
+				taskStatusObj.addTask(t);
+			}
+		}
 		populateTaskStatusViewCards();
 	}
 	
 	public void populateTaskStatusViewCards() {
-		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
 		List<Task> taskList = taskStatusObj.getTaskList();
+		panel.removeAll();
 		for (int i = 0; i < taskList.size(); i++) {
 			Task t = taskList.get(i);
 			TaskCard card = new TaskCard(t.getTitle(), t.getDueDate().toString(), t.getUserForTaskCard());
 			panel.add(card, "newline");
 		}
+		this.revalidate();
+		//this.repaint();
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		if (!this.initialized) {
+			requestTasksFromDb();
+			this.initialized = true;
+		}
+		super.paintComponent(g);
+	}
+
 }
