@@ -9,10 +9,13 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.db4o.ObjectSet;
 
@@ -34,8 +37,8 @@ public class NewTaskPanel extends AbstractTaskPanel {
 
 	private WorkFlowSplitTabbedPanel parentPanel;
 	
-	private NewTaskInformationPanel infoPanel;
-    private NewTaskButtonPanel buttonPanel;
+	//private NewTaskInformationPanel infoPanel;
+    //private NewTaskButtonPanel buttonPanel;
     
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 	

@@ -53,7 +53,5 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         
 		this.buildLayout();
 	}
-	
-	
 }
 

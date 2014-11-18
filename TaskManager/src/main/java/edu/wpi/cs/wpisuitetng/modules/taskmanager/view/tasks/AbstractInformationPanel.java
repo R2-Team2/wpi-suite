@@ -12,6 +12,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +30,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -69,7 +73,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		contentPanel.setLayout(new MigLayout("","","shrink"));
 		//Instantiate GUI Elements
 		//Labels
-		JLabel labelTitle = new JLabel("Title: ");
+		JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
 		JLabel labelDescription = new JLabel("Description: ");
 		JLabel labelStatus = new JLabel("Status: ");
 		JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
@@ -79,9 +83,9 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		JLabel labelRequirement = new JLabel("Requirement: ");
 		JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
-		//Text Fields
-		boxTitle = new JTextField();
 		//Text Areas
+		boxTitle = new JTextField("");
+		
 		JScrollPane descrScroll = new JScrollPane();
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
@@ -230,6 +234,19 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 				//                }
 			}
 
+		});
+		
+		//Text Field Listeners
+		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+				  parentPanel.buttonPanel.validateTaskInfo();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+				  parentPanel.buttonPanel.validateTaskInfo();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+				  parentPanel.buttonPanel.validateTaskInfo();
+			  }
 		});
 	}
 
