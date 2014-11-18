@@ -9,17 +9,13 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.characteristics.TaskStatus;
+
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 
-/**
- * @author Lucine Bahtiarian
- *
- */
 public class CreateNewClass implements ICreateNewTask {
 
 	/* (non-Javadoc)

@@ -23,10 +23,7 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-/**
- * @author dbogatov
- *
- */
+@SuppressWarnings("serial")
 public class TaskButtonsPanel extends ToolbarGroupView {
 	// initialize the main view toolbar buttons
 		private final JButton createButton = new JButton("<html>Create<br />Task</html>");
@@ -56,13 +53,12 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				// Hopefully, won't get here
 			}
 			
-			// the action listener for the Create Requirement Button
+			// the action listener for the Create Action Button
 			createButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// bring up a create task pane
-					
-					// TODO ViewEventController.getInstance().createTask();
+					ViewEventController.getInstance().createTask();
 				}
 			});
 			
