@@ -22,11 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-<<<<<<< HEAD
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-=======
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
->>>>>>> 82e472d4775db7ec1bfc9bb45d58352ec2e90792
 
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
@@ -59,8 +56,6 @@ public class NewTaskPanel extends JPanel {
 	}
 	
 	/**
-=======
->>>>>>> 82e472d4775db7ec1bfc9bb45d58352ec2e90792
 	 * Creates the GUI for the NewTaskPanel
 	 */
 	private void buildLayout() {
