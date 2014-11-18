@@ -9,6 +9,31 @@
   ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
+import javax.swing.JPanel;
+
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
+
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+
+import javax.swing.JTextPane;
+
+import java.awt.GridLayout;
+
+import net.miginfocom.swing.MigLayout;
+
+import java.awt.GridBagLayout;
+
+import javax.swing.JScrollBar;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.border.MatteBorder;
+
 import java.awt.Color;
 
 import javax.swing.JPanel;
@@ -21,6 +46,19 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
@@ -41,15 +79,23 @@ public class TaskStatusView extends JPanel {
 	/** The panel. */
 	JPanel panel = new JPanel();
 	
+	/** The TaskStatus title */
+	private String title;
+	
+	/** Represents whether the view has been initialized */
+	private boolean initialized;
 	/**
 	 * Create the panel.
 	 *
 	 * @param title the title
 	 */
-	public TaskStatusView(String title) {
+	public TaskStatusView(String title, String statusType) {
 
+		this.initialized = false;
+		this.title = title;
+		
 		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-		this.taskStatusObj = new TaskStatus(title);
+		this.taskStatusObj = new TaskStatus(statusType);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
@@ -69,25 +115,52 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setForeground(Color.black);
 		txtpnTitle.setEditable(false);
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-		txtpnTitle.setText(this.taskStatusObj.getName());
+		txtpnTitle.setText(this.title);	
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
 		panel.setBackground(Color.WHITE);
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
-		PopulateTaskStatusViewCards();
 	}
 	
 	
 	/**
 	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
-	public void PopulateTaskStatusViewCards(){
-		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
-		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
-			TaskCard card = new TaskCard();
-			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
+	public void requestTasksFromDb() {
+		RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
+		retrieveTasks.requestTasks();
+	}
+	
+	public void fillTaskList(Task[] taskArray) {
+		taskStatusObj.setTaskList(new ArrayList<Task>());
+		for (Task t : taskArray) {
+			if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
+				taskStatusObj.addTask(t);
+			}
+		}
+		populateTaskStatusViewCards();
+	}
+	
+	public void populateTaskStatusViewCards() {
+		List<Task> taskList = taskStatusObj.getTaskList();
+		panel.removeAll();
+		for (int i = 0; i < taskList.size(); i++) {
+			Task t = taskList.get(i);
+			TaskCard card = new TaskCard(t.getTitle(), t.getDueDate().toString(), t.getUserForTaskCard());
 			panel.add(card, "newline");
 		}
+		this.revalidate();
+		//this.repaint();
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		if (!this.initialized) {
+			requestTasksFromDb();
+			this.initialized = true;
+		}
+		super.paintComponent(g);
+	}
+
 }

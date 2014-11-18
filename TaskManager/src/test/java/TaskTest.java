@@ -10,13 +10,14 @@
 ************************************/
  
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import static org.junit.Assert.*;
- 
+
 import org.junit.Before;
 import org.junit.Test;
  
+
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;

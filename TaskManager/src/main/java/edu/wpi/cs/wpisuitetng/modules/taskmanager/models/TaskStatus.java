@@ -6,29 +6,31 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-
 /**
  * This class contains the fields and methods for the Taskstatus
  */
 public class TaskStatus extends AbstractListModel {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3575239378691210918L;
+	private int taskStatusID;
     private String name;
-    private List<String> taskList;
+    private List<Task> taskList;
 
     /**
      * Constructor for the Taskstatus class
      */
     public TaskStatus(String name) {
         this.name = name;
-        this.taskList = new ArrayList<String>();
+        this.taskList = new ArrayList<Task>();
     }
 
     /**
@@ -54,7 +56,7 @@ public class TaskStatus extends AbstractListModel {
      *
      * @return taskList ArrayList
      */
-    public List<String> getTaskList() {
+    public List<Task> getTaskList() {
         return this.taskList;
     }
 
@@ -62,7 +64,7 @@ public class TaskStatus extends AbstractListModel {
      * Sets the tasklist of the object
      *
      */
-    public void setTaskList(List<String> taskList) {
+    public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
 
@@ -70,7 +72,7 @@ public class TaskStatus extends AbstractListModel {
      * Adds a task to the tasklist
      * @param task String
      */
-    public void addTask(String task) {
+    public void addTask(Task task) {
         this.taskList.add(task);
     }
 
@@ -86,12 +88,20 @@ public class TaskStatus extends AbstractListModel {
         return this.taskList.size();
     }
 
-    public String getElementAt(int index) {
+    public Task getElementAt(int index) {
         return this.taskList.get(index);
     }
     
     public String toString() {
     	return this.name;
     }
+
+	public int getTaskStatusID() {
+		return taskStatusID;
+	}
+
+	public void setTaskStatusID(int taskStatusID) {
+		this.taskStatusID = taskStatusID;
+	}
 
 }

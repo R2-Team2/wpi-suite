@@ -14,9 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -27,7 +24,7 @@ import com.google.gson.Gson;
 /**
  * The Class Task.
  */
-public class Task extends AbstractModel implements ITask {
+public class Task extends AbstractModel {
 
 	/** The task id. */
 	private int taskID;
@@ -227,30 +224,6 @@ public class Task extends AbstractModel implements ITask {
 		return this.status;
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.models.ITask#setStatus(java.lang.String)
-	 */
-	public ITask setStatus(String status) {
-		switch (status.toLowerCase()) {
-			case "new":
-				this.setStatus(new TaskStatus("new"));
-				break;
-			case "scheduled":
-				this.setStatus(new TaskStatus("scheduled"));
-				break;
-			case "in progress":
-				this.setStatus(new TaskStatus("in progress"));
-				break;
-			case "complete":
-				this.setStatus(new TaskStatus("complete"));
-				break;
-			default:
-				throw new IllegalArgumentException(
-						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
-		}
-		return this;
-	}
-	
 	/**
 	 * Sets the status.
 	 *
@@ -415,5 +388,18 @@ public class Task extends AbstractModel implements ITask {
 		this.requirement = updatedTask.requirement;
 		this.status = updatedTask.status;
 	}
+
+	/**
+     * Returns an array of Tasks parsed from the given JSON-encoded
+     * string.
+     * 
+     * @param json a string containing a JSON-encoded array of Tasks
+     * @return an array of Tasks deserialized from the given json
+     *         string
+     */
+    public static Task[] fromJsonArray(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, Task[].class);
+    }
 
 }

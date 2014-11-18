@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 /**
@@ -26,6 +27,7 @@ public class ViewEventController {
 	
 	 private static ViewEventController instance = null;
 	 private MainView main = null;
+	 private WorkFlowView workflow = null;
 	 private WorkFlowSplitTabbedPanel split = null;
 	
     /**
@@ -87,5 +89,15 @@ public class ViewEventController {
     
     public void removeSplitTab() {
     	split.removeTabAt(split.getSelectedIndex());
+    }
+    
+    /**
+     * The following is a temporary way to refresh the task status panes from anywhere
+     */
+    public void setWorkFlowView(WorkFlowView workflow) {
+    	this.workflow = workflow;
+    }
+    public void refreshWorkFlowView() {
+    	workflow.refresh();
     }
 }

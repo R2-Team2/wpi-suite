@@ -38,7 +38,7 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 
 /**

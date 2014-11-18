@@ -18,6 +18,8 @@ import java.awt.event.FocusListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 /**
  * The Class AbstractButtonPanel.
  */
@@ -37,6 +39,7 @@ public abstract class AbstractButtonPanel extends JPanel {
 		buttonLeft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 parentPanel.createPressed();
+                ViewEventController.getInstance().refreshWorkFlowView();
             }
         });
 
