@@ -45,7 +45,6 @@ public class NewTaskPanel extends JPanel {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
