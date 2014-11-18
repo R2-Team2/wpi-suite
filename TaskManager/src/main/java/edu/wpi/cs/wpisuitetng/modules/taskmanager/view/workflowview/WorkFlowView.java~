@@ -26,7 +26,10 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> develop
 
 import javax.swing.BoxLayout;
 import javax.swing.JScrollBar;

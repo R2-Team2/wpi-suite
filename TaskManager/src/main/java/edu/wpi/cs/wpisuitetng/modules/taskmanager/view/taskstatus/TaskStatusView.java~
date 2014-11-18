@@ -9,6 +9,7 @@
   ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
+<<<<<<< HEAD
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -31,6 +32,8 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
 
+=======
+>>>>>>> develop
 import java.awt.Color;
 
 import javax.swing.JPanel;
