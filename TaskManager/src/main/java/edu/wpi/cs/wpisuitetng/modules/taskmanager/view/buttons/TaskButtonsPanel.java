@@ -71,7 +71,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				}
 			});
 			
-			// the action listener for the Reports Button
+			// the action listener for the Settings Button
 			settingsButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -80,7 +80,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				}
 			});
 
-			// the action listener for the Reports Button
+			// the action listener for the Help Button
 			helpButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

@@ -14,9 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -27,7 +24,7 @@ import com.google.gson.Gson;
 /**
  * The Class Task.
  */
-public class Task extends AbstractModel implements ITask {
+public class Task extends AbstractModel {
 
 	/** The task id. */
 	private int taskID;
@@ -225,30 +222,6 @@ public class Task extends AbstractModel implements ITask {
 	 */
 	public TaskStatus getStatus() {
 		return this.status;
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.models.ITask#setStatus(java.lang.String)
-	 */
-	public ITask setStatus(String status) {
-		switch (status.toLowerCase()) {
-			case "new":
-				this.setStatus(new TaskStatus("new"));
-				break;
-			case "scheduled":
-				this.setStatus(new TaskStatus("scheduled"));
-				break;
-			case "in progress":
-				this.setStatus(new TaskStatus("in progress"));
-				break;
-			case "complete":
-				this.setStatus(new TaskStatus("complete"));
-				break;
-			default:
-				throw new IllegalArgumentException(
-						"String given is not valid TaskStatus (must be NEW, SCHEDULED, IN_PROGRESS, or DONE)");
-		}
-		return this;
 	}
 	
 	/**

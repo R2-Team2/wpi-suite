@@ -13,12 +13,19 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 
+
+
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.FlowLayout;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 
@@ -32,7 +39,6 @@ public class WorkFlowView extends JPanel {
 	private JTextField txt2;
 	private JTextField txt3;
 	private JTextField txt4;
-
 	
 	/**
 	 * Create the panel.

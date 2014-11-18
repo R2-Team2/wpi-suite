@@ -6,20 +6,22 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-
 /**
  * This class contains the fields and methods for the Taskstatus
  */
 public class TaskStatus extends AbstractListModel {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3575239378691210918L;
+	private int taskStatusID;
     private String name;
     private List<String> taskList;
 
@@ -93,5 +95,13 @@ public class TaskStatus extends AbstractListModel {
     public String toString() {
     	return this.name;
     }
+
+	public int getTaskStatusID() {
+		return taskStatusID;
+	}
+
+	public void setTaskStatusID(int taskStatusID) {
+		this.taskStatusID = taskStatusID;
+	}
 
 }

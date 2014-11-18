@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
 
 import java.awt.BorderLayout;

@@ -21,10 +21,8 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -47,7 +45,7 @@ public class AddTaskController {
 		this.view = view;
 	}
 
-	/* 
+	/**
 	 * This method is called when the user clicks the Submit button
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -64,22 +62,16 @@ public class AddTaskController {
 		Date dueDate = view.getDueDate();
 		List<User> assignedUsers = view.getAssignedUsers();
 		System.out.println("Inside AddTaskController");
-		// Get the text that was entered
-		//String message = view.getTxtNewMessage().getText();
-		Task newTask = new Task(taskID, title, description, estimatedEffort, actualEffort, new TaskStatus(status), requirement, startDate, dueDate, assignedUsers);
-		//		System.out.println("Created task successfully");
-
-		// Make sure there is text
-		//		if (/*message.length() > 0*/true) {
-		// Clear the text field
-		//view.getTxtNewMessage().setText("");
 		
+		// Get the text that was entered
+		Task newTask = new Task(taskID, title, description, estimatedEffort, actualEffort, new TaskStatus(status), requirement, startDate, dueDate, assignedUsers);
+
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
 		request.setBody(newTask.toJson()); // put the new message in the body of the request
 		request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 		System.out.println("Sent task to database");
-		//		}
 	}
+	
 }
