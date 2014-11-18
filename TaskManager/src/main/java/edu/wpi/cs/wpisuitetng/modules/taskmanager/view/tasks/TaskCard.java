@@ -53,7 +53,7 @@ public class TaskCard extends JPanel {
 	 * Create the panel.
 	 */
 	public TaskCard() {
-		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBorder(new LineBorder(Color.black));
 		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 		
 		
