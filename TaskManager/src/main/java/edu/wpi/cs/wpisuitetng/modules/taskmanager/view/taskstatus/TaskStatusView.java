@@ -69,7 +69,7 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setForeground(new Color(0, 0, 0));
 		txtpnTitle.setEditable(false);
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-		txtpnTitle.setText(this.taskStatusObj.getName());		
+		txtpnTitle.setText(this.taskStatusObj.getName());
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
 		panel.setBackground(Color.WHITE);
 		
