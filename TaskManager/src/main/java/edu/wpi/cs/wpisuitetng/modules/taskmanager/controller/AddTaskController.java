@@ -56,22 +56,22 @@ public class AddTaskController {
 		String description = view.getDescription();
 		int estimatedEffort = view.getEstimatedEffort();
 		int actualEffort = view.getActualEffort();
-		String status = view.getStatus();
+		TaskStatus status = new TaskStatus(view.getStatus());
 		String requirement = view.getRequirement();
 		Date startDate = view.getStartDate();
 		Date dueDate = view.getDueDate();
 		List<User> assignedUsers = view.getAssignedUsers();
-		System.out.println("Inside AddTaskController");
-		
-		// Get the text that was entered
-		Task newTask = new Task(taskID, title, description, estimatedEffort, actualEffort, new TaskStatus(status), requirement, startDate, dueDate, assignedUsers);
+		Task newTask;
+
+		// Create Task
+		newTask = new Task(taskID, title, description, estimatedEffort, actualEffort, 
+				status, requirement, startDate, dueDate, assignedUsers);
 
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
 		request.setBody(newTask.toJson()); // put the new message in the body of the request
 		request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
-		System.out.println("Sent task to database");
 	}
-	
+
 }
