@@ -135,7 +135,7 @@ public class TaskStatusView extends JPanel {
 	public void fillTaskList(Task[] taskArray) {
 		taskStatusObj.setTaskList(new ArrayList<Task>());
 		for (Task t : taskArray) {
-			if (taskStatusObj.getName().equals(t.getStatus().getName())) {
+			if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
 				taskStatusObj.addTask(t);
 			}
 		}
