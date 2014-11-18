@@ -25,6 +25,7 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 
@@ -51,6 +52,9 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	protected JCalendar calStartDate;
 	protected JCalendar calDueDate;
 
+	
+	public abstract void setTask(Task aTask);
+	
 	protected void buildLayout() {
 		//Set the Panel
 		ScrollablePanel contentPanel = new ScrollablePanel();
@@ -143,6 +147,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 
 		this.setViewportView(contentPanel);
 	}
+	
 
 	/**
 	 * Sets up the listeners for the buttons in the New Task Information Panel

@@ -24,11 +24,14 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel{
+	
+	protected EditTaskPanel parentPanel;
+	
 	/**
 	 * Constructor for the EditTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
@@ -37,11 +40,20 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		String saveString = "Save";
 		String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(saveString);
+		buttonSave = new JButton(saveString);
 		buttonCancel = new JButton(cancelString);
-		this.add(buttonLeft);
+		this.add(buttonSave);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
-		setupListeners();
+		super.setupListeners();
+		this.setupListeners();
 	}
+	protected void setupListeners() {
+		buttonSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.savePressed();
+			}
+		});
+	}
+	
 }

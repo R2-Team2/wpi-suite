@@ -12,10 +12,13 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 public abstract class AbstractTaskPanel extends JPanel {
 		
-		protected AbstractTaskPanel parentPanel;
 		protected AbstractInformationPanel infoPanel;
 	    protected AbstractButtonPanel buttonPanel;
 		private ViewEventController viewEventController = ViewEventController.getInstance();
+		
+		public AbstractTaskPanel() {
+			
+		}
 		
 		/**
 		 * Creates the GUI for the NewTaskPanel
@@ -26,13 +29,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	        this.add(infoPanel, BorderLayout.CENTER);
 	        this.add(buttonPanel, BorderLayout.SOUTH);
 		}
-		
-		/**
-		 * Called when the Create Button is pressed
-		 * Creates a Task from the NewTask Info
-		 */
-		public abstract void createPressed();
-		
+
 		/**
 		 * Called when the Cancel Button is pressed
 		 * Closes out the NewTask Tab

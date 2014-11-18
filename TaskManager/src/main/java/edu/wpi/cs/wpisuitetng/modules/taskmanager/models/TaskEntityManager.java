@@ -79,6 +79,17 @@ public class TaskEntityManager implements EntityManager<Task> {
 		//Convert the List into an array
 		return tasks.toArray(new Task[0]);
 	}
+	
+	
+	/*
+	 * 
+	 */
+	public Task getById(Session s, int id) throws WPISuiteException {
+		List<Model> singleTaskList = db.retrieveAll(new Task(id, "", "", 0, 0,
+						null, "", null, null, null), s.getProject());
+		Task newTask = (Task) singleTaskList.get(0);
+		return newTask;
+	}
 
 	/*
 	 * @see

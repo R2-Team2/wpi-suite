@@ -34,6 +34,7 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
@@ -52,6 +53,23 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 		this.setMinimumSize(new Dimension(500, 200));
 
 		this.buildLayout();
+	}
+	
+	public void setTask(Task aTask)
+	{
+		aTask.getTaskID();
+		this.boxTitle.setText(aTask.getTitle());
+		this.boxDescription.setText(aTask.getDescription());
+		//this.dropdownStatus.setSelectedItem(aTask.getStatus().toString());
+		//requirement
+		this.listChosenAssignees=(JList)aTask.getAssignedUsers();
+		this.calStartDate.setDate(aTask.getStartDate());
+		this.calDueDate.setDate(aTask.getDueDate());
+		this.spinnerEstimatedEffort.setValue(aTask.getEstimatedEffort());
+		this.spinnerActualEffort.setValue(aTask.getActualEffort());
+	
+		//aTask.getActivityList();
+		
 	}
 }
 

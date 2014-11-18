@@ -11,32 +11,10 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.Border;
-
-import com.toedter.calendar.JCalendar;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -54,6 +32,9 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		this.buildLayout();
 	}
 	
-	
+	public void setTask(Task aTask)
+	{
+		
+	}
 }
 

@@ -15,10 +15,10 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.db4o.ObjectSet;
+
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -29,6 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
+	//protected NewTaskPanel parentPanel;
 
 	private WorkFlowSplitTabbedPanel parentPanel;
 	
@@ -41,6 +42,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel() {
+		super();
 		
 		this.buildLayout();
 		
