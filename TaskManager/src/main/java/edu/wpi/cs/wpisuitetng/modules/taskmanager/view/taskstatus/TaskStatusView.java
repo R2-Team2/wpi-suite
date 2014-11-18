@@ -9,62 +9,69 @@
   ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
-import javax.swing.JPanel;
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
-
-import java.awt.BorderLayout;
-
-import javax.swing.JTextPane;
-
-import java.awt.GridLayout;
-
-import net.miginfocom.swing.MigLayout;
-
-import java.awt.GridBagLayout;
-
-import javax.swing.JScrollBar;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.border.MatteBorder;
-
 import java.awt.Color;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
-import java.awt.Font;
-import java.util.ArrayList;
+import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaskStatusView.
+ */
+@SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
+	/** The task status obj. */
 	TaskStatus taskStatusObj;
+	
+	/** The txtpn title. */
 	JTextPane txtpnTitle = new JTextPane();
+	
+	/** The panel. */
 	JPanel panel = new JPanel();
 	
 	/**
 	 * Create the panel.
+	 *
+	 * @param title the title
 	 */
 	public TaskStatusView(String title) {
-		
-		setLayout(new MigLayout("", "[236px]", "[26px][200px,grow 500]"));
-		
+
+		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
 		this.taskStatusObj = new TaskStatus(title);
-		txtpnTitle.setForeground(new Color(0, 0, 0));
-		txtpnTitle.setEditable(false);
-		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(txtpnTitle.getFont().getSize() + 5f));
-		txtpnTitle.setText(this.taskStatusObj.getName());
-		add(txtpnTitle, "cell 0 0,alignx left,aligny top");
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPane, "cell 0 1,grow");
+		//Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(new EtchedBorder());
+		this.add(scrollPane, "cell 0 1,grow");
+		
+		// Create Format and Add Title JTextPane
+		StyledDocument document = new DefaultStyledDocument();
+		javax.swing.text.Style defaultStyle = document.getStyle(StyleContext.DEFAULT_STYLE);
+		StyleConstants.setAlignment(defaultStyle, StyleConstants.ALIGN_CENTER);
+		JTextPane txtpnTitle = new JTextPane(document);
+		txtpnTitle.setBackground(UIManager.getColor("Button.background"));
+		txtpnTitle.setBorder(null);
+		txtpnTitle.setForeground(new Color(0, 0, 0));
+		txtpnTitle.setEditable(false);
+		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
+		txtpnTitle.setText(this.taskStatusObj.getName());		
+		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
+		panel.setBackground(Color.WHITE);
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
@@ -73,7 +80,7 @@ public class TaskStatusView extends JPanel {
 	
 	
 	/**
-	 * Populate TaskStatusView with Cards Associated with the Status
+	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
 	public void PopulateTaskStatusViewCards(){
 		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
