@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
 /**
@@ -59,6 +60,12 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 	}
 	
 	public void addCreateTaskTab() {
-        this.addTab("New Task", null, new NewTaskPanel(), "New Task");
+        this.addTab("New Task", null, new NewTaskPanel(this), "New Task");
+	}
+	
+	public void checkForHide() {
+		if(this.getTabCount() <= 0) {
+			ViewEventController.getInstance().closeNewTaskPanel();
+		}
 	}
 }

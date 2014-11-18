@@ -19,36 +19,29 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-
 /**
  *
  */
 @SuppressWarnings("serial")
-public class NewTaskButtonPanel extends AbstractButtonPanel {
-	//Class Variables
-
+public class EditTaskButtonPanel extends AbstractButtonPanel{
 	/**
-	 * Constructor for the NewTaskButtonPanel
+	 * Constructor for the EditTaskButtonPanel
 	 * @param parentPanel
 	 */
-	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
 		this.parentPanel = parentPanel;
 		//Set Button Messages
-		String createString = "Create";
+		String saveString = "Save";
 		String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(createString);
+		buttonLeft = new JButton(saveString);
 		buttonCancel = new JButton(cancelString);
-		buttonLeft.setEnabled(false);
 		this.add(buttonLeft);
 		this.add(buttonCancel);
-
+//		parentPanel.createPressed();
 		setupListeners();
 	}
-
 }
-

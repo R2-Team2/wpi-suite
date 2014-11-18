@@ -9,30 +9,38 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.db4o.ObjectSet;
+
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
+/**
+ * The Class NewTaskPanel.
+ */
 @SuppressWarnings("serial")
-public class NewTaskPanel extends JPanel {
+public class NewTaskPanel extends AbstractTaskPanel {
 
 	private WorkFlowSplitTabbedPanel parentPanel;
 	
-	private NewTaskInformationPanel infoPanel;
-    	private NewTaskButtonPanel buttonPanel;
+	//private NewTaskInformationPanel infoPanel;
+    //private NewTaskButtonPanel buttonPanel;
     
 	private ViewEventController viewEventController = ViewEventController.getInstance();
 	
@@ -40,6 +48,7 @@ public class NewTaskPanel extends JPanel {
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel() {
+		super();
 		
 		this.buildLayout();
 		
@@ -49,8 +58,8 @@ public class NewTaskPanel extends JPanel {
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
+		super(parentPanel);
 		this.parentPanel = parentPanel;
-		
 		this.buildLayout();
 		
 	}
@@ -58,7 +67,7 @@ public class NewTaskPanel extends JPanel {
 	/**
 	 * Creates the GUI for the NewTaskPanel
 	 */
-	private void buildLayout() {
+	protected void buildLayout() {
         buttonPanel = new NewTaskButtonPanel(this);
         infoPanel = new NewTaskInformationPanel(this);
         
@@ -73,7 +82,6 @@ public class NewTaskPanel extends JPanel {
 	 */
 	public void createPressed() {
 		// create a task, send to to controller
-//		new AddTaskController(this);
 		AddTaskController addNewTask = new AddTaskController(this);
 		addNewTask.addTask();
 		
@@ -82,8 +90,8 @@ public class NewTaskPanel extends JPanel {
 		
 		// TODO: create task card
 		// TODO: put task card in proper task status
-		ViewEventController.getInstance().closeNewTaskPanel();
-//		parentPanel.hideCreateNewTaskPanel();
+		ViewEventController.getInstance().removeSplitTab();
+		this.parentPanel.checkForHide();
 	}
 	
 	/**
@@ -91,7 +99,8 @@ public class NewTaskPanel extends JPanel {
 	 * Closes out the NewTask Tab
 	 */
 	public void cancelPressed() {
-		//viewEventController.removeTab(parentPanel);
+		ViewEventController.getInstance().removeSplitTab();
+		this.parentPanel.checkForHide();
 	}
 	
 	/**
@@ -166,4 +175,13 @@ public class NewTaskPanel extends JPanel {
 		return infoPanel.getAssignedUsers();
 	}
 	
+	public void setInfoPanel(NewTaskInformationPanel aPanel)
+	{
+		this.infoPanel = aPanel;
+	}
+	
+	public void setButtPanel(NewTaskButtonPanel aPanel)
+	{
+		this.buttonPanel = aPanel;
+	}
 }
