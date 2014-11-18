@@ -107,8 +107,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
 		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
 		//Buttons
-		buttonAdd = new JButton("Add");
-		buttonRemove = new JButton("Remove");
+		buttonAdd = new JButton(">>");
+		buttonRemove = new JButton("<<");
 		//Calendars
 		calStartDate = new JCalendar();
 		calDueDate = new JCalendar();
@@ -123,6 +123,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		//Setup Columns
 		JPanel leftColumn = new JPanel(new MigLayout());
 		JPanel rightColumn = new JPanel(new MigLayout());
+		JPanel centerColumn = new JPanel(new MigLayout());
 
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
@@ -136,7 +137,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		leftColumn.add(labelPossibleAssignee, "left, wrap");
 		leftColumn.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
 
-		leftColumn.add(buttonAdd, "center, wrap");
+		centerColumn.add(buttonAdd, "center, wrap");
 
 		rightColumn.add(labelEstimatedEffort, "left, wrap");
 		rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
@@ -150,9 +151,10 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		rightColumn.add(labelChosenAssignee, "left, wrap");
 		rightColumn.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
 
-		rightColumn.add(buttonRemove, "center, wrap");
+		centerColumn.add(buttonRemove, "center, wrap");
 
 		contentPanel.add(leftColumn, "left, spany, growy, push");
+		contentPanel.add(centerColumn,"center, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
 
 		setupListeners();
