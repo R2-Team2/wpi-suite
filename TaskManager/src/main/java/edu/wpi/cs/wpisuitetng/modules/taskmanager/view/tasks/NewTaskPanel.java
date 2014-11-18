@@ -22,12 +22,13 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.TempPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 
 @SuppressWarnings("serial")
 public class NewTaskPanel extends JPanel {
 
-	//private WorkFlowSplitView parentPanel;
+	private WorkFlowSplitTabbedPanel parentPanel;
 	
 	private NewTaskInformationPanel infoPanel;
     private NewTaskButtonPanel buttonPanel;
@@ -38,6 +39,16 @@ public class NewTaskPanel extends JPanel {
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel() {
+		
+		this.buildLayout();
+		
+	}
+	
+	/**
+	 * Constructor for the NewTaskPanel
+	 */
+	public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
+		this.parentPanel = parentPanel;
 		
 		this.buildLayout();
 		
@@ -75,9 +86,7 @@ public class NewTaskPanel extends JPanel {
 	 * Closes out the NewTask Tab
 	 */
 	public void cancelPressed() {
-		ViewEventController.getInstance().closeNewTaskPanel();
-		//viewEventController.removeTab();
-		//parentPanel.hideCreateNewTaskPanel();
+		//viewEventController.removeTab(parentPanel);
 	}
 	
 	/**

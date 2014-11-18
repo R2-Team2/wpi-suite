@@ -46,9 +46,11 @@ public class NewTaskInformationPanel extends JScrollPane {
 	//Class Variables
 	private NewTaskPanel parentPanel;
 	
+
 	private User[] listOfChosenAssignees = new User[]{};
 	private User[] listOfPossibleAssignees = new User[]{};
-	private String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+	private String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), 
+			new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 	private String[] listOfRequirements = new String[] {"None"};
 	
     private final Border defaultBorder = (new JTextField()).getBorder();
