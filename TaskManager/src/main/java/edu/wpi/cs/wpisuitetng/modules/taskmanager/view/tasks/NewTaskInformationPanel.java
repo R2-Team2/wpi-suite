@@ -43,7 +43,6 @@ import net.miginfocom.swing.MigLayout;
  */
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
-
 	/**
 	 * Constructor for NewTaskInformationPanel
 	 * @param parentPanel
