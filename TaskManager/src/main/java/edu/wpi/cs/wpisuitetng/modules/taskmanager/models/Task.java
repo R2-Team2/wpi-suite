@@ -317,6 +317,23 @@ public class Task extends AbstractModel implements ITask {
 	public List<User> getAssignedUsers() {
 		return this.assignedUsers;
 	}
+	
+	/**
+	 * Return name of first user assigned to task in correct format to be displayed on a task card
+	 * 
+	 * @return String
+	 */
+	public String getUserForTaskCard() {
+		if(this.assignedUsers.size()>1){
+			return this.assignedUsers.get(0).getName() + " ...";
+		}
+		else if(this.assignedUsers.size()==0){
+			return "";
+		}
+		else{
+			return this.assignedUsers.get(0).getName();
+		}
+	}
 
 	/**
 	 * Adds the activity.
