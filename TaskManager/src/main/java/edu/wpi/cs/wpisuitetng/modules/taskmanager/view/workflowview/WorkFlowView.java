@@ -43,7 +43,7 @@ public class WorkFlowView extends JPanel {
 		setLayout(new BorderLayout());
 		
 		JScrollBar hbar = new JScrollBar(JScrollBar.HORIZONTAL,30,20,0,300);
-		this.add(hbar, BorderLayout.SOUTH);
+		//this.add(hbar, BorderLayout.SOUTH);
 		//JScrollPane scrollPane = new JScrollPane();
 		//this.add(scrollPane, BorderLayout.SOUTH);
 		

@@ -9,30 +9,13 @@
   ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
-<<<<<<< HEAD
 import java.awt.Color;
-=======
-import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.*;
-
-import java.awt.BorderLayout;
-
-import javax.swing.JTextPane;
-
-import java.awt.GridLayout;
-
-import net.miginfocom.swing.MigLayout;
-
-import java.awt.GridBagLayout;
-
-import javax.swing.JScrollBar;
->>>>>>> develop
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleConstants;
@@ -40,8 +23,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
-
-import javax.swing.UIManager;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
@@ -55,13 +37,9 @@ public class TaskStatusView extends JPanel {
 	 */
 	public TaskStatusView(String title) {
 
-		setLayout(new MigLayout("", "[236px]", "[26px][200px,grow 500]"));
+		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
 		this.taskStatusObj = new TaskStatus(title);
-		txtpnTitle.setForeground(new Color(0, 0, 0));
-		txtpnTitle.setEditable(false);
-		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(txtpnTitle.getFont().getSize() + 5f));
-		txtpnTitle.setText(this.taskStatusObj.getName());
-		add(txtpnTitle, "cell 0 0,alignx left,aligny top");
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -70,11 +48,10 @@ public class TaskStatusView extends JPanel {
 		scrollPane.setBorder(new EtchedBorder());
 		this.add(scrollPane, "cell 0 1,grow");
 		
-		
+		// Create Format and Add Title JTextPane
 		StyledDocument document = new DefaultStyledDocument();
 		javax.swing.text.Style defaultStyle = document.getStyle(StyleContext.DEFAULT_STYLE);
 		StyleConstants.setAlignment(defaultStyle, StyleConstants.ALIGN_CENTER);
-		
 		JTextPane txtpnTitle = new JTextPane(document);
 		txtpnTitle.setBackground(UIManager.getColor("Button.background"));
 		txtpnTitle.setBorder(null);
@@ -83,6 +60,7 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
 		txtpnTitle.setText(this.taskStatusObj.getName());		
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
+		panel.setBackground(Color.WHITE);
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
