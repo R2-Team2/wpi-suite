@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * from the server. This controller is called when the user
  * clicks the refresh button.
  * 
- * @author Chris Casola
  */
 public class GetTasksController implements ActionListener {
     

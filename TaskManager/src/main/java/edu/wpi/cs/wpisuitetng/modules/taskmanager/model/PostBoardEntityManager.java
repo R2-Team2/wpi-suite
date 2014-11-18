@@ -26,7 +26,6 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
  * This is the entity manager for the PostBoardMessage in the
  * PostBoard module.
  * 
- * @author Chris Casola
  */
 public class PostBoardEntityManager implements EntityManager<PostBoardMessage> {
     

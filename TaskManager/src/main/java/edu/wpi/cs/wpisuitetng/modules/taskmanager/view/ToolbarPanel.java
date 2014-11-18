@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 /**
  * This panel contains the refresh button
  * 
- * @author Chris Casola
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends JPanel {

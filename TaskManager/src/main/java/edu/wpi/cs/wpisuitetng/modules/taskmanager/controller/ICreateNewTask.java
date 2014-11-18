@@ -6,10 +6,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * @author dbogatov
- *
- */
+
 public interface ICreateNewTask {
 	/**
 	 * Method called by the view to create a new task
