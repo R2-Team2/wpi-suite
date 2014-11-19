@@ -11,22 +11,23 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
  */
 public class EditTaskPanel extends AbstractTaskPanel {
+		
 		/**
-		 * Constructor for the NewTaskPanel
-		 * @return 
+		 * Constructor for the NewTaskPanel.
 		 */
 		public EditTaskPanel() {
 			this.buildLayout();
 		}
 		
 		/**
-		 * Creates the GUI for the NewTaskPanel
+		 * Creates the GUI for the NewTaskPanel.
 		 */
 		protected void buildLayout() {
 	        buttonPanel = new EditTaskButtonPanel(this);
@@ -37,6 +38,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
 	        this.add(buttonPanel, BorderLayout.SOUTH);
 		}
 
+		/* (non-Javadoc)
+		 * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
+		 */
 		@Override
 		public void createPressed() {
 			// TODO Auto-generated method stub

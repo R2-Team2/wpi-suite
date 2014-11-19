@@ -1,16 +1,17 @@
-  /* All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
-  * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributors:
-  *    R2-Team2
-  ******************************************************************************/
+  /*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors:
+ * 	Team R2-Team2
+ ******************************************************************************/
 //this class has depricated through task 24- create collapsing sidebar.
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+
 
 
 
@@ -20,21 +21,21 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import net.miginfocom.swing.MigLayout;
 
-import java.awt.FlowLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BoxLayout;
+
 import javax.swing.JScrollBar;
-import javax.swing.SpringLayout;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+
+
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,13 +45,26 @@ import javax.swing.ScrollPaneConstants;
 
 
 public class WorkFlowView extends JPanel {
+	
+	/** The work flow obj. */
 	private WorkFlow workFlowObj;
 	
+	/** The txt text. */
 	private JTextField txtText;
-	private JPanel taskStatusPanel;
+	
+	/** The task status panel. */
+	private final JPanel taskStatusPanel;
+	
+	/** The txt1. */
 	private JTextField txt1;
+	
+	/** The txt2. */
 	private JTextField txt2;
+	
+	/** The txt3. */
 	private JTextField txt3;
+	
+	/** The txt4. */
 	private JTextField txt4;
 	
 	/** The title. */
@@ -69,17 +83,17 @@ public class WorkFlowView extends JPanel {
 		
 		setLayout(new BorderLayout());
 		
-		JScrollBar hbar = new JScrollBar(JScrollBar.HORIZONTAL,30,20,0,300);
+		final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
 		//this.add(hbar, BorderLayout.SOUTH);
 		//JScrollPane scrollPane = new JScrollPane();
 		//this.add(scrollPane, BorderLayout.SOUTH);
 		
 		taskStatusPanel = new JPanel();
 		this.add(taskStatusPanel, BorderLayout.CENTER);
-		TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
-		TaskStatusView taskStatusSelDev = new TaskStatusView("Selected for Development", "scheduled");
-		TaskStatusView taskStatusInDev = new TaskStatusView("Currently in Development", "in progress");
-		TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
+		final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
+		final TaskStatusView taskStatusSelDev = new TaskStatusView("Selected for Development", "scheduled");
+		final TaskStatusView taskStatusInDev = new TaskStatusView("Currently in Development", "in progress");
+		final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
 		
 		taskStatusPanel.setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left][350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 		taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -93,14 +107,27 @@ public class WorkFlowView extends JPanel {
 		views.add(taskStatusDone);
 	}
 	
+	/**
+	 * Gets the work flow obj.
+	 *
+	 * @return the work flow obj
+	 */
 	public WorkFlow getWorkFlowObj() {
 		return workFlowObj;
 	}
 
+	/**
+	 * Sets the work flow obj.
+	 *
+	 * @param workFlowObj the new work flow obj
+	 */
 	public void setWorkFlowObj(WorkFlow workFlowObj) {
 		this.workFlowObj = workFlowObj;
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		for (TaskStatusView v : views) {
 			v.requestTasksFromDb();

@@ -14,11 +14,14 @@ import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TempPanel.
  */
 public class TempPanel extends JPanel {
-	private JTextField textField;
+	
+	/** The text field. */
+	private final JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -26,7 +29,7 @@ public class TempPanel extends JPanel {
 	public TempPanel() {
 		setLayout(new MigLayout("", "[61px,grow]", "[16px][]"));
 		
-		JLabel label = new JLabel("New label");
+		final JLabel label = new JLabel("New label");
 		add(label, "cell 0 0,alignx left,aligny top");
 		
 		textField = new JTextField();

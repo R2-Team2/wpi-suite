@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Team Rolling Thunder
+ * Contributors:
+ * 	Team R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
@@ -16,7 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ScrollablePanel.
+ *
  * @version $Revision: 1.0 $
  */
 public class ScrollablePanel extends JPanel implements Scrollable {

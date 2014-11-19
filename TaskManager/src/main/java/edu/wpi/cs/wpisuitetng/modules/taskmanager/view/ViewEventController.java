@@ -9,32 +9,40 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
+
+
+
+
+
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * Provides an interface for interaction with the main GUI elements
  * All actions on GUI elements should be conducted through this controller.
  */
 public class ViewEventController {
 	
-	 private static ViewEventController instance = null;
-	 private MainView main = null;
-	 private WorkFlowView workflow = null;
-	 private WorkFlowSplitTabbedPanel split = null;
+	 /** The instance. */
+ 	private static ViewEventController instance = null;
+	 
+ 	/** The main. */
+ 	private MainView main = null;
+	 
+ 	/** The workflow. */
+ 	private WorkFlowView workflow = null;
+	 
+ 	/** The split. */
+ 	private WorkFlowSplitTabbedPanel split = null;
 	
     /**
      * Default constructor for ViewEventController. Is protected to prevent
      * instantiation.
      */
-    protected ViewEventController() {
+    private ViewEventController() {
     }
 
     /**
@@ -58,6 +66,11 @@ public class ViewEventController {
         main = mainview;
     }
     
+    /**
+     * Sets the split tabbed panel.
+     *
+     * @param splitTabbedPanel the new split tabbed panel
+     */
     public void setSplitTabbedPanel(WorkFlowSplitTabbedPanel splitTabbedPanel) {
     	split = splitTabbedPanel;
     }
@@ -73,30 +86,40 @@ public class ViewEventController {
     /*
      * Removes the current tab
      */
+    /**
+     * Close new task panel.
+     */
     public void closeNewTaskPanel() {
     	main.hideCreateTaskView();
     }
     
 
     /**
-     * Removes the tab for the given JComponent
-     * 
-     * @param comp the component to remove
+     * Removes the tab for the given JComponent.
      */
     public void removeTab() {
         main.removeTabAt(main.getSelectedIndex());
     }
     
+    /**
+     * Removes the split tab.
+     */
     public void removeSplitTab() {
     	split.removeTabAt(split.getSelectedIndex());
     }
     
     /**
-     * The following is a temporary way to refresh the task status panes from anywhere
+     * The following is a temporary way to refresh the task status panes from anywhere.
+     *
+     * @param workflow the new work flow view
      */
     public void setWorkFlowView(WorkFlowView workflow) {
     	this.workflow = workflow;
     }
+    
+    /**
+     * Refresh work flow view.
+     */
     public void refreshWorkFlowView() {
     	workflow.refresh();
     }

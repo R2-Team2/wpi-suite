@@ -12,8 +12,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,52 +41,89 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel.
  */
-public abstract class AbstractInformationPanel extends JScrollPane{
+public class AbstractInformationPanel extends JScrollPane{
+	
+	/** The parent panel. */
 	protected AbstractTaskPanel parentPanel;
 
+	/** The list of chosen assignees. */
 	protected User[] listOfChosenAssignees = new User[]{};
+	
+	/** The list of possible assignees. */
 	protected User[] listOfPossibleAssignees = new User[]{};
+	
+	/** The list of statuses. */
 	protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+	
+	/** The list of requirements. */
 	protected String[] listOfRequirements = new String[] {"None"};
 
+	/** The default border. */
 	protected final Border defaultBorder = (new JTextField()).getBorder();
 
+	/** The box title. */
 	protected JTextField boxTitle;
+	
+	/** The box description. */
 	protected JTextArea boxDescription;
+	
+	/** The dropdown status. */
 	protected JComboBox<String> dropdownStatus;
+	
+	/** The dropdown requirement. */
 	protected JComboBox<String> dropdownRequirement;
+	
+	/** The list chosen assignees. */
 	protected JList<User> listChosenAssignees;
+	
+	/** The list possible assignees. */
 	protected JList<User> listPossibleAssignees;
+	
+	/** The spinner estimated effort. */
 	protected JSpinner spinnerEstimatedEffort;
+	
+	/** The spinner actual effort. */
 	protected JSpinner spinnerActualEffort;
+	
+	/** The button add. */
 	protected JButton buttonAdd;
+	
+	/** The button remove. */
 	protected JButton buttonRemove;
+	
+	/** The cal start date. */
 	protected JCalendar calStartDate;
+	
+	/** The cal due date. */
 	protected JCalendar calDueDate;
 
+	/**
+	 * Builds the layout.
+	 */
 	protected void buildLayout() {
 		//Set the Panel
-		ScrollablePanel contentPanel = new ScrollablePanel();
-		contentPanel.setLayout(new MigLayout("","","shrink"));
+		final ScrollablePanel contentPanel = new ScrollablePanel();
+		contentPanel.setLayout(new MigLayout("", "", "shrink"));
 		//Instantiate GUI Elements
 		//Labels
-		JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-		JLabel labelDescription = new JLabel("Description: ");
-		JLabel labelStatus = new JLabel("Status: ");
-		JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
-		JLabel labelActualEffort = new JLabel("Actual Effort: ");
-		JLabel labelDueDate = new JLabel("Due Date: ");
-		JLabel labelStartDate = new JLabel("Start Date: ");
-		JLabel labelRequirement = new JLabel("Requirement: ");
-		JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
-		JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+		final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
+		final JLabel labelDescription = new JLabel("Description: ");
+		final JLabel labelStatus = new JLabel("Status: ");
+		final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
+		final JLabel labelActualEffort = new JLabel("Actual Effort: ");
+		final JLabel labelDueDate = new JLabel("Due Date: ");
+		final JLabel labelStartDate = new JLabel("Start Date: ");
+		final JLabel labelRequirement = new JLabel("Requirement: ");
+		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
+		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 		//Text Areas
 		boxTitle = new JTextField("");
 		
-		JScrollPane descrScroll = new JScrollPane();
+		final JScrollPane descrScroll = new JScrollPane();
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
 		boxDescription.setBorder(defaultBorder);
@@ -104,8 +141,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		listChosenAssignees = new JList<User> (); //new JList<User>(listOfChosenAssignees);
 		listPossibleAssignees = new JList<User> ();//new JList<User>(listOfPossibleAssignees);
 		//Spinners
-		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
-		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
+		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
 		//Buttons
 		buttonAdd = new JButton("Add");
 		buttonRemove = new JButton("Remove");
@@ -121,8 +158,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
 		//Setup Columns
-		JPanel leftColumn = new JPanel(new MigLayout());
-		JPanel rightColumn = new JPanel(new MigLayout());
+		final JPanel leftColumn = new JPanel(new MigLayout());
+		final JPanel rightColumn = new JPanel(new MigLayout());
 
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
@@ -161,7 +198,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Sets up the listeners for the buttons in the New Task Information Panel
+	 * Sets up the listeners for the buttons in the New Task Information Panel.
 	 */
 	protected void setupListeners() {
 		buttonAdd.addActionListener(new ActionListener() {
@@ -251,7 +288,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JTextField holding the title
+	 * Returns the JTextField holding the title.
+	 *
 	 * @return JTextField
 	 */
 	public JTextField getTitle() {
@@ -259,7 +297,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JTextArea holding the description
+	 * Returns the JTextArea holding the description.
+	 *
 	 * @return JTextArea
 	 */
 	public JTextArea getDescription() {
@@ -267,7 +306,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JSpinner holding the estimated effort
+	 * Returns the JSpinner holding the estimated effort.
+	 *
 	 * @return JSpinner
 	 */
 	public JSpinner getEstimatedEffort() {
@@ -275,7 +315,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JSpinner holding the actual effort
+	 * Returns the JSpinner holding the actual effort.
+	 *
 	 * @return JSpinner
 	 */
 	public JSpinner getActualEffort() {
@@ -283,7 +324,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JComboBox holding the status
+	 * Returns the JComboBox holding the status.
+	 *
 	 * @return JComboBox<String>
 	 */
 	public JComboBox<String> getStatus() {
@@ -291,7 +333,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JComboBox holding the Requirement
+	 * Returns the JComboBox holding the Requirement.
+	 *
 	 * @return JComboBox<String>
 	 */
 	public JComboBox<String> getRequirement() {
@@ -299,7 +342,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JCalendar holding the Start Date
+	 * Returns the JCalendar holding the Start Date.
+	 *
 	 * @return JCalendar
 	 */
 	public JCalendar getStartDate() {
@@ -307,7 +351,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JCalendar holding the Due Date
+	 * Returns the JCalendar holding the Due Date.
+	 *
 	 * @return JCalendar
 	 */
 	public JCalendar getDueDate() {
@@ -315,7 +360,8 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	}
 
 	/**
-	 * Returns the JList holding the Chosen Members
+	 * Returns the JList holding the Chosen Members.
+	 *
 	 * @return JList<String>
 	 */
 	public List<User> getAssignedUsers() {

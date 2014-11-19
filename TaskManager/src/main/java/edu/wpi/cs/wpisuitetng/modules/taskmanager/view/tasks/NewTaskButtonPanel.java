@@ -1,36 +1,36 @@
 
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
- *
+ * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *    R2-Team2
- *******************************************************************************/
+ * 	Team R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+
+
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Class NewTaskButtonPanel.
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 
 	/**
-	 * Constructor for the NewTaskButtonPanel
-	 * @param parentPanel
+	 * Constructor for the NewTaskButtonPanel.
+	 *
+	 * @param parentPanel the parent panel
 	 */
 	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
 		//Set Panel Layout
@@ -38,8 +38,8 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		//Set Parent Panel
 		this.parentPanel = parentPanel;
 		//Set Button Messages
-		String createString = "Create";
-		String cancelString = "Cancel";
+		final String createString = "Create";
+		final String cancelString = "Cancel";
 		//Create Buttons
 		buttonLeft = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
