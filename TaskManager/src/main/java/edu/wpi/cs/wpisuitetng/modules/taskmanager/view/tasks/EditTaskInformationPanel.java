@@ -47,7 +47,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 	 */
 	public EditTaskInformationPanel(AbstractTaskPanel parentPanel) {
 		this.parentPanel = parentPanel;
-		this.setMinimumSize(new Dimension(500, 200));
+		//this.setMinimumSize(new Dimension(500, 200));
+		
 
 		this.buildLayout();
 	}

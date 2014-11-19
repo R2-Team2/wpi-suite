@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -50,7 +51,10 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 
 	protected User[] listOfChosenAssignees = new User[]{};
 	protected User[] listOfPossibleAssignees = new User[]{};
-	protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(), new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+	protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(), 
+			new TaskStatus("scheduled").toString(), 
+			new TaskStatus("in progress").toString(), 
+			new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 	protected String[] listOfRequirements = new String[] {"None"};
 
 	protected final Border defaultBorder = (new JTextField()).getBorder();
@@ -69,25 +73,27 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	protected JCalendar calDueDate;
 
 	protected void buildLayout() {
+		this.setMinimumSize(new Dimension(540, 200));
 		//Set the Panel
-		ScrollablePanel contentPanel = new ScrollablePanel();
-		contentPanel.setLayout(new MigLayout("","","shrink"));
+		final ScrollablePanel contentPanel = new ScrollablePanel();
+		contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+		//contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
 		//Instantiate GUI Elements
 		//Labels
-		JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-		JLabel labelDescription = new JLabel("Description: ");
-		JLabel labelStatus = new JLabel("Status: ");
-		JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
-		JLabel labelActualEffort = new JLabel("Actual Effort: ");
-		JLabel labelDueDate = new JLabel("Due Date: ");
-		JLabel labelStartDate = new JLabel("Start Date: ");
-		JLabel labelRequirement = new JLabel("Requirement: ");
-		JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
-		JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+		final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
+		final JLabel labelDescription = new JLabel("Description: ");
+		final JLabel labelStatus = new JLabel("Status: ");
+		final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
+		final JLabel labelActualEffort = new JLabel("Actual Effort: ");
+		final JLabel labelDueDate = new JLabel("Due Date: ");
+		final JLabel labelStartDate = new JLabel("Start Date: ");
+		final JLabel labelRequirement = new JLabel("Requirement: ");
+		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
+		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 		//Text Areas
 		boxTitle = new JTextField("");
 		
-		JScrollPane descrScroll = new JScrollPane();
+		final JScrollPane descrScroll = new JScrollPane();
 		boxDescription = new JTextArea();
 		boxDescription.setLineWrap(true);
 		boxDescription.setBorder(defaultBorder);
@@ -102,14 +108,16 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		dropdownStatus.setEnabled(false);
 		dropdownStatus.setBackground(Color.WHITE);
 		//Lists
-		listChosenAssignees = new JList<User> (); //new JList<User>(listOfChosenAssignees);
-		listPossibleAssignees = new JList<User> ();//new JList<User>(listOfPossibleAssignees);
+		listChosenAssignees = new JList<User> ();
+		listPossibleAssignees = new JList<User> ();
 		//Spinners
-		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
-		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
+		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
 		//Buttons
 		buttonAdd = new JButton(">>");
+		buttonAdd.setEnabled(false);
 		buttonRemove = new JButton("<<");
+		buttonRemove.setEnabled(false);
 		//Calendars
 		calStartDate = new JCalendar();
 		calDueDate = new JCalendar();
@@ -118,14 +126,14 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 
 
 		//Setup Columns
-		JPanel leftColumn = new JPanel(new MigLayout());
-		JPanel rightColumn = new JPanel(new MigLayout());
+		final JPanel leftColumn = new JPanel(new MigLayout());
+		final JPanel rightColumn = new JPanel(new MigLayout());
 
-		JPanel bottom = new JPanel(new MigLayout());
+		final JPanel bottom = new JPanel(new MigLayout());
 		
-		JPanel bottomLeft = new JPanel(new MigLayout());
-		JPanel bottomCenter = new JPanel(new MigLayout());
-		JPanel bottomRight = new JPanel(new MigLayout());
+		final JPanel bottomLeft = new JPanel(new MigLayout());
+		final JPanel bottomCenter = new JPanel(new MigLayout());
+		final JPanel bottomRight = new JPanel(new MigLayout());
 
 		// Assignee view created and populated to the bottom Panel
 		bottomLeft.add(labelPossibleAssignee, "left, wrap");
@@ -162,7 +170,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		contentPanel.add(leftColumn, "left, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
 		
-		contentPanel.add(bottom,"center, dock south, growy, push");
+		contentPanel.add(bottom,"left 5, dock south, spany, growy, push");
 		
 		setupListeners();
 
