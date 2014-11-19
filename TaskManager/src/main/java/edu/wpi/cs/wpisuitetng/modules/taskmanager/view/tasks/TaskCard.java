@@ -34,8 +34,10 @@ public class TaskCard extends JPanel {
         this.setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
         // truncates the displayed task title if it's longer than 25 characters.
-        this.taskName.setToolTipText(nameData);
-        nameData = nameData.length() > 25 ? nameData.substring(0, 25).concat("...") : nameData;
+        if (nameData.length() > 25) {
+            this.taskName.setToolTipText(nameData);
+            nameData = nameData.substring(0, 25).concat("...");
+        }
         this.taskName.setText(nameData);
         this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
         this.taskName.setBackground(UIManager.getColor("Button.background"));
