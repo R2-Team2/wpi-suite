@@ -21,6 +21,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskCard.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class TaskCard extends JPanel {
 

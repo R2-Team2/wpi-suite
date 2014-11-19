@@ -14,6 +14,9 @@ import javax.swing.AbstractListModel;
 // TODO: Auto-generated Javadoc
 /**
  * This class contains the fields and methods for the Taskstatus.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class TaskStatus extends AbstractListModel {
 

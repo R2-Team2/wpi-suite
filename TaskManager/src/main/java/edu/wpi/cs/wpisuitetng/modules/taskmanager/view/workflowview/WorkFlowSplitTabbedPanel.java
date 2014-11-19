@@ -21,8 +21,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitTabbedPanel.
- *
+ * 
  * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 

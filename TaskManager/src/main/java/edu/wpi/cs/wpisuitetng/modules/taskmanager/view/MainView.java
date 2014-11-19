@@ -21,6 +21,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class MainView extends JTabbedPane {

@@ -17,6 +17,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractButtonPanel.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class AbstractButtonPanel extends JPanel {
     // Class Variables

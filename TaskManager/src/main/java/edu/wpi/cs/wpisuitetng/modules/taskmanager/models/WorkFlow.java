@@ -12,6 +12,9 @@ import java.util.List;
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlow.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class WorkFlow {
 

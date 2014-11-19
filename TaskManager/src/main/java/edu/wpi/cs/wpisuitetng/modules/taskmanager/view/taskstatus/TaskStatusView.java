@@ -31,6 +31,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {

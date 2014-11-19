@@ -23,6 +23,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskEntityManager.
+ * 
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class TaskEntityManager implements EntityManager<Task> {
 
