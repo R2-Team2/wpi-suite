@@ -115,7 +115,9 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
 		//Buttons
 		buttonAdd = new JButton(">>");
+		buttonAdd.setEnabled(false);
 		buttonRemove = new JButton("<<");
+		buttonRemove.setEnabled(false);
 		//Calendars
 		calStartDate = new JCalendar();
 		calDueDate = new JCalendar();
@@ -168,7 +170,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		contentPanel.add(leftColumn, "left, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
 		
-		contentPanel.add(bottom,"left, dock south, spany, growy, push");
+		contentPanel.add(bottom,"left 5, dock south, spany, growy, push");
 		
 		setupListeners();
 
