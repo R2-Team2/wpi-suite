@@ -120,7 +120,7 @@ public class TaskStatusView extends JPanel {
 		panel.setBackground(Color.WHITE);
 		
 		scrollPane.setViewportView(panel);
-		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
+		panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
 	}
 	
 	
