@@ -18,16 +18,26 @@ import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TaskCard.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class TaskCard extends JPanel {
 
+    /** The task obj. */
     private Task taskObj;
+    
+    /** The task name. */
     JTextPane taskName = new JTextPane();
 
     /**
      * Create the panel.
+     *
+     * @param nameData the name data
+     * @param dateData the date data
+     * @param userNameData the user name data
      */
     public TaskCard(String nameData, String dateData, String userNameData) {
         this.setBorder(new LineBorder(Color.black));
@@ -36,33 +46,43 @@ public class TaskCard extends JPanel {
 
         // truncates the displayed task title if it's longer than 25 characters. if
         if (nameData.length() > 45) {
-            this.taskName.setToolTipText(nameData);
+            taskName.setToolTipText(nameData);
             nameData = nameData.substring(0, 45).concat("...");
         }
 
-        this.taskName.setText(nameData);
-        this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
-        this.taskName.setEditable(false);
-        this.taskName.setBackground(UIManager.getColor("Button.background"));
-        this.add(this.taskName, "cell 0 0,alignx center,aligny center");
+        taskName.setText(nameData);
+        taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
+        taskName.setEditable(false);
+        taskName.setBackground(UIManager.getColor("Button.background"));
+        this.add(taskName, "cell 0 0,alignx center,aligny center");
 
-        JPanel infoPanel = new JPanel();
+        final JPanel infoPanel = new JPanel();
         this.add(infoPanel, "cell 0 1,grow");
         infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 
-        JLabel date = new JLabel(dateData);
+        final JLabel date = new JLabel(dateData);
         date.setFont(new Font("Tahoma", Font.PLAIN, 12));
         infoPanel.add(date, "cell 0 0,alignx left");
 
-        JLabel userName = new JLabel(userNameData);
+        final JLabel userName = new JLabel(userNameData);
         userName.setFont(new Font("Tahoma", Font.PLAIN, 12));
         infoPanel.add(userName, "cell 1 0,alignx right");
     }
 
+    /**
+     * Gets the task obj.
+     *
+     * @return the task obj
+     */
     public Task getTaskObj() {
-        return this.taskObj;
+        return taskObj;
     }
 
+    /**
+     * Sets the task obj.
+     *
+     * @param taskObj the new task obj
+     */
     public void setTaskObj(Task taskObj) {
         this.taskObj = taskObj;
     }
