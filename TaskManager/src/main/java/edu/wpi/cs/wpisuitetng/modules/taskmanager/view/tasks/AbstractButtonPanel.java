@@ -1,45 +1,42 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
- * R2-Team2
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors:
+ * 	Team R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractButtonPanel.
- * 
- * @author R2-Team2
- * @version $Revision: 1.0 $
  */
-public class AbstractButtonPanel extends JPanel {
-    // Class Variables
-    /** The parent panel. */
-    protected AbstractTaskPanel parentPanel;
+public abstract class AbstractButtonPanel extends JPanel {
+	//Class Variables
+	protected AbstractTaskPanel parentPanel;
+	
+	protected JButton buttonLeft;
+	protected JButton buttonCancel;
+	
+	
 
-    /** The button left. */
-    protected JButton buttonLeft;
-
-    /** The button cancel. */
-    protected JButton buttonCancel;
-
-
-
-    /**
-     * Sets up the listeners for the buttons in the New Task Button Panel.
-     */
-    protected void setupListeners() {
-        buttonLeft.addActionListener(new ActionListener() {
-            @Override
+	/**
+	 * Sets up the listeners for the buttons in the New Task Button Panel
+	 */
+	protected void setupListeners() {
+		buttonLeft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 parentPanel.createPressed();
                 ViewEventController.getInstance().refreshWorkFlowView();
@@ -53,17 +50,15 @@ public class AbstractButtonPanel extends JPanel {
             }
 
         });
-    }
-
-    /**
-     * Validate task info.
-     */
-    public void validateTaskInfo() {
-        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
-            buttonLeft.setEnabled(false);
-        } else {
-            buttonLeft.setEnabled(true);
-        }
-    }
+	}
+	
+	public void validateTaskInfo(){
+		if(parentPanel.infoPanel.boxTitle.getText().length() <= 0){
+			buttonLeft.setEnabled(false);
+		}
+		else{
+			buttonLeft.setEnabled(true);
+		}
+	}
 
 }

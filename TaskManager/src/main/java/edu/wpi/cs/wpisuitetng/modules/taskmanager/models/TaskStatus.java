@@ -1,8 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
- * R2-Team2
+ * Copyright (c) 2013 WPI-Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
@@ -11,48 +13,37 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-// TODO: Auto-generated Javadoc
 /**
- * This class contains the fields and methods for the Taskstatus.
- * 
- * @author R2-Team2
- * @version $Revision: 1.0 $
+ * This class contains the fields and methods for the Taskstatus
  */
 public class TaskStatus extends AbstractListModel {
-
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 3575239378691210918L;
-
-    /** The task status id. */
-    private int taskStatusID;
-
-    /** The name. */
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3575239378691210918L;
+	private int taskStatusID;
     private String name;
-
-    /** The task list. */
     private List<Task> taskList;
 
     /**
-     * Constructor for the Taskstatus class.
-     *
-     * @param name the name
+     * Constructor for the Taskstatus class
      */
     public TaskStatus(String name) {
         this.name = name;
-        taskList = new ArrayList<Task>();
+        this.taskList = new ArrayList<Task>();
     }
 
     /**
-     * Gets the name of the object.
+     * Gets the name of the object
      *
      * @return name String
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
-     * Sets the name of the object.
+     * Sets the name of the object
      *
      * @param name String
      */
@@ -61,84 +52,56 @@ public class TaskStatus extends AbstractListModel {
     }
 
     /**
-     * Gets the tasklist of the object.
+     * Gets the tasklist of the object
      *
      * @return taskList ArrayList
      */
     public List<Task> getTaskList() {
-        return taskList;
+        return this.taskList;
     }
 
     /**
-     * Sets the tasklist of the object.
+     * Sets the tasklist of the object
      *
-     * @param taskList the new task list
      */
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
 
     /**
-     * Adds a task to the tasklist.
-     *
+     * Adds a task to the tasklist
      * @param task String
      */
     public void addTask(Task task) {
-        taskList.add(task);
+        this.taskList.add(task);
     }
 
     /**
-     * Removes a task from the tasklist.
-     *
+     * Removes a task from the tasklist
      * @param task String
      */
     public void remTask(String task) {
-        taskList.remove(task);
+        this.taskList.remove(task);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.swing.ListModel#getSize()
-     */
-    @Override
     public int getSize() {
-        return taskList.size();
+        return this.taskList.size();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
-    @Override
     public Task getElementAt(int index) {
-        return taskList.get(index);
+        return this.taskList.get(index);
     }
-
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
+    
     public String toString() {
-        return name;
+    	return this.name;
     }
 
-    /**
-     * Gets the task status id.
-     *
-     * @return the task status id
-     */
-    public int getTaskStatusID() {
-        return taskStatusID;
-    }
+	public int getTaskStatusID() {
+		return taskStatusID;
+	}
 
-    /**
-     * Sets the task status id.
-     *
-     * @param taskStatusID the new task status id
-     */
-    public void setTaskStatusID(int taskStatusID) {
-        this.taskStatusID = taskStatusID;
-    }
+	public void setTaskStatusID(int taskStatusID) {
+		this.taskStatusID = taskStatusID;
+	}
 
 }
