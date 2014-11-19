@@ -9,6 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,54 +108,62 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
 		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0,0,255,1));
 		//Buttons
-		buttonAdd = new JButton("Add");
-		buttonRemove = new JButton("Remove");
+		buttonAdd = new JButton(">>");
+		buttonRemove = new JButton("<<");
 		//Calendars
 		calStartDate = new JCalendar();
 		calDueDate = new JCalendar();
 
 		//Setup GUI
-		contentPanel.add(labelTitle, "wrap");
-		contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-		contentPanel.add(labelDescription, "wrap");
-		contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
 		//Setup Columns
 		JPanel leftColumn = new JPanel(new MigLayout());
 		JPanel rightColumn = new JPanel(new MigLayout());
 
+		JPanel bottom = new JPanel(new MigLayout());
+		
+		JPanel bottomLeft = new JPanel(new MigLayout());
+		JPanel bottomCenter = new JPanel(new MigLayout());
+		JPanel bottomRight = new JPanel(new MigLayout());
+
+		// Assignee view created and populated to the bottom Panel
+		bottomLeft.add(labelPossibleAssignee, "left, wrap");
+		bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+		bottomCenter.add(buttonAdd, "center, wrap");
+		bottomCenter.add(buttonRemove, "center, wrap");
+		bottomRight.add(labelChosenAssignee, "left, wrap");
+		bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+		bottom.add(bottomLeft);
+		bottom.add(bottomCenter);
+		bottom.add(bottomRight);
+		
+		// left and right columns
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
-
 		leftColumn.add(labelRequirement, "left, wrap");
 		leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
-
 		leftColumn.add(labelStartDate, "left, wrap");
 		leftColumn.add(calStartDate, "left, wrap");
-
-		leftColumn.add(labelPossibleAssignee, "left, wrap");
-		leftColumn.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
-
-		leftColumn.add(buttonAdd, "center, wrap");
-
 		rightColumn.add(labelEstimatedEffort, "left, wrap");
 		rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
-
 		rightColumn.add(labelActualEffort, "left, wrap");
 		rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
-
 		rightColumn.add(labelDueDate, "left, wrap");
 		rightColumn.add(calDueDate, "left, wrap");
 
-		rightColumn.add(labelChosenAssignee, "left, wrap");
-		rightColumn.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+		// Populate contentPanel
+		contentPanel.add(labelTitle, "wrap");
+		contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-		rightColumn.add(buttonRemove, "center, wrap");
-
+		contentPanel.add(labelDescription, "wrap");
+		contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+		
 		contentPanel.add(leftColumn, "left, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
-
+		
+		contentPanel.add(bottom,"center, dock south, growy, push");
+		
 		setupListeners();
 
 		this.setViewportView(contentPanel);
