@@ -9,23 +9,34 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitView.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class WorkFlowSplitView extends JSplitPane{
+	
+	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel splitTabbedPanel;
 	
+	/**
+	 * Instantiates a new work flow split view.
+	 */
 	public WorkFlowSplitView() {
-		this.splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
+		splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
         ViewEventController.getInstance().setSplitTabbedPanel(splitTabbedPanel);
 		
@@ -38,20 +49,32 @@ public class WorkFlowSplitView extends JSplitPane{
         });
 	}
 	
+	/**
+	 * Creates the new task panel.
+	 */
 	public void createNewTaskPanel() {
-		this.splitTabbedPanel.addCreateTaskTab();
-		this.setRightComponent(this.splitTabbedPanel);
-		this.setOneTouchExpandable(true);
-		this.setDividerLocation(.6);
+		splitTabbedPanel.addCreateTaskTab();
+		// Sets the Right Component to its minimum size always
+		this.setResizeWeight(1.0);
+		this.setEnabled( false );
+		this.setOneTouchExpandable(false);
+		//this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
+		this.setRightComponent(splitTabbedPanel);
 	}
 
+	/**
+	 * Hide create new task panel.
+	 */
 	public void hideCreateNewTaskPanel(){
 		this.setRightComponent(null);
 		this.setOneTouchExpandable(false);
 		//this.setDividerLocation(0.0);
 	}
 	
+	/**
+	 * Collapse.
+	 */
 	public void collapse(){
 		this.setOneTouchExpandable(true);
 		this.setDividerLocation(1.0);

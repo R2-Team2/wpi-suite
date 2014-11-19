@@ -23,35 +23,49 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TaskButtonsPanel.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class TaskButtonsPanel extends ToolbarGroupView {
 	// initialize the main view toolbar buttons
-		private final JButton createButton = new JButton("<html>Create<br />Task</html>");
+		/** The create button. */
+	private final JButton createButton = new JButton("<html>Create<br />Task</html>");
+		
+		/** The reports button. */
 		private final JButton reportsButton = new JButton("<html>Reports</html>");
+		
+		/** The settings button. */
 		private final JButton settingsButton = new JButton("<html>Settings</html>");
+		
+		/** The help button. */
 		private final JButton helpButton = new JButton("<html>Help</html>");
 		
+		/** The content panel. */
 		private final JPanel contentPanel = new JPanel();
 		
+		/**
+		 * Instantiates a new task buttons panel.
+		 */
 		public TaskButtonsPanel() {
 			super("");
 			
-			this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+			contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 			this.setPreferredWidth(700);
 			
-			this.createButton.setHorizontalAlignment(SwingConstants.CENTER);
+			createButton.setHorizontalAlignment(SwingConstants.CENTER);
 			try {
 				Image img = ImageIO.read(this.getClass().getResourceAsStream("new_task.png"));
-				this.createButton.setIcon(new ImageIcon(img));
+				createButton.setIcon(new ImageIcon(img));
 				img = ImageIO.read(this.getClass().getResourceAsStream("reports.png"));
-				this.reportsButton.setIcon(new ImageIcon(img));
+				reportsButton.setIcon(new ImageIcon(img));
 				img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
-				this.settingsButton.setIcon(new ImageIcon(img));
+				settingsButton.setIcon(new ImageIcon(img));
 				img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
-				this.helpButton.setIcon(new ImageIcon(img));
+				helpButton.setIcon(new ImageIcon(img));
 			} catch (IOException ex) {
 				// Hopefully, won't get here
 				System.out.print("exception");
@@ -92,6 +106,11 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 					// TODO Action on ViewController ViewEventController.getInstance().createTask();
 				}
 			});
+			
+			//Gray out top bar buttons that are not currently being used
+			reportsButton.setEnabled(false);
+			settingsButton.setEnabled(false);
+			helpButton.setEnabled(false);
 			
 			contentPanel.add(reportsButton);
 			contentPanel.add(settingsButton);
