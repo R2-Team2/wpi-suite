@@ -30,18 +30,24 @@ public class TaskCard extends JPanel {
      * Create the panel.
      */
     public TaskCard(String nameData, String dateData, String userNameData) {
-        setBorder(new LineBorder(Color.black));
-        setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
+        this.setBorder(new LineBorder(Color.black));
+        this.setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
 
-        taskName.setText(nameData);
-        taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
-        taskName.setEditable(false);
-        taskName.setBackground(UIManager.getColor("Button.background"));
-        add(taskName, "cell 0 0,alignx center,aligny center");
+        // truncates the displayed task title if it's longer than 25 characters. if
+        if (nameData.length() > 45) {
+            this.taskName.setToolTipText(nameData);
+            nameData = nameData.substring(0, 45).concat("...");
+        }
+
+        this.taskName.setText(nameData);
+        this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
+        this.taskName.setEditable(false);
+        this.taskName.setBackground(UIManager.getColor("Button.background"));
+        this.add(this.taskName, "cell 0 0,alignx center,aligny center");
 
         JPanel infoPanel = new JPanel();
-        add(infoPanel, "cell 0 1,grow");
+        this.add(infoPanel, "cell 0 1,grow");
         infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 
         JLabel date = new JLabel(dateData);
@@ -54,7 +60,7 @@ public class TaskCard extends JPanel {
     }
 
     public Task getTaskObj() {
-        return taskObj;
+        return this.taskObj;
     }
 
     public void setTaskObj(Task taskObj) {

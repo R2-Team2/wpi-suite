@@ -59,11 +59,11 @@ public class TaskStatusView extends JPanel {
      */
     public TaskStatusView(String title, String statusType) {
 
-        initialized = false;
+        this.initialized = false;
         this.title = title;
 
-        setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType);
+        this.setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+        this.taskStatusObj = new TaskStatus(statusType);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -85,10 +85,10 @@ public class TaskStatusView extends JPanel {
         txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
         txtpnTitle.setText(this.title);
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
-        panel.setBackground(Color.WHITE);
+        this.panel.setBackground(Color.WHITE);
 
-        scrollPane.setViewportView(panel);
-        panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
+        scrollPane.setViewportView(this.panel);
+        this.panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
 
 
@@ -101,24 +101,25 @@ public class TaskStatusView extends JPanel {
     }
 
     public void fillTaskList(Task[] taskArray) {
-        taskStatusObj.setTaskList(new ArrayList<Task>());
+        this.taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
-            if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
-                taskStatusObj.addTask(t);
+            if (t.getStatus() != null
+                    && this.taskStatusObj.getName().equals(t.getStatus().getName())) {
+                this.taskStatusObj.addTask(t);
             }
         }
-        populateTaskStatusViewCards();
+        this.populateTaskStatusViewCards();
     }
 
     public void populateTaskStatusViewCards() {
-        List<Task> taskList = taskStatusObj.getTaskList();
-        panel.removeAll();
+        List<Task> taskList = this.taskStatusObj.getTaskList();
+        this.panel.removeAll();
         for (Task t : taskList) {
-            String dateString = formateDate(t);
+            String dateString = this.formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard());
-            panel.add(card, "newline");
+            this.panel.add(card, "newline");
         }
-        revalidate();
+        this.revalidate();
     }
 
 
@@ -139,9 +140,9 @@ public class TaskStatusView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        if (!initialized) {
-            requestTasksFromDb();
-            initialized = true;
+        if (!this.initialized) {
+            this.requestTasksFromDb();
+            this.initialized = true;
         }
         super.paintComponent(g);
     }
