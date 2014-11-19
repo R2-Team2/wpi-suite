@@ -9,9 +9,12 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
+
 
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -40,10 +43,13 @@ public class WorkFlowSplitView extends JSplitPane{
 	
 	public void createNewTaskPanel() {
 		this.splitTabbedPanel.addCreateTaskTab();
-		this.setRightComponent(this.splitTabbedPanel);
-		this.setOneTouchExpandable(true);
-		this.setDividerLocation(.6);
+		// Sets the Right Component to its minimum size always
+		this.setResizeWeight(1.0);
+		this.setEnabled( false );
+		this.setOneTouchExpandable(false);
+		//this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
+		this.setRightComponent(this.splitTabbedPanel);
 	}
 
 	public void hideCreateNewTaskPanel(){

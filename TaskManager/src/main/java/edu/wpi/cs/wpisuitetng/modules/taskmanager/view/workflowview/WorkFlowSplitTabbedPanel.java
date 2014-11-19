@@ -3,6 +3,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,7 +32,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         this.parentPanel = parentPanel;
 		
 		this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-
+		//this.setMaximumSize(new Dimension(100,100));
         this.closeAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
