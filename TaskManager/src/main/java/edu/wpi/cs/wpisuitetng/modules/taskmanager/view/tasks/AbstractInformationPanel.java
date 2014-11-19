@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -72,9 +73,11 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 	protected JCalendar calDueDate;
 
 	protected void buildLayout() {
+		this.setMinimumSize(new Dimension(540, 200));
 		//Set the Panel
 		final ScrollablePanel contentPanel = new ScrollablePanel();
-		contentPanel.setLayout(new MigLayout("", "", "shrink"));
+		contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+		//contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
 		//Instantiate GUI Elements
 		//Labels
 		final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
@@ -165,7 +168,7 @@ public abstract class AbstractInformationPanel extends JScrollPane{
 		contentPanel.add(leftColumn, "left, spany, growy, push");
 		contentPanel.add(rightColumn, "right, spany, growy, push");
 		
-		contentPanel.add(bottom,"center, dock south, growy, push");
+		contentPanel.add(bottom,"left, dock south, spany, growy, push");
 		
 		setupListeners();
 

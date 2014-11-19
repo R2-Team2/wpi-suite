@@ -50,7 +50,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 	 */
 	public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
 		this.parentPanel = parentPanel;
-        this.setMinimumSize(new Dimension(500, 200));
+		//this.setMinimumSize(new Dimension(540, 200));
         
 		this.buildLayout();
 	}
