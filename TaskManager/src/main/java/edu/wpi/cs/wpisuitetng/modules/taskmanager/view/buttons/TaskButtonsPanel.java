@@ -93,6 +93,11 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 				}
 			});
 			
+			//Gray out top bar buttons that are not currently being used
+			reportsButton.setEnabled(false);
+			settingsButton.setEnabled(false);
+			helpButton.setEnabled(false);
+			
 			contentPanel.add(reportsButton);
 			contentPanel.add(settingsButton);
 			contentPanel.add(helpButton);
