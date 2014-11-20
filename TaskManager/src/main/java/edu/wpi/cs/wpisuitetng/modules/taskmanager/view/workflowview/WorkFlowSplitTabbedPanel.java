@@ -90,7 +90,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     public void addCreateTaskTab() {
         this.addTab("New Task", null, new NewTaskPanel(this), "New Task");
 
-        WorkFlowSplitTabbedPanel thisPane = this;
+        final WorkFlowSplitTabbedPanel thisPane = this;
 
         // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
@@ -98,7 +98,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
         tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
-        ActionListener closeButtonListener;
+        final ActionListener closeButtonListener;
         closeButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent action) {
@@ -107,7 +107,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
                 JButton tmpButton = (JButton) action.getSource();
 
                 // get previously defined action command (sort of identifier)
-                String clickedActionCommand = tmpButton.getActionCommand();
+                final String clickedActionCommand = tmpButton.getActionCommand();
 
                 // for all tabs in tabpane
                 for (int i = 0; i < thisPane.getTabCount(); i++) {
@@ -135,13 +135,13 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         // this part of code manually creates a panel with title and button
         // and adds it to tab component
         if (this.getTabCount() != 0) {
-            JPanel panel = new JPanel();
+            final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
-            JLabel lblTitle = new JLabel("New Task");
+            final JLabel lblTitle = new JLabel("New Task");
             lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
-            GridBagConstraints gbc = new GridBagConstraints();
+            final GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.weightx = 1;
@@ -153,7 +153,6 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             panel.add(tabCloseButton, gbc);
 
 
-            // pnl.add(tabCloseButton);
             this.setTabComponentAt(this.getTabCount() - 1, panel);
             this.setSelectedIndex(this.getTabCount() - 1);
         }
