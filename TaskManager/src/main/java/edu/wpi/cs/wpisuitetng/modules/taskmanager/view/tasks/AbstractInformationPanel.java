@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -64,7 +65,7 @@ public class AbstractInformationPanel extends JScrollPane {
     protected String[] listOfRequirements = new String[] {"None"};
 
     /** The default border. */
-    protected final Border defaultBorder = (new JTextField()).getBorder();
+    protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
     /** The box title. */
     protected JTextField boxTitle;
@@ -125,11 +126,13 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
         // Text Areas
         boxTitle = new JTextField("");
+        boxTitle.setBorder(defaultBorder);
 
         final JScrollPane descrScroll = new JScrollPane();
         boxDescription = new JTextArea();
         boxDescription.setLineWrap(true);
-        boxDescription.setBorder(defaultBorder);
+        boxDescription.setBorder(null);
+        descrScroll.setBorder(defaultBorder);
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
         dropdownRequirement = new JComboBox<String>();
@@ -169,16 +172,23 @@ public class AbstractInformationPanel extends JScrollPane {
         final JPanel bottomRight = new JPanel(new MigLayout());
 
         // Assignee view created and populated to the bottom Panel
+        listPossibleAssignees.setBorder(defaultBorder);
         bottomLeft.add(labelPossibleAssignee, "left, wrap");
         bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+       
         bottomCenter.add(buttonAdd, "center, wrap");
         bottomCenter.add(buttonRemove, "center, wrap");
+        
+        listChosenAssignees.setBorder(defaultBorder);
         bottomRight.add(labelChosenAssignee, "left, wrap");
         bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+        
         bottom.add(bottomLeft);
         bottom.add(bottomCenter);
         bottom.add(bottomRight);
+        bottom.setBorder(defaultBorder);
 
+        
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");

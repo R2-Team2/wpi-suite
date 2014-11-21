@@ -9,34 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskInformationPanel.
