@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel{
-
+	
 	/**
 	 * Constructor for NewTaskInformationPanel.
 	 *
@@ -36,7 +36,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 
 		this.buildLayout();
 	}
-
+	
 	public void setTask(Task aTask)
 	{
 		aTask.getTaskID();
@@ -49,9 +49,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 		this.calDueDate.setDate(aTask.getDueDate());
 		this.spinnerEstimatedEffort.setValue(aTask.getEstimatedEffort());
 		this.spinnerActualEffort.setValue(aTask.getActualEffort());
-
+	
 		//aTask.getActivityList();
-
+		
 	}
 }
 

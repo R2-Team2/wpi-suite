@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  * @version $Revision: 1.0 $
  */
 
+<<<<<<< HEAD
 public class AbstractButtonPanel extends JPanel {
     // Class Variables
     /** The parent panel. */
@@ -33,6 +34,11 @@ public class AbstractButtonPanel extends JPanel {
     protected JButton buttonCancel;
 
 
+=======
+	protected JButton buttonSave;
+	protected JButton buttonCreate;
+	protected JButton buttonCancel;
+>>>>>>> parent of d03ef4c... Add view and then edit capabilities
 
     /**
      * Sets up the listeners for the buttons in the New Task Button Panel.

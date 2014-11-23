@@ -40,7 +40,19 @@ public class NewTaskPanel extends AbstractTaskPanel {
     
 
 	
+<<<<<<< HEAD
 
+=======
+	/**
+	 * Constructor for the NewTaskPanel
+	 */
+	public NewTaskPanel() {
+		super();
+		
+		this.buildLayout();
+		
+	}
+>>>>>>> parent of d03ef4c... Add view and then edit capabilities
 	
 	/**
 	 * Constructor for the NewTaskPanel

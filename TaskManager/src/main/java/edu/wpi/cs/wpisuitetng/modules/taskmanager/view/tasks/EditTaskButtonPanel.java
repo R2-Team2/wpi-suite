@@ -55,8 +55,6 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		//super.setupListeners();
 		this.setupListeners();
 	}
-	
-	
 	protected void setupListeners() {
 		buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

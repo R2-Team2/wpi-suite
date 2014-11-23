@@ -7,19 +7,17 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
-import java.util.Date;
-import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+<<<<<<< HEAD
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+=======
+>>>>>>> parent of d03ef4c... Add view and then edit capabilities
 
 
 
@@ -39,7 +37,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		 * Constructor for the NewTaskPanel
 		 * @return 
 		 */
-		public EditTaskPanel() {	
+		public EditTaskPanel() {
+			super();
+			
 			this.buildLayout();
 		}
 		
@@ -61,27 +61,15 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		 */
 		public void savePressed()
 		{
-			int taskID = this.aTask.getTaskID();
-			String title = this.getTitle();
-			String description = this.getDescription();
-			int estimatedEffort = this.getEstimatedEffort();
-			int actualEffort = this.getActualEffort();
-			String status = this.getStatus();
-			String requirement = this.getRequirement();
-			Date startDate = this.getStartDate();
-			Date dueDate = this.getDueDate();
-			List<User> assignedUsers = this.getAssignedUsers();
-			System.out.println("Inside AddTaskController");
-			
-			Task toSave = new Task(taskID, title, description, estimatedEffort, actualEffort, new TaskStatus(status), requirement, startDate, dueDate, assignedUsers);
-
-			TaskController saveTask = new TaskController(this);
-			saveTask.updateTask(toSave);
+			// create a task, send to to controller
+//			new AddTaskController(this);
+			//AddTaskController addNewTask = new AddTaskController(this);
+			//addNewTask.addTask();
 			// TODO: create task card
 			// TODO: put task card in proper task status
-			ViewEventController.getInstance().closeNewTaskPanel();
+			//ViewEventController.getInstance().closeNewTaskPanel();
+//			parentPanel.hideCreateNewTaskPanel();	
 		}
-		
 		
 		/**
 		 * Creates the GUI for the EditTaskPanel
@@ -89,7 +77,6 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		 */
 		public void openEditView(Task aTask)
 		{
-			this.aTask = aTask;
 			this.infoPanel.setTask(aTask);
 		}
 
