@@ -7,10 +7,18 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
+import java.util.Date;
+import java.util.List;
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 
 // TODO: Auto-generated Javadoc
@@ -65,6 +73,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
 	 */
 	public void openEditView(Task aTask)
 	{
+		this.aTask = aTask;
 		this.infoPanel.setTask(aTask);
 	}
 

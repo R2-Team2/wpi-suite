@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel{
-	
+
 	/**
 	 * Constructor for NewTaskInformationPanel.
 	 *

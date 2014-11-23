@@ -34,6 +34,8 @@ public abstract class AbstractButtonPanel extends JPanel {
     /** The button cancel. */
     protected JButton buttonCancel;
 
+    /** The button edit. */
+	protected JButton buttonEdit;
 
 
     /**
