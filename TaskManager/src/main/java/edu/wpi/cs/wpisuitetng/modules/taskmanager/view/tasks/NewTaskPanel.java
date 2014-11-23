@@ -9,7 +9,9 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.db4o.ObjectSet;
 
@@ -38,26 +40,11 @@ public class NewTaskPanel extends AbstractTaskPanel {
     /** The view event controller. */
     private final ViewEventController viewEventController = ViewEventController.getInstance();
     
-
-	
-<<<<<<< HEAD
-
-=======
-	/**
-	 * Constructor for the NewTaskPanel
-	 */
-	public NewTaskPanel() {
-		super();
-		
-		this.buildLayout();
-		
-	}
->>>>>>> parent of d03ef4c... Add view and then edit capabilities
-	
 	/**
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
+		super(parentPanel);
 		this.parentPanel = parentPanel;
 		this.buildLayout();		
 	}
@@ -73,12 +60,9 @@ public class NewTaskPanel extends AbstractTaskPanel {
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
-
     /**
      * Called when the Create Button is pressed Creates a Task from the NewTask Info.
      */
-    @Override
     public void createPressed() {
         // create a task, send to to controller
         final AddTaskController addNewTask = new AddTaskController(this);
@@ -96,7 +80,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
      */
-    @Override
     public void cancelPressed() {
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
@@ -107,7 +90,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
      *
      * @return String
      */
-    @Override
     public String getTitle() {
         return infoPanel.getTitle().getText();
     }

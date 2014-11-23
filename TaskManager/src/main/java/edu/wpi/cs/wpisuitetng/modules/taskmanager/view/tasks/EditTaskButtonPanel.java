@@ -28,10 +28,10 @@ import javax.swing.JButton;
  */
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel{
-	
+
 	protected EditTaskPanel parentPanel;
-	JButton buttonSave;
-	
+
+
 
 	/**
 	 * Constructor for the EditTaskButtonPanel.
@@ -47,20 +47,29 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		final String saveString = "Save";
 		final String cancelString = "Cancel";
 		//Create Buttons
-		buttonSave = new JButton(saveString);
+		buttonLeft = new JButton(saveString);
 		buttonCancel = new JButton(cancelString);
-		this.add(buttonSave);
+		this.add(buttonLeft);
 		this.add(buttonCancel);
-//		parentPanel.createPressed();
-		//super.setupListeners();
 		this.setupListeners();
 	}
+	
+	/**
+	 * Sets up the listeners for the buttons in the New Task Button Panel.
+	 */
 	protected void setupListeners() {
-		buttonSave.addActionListener(new ActionListener() {
+		buttonLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.savePressed();
 			}
 		});
+
+		buttonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.cancelPressed();
+			}
+		});
 	}
-	
+
 }

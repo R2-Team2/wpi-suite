@@ -1,3 +1,13 @@
+
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors:
+ * 	Team R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.FlowLayout;
@@ -8,7 +18,7 @@ import javax.swing.JButton;
 
 public class ViewTaskButtonPanel extends AbstractButtonPanel{
 	protected ViewTaskPanel parentPanel;
-	private JButton buttonEdit;
+	//private JButton buttonEdit;
 	public ViewTaskButtonPanel(ViewTaskPanel parentPanel)
 	{
 		//Set Panel Layout
@@ -21,19 +31,29 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 		String cancelString = "Cancel";
 		
 		//Create Buttons
-		buttonEdit = new JButton(editString);
+		buttonLeft = new JButton(editString);
 		buttonCancel = new JButton(cancelString);
-		this.add(buttonEdit);
+		this.add(buttonLeft);
 		this.add(buttonCancel);
-		super.setupListeners();
 		this.setupListeners();
 	}
 	
-	protected void setupListeners() {
-		buttonEdit.addActionListener(new ActionListener() {
+
+	  /**
+     * Sets up the listeners for the buttons in the New Task Button Panel.
+     */
+    protected void setupListeners() {
+    	buttonLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.editPressed();
 			}
 		});
-	}
+
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
+        });
+    }
 }

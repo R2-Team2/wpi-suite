@@ -8,16 +8,10 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-<<<<<<< HEAD
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-=======
->>>>>>> parent of d03ef4c... Add view and then edit capabilities
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 
 
@@ -29,18 +23,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class EditTaskPanel extends AbstractTaskPanel {
 
-		//protected EditTaskPanel parentPanel;
-
-		//infoPanel = new EditTaskInformationPanel(this);
-		
 		/**
 		 * Constructor for the NewTaskPanel
 		 * @return 
 		 */
-		public EditTaskPanel() {
-			super();
-			
+		public EditTaskPanel(WorkFlowSplitTabbedPanel theParent) {
+			super(theParent);
 			this.buildLayout();
+			this.parentPanel = theParent;
 		}
 		
 		/**
@@ -61,15 +51,24 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		 */
 		public void savePressed()
 		{
-			// create a task, send to to controller
-//			new AddTaskController(this);
-			//AddTaskController addNewTask = new AddTaskController(this);
-			//addNewTask.addTask();
-			// TODO: create task card
-			// TODO: put task card in proper task status
-			//ViewEventController.getInstance().closeNewTaskPanel();
-//			parentPanel.hideCreateNewTaskPanel();	
+	        // create a task, send to to controller
+	        final TaskController updateTask = new TaskController(this);
+	        updateTask.updateTask(this.aTask);
+	        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+	        // retrieveTasks.requestTasks();
+	        // TODO: create task card
+	        // TODO: put task card in proper task status
+	        ViewEventController.getInstance().removeSplitTab();
+	        parentPanel.checkForHide();
 		}
+		
+		/**
+		 * Called when the Cancel Button is pressed Closes out the NewTask Tab.
+		 */
+	    public void cancelPressed() {
+	        ViewEventController.getInstance().removeSplitTab();
+	        parentPanel.checkForHide();
+	    }
 		
 		/**
 		 * Creates the GUI for the EditTaskPanel
@@ -78,12 +77,6 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		public void openEditView(Task aTask)
 		{
 			this.infoPanel.setTask(aTask);
-		}
-
-		@Override
-		public void createPressed() {
-			// TODO Auto-generated method stub
-			
 		}
 }
 

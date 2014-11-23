@@ -33,7 +33,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 	
 	protected NewTaskPanel parentPanel;
-	private JButton buttonCreate;
+	//private JButton buttonCreate;
 	
 	/**
 	 * Constructor for the NewTaskButtonPanel.
@@ -49,24 +49,32 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		final String createString = "Create";
 		final String cancelString = "Cancel";
 		//Create Buttons
-		buttonCreate = new JButton(createString);
+		buttonLeft = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
-		this.add(buttonCreate);
+		this.add(buttonLeft);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
-		super.setupListeners();
 		this.setupListeners();
 	}
-	protected void setupListeners() {
-		buttonCreate.addActionListener(new ActionListener() {
+	
+	  /**
+     * Sets up the listeners for the buttons in the New Task Button Panel.
+     */
+    protected void setupListeners() {
+    	buttonLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.createPressed();
 			}
 		});
-	}
+
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
+        });
+    }
 	
-	//public void setTask()
-	{
-	}
+
 }
 

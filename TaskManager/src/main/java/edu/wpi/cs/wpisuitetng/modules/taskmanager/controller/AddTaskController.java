@@ -14,20 +14,16 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-<<<<<<< HEAD
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-=======
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
->>>>>>> parent of d03ef4c... Add view and then edit capabilities
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -99,9 +95,4 @@ public class AddTaskController {
 		
 	}*/
 	
-
-=======
-		//		}
-	}
->>>>>>> parent of d03ef4c... Add view and then edit capabilities
 }
