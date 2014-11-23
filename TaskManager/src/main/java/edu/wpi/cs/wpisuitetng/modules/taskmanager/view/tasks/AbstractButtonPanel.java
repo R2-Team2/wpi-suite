@@ -24,6 +24,7 @@ public abstract class AbstractButtonPanel extends JPanel {
 	protected AbstractTaskPanel parentPanel;
 
 	protected JButton buttonSave;
+	protected JButton buttonEdit;
 	protected JButton buttonCreate;
 	protected JButton buttonCancel;
 

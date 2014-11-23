@@ -12,19 +12,13 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardMessage;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -36,14 +30,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddTaskController {
 
-	private final NewTaskPanel view;
+	private final AbstractTaskPanel view;
 
 	/**
 	 * Construct an AddTaskController for the given model, view pair
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddTaskController(NewTaskPanel view) {
+	public AddTaskController(AbstractTaskPanel view) {
 		this.view = view;
 	}
 
@@ -82,4 +76,6 @@ public class AddTaskController {
 		System.out.println("Sent task to database");
 		//		}
 	}
+	
+	
 }

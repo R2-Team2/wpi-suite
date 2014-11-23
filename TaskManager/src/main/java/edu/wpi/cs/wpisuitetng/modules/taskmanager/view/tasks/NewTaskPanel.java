@@ -42,10 +42,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
 	 * Constructor for the NewTaskPanel
 	 */
 	public NewTaskPanel() {
-		super();
-		
-		this.buildLayout();
-		
+		this.buildLayout();	
 	}
 	
 	/**

@@ -16,7 +16,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
@@ -26,6 +26,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 		
 		protected AbstractInformationPanel infoPanel;
 	    protected AbstractButtonPanel buttonPanel;
+	    public Task aTask;
 		private ViewEventController viewEventController = ViewEventController.getInstance();
 		
 		public AbstractTaskPanel() {
@@ -128,5 +129,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 		{
 			this.infoPanel = aPanel;
 		}
+
+		
 		
 }
