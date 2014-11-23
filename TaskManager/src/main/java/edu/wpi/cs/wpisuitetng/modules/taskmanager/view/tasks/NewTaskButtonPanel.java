@@ -14,6 +14,9 @@ import java.awt.FlowLayout;
 
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -30,6 +33,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 	
 	protected NewTaskPanel parentPanel;
+	private JButton buttonCreate;
 	
 	/**
 	 * Constructor for the NewTaskButtonPanel.

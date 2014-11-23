@@ -28,39 +28,7 @@ import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
-public class TaskCard extends JPanel {
 
-	JTextPane taskName = new JTextPane();
-	
-	/**
-	 * Create the panel.
-	 */
-	public TaskCard() {
-		setBorder(new LineBorder(new Color(0, 0, 0)));
-		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
-		
-		
-		taskName.setText("This text will represent a title in the near future!");
-		taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		taskName.setBackground(UIManager.getColor("Button.background"));
-		add(taskName, "cell 0 0,alignx center,aligny center");
-		
-		JPanel infoPanel = new JPanel();
-		add(infoPanel, "cell 0 1,grow");
-		infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
-		
-		JLabel date = new JLabel("11/15/2014");
-		date.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		infoPanel.add(date, "cell 0 0,alignx left");
-		
-		JLabel username = new JLabel("mcforman...");
-		username.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		infoPanel.add(username, "cell 1 0,alignx right");
-	}
-	
-	public void setTaskCardName(String name){
-		taskName.setText(name);
-	}
 
 // TODO: Auto-generated Javadoc
 /**

@@ -28,11 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  */
 public class ViewEventController {
 
-	
-	 private static ViewEventController instance = null;
-	 private MainView main = null;
-	
-
 
     /** The instance. */
     private static ViewEventController instance = null;
@@ -107,6 +102,7 @@ public class ViewEventController {
 
     public void removeTab(JComponent comp) {
         main.remove(comp);
+    }
 
     /**
      * Removes the split tab.

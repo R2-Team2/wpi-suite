@@ -10,13 +10,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.GetTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.model.PostBoardModel;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
  * This panel contains the refresh button
@@ -33,7 +30,7 @@ public class ToolbarPanel extends JPanel {
      * 
      * @param boardModel
      */
-    public ToolbarPanel(PostBoardModel boardModel) {
+    public ToolbarPanel(AbstractModel boardModel) {
         
         // Make this panel transparent, we want to see the JToolbar gradient beneath it
         this.setOpaque(false);

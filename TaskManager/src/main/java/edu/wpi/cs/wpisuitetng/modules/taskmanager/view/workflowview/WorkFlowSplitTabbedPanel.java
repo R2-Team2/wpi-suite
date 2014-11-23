@@ -89,11 +89,8 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 		
 	}
 	
-	public void addCreateTaskTab() {
-        this.addTab("New Task", null, new NewTaskPanel(), "New Task");
-	}
 
-    }
+
 
     /**
      * Adds the create task tab.

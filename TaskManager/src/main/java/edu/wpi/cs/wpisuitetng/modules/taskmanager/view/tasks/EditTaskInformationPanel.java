@@ -9,32 +9,10 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-
-
-
+import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // TODO: Auto-generated Javadoc
@@ -66,7 +44,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 		this.boxDescription.setText(aTask.getDescription());
 		//this.dropdownStatus.setSelectedItem(aTask.getStatus().toString());
 		//requirement
-		this.listChosenAssignees=(JList)aTask.getAssignedUsers();
+		this.listChosenAssignees=(JList<User>)aTask.getAssignedUsers();
 		this.calStartDate.setDate(aTask.getStartDate());
 		this.calDueDate.setDate(aTask.getDueDate());
 		this.spinnerEstimatedEffort.setValue(aTask.getEstimatedEffort());

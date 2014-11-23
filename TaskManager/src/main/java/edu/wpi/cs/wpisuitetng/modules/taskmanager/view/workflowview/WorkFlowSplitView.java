@@ -31,12 +31,7 @@ public class WorkFlowSplitView extends JSplitPane{
 	
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel splitTabbedPanel;
-	
-	public WorkFlowSplitView(){
-		splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
-	/**
-	 * Instantiates a new work flow split view.
-	 */
+
 	public WorkFlowSplitView() {
 		splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
@@ -49,13 +44,6 @@ public class WorkFlowSplitView extends JSplitPane{
                hideCreateNewTaskPanel();
             }
         });
-	}
-
-
-	public void hideCreateNewTaskPanel(){
-		this.setRightComponent(null);
-		this.setOneTouchExpandable(false);
-		//this.setDividerLocation(0.0);
 	}
 
 	

@@ -20,29 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractButtonPanel extends JPanel {
-	//Class Variables
-	protected AbstractTaskPanel parentPanel;
-
-	protected JButton buttonSave;
-	protected JButton buttonEdit;
-	protected JButton buttonCreate;
-	protected JButton buttonCancel;
-
-
-
-	/**
-	 * Sets up the listeners for the buttons in the New Task Button Panel
-	 */
-	protected void setupListeners() {
-		buttonCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.cancelPressed();
-			}
-
-		});
-	}
 
 public class AbstractButtonPanel extends JPanel {
     // Class Variables

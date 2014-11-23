@@ -14,6 +14,9 @@ import java.awt.FlowLayout;
 
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 
@@ -27,6 +30,7 @@ import javax.swing.JButton;
 public class EditTaskButtonPanel extends AbstractButtonPanel{
 	
 	protected EditTaskPanel parentPanel;
+	JButton buttonSave;
 	
 
 	/**
@@ -48,7 +52,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		this.add(buttonSave);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
-		super.setupListeners();
+		//super.setupListeners();
 		this.setupListeners();
 	}
 	

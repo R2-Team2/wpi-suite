@@ -11,7 +11,7 @@ public class ViewTaskPanel extends AbstractTaskPanel{
     //protected AbstractButtonPanel buttonPanel;
 	//private ViewEventController viewEventController = ViewEventController.getInstance();
 	
-	public void ViewTaskPanel()
+	public ViewTaskPanel()
 	{
 		this.buildLayout();
 	}
@@ -32,6 +32,12 @@ public class ViewTaskPanel extends AbstractTaskPanel{
 		EditTaskPanel editView = new EditTaskPanel();
 		editView.openEditView(passTask);
 		//editView.buildLayout();
+	}
+
+	@Override
+	public void createPressed() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

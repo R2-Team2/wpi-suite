@@ -8,7 +8,7 @@ import javax.swing.JButton;
 
 public class ViewTaskButtonPanel extends AbstractButtonPanel{
 	protected ViewTaskPanel parentPanel;
-	
+	private JButton buttonEdit;
 	public ViewTaskButtonPanel(ViewTaskPanel parentPanel)
 	{
 		//Set Panel Layout

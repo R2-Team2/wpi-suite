@@ -51,6 +51,13 @@ public class TaskStatusView extends JPanel {
 	/** The panel. */
 	JPanel panel = new JPanel();
 	
+    /**  The TaskStatus title. */
+    private String title;
+
+    /**  Represents whether the view has been initialized. */
+    private boolean initialized;
+
+	
 	/**
 	 * Create the panel.
 	 *
@@ -85,36 +92,22 @@ public class TaskStatusView extends JPanel {
 		
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
-		PopulateTaskStatusViewCards();
+		populateTaskStatusViewCards();
 	}
 	
 	
 	/**
 	 * Populate TaskStatusView with Cards Associated with the Status.
 	 */
-	public void PopulateTaskStatusViewCards(){
+	/*public void PopulateTaskStatusViewCards(){
 		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
 		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
 			TaskCard card = new TaskCard();
 			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
 			panel.add(card, "newline");
 		}
-	}
+	}*/
 
-    /** The task status obj. */
-    TaskStatus taskStatusObj;
-
-    /** The txtpn title. */
-    JTextPane txtpnTitle = new JTextPane();
-
-    /** The panel. */
-    JPanel panel = new JPanel();
-
-    /**  The TaskStatus title. */
-    private final String title;
-
-    /**  Represents whether the view has been initialized. */
-    private boolean initialized;
 
     /**
      * Create the panel.

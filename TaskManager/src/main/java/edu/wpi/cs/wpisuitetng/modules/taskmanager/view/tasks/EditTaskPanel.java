@@ -9,13 +9,14 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -92,33 +93,10 @@ public class EditTaskPanel extends AbstractTaskPanel {
 			this.infoPanel.setTask(aTask);
 		}
 
-    /**
-     * Constructor for the NewTaskPanel.
-     */
-    public EditTaskPanel() {
-        this.buildLayout();
-    }
-
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    @Override
-    protected void buildLayout() {
-        buttonPanel = new EditTaskButtonPanel(this);
-        infoPanel = new EditTaskInformationPanel(this);
-
-        this.setLayout(new BorderLayout());
-        this.add(infoPanel, BorderLayout.CENTER);
-        this.add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
-     */
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
-
-    }
+		@Override
+		public void createPressed() {
+			// TODO Auto-generated method stub
+			
+		}
 }
+
