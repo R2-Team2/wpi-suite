@@ -8,7 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
@@ -52,7 +52,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
 		public void savePressed()
 		{
 	        // create a task, send to to controller
-	        final TaskController updateTask = new TaskController(this);
+	        final UpdateTaskController updateTask = new UpdateTaskController(this);
 	        updateTask.updateTask(this.aTask);
 	        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
 	        // retrieveTasks.requestTasks();
