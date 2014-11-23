@@ -33,7 +33,7 @@ import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 
-import com.toedter.calendar.JCalendar;
+import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -99,10 +99,10 @@ public class AbstractInformationPanel extends JScrollPane {
     protected JButton buttonRemove;
 
     /** The cal start date. */
-    protected JCalendar calStartDate;
+    protected JXDatePicker calStartDate;
 
     /** The cal due date. */
-    protected JCalendar calDueDate;
+    protected JXDatePicker calDueDate;
 
     /**
      * Builds the layout.
@@ -156,8 +156,8 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonRemove = new JButton("<<");
         buttonRemove.setEnabled(false);
         // Calendars
-        calStartDate = new JCalendar();
-        calDueDate = new JCalendar();
+        calStartDate = new JXDatePicker();
+        calDueDate = new JXDatePicker();
 
         // Setup GUI
 
