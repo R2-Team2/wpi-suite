@@ -10,6 +10,11 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import javax.swing.JPanel;
 
+/**
+ * The Class CreateTaskView.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class CreateTaskView extends JPanel {
 
 }

@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
+ * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * Contributors:
- * Chris Casola
+ * 	Team R2-Team2
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager;
@@ -21,27 +21,25 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ToolbarView;
 
+// TODO: Auto-generated Javadoc
 /**
  * This is a blank module that will become the Task Manager.
  * It currently contains a blank toolbar and a blank main view.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class TaskManager implements IJanewayModule {
     
-    /**
-     * A list of tabs owned by this module
-     */
+    /** A list of tabs owned by this module. */
     List<JanewayTabModel> tabs;
-    /**
-     * The toolbar view
-     */
+    
+    /** The toolbar view. */
     ToolbarView toolbarView;
-    /**
-     * The main view
-     */
+    
+    /** The main view. */
     MainView mainView;
-    /**
-     * Task Manager only uses one tab
-     */
+    
+    /** Task Manager only uses one tab. */
     JanewayTabModel tab1;
     
     /**
@@ -51,24 +49,27 @@ public class TaskManager implements IJanewayModule {
     public TaskManager() {
         
         // Initialize the list of tabs (however, this module has only one tab)
-        this.tabs = new ArrayList<JanewayTabModel>();
+        tabs = new ArrayList<JanewayTabModel>();
         
         // Create a JPanel to hold the toolbar for the tab
-        this.toolbarView = new ToolbarView();
+        toolbarView = new ToolbarView();
         
         // Constructs and adds the MainPanel
-        this.mainView = new MainView();
+        mainView = new MainView();
         
         // Create a tab model that contains the toolbar panel and the main content panel
-        this.tab1 = new JanewayTabModel(getName(), new ImageIcon(), this.toolbarView, this.mainView);
+        tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainView);
         
         // Add the tab to the list of tabs owned by this module
-        this.tabs.add(tab1);
+        tabs.add(tab1);
         
         ViewEventController.getInstance().setMainView(mainView);
     }
     
     /*
+     * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
+     */
+    /* (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
      */
     @Override
@@ -77,6 +78,9 @@ public class TaskManager implements IJanewayModule {
     }
     
     /*
+     * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
+     */
+    /* (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
      */
     @Override

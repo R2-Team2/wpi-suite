@@ -7,38 +7,34 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 // TODO: Auto-generated Javadoc
 /**
- * This observer is called when a response is received from a request to the server to add a
- * message.
- *
+ * An asynchronous update interface for receiving notifications about RetrieveTasksRequest
+ * information as the RetrieveTasksRequest is constructed.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AddTaskRequestObserver implements RequestObserver {
+public class RetrieveTasksRequestObserver implements RequestObserver {
 
     /** The controller. */
-    private final AddTaskController controller;
+    private final RetrieveTasksController controller;
 
     /**
-     * This method is called when information about an AddTaskRequest which was previously requested
-     * using an asynchronous interface becomes available.
+     * This method is called when information about an RetrieveTasksRequest which was previously
+     * requested using an asynchronous interface becomes available.
      *
      * @param controller the controller
      */
-    public AddTaskRequestObserver(AddTaskController controller) {
+    public RetrieveTasksRequestObserver(RetrieveTasksController controller) {
         this.controller = controller;
     }
 
-    /*
-     * Parse the message that was received from the server then pass them to the controller.
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
-     * .cs.wpisuitetng.network.models.IRequest)
-     */
     /*
      * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess
@@ -46,8 +42,10 @@ public class AddTaskRequestObserver implements RequestObserver {
      */
     @Override
     public void responseSuccess(IRequest iReq) {
-        // Get the response to the given request
+        // TODO Auto-generated method stub
         final ResponseModel response = iReq.getResponse();
+        final String responseBody = response.getBody();
+        controller.displayTasks(Task.fromJsonArray(responseBody));
     }
 
     /*
@@ -57,8 +55,8 @@ public class AddTaskRequestObserver implements RequestObserver {
      */
     @Override
     public void responseError(IRequest iReq) {
-        // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        // TODO Auto-generated method stub
+        System.err.println("The request to get tasks failed.");
     }
 
     /*
@@ -68,17 +66,8 @@ public class AddTaskRequestObserver implements RequestObserver {
      */
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        // TODO Auto-generated method stub
+        System.err.println("The request to get tasks failed.");
     }
 
-    /**
-     * This method is called when information about an AddTaskRequest which was previously requested
-     * using an asynchronous interface becomes available.
-     *
-     * @return the controller
-     */
-    public AddTaskController getController() {
-        return controller;
-    }
 }
