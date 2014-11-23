@@ -13,7 +13,7 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -51,20 +51,21 @@ public class EditTaskPanel extends AbstractTaskPanel {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    /**
+	/**
 	 * Called when the Save Button is pressed
 	 * Loads data into the database in the existing Task.
 	 */
 	public void savePressed()
 	{
-		// create a task, send to to controller
-//		new AddTaskController(this);
-		//AddTaskController addNewTask = new AddTaskController(this);
-		//addNewTask.addTask();
-		// TODO: create task card
-		// TODO: put task card in proper task status
-		//ViewEventController.getInstance().closeNewTaskPanel();
-//		parentPanel.hideCreateNewTaskPanel();
+        // create a task, send to to controller
+        final UpdateTaskController updateTask = new UpdateTaskController(this);
+        updateTask.updateTask(this.aTask);
+        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+        // retrieveTasks.requestTasks();
+        // TODO: create task card
+        // TODO: put task card in proper task status
+        ViewEventController.getInstance().removeSplitTab();
+        parentPanel.checkForHide();
 	}
 
 	/**

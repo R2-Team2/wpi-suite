@@ -1,13 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-public class TaskRequestObserver implements RequestObserver{
-    private final TaskController controller;
-    
-    public TaskRequestObserver(TaskController controller) {
+public class UpdateTaskRequestObserver implements RequestObserver {
+
+
+    /** The controller. */
+    private final UpdateTaskController controller;
+
+    /**
+     * This method is called when information about an AddTaskRequest which was previously requested
+     * using an asynchronous interface becomes available.
+     *
+     * @param controller the controller
+     */
+    public UpdateTaskRequestObserver(UpdateTaskController controller) {
         this.controller = controller;
     }
     
@@ -39,8 +55,8 @@ public class TaskRequestObserver implements RequestObserver{
     /**
      * @return the controller
      */
-    public TaskController getController() {
-        return this.controller;
+    public UpdateTaskController getController() {
+        return controller;
     }
 
 }
