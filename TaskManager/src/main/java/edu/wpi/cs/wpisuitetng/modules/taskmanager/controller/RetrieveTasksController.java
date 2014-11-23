@@ -16,6 +16,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 // TODO: Auto-generated Javadoc
 /**
  * The Class RetrieveTasksController.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -39,6 +40,16 @@ public class RetrieveTasksController {
     public void requestTasks() {
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/task", HttpMethod.GET);
+        request.addObserver(new RetrieveTasksRequestObserver(this));
+        request.send();
+    }
+
+    /**
+     * Request specific task
+     */
+    public void requestSpecificTask(int taskID) {
+        final Request request =
+                Network.getInstance().makeRequest("taskmanager/task/" + taskID, HttpMethod.GET);
         request.addObserver(new RetrieveTasksRequestObserver(this));
         request.send();
     }

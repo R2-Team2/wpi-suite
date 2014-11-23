@@ -9,25 +9,32 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+import javax.swing.AbstractListModel;
+
 /**
  * The Class WorkFlow.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class WorkFlow {
+public class WorkFlow extends AbstractListModel {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4436690474105127166L;
 
     /** The work flow id. */
     private int workFlowID;
 
     /** The task status list. */
-    private List<TaskStatus> taskStatusList;
+    private List<Integer> taskStatusList;
 
     /**
      * Instantiates a new work flow.
      */
     public WorkFlow() {
-        taskStatusList = new ArrayList<TaskStatus>();
+        taskStatusList = new ArrayList<Integer>();
     }
 
     /**
@@ -53,7 +60,7 @@ public class WorkFlow {
      *
      * @return the task status list
      */
-    public List<TaskStatus> getTaskStatusList() {
+    public List<Integer> getTaskStatusList() {
         return taskStatusList;
     }
 
@@ -62,9 +69,46 @@ public class WorkFlow {
      *
      * @param taskStatusList the new task status list
      */
-    public void setTaskStatusList(List<TaskStatus> taskStatusList) {
+    public void setTaskStatusList(List<Integer> taskStatusList) {
         this.taskStatusList = taskStatusList;
     }
 
+
+    /**
+     * Adds a taskStatus to the task status list.
+     *
+     * @param task String
+     */
+    public void addTaskStatus(int taskStatus) {
+        taskStatusList.add(taskStatus);
+    }
+
+    /**
+     * Removes a taskStatus from the task status list.
+     *
+     * @param task String
+     */
+    public void remTask(int taskList) {
+        taskStatusList.remove(taskList);
+    }
+
+    /**
+     * (non-Javadoc)
+     *
+     * @see javax.swing.ListModel#getSize()
+     */
+    @Override
+    public int getSize() {
+        return taskStatusList.size();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see javax.swing.ListModel#getElementAt(int)
+     */
+    @Override
+    public Integer getElementAt(int index) {
+        return taskStatusList.get(index);
+    }
 
 }
