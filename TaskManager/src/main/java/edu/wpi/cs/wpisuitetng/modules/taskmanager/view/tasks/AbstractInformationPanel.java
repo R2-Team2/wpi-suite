@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -371,21 +372,21 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
-     * Returns the JCalendar holding the Start Date.
+     * Returns the Start Date.
      *
-     * @return JCalendar
+     * @return Date
      */
-    public JCalendar getStartDate() {
-        return calStartDate;
+    public Date getStartDate() {
+        return calStartDate.getDate();
     }
 
     /**
-     * Returns the JCalendar holding the Due Date.
+     * Returns the Due Date.
      *
-     * @return JCalendar
+     * @return Date
      */
-    public JCalendar getDueDate() {
-        return calDueDate;
+    public Date getDueDate() {
+        return calDueDate.getDate();
     }
 
     /**
