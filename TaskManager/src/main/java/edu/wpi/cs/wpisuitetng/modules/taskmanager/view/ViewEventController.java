@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -14,7 +13,7 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
-
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -23,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
 /**
  * Provides an interface for interaction with the main GUI elements All actions on GUI elements
  * should be conducted through this controller.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -93,6 +93,15 @@ public class ViewEventController {
      */
     public void closeNewTaskPanel() {
         main.hideCreateTaskView();
+    }
+
+    /**
+     * Opens a new tab for viewing the given Task
+     *
+     * @param task Task to be viewed
+     */
+    public void viewTask(Task task) {
+        // put viewing code here
     }
 
 
