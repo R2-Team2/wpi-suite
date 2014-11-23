@@ -6,9 +6,17 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  * @version $Revision: 1.0 $
  */
 public class ViewEventController {
+
 
     /** The instance. */
     private static ViewEventController instance = null;
@@ -67,6 +76,7 @@ public class ViewEventController {
         split = splitTabbedPanel;
     }
 
+
     /**
      * Opens a new tab for the creation of a requirement.
      */
@@ -98,8 +108,9 @@ public class ViewEventController {
     /**
      * Removes the tab for the given JComponent.
      */
-    public void removeTab() {
-        main.removeTabAt(main.getSelectedIndex());
+
+    public void removeTab(JComponent comp) {
+        main.remove(comp);
     }
 
     /**
@@ -123,5 +134,6 @@ public class ViewEventController {
      */
     public void refreshWorkFlowView() {
         workflow.refresh();
+
     }
 }

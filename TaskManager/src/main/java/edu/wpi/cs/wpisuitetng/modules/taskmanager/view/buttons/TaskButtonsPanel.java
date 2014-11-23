@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskButtonsPanel.

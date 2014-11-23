@@ -21,7 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
 // TODO: Auto-generated Javadoc
@@ -82,7 +86,11 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             }
         });
 
-    }
+		
+	}
+	
+
+
 
     /**
      * Adds the create task tab.

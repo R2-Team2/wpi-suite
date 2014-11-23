@@ -1,12 +1,11 @@
-  /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * Contributors:
- * 	Team R2-Team2
- ******************************************************************************/
+  /* All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v1.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  *    R2-Team2
+  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 
@@ -21,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitView.
@@ -31,10 +31,7 @@ public class WorkFlowSplitView extends JSplitPane{
 	
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel splitTabbedPanel;
-	
-	/**
-	 * Instantiates a new work flow split view.
-	 */
+
 	public WorkFlowSplitView() {
 		splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
@@ -48,6 +45,7 @@ public class WorkFlowSplitView extends JSplitPane{
             }
         });
 	}
+
 	
 	/**
 	 * Creates the new task panel.
@@ -62,6 +60,7 @@ public class WorkFlowSplitView extends JSplitPane{
 		this.resetToPreferredSizes();
 		this.setRightComponent(splitTabbedPanel);
 	}
+
 
 	/**
 	 * Hide create new task panel.

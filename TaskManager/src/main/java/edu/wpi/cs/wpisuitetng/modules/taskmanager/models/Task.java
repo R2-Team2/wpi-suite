@@ -22,7 +22,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class Task extends AbstractModel {
+
+
+	public class Task extends AbstractModel {
 
     /** The task id. */
     private int taskID;

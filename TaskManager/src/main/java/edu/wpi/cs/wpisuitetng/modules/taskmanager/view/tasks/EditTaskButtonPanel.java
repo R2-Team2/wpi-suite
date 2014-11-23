@@ -14,6 +14,9 @@ import java.awt.FlowLayout;
 
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 
@@ -25,13 +28,17 @@ import javax.swing.JButton;
  */
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel{
-	
+
+	protected EditTaskPanel parentPanel;
+
+
+
 	/**
 	 * Constructor for the EditTaskButtonPanel.
 	 *
 	 * @param parentPanel the parent panel
 	 */
-	public EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
@@ -44,7 +51,25 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		buttonCancel = new JButton(cancelString);
 		this.add(buttonLeft);
 		this.add(buttonCancel);
-//		parentPanel.createPressed();
-		setupListeners();
+		this.setupListeners();
 	}
+	
+	/**
+	 * Sets up the listeners for the buttons in the New Task Button Panel.
+	 */
+	protected void setupListeners() {
+		buttonLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.savePressed();
+			}
+		});
+
+		buttonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.cancelPressed();
+			}
+		});
+	}
+
 }

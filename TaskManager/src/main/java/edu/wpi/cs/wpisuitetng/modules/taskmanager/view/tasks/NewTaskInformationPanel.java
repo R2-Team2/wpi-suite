@@ -9,6 +9,12 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import java.awt.Dimension;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatus;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskInformationPanel.
@@ -28,6 +34,11 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		//this.setMinimumSize(new Dimension(540, 200));
         
 		this.buildLayout();
+	}
+	
+	public void setTask(Task aTask)
+	{
+		
 	}
 }
 

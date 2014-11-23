@@ -11,8 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
@@ -24,146 +26,124 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  */
 public abstract class AbstractTaskPanel extends JPanel {
 
-    /** The parent panel. */
-    protected WorkFlowSplitTabbedPanel parentPanel;
+	/** The Task to view. */
+	protected Task aTask;
 
-    /** The info panel. */
-    protected AbstractInformationPanel infoPanel;
+	/** The parent panel. */
+	protected WorkFlowSplitTabbedPanel parentPanel;
 
-    /** The button panel. */
-    protected AbstractButtonPanel buttonPanel;
+	/** The info panel. */
+	protected AbstractInformationPanel infoPanel;
 
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
+	/** The button panel. */
+	protected AbstractButtonPanel buttonPanel;
 
-    /**
-     * Instantiates a new abstract task panel.
-     */
-    protected AbstractTaskPanel() {
+	/** The view event controller. */
+	private final ViewEventController viewEventController = ViewEventController.getInstance();
 
-    }
 
-    /**
-     * Instantiates a new abstract task panel.
-     *
-     * @param parentPanel the parent panel
-     */
-    protected AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
-        this.parentPanel = parentPanel;
-    }
+	/**
+	 * Instantiates a new abstract task panel.
+	 *
+	 * @param parentPanel the parent panel
+	 */
+	protected AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
+		this.parentPanel = parentPanel;
+	}
 
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    protected void buildLayout()
-    {
-        this.setLayout(new BorderLayout());
-        this.add(buttonPanel, BorderLayout.SOUTH);
-        this.add(infoPanel, BorderLayout.CENTER);
-    }
+	/**
+	 * Creates the GUI for the NewTaskPanel.
+	 */
+	protected void buildLayout()
+	{
+		this.setLayout(new BorderLayout());
+		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(infoPanel, BorderLayout.CENTER);
+	}
 
-    /**
-     * Called when the Create Button is pressed Creates a Task from the NewTask Info.
-     */
-    public abstract void createPressed();
 
-    /**
-     * Called when the Cancel Button is pressed Closes out the NewTask Tab.
-     */
-    public void cancelPressed() {
-        ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
-    }
 
-    /**
-     * Returns the title information from infoPanel.
-     *
-     * @return String
-     */
-    public String getTitle() {
-        return infoPanel.getTitle().getText();
-    }
 
-    /**
-     * Returns the description information from infoPanel.
-     *
-     * @return String
-     */
-    public String getDescription() {
-        return infoPanel.getDescription().getText();
-    }
 
-    /**
-     * Retrieves the Estimated Effort from infoPanel.
-     *
-     * @return int
-     */
-    public int getEstimatedEffort() {
-        return (int) infoPanel.getEstimatedEffort().getValue();
-    }
+	/**
+	 * Returns the description information from infoPanel.
+	 *
+	 * @return String
+	 */
+	public String getDescription() {
+		return infoPanel.getDescription().getText();
+	}
 
-    /**
-     * Retrieves the Actual Effort from infoPanel.
-     *
-     * @return int
-     */
-    public int getActualEffort() {
-        return (int) infoPanel.getActualEffort().getValue();
-    }
+	/**
+	 * Retrieves the Estimated Effort from infoPanel.
+	 *
+	 * @return int
+	 */
+	public int getEstimatedEffort() {
+		return (int) infoPanel.getEstimatedEffort().getValue();
+	}
 
-    /**
-     * Retrieves the Status from infoPanel.
-     *
-     * @return String
-     */
-    public String getStatus() {
-        return infoPanel.getStatus().getSelectedItem().toString();
-    }
+	/**
+	 * Retrieves the Actual Effort from infoPanel.
+	 *
+	 * @return int
+	 */
+	public int getActualEffort() {
+		return (int) infoPanel.getActualEffort().getValue();
+	}
 
-    /**
-     * Retrieves the Requirement from infoPanel.
-     *
-     * @return String
-     */
-    public String getRequirement() {
-        return (String) infoPanel.getRequirement().getSelectedItem();
-    }
+	/**
+	 * Retrieves the Status from infoPanel.
+	 *
+	 * @return String
+	 */
+	public String getStatus() {
+		return infoPanel.getStatus().getSelectedItem().toString();
+	}
 
-    /**
-     * Retrieves the StartDate from infoPanel.
-     *
-     * @return Date
-     */
-    public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
-    }
+	/**
+	 * Retrieves the Requirement from infoPanel.
+	 *
+	 * @return String
+	 */
+	public String getRequirement() {
+		return (String) infoPanel.getRequirement().getSelectedItem();
+	}
 
-    /**
-     * Retrieves the DueDate from infoPanel.
-     *
-     * @return Date
-     */
-    public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
-    }
+	/**
+	 * Retrieves the StartDate from infoPanel.
+	 *
+	 * @return Date
+	 */
+	public Date getStartDate() {
+		return infoPanel.getStartDate().getDate();
+	}
 
-    /**
-     * Retrieves the Chosen Members from infoPanel.
-     *
-     * @return String[]
-     */
-    public List<User> getAssignedUsers() {
-        return infoPanel.getAssignedUsers();
-    }
+	/**
+	 * Retrieves the DueDate from infoPanel.
+	 *
+	 * @return Date
+	 */
+	public Date getDueDate() {
+		return infoPanel.getDueDate().getDate();
+	}
 
-    /**
-     * Sets the info panel.
-     *
-     * @param aPanel the new info panel
-     */
-    public void setInfoPanel(NewTaskInformationPanel aPanel)
-    {
-        infoPanel = aPanel;
-    }
+	/**
+	 * Retrieves the Chosen Members from infoPanel.
+	 *
+	 * @return String[]
+	 */
+	public List<User> getAssignedUsers() {
+		return infoPanel.getAssignedUsers();
+	}
 
+	/**
+	 * Sets the info panel.
+	 *
+	 * @param aPanel the new info panel
+	 */
+	public void setInfoPanel(NewTaskInformationPanel aPanel)
+	{
+		this.infoPanel = aPanel;
+	}		
 }

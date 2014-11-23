@@ -42,20 +42,72 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
-    /** The task status obj. */
-    TaskStatus taskStatusObj;
-
-    /** The txtpn title. */
-    JTextPane txtpnTitle = new JTextPane();
-
-    /** The panel. */
-    JPanel panel = new JPanel();
-
+	/** The task status obj. */
+	TaskStatus taskStatusObj;
+	
+	/** The txtpn title. */
+	JTextPane txtpnTitle = new JTextPane();
+	
+	/** The panel. */
+	JPanel panel = new JPanel();
+	
     /**  The TaskStatus title. */
-    private final String title;
+    private String title;
 
     /**  Represents whether the view has been initialized. */
     private boolean initialized;
+
+	
+	/**
+	 * Create the panel.
+	 *
+	 * @param title the title
+	 */
+	public TaskStatusView(String title) {
+
+		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+		this.taskStatusObj = new TaskStatus(title);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		//Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(new EtchedBorder());
+		this.add(scrollPane, "cell 0 1,grow");
+		
+		// Create Format and Add Title JTextPane
+		StyledDocument document = new DefaultStyledDocument();
+		javax.swing.text.Style defaultStyle = document.getStyle(StyleContext.DEFAULT_STYLE);
+		StyleConstants.setAlignment(defaultStyle, StyleConstants.ALIGN_CENTER);
+		JTextPane txtpnTitle = new JTextPane(document);
+		txtpnTitle.setBackground(UIManager.getColor("Button.background"));
+		txtpnTitle.setBorder(null);
+		txtpnTitle.setForeground(new Color(0, 0, 0));
+		txtpnTitle.setEditable(false);
+		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
+		txtpnTitle.setText(this.taskStatusObj.getName());		
+		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
+		panel.setBackground(Color.WHITE);
+		
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new MigLayout("", "[grow,fill]", "[]"));
+		populateTaskStatusViewCards();
+	}
+	
+	
+	/**
+	 * Populate TaskStatusView with Cards Associated with the Status.
+	 */
+	/*public void PopulateTaskStatusViewCards(){
+		// TODO taskStatusObj.TaskList = GetAllTasksFromDatabaseWithThisStatus();
+		for(int i = 0; i < taskStatusObj.getTaskList().size(); i++){
+			TaskCard card = new TaskCard();
+			card.setTaskCardName(taskStatusObj.getTaskList().get(i));
+			panel.add(card, "newline");
+		}
+	}*/
+
 
     /**
      * Create the panel.
@@ -163,5 +215,4 @@ public class TaskStatusView extends JPanel {
         }
         super.paintComponent(g);
     }
-
 }

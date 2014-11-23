@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
@@ -27,17 +28,16 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddTaskController {
 
-    /** The view. */
-    private final NewTaskPanel view;
+	private final NewTaskPanel view;
 
-    /**
-     * Construct an AddTaskController for the given model, view pair.
-     *
-     * @param view the view where the user enters new messages
-     */
-    public AddTaskController(NewTaskPanel view) {
-        this.view = view;
-    }
+	/**
+	 * Construct an AddTaskController for the given model, view pair
+	 * @param model the model containing the messages
+	 * @param view the view where the user enters new messages
+	 */
+	public AddTaskController(NewTaskPanel view) {
+		this.view = view;
+	}
 
     /**
      * This method is called when the user clicks the Submit button.
@@ -71,4 +71,19 @@ public class AddTaskController {
         request.send(); // send the request
     }
 
+		// Make sure there is text
+		//		if (/*message.length() > 0*/true) {
+		// Clear the text field
+		//view.getTxtNewMessage().setText("");
+		
+		// Send a request to the core to save this message
+		/*final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT == create
+		request.setBody(newTask.toJson()); // put the new message in the body of the request
+		request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+		System.out.println("Sent task to database");
+<<<<<<< HEAD
+		
+	}*/
+	
 }
