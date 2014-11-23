@@ -1,11 +1,13 @@
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
+
 /*******************************************************************************
  * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
  * made available under the terms of the Eclipse Public License v1.0 which accompanies this
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
  * R2-Team2
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,7 @@ import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -31,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class WorkFlowSplitTabbedPanel extends JTabbedPane {
+public class SettingsSplitTabbedPanel extends JTabbedPane {
 
     /** The popup. */
     private final JPopupMenu popup = new JPopupMenu();
@@ -45,15 +48,17 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     /** The parent panel. */
     private final WorkFlowSplitView parentPanel;
 
+	private final NewSettingsPanel settingsView;
+
 
     /**
      * Instantiates a new work flow split tabbed panel.
      *
      * @param parentPanel the parent panel
      */
-    public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
+    public SettingsSplitTabbedPanel(WorkFlowSplitView parentPanel) {
         this.parentPanel = parentPanel;
-
+        settingsView = new NewSettingsPanel();
         this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         // this.setMaximumSize(new Dimension(100,100));
         closeAll.addActionListener(new ActionListener() {
@@ -77,7 +82,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    WorkFlowSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
+                	SettingsSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
@@ -87,12 +92,12 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     /**
      * Adds the create task tab.
      */
-    public void addCreateTaskTab() {
-        this.addTab("New Task", null, new NewTaskPanel(this), null);
+    public void addSettingsTab() {
+        this.addTab("New Task", null, new NewSettingsPanel(this), null);
 
-        final WorkFlowSplitTabbedPanel thisPane = this;
+        final SettingsSplitTabbedPanel thisPane = this;
 
-        // create a "close" button
+        // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
         tabCloseButton.setActionCommand("" + this.getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
@@ -167,7 +172,4 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         }
     }
 
-	public void addEditWorkFlowTab(){
-		//this.addTab("Edit Work Flow", null, settingsView, null);
-	}
 }
