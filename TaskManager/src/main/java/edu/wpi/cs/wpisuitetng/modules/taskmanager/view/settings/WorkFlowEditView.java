@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 
@@ -31,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
+
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
     
@@ -43,12 +45,17 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
 	private JTextField newStatusTypeField = new JTextField();
 	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
+
+	JButton addButton = new JButton("Add Status");
+    JButton removeButton = new JButton("Remove Status");
+    JButton saveButton = new JButton("Save");
     /**
      * Create the panel.
      */
     public WorkFlowEditView() {
     	super();
     	JPanel sidePanel = new JPanel(new MigLayout());
+
         sidePanel.setMinimumSize(new Dimension(100,1000));
         newStatusTitleField.setBorder(defaultBorder);
         newStatusTitleField.setMinimumSize(textFieldDimension);
@@ -67,7 +74,23 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         taskStatusPanel.add(sidePanel, "dock east");
         setupListeners();
     }
-
+//    
+//    protected void setupListeners() {
+//    	addButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//            	addStatus(new TaskStatusView("New Status", "Status Type"));
+//            }
+//        });
+//
+//    	removeButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                //parentPanel.cancelPressed();
+//            }
+//
+//        });
+//    }
     /**
      * Gets the work flow obj.
      *
