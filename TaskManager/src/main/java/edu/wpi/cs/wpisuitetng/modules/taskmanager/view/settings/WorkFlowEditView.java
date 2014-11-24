@@ -36,6 +36,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
 
+	private JPanel sidePanel = new JPanel(new MigLayout());
+	
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
     
@@ -50,18 +52,17 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
 	private JTextField newStatusTypeField = new JTextField();
 	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
-	private boolean newStatusValid = false;
 	
 	// Show and Remove Status Components
 
-	DefaultListModel model = new DefaultListModel();
-	private JList listOfStatus = new JList(model);
+	DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
+	private JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
     /**
      * Create the panel.
      */
     public WorkFlowEditView() {
     	super();
-    	JPanel sidePanel = new JPanel(new MigLayout());
+    	
 
         sidePanel.setMinimumSize(new Dimension(100,1000));
         newStatusTitleField.setBorder(defaultBorder);
@@ -92,9 +93,9 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     }
     
     private void buildList(){
-        for (Object object : getViews()) {
-        	if(!model.contains(object)){
-            	model.addElement(object);
+        for (TaskStatusView t : getViews()) {
+        	if(!model.contains(t)){
+            	model.addElement(t);
         	}
         }
         
@@ -138,10 +139,12 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
             	// remove selected from JList
-//            	TaskStatusView taskStatusViewToRemove = (TaskStatusView) listOfStatus.getSelectedValue();
-//            	listOfStatus.remove(taskStatusViewToRemove);
-//            	refresh();
-//            	repaint();
+            	TaskStatusView taskStatusViewToRemove = (TaskStatusView) listOfStatus.getSelectedValue();
+            	listOfStatus.remove(taskStatusViewToRemove);
+            	buildList();
+            	removeTaskStatusView(taskStatusViewToRemove);
+            	buildTaskStatusViews();
+            	refresh();
             }
 
         });
@@ -179,8 +182,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             }
         });
     }
-    
-    protected void clearNewStatusFields() {
+
+	protected void clearNewStatusFields() {
 		newStatusTitleField.setText("");
 		newStatusTypeField.setText("");
 	}
