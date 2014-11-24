@@ -115,7 +115,7 @@ public class AbstractInformationPanel extends JScrollPane {
         // Instantiate GUI Elements
         // Labels
         final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-        final JLabel labelDescription = new JLabel("Description: ");
+        final JLabel labelDescription = new JLabel("<html>Description: <font color='red'>*</font></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
@@ -297,7 +297,9 @@ public class AbstractInformationPanel extends JScrollPane {
 
         });
 
-        // Text Field Listeners
+        /**
+         * Text Field (Title) Listeners
+         */
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -314,6 +316,28 @@ public class AbstractInformationPanel extends JScrollPane {
                 parentPanel.buttonPanel.validateTaskInfo();
             }
         });
+        
+        
+        /**
+         * Text Field (Description) Listeners
+         */
+        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+        });
+        
     }
 
     /**
