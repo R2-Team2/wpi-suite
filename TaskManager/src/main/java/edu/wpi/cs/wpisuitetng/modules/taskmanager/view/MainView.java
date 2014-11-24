@@ -7,7 +7,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -25,9 +24,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
-//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 // TODO: Auto-generated Javadoc
@@ -89,7 +85,6 @@ public class MainView extends JTabbedPane {
         });
 
         this.addTab("Work Flow", null, workflow, null);
-        //this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
     }
 
     /**
@@ -188,6 +183,7 @@ public class MainView extends JTabbedPane {
     public void hideCreateTaskView() {
         workflow.hideCreateNewTaskPanel();
     }
+    
     /**
      * Check for hide.
      */
