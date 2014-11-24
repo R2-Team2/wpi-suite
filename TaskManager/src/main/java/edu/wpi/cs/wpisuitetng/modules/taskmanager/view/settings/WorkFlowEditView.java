@@ -39,7 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class NewSettingsPanel extends JPanel{
+public class WorkFlowEditView extends JPanel{
 
     // private WorkFlowSplitTabbedPanel parentPanel;
 
@@ -53,7 +53,7 @@ public class NewSettingsPanel extends JPanel{
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
     
     /** Settings Panel Title. */
-    protected JTextField title = new JTextField("Settings");
+    protected JTextField title = new JTextField("Edit Work Flow");
     protected Font titleFont = new Font("SansSerif", Font.BOLD, 30);
     
     private final JPanel taskStatusButtonPanel = new JPanel(new MigLayout());
@@ -81,7 +81,7 @@ public class NewSettingsPanel extends JPanel{
     /**
      * Constructor for the NewTaskPanel.
      */
-    public NewSettingsPanel() {
+    public WorkFlowEditView() {
         this.buildLayout();
         
         
@@ -89,7 +89,7 @@ public class NewSettingsPanel extends JPanel{
         
     }
     
-    public NewSettingsPanel(SettingsSplitTabbedPanel parentPanel) {
+    public WorkFlowEditView(SettingsSplitTabbedPanel parentPanel) {
         
     	
     	this.buildLayout();
@@ -107,47 +107,29 @@ public class NewSettingsPanel extends JPanel{
     	bottomButtonPanel.add(saveSettingsButton, "left");
     	bottomButtonPanel.add(cancelButton,"left");
     	
-    	this.buildTaskStatusSettingsView();
+    	this.buildEditWorkFlowView();
         this.add(title, BorderLayout.NORTH);
         this.add(taskStatusPanel, BorderLayout.CENTER);
         this.add(bottomButtonPanel, BorderLayout.SOUTH);
     }
     
-    protected void buildTaskStatusSettingsView(){
+    protected void buildEditWorkFlowView(){
     	// Set Minimum Size of the Settings Panel
-    	this.setMinimumSize(new Dimension(1000,1000));
+    	this.setMinimumSize(new Dimension(1000, 1000));
     	this.setLayout(new BorderLayout());
 
-
-    	Object[] data = {"One", "Two", "Three", "Four", "Five",
-   	         "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"
-   	    };
-    	
-    	for (Object object : data) {
-	         model.addElement(object);
-	    }
-    	
-    	
-    	
-    	MouseAdapter listener = new ReorderListener(list);
-	    list.addMouseListener(listener);
-	    list.addMouseMotionListener(listener);
-	    
 	    newStatusTitleLabel.setBackground(getBackground());
 	    newStatusTitleLabel.setBorder(null);
-	    addTaskStatusPanel.add(newStatusTitleLabel , "center, wrap");
+	    addTaskStatusPanel.add(newStatusTitleLabel, "center, wrap");
 	    newStatusTitle = new JTextField("");
-	    newStatusTitle.setMinimumSize(new Dimension(200,15));
-	    addTaskStatusPanel.add(newStatusTitle , "center, wrap");
+	    newStatusTitle.setMinimumSize(new Dimension(200, 15));
+	    addTaskStatusPanel.add(newStatusTitle, "center, wrap");
 	    addTaskStatusPanel.add(addTaskStatusButton, "center, wrap");
-	    
-	    
-	    
-	    
+
 	    list.setBorder(defaultBorder);
-	    list.setMinimumSize(new Dimension(200,500));
+	    list.setMinimumSize(new Dimension(200, 500));
     	
-    	taskStatusPanel.add(addTaskStatusPanel, "center, wrap");    	
+    	taskStatusPanel.add(addTaskStatusPanel, "center, wrap");	
     	taskStatusButtonPanel.add(removeStageButton, "center, wrap");
     	
 

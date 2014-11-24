@@ -166,8 +166,4 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             ViewEventController.getInstance().closeNewTaskPanel();
         }
     }
-
-	public void addEditWorkFlowTab(){
-		//this.addTab("Edit Work Flow", null, settingsView, null);
-	}
 }

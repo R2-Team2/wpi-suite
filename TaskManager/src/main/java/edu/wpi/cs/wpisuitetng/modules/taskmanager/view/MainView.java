@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.NewSettingsPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
@@ -52,7 +52,7 @@ public class MainView extends JTabbedPane {
     private final WorkFlowSplitView workflow = new WorkFlowSplitView();
     
     /** The Settings view */
-    private final NewSettingsPanel settingsView = new NewSettingsPanel();
+    private final WorkFlowEditView workFlowEditView = new WorkFlowEditView();
     private int tabCounter = 0;
 
 
@@ -100,9 +100,9 @@ public class MainView extends JTabbedPane {
         this.setSelectedComponent(workflow);
     }
     
-	public void showSettingsView() {
-	    if(!tabAlreadyOpen(settingsView)){
-	    	this.addTab("Edit Work Flow", null, settingsView, null);
+	public void editWorkFlowView() {
+	    if(!tabAlreadyOpen(workFlowEditView)){
+	    	this.addTab("Edit Work Flow", null, workFlowEditView, null);
 	    	
 	        final MainView thisPane = this;
 
@@ -169,7 +169,7 @@ public class MainView extends JTabbedPane {
 
 	            this.setTabComponentAt(this.getTabCount() - 1, panel);
 	            this.setSelectedIndex(this.getTabCount() - 1);
-	            this.setSelectedComponent(settingsView);
+	            this.setSelectedComponent(workFlowEditView);
 	        }
 	    }
 	}

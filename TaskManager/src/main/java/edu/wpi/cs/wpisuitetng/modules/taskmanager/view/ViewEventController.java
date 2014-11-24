@@ -11,7 +11,7 @@ import java.awt.Component;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.NewSettingsPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -37,7 +37,7 @@ public class ViewEventController {
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
 
-	private NewSettingsPanel settingsPanel = new NewSettingsPanel();
+	private WorkFlowEditView settingsPanel = new WorkFlowEditView();
 
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
@@ -82,8 +82,8 @@ public class ViewEventController {
 
     }
 	
-    public void settings() {
-		main.showSettingsView();
+    public void editWorkFlowView() {
+		main.editWorkFlowView();
 		
 	}
 	

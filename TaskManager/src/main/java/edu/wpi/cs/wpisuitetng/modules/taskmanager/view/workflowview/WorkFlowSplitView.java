@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.NewSettingsPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 
 
@@ -83,10 +83,5 @@ public class WorkFlowSplitView extends JSplitPane{
 		this.setOneTouchExpandable(true);
 		this.setDividerLocation(1.0);
 	}
-//
-//	public void showSettingsView() {
-//		// TODO Auto-generated method stub
-//		settingsSplitTabbedPanel.addEditWorkFlowTab();
-//		this.setLeftComponent(settingsSplitTabbedPanel);
-//	}
+
 }

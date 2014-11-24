@@ -48,7 +48,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     /** The parent panel. */
     private final WorkFlowSplitView parentPanel;
 
-	private final NewSettingsPanel settingsView;
+	private final WorkFlowEditView workflowEditView;
 
 
     /**
@@ -58,7 +58,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
      */
     public SettingsSplitTabbedPanel(WorkFlowSplitView parentPanel) {
         this.parentPanel = parentPanel;
-        settingsView = new NewSettingsPanel();
+        workflowEditView = new WorkFlowEditView();
         this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         // this.setMaximumSize(new Dimension(100,100));
         closeAll.addActionListener(new ActionListener() {
@@ -93,7 +93,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
      * Adds the create task tab.
      */
     public void addSettingsTab() {
-        this.addTab("New Task", null, new NewSettingsPanel(this), null);
+        this.addTab("New Task", null, new WorkFlowEditView(this), null);
 
         final SettingsSplitTabbedPanel thisPane = this;
 

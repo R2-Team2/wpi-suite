@@ -93,7 +93,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a settings view
-                ViewEventController.getInstance().settings();
+            	// Currently Brings up the Edit Work Flow View Directly
+                ViewEventController.getInstance().editWorkFlowView();
             }
         });
 
