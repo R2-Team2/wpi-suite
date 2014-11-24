@@ -31,7 +31,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.tree.DefaultMutableTreeNode;
+
 
 import net.miginfocom.swing.MigLayout;
 
@@ -43,8 +43,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTreePanel;
+
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -123,16 +123,17 @@ public class AbstractInformationPanel extends JScrollPane {
        
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
-        List<Iteration> iterations = IterationModel.getInstance().getIterations(); //retreive the list of all iterations
-        List<Requirement> requirements = new ArrayList<Requirement>();
+        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+        final List<Requirement> requirements = new ArrayList<Requirement>();
         Collections.sort(iterations, new IterationComparator());
         for (int i = 0; i < iterations.size(); i++) {
             
-            requirements.addAll(iterations.get(i).getRequirements()); //gets the list of requirements that is associated with the iteration
+            requirements.addAll(iterations.get(i).getRequirements()); 
+            //gets the list of requirements that is associated with the iteration
             
         }
         Collections.sort(requirements, new RequirementComparator());
-        String[] arrListOfRequirements = new String[requirements.size()];
+        final String[] arrListOfRequirements = new String[requirements.size()];
         for (int i = 0; i < requirements.size(); i++){ 
         	//build a List<String> of the names of the requirements
         	//defaultComboBoxModel, below, requires an array of string
@@ -431,20 +432,26 @@ public class AbstractInformationPanel extends JScrollPane {
 }
 
 /**
+ * @version legacy
  * @author Kevin from the requirements manager
  *         sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
     public int compare(Iteration I1, Iteration I2) {
         if (I1.getStart() == null)
+        {
             return -1;
+        }
         if (I2.getStart() == null)
+        {
             return 1;
+        }
         return I1.getStart().getDate().compareTo(I2.getStart().getDate());
     }
 }
 
 /**
+ * @version legacy
  * @author Kevin from the requirements manager
  *         sorts Requirements by name
  */
