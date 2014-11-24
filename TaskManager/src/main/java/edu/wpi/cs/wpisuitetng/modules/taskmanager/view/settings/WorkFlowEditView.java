@@ -143,6 +143,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             	removeTaskStatusView(taskStatusViewToRemove);
             	buildTaskStatusViews();
             	refresh();
+            	revalidate();
+            	repaint();
             }
 
         });
