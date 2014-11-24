@@ -34,6 +34,7 @@ import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,12 +52,18 @@ DragGestureListener {
     private DragSource source;
     private TransferHandler transferHandler;
 
-    String name;
-    String date;
-    String userName;
+    private String name;
+    private String date;
+    private String userName;
+    private TaskStatusView parent;
 
     /** The task name. */
     JTextPane taskName = new JTextPane();
+
+    public TaskCard(String nameData, String dateData, String userNameData, TaskStatusView parent) {
+        this(nameData, dateData, userNameData);
+        this.parent = parent;
+    }
 
     /**
      * Create the panel.
@@ -143,10 +150,14 @@ DragGestureListener {
 
 
     @Override
-    public void dragEnter(DragSourceDragEvent dsde) {}
+    public void dragEnter(DragSourceDragEvent dsde) {
+        this.parent.redrawInsertingPlaceholder(1);
+    }
 
     @Override
-    public void dragOver(DragSourceDragEvent dsde) {}
+    public void dragOver(DragSourceDragEvent dsde) {
+
+    }
 
     @Override
     public void dropActionChanged(DragSourceDragEvent dsde) {}
@@ -161,8 +172,9 @@ DragGestureListener {
 
     @Override
     public void dragGestureRecognized(DragGestureEvent dge) {
-        this.source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(),
-                new TaskCard(this.name, this.date, this.userName), this);
+        this.source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
+                -this.getWidth() / 2, -this.getHeight() / 2), new TaskCard(this.name, this.date,
+                        this.userName), this);
     }
 
     private BufferedImage createImage(JPanel panel) {

@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -106,6 +106,7 @@ public class TaskStatusView extends JPanel {
     }
 
 
+
     /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
@@ -133,17 +134,36 @@ public class TaskStatusView extends JPanel {
     /**
      * Populate task status view cards.
      */
+    public void redrawInsertingPlaceholder(int index) {
+        final List<Task> taskList = this.taskStatusObj.getTaskList();
+        this.panel.removeAll();
+        int currentIndex = 0;
+        for (Task t : taskList) {
+            if (currentIndex == index) {
+                this.panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", this),
+                        "newline");
+            }
+            String dateString = this.formateDate(t);
+            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), this);
+            this.panel.add(card, "newline");
+            currentIndex++;
+        }
+        this.revalidate();
+    }
+
+    /**
+     * Populate task status view cards.
+     */
     public void populateTaskStatusViewCards() {
         final List<Task> taskList = this.taskStatusObj.getTaskList();
         this.panel.removeAll();
         for (Task t : taskList) {
             String dateString = this.formateDate(t);
-            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard());
+            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), this);
             this.panel.add(card, "newline");
         }
         this.revalidate();
     }
-
 
     /**
      * Returns the formatted due date of a task.
