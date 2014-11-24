@@ -28,10 +28,10 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class TaskCard extends JPanel {
+public class TaskCard extends JPanel implements MouseListener {
 
-    /** The task obj. */
     private Task taskObj;
+
     JTextPane taskName = new JTextPane();
     MouseListener listener = new MouseListener() {
 
@@ -65,8 +65,6 @@ public class TaskCard extends JPanel {
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
-
-        // truncates the displayed task title if it's longer than 25 characters. if
         if (nameData.length() > 45) {
             taskName.setToolTipText(nameData);
             nameData = nameData.substring(0, 45).concat("...");
@@ -76,7 +74,8 @@ public class TaskCard extends JPanel {
         taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
         taskName.setEditable(false);
         taskName.setBackground(UIManager.getColor("Button.background"));
-        taskName.addMouseListener(listener);
+        taskName.addMouseListener(this);
+
         this.add(taskName, "cell 0 0,alignx center,aligny center");
 
         final JPanel infoPanel = new JPanel();
@@ -111,4 +110,21 @@ public class TaskCard extends JPanel {
     public void setTaskObj(Task taskObj) {
         this.taskObj = taskObj;
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        dispatchEvent(e); // pass taskName event through to the TaskCard
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
