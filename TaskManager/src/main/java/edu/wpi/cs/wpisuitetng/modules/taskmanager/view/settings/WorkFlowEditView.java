@@ -7,6 +7,7 @@
 // this class has depricated through task 24- create collapsing sidebar.
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,16 +32,14 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
 /**
  * The Class WorkFlowView.
  * @author R2-Team2
- * @version $Revision: 1.0 $
  */
-@SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
+
 
 	private JPanel sidePanel = new JPanel(new MigLayout());
 	
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
-    
     protected final Dimension textFieldDimension = new Dimension(200,10);
     
 	private JButton addButton = new JButton("Add Status");
@@ -57,6 +56,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 
 	DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
 	private JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
+
     /**
      * Create the panel.
      */
@@ -98,7 +98,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             	model.addElement(t);
         	}
         }
-        
     }
     /**
      * Gets the work flow obj.
