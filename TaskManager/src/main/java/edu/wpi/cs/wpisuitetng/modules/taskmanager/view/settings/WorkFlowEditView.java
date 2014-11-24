@@ -45,10 +45,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
 	private JTextField newStatusTypeField = new JTextField();
 	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
-
-	JButton addButton = new JButton("Add Status");
-    JButton removeButton = new JButton("Remove Status");
-    JButton saveButton = new JButton("Save");
+	
     /**
      * Create the panel.
      */
