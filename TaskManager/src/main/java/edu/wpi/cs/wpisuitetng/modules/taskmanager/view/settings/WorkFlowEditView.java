@@ -140,8 +140,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             public void actionPerformed(ActionEvent e) {
             	// remove selected from JList
             	TaskStatusView taskStatusViewToRemove = (TaskStatusView) listOfStatus.getSelectedValue();
-            	listOfStatus.remove(taskStatusViewToRemove);
-            	buildList();
+            	model.removeElement(taskStatusViewToRemove);
             	removeTaskStatusView(taskStatusViewToRemove);
             	buildTaskStatusViews();
             	refresh();
