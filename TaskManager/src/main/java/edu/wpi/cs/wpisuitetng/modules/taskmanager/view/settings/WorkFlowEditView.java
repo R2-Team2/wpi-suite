@@ -50,6 +50,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
 	private JTextField newStatusTypeField = new JTextField();
 	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
+	private boolean newStatusValid = false;
 	
 	// Show and Remove Status Components
 
@@ -128,6 +129,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
             	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), newStatusTitleField.getText()));
+            	clearNewStatusFields();
             	refresh();
             }
         });
@@ -147,28 +149,67 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                validateTitleField();
+            	validateNewStatusFields();
             }
 
 			@Override
             public void removeUpdate(DocumentEvent e) {
-				validateTitleField();
+				validateNewStatusFields();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	validateTitleField();
+            	validateNewStatusFields();
+            }
+        });
+    	newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            	validateNewStatusFields();
+            }
+
+			@Override
+            public void removeUpdate(DocumentEvent e) {
+				validateNewStatusFields();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	validateNewStatusFields();
             }
         });
     }
     
-    private void validateTitleField() {
+    protected void clearNewStatusFields() {
+		newStatusTitleField.setText("");
+		newStatusTypeField.setText("");
+	}
+
+	private void validateNewStatusFields(){
+    	if(validateNewStatusTitleField() && validateNewStatusTypeField()){
+    		addButton.setEnabled(true);
+    	}
+    	else{
+    		addButton.setEnabled(false);
+    	}
+    }
+    private boolean validateNewStatusTitleField() {
 		// TODO Auto-generated method stub
-    	if (newStatusTitleField.getText().length() <= 0) {
-            addButton.setEnabled(false);
+    	if (newStatusTitleField.getText().length() <= 0){
+    		return false;
         }
         else {
-            addButton.setEnabled(true);
+           return true;
+        }
+	}
+    
+    private boolean validateNewStatusTypeField() {
+		// TODO Auto-generated method stub
+    	if (newStatusTypeField.getText().length() <=0){
+    		return false;
+        }
+        else {
+            return true;
         }
 	}
 }
