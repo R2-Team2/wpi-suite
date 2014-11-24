@@ -7,7 +7,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -25,16 +24,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
-//import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
+// import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
+// import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 // TODO: Auto-generated Javadoc
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
- * @author R2-Team2
+ *
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class MainView extends JTabbedPane {
@@ -50,10 +49,12 @@ public class MainView extends JTabbedPane {
 
     /** The workflow. */
     private final WorkFlowSplitView workflow = new WorkFlowSplitView();
-    
-    /** The Settings view */
+
+    /** The Settings view. */
     private final WorkFlowEditView workFlowEditView = new WorkFlowEditView();
-    private int tabCounter = 0;
+
+    /** The tab counter. */
+    private final int tabCounter = 0;
 
 
     /**
@@ -89,7 +90,7 @@ public class MainView extends JTabbedPane {
         });
 
         this.addTab("Work Flow", null, workflow, null);
-        //this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
+        // this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
     }
 
     /**
@@ -99,95 +100,108 @@ public class MainView extends JTabbedPane {
         workflow.createNewTaskPanel();
         this.setSelectedComponent(workflow);
     }
-    
-	public void editWorkFlowView() {
-	    if(!tabAlreadyOpen(workFlowEditView)){
-	    	this.addTab("Edit Work Flow", null, workFlowEditView, null);
-	    	
-	        final MainView thisPane = this;
 
-	        // create a "close" button
-	        final JButton tabCloseButton = new JButton("\u2716");
-	        tabCloseButton.setActionCommand("" + this.getTabCount());
-	        tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
-	        tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+    /**
+     * Edits the work flow view.
+     */
+    public void editWorkFlowView() {
+        if (!isTabAlreadyOpen(workFlowEditView)) {
+            this.addTab("Edit Work Flow", null, workFlowEditView, null);
 
-	        final ActionListener closeButtonListener;
-	        closeButtonListener = new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent action) {
+            final MainView thisPane = this;
 
-	                // get button which was clicked
-	                JButton tmpButton = (JButton) action.getSource();
+            // create a "close" button
+            final JButton tabCloseButton = new JButton("\u2716");
+            tabCloseButton.setActionCommand("" + this.getTabCount());
+            tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
+            tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
-	                // get previously defined action command (sort of identifier)
-	                final String clickedActionCommand = tmpButton.getActionCommand();
+            final ActionListener closeButtonListener;
+            closeButtonListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent action) {
 
-	                // for all tabs in tabpane
-	                for (int i = 1; i < thisPane.getTabCount(); i++) {
+                    // get button which was clicked
+                    JButton tmpButton = (JButton) action.getSource();
 
-	                    // get a panel of current tab component
-	                    JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+                    // get previously defined action command (sort of identifier)
+                    final String clickedActionCommand = tmpButton.getActionCommand();
 
-	                    // take a button from it
-	                    tmpButton = (JButton) tabPanel.getComponent(i);
+                    // for all tabs in tabpane
+                    for (int i = 1; i < thisPane.getTabCount(); i++) {
 
-	                    // retrieve its action command
-	                    String actualActionCommand = tmpButton.getActionCommand();
+                        // get a panel of current tab component
+                        JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
 
-	                    // if this command is equal to that of clicked button, then we've found our tab
-	                    if (clickedActionCommand.equals(actualActionCommand)) {
-	                        thisPane.removeTabAt(i); // and we remove it
-	                        thisPane.checkForHide();
-	                        break;
-	                    }
-	                }
-	            }
-	        };
-	        tabCloseButton.addActionListener(closeButtonListener);
+                        // take a button from it
+                        tmpButton = (JButton) tabPanel.getComponent(i);
 
-	        // this part of code manually creates a panel with title and button
-	        // and adds it to tab component
-	        if (this.getTabCount() != 0) {
-	            final JPanel panel = new JPanel();
-	            panel.setOpaque(false);
+                        // retrieve its action command
+                        String actualActionCommand = tmpButton.getActionCommand();
 
-	            final JLabel lblTitle = new JLabel("Edit Work Flow");
-	            lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+                        // if this command is equal to that of clicked button, then we've found our
+                        // tab
+                        if (clickedActionCommand.equals(actualActionCommand)) {
+                            thisPane.removeTabAt(i); // and we remove it
+                            thisPane.checkForHide();
+                            break;
+                        }
+                    }
+                }
+            };
+            tabCloseButton.addActionListener(closeButtonListener);
 
-	            final GridBagConstraints gbc = new GridBagConstraints();
-	            gbc.gridx = 0;
-	            gbc.gridy = 0;
-	            gbc.weightx = 1;
+            // this part of code manually creates a panel with title and button
+            // and adds it to tab component
+            if (this.getTabCount() != 0) {
+                final JPanel panel = new JPanel();
+                panel.setOpaque(false);
 
-	            panel.add(lblTitle, gbc);
+                final JLabel lblTitle = new JLabel("Edit Work Flow");
+                lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
-	            gbc.gridx++;
-	            gbc.weightx = 0;
-	            panel.add(tabCloseButton, gbc);
+                final GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.weightx = 1;
+
+                panel.add(lblTitle, gbc);
+
+                gbc.gridx++;
+                gbc.weightx = 0;
+                panel.add(tabCloseButton, gbc);
 
 
-	            this.setTabComponentAt(this.getTabCount() - 1, panel);
-	            this.setSelectedIndex(this.getTabCount() - 1);
-	            this.setSelectedComponent(workFlowEditView);
-	        }
-	    }
-	}
+                this.setTabComponentAt(this.getTabCount() - 1, panel);
+                this.setSelectedIndex(this.getTabCount() - 1);
+                this.setSelectedComponent(workFlowEditView);
+            }
+        }
+    }
 
-	private boolean tabAlreadyOpen(Component componentOpen) {
-		boolean ret = false;
-		for(int i = 1; i < this.getTabCount(); i++){
-			if(componentOpen.equals(this.getTabComponentAt(i))) ret = true;
-		}
-		return ret;
-	}
+    /**
+     * Tab already open.
+     *
+     * @param componentOpen the component open
+     * @return true, if successful
+     */
+    private boolean isTabAlreadyOpen(Component componentOpen) {
+        boolean ret = false;
+        for (int i = 1; i < this.getTabCount(); i++) {
+            if (componentOpen.equals(this.getTabComponentAt(i))) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
 
-	/**
+    /**
      * Hide create task view.
      */
     public void hideCreateTaskView() {
         workflow.hideCreateNewTaskPanel();
     }
+
     /**
      * Check for hide.
      */

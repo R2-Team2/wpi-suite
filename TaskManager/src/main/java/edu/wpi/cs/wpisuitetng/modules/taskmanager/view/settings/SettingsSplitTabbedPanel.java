@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
 
 /*******************************************************************************
@@ -7,7 +13,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
  * R2-Team2
  ******************************************************************************/
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -24,15 +29,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitTabbedPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 public class SettingsSplitTabbedPanel extends JTabbedPane {
 
@@ -48,7 +52,8 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     /** The parent panel. */
     private final WorkFlowSplitView parentPanel;
 
-	private final WorkFlowEditView workflowEditView;
+    /** The workflow edit view. */
+    private final WorkFlowEditView workflowEditView;
 
 
     /**
@@ -82,7 +87,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                	SettingsSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
+                    SettingsSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });

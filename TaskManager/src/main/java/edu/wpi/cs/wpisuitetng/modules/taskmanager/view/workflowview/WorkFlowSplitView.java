@@ -11,16 +11,16 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 
 
-import java.awt.Component;
 
-import javax.swing.JPanel;
+
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 
 
