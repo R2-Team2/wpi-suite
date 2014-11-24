@@ -95,4 +95,7 @@ public abstract class AbsWorkFlowView extends JPanel{
     public List<TaskStatusView> getViews(){
     	return views;
     }
+    public boolean removeView(TaskStatusView taskStatusView){
+    	return views.remove(taskStatusView);
+    }
 }

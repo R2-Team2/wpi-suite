@@ -19,6 +19,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -70,6 +72,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         sidePanel.add(newStatusTitleField,"wrap");
         sidePanel.add(newStatusTypeLabel,"wrap");
         sidePanel.add(newStatusTypeField, "wrap");
+        addButton.setEnabled(false);
         sidePanel.add(addButton, "wrap");
         
         // Remove Status Components
@@ -132,9 +135,40 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
+            	// remove selected from JList
+//            	TaskStatusView taskStatusViewToRemove = (TaskStatusView) listOfStatus.getSelectedValue();
+//            	listOfStatus.remove(taskStatusViewToRemove);
+//            	refresh();
+//            	repaint();
             }
 
         });
+    	
+    	newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateTitleField();
+            }
+
+			@Override
+            public void removeUpdate(DocumentEvent e) {
+				validateTitleField();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	validateTitleField();
+            }
+        });
     }
+    
+    private void validateTitleField() {
+		// TODO Auto-generated method stub
+    	if (newStatusTitleField.getText().length() <= 0) {
+            addButton.setEnabled(false);
+        }
+        else {
+            addButton.setEnabled(true);
+        }
+	}
 }
