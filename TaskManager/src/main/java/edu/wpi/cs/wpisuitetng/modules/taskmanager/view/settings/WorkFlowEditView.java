@@ -11,8 +11,12 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -27,10 +31,18 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
-
+    /** The default border. */
+    protected final Border defaultBorder = BorderFactory.createEtchedBorder();
+    
+    protected final Dimension textFieldDimension = new Dimension(200,10);
+    
 	private JButton addButton = new JButton("Add Status");
 	private JButton removeButton = new JButton("Remove Status");
 	private JButton saveButton = new JButton("Save");
+	private JTextField newStatusTitleField = new JTextField();
+	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
+	private JTextField newStatusTypeField = new JTextField();
+	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
     /**
      * Create the panel.
      */
@@ -38,9 +50,19 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	super();
     	JPanel sidePanel = new JPanel(new MigLayout());
         sidePanel.setMinimumSize(new Dimension(100,1000));
+        newStatusTitleField.setBorder(defaultBorder);
+        newStatusTitleField.setMinimumSize(textFieldDimension);
+        newStatusTypeField.setMinimumSize(textFieldDimension);
+        
+        sidePanel.add(newStatusTitleLabel, "wrap");
+        sidePanel.add(newStatusTitleField,"wrap");
+        sidePanel.add(newStatusTypeLabel,"wrap");
+        sidePanel.add(newStatusTypeField, "wrap");
         sidePanel.add(addButton, "wrap");
         sidePanel.add(removeButton,"wrap");
         sidePanel.add(saveButton,"wrap");
+        
+        
         
         taskStatusPanel.add(sidePanel, "dock east");
         setupListeners();
@@ -74,14 +96,14 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addTaskStatusView(new TaskStatusView("New Title", "New Name"));
+            	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), newStatusTitleField.getText()));
             }
         });
 
     	removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	
             }
 
         });
