@@ -40,11 +40,16 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
-    protected final Dimension textFieldDimension = new Dimension(200,10);
+    protected final Dimension textFieldDimension = new Dimension(200, 10);
+    protected final Dimension listFieldDimension = new Dimension(100, 400);
     
 	private JButton addButton = new JButton("Add Status");
 	private JButton removeButton = new JButton("Remove Status");
 	private JButton saveButton = new JButton("Save");
+	
+	private JButton upButton = new JButton("\u2191");
+	private JButton downButton = new JButton("\u2193");
+	
 	
 	// Add Status Fields
 	private JTextField newStatusTitleField = new JTextField();
@@ -79,8 +84,11 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         
         // Remove Status Components
         buildList();
-        sidePanel.add(listOfStatus, "wrap");
-        sidePanel.add(removeButton,"wrap");
+        //listOfStatus.setMinimumSize(listFieldDimension);
+        sidePanel.add(listOfStatus,"span 2 2");
+        sidePanel.add(upButton,"wrap");
+        sidePanel.add(downButton, "wrap");
+        sidePanel.add(removeButton, "wrap");
         
         // Save Changes
         // This needs to work with database to actually save the changes made in this view
@@ -149,6 +157,32 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 
         });
     	
+    	upButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	// remove selected from JList
+            	TaskStatusView taskStatusViewToMoveUp = listOfStatus.getSelectedValue();
+            	moveStatusUp(taskStatusViewToMoveUp);
+            	refresh();
+            	revalidate();
+            	repaint();
+            }
+        });
+    	downButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	// remove selected from JList
+            	TaskStatusView taskStatusViewToMoveDown = (TaskStatusView) listOfStatus.getSelectedValue();
+            	moveStatusDown(taskStatusViewToMoveDown);
+            	
+            	buildTaskStatusViews();
+            	refresh();
+            	revalidate();
+            	repaint();
+            }
+
+        });
+    	    	
     	newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -181,7 +215,47 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             	validateNewStatusFields();
             }
         });
+    	
+    	
     }
+    
+    protected void moveStatusUp(TaskStatusView taskStatusViewToMoveUp) {
+		if(!(model.indexOf(taskStatusViewToMoveUp) <= 0)){
+			// Move in views
+			moveUp(taskStatusViewToMoveUp);
+			// update JList
+//			int source = model.indexOf(taskStatusViewToMoveUp);
+//	    	int dest = model.indexOf(taskStatusViewToMoveUp)-1;
+//	    	
+//	    	TaskStatusView sourceStatusView = model.get(source);
+//	    	TaskStatusView	destStatusView = model.get(dest);
+//	    	
+//	    	model.set(dest, sourceStatusView);
+//	    	model.set(source, destStatusView);
+//	    	listOfStatus.setSelectedValue(taskStatusViewToMoveUp, true);
+	    	buildList();
+		}
+	}
+    
+	protected void moveStatusDown(TaskStatusView taskStatusViewToMoveDown) {
+		if(!(model.indexOf(taskStatusViewToMoveDown) >= model.getSize()-1)){
+			// Move in views
+			moveDown(taskStatusViewToMoveDown);
+			// update JList
+//			int source = model.indexOf(taskStatusViewToMoveDown);
+//			int dest = model.indexOf(taskStatusViewToMoveDown)+1;
+//			
+//			TaskStatusView sourceStatusView = model.get(source);
+//			TaskStatusView	destStatusView = model.get(dest);
+//			
+//			model.set(dest, sourceStatusView);
+//			model.set(source, destStatusView);
+//			listOfStatus.setSelectedValue(taskStatusViewToMoveDown, true);
+			buildList();
+		}
+	}
+
+	
 
 	protected void clearNewStatusFields() {
 		newStatusTitleField.setText("");

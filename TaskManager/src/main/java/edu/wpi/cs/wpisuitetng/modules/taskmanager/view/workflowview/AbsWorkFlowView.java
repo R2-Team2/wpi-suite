@@ -99,4 +99,39 @@ public abstract class AbsWorkFlowView extends JPanel{
     	taskStatusPanel.remove(taskStatusView);
     	return views.remove(taskStatusView);
     }
+    
+    public void moveUp(TaskStatusView taskStatusViewToMoveUp){
+    	if(!(views.indexOf(taskStatusViewToMoveUp) <=0)){
+	    	// find index of tomove
+	    	// get index moveto
+	    	// move that to next
+	    	int source = views.indexOf(taskStatusViewToMoveUp);
+	    	int dest = views.indexOf(taskStatusViewToMoveUp)-1;
+	    	
+	    	TaskStatusView sourceStatusView = views.get(source);
+	    	TaskStatusView	destStatusView = views.get(dest);
+	    	
+	    	views.set(dest, sourceStatusView);
+	    	views.set(source, destStatusView);
+	    	refresh();
+	    	buildTaskStatusViews();
+    	}
+    }
+    public void moveDown(TaskStatusView taskStatusViewToMoveDown){
+    	if(!(views.indexOf(taskStatusViewToMoveDown) >= views.size()-1)){
+	    	// find index of tomove
+	    	// get index moveto
+	    	// move that to next
+	    	int source = views.indexOf(taskStatusViewToMoveDown);
+	    	int dest = views.indexOf(taskStatusViewToMoveDown)+1;
+	    	
+	    	TaskStatusView sourceStatusView = views.get(source);
+	    	TaskStatusView	destStatusView = views.get(dest);
+	    	
+	    	views.set(dest, sourceStatusView);
+	    	views.set(source, destStatusView);
+	    	refresh();
+	    	buildTaskStatusViews();
+    	}
+    }
 }
