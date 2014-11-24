@@ -66,9 +66,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      * Create the panel.
      */
     public WorkFlowEditView() {
-    	super();
-    	
-
+    	//super();
         sidePanel.setMinimumSize(new Dimension(100,1000));
         newStatusTitleField.setBorder(defaultBorder);
         newStatusTitleField.setMinimumSize(textFieldDimension);
@@ -224,15 +222,15 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 			// Move in views
 			moveUp(taskStatusViewToMoveUp);
 			// update JList
-//			int source = model.indexOf(taskStatusViewToMoveUp);
-//	    	int dest = model.indexOf(taskStatusViewToMoveUp)-1;
-//	    	
-//	    	TaskStatusView sourceStatusView = model.get(source);
-//	    	TaskStatusView	destStatusView = model.get(dest);
-//	    	
-//	    	model.set(dest, sourceStatusView);
-//	    	model.set(source, destStatusView);
-//	    	listOfStatus.setSelectedValue(taskStatusViewToMoveUp, true);
+			int source = model.indexOf(taskStatusViewToMoveUp);
+	    	int dest = model.indexOf(taskStatusViewToMoveUp)-1;
+	    	
+	    	TaskStatusView sourceStatusView = model.get(source);
+	    	TaskStatusView	destStatusView = model.get(dest);
+	    	
+	    	model.set(dest, sourceStatusView);
+	    	model.set(source, destStatusView);
+	    	listOfStatus.setSelectedValue(taskStatusViewToMoveUp, true);
 	    	buildList();
 		}
 	}
@@ -242,15 +240,15 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 			// Move in views
 			moveDown(taskStatusViewToMoveDown);
 			// update JList
-//			int source = model.indexOf(taskStatusViewToMoveDown);
-//			int dest = model.indexOf(taskStatusViewToMoveDown)+1;
-//			
-//			TaskStatusView sourceStatusView = model.get(source);
-//			TaskStatusView	destStatusView = model.get(dest);
-//			
-//			model.set(dest, sourceStatusView);
-//			model.set(source, destStatusView);
-//			listOfStatus.setSelectedValue(taskStatusViewToMoveDown, true);
+			int source = model.indexOf(taskStatusViewToMoveDown);
+			int dest = model.indexOf(taskStatusViewToMoveDown)+1;
+			
+			TaskStatusView sourceStatusView = model.get(source);
+			TaskStatusView	destStatusView = model.get(dest);
+			
+			model.set(dest, sourceStatusView);
+			model.set(source, destStatusView);
+			listOfStatus.setSelectedValue(taskStatusViewToMoveDown, true);
 			buildList();
 		}
 	}
