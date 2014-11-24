@@ -12,15 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 
@@ -41,11 +42,17 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 	private JButton addButton = new JButton("Add Status");
 	private JButton removeButton = new JButton("Remove Status");
 	private JButton saveButton = new JButton("Save");
+	
+	// Add Status Fields
 	private JTextField newStatusTitleField = new JTextField();
 	private JLabel newStatusTitleLabel = new JLabel("New Status Title");
 	private JTextField newStatusTypeField = new JTextField();
 	private JLabel newStatusTypeLabel = new JLabel("New Status Type");
 	
+	// Show and Remove Status Components
+
+	DefaultListModel model = new DefaultListModel();
+	private JList listOfStatus = new JList(model);
     /**
      * Create the panel.
      */
@@ -58,12 +65,20 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         newStatusTitleField.setMinimumSize(textFieldDimension);
         newStatusTypeField.setMinimumSize(textFieldDimension);
         
+        // Add status Components
         sidePanel.add(newStatusTitleLabel, "wrap");
         sidePanel.add(newStatusTitleField,"wrap");
         sidePanel.add(newStatusTypeLabel,"wrap");
         sidePanel.add(newStatusTypeField, "wrap");
         sidePanel.add(addButton, "wrap");
+        
+        // Remove Status Components
+        buildList();
+        sidePanel.add(listOfStatus, "wrap");
         sidePanel.add(removeButton,"wrap");
+        
+        // Save Changes
+        // This needs to work with database to actually save the changes made in this view
         sidePanel.add(saveButton,"wrap");
         
         
@@ -71,23 +86,15 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         taskStatusPanel.add(sidePanel, "dock east");
         setupListeners();
     }
-//    
-//    protected void setupListeners() {
-//    	addButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//            	addStatus(new TaskStatusView("New Status", "Status Type"));
-//            }
-//        });
-//
-//    	removeButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                //parentPanel.cancelPressed();
-//            }
-//
-//        });
-//    }
+    
+    private void buildList(){
+        for (Object object : getViews()) {
+        	if(!model.contains(object)){
+            	model.addElement(object);
+        	}
+        }
+        
+    }
     /**
      * Gets the work flow obj.
      *
@@ -111,12 +118,14 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      */
     public void refresh() {
         super.refresh();
+        buildList();
     }
     protected void setupListeners() {
     	addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), newStatusTitleField.getText()));
+            	refresh();
             }
         });
 

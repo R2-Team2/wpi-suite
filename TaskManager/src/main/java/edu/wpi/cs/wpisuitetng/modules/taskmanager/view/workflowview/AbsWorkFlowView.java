@@ -22,7 +22,7 @@ public abstract class AbsWorkFlowView extends JPanel{
     public final JPanel taskStatusPanel;
 
     /** The task status views. */
-    List<TaskStatusView> views;
+    private List<TaskStatusView> views;
     
     /** The view event controller. */
     private final ViewEventController viewEventController = ViewEventController.getInstance();
