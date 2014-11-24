@@ -5,7 +5,7 @@
  * R2-Team2
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications about RetrieveTasksRequest
  * information as the RetrieveTasksRequest is constructed.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -36,7 +36,7 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
     }
 
     /*
-     * (non-Javadoc)
+     * Step 9 (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess
      * (edu.wpi.cs.wpisuitetng.network.models.IRequest)
      */

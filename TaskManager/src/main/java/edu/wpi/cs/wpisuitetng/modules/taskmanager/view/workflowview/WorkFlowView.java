@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -73,19 +74,23 @@ public class WorkFlowView extends JPanel {
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
+        final TaskStatusView taskStatusNew =
+                new TaskStatusView("New", "new", workFlowObj.getWorkFlowID());
         final TaskStatusView taskStatusSelDev =
-                new TaskStatusView("Selected for Development", "scheduled");
+                new TaskStatusView("Selected for Development", "scheduled",
+                        workFlowObj.getWorkFlowID());
         final TaskStatusView taskStatusInDev =
-                new TaskStatusView("Currently in Development", "in progress");
-        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
+                new TaskStatusView("Currently in Development", "in progress",
+                        workFlowObj.getWorkFlowID());
+        final TaskStatusView taskStatusDone =
+                new TaskStatusView("Completed", "complete", workFlowObj.getWorkFlowID());
 
         taskStatusPanel
-                .setLayout(new MigLayout(
-                        "",
-                        "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                        "[278px,grow 500]"));
+        .setLayout(new MigLayout(
+                "",
+                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
+                "[278px,grow 500]"));
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
         taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
         taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");

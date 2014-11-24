@@ -38,7 +38,7 @@ public class TaskTest {
     Date date;
 
     /** The newest. */
-    TaskStatus newest = new TaskStatus("NEW");
+    // TaskStatus newest = new TaskStatus("NEW");
 
     /**
      * Begin test.
@@ -54,7 +54,7 @@ public class TaskTest {
 
 
         t1 =
-                new Task(12, "Title", "Description", 3, 2, newest, "Requirement", date, date,
+                new Task(12, "Title", "Description", 3, 2, 1, "Requirement", date, date,
                         userList);
     }
 
@@ -78,7 +78,7 @@ public class TaskTest {
         // TODO: get activityList to work
         // assertTrue(t1.getActivityList().size() >= (int)0);
         assertEquals(t1.getRequirement(), "Requirement");
-        assertEquals(t1.getStatus(), newest);
+        assertEquals(t1.getStatusID(), 1);
     }
 
     /**
@@ -127,15 +127,15 @@ public class TaskTest {
         assertEquals(t1.getDueDate(), newDate);
     }
 
-    /**
-     * Test set status.
-     */
-    @Test
-    public void testSetStatus() {
-        final TaskStatus progress = new TaskStatus("IN_PROGRESS");
-        t1.setStatus(progress);
-        assertEquals(t1.getStatus(), progress);
-    }
+    // /**
+    // * Test set status.
+    // */
+    // @Test
+    // public void testSetStatus() {
+    // final TaskStatus progress = new TaskStatus("IN_PROGRESS");
+    // t1.setStatusID(progress);
+    // assertEquals(t1.getStatusID(), progress);
+    // }
 
     /**
      * Test add assigned user.

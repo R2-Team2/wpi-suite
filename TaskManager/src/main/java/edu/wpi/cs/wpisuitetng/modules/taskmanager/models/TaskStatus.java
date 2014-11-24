@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import com.google.gson.Gson;
+
 // TODO: Auto-generated Javadoc
 /**
  * This class contains the fields and methods for the Taskstatus.
@@ -32,14 +34,17 @@ public class TaskStatus extends AbstractListModel {
     /** The task list. */
     private List<Integer> taskList;
 
+    private int workFlowID;
+
     /**
      * Constructor for the Taskstatus class.
      *
      * @param name the name
      */
-    public TaskStatus(String name) {
+    public TaskStatus(String name, int workFlowID) {
         this.name = name;
         taskList = new ArrayList<Integer>();
+        this.setWorkFlowID(workFlowID);
     }
 
     /**
@@ -139,6 +144,30 @@ public class TaskStatus extends AbstractListModel {
      */
     public void setTaskStatusID(int taskStatusID) {
         this.taskStatusID = taskStatusID;
+    }
+
+    /**
+     * Returns an array of TaskStatuses parsed from the given JSON-encoded string.
+     *
+     * @param json a string containing a JSON-encoded array of TaskStatuses
+     * @return an array of TaskStatuses deserialized from the given json string
+     */
+    public static TaskStatus[] fromJsonArray(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, TaskStatus[].class);
+    }
+
+    public String toJson() {
+        // TODO Auto-generated method stub
+        return new Gson().toJson(this, TaskStatus.class);
+    }
+
+    public int getWorkFlowID() {
+        return workFlowID;
+    }
+
+    public void setWorkFlowID(int workFlowID) {
+        this.workFlowID = workFlowID;
     }
 
 }

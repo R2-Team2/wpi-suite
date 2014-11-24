@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskEntityManager.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -85,7 +86,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     public Task[] getAll(Session s) {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks = db.retrieveAll(new Task(0, "", "", 0, 0,
-                new TaskStatus("new"), "", null, null, null), s.getProject());
+                1, "", null, null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -133,6 +134,7 @@ public class TaskEntityManager implements EntityManager<Task> {
      */
     /**
      * Method save.
+     *
      * @param s Session
      * @param model Task
      */
@@ -177,7 +179,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     public int Count() {
         // Return the number of PostBoardMessages currently in the database
         return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null))
+                new Task(0, null, null, 0, 0, 1, null, null, null, null))
                 .size();
     }
 

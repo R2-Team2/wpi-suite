@@ -5,7 +5,7 @@
  * R2-Team2
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -58,7 +58,7 @@ public class AddTaskRequestObserver implements RequestObserver {
     @Override
     public void responseError(IRequest iReq) {
         // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        System.err.println("The request to add a task failed.");
     }
 
     /*
@@ -69,7 +69,7 @@ public class AddTaskRequestObserver implements RequestObserver {
     @Override
     public void fail(IRequest iReq, Exception exception) {
         // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        System.err.println("The request to add a task failed.");
     }
 
     /**

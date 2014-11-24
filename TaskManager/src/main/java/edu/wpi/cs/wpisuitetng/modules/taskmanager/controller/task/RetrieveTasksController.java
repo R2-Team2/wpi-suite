@@ -5,7 +5,7 @@
  * R2-Team2
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
@@ -35,27 +35,18 @@ public class RetrieveTasksController {
     }
 
     /**
-     * Request tasks.
+     * Step 8 Request tasks.
      */
-    public void requestTasks() {
+    public void requestTasks(int taskStatusID) {
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/task", HttpMethod.GET);
+                Network.getInstance()
+                .makeRequest("taskmanager/task" + taskStatusID, HttpMethod.GET);
         request.addObserver(new RetrieveTasksRequestObserver(this));
         request.send();
     }
 
     /**
-     * Request specific task
-     */
-    public void requestSpecificTask(int taskID) {
-        final Request request =
-                Network.getInstance().makeRequest("taskmanager/task/" + taskID, HttpMethod.GET);
-        request.addObserver(new RetrieveTasksRequestObserver(this));
-        request.send();
-    }
-
-    /**
-     * Display tasks.
+     * Step 10 Display tasks.
      *
      * @param taskArray the task array
      */

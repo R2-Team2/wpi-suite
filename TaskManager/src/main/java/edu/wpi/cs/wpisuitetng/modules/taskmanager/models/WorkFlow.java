@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import com.google.gson.Gson;
+
 /**
  * The Class WorkFlow.
  *
@@ -109,6 +111,16 @@ public class WorkFlow extends AbstractListModel {
     @Override
     public Integer getElementAt(int index) {
         return taskStatusList.get(index);
+    }
+
+    public static WorkFlow[] fromJsonArray(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, WorkFlow[].class);
+    }
+
+    public String toJson() {
+        // TODO Auto-generated method stub
+        return new Gson().toJson(this, TaskStatus.class);
     }
 
 }

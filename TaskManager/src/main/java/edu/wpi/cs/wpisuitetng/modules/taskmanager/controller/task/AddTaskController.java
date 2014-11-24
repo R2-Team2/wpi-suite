@@ -5,14 +5,13 @@
  * R2-Team2
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
 import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -22,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * This controller responds when the user clicks the Submit button by adding the contents of the
  * task text field to the model as a new task.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -42,15 +42,15 @@ public class AddTaskController {
     /**
      * This method is called when the user clicks the Submit button.
      *
-    
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent) */
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     public void addTask() {
         final int taskID = 0; // generate task ID somehow
         final String title = view.getTitle();
         final String description = view.getDescription();
         final int estimatedEffort = view.getEstimatedEffort();
         final int actualEffort = view.getActualEffort();
-        final TaskStatus status = new TaskStatus(view.getStatus());
+        final int taskStatusID = view.getStatus();
         final String requirement = view.getRequirement();
         final Date startDate = view.getStartDate();
         final Date dueDate = view.getDueDate();
@@ -59,16 +59,15 @@ public class AddTaskController {
 
         // Create Task
         newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
-                status, requirement, startDate, dueDate, assignedUsers);
+                taskStatusID, requirement, startDate, dueDate, assignedUsers);
 
         // Send a request to the core to save this message
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT ==
-                                                                                       // create
+        // create
         request.setBody(newTask.toJson()); // put the new message in the body of the request
         request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the
-                                                               // response
+        // response
         request.send(); // send the request
     }
-
 }

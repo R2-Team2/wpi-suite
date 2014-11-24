@@ -25,7 +25,8 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task.RetrieveTasksController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
@@ -61,13 +62,13 @@ public class TaskStatusView extends JPanel {
      * @param title the title
      * @param statusType the status type
      */
-    public TaskStatusView(String title, String statusType) {
+    public TaskStatusView(String title, String statusType, int workFlowID) {
 
         initialized = false;
         this.title = title;
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType);
+        taskStatusObj = new TaskStatus(statusType, workFlowID);
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -97,52 +98,66 @@ public class TaskStatusView extends JPanel {
 
 
     /**
-     * Populate TaskStatusView with Cards Associated with the Status.
+     * Step 7 Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
-        retrieveTasks.requestTasks();
+        retrieveTasks.requestTasks(taskStatusObj.getTaskStatusID());
     }
 
-    // /**
-    // * Fill task list.
-    // *
-    // * @param taskArray the task array
-    // */
-    // public void fillTaskList(Task[] taskArray) {
-    // taskStatusObj.setTaskList(new ArrayList<Integer>());
-    // for (Task t : taskArray) {
-    // if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
-    // taskStatusObj.addTask(t.getTaskID());
-    // }
-    // }
-    // populateTaskStatusViewCards();
-    // }
+    /**
+     * Step 2
+     */
+    public void requestTaskStatusFromDb() {
+        final RetrieveTaskStatusController retrieveTaskStatuses =
+                new RetrieveTaskStatusController(this);
+        retrieveTaskStatuses.requestTaskStatus(taskStatusObj.getWorkFlowID());
+    }
 
     /**
-     * Populate task status view cards.
+     * Step 6
+     *
+     * @param taskStatusArray
      */
-    public void populateTaskStatusViewCards() {
-        // Get the list of taskIDs from the server
-        List<Integer> taskListID = new ArrayList<Integer>();
-        // Listener stuff here
+    public void updateTaskList(TaskStatus[] taskStatusArray) {
+        List<Integer> updatedTasksIDList = new ArrayList<Integer>();
 
-
-        // Populate this ArrayList
-        List<Task> taskList = new ArrayList<Task>();
-
-        for (int i : taskListID) {
-            Task tempTask = null;
-
-            final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
-            retrieveTasks.requestSpecificTask(i);
-            // Listener stuff here
-
-            taskList.add(tempTask);
+        // Can optimize this if we can pull single task statuses
+        for (TaskStatus ts : taskStatusArray) {
+            if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
+                updatedTasksIDList = ts.getTaskList();
+            }
         }
 
+        taskStatusObj.setTaskList(updatedTasksIDList);
+        requestTasksFromDb();
+    }
+
+    /**
+     * Step 11
+     *
+     * @param taskArray the task array
+     */
+    public void fillTaskList(Task[] taskArray) {
+        List<Task> sortedTaskList = new ArrayList<Task>();
+        List<Integer> orderOfTasksList = taskStatusObj.getTaskList();
+        // pulled from database
+        for (int i = 0; i < orderOfTasksList.size(); i++) {
+            for (Task t : taskArray) {
+                if (orderOfTasksList.get(i) == t.getStatusID()) {
+                    sortedTaskList.add(t);
+                }
+            }
+        }
+        populateTaskStatusViewCards(sortedTaskList);
+    }
+
+    /**
+     * Step 12 Populate task status view cards.
+     */
+    public void populateTaskStatusViewCards(List<Task> sortedTaskList) {
         panel.removeAll();
-        for (Task t : taskList) {
+        for (Task t : sortedTaskList) {
             String dateString = formatDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard());
             panel.add(card, "newline");
@@ -166,13 +181,13 @@ public class TaskStatusView extends JPanel {
 
 
     /*
-     * (non-Javadoc)
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     * Step 1 (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) Step 1
      */
     @Override
     public void paintComponent(Graphics g) {
         if (!initialized) {
-            requestTasksFromDb();
+            requestTaskStatusFromDb();
             initialized = true;
         }
         super.paintComponent(g);

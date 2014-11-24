@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Task.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -40,7 +41,7 @@ public class Task extends AbstractModel {
     private int actualEffort;
 
     /** The status. */
-    private TaskStatus status;
+    private int taskStatusID;
 
     /** The requirement. */
     private String requirement;
@@ -74,14 +75,14 @@ public class Task extends AbstractModel {
      * @param assignedUsers the assigned users
      */
     public Task(int taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status,
-            String requirement, Date startDate, Date dueDate, List<User> assignedUsers) {
+            int actualEffort, int taskStatusID, String requirement, Date startDate, Date dueDate,
+            List<User> assignedUsers) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
         this.estimatedEffort = estimatedEffort;
         this.actualEffort = actualEffort;
-        this.status = status;
+        this.taskStatusID = taskStatusID;
         this.requirement = requirement;
         this.startDate = startDate;
         this.dueDate = dueDate;
@@ -225,8 +226,8 @@ public class Task extends AbstractModel {
      *
      * @return the status
      */
-    public TaskStatus getStatus() {
-        return status;
+    public int getStatusID() {
+        return taskStatusID;
     }
 
     /**
@@ -234,8 +235,8 @@ public class Task extends AbstractModel {
      *
      * @param status the new status
      */
-    public void setStatus(TaskStatus status) {
-        this.status = status;
+    public void setStatusID(TaskStatus status) {
+        taskStatusID = status.getTaskStatusID();
     }
 
     /**
@@ -258,7 +259,7 @@ public class Task extends AbstractModel {
 
     /**
      * Adds a user to the assigned users. Will not add a user that is already in the list
-     * 
+     *
      * @param u user to be added
      */
     public void addAssignedUser(User u) {
@@ -273,9 +274,8 @@ public class Task extends AbstractModel {
     /**
      * Deletes a user, given the user's ID number.
      *
-     * @param id ID number of user to be deleted
-    
-     * @return user if found, null otherwise */
+     * @param id ID number of user to be deleted @return user if found, null otherwise
+     */
     public User deleteUser(int id) {
         for (User user : assignedUsers) {
             if (user.getIdNum() == id) {
@@ -303,11 +303,9 @@ public class Task extends AbstractModel {
     public String getUserForTaskCard() {
         if (assignedUsers.size() > 1) {
             return assignedUsers.get(0).getName() + " ...";
-        }
-        else if (assignedUsers.size() == 0) {
+        } else if (assignedUsers.size() == 0) {
             return "";
-        }
-        else {
+        } else {
             return assignedUsers.get(0).getName();
         }
     }
@@ -333,9 +331,8 @@ public class Task extends AbstractModel {
     /**
      * From json.
      *
-     * @param json the json
-    
-     * @return the task */
+     * @param json the json @return the task
+     */
     public static Task fromJson(String json) {
         final Gson parser = new Gson();
         return parser.fromJson(json, Task.class);
@@ -394,15 +391,15 @@ public class Task extends AbstractModel {
         dueDate = updatedTask.dueDate;
         activityList = updatedTask.activityList;
         requirement = updatedTask.requirement;
-        status = updatedTask.status;
+        taskStatusID = updatedTask.taskStatusID;
     }
 
     /**
      * Returns an array of Tasks parsed from the given JSON-encoded string.
      *
-     * @param json a string containing a JSON-encoded array of Tasks
-    
-     * @return an array of Tasks deserialized from the given json string */
+     * @param json a string containing a JSON-encoded array of Tasks @return an array of Tasks
+     *        deserialized from the given json string
+     */
     public static Task[] fromJsonArray(String json) {
         final Gson parser = new Gson();
         return parser.fromJson(json, Task[].class);

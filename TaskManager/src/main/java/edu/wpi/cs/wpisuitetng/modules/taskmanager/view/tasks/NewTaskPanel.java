@@ -11,13 +11,14 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -38,7 +39,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public NewTaskPanel() {
 
 
-        this.buildLayout();
+        buildLayout();
 
     }
 
@@ -50,7 +51,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
         super(parentPanel);
         this.parentPanel = parentPanel;
-        this.buildLayout();
+        buildLayout();
 
     }
 
@@ -62,7 +63,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         buttonPanel = new NewTaskButtonPanel(this);
         infoPanel = new NewTaskInformationPanel(this);
 
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -135,13 +136,14 @@ public class NewTaskPanel extends AbstractTaskPanel {
     }
 
     /**
-     * Retrieves the Status from infoPanel.
+     * Retrieves the StatusID of the chosen Status from infoPanel.
      *
-     * @return String
+     * @return int
      */
     @Override
-    public String getStatus() {
-        return infoPanel.getStatus().getSelectedItem().toString();
+    public int getStatus() {
+        String temp = infoPanel.getStatus().getSelectedItem().toString();
+        return 1; // implement switchcase or some shit
     }
 
     /**

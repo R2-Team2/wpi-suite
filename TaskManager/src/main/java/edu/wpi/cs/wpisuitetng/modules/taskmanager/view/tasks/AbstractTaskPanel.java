@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractTaskPanel.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -57,7 +58,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      */
     protected void buildLayout()
     {
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.add(infoPanel, BorderLayout.CENTER);
     }
@@ -114,10 +115,11 @@ public abstract class AbstractTaskPanel extends JPanel {
     /**
      * Retrieves the Status from infoPanel.
      *
-     * @return String
+     * @return int representing the Status ID
      */
-    public String getStatus() {
-        return infoPanel.getStatus().getSelectedItem().toString();
+    public int getStatus() {
+        String temp = infoPanel.getStatus().getSelectedItem().toString();
+        return 0;
     }
 
     /**
