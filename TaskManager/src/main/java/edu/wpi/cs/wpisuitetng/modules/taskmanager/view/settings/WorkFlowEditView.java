@@ -7,30 +7,23 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,14 +33,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends JPanel{
-
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    ///** The view event controller. */
-	// private final ViewEventController viewEventController = ViewEventController.getInstance();
 
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
