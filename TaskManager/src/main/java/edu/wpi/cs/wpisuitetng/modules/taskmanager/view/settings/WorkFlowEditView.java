@@ -8,12 +8,16 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 
 // TODO: Auto-generated Javadoc
@@ -24,17 +28,17 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
-
+	
+	JButton addButton = new JButton("Add Status");
+    JButton removeButton = new JButton("Remove Status");
+    JButton saveButton = new JButton("Save");
+    
     /**
      * Create the panel.
      */
     public WorkFlowEditView() {
     	super();
     	JPanel sidePanel = new JPanel(new MigLayout());
-        
-        JButton addButton = new JButton("Add Status");
-        JButton removeButton = new JButton("Remove Status");
-        JButton saveButton = new JButton("Save");
         
         sidePanel.setMinimumSize(new Dimension(100,1000));
         sidePanel.add(addButton, "wrap");
@@ -43,7 +47,23 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         
         taskStatusPanel.add(sidePanel);
     }
-
+//    
+//    protected void setupListeners() {
+//    	addButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//            	addStatus(new TaskStatusView("New Status", "Status Type"));
+//            }
+//        });
+//
+//    	removeButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                //parentPanel.cancelPressed();
+//            }
+//
+//        });
+//    }
     /**
      * Gets the work flow obj.
      *

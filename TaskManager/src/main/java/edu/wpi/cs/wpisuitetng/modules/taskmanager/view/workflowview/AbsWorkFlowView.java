@@ -39,11 +39,6 @@ public abstract class AbsWorkFlowView extends JPanel{
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-//        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
-//        final TaskStatusView taskStatusSelDev = new TaskStatusView("Selected for Development", "scheduled");
-//        final TaskStatusView taskStatusInDev = new TaskStatusView("Currently in Development", "in progress");
-//        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
-
         taskStatusPanel.setLayout(new MigLayout(
                         "",
                         "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
@@ -51,24 +46,18 @@ public abstract class AbsWorkFlowView extends JPanel{
                         "[278px,grow 500]"));
         
         // Hard Coded Task Statuses, move this to database soon
-        int x = 0;
-        for(TaskStatusView t : views){
-        	
-        	taskStatusPanel.add(t, "grow");
-        	x++;
-        }
-        
-//        taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
-//        taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
-//        taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
-
-//        views.add(taskStatusNew);
-//        views.add(taskStatusSelDev);
-//        views.add(taskStatusInDev);
-//        views.add(taskStatusDone);
+        buildTaskStatusViews();
         
     }
-    
+    public void buildTaskStatusViews(){
+    	for(TaskStatusView t : views){
+        	taskStatusPanel.add(t, "grow");
+        }
+    }
+    public void addStatus(TaskStatusView taskStatus){
+    	views.add(taskStatus);
+    	buildTaskStatusViews();
+    }
 	/**
 	 * @return the taskStatusPanel
 	 */
