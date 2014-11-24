@@ -29,6 +29,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      * Create the panel.
      */
     public WorkFlowEditView() {
+    	super();
     	JPanel sidePanel = new JPanel(new MigLayout());
         
         JButton addButton = new JButton("Add Status");
@@ -36,10 +37,11 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         JButton saveButton = new JButton("Save");
         
         sidePanel.setMinimumSize(new Dimension(100,1000));
-        sidePanel.add(addButton);
-        sidePanel.add(removeButton);
-        sidePanel.add(saveButton);
+        sidePanel.add(addButton, "wrap");
+        sidePanel.add(removeButton,"wrap");
+        sidePanel.add(saveButton,"wrap");
         
+        taskStatusPanel.add(sidePanel);
     }
 
     /**

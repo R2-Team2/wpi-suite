@@ -17,7 +17,7 @@ public abstract class AbsWorkFlowView extends JPanel{
     private WorkFlow workFlowObj;
 
     /** The task status panel. */
-    private final JPanel taskStatusPanel;
+    public final JPanel taskStatusPanel;
 
     /** The task status views. */
     List<TaskStatusView> views;

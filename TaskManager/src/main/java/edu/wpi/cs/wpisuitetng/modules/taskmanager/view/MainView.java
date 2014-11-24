@@ -21,10 +21,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,7 +50,7 @@ public class MainView extends JTabbedPane {
     private final WorkFlowSplitView workflow = new WorkFlowSplitView();
     
     /** The Settings view */
-    private final WorkFlowEditView workFlowEditView = new WorkFlowEditView();
+    private final JScrollPane workFlowEditView = new JScrollPane(new WorkFlowEditView());
     private int tabCounter = 0;
 
 
