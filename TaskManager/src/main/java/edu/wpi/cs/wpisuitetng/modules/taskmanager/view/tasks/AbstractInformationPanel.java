@@ -106,6 +106,9 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The cal due date. */
     protected JXDatePicker calDueDate;
+    
+    /**Calendar Button Dropdown Icon. */
+    protected ImageIcon icon;
 
     /**
      * Builds the layout.
@@ -165,18 +168,13 @@ public class AbstractInformationPanel extends JScrollPane {
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
         calDueDate.setDate(Calendar.getInstance().getTime());
-    
+        icon = new ImageIcon(getClass().getResource("calendar.png"));
+        ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(20, 20,java.awt.Image.SCALE_SMOOTH));
   		// Code taken from:
   		// http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
-   		((JButton) calStartDate.getComponent(1)).setIcon(new ImageIcon(
-   				((new ImageIcon(getClass().getResource("calendar.png")))
-   						.getImage()).getScaledInstance(20, 20,
-   						java.awt.Image.SCALE_SMOOTH)));
+   		((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
         
-   		((JButton) calDueDate.getComponent(1)).setIcon(new ImageIcon(
-   				((new ImageIcon(getClass().getResource("calendar.png")))
-   						.getImage()).getScaledInstance(20, 20,
-   						java.awt.Image.SCALE_SMOOTH)));
+   		((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
         
         // Setup GUI
 
