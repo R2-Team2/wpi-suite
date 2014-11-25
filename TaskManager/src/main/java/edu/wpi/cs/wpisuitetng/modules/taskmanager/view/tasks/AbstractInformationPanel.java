@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,7 +33,7 @@ import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 
-import com.toedter.calendar.JCalendar;
+import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -99,10 +100,10 @@ public class AbstractInformationPanel extends JScrollPane {
     protected JButton buttonRemove;
 
     /** The cal start date. */
-    protected JCalendar calStartDate;
+    protected JXDatePicker calStartDate;
 
     /** The cal due date. */
-    protected JCalendar calDueDate;
+    protected JXDatePicker calDueDate;
 
     /**
      * Builds the layout.
@@ -157,8 +158,8 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonRemove = new JButton("<<");
         buttonRemove.setEnabled(false);
         // Calendars
-        calStartDate = new JCalendar();
-        calDueDate = new JCalendar();
+        calStartDate = new JXDatePicker();
+        calDueDate = new JXDatePicker();
 
         // Setup GUI
 
@@ -397,21 +398,21 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
-     * Returns the JCalendar holding the Start Date.
+     * Returns the Start Date.
      *
-     * @return JCalendar
+     * @return Date
      */
-    public JCalendar getStartDate() {
-        return calStartDate;
+    public Date getStartDate() {
+        return calStartDate.getDate();
     }
 
     /**
-     * Returns the JCalendar holding the Due Date.
+     * Returns the Due Date.
      *
-     * @return JCalendar
+     * @return Date
      */
-    public JCalendar getDueDate() {
-        return calDueDate;
+    public Date getDueDate() {
+        return calDueDate.getDate();
     }
 
     /**
