@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -33,6 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
 
 
@@ -41,7 +44,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
     protected final Dimension textFieldDimension = new Dimension(200, 10);
-    protected final Dimension listFieldDimension = new Dimension(100, 400);
+    protected final Dimension listFieldDimension = new Dimension(200, 100);
     
 	private final JButton addButton = new JButton("Add Status");
 	private final JButton removeButton = new JButton("Remove Status");
@@ -80,9 +83,12 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         
         // Remove Status Components
         buildList();
+        listOfStatus.setBorder(defaultBorder);
+        listOfStatus.setMinimumSize(textFieldDimension);
         sidePanel.add(listOfStatus, "span 2 2");
         sidePanel.add(upButton, "wrap");
         sidePanel.add(downButton, "wrap");
+        if(model.size() <= 1) removeButton.setEnabled(false);
         sidePanel.add(removeButton, "wrap");
         
         // Save Changes
@@ -129,6 +135,24 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      * Set up Listeners for Work Flow Edit Components
      */
     protected void setupListeners() {
+    	model.addListDataListener(new ListDataListener() {
+			
+			@Override
+			public void intervalRemoved(ListDataEvent e) {
+				 removeButton.setEnabled(isModelSizeValid());
+			}
+			
+			@Override
+			public void intervalAdded(ListDataEvent e) {
+				removeButton.setEnabled(isModelSizeValid());
+			}
+			
+			@Override
+			public void contentsChanged(ListDataEvent e) {
+				removeButton.setEnabled(isModelSizeValid());
+			}
+		});
+    	
     	addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,15 +166,16 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
             	// remove selected from JList
-            	final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
-            	model.removeElement(taskStatusViewToRemove);
-            	removeTaskStatusView(taskStatusViewToRemove);
-            	buildTaskStatusViews();
-            	refresh();
-            	revalidate();
-            	repaint();
+            	if((model.size() > 1)){
+	            	final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
+	            	model.removeElement(taskStatusViewToRemove);
+	            	removeTaskStatusView(taskStatusViewToRemove);
+	            	buildTaskStatusViews();
+	            	refresh();
+	            	revalidate();
+	            	repaint();
+            	}
             }
-
         });
     	
     	upButton.addActionListener(new ActionListener() {
@@ -215,6 +240,14 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	
     }
     /**
+     * Validate Model
+     * @return Valid if at least one TaskStatusView is in model
+     */
+    protected boolean isModelSizeValid() {
+    	return !(model.size() <= 1);
+	}
+
+	/**
      *	@param taskStatusViewToMoveUp this TaskStatusView is moved up in the order
      *	of Work Flow View
      */
