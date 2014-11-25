@@ -212,7 +212,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
-            final JLabel lblTitle = new JLabel("New Task");
+            final JLabel lblTitle = new JLabel(title);
             lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
             final GridBagConstraints gbc = new GridBagConstraints();

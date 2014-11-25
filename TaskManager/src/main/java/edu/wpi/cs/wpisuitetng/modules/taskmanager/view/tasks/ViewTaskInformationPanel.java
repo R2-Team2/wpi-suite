@@ -13,7 +13,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel{
 		super();
 		this.parentPanel = aParentPanel;
 		this.buildLayout();
-		//this.disableAll(true);
+		this.disableAll(true);
 		setTask();
 	}
 	
@@ -23,7 +23,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel{
 		//aTask.getTaskID();
 		this.boxTitle.setEnabled(io);
 		this.boxDescription.setEnabled(io);
-		//this.dropdownStatus.setSelectedItem(aTask.getStatus().toString());
+		this.dropdownStatus.setEnabled(io); 
 		//requirement
 		this.listChosenAssignees.setEnabled(io);
 		this.calStartDate.setEnabled(io);
