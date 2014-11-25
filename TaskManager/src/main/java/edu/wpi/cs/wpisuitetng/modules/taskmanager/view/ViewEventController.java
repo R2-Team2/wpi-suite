@@ -7,7 +7,6 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -124,7 +123,7 @@ public class ViewEventController {
      * @param (workflow) absWorkFlowView the new work flow view
      */
     public void setWorkFlowView(WorkFlowView workFlowView) {
-        this.workflow = workFlowView;
+        workflow = workFlowView;
     }
 
     /**

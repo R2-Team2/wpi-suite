@@ -19,35 +19,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 public class WorkFlowView extends AbsWorkFlowView {
 
     /**
-     * Create the panel.
-     */
-    public WorkFlowView() {
-        //super();
-    }
-
-    /**
      * Gets the work flow obj.
      *
      * @return the work flow obj
      */
     public WorkFlow getWorkFlowObj() {
         return super.getWorkFlowObj();
-    }
-
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        super.setWorkFlowObj(workFlowObj);
-    }
-
-    /**
-     * Refresh.
-     */
-    public void refresh() {
-        super.refresh();
     }
 
 }

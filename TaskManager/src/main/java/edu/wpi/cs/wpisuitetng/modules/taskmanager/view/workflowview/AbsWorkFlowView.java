@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
@@ -5,15 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
+/**
+ *	Abstract View for all Work Flow Views
+ *	@author R2-Team2
+ *	@version $Revision: 1.0 $
+ */
 public abstract class AbsWorkFlowView extends JPanel{
     /** The work flow obj. */
     private WorkFlow workFlowObj;
@@ -22,14 +30,12 @@ public abstract class AbsWorkFlowView extends JPanel{
     public final JPanel taskStatusPanel;
 
     /** The task status views. */
-    private List<TaskStatusView> views;
+    private final List<TaskStatusView> views;
     
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
-    
-    
+    /**
+     * Constructor for AbsWorkFlowView.
+     */
     public AbsWorkFlowView(){
-    	//ViewEventController.getInstance().setWorkFlowView(this);
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
         views.add(new TaskStatusView("New", "new"));
@@ -51,16 +57,27 @@ public abstract class AbsWorkFlowView extends JPanel{
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
+    /**
+     * Method addTaskStatusView.
+     * @param taskStatusView TaskStatusView
+     */
     public void addTaskStatusView(TaskStatusView taskStatusView){
     	views.add(taskStatusView);
     	buildTaskStatusViews();
     }
+    /**
+     * Method buildTaskStatusViews.
+     */
     public void buildTaskStatusViews(){
         for(TaskStatusView t : views){
         	taskStatusPanel.add(t, "grow");
         }
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
+    /**
+     * Method addStatus.
+     * @param taskStatus TaskStatusView
+     */
     public void addStatus(TaskStatusView taskStatus){
     	views.add(taskStatus);
     	buildTaskStatusViews();
@@ -95,21 +112,30 @@ public abstract class AbsWorkFlowView extends JPanel{
     public List<TaskStatusView> getViews(){
     	return views;
     }
+    /**
+     * Method removeTaskStatusView.
+     * @param taskStatusView TaskStatusView
+     * @return boolean
+     */
     public boolean removeTaskStatusView(TaskStatusView taskStatusView){
     	taskStatusPanel.remove(taskStatusView);
     	return views.remove(taskStatusView);
     }
     
+    /**
+     * Method moveUp.
+     * @param taskStatusViewToMoveUp TaskStatusView
+     */
     public void moveUp(TaskStatusView taskStatusViewToMoveUp){
-    	if(!(views.indexOf(taskStatusViewToMoveUp) <=0)){
+    	if(!(views.indexOf(taskStatusViewToMoveUp) <= 0)){
 	    	// find index of tomove
 	    	// get index moveto
 	    	// move that to next
-	    	int source = views.indexOf(taskStatusViewToMoveUp);
-	    	int dest = views.indexOf(taskStatusViewToMoveUp)-1;
+    		final int source = views.indexOf(taskStatusViewToMoveUp);
+    		final int dest = views.indexOf(taskStatusViewToMoveUp) - 1;
 	    	
-	    	TaskStatusView sourceStatusView = views.get(source);
-	    	TaskStatusView	destStatusView = views.get(dest);
+    		final TaskStatusView sourceStatusView = views.get(source);
+    		final TaskStatusView destStatusView = views.get(dest);
 	    	
 	    	views.set(dest, sourceStatusView);
 	    	views.set(source, destStatusView);
@@ -117,16 +143,20 @@ public abstract class AbsWorkFlowView extends JPanel{
 	    	buildTaskStatusViews();
     	}
     }
+    /**
+     * Method moveDown.
+     * @param taskStatusViewToMoveDown TaskStatusView
+     */
     public void moveDown(TaskStatusView taskStatusViewToMoveDown){
-    	if(!(views.indexOf(taskStatusViewToMoveDown) >= views.size()-1)){
+    	if(!(views.indexOf(taskStatusViewToMoveDown) >= views.size() - 1)){
 	    	// find index of tomove
 	    	// get index moveto
 	    	// move that to next
-	    	int source = views.indexOf(taskStatusViewToMoveDown);
-	    	int dest = views.indexOf(taskStatusViewToMoveDown)+1;
+    		final int source = views.indexOf(taskStatusViewToMoveDown);
+    		final int dest = views.indexOf(taskStatusViewToMoveDown) + 1;
 	    	
-	    	TaskStatusView sourceStatusView = views.get(source);
-	    	TaskStatusView	destStatusView = views.get(dest);
+    		final TaskStatusView sourceStatusView = views.get(source);
+    		final TaskStatusView destStatusView = views.get(dest);
 	    	
 	    	views.set(dest, sourceStatusView);
 	    	views.set(source, destStatusView);
@@ -134,4 +164,5 @@ public abstract class AbsWorkFlowView extends JPanel{
 	    	buildTaskStatusViews();
     	}
     }
+
 }

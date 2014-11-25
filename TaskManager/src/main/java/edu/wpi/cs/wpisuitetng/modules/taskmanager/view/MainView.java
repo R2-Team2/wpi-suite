@@ -26,7 +26,6 @@ import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -52,7 +51,7 @@ public class MainView extends JTabbedPane {
     
     /** The Settings view */
     private final JScrollPane workFlowEditView = new JScrollPane(new WorkFlowEditView());
-    private int tabCounter = 0;
+    private final int tabCounter = 0;
 
 
     /**

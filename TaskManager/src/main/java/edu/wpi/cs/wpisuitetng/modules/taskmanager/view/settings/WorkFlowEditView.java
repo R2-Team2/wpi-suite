@@ -156,7 +156,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), newStatusTitleField.getText()));
+            	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), 
+            			newStatusTitleField.getText()));
             	clearNewStatusFields();
             	refresh();
             }
