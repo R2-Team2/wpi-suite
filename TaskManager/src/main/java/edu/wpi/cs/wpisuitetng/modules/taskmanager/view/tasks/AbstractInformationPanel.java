@@ -106,7 +106,7 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The cal due date. */
     protected JXDatePicker calDueDate;
-    
+
     /**Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
@@ -170,12 +170,12 @@ public class AbstractInformationPanel extends JScrollPane {
         calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(getClass().getResource("calendar.png"));
         ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(20, 20,java.awt.Image.SCALE_SMOOTH));
-  		// Code taken from:
-  		// http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
-   		((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
-        
-   		((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
-        
+        // Code taken from:
+        // http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
+        ((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
+
+        ((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
+
         // Setup GUI
 
 
@@ -193,20 +193,20 @@ public class AbstractInformationPanel extends JScrollPane {
         listPossibleAssignees.setBorder(defaultBorder);
         bottomLeft.add(labelPossibleAssignee, "left, wrap");
         bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
-       
+
         bottomCenter.add(buttonAdd, "center, wrap");
         bottomCenter.add(buttonRemove, "center, wrap");
-        
+
         listChosenAssignees.setBorder(defaultBorder);
         bottomRight.add(labelChosenAssignee, "left, wrap");
         bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
-        
+
         bottom.add(bottomLeft);
         bottom.add(bottomCenter);
         bottom.add(bottomRight);
         bottom.setBorder(defaultBorder);
 
-        
+
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
