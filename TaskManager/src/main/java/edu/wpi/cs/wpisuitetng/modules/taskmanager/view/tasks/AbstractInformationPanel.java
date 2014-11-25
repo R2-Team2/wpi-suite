@@ -104,6 +104,12 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The cal due date. */
     protected JXDatePicker calDueDate;
+    
+    /** The cal start label */
+    protected JLabel labelStartDate = new JLabel("Start Date: ");
+    
+    /** The cal due label */
+    protected JLabel labelDueDate = new JLabel("Due Date: ");
 
     /**
      * Builds the layout.
@@ -116,14 +122,12 @@ public class AbstractInformationPanel extends JScrollPane {
         // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
         // Instantiate GUI Elements
         // Labels
-        final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
+        final JLabel labelTitle = new JLabel("<html>Title: <font color='CC0000'>*</font></html>");
         final JLabel labelDescription =
-                new JLabel("<html>Description: <font color='red'>*</font></html>");
+                new JLabel("<html>Description: <font color='CC0000'>*</font></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
-        final JLabel labelDueDate = new JLabel("Due Date: ");
-        final JLabel labelStartDate = new JLabel("Start Date: ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -340,7 +344,25 @@ public class AbstractInformationPanel extends JScrollPane {
                 parentPanel.buttonPanel.validateTaskInfo();
             }
         });
-
+        
+        
+        /**
+         * Start Calendar Listener
+         */
+        calStartDate.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		parentPanel.buttonPanel.validateTaskDate();
+        	}
+        });
+        
+        /**
+         * Due Calendar Listener
+         */
+        calDueDate.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		parentPanel.buttonPanel.validateTaskDate();
+        	}
+        });
     }
 
     /**

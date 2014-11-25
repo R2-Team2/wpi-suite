@@ -53,6 +53,18 @@ public class AbstractButtonPanel extends JPanel {
 
         });
     }
+    
+    /**
+     * Validate task dates
+     */
+    public void validateTaskDate() {
+    	if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+    		parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+    	}
+    	else{
+    		parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+    	}
+    }
 
     /**
      * Validate task title and description
