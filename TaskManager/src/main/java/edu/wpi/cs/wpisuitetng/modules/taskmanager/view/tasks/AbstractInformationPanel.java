@@ -49,6 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -146,7 +147,8 @@ public class AbstractInformationPanel extends JScrollPane {
         // Instantiate GUI Elements
         // Labels
         final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-        final JLabel labelDescription = new JLabel("Description: ");
+        final JLabel labelDescription =
+                new JLabel("<html>Description: <font color='red'>*</font></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
@@ -207,20 +209,20 @@ public class AbstractInformationPanel extends JScrollPane {
         listPossibleAssignees.setBorder(defaultBorder);
         bottomLeft.add(labelPossibleAssignee, "left, wrap");
         bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
-       
+
         bottomCenter.add(buttonAdd, "center, wrap");
         bottomCenter.add(buttonRemove, "center, wrap");
-        
+
         listChosenAssignees.setBorder(defaultBorder);
         bottomRight.add(labelChosenAssignee, "left, wrap");
         bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
-        
+
         bottom.add(bottomLeft);
         bottom.add(bottomCenter);
         bottom.add(bottomRight);
         bottom.setBorder(defaultBorder);
 
-        
+
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
@@ -329,7 +331,9 @@ public class AbstractInformationPanel extends JScrollPane {
 
         });
 
-        // Text Field Listeners
+        /**
+         * Text Field (Title) Listeners
+         */
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -346,6 +350,28 @@ public class AbstractInformationPanel extends JScrollPane {
                 parentPanel.buttonPanel.validateTaskInfo();
             }
         });
+
+
+        /**
+         * Text Field (Description) Listeners
+         */
+        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.validateTaskInfo();
+            }
+        });
+
     }
 
     /**
