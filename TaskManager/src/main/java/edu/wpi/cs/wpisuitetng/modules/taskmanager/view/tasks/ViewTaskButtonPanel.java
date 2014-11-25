@@ -16,9 +16,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+/**
+ * The Class ViewTaskButtonPanel.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class ViewTaskButtonPanel extends AbstractButtonPanel{
 	protected ViewTaskPanel parentPanel;
 	
+	/**
+	 * Constructor for the ViewTaskButtonPanel.
+	 * 
+	 *@param parentPanel the parent panel.
+	 */
 	public ViewTaskButtonPanel(ViewTaskPanel parentPanel)
 	{
 		//Set Panel Layout
@@ -27,8 +37,8 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 		this.parentPanel = parentPanel;
 		
 		//Set Button Messages
-		String editString = "Edit";
-		String cancelString = "Cancel";
+		final String editString = "Edit";
+		final String cancelString = "Cancel";
 		
 		//Create Buttons
 		buttonEdit = new JButton(editString);
@@ -39,6 +49,9 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 		this.setupListeners();
 	}
 	
+	/**
+	 *Sets the listeners for the View task buttons. 
+	 */
 	protected void setupListeners() {
 		buttonEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -30,7 +30,8 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 
 	///** The button create. */
     //protected JButton buttonCreate;
-
+	protected NewTaskPanel parentPanel;
+	
 	/**
 	 * Constructor for the NewTaskButtonPanel.
 	 *
@@ -52,6 +53,10 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		this.add(buttonCancel);
 		this.setupListeners();
 	}
+	
+	/**
+	 * Sets up listeners for the buttons in the new task panel.
+	 */
 	protected void setupListeners() {
         buttonCreate.addActionListener(new ActionListener() {
             @Override

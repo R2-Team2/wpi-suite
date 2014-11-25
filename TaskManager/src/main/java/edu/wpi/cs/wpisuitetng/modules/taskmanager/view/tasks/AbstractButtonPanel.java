@@ -22,9 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  */
 public abstract class AbstractButtonPanel extends JPanel {
     // Class Variables
-    /** The parent panel. */
-    protected AbstractTaskPanel parentPanel;
-
     /** The button save. */
     protected JButton buttonSave;
 

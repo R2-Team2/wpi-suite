@@ -339,21 +339,21 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * Disables all of the text fields based on boolean io
      * 
-     * @param Boolean io 
+     * @param io is a flag that if true disables fields, if false enables all fields. 
      */
 	public void disableAll(Boolean io)
 	{
 		io = !io;
 		//aTask.getTaskID();
-		this.boxTitle.setEnabled(io);
-		this.boxDescription.setEnabled(io);
-		this.dropdownStatus.setEnabled(io); 
+		boxTitle.setEnabled(io);
+		boxDescription.setEnabled(io);
+		dropdownStatus.setEnabled(io); 
 		//requirement
-		this.listChosenAssignees.setEnabled(io);
-		this.calStartDate.setEnabled(io);
-		this.calDueDate.setEnabled(io);
-		this.spinnerEstimatedEffort.setEnabled(io);
-		this.spinnerActualEffort.setEnabled(io);
+		listChosenAssignees.setEnabled(io);
+		calStartDate.setEnabled(io);
+		calDueDate.setEnabled(io);
+		spinnerEstimatedEffort.setEnabled(io);
+		spinnerActualEffort.setEnabled(io);
 	}
 }
 

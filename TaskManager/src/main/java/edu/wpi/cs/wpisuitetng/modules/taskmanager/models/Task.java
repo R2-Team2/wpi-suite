@@ -311,7 +311,7 @@ public class Task extends AbstractModel {
         //returnUsers=midArry;
          * 
          */
-        JList<User> returnUsers = new JList(assignedUsers.toArray());
+        final JList<User> returnUsers = new JList(assignedUsers.toArray());
     	return returnUsers;
     }
 

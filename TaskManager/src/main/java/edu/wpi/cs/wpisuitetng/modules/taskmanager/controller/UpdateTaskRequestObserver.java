@@ -11,6 +11,11 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * The Class UpdateTaskRequestObserver.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class UpdateTaskRequestObserver implements RequestObserver {
 
 

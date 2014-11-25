@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 public abstract class AbstractTaskPanel extends JPanel {
 
 	/** The parent panel. */
-    public String title;
+    protected String title;
 	
     /** The parent panel. */
     protected WorkFlowSplitTabbedPanel parentPanel;
@@ -38,7 +38,7 @@ public abstract class AbstractTaskPanel extends JPanel {
     protected AbstractButtonPanel buttonPanel;
 
     /** A task. */
-    public Task aTask;
+    protected Task aTask;
 
     /** The view event controller. */
     private final ViewEventController viewEventController = ViewEventController.getInstance();
@@ -64,7 +64,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      */
     protected void buildLayout()
     {
-    	this.title = this.aTask.getTitle();
+    	title = aTask.getTitle();
         this.setLayout(new BorderLayout());
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.add(infoPanel, BorderLayout.CENTER);

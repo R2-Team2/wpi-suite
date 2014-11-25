@@ -200,6 +200,8 @@ public class MainView extends JTabbedPane {
     }
     /**
      * Show create task view.
+     * 
+     * @param aPanel is the panel to be created.
      */
     public void showViewTaskView(AbstractTaskPanel aPanel){
     	workflow.createViewTaskPanel(aPanel);

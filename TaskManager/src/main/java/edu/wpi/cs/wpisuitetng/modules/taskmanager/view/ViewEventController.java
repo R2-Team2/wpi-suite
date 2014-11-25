@@ -105,8 +105,8 @@ public class ViewEventController {
      * @param task Task to be viewed
      */
     public void viewTask(Task task) {
-    	WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
-        ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
+    	final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
+        final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
         main.showViewTaskView(taskView);
         System.out.println("Open View Task");
         //taskView.

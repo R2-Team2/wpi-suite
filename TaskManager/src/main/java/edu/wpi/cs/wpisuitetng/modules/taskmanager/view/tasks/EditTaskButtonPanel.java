@@ -54,6 +54,10 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		this.setupListeners();
 	}
 
+	/**
+	 * Sets up listeners for the edit task panel, and the edit buttons.
+	 *
+	 */
 	protected void setupListeners() {
 		buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

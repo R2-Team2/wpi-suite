@@ -21,12 +21,23 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
+/**
+ * The Class ViewTaskPanel.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class ViewTaskPanel extends AbstractTaskPanel{
 
+	/**
+	 * Constructor for the ViewTaskPanel.
+	 *
+	 * @param parent the parent panel
+	 * @param viewTask task to view
+	 */
 	public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask)
 	{
-		this.parentPanel = parent;
-		this.aTask = viewTask;
+		parentPanel = parent;
+		aTask = viewTask;
 		this.buildLayout();
 	}
 	
@@ -39,15 +50,13 @@ public class ViewTaskPanel extends AbstractTaskPanel{
         this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Controller for the edit button listener
+	 */
 	public void editPressed() {
-		//infoPanel.disableAll(false);
-		/*
-		 * Adds new empty panel, will troubleshoot.
-		 * 
-		 */
-		Task passTask = this.aTask;
+		final Task passTask = aTask;
 		
-		AbstractTaskPanel editView = new EditTaskPanel(this.parentPanel, passTask);
+		final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
 		System.out.println("Edit Pressed");
         ViewEventController.getInstance().removeSplitTab();
         ViewEventController.getInstance().refreshWorkFlowView();

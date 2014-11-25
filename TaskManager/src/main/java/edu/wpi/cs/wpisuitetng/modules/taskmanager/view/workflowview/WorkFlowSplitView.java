@@ -77,6 +77,8 @@ public class WorkFlowSplitView extends JSplitPane{
 
 	/**
 	 * Creates the view task panel.
+	 * 
+	 * @param viewPanel is the panel to display in the created view panel
 	 */
 	public void createViewTaskPanel(AbstractTaskPanel viewPanel) {
 		workflowSplitTabbedPanel.addViewTaskTab(viewPanel);

@@ -89,7 +89,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
      * Adds the get parent
      */
     public WorkFlowSplitView getParent(){
-    	return this.parentPanel;
+    	return parentPanel;
     }
 
     /**
@@ -166,9 +166,13 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         }
     }
 
-    
+	/**
+	 * Add new tab with the given panel.
+	 *
+	 * @param aPanel panel to view 
+	 */
     public void addViewTaskTab(AbstractTaskPanel aPanel) {
-        String title = aPanel.getTitle();
+        final String title = aPanel.getTitle();
     	this.addTab(title, null, aPanel, null);
 
         final WorkFlowSplitTabbedPanel thisPane = this;

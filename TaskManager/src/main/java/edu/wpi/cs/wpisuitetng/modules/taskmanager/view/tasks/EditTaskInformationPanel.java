@@ -40,19 +40,26 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 		this.setupListeners();
 	}
 
+	/**
+	 * Sets the fields with info from the class's task object.
+	 *
+	 */
 	public void setTask() {
 		parentPanel.aTask.getTaskID();
-		this.boxTitle.setText(parentPanel.aTask.getTitle());
-		this.boxDescription.setText(parentPanel.aTask.getDescription());
-		this.dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
+		boxTitle.setText(parentPanel.aTask.getTitle());
+		boxDescription.setText(parentPanel.aTask.getDescription());
+		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
 		//requirement
-		this.listChosenAssignees= parentPanel.aTask.getAssignedUsers();
-		this.calStartDate.setDate(parentPanel.aTask.getStartDate());
-		this.calDueDate.setDate(parentPanel.aTask.getDueDate());
-		this.spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
-		this.spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+		listChosenAssignees= parentPanel.aTask.getAssignedUsers();
+		calStartDate.setDate(parentPanel.aTask.getStartDate());
+		calDueDate.setDate(parentPanel.aTask.getDueDate());
+		spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+		spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
 	}	
-	
+
+	/**
+	 * Sets up listeners for the validation fields.
+	 */
 	protected void setupListeners() {
 		// Text Field Listeners
 		boxTitle.getDocument().addDocumentListener(new DocumentListener() {

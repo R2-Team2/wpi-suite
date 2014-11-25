@@ -28,14 +28,16 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
     /**
      * Constructor for the NewTaskPanel.
+     * 
+     * @param parent is the parent panel
+     * @param editTask is the task object to be edited. 
      */
 
-    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
-    	
-		this.parentPanel = parent;
-    	this.aTask = editTask;
-    	this.title = editTask.getTitle();
-        buildLayout();
+    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {    	
+		parentPanel = parent;
+    	aTask = editTask;
+    	title = editTask.getTitle();
+        this.buildLayout();
     }
 
     /**
@@ -60,7 +62,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
         // create a task, send to to controller
         final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(this.aTask);
+        updateTask.updateTask(aTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
         // retrieveTasks.requestTasks();
         // TODO: create task card

@@ -39,10 +39,9 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		this.setupListeners();
 	}
 
-	public void setTask(Task aTask)
-	{
-
-	}
+	/**
+	 *Sets up listeners for text validation. 
+	 */
 	protected void setupListeners() {
 		// Text Field Listeners
 		boxTitle.getDocument().addDocumentListener(new DocumentListener() {

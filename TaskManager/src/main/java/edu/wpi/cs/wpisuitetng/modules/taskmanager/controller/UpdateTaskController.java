@@ -17,13 +17,28 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * The Class UpdateTaskController.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class UpdateTaskController {
 	private final AbstractTaskPanel view;
 	
+	/**
+	 * Constructor for the UpdateTaskController.
+	 *
+	 * @param view the parent view
+	 */
 	public UpdateTaskController(AbstractTaskPanel view) {
 		this.view = view;
 	}
 	
+	/**
+	 * Calls the request from the request observer.
+	 *
+	 * @param toSave is the task object to be updated in the database.
+	 */
 	public void updateTask(Task toSave) {
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("taskmanager/task", HttpMethod.POST); // POST == save
