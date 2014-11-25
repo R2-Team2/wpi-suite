@@ -201,7 +201,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             	revalidate();
             	repaint();
             }
-
         });
     	    	
     	newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
@@ -236,9 +235,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             	validateNewStatusFields();
             }
         });
-    	
-    	
     }
+    
     /**
      * Validate Model
      * @return Valid if at least one TaskStatusView is in model
@@ -309,12 +307,10 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     	}
     }
     private boolean validateNewStatusTitleField() {
-		// TODO Auto-generated method stub
     	return !(newStatusTitleField.getText().length() <= 0);
 	}
     
     private boolean validateNewStatusTypeField() {
-		// TODO Auto-generated method stub
     	return !(newStatusTypeField.getText().length() <= 0);
 	}
 }
