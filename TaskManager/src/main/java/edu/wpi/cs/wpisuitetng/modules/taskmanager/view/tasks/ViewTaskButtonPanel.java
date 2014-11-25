@@ -43,6 +43,7 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 		buttonEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.editPressed();
+				System.out.println("edit pressed");
 			}
 		});
 		
