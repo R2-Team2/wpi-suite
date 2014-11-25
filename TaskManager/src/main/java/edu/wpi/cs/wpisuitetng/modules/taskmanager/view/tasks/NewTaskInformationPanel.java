@@ -9,6 +9,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskInformationPanel.
@@ -28,6 +31,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		//this.setMinimumSize(new Dimension(540, 200));
         
 		this.buildLayout();
+		new RetrieveUsersController(this).requestUsers();
 	}
 }
 

@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -25,6 +27,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
@@ -51,10 +55,10 @@ public class AbstractInformationPanel extends JScrollPane {
     protected AbstractTaskPanel parentPanel;
 
     /** The list of chosen assignees. */
-    protected User[] listOfChosenAssignees = new User[] {};
+    protected DefaultListModel<User> chosenAssigneeModel;
 
     /** The list of possible assignees. */
-    protected User[] listOfPossibleAssignees = new User[] {};
+    protected DefaultListModel<User> possibleAssigneeModel;
 
     /** The list of statuses. */
     protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
@@ -80,11 +84,11 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The dropdown requirement. */
     protected JComboBox<String> dropdownRequirement;
 
-    /** The list chosen assignees. */
-    protected JList<User> listChosenAssignees;
+    /** The list of chosen assignees. */
+    protected JList<User> chosenAssigneeList;
 
     /** The list possible assignees. */
-    protected JList<User> listPossibleAssignees;
+    protected JList<User> possibleAssigneeList;
 
     /** The spinner estimated effort. */
     protected JSpinner spinnerEstimatedEffort;
@@ -144,15 +148,18 @@ public class AbstractInformationPanel extends JScrollPane {
         dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
         dropdownStatus.setEnabled(true);
         dropdownStatus.setBackground(Color.WHITE);
-        // Lists
-        listChosenAssignees = new JList<User>();
-        listPossibleAssignees = new JList<User>();
+        // Lists & Models
+        chosenAssigneeModel = new DefaultListModel<User>();
+        chosenAssigneeList = new JList<User>(chosenAssigneeModel);
+        chosenAssigneeList.setCellRenderer(new UserRenderer());
+        possibleAssigneeModel = new DefaultListModel<User>();
+        possibleAssigneeList = new JList<User>(possibleAssigneeModel);
+        possibleAssigneeList.setCellRenderer(new UserRenderer());
         // Spinners
         spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         // Buttons
         buttonAdd = new JButton(">>");
-        buttonAdd.setEnabled(false);
         buttonRemove = new JButton("<<");
         buttonRemove.setEnabled(false);
         // Calendars
@@ -173,16 +180,16 @@ public class AbstractInformationPanel extends JScrollPane {
         final JPanel bottomRight = new JPanel(new MigLayout());
 
         // Assignee view created and populated to the bottom Panel
-        listPossibleAssignees.setBorder(defaultBorder);
+        possibleAssigneeList.setBorder(defaultBorder);
         bottomLeft.add(labelPossibleAssignee, "left, wrap");
-        bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+        bottomLeft.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
        
         bottomCenter.add(buttonAdd, "center, wrap");
         bottomCenter.add(buttonRemove, "center, wrap");
         
-        listChosenAssignees.setBorder(defaultBorder);
+        chosenAssigneeList.setBorder(defaultBorder);
         bottomRight.add(labelChosenAssignee, "left, wrap");
-        bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+        bottomRight.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
         
         bottom.add(bottomLeft);
         bottom.add(bottomCenter);
@@ -219,8 +226,6 @@ public class AbstractInformationPanel extends JScrollPane {
         setupListeners();
 
         this.setViewportView(contentPanel);
-        
-        new RetrieveUsersController(this).requestUsers();
     }
 
     /**
@@ -230,72 +235,38 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // if(!listPossibleAssignees.isSelectionEmpty()) {
-                // String[] a = listOfPossibleAssignees;
-                // String[] b = listOfChosenAssignees;
-                // int[] c = listPossibleAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempA;
-                // listOfChosenAssignees = tempB;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
+				if (!possibleAssigneeList.isSelectionEmpty()) {
+					int[] toAdd = possibleAssigneeList.getSelectedIndices();
+					for (int i = toAdd.length - 1; i >= 0; i--) {
+						User transfer = possibleAssigneeModel.remove(toAdd[i]);
+						chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+					}
+					if (possibleAssigneeModel.size() == 0) {
+						buttonAdd.setEnabled(false);
+					}
+					if (chosenAssigneeModel.size() > 0) {
+						buttonRemove.setEnabled(true);
+					}
+				}
             }
         });
 
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // if(!listChosenAssignees.isSelectionEmpty()) {
-                // String[] a = listOfChosenAssignees;
-                // String[] b = listOfPossibleAssignees;
-                // int[] c = listChosenAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempB;
-                // listOfChosenAssignees = tempA;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
+            	if (!chosenAssigneeList.isSelectionEmpty()) {
+					int[] toRemove = chosenAssigneeList.getSelectedIndices();
+					for (int i = toRemove.length - 1; i >= 0; i--) {
+						User transfer = chosenAssigneeModel.remove(toRemove[i]);
+						possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+					}
+					if (chosenAssigneeModel.size() == 0) {
+						buttonRemove.setEnabled(false);
+					}
+					if (possibleAssigneeModel.size() > 0) {
+						buttonAdd.setEnabled(true);
+					}
+				}
             }
 
         });
@@ -392,9 +363,9 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
 	public void populateUsers(User[] users) {
-		System.out.println("Users retrieved!");
-		for (User u : users) {
-			System.out.println(u.getUsername());
+		possibleAssigneeModel.clear();
+		for (User u: users) {
+			possibleAssigneeModel.addElement(u);
 		}
 	}
 
@@ -404,7 +375,11 @@ public class AbstractInformationPanel extends JScrollPane {
      * @return JList<String>
      */
     public List<User> getAssignedUsers() {
-        return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
+    	List<User> userList = new ArrayList<User>();
+    	for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+    		userList.add(chosenAssigneeModel.elementAt(i));
+    	}
+    	return userList;
     }
 
 }
