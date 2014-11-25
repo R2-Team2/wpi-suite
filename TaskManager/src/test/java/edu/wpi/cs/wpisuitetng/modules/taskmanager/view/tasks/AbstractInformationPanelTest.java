@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import static org.junit.Assert.assertNotEquals;
@@ -33,17 +39,23 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewM
  * @author R2-Team2
  * @version v0
  */
+/**
+ * Description
+ *
+ * @author Evan
+ * @version Nov 24, 2014
+ */
 public class AbstractInformationPanelTest extends TestCase {
 
 
     // mock requirements data for requirements integration testing
-    private Iteration mockIteration = mock(Iteration.class);
-    private IterationModel mockIterationModel = mock(IterationModel.class);
-    private ViewEventController mockViewEventController = mock(ViewEventController.class);
-    private Requirement mockRequirement = mock(Requirement.class);
-    private RequirementModel mockRequirementModel = mock(RequirementModel.class);
-    private RequirementPanel mockRequirementPanel = mock(RequirementPanel.class);
-    private ViewMode mode = ViewMode.EDITING;
+    private final Iteration mockIteration = mock(Iteration.class);
+    private final IterationModel mockIterationModel = mock(IterationModel.class);
+    private final ViewEventController mockViewEventController = mock(ViewEventController.class);
+    private final Requirement mockRequirement = mock(Requirement.class);
+    private final RequirementModel mockRequirementModel = mock(RequirementModel.class);
+    private final RequirementPanel mockRequirementPanel = mock(RequirementPanel.class);
+    private final ViewMode mode = ViewMode.EDITING;
 
     /**
      * Construct new test instance
@@ -55,8 +67,9 @@ public class AbstractInformationPanelTest extends TestCase {
     }
 
 
-    /*
-     * //anything to be run Before each of the tests
+
+    /**
+     * Method testSetup. anything to be run Before each of the tests.
      */
     @Before
     public void testSetup() {
@@ -72,14 +85,17 @@ public class AbstractInformationPanelTest extends TestCase {
         RequirementModel.setInstance(mockRequirementModel);
         IterationModel.setInstance(mockIterationModel);
         ViewEventController.setInstance(mockViewEventController);
+        assertEquals(1, 1);
     }
 
-    /*
-     * tests constructors to assert thatrequirements code has been imported correctly
+
+    /**
+     * Method requirementsImportTest. tests constructors to assert that requirements code has been
+     * imported properly.
      */
     @Test
     public void requirementsImportTest() {
-        RequirementInformationPanel newPanel =
+        final RequirementInformationPanel newPanel =
                 new RequirementInformationPanel(mockRequirementPanel, mode, mockRequirement);
 
         assertNotNull(newPanel);
@@ -98,7 +114,9 @@ public class AbstractInformationPanelTest extends TestCase {
         assertNotEquals(new Dimension(200, 500), newPanel.getMinimumSize());
     }
 
-    // anything to be run After each test
+    /**
+     * Method cleanup. a teardown to be run After each test.
+     */
     @After
     public void cleanup() {
         // from requirements module
