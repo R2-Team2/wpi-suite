@@ -11,9 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 
 
-
-
-
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -21,8 +18,6 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 
 
 // TODO: Auto-generated Javadoc
@@ -34,16 +29,15 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTab
 public class WorkFlowSplitView extends JSplitPane{
 	
 	/** The split tabbed panel. */
-	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
-	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
+	WorkFlowSplitTabbedPanel splitTabbedPanel;
 	
 	/**
 	 * Instantiates a new work flow split view.
 	 */
 	public WorkFlowSplitView() {
-		workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
+		splitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
-        ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
+        ViewEventController.getInstance().setSplitTabbedPanel(splitTabbedPanel);
 		
 		this.setLeftComponent(new JScrollPane(new WorkFlowView()));
 		this.setRightComponent(null);
@@ -65,14 +59,14 @@ public class WorkFlowSplitView extends JSplitPane{
 	 * Creates the new task panel.
 	 */
 	public void createNewTaskPanel() {
-		workflowSplitTabbedPanel.addCreateTaskTab();
+		splitTabbedPanel.addCreateTaskTab();
 		// Sets the Right Component to its minimum size always
 		this.setResizeWeight(1.0);
 		this.setEnabled( false );
 		this.setOneTouchExpandable(false);
 		//this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
-		this.setRightComponent(workflowSplitTabbedPanel);
+		this.setRightComponent(splitTabbedPanel);
 	}
 
 	/**
@@ -106,5 +100,4 @@ public class WorkFlowSplitView extends JSplitPane{
 		this.setOneTouchExpandable(true);
 		this.setDividerLocation(1.0);
 	}
-
 }

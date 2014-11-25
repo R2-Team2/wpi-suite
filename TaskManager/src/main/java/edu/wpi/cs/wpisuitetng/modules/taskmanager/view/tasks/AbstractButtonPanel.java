@@ -52,17 +52,8 @@ public abstract class AbstractButtonPanel extends JPanel {
     }*/
 
     /**
-     * Validate task title and description
+     * Validate task info.
      */
-
-    public void validateTaskInfo() {
-        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0 || 
-        		parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
-            buttonLeft.setEnabled(false);
-        }
-        else {
-            buttonLeft.setEnabled(true);
-        }
-    }
+    public abstract void validateTaskInfo();
 
 }

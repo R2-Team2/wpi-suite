@@ -86,8 +86,6 @@ public class WorkFlowView extends JPanel {
                         "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
                                 + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
                         "[278px,grow 500]"));
-        
-        // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
         taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
         taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");

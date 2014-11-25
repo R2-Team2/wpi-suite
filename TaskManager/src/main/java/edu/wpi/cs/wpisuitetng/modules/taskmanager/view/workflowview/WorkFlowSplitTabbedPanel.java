@@ -100,7 +100,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
         final WorkFlowSplitTabbedPanel thisPane = this;
 
-        // create a "close" button
+        // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
         tabCloseButton.setActionCommand("" + this.getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));

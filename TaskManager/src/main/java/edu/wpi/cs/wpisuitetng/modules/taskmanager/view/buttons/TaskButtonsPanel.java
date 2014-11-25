@@ -67,7 +67,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             helpButton.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             // Hopefully, won't get here
-            System.out.println("Populating Top Bar Buttons Exception");
+            System.out.print("exception");
         }
 
         // the action listener for the Create Action Button
@@ -92,9 +92,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // bring up a settings view
-            	// Currently Brings up the Edit Work Flow View Directly
-                ViewEventController.getInstance().editWorkFlowView();
+                // bring up a create task pane
+                // TODO Action on ViewController ViewEventController.getInstance().createTask();
             }
         });
 
@@ -109,9 +108,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 
         // Gray out top bar buttons that are not currently being used
         reportsButton.setEnabled(false);
-        settingsButton.setEnabled(true);
+        settingsButton.setEnabled(false);
         helpButton.setEnabled(false);
-        createButton.setEnabled(true);
 
         contentPanel.add(reportsButton);
         contentPanel.add(settingsButton);
