@@ -53,7 +53,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @param parentPanel the parent panel
      */
     protected AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
-        this.parentPanel = parentPanel;
+        this.parentPanel = parentPanel;        
     }
 
     /**

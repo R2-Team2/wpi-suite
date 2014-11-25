@@ -61,7 +61,8 @@ public class TaskCard extends JPanel {
      * @param dateData the date data
      * @param userNameData the user name data
      */
-    public TaskCard(String nameData, String dateData, String userNameData) {
+    public TaskCard(String nameData, String dateData, String userNameData, Task aTask) {
+    	this.taskObj = aTask;
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 

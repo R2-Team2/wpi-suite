@@ -7,18 +7,10 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
-import java.util.Date;
-import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.TaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 
 // TODO: Auto-generated Javadoc
@@ -32,9 +24,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
     /**
      * Constructor for the NewTaskPanel.
      */
-    public EditTaskPanel() {
-		super();
-
+    public EditTaskPanel(Task editTask) {
+    	super();
+		this.aTask = editTask;
         this.buildLayout();
     }
 
@@ -58,24 +50,19 @@ public class EditTaskPanel extends AbstractTaskPanel {
 	public void savePressed()
 	{
 		// create a task, send to to controller
-//		new AddTaskController(this);
-		//AddTaskController addNewTask = new AddTaskController(this);
-		//addNewTask.addTask();
-		// TODO: create task card
-		// TODO: put task card in proper task status
-		//ViewEventController.getInstance().closeNewTaskPanel();
-//		parentPanel.hideCreateNewTaskPanel();
+        final UpdateTaskController updateTask = new UpdateTaskController(this);
+        updateTask.updateTask(this.aTask);
+
+        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+        // retrieveTasks.requestTasks();
+
+        // TODO: create task card
+        // TODO: put task card in proper task status
+        ViewEventController.getInstance().removeSplitTab();
+        parentPanel.checkForHide();
 	}
 
-	/**
-	 * Creates the GUI for the EditTaskPanel
-	 * @param Task
-	 */
-	public void openEditView(Task aTask)
-	{
-		this.aTask = aTask;
-		this.infoPanel.setTask(aTask);
-	}
+
 
 	@Override
 	public void createPressed() {

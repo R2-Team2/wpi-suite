@@ -28,8 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 
-	/** The button create. */
-    protected JButton buttonCreate;
+	///** The button create. */
+    //protected JButton buttonCreate;
 
 	/**
 	 * Constructor for the NewTaskButtonPanel.

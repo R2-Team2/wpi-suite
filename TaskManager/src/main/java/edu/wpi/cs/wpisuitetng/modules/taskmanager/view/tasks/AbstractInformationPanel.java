@@ -104,7 +104,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** The cal due date. */
     protected JCalendar calDueDate;
 
-    public abstract void setTask(Task aTask);
 
     /**
      * Builds the layout.
@@ -300,23 +299,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         });
 
-        // Text Field Listeners
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
+        
     }
 
     /**
