@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -28,15 +28,15 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
     /**
      * Constructor for the NewTaskPanel.
-     * 
+     *
      * @param parent is the parent panel
-     * @param editTask is the task object to be edited. 
+     * @param editTask is the task object to be edited.
      */
 
-    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {    	
-		parentPanel = parent;
-    	aTask = editTask;
-    	title = editTask.getTitle();
+    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
+        parentPanel = parent;
+        aTask = editTask;
+        title = editTask.getTitle();
         this.buildLayout();
     }
 
@@ -53,12 +53,11 @@ public class EditTaskPanel extends AbstractTaskPanel {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-	/**
-	 * Called when the Save Button is pressed
-	 * Loads data into the database in the existing Task.
-	 */
-	public void savePressed()
-	{
+    /**
+     * Called when the Save Button is pressed Loads data into the database in the existing Task.
+     */
+    public void savePressed()
+    {
 
         // create a task, send to to controller
         final UpdateTaskController updateTask = new UpdateTaskController(this);
@@ -69,8 +68,8 @@ public class EditTaskPanel extends AbstractTaskPanel {
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
-	}
-	
+    }
+
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
      */
@@ -80,8 +79,8 @@ public class EditTaskPanel extends AbstractTaskPanel {
         parentPanel.checkForHide();
     }
 
-        
-	/**
+
+    /**
      * Returns the title information from infoPanel.
      *
      * @return String
@@ -192,9 +191,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-	@Override
-	public void createPressed() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void createPressed() {
+        // TODO Auto-generated method stub
+
+    }
 }

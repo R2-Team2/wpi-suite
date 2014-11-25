@@ -6,13 +6,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 
 // TODO: Auto-generated Javadoc
 /**

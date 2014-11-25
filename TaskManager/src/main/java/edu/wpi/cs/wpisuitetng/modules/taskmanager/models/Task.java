@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
+
 import javax.swing.JList;
 
 import com.google.gson.Gson;

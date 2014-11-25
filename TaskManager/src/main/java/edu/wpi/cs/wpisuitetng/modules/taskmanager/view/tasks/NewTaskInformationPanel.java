@@ -9,14 +9,14 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 
 /**
  * The Class NewTaskInformationPanel.
