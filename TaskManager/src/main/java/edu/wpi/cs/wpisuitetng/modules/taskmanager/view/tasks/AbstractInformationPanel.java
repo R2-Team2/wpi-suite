@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,6 +29,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -157,8 +160,24 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonRemove.setEnabled(false);
         // Calendars
         calStartDate = new JXDatePicker();
+        calStartDate.setName("start date");
+        calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
-
+        calDueDate.setName("due date");
+        calDueDate.setDate(Calendar.getInstance().getTime());
+    
+  		// Code taken from:
+  		// http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
+   		((JButton) calStartDate.getComponent(1)).setIcon(new ImageIcon(
+   				((new ImageIcon(getClass().getResource("calendar.png")))
+   						.getImage()).getScaledInstance(20, 20,
+   						java.awt.Image.SCALE_SMOOTH)));
+        
+   		((JButton) calDueDate.getComponent(1)).setIcon(new ImageIcon(
+   				((new ImageIcon(getClass().getResource("calendar.png")))
+   						.getImage()).getScaledInstance(20, 20,
+   						java.awt.Image.SCALE_SMOOTH)));
+        
         // Setup GUI
 
 
