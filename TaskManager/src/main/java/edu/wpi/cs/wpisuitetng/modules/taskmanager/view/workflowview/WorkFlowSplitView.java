@@ -51,6 +51,13 @@ public class WorkFlowSplitView extends JSplitPane{
 	/**
 	 * Creates the new task panel.
 	 */
+	public WorkFlowSplitTabbedPanel getWF(){
+		return splitTabbedPanel;
+	}
+	
+	/**
+	 * Creates the new task panel.
+	 */
 	public void createNewTaskPanel() {
 		splitTabbedPanel.addCreateTaskTab();
 		// Sets the Right Component to its minimum size always

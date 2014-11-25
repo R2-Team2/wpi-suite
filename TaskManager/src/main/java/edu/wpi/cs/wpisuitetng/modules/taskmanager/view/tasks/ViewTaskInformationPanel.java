@@ -16,22 +16,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel{
 		this.disableAll(true);
 		setTask();
 	}
-	
-	public void disableAll(Boolean io)
-	{
-		io = !io;
-		//aTask.getTaskID();
-		this.boxTitle.setEnabled(io);
-		this.boxDescription.setEnabled(io);
-		this.dropdownStatus.setEnabled(io); 
-		//requirement
-		this.listChosenAssignees.setEnabled(io);
-		this.calStartDate.setEnabled(io);
-		this.calDueDate.setEnabled(io);
-		this.spinnerEstimatedEffort.setEnabled(io);
-		this.spinnerActualEffort.setEnabled(io);
-	}
-
 
 	//@Override
 	public void setTask() {
@@ -41,7 +25,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel{
 		String t = viewTask.getTitle();
 		this.boxTitle.setText(t);
 		this.boxDescription.setText(viewTask.getDescription());
-		//this.dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
+		this.dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
 		//requirement
 		this.listChosenAssignees= viewTask.getAssignedUsers();
 		this.calStartDate.setDate(viewTask.getStartDate());

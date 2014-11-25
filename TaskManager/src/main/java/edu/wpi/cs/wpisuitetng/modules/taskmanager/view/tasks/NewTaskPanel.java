@@ -58,7 +58,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
         super(parentPanel);
         this.parentPanel = parentPanel;
         this.buildLayout();
-
     }
 
     /**

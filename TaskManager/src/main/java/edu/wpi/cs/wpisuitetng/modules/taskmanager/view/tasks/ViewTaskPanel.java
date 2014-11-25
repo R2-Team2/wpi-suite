@@ -5,19 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 public class ViewTaskPanel extends AbstractTaskPanel{
 
-	//protected AbstractInformationPanel infoPanel;
-    //protected AbstractButtonPanel buttonPanel;
-	//private ViewEventController viewEventController = ViewEventController.getInstance();
-	
-	public ViewTaskPanel(Task viewTask)
+	public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask)
 	{
+		this.parentPanel = parent;
 		this.aTask = viewTask;
 		this.buildLayout();
 	}
@@ -32,9 +29,20 @@ public class ViewTaskPanel extends AbstractTaskPanel{
 	}
 	
 	public void editPressed() {
+		//infoPanel.disableAll(false);
+		/*
+		 * Adds new empty panel, will troubleshoot.
+		 * 
+		 */
 		Task passTask = this.aTask;
-		ViewEventController.getInstance().closeNewTaskPanel();
-		EditTaskPanel editView = new EditTaskPanel(passTask);
+		
+		AbstractTaskPanel editView = new EditTaskPanel(this.parentPanel, passTask);
+		System.out.println("Edit Pressed");
+        ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
+		System.out.println("Removed view, adding edit panels");
+		parentPanel.getParent().createViewTaskPanel(editView);
+		//addViewTaskTab(editView);
 	}
 
     /**
@@ -142,8 +150,7 @@ public class ViewTaskPanel extends AbstractTaskPanel{
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
-    @Override
-    public void setInfoPanel(NewTaskInformationPanel aPanel)
+    public void setInfoPanel(AbstractInformationPanel aPanel)
     {
         infoPanel = aPanel;
     }

@@ -25,7 +25,7 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 		buttonCancel = new JButton(cancelString);
 		this.add(buttonEdit);
 		this.add(buttonCancel);
-		super.setupListeners();
+		//super.setupListeners();
 		this.setupListeners();
 	}
 	
@@ -35,6 +35,14 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel{
 				parentPanel.editPressed();
 			}
 		});
+		
+		buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
+
+        });
 	}
 
 	@Override
