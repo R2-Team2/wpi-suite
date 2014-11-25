@@ -98,7 +98,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
      * Adds the create task tab.
      */
     public void addSettingsTab() {
-        this.addTab("New Task", null, new WorkFlowEditView(this), null);
+        //this.addTab("New Task", null, new WorkFlowEditView(this), null);
 
         final SettingsSplitTabbedPanel thisPane = this;
 

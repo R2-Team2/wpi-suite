@@ -7,7 +7,6 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -32,9 +31,6 @@ public class ViewEventController {
 
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
-
-    /** The settings panel. */
-    private final WorkFlowEditView settingsPanel = new WorkFlowEditView();
 
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
@@ -124,10 +120,10 @@ public class ViewEventController {
     /**
      * The following is a temporary way to refresh the task status panes from anywhere.
      *
-     * @param workflow the new work flow view
+     * @param (workflow) absWorkFlowView the new work flow view
      */
-    public void setWorkFlowView(WorkFlowView workflow) {
-        this.workflow = workflow;
+    public void setWorkFlowView(WorkFlowView workFlowView) {
+        workflow = workFlowView;
     }
 
     /**
