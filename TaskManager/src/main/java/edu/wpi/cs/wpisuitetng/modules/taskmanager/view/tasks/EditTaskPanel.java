@@ -29,7 +29,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
      * Constructor for the NewTaskPanel.
      */
     public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
-    	super();
+    	
 		this.parentPanel = parent;
     	this.aTask = editTask;
     	this.title = editTask.getTitle();
