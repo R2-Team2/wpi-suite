@@ -9,29 +9,12 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import javax.swing.JList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,7 +24,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel{
-	
+
 	/**
 	 * Constructor for NewTaskInformationPanel.
 	 *
@@ -49,10 +32,43 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 	 */
 	public EditTaskInformationPanel(AbstractTaskPanel parentPanel) {
 		this.parentPanel = parentPanel;
-		//this.setMinimumSize(new Dimension(500, 200));
 		
 
 		this.buildLayout();
+		this.setupListeners();
+	}
+
+	public void setTask() {
+		parentPanel.aTask.getTaskID();
+		this.boxTitle.setText(parentPanel.aTask.getTitle());
+		this.boxDescription.setText(parentPanel.aTask.getDescription());
+		//this.dropdownStatus.setSelectedItem(aTask.getStatus().toString());
+		//requirement
+		this.listChosenAssignees= parentPanel.aTask.getAssignedUsers();
+		this.calStartDate.setDate(parentPanel.aTask.getStartDate());
+		this.calDueDate.setDate(parentPanel.aTask.getDueDate());
+		this.spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+		this.spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+	}	
+	
+	protected void setupListeners() {
+		// Text Field Listeners
+		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
 	}
 }
 

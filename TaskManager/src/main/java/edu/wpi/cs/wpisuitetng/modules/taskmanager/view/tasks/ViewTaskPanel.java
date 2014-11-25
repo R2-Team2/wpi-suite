@@ -1,83 +1,46 @@
-/*******************************************************************************
- * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
- * R2-Team2
- ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AbstractTaskPanel.
- * @author R2-Team2
- * @version $Revision: 1.0 $
- */
-public abstract class AbstractTaskPanel extends JPanel {
+public class ViewTaskPanel extends AbstractTaskPanel{
 
-	/** The parent panel. */
-    public String title;
+	//protected AbstractInformationPanel infoPanel;
+    //protected AbstractButtonPanel buttonPanel;
+	//private ViewEventController viewEventController = ViewEventController.getInstance();
 	
-    /** The parent panel. */
-    protected WorkFlowSplitTabbedPanel parentPanel;
-
-    /** The info panel. */
-    protected AbstractInformationPanel infoPanel;
-
-    /** The button panel. */
-    protected AbstractButtonPanel buttonPanel;
-
-    /** A task. */
-    public Task aTask;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
-
-    /**
-     * Instantiates a new abstract task panel.
-     */
-    protected AbstractTaskPanel() {
-
-    }
-
-    /**
-     * Instantiates a new abstract task panel.
-     *
-     * @param parentPanel the parent panel
-     */
-    protected AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
-        this.parentPanel = parentPanel;        
-    }
-
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    protected void buildLayout()
-    {
-    	this.title = this.aTask.getTitle();
+	public ViewTaskPanel(Task viewTask)
+	{
+		this.aTask = viewTask;
+		this.buildLayout();
+	}
+	
+	protected void buildLayout() {
+        buttonPanel = new ViewTaskButtonPanel(this);
+        infoPanel = new ViewTaskInformationPanel(this);
+        
         this.setLayout(new BorderLayout());
-        this.add(buttonPanel, BorderLayout.SOUTH);
         this.add(infoPanel, BorderLayout.CENTER);
-    }
-
-    /**
-     * Called when the Create Button is pressed Creates a Task from the NewTask Info.
-     */
-    public abstract void createPressed();
+        this.add(buttonPanel, BorderLayout.SOUTH);
+	}
+	
+	public void editPressed() {
+		Task passTask = this.aTask;
+		ViewEventController.getInstance().closeNewTaskPanel();
+		EditTaskPanel editView = new EditTaskPanel(passTask);
+	}
 
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
      */
+    @Override
     public void cancelPressed() {
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
@@ -88,6 +51,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return String
      */
+    @Override
     public String getTitle() {
         return infoPanel.getTitle().getText();
     }
@@ -97,6 +61,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return String
      */
+    @Override
     public String getDescription() {
         return infoPanel.getDescription().getText();
     }
@@ -106,6 +71,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return int
      */
+    @Override
     public int getEstimatedEffort() {
         return (int) infoPanel.getEstimatedEffort().getValue();
     }
@@ -115,6 +81,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return int
      */
+    @Override
     public int getActualEffort() {
         return (int) infoPanel.getActualEffort().getValue();
     }
@@ -124,6 +91,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return String
      */
+    @Override
     public String getStatus() {
         return infoPanel.getStatus().getSelectedItem().toString();
     }
@@ -133,6 +101,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return String
      */
+    @Override
     public String getRequirement() {
         return (String) infoPanel.getRequirement().getSelectedItem();
     }
@@ -142,6 +111,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return Date
      */
+    @Override
     public Date getStartDate() {
         return infoPanel.getStartDate().getDate();
     }
@@ -151,6 +121,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return Date
      */
+    @Override
     public Date getDueDate() {
         return infoPanel.getDueDate().getDate();
     }
@@ -160,18 +131,37 @@ public abstract class AbstractTaskPanel extends JPanel {
      *
      * @return String[]
      */
+    @Override
     public List<User> getAssignedUsers() {
         return infoPanel.getAssignedUsers();
     }
 
-    /**
-     * Sets the info panel.
-     *
-     * @param aPanel the new info panel
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
+     * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
+    @Override
     public void setInfoPanel(NewTaskInformationPanel aPanel)
     {
         infoPanel = aPanel;
     }
 
+    /**
+     * Sets the butt panel.
+     *
+     * @param aPanel the new butt panel
+     */
+    public void setButtPanel(NewTaskButtonPanel aPanel)
+    {
+        buttonPanel = aPanel;
+    }
+
+	@Override
+	public void createPressed() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

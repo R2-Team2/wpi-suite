@@ -14,6 +14,9 @@ import java.awt.FlowLayout;
 
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 
@@ -26,12 +29,14 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel{
 	
+	protected EditTaskPanel parentPanel;
+
 	/**
 	 * Constructor for the EditTaskButtonPanel.
 	 *
 	 * @param parentPanel the parent panel
 	 */
-	public EditTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
@@ -40,11 +45,32 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		final String saveString = "Save";
 		final String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(saveString);
+		buttonSave = new JButton(saveString);
 		buttonCancel = new JButton(cancelString);
-		this.add(buttonLeft);
+		this.add(buttonSave);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
-		setupListeners();
+		super.setupListeners();
+		this.setupListeners();
 	}
+
+	protected void setupListeners() {
+		buttonSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.savePressed();
+			}
+		});
+	}
+
+	/**
+     * Validate task info.
+     */
+    public void validateTaskInfo() {
+        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
+            buttonSave.setEnabled(false);
+        }
+        else {
+            buttonSave.setEnabled(true);
+        }
+    }
 }

@@ -9,6 +9,13 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.BorderLayout;
 
 
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,7 +28,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
     /**
      * Constructor for the NewTaskPanel.
      */
-    public EditTaskPanel() {
+    public EditTaskPanel(Task editTask) {
+    	super();
+		this.aTask = editTask;
         this.buildLayout();
     }
 
@@ -38,13 +47,29 @@ public class EditTaskPanel extends AbstractTaskPanel {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
-     */
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
+	/**
+	 * Called when the Save Button is pressed
+	 * Loads data into the database in the existing Task.
+	 */
+	public void savePressed()
+	{
 
-    }
+        // create a task, send to to controller
+        final UpdateTaskController updateTask = new UpdateTaskController(this);
+        updateTask.updateTask(this.aTask);
+        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+        // retrieveTasks.requestTasks();
+        // TODO: create task card
+        // TODO: put task card in proper task status
+        ViewEventController.getInstance().removeSplitTab();
+        parentPanel.checkForHide();
+	}
+
+        
+
+
+	@Override
+	public void createPressed() {
+		throw new IllegalStateException("EditTaskPanel.createPressed() should not be called");
+	}
 }

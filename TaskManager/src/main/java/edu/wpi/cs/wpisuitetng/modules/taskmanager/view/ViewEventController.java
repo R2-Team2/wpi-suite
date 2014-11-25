@@ -7,7 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -16,8 +16,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  * Provides an interface for interaction with the main GUI elements All actions on GUI elements
  * should be conducted through this controller.
  *
- * @version $Revision: 1.0 $
  * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 public class ViewEventController {
 
@@ -32,9 +32,6 @@ public class ViewEventController {
 
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
-
-    /** The settings panel. */
-    private final WorkFlowEditView settingsPanel = new WorkFlowEditView();
 
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
@@ -79,14 +76,6 @@ public class ViewEventController {
 
     }
 
-    /**
-     * Edits the work flow view.
-     */
-    public void editWorkFlowView() {
-        main.editWorkFlowView();
-
-    }
-
     /*
      * Removes the current tab
      */
@@ -98,12 +87,16 @@ public class ViewEventController {
     }
 
     /**
-     * Opens a new tab for viewing the given Task.
+     * Opens a new tab for viewing the given Task
      *
      * @param task Task to be viewed
      */
     public void viewTask(Task task) {
-        // put viewing code here
+        ViewTaskPanel taskView = new ViewTaskPanel(task);
+        main.showViewTaskView(taskView);
+        System.out.println("Open View Task");
+        //taskView.
+        
     }
 
 
@@ -136,6 +129,4 @@ public class ViewEventController {
     public void refreshWorkFlowView() {
         workflow.refresh();
     }
-
-
 }

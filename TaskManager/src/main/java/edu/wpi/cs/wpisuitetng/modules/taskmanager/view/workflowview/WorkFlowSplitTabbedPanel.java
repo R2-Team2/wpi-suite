@@ -22,6 +22,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
 // TODO: Auto-generated Javadoc
@@ -92,7 +93,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
         final WorkFlowSplitTabbedPanel thisPane = this;
 
-        // create a "close" button
+        // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
         tabCloseButton.setActionCommand("" + this.getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
@@ -158,6 +159,78 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         }
     }
 
+    
+    public void addViewTaskTab(AbstractTaskPanel aPanel) {
+        String title = aPanel.getTitle();
+    	this.addTab(title, null, aPanel, null);
+
+        final WorkFlowSplitTabbedPanel thisPane = this;
+
+        // create a "cross" button
+        final JButton tabCloseButton = new JButton("\u2716");
+        tabCloseButton.setActionCommand("" + this.getTabCount());
+        tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
+        tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+
+        final ActionListener closeButtonListener;
+        closeButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent action) {
+
+                // get button which was clicked
+                JButton tmpButton = (JButton) action.getSource();
+
+                // get previously defined action command (sort of identifier)
+                final String clickedActionCommand = tmpButton.getActionCommand();
+
+                // for all tabs in tabpane
+                for (int i = 0; i < thisPane.getTabCount(); i++) {
+
+                    // get a panel of current tab component
+                    JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+
+                    // take a button from it
+                    tmpButton = (JButton) tabPanel.getComponent(1);
+
+                    // retrieve its action command
+                    String actualActionCommand = tmpButton.getActionCommand();
+
+                    // if this command is equal to that of clicked button, then we've found our tab
+                    if (clickedActionCommand.equals(actualActionCommand)) {
+                        thisPane.removeTabAt(i); // and we remove it
+                        thisPane.checkForHide();
+                        break;
+                    }
+                }
+            }
+        };
+        tabCloseButton.addActionListener(closeButtonListener);
+
+        // this part of code manually creates a panel with title and button
+        // and adds it to tab component
+        if (this.getTabCount() != 0) {
+            final JPanel panel = new JPanel();
+            panel.setOpaque(false);
+
+            final JLabel lblTitle = new JLabel(title);
+            lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+
+            final GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.weightx = 1;
+
+            panel.add(lblTitle, gbc);
+
+            gbc.gridx++;
+            gbc.weightx = 0;
+            panel.add(tabCloseButton, gbc);
+
+
+            this.setTabComponentAt(this.getTabCount() - 1, panel);
+            this.setSelectedIndex(this.getTabCount() - 1);
+        }
+    }
     /**
      * Check for hide.
      */

@@ -9,7 +9,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-// TODO: Auto-generated Javadoc
+import java.awt.Dimension;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 /**
  * The Class NewTaskInformationPanel.
  * @author R2-Team2
@@ -17,7 +23,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
  */
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
-	
+
 	/**
 	 * Constructor for NewTaskInformationPanel.
 	 *
@@ -26,8 +32,33 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 	public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
 		this.parentPanel = parentPanel;
 		//this.setMinimumSize(new Dimension(540, 200));
-        
+
 		this.buildLayout();
+		this.setupListeners();
+	}
+
+	public void setTask(Task aTask)
+	{
+
+	}
+	protected void setupListeners() {
+		// Text Field Listeners
+		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
 	}
 }
 
