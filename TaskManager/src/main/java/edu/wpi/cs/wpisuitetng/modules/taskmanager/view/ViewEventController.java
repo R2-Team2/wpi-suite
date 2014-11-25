@@ -93,6 +93,8 @@ public class ViewEventController {
      */
     public void viewTask(Task task) {
         ViewTaskPanel taskView = new ViewTaskPanel(task);
+        main.showViewTaskView(taskView);
+        System.out.println("Open View Task");
         //taskView.
         
     }

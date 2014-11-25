@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
 // TODO: Auto-generated Javadoc
@@ -79,6 +80,12 @@ public class MainView extends JTabbedPane {
      */
     public void showCreateTaskView() {
         workflow.createNewTaskPanel();
+    }
+    /**
+     * Show create task view.
+     */
+    public void showViewTaskView(AbstractTaskPanel aPanel){
+    	workflow.createViewTaskPanel(aPanel);
     }
 
     /**
