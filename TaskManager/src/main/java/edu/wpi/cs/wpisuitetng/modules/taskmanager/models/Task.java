@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+import javax.swing.JList;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -297,8 +300,19 @@ public class Task extends AbstractModel {
      *
      * @return the assigned users
      */
-    public List<User> getAssignedUsers() {
-        return assignedUsers;
+    public JList<User> getAssignedUsers() {
+        /*User[] midArry= new User[assignedUsers.size()]; 
+        for (int i=0;i< assignedUsers.size(); i++)
+        {
+        	//returnUsers.addElement(assignedUsers.get(i));
+        	midArry[i] = assignedUsers.get(i);
+        }
+        
+        //returnUsers=midArry;
+         * 
+         */
+        final JList<User> returnUsers = new JList(assignedUsers.toArray());
+    	return returnUsers;
     }
 
     /**

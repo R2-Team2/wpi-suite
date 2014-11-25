@@ -126,8 +126,8 @@ public class TaskStatusView extends JPanel {
         final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
         for (Task t : taskList) {
-            String dateString = formateDate(t);
-            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard());
+        	String dateString = formateDate(t);
+            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
         }
         revalidate();

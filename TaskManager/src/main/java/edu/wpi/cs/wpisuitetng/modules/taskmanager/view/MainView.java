@@ -22,7 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
@@ -92,6 +92,10 @@ public class MainView extends JTabbedPane {
         this.addTab("Work Flow", null, workflow, null);
         // this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
     }
+    public WorkFlowSplitView getWF(){
+    	return workflow;
+    }
+    
 
     /**
      * Show create task view.
@@ -193,6 +197,14 @@ public class MainView extends JTabbedPane {
             }
         }
         return ret;
+    }
+    /**
+     * Show create task view.
+     * 
+     * @param aPanel is the panel to be created.
+     */
+    public void showViewTaskView(AbstractTaskPanel aPanel){
+    	workflow.createViewTaskPanel(aPanel);
     }
 
     /**
