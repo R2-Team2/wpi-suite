@@ -50,7 +50,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		this.add(buttonSave);
 		this.add(buttonCancel);
 //		parentPanel.createPressed();
-		
+		super.setupListeners();
 		this.setupListeners();
 	}
 
@@ -60,26 +60,17 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 				parentPanel.savePressed();
 			}
 		});
-		
-		buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
-
-        });
 	}
 
 	/**
      * Validate task info.
      */
     public void validateTaskInfo() {
-        if (parentPanel.title.length() <= 0) {
+        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
             buttonSave.setEnabled(false);
         }
         else {
             buttonSave.setEnabled(true);
         }
     }
-    
 }

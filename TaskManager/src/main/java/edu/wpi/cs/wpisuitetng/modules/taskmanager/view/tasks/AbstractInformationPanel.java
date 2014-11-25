@@ -382,24 +382,5 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     public List<User> getAssignedUsers() {
         return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
     }
-    
-    /**
-     * Disables all of the text fields based on boolean io
-     * 
-     * @param Boolean io 
-     */
-	public void disableAll(Boolean io)
-	{
-		io = !io;
-		//aTask.getTaskID();
-		this.boxTitle.setEnabled(io);
-		this.boxDescription.setEnabled(io);
-		this.dropdownStatus.setEnabled(io); 
-		//requirement
-		this.listChosenAssignees.setEnabled(io);
-		this.calStartDate.setEnabled(io);
-		this.calDueDate.setEnabled(io);
-		this.spinnerEstimatedEffort.setEnabled(io);
-		this.spinnerActualEffort.setEnabled(io);
-	}
+
 }

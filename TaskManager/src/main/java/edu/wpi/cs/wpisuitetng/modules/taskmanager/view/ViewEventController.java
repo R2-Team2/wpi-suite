@@ -9,7 +9,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
@@ -93,8 +92,7 @@ public class ViewEventController {
      * @param task Task to be viewed
      */
     public void viewTask(Task task) {
-    	WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
-        ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
+        ViewTaskPanel taskView = new ViewTaskPanel(task);
         main.showViewTaskView(taskView);
         System.out.println("Open View Task");
         //taskView.

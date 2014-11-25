@@ -74,10 +74,6 @@ public class MainView extends JTabbedPane {
 
         this.addTab("Work Flow", null, workflow, null);
     }
-    public WorkFlowSplitView getWF(){
-    	return workflow;
-    }
-    
 
     /**
      * Show create task view.

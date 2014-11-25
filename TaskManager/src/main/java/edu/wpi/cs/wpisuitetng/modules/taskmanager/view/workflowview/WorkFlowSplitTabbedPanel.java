@@ -84,13 +84,6 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         });
 
     }
-    
-    /**
-     * Adds the get parent
-     */
-    public WorkFlowSplitView getParent(){
-    	return this.parentPanel;
-    }
 
     /**
      * Adds the create task tab.

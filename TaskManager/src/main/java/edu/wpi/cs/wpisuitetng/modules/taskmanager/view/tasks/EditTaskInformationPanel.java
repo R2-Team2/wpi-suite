@@ -32,9 +32,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 	 */
 	public EditTaskInformationPanel(AbstractTaskPanel parentPanel) {
 		this.parentPanel = parentPanel;
+		
+
 		this.buildLayout();
-		setTask();
-		super.setupListeners();
 		this.setupListeners();
 	}
 
@@ -42,7 +42,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel{
 		parentPanel.aTask.getTaskID();
 		this.boxTitle.setText(parentPanel.aTask.getTitle());
 		this.boxDescription.setText(parentPanel.aTask.getDescription());
-		this.dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
+		//this.dropdownStatus.setSelectedItem(aTask.getStatus().toString());
 		//requirement
 		this.listChosenAssignees= parentPanel.aTask.getAssignedUsers();
 		this.calStartDate.setDate(parentPanel.aTask.getStartDate());

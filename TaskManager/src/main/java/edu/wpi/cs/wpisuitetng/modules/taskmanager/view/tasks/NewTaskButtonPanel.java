@@ -50,6 +50,8 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		buttonCreate.setEnabled(false);
 		this.add(buttonCreate);
 		this.add(buttonCancel);
+
+		super.setupListeners();
 		this.setupListeners();
 	}
 	protected void setupListeners() {
@@ -59,14 +61,6 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
                 parentPanel.createPressed();
                 ViewEventController.getInstance().refreshWorkFlowView();
             }
-        });
-        
-        buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
-
         });
 	}
 

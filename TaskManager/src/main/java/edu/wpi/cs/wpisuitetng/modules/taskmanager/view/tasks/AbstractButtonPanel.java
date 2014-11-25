@@ -41,7 +41,7 @@ public abstract class AbstractButtonPanel extends JPanel {
     /**
      * Sets up the listeners for the buttons in the New Task Button Panel.
      */
-    /*protected void setupListeners() {
+    protected void setupListeners() {
         buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,7 +49,7 @@ public abstract class AbstractButtonPanel extends JPanel {
             }
 
         });
-    }*/
+    }
 
     /**
      * Validate task info.
