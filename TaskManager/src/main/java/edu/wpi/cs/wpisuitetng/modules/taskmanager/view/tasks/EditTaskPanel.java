@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -28,12 +29,13 @@ public class EditTaskPanel extends AbstractTaskPanel {
     /**
      * Constructor for the NewTaskPanel.
      */
+
     public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
     	
 		this.parentPanel = parent;
     	this.aTask = editTask;
     	this.title = editTask.getTitle();
-        this.buildLayout();
+        buildLayout();
     }
 
     /**
@@ -44,7 +46,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = new EditTaskButtonPanel(this);
         infoPanel = new EditTaskInformationPanel(this);
 
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
     }

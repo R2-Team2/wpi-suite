@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -45,7 +46,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public NewTaskPanel() {
 
 
-        this.buildLayout();
+        buildLayout();
 
     }
 
@@ -57,7 +58,8 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
         super(parentPanel);
         this.parentPanel = parentPanel;
-        this.buildLayout();
+        buildLayout();
+
     }
 
     /**
@@ -68,7 +70,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         buttonPanel = new NewTaskButtonPanel(this);
         infoPanel = new NewTaskInformationPanel(this);
 
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -190,15 +192,8 @@ public class NewTaskPanel extends AbstractTaskPanel {
         return infoPanel.getAssignedUsers();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
-     * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
-     */
     @Override
-    public void setInfoPanel(NewTaskInformationPanel aPanel)
-    {
+    public void setInfoPanel(NewTaskInformationPanel aPanel) {
         infoPanel = aPanel;
     }
 
@@ -207,8 +202,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
      *
      * @param aPanel the new butt panel
      */
-    public void setButtPanel(NewTaskButtonPanel aPanel)
-    {
+    public void setButtPanel(NewTaskButtonPanel aPanel) {
         buttonPanel = aPanel;
     }
 }

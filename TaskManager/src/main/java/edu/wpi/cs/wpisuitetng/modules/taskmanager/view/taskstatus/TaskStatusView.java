@@ -1,11 +1,8 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * Contributors:
- * 	Team R2-Team2
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
@@ -36,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -51,10 +49,10 @@ public class TaskStatusView extends JPanel {
     /** The panel. */
     JPanel panel = new JPanel();
 
-    /**  The TaskStatus title. */
+    /** The TaskStatus title. */
     private final String title;
 
-    /**  Represents whether the view has been initialized. */
+    /** Represents whether the view has been initialized. */
     private boolean initialized;
 
     /**
@@ -68,7 +66,7 @@ public class TaskStatusView extends JPanel {
         initialized = false;
         this.title = title;
 
-        this.setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+        setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
         taskStatusObj = new TaskStatus(statusType);
 
         final JScrollPane scrollPane = new JScrollPane();
@@ -114,12 +112,11 @@ public class TaskStatusView extends JPanel {
     public void fillTaskList(Task[] taskArray) {
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
-            if (t.getStatus() != null
-                    && taskStatusObj.getName().equals(t.getStatus().getName())) {
+            if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
                 taskStatusObj.addTask(t);
             }
         }
-        this.populateTaskStatusViewCards();
+        populateTaskStatusViewCards();
     }
 
     /**
@@ -129,11 +126,11 @@ public class TaskStatusView extends JPanel {
         final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
         for (Task t : taskList) {
-            String dateString = this.formateDate(t);
+        	String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
         }
-        this.revalidate();
+        revalidate();
     }
 
 
@@ -150,15 +147,10 @@ public class TaskStatusView extends JPanel {
         return dateString;
     }
 
-
-
-    /* (non-Javadoc)
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     public void paintComponent(Graphics g) {
         if (!initialized) {
-            this.requestTasksFromDb();
+            requestTasksFromDb();
             initialized = true;
         }
         super.paintComponent(g);
