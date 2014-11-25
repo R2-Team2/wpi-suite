@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskButtonsPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -52,26 +52,26 @@ public class TaskButtonsPanel extends ToolbarGroupView {
     public TaskButtonsPanel() {
         super("");
 
-        this.contentPanel.setLayout(new BoxLayout(this.contentPanel, BoxLayout.X_AXIS));
-        this.setPreferredWidth(700);
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+        setPreferredWidth(700);
 
-        this.createButton.setHorizontalAlignment(SwingConstants.CENTER);
+        createButton.setHorizontalAlignment(SwingConstants.CENTER);
         try {
             Image img = ImageIO.read(this.getClass().getResourceAsStream("new_task.png"));
-            this.createButton.setIcon(new ImageIcon(img));
+            createButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("reports.png"));
-            this.reportsButton.setIcon(new ImageIcon(img));
+            reportsButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
-            this.settingsButton.setIcon(new ImageIcon(img));
+            settingsButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
-            this.helpButton.setIcon(new ImageIcon(img));
+            helpButton.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             // Hopefully, won't get here
-            System.out.print("exception");
+            System.out.println("Populating Top Bar Buttons Exception");
         }
 
         // the action listener for the Create Action Button
-        this.createButton.addActionListener(new ActionListener() {
+        createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
@@ -80,7 +80,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         });
 
         // the action listener for the Reports Button
-        this.reportsButton.addActionListener(new ActionListener() {
+        reportsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
@@ -89,16 +89,17 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         });
 
         // the action listener for the Settings Button
-        this.settingsButton.addActionListener(new ActionListener() {
+        settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
+                // bring up a settings view
+            	// Currently Brings up the Edit Work Flow View Directly
+                ViewEventController.getInstance().editWorkFlowView();
             }
         });
 
         // the action listener for the Help Button
-        this.helpButton.addActionListener(new ActionListener() {
+        helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
@@ -107,53 +108,54 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         });
 
         // Gray out top bar buttons that are not currently being used
-        this.reportsButton.setEnabled(false);
-        this.settingsButton.setEnabled(false);
-        this.helpButton.setEnabled(false);
+        reportsButton.setEnabled(false);
+        settingsButton.setEnabled(true);
+        helpButton.setEnabled(false);
+        createButton.setEnabled(true);
 
-        this.contentPanel.add(this.reportsButton);
-        this.contentPanel.add(this.settingsButton);
-        this.contentPanel.add(this.helpButton);
-        this.contentPanel.add(this.createButton);
-        this.contentPanel.setOpaque(false);
+        contentPanel.add(reportsButton);
+        contentPanel.add(settingsButton);
+        contentPanel.add(helpButton);
+        contentPanel.add(createButton);
+        contentPanel.setOpaque(false);
 
-        this.add(this.contentPanel);
+        this.add(contentPanel);
     }
 
     /**
      * Method getCreateButton.
-     * 
+     *
      * @return JButton
      */
     public JButton getCreateButton() {
-        return this.createButton;
+        return createButton;
     }
 
     /**
      * Method getReportsButton.
-     * 
+     *
      * @return JButton
      */
     public JButton getReportsButton() {
-        return this.reportsButton;
+        return reportsButton;
     }
 
     /**
      * Method getSettingsButton.
-     * 
+     *
      * @return JButton
      */
     public JButton getSettingsButton() {
-        return this.settingsButton;
+        return settingsButton;
     }
 
     /**
      * Method getHelpButton.
-     * 
+     *
      * @return JButton
      */
     public JButton getHelpButton() {
-        return this.helpButton;
+        return helpButton;
     }
 
     /**
