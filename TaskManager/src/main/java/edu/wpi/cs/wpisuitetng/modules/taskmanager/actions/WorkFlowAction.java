@@ -17,11 +17,11 @@ public class WorkFlowAction extends AbstractAction {
     }
 
     public static WorkFlowAction newViewTask() {
-        return new WorkFlowAction(WorkFlowAction.Actions.View_TASK);
+        return new WorkFlowAction(WorkFlowAction.Actions.VIEW_TASK);
     }
 
     @Override
-    Enum<WorkFlowAction.Actions> getAction() {
+    public Enum<WorkFlowAction.Actions> getAction() {
         return action;
     }
 

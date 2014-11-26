@@ -14,7 +14,7 @@ public class TaskAction extends AbstractAction {
     }
 
     @Override
-    Enum<TaskAction.Actions> getAction() {
+    public Enum<TaskAction.Actions> getAction() {
         return action;
     }
 

@@ -10,27 +10,27 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.eventlisteners.ChildMessageEve
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.events.MessageEvent;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
-public class TaskEventMessenger extends AbstractMessageEventMessenger implements MouseListener {
+public class TaskMessenger extends AbstractMessageEventMessenger implements MouseListener {
 
     private TaskCard taskCard;
 
-    public TaskEventMessenger(ChildMessageEventListener parentListener, TaskCard taskCard) {
+    public TaskMessenger(ChildMessageEventListener parentListener, TaskCard taskCard) {
         super(parentListener);
         this.taskCard = taskCard;
         this.taskCard.addMouseListener(this);
     }
 
+    @Override
     boolean handleMessage(MessageEvent event) {
         boolean handled = false;
         final AbstractAction action = event.getAction();
         if (action instanceof TaskAction) {
             if (action.equals(TaskAction.Actions.UPDATE)) {
                 // TODO: What to do when updating a task
-                handled = true;
             }
+            handled = true;
         }
         return handled;
-
     }
 
     @Override
@@ -52,20 +52,6 @@ public class TaskEventMessenger extends AbstractMessageEventMessenger implements
 
     TaskCard getTaskCard() {
         return taskCard;
-    }
-
-    @Override
-    public void handleChildMessage(MessageEvent event) {
-        if (!handleMessage(event)) {
-            fireMessageEventToParent(event);
-        }
-    }
-
-    @Override
-    public void handleParentMessage(MessageEvent event) {
-        if (!handleMessage(event)) {
-            fireMessageEventToChildren(event);
-        }
     }
 
 }

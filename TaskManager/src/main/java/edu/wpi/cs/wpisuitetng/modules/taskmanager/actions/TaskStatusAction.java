@@ -13,7 +13,7 @@ public class TaskStatusAction extends AbstractAction {
     }
 
     @Override
-    Enum<TaskStatusAction.Actions> getAction() {
+    public num<TaskStatusAction.Actions> getAction() {
         return action;
     }
 

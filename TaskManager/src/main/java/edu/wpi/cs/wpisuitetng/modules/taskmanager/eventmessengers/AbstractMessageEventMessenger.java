@@ -7,7 +7,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.eventlisteners.ParentMessageEv
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.events.MessageEvent;
 
 public abstract class AbstractMessageEventMessenger implements ChildMessageEventListener,
-        ParentMessageEventListener {
+ParentMessageEventListener {
 
     private EventListenerList childListenerList = new EventListenerList();
     private ChildMessageEventListener parentListener;
@@ -34,6 +34,22 @@ public abstract class AbstractMessageEventMessenger implements ChildMessageEvent
             if (listeners[counter] == ParentMessageEventListener.class) {
                 ((ParentMessageEventListener) listeners[counter + 1]).handleParentMessage(event);
             }
+        }
+    }
+
+    abstract boolean handleMessage(MessageEvent event);
+
+    @Override
+    public void handleChildMessage(MessageEvent event) {
+        if (!handleMessage(event)) {
+            fireMessageEventToParent(event);
+        }
+    }
+
+    @Override
+    public void handleParentMessage(MessageEvent event) {
+        if (!handleMessage(event)) {
+            fireMessageEventToChildren(event);
         }
     }
 
