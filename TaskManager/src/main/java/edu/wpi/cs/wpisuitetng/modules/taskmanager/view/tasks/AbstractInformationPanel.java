@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator; //wpi-38
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -30,21 +32,29 @@ import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+
 import net.miginfocom.swing.MigLayout;
 
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+//requirement module integration
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -61,8 +71,8 @@ public class AbstractInformationPanel extends JScrollPane {
             new TaskStatus("in progress").toString(),
             new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 
-    /** The list of requirements. */
-    protected String[] listOfRequirements = new String[] {"None"};
+    /** The string list of requirements. */
+    protected List<String> strListOfRequirements = new ArrayList<String>();
 
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
@@ -103,6 +113,7 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The cal due date. */
     protected JCalendar calDueDate;
 
+
     /**
      * Builds the layout.
      */
@@ -112,10 +123,34 @@ public class AbstractInformationPanel extends JScrollPane {
         final ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
         // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
+       
+        // get latest list of requirement objects and sort them
+        // (code partially from requirements module overviewtreepanel.java)
+        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+        final List<Requirement> requirements = new ArrayList<Requirement>();
+        Collections.sort(iterations, new IterationComparator());
+        for (int i = 0; i < iterations.size(); i++) {
+            
+            requirements.addAll(iterations.get(i).getRequirements()); 
+            //gets the list of requirements that is associated with the iteration
+            
+        }
+        Collections.sort(requirements, new RequirementComparator());
+        final String[] arrListOfRequirements = new String[requirements.size()];
+        for (int i = 0; i < requirements.size(); i++){ 
+        	//build a List<String> of the names of the requirements
+        	//defaultComboBoxModel, below, requires an array of string
+        	String tempName = requirements.get(i).getName();
+        	strListOfRequirements.add(tempName);
+        	arrListOfRequirements[i] = tempName;
+        }
+        
+        
         // Instantiate GUI Elements
         // Labels
         final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-        final JLabel labelDescription = new JLabel("Description: ");
+        final JLabel labelDescription =
+                new JLabel("<html>Description: <font color='red'>*</font></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
@@ -136,8 +171,9 @@ public class AbstractInformationPanel extends JScrollPane {
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
         dropdownRequirement = new JComboBox<String>();
-        dropdownRequirement.setModel(new DefaultComboBoxModel<String>(listOfRequirements));
-        dropdownRequirement.setEnabled(false);
+        
+        dropdownRequirement.setModel(new DefaultComboBoxModel<String>(arrListOfRequirements));
+        dropdownRequirement.setEnabled(true);
         dropdownRequirement.setBackground(Color.WHITE);
         dropdownStatus = new JComboBox<String>();
         dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
@@ -175,20 +211,20 @@ public class AbstractInformationPanel extends JScrollPane {
         listPossibleAssignees.setBorder(defaultBorder);
         bottomLeft.add(labelPossibleAssignee, "left, wrap");
         bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
-       
+
         bottomCenter.add(buttonAdd, "center, wrap");
         bottomCenter.add(buttonRemove, "center, wrap");
-        
+
         listChosenAssignees.setBorder(defaultBorder);
         bottomRight.add(labelChosenAssignee, "left, wrap");
         bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
-        
+
         bottom.add(bottomLeft);
         bottom.add(bottomCenter);
         bottom.add(bottomRight);
         bottom.setBorder(defaultBorder);
 
-        
+
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
@@ -215,106 +251,9 @@ public class AbstractInformationPanel extends JScrollPane {
 
         contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
-        setupListeners();
-
         this.setViewportView(contentPanel);
     }
 
-    /**
-     * Sets up the listeners for the buttons in the New Task Information Panel.
-     */
-    protected void setupListeners() {
-        buttonAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // if(!listPossibleAssignees.isSelectionEmpty()) {
-                // String[] a = listOfPossibleAssignees;
-                // String[] b = listOfChosenAssignees;
-                // int[] c = listPossibleAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempA;
-                // listOfChosenAssignees = tempB;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
-            }
-        });
-
-        buttonRemove.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // if(!listChosenAssignees.isSelectionEmpty()) {
-                // String[] a = listOfChosenAssignees;
-                // String[] b = listOfPossibleAssignees;
-                // int[] c = listChosenAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempB;
-                // listOfChosenAssignees = tempA;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
-            }
-
-        });
-
-        // Text Field Listeners
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
-    }
 
     /**
      * Returns the JTextField holding the title.
@@ -396,5 +335,54 @@ public class AbstractInformationPanel extends JScrollPane {
     public List<User> getAssignedUsers() {
         return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
     }
+    
+    /**
+     * Disables all of the text fields based on boolean io
+     * 
+     * @param io is a flag that if true disables fields, if false enables all fields. 
+     */
+	public void disableAll(Boolean io)
+	{
+		io = !io;
+		//aTask.getTaskID();
+		boxTitle.setEnabled(io);
+		boxDescription.setEnabled(io);
+		dropdownStatus.setEnabled(io); 
+		//requirement
+		listChosenAssignees.setEnabled(io);
+		calStartDate.setEnabled(io);
+		calDueDate.setEnabled(io);
+		spinnerEstimatedEffort.setEnabled(io);
+		spinnerActualEffort.setEnabled(io);
+	}
+}
 
+/**
+ * @version legacy
+ * @author Kevin from the requirements manager
+ *         sorts the Iterations by date
+ */
+class IterationComparator implements Comparator<Iteration> {
+    public int compare(Iteration I1, Iteration I2) {
+        if (I1.getStart() == null)
+        {
+            return -1;
+        }
+        if (I2.getStart() == null)
+        {
+            return 1;
+        }
+        return I1.getStart().getDate().compareTo(I2.getStart().getDate());
+    }
+}
+
+/**
+ * @version legacy
+ * @author Kevin from the requirements manager
+ *         sorts Requirements by name
+ */
+class RequirementComparator implements Comparator<Requirement> {
+    public int compare(Requirement R1, Requirement R2) {
+        return R1.getName().compareTo(R2.getName());
+    }
 }

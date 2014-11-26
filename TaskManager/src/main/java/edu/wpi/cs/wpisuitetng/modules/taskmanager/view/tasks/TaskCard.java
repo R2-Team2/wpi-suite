@@ -60,8 +60,10 @@ public class TaskCard extends JPanel implements MouseListener {
      * @param nameData the name data
      * @param dateData the date data
      * @param userNameData the user name data
+     * @param aTask is the task object displayed in the task card.
      */
-    public TaskCard(String nameData, String dateData, String userNameData) {
+    public TaskCard(String nameData, String dateData, String userNameData, Task aTask) {
+    	taskObj = aTask;
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 

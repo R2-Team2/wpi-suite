@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+import javax.swing.JList;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -19,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Task.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -74,8 +78,8 @@ public class Task extends AbstractModel {
      * @param assignedUsers the assigned users
      */
     public Task(int taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status,
-            String requirement, Date startDate, Date dueDate, List<User> assignedUsers) {
+            int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
+            List<User> assignedUsers) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -91,7 +95,6 @@ public class Task extends AbstractModel {
 
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.models.ITask#getTitle()
      */
     /**
@@ -258,32 +261,38 @@ public class Task extends AbstractModel {
 
     /**
      * Adds a user to the assigned users. Will not add a user that is already in the list
-     * 
+     *
      * @param u user to be added
      */
     public void addAssignedUser(User u) {
+        boolean alreadyExists = false;
         for (User user : assignedUsers) {
             if (user.getIdNum() == u.getIdNum()) {
-                return;
+                alreadyExists = true;
+                break;
             }
         }
-        assignedUsers.add(u);
+        if (!alreadyExists) {
+            assignedUsers.add(u);
+        }
     }
 
     /**
      * Deletes a user, given the user's ID number.
      *
      * @param id ID number of user to be deleted
-    
-     * @return user if found, null otherwise */
+     * @return deletedUser if found, null otherwise
+     */
     public User deleteUser(int id) {
+        User deletedUser = null;
         for (User user : assignedUsers) {
             if (user.getIdNum() == id) {
                 assignedUsers.remove(user);
-                return user;
+                deletedUser = user;
+                break;
             }
         }
-        return null;
+        return deletedUser;
     }
 
     /**
@@ -291,8 +300,19 @@ public class Task extends AbstractModel {
      *
      * @return the assigned users
      */
-    public List<User> getAssignedUsers() {
-        return assignedUsers;
+    public JList<User> getAssignedUsers() {
+        /*User[] midArry= new User[assignedUsers.size()]; 
+        for (int i=0;i< assignedUsers.size(); i++)
+        {
+        	//returnUsers.addElement(assignedUsers.get(i));
+        	midArry[i] = assignedUsers.get(i);
+        }
+        
+        //returnUsers=midArry;
+         * 
+         */
+        final JList<User> returnUsers = new JList(assignedUsers.toArray());
+    	return returnUsers;
     }
 
     /**
@@ -301,15 +321,15 @@ public class Task extends AbstractModel {
      * @return String
      */
     public String getUserForTaskCard() {
+        String user;
         if (assignedUsers.size() > 1) {
-            return assignedUsers.get(0).getName() + " ...";
+            user = assignedUsers.get(0).getName() + " ...";
+        } else if (assignedUsers.size() == 0) {
+            user = "";
+        } else {
+            user = assignedUsers.get(0).getName();
         }
-        else if (assignedUsers.size() == 0) {
-            return "";
-        }
-        else {
-            return assignedUsers.get(0).getName();
-        }
+        return user;
     }
 
     /**
@@ -333,16 +353,16 @@ public class Task extends AbstractModel {
     /**
      * From json.
      *
-     * @param json the json
-    
-     * @return the task */
+     * @param json the json string
+     * @return task the task from the json string
+     */
     public static Task fromJson(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, Task.class);
+        final Task task = parser.fromJson(json, Task.class);
+        return task;
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
      */
     @Override
@@ -352,7 +372,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
      */
     @Override
@@ -362,7 +381,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#toJson()
      */
     @Override
@@ -371,7 +389,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
      */
     @Override
@@ -401,11 +418,11 @@ public class Task extends AbstractModel {
      * Returns an array of Tasks parsed from the given JSON-encoded string.
      *
      * @param json a string containing a JSON-encoded array of Tasks
-    
-     * @return an array of Tasks deserialized from the given json string */
+     * @return tasks an array of Tasks deserialized from the given json string
+     */
     public static Task[] fromJsonArray(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, Task[].class);
+        final Task[] tasks = parser.fromJson(json, Task[].class);
+        return tasks;
     }
-
 }

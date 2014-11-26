@@ -6,13 +6,13 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,31 +20,25 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AbstractButtonPanel extends JPanel {
+public abstract class AbstractButtonPanel extends JPanel {
     // Class Variables
-    /** The parent panel. */
-    protected AbstractTaskPanel parentPanel;
+    /** The button save. */
+    protected JButton buttonSave;
 
-    /** The button left. */
-    protected JButton buttonLeft;
+    /** The button create. */
+    protected JButton buttonCreate;
 
     /** The button cancel. */
     protected JButton buttonCancel;
 
+    /** The button edit. */
+	protected JButton buttonEdit;
 
 
     /**
      * Sets up the listeners for the buttons in the New Task Button Panel.
      */
-    protected void setupListeners() {
-        buttonLeft.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.createPressed();
-                ViewEventController.getInstance().refreshWorkFlowView();
-            }
-        });
-
+    /*protected void setupListeners() {
         buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,18 +46,12 @@ public class AbstractButtonPanel extends JPanel {
             }
 
         });
-    }
+    }*/
 
     /**
-     * Validate task info.
+     * Validate task title and description
      */
-    public void validateTaskInfo() {
-        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
-            buttonLeft.setEnabled(false);
-        }
-        else {
-            buttonLeft.setEnabled(true);
-        }
-    }
+    public abstract void validateTaskInfo();
+
 
 }
