@@ -8,8 +8,16 @@ public class WorkFlowAction extends AbstractAction {
         VIEW_TASK, EDIT_TASK;
     }
 
-    public WorkFlowAction(Enum<WorkFlowAction.Actions> action) {
+    private WorkFlowAction(Enum<WorkFlowAction.Actions> action) {
         this.action = action;
+    }
+
+    public static WorkFlowAction newEditTask() {
+        return new WorkFlowAction(WorkFlowAction.Actions.EDIT_TASK);
+    }
+
+    public static WorkFlowAction newViewTask() {
+        return new WorkFlowAction(WorkFlowAction.Actions.View_TASK);
     }
 
     @Override

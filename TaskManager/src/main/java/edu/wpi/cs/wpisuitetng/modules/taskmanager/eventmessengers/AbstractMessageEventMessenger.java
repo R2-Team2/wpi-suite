@@ -1,62 +1,40 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.eventmessengers;
 
-import java.util.ArrayList;
-
 import javax.swing.event.EventListenerList;
 
-public abstract class AbstractMessageEventMessenger {
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.eventlisteners.ChildMessageEventListener;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.eventlisteners.ParentMessageEventListener;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.events.MessageEvent;
 
-    protected EventListenerList listenerList = new EventListenerList();
-    protected AbstractMessageEventMessenger parent = null;
-    protected ArrayList<AbstractMessageEventMessenger> children =
-            new ArrayList<AbstractMessageEventMessenger>();
+public abstract class AbstractMessageEventMessenger implements ChildMessageEventListener,
+        ParentMessageEventListener {
 
-    AbstractMessageEventMessenger(AbstractMessageEventMessenger parent) {
-        this.parent = parent;
+    private EventListenerList childListenerList = new EventListenerList();
+    private ChildMessageEventListener parentListener;
+
+    protected AbstractMessageEventMessenger(ChildMessageEventListener parentListener) {
+        this.parentListener = parentListener;
     }
 
-    public void addChild(AbstractMessageEventMessenger child) {
-        children.add(child);
+    public void addChildListener(ParentMessageEventListener listener) {
+        childListenerList.add(ParentMessageEventListener.class, listener);
     }
 
-    public void addChildren(AbstractMessageEventMessenger... children) {
-        for (AbstractMessageEventMessenger child : children) {
-            this.children.add(child);
-        }
+    public void removeChildListener(ParentMessageEventListener listener) {
+        childListenerList.remove(ParentMessageEventListener.class, listener);
     }
 
-    public void removeChild(AbstractMessageEventMessenger child) {
-        int index = children.indexOf(child);
-        if (index != -1)
-            children.remove(index);
+    void fireMessageEventToParent(MessageEvent event) {
+        parentListener.handleChildMessage(event);
     }
 
-    public void removeChildren(AbstractMessageEventMessenger... children) {
-        for (AbstractMessageEventMessenger child : children) {
-            int index = this.children.indexOf(child);
-            if (index != -1)
-                this.children.remove(index);
-        }
-    }
-
-
-    public void addMessageEventListener(MessageEventListener listener) {
-        listenerList.add(MessageEventListener.class, listener);
-    }
-
-    public void removeMessageEventListener(MessageEventListener listener) {
-        listenerList.remove(MessageEventListener.class, listener);
-    }
-
-    // notify listeners
-    void fireMessengerEvent(AbstractMessageEvent event) {
-        Object[] listeners = listenerList.getListenerList();
+    void fireMessageEventToChildren(MessageEvent event) {
+        Object[] listeners = childListenerList.getListenerList();
         for (int counter = 0; counter < listeners.length; counter += 2) {
-            if (listeners[counter] == MessageEventListener.class) {
-                ((MessageEventListener) listeners[counter + 1]).handleMessage();
+            if (listeners[counter] == ParentMessageEventListener.class) {
+                ((ParentMessageEventListener) listeners[counter + 1]).handleParentMessage(event);
             }
         }
     }
 
-    abstract void handleMessage(AbstractMessageEvent event);
 }
