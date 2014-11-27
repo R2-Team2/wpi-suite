@@ -20,8 +20,6 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
@@ -46,161 +44,156 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 public class TaskCard extends JPanel implements Transferable, DragSourceListener,
 DragGestureListener {
 
-    /** The task obj. */
-    private Task taskObj;
+	/** The task obj. */
+	private Task taskObj;
 
-    private DragSource source;
-    private TransferHandler transferHandler;
+	private DragSource source;
+	private TransferHandler transferHandler;
 
-    private String name;
-    private String date;
-    private String userName;
-    private TaskStatusView parent;
+	private String name;
+	private String date;
+	private String userName;
+	private TaskStatusView parent;
 
-    /** The task name. */
-    JTextPane taskName = new JTextPane();
+	/** The task name. */
+	JTextPane taskName = new JTextPane();
 
-    public TaskCard(String nameData, String dateData, String userNameData, TaskStatusView parent) {
-        this(nameData, dateData, userNameData);
-        this.parent = parent;
-    }
+	public TaskCard(String nameData, String dateData, String userNameData, TaskStatusView parent) {
+		this(nameData, dateData, userNameData);
+		this.parent = parent;
+	}
 
-    /**
-     * Create the panel.
-     *
-     * @param nameData the name data
-     * @param dateData the date data
-     * @param userNameData the user name data
-     */
-    public TaskCard(String nameData, String dateData, String userNameData) {
-        this.setBorder(new LineBorder(Color.black));
-        this.setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
+	/**
+	 * Create the panel.
+	 *
+	 * @param nameData the name data
+	 * @param dateData the date data
+	 * @param userNameData the user name data
+	 */
+	public TaskCard(String nameData, String dateData, String userNameData) {
+		this.setBorder(new LineBorder(Color.black));
+		this.setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
-        this.name = nameData;
-        this.date = dateData;
-        this.userName = userNameData;
+		this.name = nameData;
+		this.date = dateData;
+		this.userName = userNameData;
 
-        // truncates the displayed task title if it's longer than 25 characters. if
-        if (nameData.length() > 45) {
-            this.taskName.setToolTipText(nameData);
-            nameData = nameData.substring(0, 45).concat("...");
-        }
+		// truncates the displayed task title if it's longer than 25 characters. if
+		if (nameData.length() > 45) {
+			this.taskName.setToolTipText(nameData);
+			nameData = nameData.substring(0, 45).concat("...");
+		}
 
-        this.taskName.setText(nameData);
-        this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
-        this.taskName.setEditable(false);
-        this.taskName.setBackground(UIManager.getColor("Button.background"));
-        this.add(this.taskName, "cell 0 0,alignx center,aligny center");
+		this.taskName.setText(nameData);
+		this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		this.taskName.setEditable(false);
+		this.taskName.setBackground(UIManager.getColor("Button.background"));
+		this.add(this.taskName, "cell 0 0,alignx center,aligny center");
 
-        final JPanel infoPanel = new JPanel();
-        this.add(infoPanel, "cell 0 1,grow");
-        infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		final JPanel infoPanel = new JPanel();
+		this.add(infoPanel, "cell 0 1,grow");
+		infoPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 
-        final JLabel date = new JLabel(dateData);
-        date.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        infoPanel.add(date, "cell 0 0,alignx left");
+		final JLabel date = new JLabel(dateData);
+		date.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		infoPanel.add(date, "cell 0 0,alignx left");
 
-        final JLabel userName = new JLabel(userNameData);
-        userName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        infoPanel.add(userName, "cell 1 0,alignx right");
+		final JLabel userName = new JLabel(userNameData);
+		userName.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		infoPanel.add(userName, "cell 1 0,alignx right");
 
-        TransferHandler transfer = new TransferHandler("text");
-        this.setTransferHandler(transfer);
+		TransferHandler transfer = new TransferHandler("text");
+		this.setTransferHandler(transfer);
 
-        final String tNameData = nameData;
+		final String tNameData = nameData;
 
-        this.transferHandler = new TransferHandler() {
-            @Override
-            public Transferable createTransferable(JComponent c) {
-                return new TaskCard(tNameData, dateData, userNameData);
-            }
-        };
-        this.setTransferHandler(this.transferHandler);
-        this.source = new DragSource();
-        this.source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+		this.transferHandler = new TransferHandler() {
+			@Override
+			public Transferable createTransferable(JComponent c) {
+				return new TaskCard(tNameData, dateData, userNameData);
+			}
+		};
+		this.setTransferHandler(this.transferHandler);
+		this.source = new DragSource();
+		this.source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+	}
 
+	@Override
+	public DataFlavor[] getTransferDataFlavors() {
+		return new DataFlavor[] {new DataFlavor(TaskCard.class, "TaskCard")};
+	}
 
+	@Override
+	public boolean isDataFlavorSupported(DataFlavor flavor) {
+		return true;
+	}
 
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                TaskCard card = (TaskCard) e.getSource();
-                TransferHandler handle = card.getTransferHandler();
-                handle.exportAsDrag(card, e, TransferHandler.MOVE);
-            }
-        });
+	@Override
+	public Object getTransferData(DataFlavor flavor) {
+		return this;
+	}
 
+	@Override
+	public void dragGestureRecognized(DragGestureEvent dge) {
+		this.source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
+				-this.getWidth() / 2, -this.getHeight() / 2), new TaskCard(this.name, this.date,
+						this.userName), this);
+	}
 
-    }
+	private BufferedImage createImage(JPanel panel) {
+		int w = panel.getWidth();
+		int h = panel.getHeight();
+		BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = bi.createGraphics();
+		panel.paint(g);
+		return bi;
+	}
 
-    @Override
-    public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[] {new DataFlavor(TaskCard.class, "TaskCard")};
-    }
+	/**
+	 * Gets the task obj.
+	 *
+	 * @return the task obj
+	 */
+	public Task getTaskObj() {
+		return this.taskObj;
+	}
 
-    @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return true;
-    }
+	/**
+	 * Sets the task obj.
+	 *
+	 * @param taskObj the new task obj
+	 */
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
 
-    @Override
-    public Object getTransferData(DataFlavor flavor) {
-        return this;
-    }
+	@Override
+	public void dragEnter(DragSourceDragEvent dsde) {
+		System.out.println("f*ck");
 
+	}
 
-    @Override
-    public void dragEnter(DragSourceDragEvent dsde) {
-        this.parent.redrawInsertingPlaceholder(1);
-    }
+	@Override
+	public void dragOver(DragSourceDragEvent dsde) {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void dragOver(DragSourceDragEvent dsde) {
+	}
 
-    }
+	@Override
+	public void dropActionChanged(DragSourceDragEvent dsde) {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void dropActionChanged(DragSourceDragEvent dsde) {}
+	}
 
-    @Override
-    public void dragExit(DragSourceEvent dse) {}
+	@Override
+	public void dragExit(DragSourceEvent dse) {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void dragDropEnd(DragSourceDropEvent dsde) {
-        this.repaint();
-    }
+	}
 
-    @Override
-    public void dragGestureRecognized(DragGestureEvent dge) {
-        this.source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
-                -this.getWidth() / 2, -this.getHeight() / 2), new TaskCard(this.name, this.date,
-                        this.userName), this);
-    }
+	@Override
+	public void dragDropEnd(DragSourceDropEvent dsde) {
+		// TODO Auto-generated method stub
 
-    private BufferedImage createImage(JPanel panel) {
-        int w = panel.getWidth();
-        int h = panel.getHeight();
-        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = bi.createGraphics();
-        panel.paint(g);
-        return bi;
-    }
-
-    /**
-     * Gets the task obj.
-     *
-     * @return the task obj
-     */
-    public Task getTaskObj() {
-        return this.taskObj;
-    }
-
-    /**
-     * Sets the task obj.
-     *
-     * @param taskObj the new task obj
-     */
-    public void setTaskObj(Task taskObj) {
-        this.taskObj = taskObj;
-    }
+	}
 }
