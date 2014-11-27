@@ -16,16 +16,17 @@ import javax.swing.JPanel;
 
 /**
  * @author dbogatov
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class StagePanel extends JPanel implements DragSourceListener, DragGestureListener {
 
-	private DragSource source;
+	final private DragSource source;
 
 
 	public StagePanel() {
-		this.source = new DragSource();
-		this.source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+		source = new DragSource();
+		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
 	}
 
 	@Override

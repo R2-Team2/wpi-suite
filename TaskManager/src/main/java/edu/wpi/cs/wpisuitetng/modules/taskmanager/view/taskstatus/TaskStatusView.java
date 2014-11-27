@@ -68,11 +68,11 @@ public class TaskStatusView extends JPanel {
 	 */
 	public TaskStatusView(String title, String statusType) {
 
-		this.initialized = false;
+		initialized = false;
 		this.title = title;
 
-		this.setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-		this.taskStatusObj = new TaskStatus(statusType);
+		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+		taskStatusObj = new TaskStatus(statusType);
 
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
@@ -94,12 +94,12 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
 		txtpnTitle.setText(this.title);
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
-		this.panel.setBackground(Color.WHITE);
+		panel.setBackground(Color.WHITE);
 
-		scrollPane.setViewportView(this.panel);
-		this.panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
 
-		this.setTransferHandler(new TransferHandler() {
+		setTransferHandler(new TransferHandler() {
 			@Override
 			public boolean canImport(TransferHandler.TransferSupport info) {
 
@@ -113,7 +113,7 @@ public class TaskStatusView extends JPanel {
 
 
 	public boolean isDragActive() {
-		return this.placeholderIndex != -1;
+		return placeholderIndex != -1;
 	}
 
 	/**
@@ -130,29 +130,31 @@ public class TaskStatusView extends JPanel {
 	 * @param taskArray the task array
 	 */
 	public void fillTaskList(Task[] taskArray) {
-		this.taskStatusObj.setTaskList(new ArrayList<Task>());
+		taskStatusObj.setTaskList(new ArrayList<Task>());
 		for (Task t : taskArray) {
 			if (t.getStatus() != null
-					&& this.taskStatusObj.getName().equals(t.getStatus().getName())) {
-				this.taskStatusObj.addTask(t);
+					&& taskStatusObj.getName().equals(t.getStatus().getName())) {
+				taskStatusObj.addTask(t);
 			}
 		}
-		this.populateTaskStatusViewCards();
+		populateTaskStatusViewCards();
 	}
 
 	/**
 	 * Populate task status view cards.
+	 * 
+	 * @param index index at which placeholder will be inserted
 	 */
 	public void redrawInsertingPlaceholder(int index) {
 
-		if (this.placeholderIndex != index) {
+		if (placeholderIndex != index) {
 
-			if (this.placeholderIndex != -1) {
-				this.panel.remove(this.placeholderIndex);
+			if (placeholderIndex != -1) {
+				panel.remove(placeholderIndex);
 			}
-			this.panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", this),
+			panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", this),
 					"newline", index);
-			this.placeholderIndex = index;
+			placeholderIndex = index;
 
 			// final List<Task> taskList = this.taskStatusObj.getTaskList();
 			// this.panel.removeAll();
@@ -167,17 +169,22 @@ public class TaskStatusView extends JPanel {
 			// this.panel.add(card, "newline");
 			// currentIndex++;
 			// }
-			this.revalidate();
+			revalidate();
 		}
 	}
 
+	/**
+	 * @param component
+	 * @return index of component
+	 */
 	public int getIndexOfComponent(JComponent component) {
 
 		if (component != null && component.getParent() != null) {
 			// Container c = component.getParent();
-			for (int i = 0; i < this.panel.getComponentCount(); i++) {
-				if (this.panel.getComponent(i) == component)
+			for (int i = 0; i < panel.getComponentCount(); i++) {
+				if (panel.getComponent(i) == component) {
 					return i;
+				}
 			}
 		}
 
@@ -188,14 +195,14 @@ public class TaskStatusView extends JPanel {
 	 * Populate task status view cards.
 	 */
 	public void populateTaskStatusViewCards() {
-		final List<Task> taskList = this.taskStatusObj.getTaskList();
-		this.panel.removeAll();
+		final List<Task> taskList = taskStatusObj.getTaskList();
+		panel.removeAll();
 		for (Task t : taskList) {
-			String dateString = this.formateDate(t);
+			String dateString = formateDate(t);
 			TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), this);
-			this.panel.add(card, "newline");
+			panel.add(card, "newline");
 		}
-		this.revalidate();
+		revalidate();
 	}
 
 	/**
@@ -219,9 +226,9 @@ public class TaskStatusView extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		if (!this.initialized) {
-			this.requestTasksFromDb();
-			this.initialized = true;
+		if (!initialized) {
+			requestTasksFromDb();
+			initialized = true;
 		}
 		super.paintComponent(g);
 	}

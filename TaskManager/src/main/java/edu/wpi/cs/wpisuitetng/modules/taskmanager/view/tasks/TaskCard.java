@@ -71,24 +71,24 @@ DragGestureListener {
 	 * @param userNameData the user name data
 	 */
 	public TaskCard(String nameData, String dateData, String userNameData) {
-		this.setBorder(new LineBorder(Color.black));
-		this.setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
+		setBorder(new LineBorder(Color.black));
+		setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
-		this.name = nameData;
-		this.date = dateData;
-		this.userName = userNameData;
+		name = nameData;
+		date = dateData;
+		userName = userNameData;
 
 		// truncates the displayed task title if it's longer than 25 characters. if
 		if (nameData.length() > 45) {
-			this.taskName.setToolTipText(nameData);
+			taskName.setToolTipText(nameData);
 			nameData = nameData.substring(0, 45).concat("...");
 		}
 
-		this.taskName.setText(nameData);
-		this.taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		this.taskName.setEditable(false);
-		this.taskName.setBackground(UIManager.getColor("Button.background"));
-		this.add(this.taskName, "cell 0 0,alignx center,aligny center");
+		taskName.setText(nameData);
+		taskName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		taskName.setEditable(false);
+		taskName.setBackground(UIManager.getColor("Button.background"));
+		this.add(taskName, "cell 0 0,alignx center,aligny center");
 
 		final JPanel infoPanel = new JPanel();
 		this.add(infoPanel, "cell 0 1,grow");
@@ -103,19 +103,19 @@ DragGestureListener {
 		infoPanel.add(userName, "cell 1 0,alignx right");
 
 		TransferHandler transfer = new TransferHandler("text");
-		this.setTransferHandler(transfer);
+		setTransferHandler(transfer);
 
 		final String tNameData = nameData;
 
-		this.transferHandler = new TransferHandler() {
+		transferHandler = new TransferHandler() {
 			@Override
 			public Transferable createTransferable(JComponent c) {
 				return new TaskCard(tNameData, dateData, userNameData);
 			}
 		};
-		this.setTransferHandler(this.transferHandler);
-		this.source = new DragSource();
-		this.source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+		setTransferHandler(transferHandler);
+		source = new DragSource();
+		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
 	}
 
 	@Override
@@ -135,9 +135,9 @@ DragGestureListener {
 
 	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
-		this.source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
-				-this.getWidth() / 2, -this.getHeight() / 2), new TaskCard(this.name, this.date,
-						this.userName), this);
+		source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
+				-getWidth() / 2, -getHeight() / 2), new TaskCard(name, date,
+						userName), this);
 	}
 
 	private BufferedImage createImage(JPanel panel) {
@@ -155,7 +155,7 @@ DragGestureListener {
 	 * @return the task obj
 	 */
 	public Task getTaskObj() {
-		return this.taskObj;
+		return taskObj;
 	}
 
 	/**
