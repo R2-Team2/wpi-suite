@@ -143,7 +143,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @return Date
      */
     public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
+        return infoPanel.getStartDate();
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @return Date
      */
     public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
+        return infoPanel.getDueDate();
     }
 
     /**
