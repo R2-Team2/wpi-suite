@@ -1,74 +1,69 @@
+
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
- * R2-Team2
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors:
+ * 	Team R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
+
 
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class EditTaskPanel.
- *
+ * The Class ViewTaskPanel.
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class EditTaskPanel extends AbstractTaskPanel {
+public class ViewTaskPanel extends AbstractTaskPanel{
 
-    /**
-     * Constructor for the NewTaskPanel.
-     *
-     * @param parent is the parent panel
-     * @param editTask is the task object to be edited.
-     */
-
-    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
-        parentPanel = parent;
-        aTask = editTask;
-        title = editTask.getTitle();
-        this.buildLayout();
-    }
-
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    @Override
-    protected void buildLayout() {
-        buttonPanel = new EditTaskButtonPanel(this);
-        infoPanel = new EditTaskInformationPanel(this);
-
-        setLayout(new BorderLayout());
+	/**
+	 * Constructor for the ViewTaskPanel.
+	 *
+	 * @param parent the parent panel
+	 * @param viewTask task to view
+	 */
+	public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask)
+	{
+		parentPanel = parent;
+		aTask = viewTask;
+		this.buildLayout();
+	}
+	
+	protected void buildLayout() {
+        buttonPanel = new ViewTaskButtonPanel(this);
+        infoPanel = new ViewTaskInformationPanel(this);
+        
+        this.setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    /**
-     * Called when the Save Button is pressed Loads data into the database in the existing Task.
-     */
-    public void savePressed()
-    {
-
-        // create a task, send to to controller
-        final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(aTask);
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-        // TODO: create task card
-        // TODO: put task card in proper task status
+	}
+	
+	/**
+	 * Controller for the edit button listener
+	 */
+	public void editPressed() {
+		final Task passTask = aTask;
+		
+		final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
+		System.out.println("Edit Pressed");
         ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
-    }
+        ViewEventController.getInstance().refreshWorkFlowView();
+		System.out.println("Removed view, adding edit panels");
+		parentPanel.getParent().createViewTaskPanel(editView);
+		//addViewTaskTab(editView);
+	}
 
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
@@ -78,7 +73,6 @@ public class EditTaskPanel extends AbstractTaskPanel {
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
     }
-
 
     /**
      * Returns the title information from infoPanel.
@@ -191,9 +185,10 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
-
-    }
+	@Override
+	public void createPressed() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
