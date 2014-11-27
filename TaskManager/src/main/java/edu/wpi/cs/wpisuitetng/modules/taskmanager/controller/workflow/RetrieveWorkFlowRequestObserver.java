@@ -31,14 +31,16 @@ public class RetrieveWorkFlowRequestObserver implements RequestObserver {
     @Override
     public void responseError(IRequest iReq) {
         // TODO Auto-generated method stub
-        System.err.println("The request to get task statuses failed.");
+        System.err.println("The request to get the workflow resulted in an error.");
+        // controller.generateWorkFlow();
 
     }
 
     @Override
     public void fail(IRequest iReq, Exception exception) {
         // TODO Auto-generated method stub
-        System.err.println("The request to get task statuses failed.");
+        System.err.println("The request to get the workflow failed.");
+        // controller.generateWorkFlow();
 
     }
 

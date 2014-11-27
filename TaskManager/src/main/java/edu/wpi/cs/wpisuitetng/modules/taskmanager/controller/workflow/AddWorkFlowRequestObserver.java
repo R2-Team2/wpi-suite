@@ -15,18 +15,18 @@ public class AddWorkFlowRequestObserver implements RequestObserver {
     @Override
     public void responseSuccess(IRequest iReq) {
         final ResponseModel response = iReq.getResponse();
-
+        System.out.println("The request to add a work flow was successful!");
     }
 
     @Override
     public void responseError(IRequest iReq) {
-        System.err.println("The request to add a task status failed.");
+        System.err.println("The request to add a work flow resulted in an error.");
 
     }
 
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        System.err.println("The request to add a task status failed.");
+        System.err.println("The request to add a work flow failed.");
 
     }
 

@@ -62,13 +62,13 @@ public class TaskStatusView extends JPanel {
      * @param title the title
      * @param statusType the status type
      */
-    public TaskStatusView(String title, String statusType, int workFlowID) {
+    public TaskStatusView(TaskStatus taskStatus) {
 
         initialized = false;
-        this.title = title;
+        title = taskStatus.getName();
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType, workFlowID);
+        taskStatusObj = taskStatus;
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -88,7 +88,7 @@ public class TaskStatusView extends JPanel {
         txtpnTitle.setForeground(Color.black);
         txtpnTitle.setEditable(false);
         txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-        txtpnTitle.setText(this.title);
+        txtpnTitle.setText(title);
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
         panel.setBackground(Color.WHITE);
 
@@ -101,8 +101,9 @@ public class TaskStatusView extends JPanel {
      * Step 7 Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
+        // System.out.println("Don't know why we're here!");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
-        retrieveTasks.requestTasks(taskStatusObj.getTaskStatusID());
+        retrieveTasks.requestTasks();
     }
 
     /**
@@ -111,7 +112,7 @@ public class TaskStatusView extends JPanel {
     public void requestTaskStatusFromDb() {
         final RetrieveTaskStatusController retrieveTaskStatuses =
                 new RetrieveTaskStatusController(this);
-        retrieveTaskStatuses.requestTaskStatus(taskStatusObj.getWorkFlowID());
+        retrieveTaskStatuses.requestTaskStatus();
     }
 
     /**
@@ -120,8 +121,7 @@ public class TaskStatusView extends JPanel {
      * @param taskStatusArray
      */
     public void updateTaskList(TaskStatus[] taskStatusArray) {
-        List<Integer> updatedTasksIDList = new ArrayList<Integer>();
-
+        List<Task> updatedTasksIDList = new ArrayList<Task>();
         // Can optimize this if we can pull single task statuses
         for (TaskStatus ts : taskStatusArray) {
             if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
@@ -140,11 +140,11 @@ public class TaskStatusView extends JPanel {
      */
     public void fillTaskList(Task[] taskArray) {
         List<Task> sortedTaskList = new ArrayList<Task>();
-        List<Integer> orderOfTasksList = taskStatusObj.getTaskList();
+        List<Task> orderOfTasksList = taskStatusObj.getTaskList();
         // pulled from database
         for (int i = 0; i < orderOfTasksList.size(); i++) {
             for (Task t : taskArray) {
-                if (orderOfTasksList.get(i) == t.getStatusID()) {
+                if (orderOfTasksList.get(i).getStatusID() == t.getStatusID()) {
                     sortedTaskList.add(t);
                 }
             }
@@ -191,6 +191,12 @@ public class TaskStatusView extends JPanel {
             initialized = true;
         }
         super.paintComponent(g);
+    }
+
+
+    public TaskStatus getTaskStatusObj() {
+        // TODO Auto-generated method stub
+        return taskStatusObj;
     }
 
 }

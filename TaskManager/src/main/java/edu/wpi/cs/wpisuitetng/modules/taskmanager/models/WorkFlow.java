@@ -9,9 +9,9 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractListModel;
-
 import com.google.gson.Gson;
+
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
  * The Class WorkFlow.
@@ -19,7 +19,7 @@ import com.google.gson.Gson;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class WorkFlow extends AbstractListModel {
+public class WorkFlow extends AbstractModel {
 
     /**
      *
@@ -30,13 +30,13 @@ public class WorkFlow extends AbstractListModel {
     private int workFlowID;
 
     /** The task status list. */
-    private List<Integer> taskStatusList;
+    private List<TaskStatus> taskStatusList;
 
     /**
      * Instantiates a new work flow.
      */
     public WorkFlow() {
-        taskStatusList = new ArrayList<Integer>();
+        taskStatusList = new ArrayList<TaskStatus>();
     }
 
     /**
@@ -62,7 +62,7 @@ public class WorkFlow extends AbstractListModel {
      *
      * @return the task status list
      */
-    public List<Integer> getTaskStatusList() {
+    public List<TaskStatus> getTaskStatusList() {
         return taskStatusList;
     }
 
@@ -71,7 +71,7 @@ public class WorkFlow extends AbstractListModel {
      *
      * @param taskStatusList the new task status list
      */
-    public void setTaskStatusList(List<Integer> taskStatusList) {
+    public void setTaskStatusList(List<TaskStatus> taskStatusList) {
         this.taskStatusList = taskStatusList;
     }
 
@@ -81,17 +81,17 @@ public class WorkFlow extends AbstractListModel {
      *
      * @param task String
      */
-    public void addTaskStatus(int taskStatus) {
+    public void addTaskStatus(TaskStatus taskStatus) {
         taskStatusList.add(taskStatus);
     }
 
     /**
      * Removes a taskStatus from the task status list.
      *
-     * @param task String
+     * @param TaskStatus
      */
-    public void remTask(int taskList) {
-        taskStatusList.remove(taskList);
+    public void remTaskStatus(TaskStatus taskStatus) {
+        taskStatusList.remove(taskStatus);
     }
 
     /**
@@ -99,7 +99,7 @@ public class WorkFlow extends AbstractListModel {
      *
      * @see javax.swing.ListModel#getSize()
      */
-    @Override
+
     public int getSize() {
         return taskStatusList.size();
     }
@@ -108,8 +108,8 @@ public class WorkFlow extends AbstractListModel {
      * (non-Javadoc)
      * @see javax.swing.ListModel#getElementAt(int)
      */
-    @Override
-    public Integer getElementAt(int index) {
+
+    public TaskStatus getElementAt(int index) {
         return taskStatusList.get(index);
     }
 
@@ -118,9 +118,56 @@ public class WorkFlow extends AbstractListModel {
         return parser.fromJson(json, WorkFlow[].class);
     }
 
+    @Override
     public String toJson() {
         // TODO Auto-generated method stub
-        return new Gson().toJson(this, TaskStatus.class);
+        return new Gson().toJson(this, WorkFlow.class);
+    }
+
+    public static WorkFlow fromJson(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, WorkFlow.class);
+    }
+
+    public void update(WorkFlow updatedWorkFlow) {
+        taskStatusList = updatedWorkFlow.taskStatusList;
+
+    }
+
+    @Override
+    public void save() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Boolean identify(Object o) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Adds a task to the specified taskstatus
+     *
+     * @param taskStatus
+     * @param task
+     */
+    public void addTask(Task task) {
+        for (TaskStatus ts : taskStatusList) {
+            if (task.getStatusID() == ts.getTaskStatusID()) {
+                ts.addTask(0, task);
+            }
+        }
+    }
+
+    public void updateTask() {
+
     }
 
 }

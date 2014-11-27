@@ -25,22 +25,11 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
 
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
-
     /**
      * Constructor for the NewTaskPanel.
      */
     public NewTaskPanel() {
-
-
         buildLayout();
-
     }
 
     /**
@@ -77,11 +66,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
         final AddTaskController addNewTask = new AddTaskController(this);
         addNewTask.addTask();
 
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-
-        // TODO: create task card
-        // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
     }
@@ -141,9 +125,8 @@ public class NewTaskPanel extends AbstractTaskPanel {
      * @return int
      */
     @Override
-    public int getStatus() {
-        String temp = infoPanel.getStatus().getSelectedItem().toString();
-        return 1; // implement switchcase or some shit
+    public String getStatus() {
+        return infoPanel.getStatus().getSelectedItem().toString();
     }
 
     /**

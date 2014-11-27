@@ -47,6 +47,7 @@ public class AddTaskRequestObserver implements RequestObserver {
     @Override
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
+        System.out.println("The request to add a task was successful.");
         final ResponseModel response = iReq.getResponse();
     }
 

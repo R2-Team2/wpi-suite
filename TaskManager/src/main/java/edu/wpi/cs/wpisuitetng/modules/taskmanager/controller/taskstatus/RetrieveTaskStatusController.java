@@ -1,6 +1,10 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus;
 
+import java.util.List;
+
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus.observers.RetrieveTaskStatusRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -19,10 +23,9 @@ public class RetrieveTaskStatusController {
      *
      * @param workFlowID
      */
-    public void requestTaskStatus(int workFlowID) {
+    public void requestTaskStatus() {
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/taskstatus" + workFlowID,
-                        HttpMethod.GET);
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
         request.addObserver(new RetrieveTaskStatusRequestObserver(this));
         request.send();
     }
@@ -32,7 +35,8 @@ public class RetrieveTaskStatusController {
      *
      * @param taskStatusArray
      */
-    public void displayTaskStatus(TaskStatus[] taskStatusArray) {
-        view.updateTaskList(taskStatusArray);
+    public void displayTaskStatus(WorkFlow[] workFlow) {
+        List<TaskStatus> tempList = workFlow[0].getTaskStatusList();
+        view.updateTaskList(tempList.toArray(new TaskStatus[tempList.size()]));
     }
 }

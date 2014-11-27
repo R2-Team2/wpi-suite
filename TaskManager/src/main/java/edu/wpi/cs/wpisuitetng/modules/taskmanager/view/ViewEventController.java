@@ -24,13 +24,13 @@ public class ViewEventController {
     private static ViewEventController instance = null;
 
     /** The main. */
-    private MainView main = null;
+    private static MainView main = null;
 
     /** The workflow. */
-    private WorkFlowView workflow = null;
+    private static WorkFlowView workflow = null;
 
     /** The split. */
-    private WorkFlowSplitTabbedPanel split = null;
+    private static WorkFlowSplitTabbedPanel split = null;
 
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
@@ -94,7 +94,6 @@ public class ViewEventController {
         // put viewing code here
     }
 
-
     /**
      * Removes the tab for the given JComponent.
      */
@@ -110,18 +109,18 @@ public class ViewEventController {
     }
 
     /**
-     * The following is a temporary way to refresh the task status panes from anywhere.
-     *
-     * @param workflow the new work flow view
-     */
-    public void setWorkFlowView(WorkFlowView workflow) {
-        this.workflow = workflow;
-    }
-
-    /**
      * Refresh work flow view.
      */
-    public void refreshWorkFlowView() {
+    public static void refreshWorkFlowView() {
         workflow.refresh();
     }
+
+    public WorkFlowView getWorkFlowView() {
+        return workflow;
+    }
+
+    public void setWorkFlowView(WorkFlowView workFlowView) {
+        workflow = workFlowView;
+    }
+
 }

@@ -1,5 +1,6 @@
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus.observers;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.taskstatus.AddTaskStatusController;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -14,8 +15,8 @@ public class AddTaskStatusRequestObserver implements RequestObserver {
 
     @Override
     public void responseSuccess(IRequest iReq) {
+        System.out.println("The request to add a task status was successful.");
         final ResponseModel response = iReq.getResponse();
-
     }
 
     @Override

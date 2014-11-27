@@ -7,7 +7,12 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -37,10 +42,9 @@ public class RetrieveTasksController {
     /**
      * Step 8 Request tasks.
      */
-    public void requestTasks(int taskStatusID) {
+    public void requestTasks() {
         final Request request =
-                Network.getInstance()
-                .makeRequest("taskmanager/task" + taskStatusID, HttpMethod.GET);
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
         request.addObserver(new RetrieveTasksRequestObserver(this));
         request.send();
     }
@@ -50,7 +54,14 @@ public class RetrieveTasksController {
      *
      * @param taskArray the task array
      */
-    public void displayTasks(Task[] taskArray) {
-        view.fillTaskList(taskArray);
+    public void displayTasks(WorkFlow[] workFlow) {
+        List<TaskStatus> taskStatusList = workFlow[0].getTaskStatusList();
+        List<Task> tempList = new ArrayList<Task>();
+        for (TaskStatus ts : taskStatusList) {
+            if (ts.getName().equals(view.getTaskStatusObj().getName())) {
+                tempList = ts.getTaskList();
+            }
+        }
+        view.fillTaskList(tempList.toArray(new Task[tempList.size()]));
     }
 }

@@ -32,7 +32,7 @@ public class TaskStatus extends AbstractListModel {
     private String name;
 
     /** The task list. */
-    private List<Integer> taskList;
+    private List<Task> taskList;
 
     private int workFlowID;
 
@@ -41,10 +41,10 @@ public class TaskStatus extends AbstractListModel {
      *
      * @param name the name
      */
-    public TaskStatus(String name, int workFlowID) {
+    public TaskStatus(String name) {
         this.name = name;
-        taskList = new ArrayList<Integer>();
-        this.setWorkFlowID(workFlowID);
+        taskList = new ArrayList<Task>();
+        setWorkFlowID(workFlowID);
     }
 
     /**
@@ -70,7 +70,7 @@ public class TaskStatus extends AbstractListModel {
      *
      * @return taskList ArrayList
      */
-    public List<Integer> getTaskList() {
+    public List<Task> getTaskList() {
         return taskList;
     }
 
@@ -79,7 +79,7 @@ public class TaskStatus extends AbstractListModel {
      *
      * @param taskList the new task list
      */
-    public void setTaskList(List<Integer> taskList) {
+    public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
 
@@ -88,8 +88,8 @@ public class TaskStatus extends AbstractListModel {
      *
      * @param task String
      */
-    public void addTask(int task) {
-        taskList.add(task);
+    public void addTask(int index, Task task) {
+        taskList.add(index, task);
     }
 
     /**
@@ -97,7 +97,7 @@ public class TaskStatus extends AbstractListModel {
      *
      * @param task String
      */
-    public void remTask(int task) {
+    public void remTask(Task task) {
         taskList.remove(task);
     }
 
@@ -115,7 +115,7 @@ public class TaskStatus extends AbstractListModel {
      * @see javax.swing.ListModel#getElementAt(int)
      */
     @Override
-    public Integer getElementAt(int index) {
+    public Task getElementAt(int index) {
         return taskList.get(index);
     }
 
@@ -155,6 +155,11 @@ public class TaskStatus extends AbstractListModel {
     public static TaskStatus[] fromJsonArray(String json) {
         final Gson parser = new Gson();
         return parser.fromJson(json, TaskStatus[].class);
+    }
+
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, TaskStatus.class);
     }
 
     public String toJson() {

@@ -7,7 +7,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.task;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -45,7 +45,7 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
         // TODO Auto-generated method stub
         final ResponseModel response = iReq.getResponse();
         final String responseBody = response.getBody();
-        controller.displayTasks(Task.fromJsonArray(responseBody));
+        controller.displayTasks(WorkFlow.fromJsonArray(responseBody));
     }
 
     /*

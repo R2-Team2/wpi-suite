@@ -35,6 +35,9 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 
 // TODO: Auto-generated Javadoc
@@ -55,11 +58,8 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The list of possible assignees. */
     protected User[] listOfPossibleAssignees = new User[] {};
 
-    // /** The list of statuses. */
-    // protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-    // new TaskStatus("scheduled").toString(),
-    // new TaskStatus("in progress").toString(),
-    // new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+    /** The list of statuses. */
+    protected String[] listOfStatuses; // needs to be list of TaskStatus
 
     /** The list of requirements. */
     protected String[] listOfRequirements = new String[] {"None"};
@@ -139,8 +139,20 @@ public class AbstractInformationPanel extends JScrollPane {
         dropdownRequirement.setModel(new DefaultComboBoxModel<String>(listOfRequirements));
         dropdownRequirement.setEnabled(false);
         dropdownRequirement.setBackground(Color.WHITE);
+
+        WorkFlow currWorkFlow =
+                ViewEventController.getInstance().getWorkFlowView().getWorkFlowObj();
+        List<TaskStatus> currTaskStatusList = currWorkFlow.getTaskStatusList();
+        List<String> taskStatusListNames = new ArrayList<String>();
+
+        for (TaskStatus ts : currTaskStatusList) {
+            taskStatusListNames.add(ts.getName());
+        }
+
+        listOfStatuses = taskStatusListNames.toArray(new String[taskStatusListNames.size()]);
+
         dropdownStatus = new JComboBox<String>();
-        // dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
+        dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
         dropdownStatus.setEnabled(true);
         dropdownStatus.setBackground(Color.WHITE);
         // Lists

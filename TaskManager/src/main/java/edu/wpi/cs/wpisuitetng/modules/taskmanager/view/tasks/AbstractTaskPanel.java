@@ -35,7 +35,7 @@ public abstract class AbstractTaskPanel extends JPanel {
     protected AbstractButtonPanel buttonPanel;
 
     /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
+    // private final ViewEventController viewEventController = ViewEventController.getInstance();
 
     /**
      * Instantiates a new abstract task panel.
@@ -115,11 +115,10 @@ public abstract class AbstractTaskPanel extends JPanel {
     /**
      * Retrieves the Status from infoPanel.
      *
-     * @return int representing the Status ID
+     * @return String name of status
      */
-    public int getStatus() {
-        String temp = infoPanel.getStatus().getSelectedItem().toString();
-        return 0;
+    public String getStatus() {
+        return infoPanel.getStatus().getSelectedItem().toString();
     }
 
     /**

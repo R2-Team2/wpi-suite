@@ -14,23 +14,16 @@ public class AddWorkFlowController {
         this.view = view;
     }
 
-    public void addTaskStatus() {
-        // Check out how work flow is created
-        final WorkFlow newWorkFlow =
-                new WorkFlow();
-        /*
-         * Initialize newWorkFlow here (grab data from view)
-         */
-
+    public void addWorkFlow() {
+        WorkFlow newWorkFlow = view.getWorkFlowObj();
         // Send a request to the core to save this message
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT); // PUT
-        // ==
-        // create
-        request.setBody(newWorkFlow.toJson()); // put the new message in the body of the request
-        request.addObserver(new AddWorkFlowRequestObserver(this)); // add an observer to process
-        // the
-        // response
-        request.send(); // send the request
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT);
+        // put the new message in the body of the request
+        request.setBody(newWorkFlow.toJson());
+        // add an observer to process the response
+        request.addObserver(new AddWorkFlowRequestObserver(this));
+        // send the request
+        request.send();
     }
 }
