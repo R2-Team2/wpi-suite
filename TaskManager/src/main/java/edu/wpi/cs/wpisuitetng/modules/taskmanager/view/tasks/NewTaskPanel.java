@@ -169,7 +169,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
+        return infoPanel.getStartDate();
     }
 
     /**
@@ -179,7 +179,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
+        return infoPanel.getDueDate();
     }
 
     /**
