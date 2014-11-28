@@ -116,7 +116,7 @@ public class TaskStatusView extends JPanel {
     }
 
     /**
-     * Step 6
+     * Step 6 Updating local taskstatus with database taskstatus
      *
      * @param taskStatusArray
      */
@@ -124,7 +124,8 @@ public class TaskStatusView extends JPanel {
         List<Task> updatedTasksIDList = new ArrayList<Task>();
         // Can optimize this if we can pull single task statuses
         for (TaskStatus ts : taskStatusArray) {
-            if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
+            // if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
+            if (ts.getName().toLowerCase().equals(taskStatusObj.getName().toLowerCase())) {
                 updatedTasksIDList = ts.getTaskList();
             }
         }
@@ -161,6 +162,7 @@ public class TaskStatusView extends JPanel {
             String dateString = formatDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard());
             panel.add(card, "newline");
+            System.out.println("Printing Task Card!");
         }
         revalidate();
     }

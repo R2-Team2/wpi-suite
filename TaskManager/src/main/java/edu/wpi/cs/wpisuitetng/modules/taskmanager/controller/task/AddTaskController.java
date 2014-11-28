@@ -65,11 +65,15 @@ public class AddTaskController {
                 ViewEventController.getInstance().getWorkFlowView().getWorkFlowObj();
         List<TaskStatus> oldListOfTaskStatuses = updatedWorkFlow.getTaskStatusList();
 
-        String statusName = view.getStatus();
+        String statusName = view.getStatus().toLowerCase();
         for (TaskStatus ts : oldListOfTaskStatuses) {
-            if (ts.getName().equals(statusName)) {
+            if (ts.getName().toLowerCase().equals(statusName)) {
                 // TODO: check if task already exists
                 taskStatusID = ts.getTaskStatusID();
+                break;
+            }
+            else {
+                taskStatusID = 0;
             }
         }
 
@@ -77,12 +81,27 @@ public class AddTaskController {
         newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
                 taskStatusID, requirement, startDate, dueDate, assignedUsers);
 
-        updatedWorkFlow.addTask(newTask);
+        for (TaskStatus ts : oldListOfTaskStatuses) {
+            if (ts.getName().toLowerCase().equals(statusName)) {
+                // TODO: check if task already exists
+                updatedWorkFlow.addTask(newTask, ts);
+                break;
+            }
+        }
+
+        oldListOfTaskStatuses = updatedWorkFlow.getTaskStatusList();
+        for (TaskStatus ts : oldListOfTaskStatuses) {
+            List<Task> tempList = ts.getTaskList();
+            for (Task t : tempList) {
+                System.out.println(t.getTitle());
+            }
+        }
+
+        ViewEventController.getInstance().getWorkFlowView().setWorkFlowObj(updatedWorkFlow);
 
         // Send a request to the core to save this message
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT); // PUT ==
-        // create
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.POST);
         request.setBody(updatedWorkFlow.toJson()); // put the new message in the body of the request
         request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the
         // response

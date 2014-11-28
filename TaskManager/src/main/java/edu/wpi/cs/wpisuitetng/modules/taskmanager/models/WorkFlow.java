@@ -37,6 +37,12 @@ public class WorkFlow extends AbstractModel {
      */
     public WorkFlow() {
         taskStatusList = new ArrayList<TaskStatus>();
+
+        taskStatusList.add(new TaskStatus("New"));
+        taskStatusList.add(new TaskStatus("Selected For Development"));
+        taskStatusList.add(new TaskStatus("Currently In Development"));
+        taskStatusList.add(new TaskStatus("Completed"));
+
     }
 
     /**
@@ -158,9 +164,10 @@ public class WorkFlow extends AbstractModel {
      * @param taskStatus
      * @param task
      */
-    public void addTask(Task task) {
+    public void addTask(Task task, TaskStatus taskStatus) {
         for (TaskStatus ts : taskStatusList) {
-            if (task.getStatusID() == ts.getTaskStatusID()) {
+            // if (task.getStatusID() == ts.getTaskStatusID())
+            if (taskStatus.getName().toLowerCase().equals(ts.getName().toLowerCase())) {
                 ts.addTask(0, task);
             }
         }

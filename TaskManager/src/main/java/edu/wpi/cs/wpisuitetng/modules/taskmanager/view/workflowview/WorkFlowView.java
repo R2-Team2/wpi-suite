@@ -59,7 +59,6 @@ public class WorkFlowView extends JPanel {
      */
     public WorkFlowView() {
 
-        ViewEventController.getInstance().setWorkFlowView(this);
         taskStatusViews = new ArrayList<TaskStatusView>();
 
         setLayout(new BorderLayout());
@@ -89,8 +88,8 @@ public class WorkFlowView extends JPanel {
 
                 } catch (Exception ex) {
                 } // This is so we ignore the exception thrown due to non-initialized exception.
-                  // It may/may not be worth it to just make sure this doesn't run until after
-                  // everything is initialized, but that seems like a lot of work.
+                // It may/may not be worth it to just make sure this doesn't run until after
+                // everything is initialized, but that seems like a lot of work.
             }
         });
         refreshTimer.setDelay(5000); // delay for 5 seconds
@@ -152,6 +151,7 @@ public class WorkFlowView extends JPanel {
             TaskStatusView taskStatusView = new TaskStatusView(
                     taskStatusList.get(i));
             taskStatusPanel.add(taskStatusView, "cell " + i + " 0,grow");
+            taskStatusView.requestTaskStatusFromDb();
         }
         revalidate();
     }

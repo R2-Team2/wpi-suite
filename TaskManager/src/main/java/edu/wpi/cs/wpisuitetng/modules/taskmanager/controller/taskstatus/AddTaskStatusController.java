@@ -36,7 +36,7 @@ public class AddTaskStatusController {
 
         // Send a request to the core to save this message
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT);
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.POST);
         request.setBody(updatedWorkFlow.toJson()); // put the new message in the body of the request
         // add an observer to process the response
         request.addObserver(new AddTaskStatusRequestObserver(this));

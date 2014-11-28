@@ -46,6 +46,7 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
         final ResponseModel response = iReq.getResponse();
         final String responseBody = response.getBody();
         controller.displayTasks(WorkFlow.fromJsonArray(responseBody));
+        System.out.println("The request to get tasks was successful.");
     }
 
     /*

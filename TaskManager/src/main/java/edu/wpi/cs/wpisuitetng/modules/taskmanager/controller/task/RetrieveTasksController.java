@@ -57,11 +57,13 @@ public class RetrieveTasksController {
     public void displayTasks(WorkFlow[] workFlow) {
         List<TaskStatus> taskStatusList = workFlow[0].getTaskStatusList();
         List<Task> tempList = new ArrayList<Task>();
+        String currStatusName = view.getTaskStatusObj().getName().toLowerCase();
         for (TaskStatus ts : taskStatusList) {
-            if (ts.getName().equals(view.getTaskStatusObj().getName())) {
+            if (ts.getName().toLowerCase().equals(currStatusName)) {
                 tempList = ts.getTaskList();
             }
         }
-        view.fillTaskList(tempList.toArray(new Task[tempList.size()]));
+        // view.fillTaskList(tempList.toArray(new Task[tempList.size()]));
+        view.populateTaskStatusViewCards(tempList);
     }
 }
