@@ -1,12 +1,8 @@
-
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * Contributors:
- * 	Team R2-Team2
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
@@ -23,47 +19,48 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 
 /**
  * The Class ViewTaskPanel.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class ViewTaskPanel extends AbstractTaskPanel{
+public class ViewTaskPanel extends AbstractTaskPanel {
 
-	/**
-	 * Constructor for the ViewTaskPanel.
-	 *
-	 * @param parent the parent panel
-	 * @param viewTask task to view
-	 */
-	public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask)
-	{
-		parentPanel = parent;
-		aTask = viewTask;
-		this.buildLayout();
-	}
-	
-	protected void buildLayout() {
+    /**
+     * Constructor for the ViewTaskPanel.
+     *
+     * @param parent the parent panel
+     * @param viewTask task to view
+     */
+    public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask) {
+        parentPanel = parent;
+        aTask = viewTask;
+        buildLayout();
+    }
+
+    @Override
+    protected void buildLayout() {
         buttonPanel = new ViewTaskButtonPanel(this);
         infoPanel = new ViewTaskInformationPanel(this);
-        
-        this.setLayout(new BorderLayout());
+
+        setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
-	}
-	
-	/**
-	 * Controller for the edit button listener
-	 */
-	public void editPressed() {
-		final Task passTask = aTask;
-		
-		final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
-		System.out.println("Edit Pressed");
+    }
+
+    /**
+     * Controller for the edit button listener
+     */
+    public void editPressed() {
+        final Task passTask = aTask;
+
+        final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
+        System.out.println("Edit Pressed");
         ViewEventController.getInstance().removeSplitTab();
         ViewEventController.getInstance().refreshWorkFlowView();
-		System.out.println("Removed view, adding edit panels");
-		parentPanel.getParent().createViewTaskPanel(editView);
-		//addViewTaskTab(editView);
-	}
+        System.out.println("Removed view, adding edit panels");
+        parentPanel.getParent().createViewTaskPanel(editView);
+        // addViewTaskTab(editView);
+    }
 
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
@@ -141,7 +138,7 @@ public class ViewTaskPanel extends AbstractTaskPanel{
      */
     @Override
     public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
+        return infoPanel.getStartDate();
     }
 
     /**
@@ -151,7 +148,7 @@ public class ViewTaskPanel extends AbstractTaskPanel{
      */
     @Override
     public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
+        return infoPanel.getDueDate();
     }
 
     /**
@@ -170,8 +167,7 @@ public class ViewTaskPanel extends AbstractTaskPanel{
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
-    public void setInfoPanel(AbstractInformationPanel aPanel)
-    {
+    public void setInfoPanel(AbstractInformationPanel aPanel) {
         infoPanel = aPanel;
     }
 
@@ -180,15 +176,14 @@ public class ViewTaskPanel extends AbstractTaskPanel{
      *
      * @param aPanel the new butt panel
      */
-    public void setButtPanel(NewTaskButtonPanel aPanel)
-    {
+    public void setButtPanel(NewTaskButtonPanel aPanel) {
         buttonPanel = aPanel;
     }
 
-	@Override
-	public void createPressed() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+    @Override
+    public void createPressed() {
+        // TODO Auto-generated method stub
+
+    }
+
 }
