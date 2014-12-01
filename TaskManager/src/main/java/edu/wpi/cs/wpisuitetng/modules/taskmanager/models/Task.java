@@ -7,10 +7,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 import javax.swing.JList;
 
@@ -76,10 +76,11 @@ public class Task extends AbstractModel {
      * @param startDate the start date
      * @param dueDate the due date
      * @param assignedUsers the assigned users
+     * @param activityList the activity list
      */
     public Task(int taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
-            List<User> assignedUsers) {
+            List<User> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -90,7 +91,7 @@ public class Task extends AbstractModel {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
-        activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
     }
 
 
@@ -301,18 +302,13 @@ public class Task extends AbstractModel {
      * @return the assigned users
      */
     public JList<User> getAssignedUsers() {
-        /*User[] midArry= new User[assignedUsers.size()]; 
-        for (int i=0;i< assignedUsers.size(); i++)
-        {
-        	//returnUsers.addElement(assignedUsers.get(i));
-        	midArry[i] = assignedUsers.get(i);
-        }
-        
-        //returnUsers=midArry;
-         * 
+        /*
+         * User[] midArry= new User[assignedUsers.size()]; for (int i=0;i< assignedUsers.size();
+         * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
+         * } //returnUsers=midArry;
          */
         final JList<User> returnUsers = new JList(assignedUsers.toArray());
-    	return returnUsers;
+        return returnUsers;
     }
 
     /**
@@ -410,6 +406,11 @@ public class Task extends AbstractModel {
         actualEffort = updatedTask.actualEffort;
         dueDate = updatedTask.dueDate;
         activityList = updatedTask.activityList;
+        // Code inspired by mkyong
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        final Date date = new Date();
+        final String updateActivity = "Updated at " + dateFormat.format(date);
+        activityList.add(updateActivity); // add activity entry to activity list
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
