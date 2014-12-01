@@ -406,11 +406,17 @@ public class Task extends AbstractModel {
         actualEffort = updatedTask.actualEffort;
         dueDate = updatedTask.dueDate;
         activityList = updatedTask.activityList;
-        // Code inspired by mkyong
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
-        final Date date = new Date();
-        final String updateActivity = "Updated at " + dateFormat.format(date);
-        activityList.add(updateActivity); // add activity entry to activity list
+        // checks to see if the task changes status
+        // if status has changed, create an activity
+        if (!(status.equals(updatedTask.status))) {
+            // Code inspired by mkyong
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+            final Date date = new Date();
+            final String statusChange = updatedTask.status.getName();
+            final String updateActivity =
+                    "Status changed to " + statusChange + " at " + dateFormat.format(date);
+            activityList.add(updateActivity); // add activity entry to activity list
+        }
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }

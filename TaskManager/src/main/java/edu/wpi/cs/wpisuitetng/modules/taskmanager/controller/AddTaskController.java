@@ -60,7 +60,8 @@ public class AddTaskController {
         final List<User> assignedUsers = view.getAssignedUsers();
         final List<String> activityList = new ArrayList<String>();
         final Task newTask;
-
+        // TODO: Create a comment section
+        // final String comment = view.getComment();
         // Create Task
         newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
                 status, requirement, startDate, dueDate, assignedUsers, activityList);
@@ -71,6 +72,11 @@ public class AddTaskController {
         final Date date = new Date();
         final String createActivity = "Created task at " + dateFormat.format(date);
         newTask.addActivity(createActivity); // add activity entry to activity list
+
+        // TODO: Add comment
+        // if (myString != null && !myString.equals("")) {
+        // newTask.addActivity(comment);
+        // }
 
         // Send a request to the core to save this message
         final Request request =
