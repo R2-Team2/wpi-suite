@@ -12,64 +12,66 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+
 /**
  * The Class ViewTaskButtonPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 public class ViewTaskButtonPanel extends AbstractButtonPanel {
-    protected ViewTaskPanel parentPanel;
+	protected ViewTaskPanel parentPanel;
 
-    /**
-     * Constructor for the ViewTaskButtonPanel.
-     * 
-     * @param parentPanel the parent panel.
-     */
-    public ViewTaskButtonPanel(ViewTaskPanel parentPanel)
-    {
-        // Set Panel Layout
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
-        // Set Parent Panel
-        this.parentPanel = parentPanel;
+	/**
+	 * Constructor for the ViewTaskButtonPanel.
+	 * 
+	 * @param parentPanel the parent panel.
+	 */
+	public ViewTaskButtonPanel(ViewTaskPanel parentPanel) {
+		// Set Panel Layout
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		// Set Parent Panel
+		this.parentPanel = parentPanel;
 
-        // Set Button Messages
-        final String editString = "Edit";
-        final String cancelString = "Cancel";
+		// Set Button Messages
+		final String editString = "Edit";
+		final String cancelString = "Cancel";
 
-        // Create Buttons
-        buttonEdit = new JButton(editString);
-        buttonCancel = new JButton(cancelString);
-        this.add(buttonEdit);
-        this.add(buttonCancel);
-        // super.setupListeners();
-        this.setupListeners();
-    }
+		// Create Buttons
+		this.buttonEdit = new JButton(editString);
+		this.buttonCancel = new JButton(cancelString);
+		this.add(this.buttonEdit);
+		this.add(this.buttonCancel);
+		// super.setupListeners();
+		this.setupListeners();
+	}
 
-    /**
-     * Sets the listeners for the View task buttons.
-     */
-    protected void setupListeners() {
-        buttonEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.editPressed();
-                System.out.println("edit pressed");
-            }
-        });
+	/**
+	 * Sets the listeners for the View task buttons.
+	 */
+	protected void setupListeners() {
+		this.buttonEdit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewTaskButtonPanel.this.parentPanel.editPressed();
+				System.out.println("edit pressed");
+				// TODO put it to the right place
 
-        buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
+			}
+		});
 
-        });
-    }
+		this.buttonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewTaskButtonPanel.this.parentPanel.cancelPressed();
+			}
 
-    @Override
-    public void validateTaskInfo() {
-        throw new IllegalStateException(
-                "ViewTaskButtonPanel.validateTaskInfo() should not be called");
-    }
+		});
+	}
+
+	@Override
+	public void validateTaskInfo() {
+		throw new IllegalStateException(
+				"ViewTaskButtonPanel.validateTaskInfo() should not be called");
+	}
 }
