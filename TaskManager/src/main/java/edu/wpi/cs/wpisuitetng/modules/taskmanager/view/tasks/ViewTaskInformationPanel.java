@@ -41,37 +41,58 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         this.setMinimumSize(new Dimension(540, 200));
         // Set the Panel
         final ScrollablePanel contentPanel = new ScrollablePanel();
-        contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+        contentPanel.setLayout(new MigLayout("", "[grow,fill]", "[][][]5[]30[][]5[grow]30[][]5[][][]"));
         
         //Instantiate GUI Elements
         // Labels
         final Task viewTask = parentPanel.aTask;
-        String taskTitle = viewTask.getTitle();
-        final JLabel labelTitle = new JLabel("<html><b>" + taskTitle + "</b></html>");
-        final JLabel labelDescription =
-                new JLabel("<html>Description</html>");
+        //String taskTitle = viewTask.getTitle();
+        final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle() + "</h1></html>");
+        final JLabel labelDescr = new JLabel("<html><h3>Description</h3></html>");
         final JLabel labelDescrBody = new JLabel("<html>" + viewTask.getDescription() + "</html>");
+        final JLabel labelDetails = new JLabel("<html><h3>Details</h3></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
+        final JLabel labelDates = new JLabel("<html><h3>Dates</h3></html>");
         final JLabel labelDueDate = new JLabel("Due Date: ");
         final JLabel labelStartDate = new JLabel("Start Date: ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
         
-        JPanel descrPanel = new JPanel();
-        descrPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
-        descrPanel.add(labelDescription, "split 2, span");
-        descrPanel.add(new JSeparator(SwingConstants.HORIZONTAL), "growx, span, wrap");
-        
         //Populate ContentPanel
-        contentPanel.add(labelTitle, "wrap");
-        contentPanel.add(descrPanel, "growx, shrinkx, span, wrap");
-        contentPanel.add(labelDescrBody, "wrap");
+        contentPanel.add(labelTitle, "cell 0 0");
+        contentPanel.add(labelDescr, "cell 0 1");
+        
+        JSeparator separator = new JSeparator();
+        contentPanel.add(separator, "cell 0 2,grow");
+        contentPanel.add(labelDescrBody, "cell 0 3");
 
         this.setViewportView(contentPanel);
         
+        contentPanel.add(labelDetails, "cell 0 4");
+        
+        JSeparator separator_1 = new JSeparator();
+        contentPanel.add(separator_1, "cell 0 5,grow");
+        
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]5[]5[]"));
+        
+        detailsPanel.add(labelStatus, "cell 0 0");
+        detailsPanel.add(new JLabel("" + viewTask.getStatus()), "cell 1 0");
+        detailsPanel.add(labelEstimatedEffort, "cell 0 1");
+        detailsPanel.add(new JLabel("" + viewTask.getEstimatedEffort()), "cell 1 1");
+        detailsPanel.add(labelActualEffort, "cell 0 2");
+        detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
+        detailsPanel.add(labelRequirement, "cell 0 3");
+        detailsPanel.add(new JLabel("" + viewTask.getRequirement()), "cell 1 3");
+        
+        contentPanel.add(detailsPanel, "cell 0 6,grow");
+        
+        JSeparator separator_2 = new JSeparator();
+        contentPanel.add(labelDates, "cell 0 7");
+        contentPanel.add(separator_2, "cell 0 8,grow");
     }
 
     /**
