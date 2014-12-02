@@ -33,7 +33,7 @@ public class TaskCard extends JPanel implements MouseListener {
     private Task taskObj;
 
     JTextPane taskName = new JTextPane();
-    MouseListener listener = new MouseListener() {
+    private MouseListener listener = new MouseListener() {
 
         @Override
         public void mouseClicked(MouseEvent e) {
