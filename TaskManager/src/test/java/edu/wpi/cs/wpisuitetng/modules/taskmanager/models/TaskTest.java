@@ -178,10 +178,13 @@ public class TaskTest {
 	}
 
 	// TODO get activityList to work
+	/**
+	 * Method testAddActivity.
+	 */
 	@Test
 	public void testAddActivity() {
-		String comment1 = "John Doe commented on this task.";
-		String comment2 = "The task was closed.";
+		final String comment1 = "John Doe commented on this task.";
+		final String comment2 = "The task was closed.";
 
 		t1.addActivity(comment1);
 		assertTrue(t1.getActivityList().contains(comment1));
