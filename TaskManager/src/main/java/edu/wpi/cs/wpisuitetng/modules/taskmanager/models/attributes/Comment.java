@@ -70,4 +70,21 @@ public class Comment {
         return message;
     }
 
+    /*
+     * Equals comparator for the comment. Element-wise comparison.
+     * @return boolean whether comparison's elements are identical to this object's elements
+     */
+    @Override
+    public boolean equals(Object comparison) {
+        boolean same = false;
+        if (comparison instanceof Comment) {
+            Comment compare = (Comment) comparison;
+            if ((compare.getId() == id) && (compare.getMessage().equals(message))
+                    && (compare.getTimestamp() == timestamp) && (compare.getUser().equals(user))) {
+                same = true;
+            }
+        }
+        return same;
+    }
+
 }
