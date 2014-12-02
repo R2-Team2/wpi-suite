@@ -1,15 +1,13 @@
 
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
- *
+ * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *    R2-Team2
- *******************************************************************************/
+ * 	Team R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.FlowLayout;
@@ -17,38 +15,77 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
- *
+ * The Class NewTaskButtonPanel.
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 
+	///** The button create. */
+    //protected JButton buttonCreate;
+	protected NewTaskPanel parentPanel;
+	
 	/**
-	 * Constructor for the NewTaskButtonPanel
-	 * @param parentPanel
+	 * Constructor for the NewTaskButtonPanel.
+	 *
+	 * @param parentPanel the parent panel
 	 */
-	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
 		this.parentPanel = parentPanel;
 		//Set Button Messages
-		String createString = "Create";
-		String cancelString = "Cancel";
+		final String createString = "Create";
+		final String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(createString);
+		buttonCreate = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
-		buttonLeft.setEnabled(false);
-		this.add(buttonLeft);
+		buttonCreate.setEnabled(false);
+		this.add(buttonCreate);
 		this.add(buttonCancel);
-
-		setupListeners();
+		this.setupListeners();
 	}
+	
+	/**
+	 * Sets up listeners for the buttons in the new task panel.
+	 */
+	protected void setupListeners() {
+        buttonCreate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.createPressed();
+                ViewEventController.getInstance().refreshWorkFlowView();
+            }
+        });
+        
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
+
+        });
+	}
+
+	/**
+     * Validate task info.
+     */
+    public void validateTaskInfo() {
+        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
+            buttonCreate.setEnabled(false);
+        }
+        else {
+            buttonCreate.setEnabled(true);
+        }
+    }
 
 }
 

@@ -1,7 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this <<<<<<<
+ * HEAD distribution, and is available at http://www.eclipse.org/legal/epl-v10.html =======
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2 >>>>>>> develop
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
@@ -12,20 +14,32 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class contains the fields and methods for the Taskstatus
+ * This class contains the fields and methods for the Taskstatus.
+ *
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
  */
+
 public class TaskStatus extends AbstractModel {
-    /**
-     *
-     */
+
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3575239378691210918L;
+
+    /** The task status id. */
     private int taskStatusID;
+
+    /** The name. */
     private String name;
+
+    /** The task list. */
     private List<Task> taskList;
 
     /**
-     * Constructor for the Taskstatus class
+     * Constructor for the Taskstatus class.
+     *
+     * @param name the name
      */
     public TaskStatus(String name) {
         this.name = name;
@@ -33,7 +47,7 @@ public class TaskStatus extends AbstractModel {
     }
 
     /**
-     * Gets the name of the object
+     * Gets the name of the object.
      *
      * @return name String
      */
@@ -42,7 +56,7 @@ public class TaskStatus extends AbstractModel {
     }
 
     /**
-     * Sets the name of the object
+     * Sets the name of the object.
      *
      * @param name String
      */
@@ -51,7 +65,7 @@ public class TaskStatus extends AbstractModel {
     }
 
     /**
-     * Gets the tasklist of the object
+     * Gets the tasklist of the object.
      *
      * @return taskList ArrayList
      */
@@ -61,6 +75,8 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * Sets the tasklist of the object
+     *
+     * @param taskList the new task list
      */
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
@@ -97,10 +113,20 @@ public class TaskStatus extends AbstractModel {
         return name;
     }
 
+    /**
+     * Gets the task status id.
+     *
+     * @return the task status id
+     */
     public int getTaskStatusID() {
         return taskStatusID;
     }
 
+    /**
+     * Sets the task status id.
+     *
+     * @param taskStatusID the new task status id
+     */
     public void setTaskStatusID(int taskStatusID) {
         this.taskStatusID = taskStatusID;
     }
@@ -119,7 +145,7 @@ public class TaskStatus extends AbstractModel {
 
     @Override
     public String toJson() {
-		return new Gson().toJson(this, TaskStatus.class);
+        return new Gson().toJson(this, TaskStatus.class);
     }
 
     @Override
@@ -136,7 +162,5 @@ public class TaskStatus extends AbstractModel {
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;
-
     }
-
 }

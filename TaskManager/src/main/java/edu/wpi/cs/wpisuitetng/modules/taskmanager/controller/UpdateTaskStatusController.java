@@ -33,7 +33,7 @@ public class UpdateTaskStatusController {
 	 */
 	public void updateTask(TaskStatus toSave) {
 		// Send a request to the core to save this message
-		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.POST); // POST == save
+		final Request request = Network.getInstance().makeRequest("taskmanager/taskStatus", HttpMethod.POST); // POST == save
 		request.setBody(toSave.toJson()); // put the new message in the body of the request
 		request.addObserver(new UpdateTaskStatusRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
