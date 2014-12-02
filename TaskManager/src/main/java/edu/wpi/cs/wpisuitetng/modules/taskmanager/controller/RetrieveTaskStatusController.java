@@ -30,7 +30,7 @@ public class RetrieveTaskStatusController {
 	}
 	
 	public void requestTaskStatus() {
-		Request request = Network.getInstance().makeRequest("taskmanager/taskStatus", HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
 		request.addObserver(new RetrieveTaskStatusRequestObserver(this));
 		request.send();
 	}

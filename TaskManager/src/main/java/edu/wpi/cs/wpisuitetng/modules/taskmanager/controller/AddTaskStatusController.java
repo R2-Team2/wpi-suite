@@ -31,7 +31,7 @@ public class AddTaskStatusController {
 		
 		TaskStatus newTaskStatus = new TaskStatus(null);
 		
-		final Request request = Network.getInstance().makeRequest("taskmanager/taskStatus", HttpMethod.PUT); // PUT == create
+		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT); // PUT == create
 		request.setBody(newTaskStatus.toJson()); // put the new message in the body of the request
 		request.addObserver(new AddTaskStatusRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
