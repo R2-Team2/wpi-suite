@@ -11,15 +11,14 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.FlowLayout;
-
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskButtonPanel.
  * @author R2-Team2
@@ -29,12 +28,16 @@ import javax.swing.JButton;
 public class NewTaskButtonPanel extends AbstractButtonPanel {
 	//Class Variables
 
+	///** The button create. */
+    //protected JButton buttonCreate;
+	protected NewTaskPanel parentPanel;
+	
 	/**
 	 * Constructor for the NewTaskButtonPanel.
 	 *
 	 * @param parentPanel the parent panel
 	 */
-	public NewTaskButtonPanel(AbstractTaskPanel parentPanel) {
+	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
 		//Set Panel Layout
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
@@ -43,14 +46,59 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		final String createString = "Create";
 		final String cancelString = "Cancel";
 		//Create Buttons
-		buttonLeft = new JButton(createString);
+		buttonCreate = new JButton(createString);
 		buttonCancel = new JButton(cancelString);
-		buttonLeft.setEnabled(false);
-		this.add(buttonLeft);
+		buttonCreate.setEnabled(false);
+		this.add(buttonCreate);
 		this.add(buttonCancel);
-
-		setupListeners();
+		this.setupListeners();
 	}
+	
+	/**
+	 * Sets up listeners for the buttons in the new task panel.
+	 */
+	protected void setupListeners() {
+        buttonCreate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.createPressed();
+                ViewEventController.getInstance().refreshWorkFlowView();
+            }
+        });
+        
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
+
+        });
+	}
+
+	/**
+     * Validate task info.
+     */
+    public void validateTaskInfo() {
+        if (parentPanel.infoPanel.boxTitle.getText().length() <= 0 
+        		|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <=0) {
+            buttonCreate.setEnabled(false);
+        }
+        else {
+            buttonCreate.setEnabled(true);
+        }
+    }
+    
+    /**
+     * Validate task dates
+     */
+    public void validateTaskDate() {
+    	if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+    		parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+    	}
+    	else{
+    		parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+    	}
+    }
 
 }
 

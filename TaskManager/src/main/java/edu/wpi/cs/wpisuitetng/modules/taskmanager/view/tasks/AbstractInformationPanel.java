@@ -8,17 +8,17 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator; //wpi-38
+import java.util.Comparator; // wpi-38
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -30,20 +30,17 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-//requirement module integration
+// requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 
 
@@ -54,7 +51,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -119,6 +116,10 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The cal due label */
     protected JLabel labelDueDate = new JLabel("Due Date: ");
 
+    /** Calendar Button Dropdown Icon. */
+    protected ImageIcon icon;
+
+
     /**
      * Builds the layout.
      */
@@ -128,29 +129,29 @@ public class AbstractInformationPanel extends JScrollPane {
         final ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
         // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
-       
+
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
         final List<Requirement> requirements = new ArrayList<Requirement>();
         Collections.sort(iterations, new IterationComparator());
         for (int i = 0; i < iterations.size(); i++) {
-            
-            requirements.addAll(iterations.get(i).getRequirements()); 
-            //gets the list of requirements that is associated with the iteration
-            
+
+            requirements.addAll(iterations.get(i).getRequirements());
+            // gets the list of requirements that is associated with the iteration
+
         }
         Collections.sort(requirements, new RequirementComparator());
         final String[] arrListOfRequirements = new String[requirements.size()];
-        for (int i = 0; i < requirements.size(); i++){ 
-        	//build a List<String> of the names of the requirements
-        	//defaultComboBoxModel, below, requires an array of string
-        	String tempName = requirements.get(i).getName();
-        	strListOfRequirements.add(tempName);
-        	arrListOfRequirements[i] = tempName;
+        for (int i = 0; i < requirements.size(); i++) {
+            // build a List<String> of the names of the requirements
+            // defaultComboBoxModel, below, requires an array of string
+            String tempName = requirements.get(i).getName();
+            strListOfRequirements.add(tempName);
+            arrListOfRequirements[i] = tempName;
         }
-        
-        
+
+
         // Instantiate GUI Elements
         // Labels
         final JLabel labelTitle = new JLabel("<html>Title: <font color='CC0000'>*</font></html>");
@@ -174,7 +175,7 @@ public class AbstractInformationPanel extends JScrollPane {
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
         dropdownRequirement = new JComboBox<String>();
-        
+
         dropdownRequirement.setModel(new DefaultComboBoxModel<String>(arrListOfRequirements));
         dropdownRequirement.setEnabled(true);
         dropdownRequirement.setBackground(Color.WHITE);
@@ -195,7 +196,20 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonRemove.setEnabled(false);
         // Calendars
         calStartDate = new JXDatePicker();
+        calStartDate.setName("start date");
+        calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
+        calDueDate.setName("due date");
+        calDueDate.setDate(Calendar.getInstance().getTime());
+        icon = new ImageIcon(getClass().getResource("calendar.png"));
+        final ImageIcon scaledIcon =
+                new ImageIcon(icon.getImage()
+                        .getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        // Code taken from:
+        // http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
+        ((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
+
+        ((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
 
         // Setup GUI
 
@@ -254,147 +268,7 @@ public class AbstractInformationPanel extends JScrollPane {
 
         contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
-        setupListeners();
-
         this.setViewportView(contentPanel);
-    }
-
-    /**
-     * Sets up the listeners for the buttons in the New Task Information Panel.
-     */
-    protected void setupListeners() {
-        buttonAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // if(!listPossibleAssignees.isSelectionEmpty()) {
-                // String[] a = listOfPossibleAssignees;
-                // String[] b = listOfChosenAssignees;
-                // int[] c = listPossibleAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempA;
-                // listOfChosenAssignees = tempB;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
-            }
-        });
-
-        buttonRemove.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // if(!listChosenAssignees.isSelectionEmpty()) {
-                // String[] a = listOfChosenAssignees;
-                // String[] b = listOfPossibleAssignees;
-                // int[] c = listChosenAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempB;
-                // listOfChosenAssignees = tempA;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
-            }
-
-        });
-
-        /**
-         * Text Field (Title) Listeners
-         */
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
-
-
-        /**
-         * Text Field (Description) Listeners
-         */
-        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
-        
-        
-        /**
-         * Start Calendar Listener
-         */
-        calStartDate.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		parentPanel.buttonPanel.validateTaskDate();
-        	}
-        });
-        
-        /**
-         * Due Calendar Listener
-         */
-        calDueDate.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		parentPanel.buttonPanel.validateTaskDate();
-        	}
-        });
     }
 
     /**
@@ -478,14 +352,34 @@ public class AbstractInformationPanel extends JScrollPane {
         return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
     }
 
+    /**
+     * Disables all of the text fields based on boolean io
+     *
+     * @param io is a flag that if true disables fields, if false enables all fields.
+     */
+    public void disableAll(Boolean io)
+    {
+        io = !io;
+        // aTask.getTaskID();
+        boxTitle.setEnabled(io);
+        boxDescription.setEnabled(io);
+        dropdownStatus.setEnabled(io);
+        // requirement
+        listChosenAssignees.setEnabled(io);
+        calStartDate.setEnabled(io);
+        calDueDate.setEnabled(io);
+        spinnerEstimatedEffort.setEnabled(io);
+        spinnerActualEffort.setEnabled(io);
+    }
 }
+
 
 /**
  * @version legacy
- * @author Kevin from the requirements manager
- *         sorts the Iterations by date
+ * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
+    @Override
     public int compare(Iteration I1, Iteration I2) {
         if (I1.getStart() == null)
         {
@@ -499,12 +393,13 @@ class IterationComparator implements Comparator<Iteration> {
     }
 }
 
+
 /**
  * @version legacy
- * @author Kevin from the requirements manager
- *         sorts Requirements by name
+ * @author Kevin from the requirements manager sorts Requirements by name
  */
 class RequirementComparator implements Comparator<Requirement> {
+    @Override
     public int compare(Requirement R1, Requirement R2) {
         return R1.getName().compareTo(R2.getName());
     }

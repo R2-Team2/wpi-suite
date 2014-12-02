@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications about RetrieveTasksRequest
  * information as the RetrieveTasksRequest is constructed.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -35,11 +35,6 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
         this.controller = controller;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
     @Override
     public void responseSuccess(IRequest iReq) {
         // TODO Auto-generated method stub
@@ -48,25 +43,13 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
         controller.displayTasks(Task.fromJsonArray(responseBody));
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
     @Override
     public void responseError(IRequest iReq) {
-        // TODO Auto-generated method stub
         System.err.println("The request to get tasks failed.");
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-     */
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        // TODO Auto-generated method stub
         System.err.println("The request to get tasks failed.");
     }
 

@@ -67,7 +67,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             helpButton.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             // Hopefully, won't get here
-            System.out.println("Populating Top Bar Buttons Exception");
+            System.err.println("Populating Top Bar Buttons Exception");
+            ex.printStackTrace();
         }
 
         // the action listener for the Create Action Button
@@ -93,7 +94,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a settings view
-            	// Currently Brings up the Edit Work Flow View Directly
+                // Currently Brings up the Edit Work Flow View Directly
                 ViewEventController.getInstance().editWorkFlowView();
             }
         });

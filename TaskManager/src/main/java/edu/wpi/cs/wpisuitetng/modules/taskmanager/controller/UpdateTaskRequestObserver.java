@@ -11,18 +11,16 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
- * This observer is called when a response is received from a request to the server to add a
- * message.
- *
+ * The Class UpdateTaskRequestObserver.
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AddTaskRequestObserver implements RequestObserver {
+public class UpdateTaskRequestObserver implements RequestObserver {
+
 
     /** The controller. */
-    private final AddTaskController controller;
+    private final UpdateTaskController controller;
 
     /**
      * This method is called when information about an AddTaskRequest which was previously requested
@@ -30,36 +28,40 @@ public class AddTaskRequestObserver implements RequestObserver {
      *
      * @param controller the controller
      */
-    public AddTaskRequestObserver(AddTaskController controller) {
+    public UpdateTaskRequestObserver(UpdateTaskController controller) {
         this.controller = controller;
     }
-
-    // Parse the message that was received from the server then pass them to the controller.
+    
+    /*
+     * Parse the message that was received from the server then pass them to
+     * the controller.
+     * @see
+     * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+     * .cs.wpisuitetng.network.models.IRequest)
+     */
     @Override
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
     }
-
+    
     @Override
     public void responseError(IRequest iReq) {
-        // TODO replace with log slf4j?
+        //TODO replace with log slf4j?
         System.err.println("The request to add a message failed.");
     }
-
+    
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        // TODO replace with log slf4j?
+        //TODO replace with log slf4j?
         System.err.println("The request to add a message failed.");
     }
-
+    
     /**
-     * This method is called when information about an AddTaskRequest which was previously requested
-     * using an asynchronous interface becomes available.
-     *
      * @return the controller
      */
-    public AddTaskController getController() {
+    public UpdateTaskController getController() {
         return controller;
     }
+
 }
