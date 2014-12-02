@@ -9,10 +9,12 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 
 /**
@@ -26,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 public class CommentTest extends TestCase {
 
     Comment defaultComment = new Comment(1, "User", 1, "Tester message");
+    CommentList defaultList = new CommentList();
 
     /**
      * Construct new test instance
@@ -37,10 +40,16 @@ public class CommentTest extends TestCase {
     }
 
     /**
-     * Begin test.
+     * To be run before every test.
      */
     @Before
     public void setupTest() {}
+
+    /**
+     * To be run after every test.
+     */
+    @After
+    public void teardownTest() {}
 
     /**
      * Test constructor.
@@ -52,6 +61,19 @@ public class CommentTest extends TestCase {
                 new Comment(2, "NotUser", 2000, "Not the tester message.");
         assertTrue(defaultComment.equals(sameAsDefaultComment));
         assertFalse(defaultComment.equals(differentFromDefaultComment));
+    }
+
+    /**
+     * Test list.
+     */
+    @Test
+    public void testList() {
+        Comment first = defaultList.add("First message");
+        Comment second = defaultList.add("Second message");
+        assertTrue(second.getMessage().equals("Second message"));
+        assertTrue(first.getMessage().equals("First message"));
+        assertFalse(first.getMessage().equals("Second message"));
+        assertFalse(second.getMessage().equals("First message"));
     }
 }
 
