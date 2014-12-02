@@ -78,7 +78,7 @@ public class Comment {
     public boolean equals(Object comparison) {
         boolean same = false;
         if (comparison instanceof Comment) {
-            Comment compare = (Comment) comparison;
+            final Comment compare = (Comment) comparison;
             if ((compare.getId() == id) && (compare.getMessage().equals(message))
                     && (compare.getTimestamp() == timestamp) && (compare.getUser().equals(user))) {
                 same = true;
@@ -86,5 +86,29 @@ public class Comment {
         }
         return same;
     }
+
+    /*
+     * a la eclipse's hashcode
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + user.hashCode();
+        result =
+                prime * result
+                        + (int) Math.max(Math.min(Integer.MAX_VALUE, timestamp), Integer.MIN_VALUE); // for
+                                                                                                     // safe
+                                                                                                     // casting
+                                                                                                     // from
+                                                                                                     // long
+                                                                                                     // to
+                                                                                                     // int
+        result = prime * result + message.hashCode();
+        return result;
+    }
+
 
 }

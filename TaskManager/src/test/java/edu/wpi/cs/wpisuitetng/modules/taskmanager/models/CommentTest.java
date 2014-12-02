@@ -56,8 +56,8 @@ public class CommentTest extends TestCase {
      */
     @Test
     public void testConstructor() {
-        Comment sameAsDefaultComment = new Comment(1, "User", 1, "Tester message");
-        Comment differentFromDefaultComment =
+        final Comment sameAsDefaultComment = new Comment(1, "User", 1, "Tester message");
+        final Comment differentFromDefaultComment =
                 new Comment(2, "NotUser", 2000, "Not the tester message.");
         assertTrue(defaultComment.equals(sameAsDefaultComment));
         assertFalse(defaultComment.equals(differentFromDefaultComment));
@@ -68,8 +68,8 @@ public class CommentTest extends TestCase {
      */
     @Test
     public void testList() {
-        Comment first = defaultList.add("First message");
-        Comment second = defaultList.add("Second message");
+        final Comment first = defaultList.add("First message");
+        final Comment second = defaultList.add("Second message");
         assertTrue(second.getMessage().equals("Second message"));
         assertTrue(first.getMessage().equals("First message"));
         assertFalse(first.getMessage().equals("Second message"));

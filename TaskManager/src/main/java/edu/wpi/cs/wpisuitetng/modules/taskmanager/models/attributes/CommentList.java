@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  */
 public class CommentList {
 
-    private LinkedList<Comment> comments;
+    private final List<Comment> comments;
 
     /**
      * Stores a thread of comments.
@@ -33,7 +33,7 @@ public class CommentList {
      *
      * @return the linked list of comments.
      */
-    public LinkedList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -44,10 +44,10 @@ public class CommentList {
      * @return The comment that was just added to the notes.
      */
     public Comment add(String msg) {
-        int id = comments.size() + 1;
-        long time = System.currentTimeMillis();
-        String user = ConfigManager.getConfig().getUserName();
-        Comment newComment = new Comment(id, user, time, msg);
+        final int id = comments.size() + 1;
+        final long time = System.currentTimeMillis();
+        final String user = ConfigManager.getConfig().getUserName();
+        final Comment newComment = new Comment(id, user, time, msg);
         comments.add(newComment);
         return newComment;
     }
