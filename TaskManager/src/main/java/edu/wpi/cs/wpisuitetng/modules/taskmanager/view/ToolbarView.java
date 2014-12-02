@@ -20,27 +20,27 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons.TaskButtonsPanel;
 @SuppressWarnings("serial")
 public class ToolbarView extends DefaultToolbarView {
 
-    /** The new button. */
-    TaskButtonsPanel newButton = new TaskButtonsPanel();
+	/** The new button. */
+	TaskButtonsPanel newButton = new TaskButtonsPanel();
 
-    /**
-     * Construct this view and prevent it from being moved.
-     */
-    public ToolbarView() {
+	/**
+	 * Construct this view and prevent it from being moved.
+	 */
+	public ToolbarView() {
 
-        // Prevent this toolbar from being moved
-        setFloatable(false);
-        this.addGroup(newButton);
+		// Prevent this toolbar from being moved
+		setFloatable(false);
+		addGroup(newButton);
 
-    }
+	}
 
-    /**
-     * Method getNewButton.
-     *
-     * @return TaskButtonsPanel
-     */
-    public TaskButtonsPanel getReqButton() {
-        return newButton;
-    }
+	/**
+	 * Method getNewButton.
+	 *
+	 * @return TaskButtonsPanel
+	 */
+	public TaskButtonsPanel getReqButton() {
+		return newButton;
+	}
 
 }

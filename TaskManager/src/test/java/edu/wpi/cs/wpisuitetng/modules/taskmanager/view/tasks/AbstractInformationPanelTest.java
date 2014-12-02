@@ -45,61 +45,61 @@ import javax.swing.ImageIcon;
 public class AbstractInformationPanelTest {
 
 
-    // // mock requirements data for requirements integration testing
-    // private final Iteration mockIteration = mock(Iteration.class);
-    // private final IterationModel mockIterationModel = mock(IterationModel.class);
-    // private final ViewEventController mockViewEventController = mock(ViewEventController.class);
-    // private final Requirement mockRequirement = mock(Requirement.class);
-    // private final RequirementModel mockRequirementModel = mock(RequirementModel.class);
-    // private final RequirementPanel mockRequirementPanel = mock(RequirementPanel.class);
-    // private final ViewMode mode = ViewMode.EDITING;
+	// // mock requirements data for requirements integration testing
+	// private final Iteration mockIteration = mock(Iteration.class);
+	// private final IterationModel mockIterationModel = mock(IterationModel.class);
+	// private final ViewEventController mockViewEventController = mock(ViewEventController.class);
+	// private final Requirement mockRequirement = mock(Requirement.class);
+	// private final RequirementModel mockRequirementModel = mock(RequirementModel.class);
+	// private final RequirementPanel mockRequirementPanel = mock(RequirementPanel.class);
+	// private final ViewMode mode = ViewMode.EDITING;
 
 
-    //
-    // /**
-    // * Method requirementsImportTest. tests constructors to assert that requirements code has been
-    // * imported properly.
-    // */
-    // @Test
-    // public void requirementsImportTest() {
-    // final RequirementInformationPanel newPanel =
-    // new RequirementInformationPanel(this.mockRequirementPanel, this.mode,
-    // this.mockRequirement);
-    //
-    // assertNotNull(newPanel);
-    // assertNotNull(this.mockRequirement);
-    // assertEquals(this.mockRequirement.getParentID(), -1);
-    // assertEquals(this.mockIteration.toString(), "");
-    // assertEquals(this.mode, ViewMode.EDITING);
-    // assertEquals(this.mockRequirement.getStatus(), RequirementStatus.NEW);
-    // assertEquals(this.mockIterationModel.getBacklog(), this.mockIteration);
-    // assertEquals(new Dimension(500, 200), newPanel.getMinimumSize());
-    // assertNotEquals(this.mockRequirement.getParentID(), 10000);
-    // assertNotEquals(this.mockIteration.toString(), "An arbitrary string.");
-    // assertNotEquals(this.mode, ViewMode.CREATING);
-    // assertNotEquals(this.mockRequirement.getStatus(), RequirementStatus.NEW);
-    // assertNotEquals(this.mockIterationModel.getBacklog(), this.mockIteration);
-    // assertNotEquals(new Dimension(200, 500), newPanel.getMinimumSize());
-    // }
+	//
+	// /**
+	// * Method requirementsImportTest. tests constructors to assert that requirements code has been
+	// * imported properly.
+	// */
+	// @Test
+	// public void requirementsImportTest() {
+	// final RequirementInformationPanel newPanel =
+	// new RequirementInformationPanel(this.mockRequirementPanel, this.mode,
+	// this.mockRequirement);
+	//
+	// assertNotNull(newPanel);
+	// assertNotNull(this.mockRequirement);
+	// assertEquals(this.mockRequirement.getParentID(), -1);
+	// assertEquals(this.mockIteration.toString(), "");
+	// assertEquals(this.mode, ViewMode.EDITING);
+	// assertEquals(this.mockRequirement.getStatus(), RequirementStatus.NEW);
+	// assertEquals(this.mockIterationModel.getBacklog(), this.mockIteration);
+	// assertEquals(new Dimension(500, 200), newPanel.getMinimumSize());
+	// assertNotEquals(this.mockRequirement.getParentID(), 10000);
+	// assertNotEquals(this.mockIteration.toString(), "An arbitrary string.");
+	// assertNotEquals(this.mode, ViewMode.CREATING);
+	// assertNotEquals(this.mockRequirement.getStatus(), RequirementStatus.NEW);
+	// assertNotEquals(this.mockIterationModel.getBacklog(), this.mockIteration);
+	// assertNotEquals(new Dimension(200, 500), newPanel.getMinimumSize());
+	// }
 
-    /**
-     * Checks whether the calendar image can be loaded.
-     */
-    @Test
-    public void calendarImageTest() {
-        final ImageIcon img = new ImageIcon("calendar.png");
-        assertNotNull("Image can't be loaded", img);
-    }
+	/**
+	 * Checks whether the calendar image can be loaded.
+	 */
+	@Test
+	public void calendarImageTest() {
+		final ImageIcon img = new ImageIcon("calendar.png");
+		assertNotNull("Image can't be loaded", img);
+	}
 
-    // /**
-    // * Method cleanup. a teardown to be run After each test.
-    // */
-    // @After
-    // public void cleanup() {
-    // // from requirements module
-    // IterationModel.setInstance(null);
-    // ViewEventController.setInstance(null);
-    // }
+	// /**
+	// * Method cleanup. a teardown to be run After each test.
+	// */
+	// @After
+	// public void cleanup() {
+	// // from requirements module
+	// IterationModel.setInstance(null);
+	// ViewEventController.setInstance(null);
+	// }
 
 }
 /*

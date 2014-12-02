@@ -27,48 +27,48 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddTaskController {
 
-    /** The view. */
-    private final NewTaskPanel view;
+	/** The view. */
+	private final NewTaskPanel view;
 
-    /**
-     * Construct an AddTaskController for the given model, view pair.
-     *
-     * @param view the view where the user enters new messages
-     */
-    public AddTaskController(NewTaskPanel view) {
-        this.view = view;
-    }
+	/**
+	 * Construct an AddTaskController for the given model, view pair.
+	 *
+	 * @param view the view where the user enters new messages
+	 */
+	public AddTaskController(NewTaskPanel view) {
+		this.view = view;
+	}
 
-    /**
-     * This method is called when the user clicks the Submit button.
-     *
-    
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent) */
-    public void addTask() {
-        final int taskID = 0; // generate task ID somehow
-        final String title = view.getTitle();
-        final String description = view.getDescription();
-        final int estimatedEffort = view.getEstimatedEffort();
-        final int actualEffort = view.getActualEffort();
-        final TaskStatus status = new TaskStatus(view.getStatus());
-        final String requirement = view.getRequirement();
-        final Date startDate = view.getStartDate();
-        final Date dueDate = view.getDueDate();
-        final List<User> assignedUsers = view.getAssignedUsers();
-        final Task newTask;
+	/**
+	 * This method is called when the user clicks the Submit button.
+	 *
 
-        // Create Task
-        newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
-                status, requirement, startDate, dueDate, assignedUsers);
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent) */
+	public void addTask() {
+		final int taskID = 0; // generate task ID somehow
+		final String title = view.getTitle();
+		final String description = view.getDescription();
+		final int estimatedEffort = view.getEstimatedEffort();
+		final int actualEffort = view.getActualEffort();
+		final TaskStatus status = new TaskStatus(view.getStatus());
+		final String requirement = view.getRequirement();
+		final Date startDate = view.getStartDate();
+		final Date dueDate = view.getDueDate();
+		final List<User> assignedUsers = view.getAssignedUsers();
+		final Task newTask;
 
-        // Send a request to the core to save this message
-        final Request request =
-                Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT ==
-                                                                                       // create
-        request.setBody(newTask.toJson()); // put the new message in the body of the request
-        request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the
-                                                               // response
-        request.send(); // send the request
-    }
+		// Create Task
+		newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
+				status, requirement, startDate, dueDate, assignedUsers);
+
+		// Send a request to the core to save this message
+		final Request request =
+				Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT ==
+		// create
+		request.setBody(newTask.toJson()); // put the new message in the body of the request
+		request.addObserver(new AddTaskRequestObserver(this)); // add an observer to process the
+		// response
+		request.send(); // send the request
+	}
 
 }

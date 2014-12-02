@@ -29,101 +29,101 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 @SuppressWarnings("serial")
 public class WorkFlowView extends JPanel {
 
-    /** The work flow obj. */
-    private WorkFlow workFlowObj;
+	/** The work flow obj. */
+	private WorkFlow workFlowObj;
 
-    /** The txt text. */
-    private JTextField txtText;
+	/** The txt text. */
+	private JTextField txtText;
 
-    /** The task status panel. */
-    private final JPanel taskStatusPanel;
+	/** The task status panel. */
+	private final JPanel taskStatusPanel;
 
-    /** The txt1. */
-    private JTextField txt1;
+	/** The txt1. */
+	private JTextField txt1;
 
-    /** The txt2. */
-    private JTextField txt2;
+	/** The txt2. */
+	private JTextField txt2;
 
-    /** The txt3. */
-    private JTextField txt3;
+	/** The txt3. */
+	private JTextField txt3;
 
-    /** The txt4. */
-    private JTextField txt4;
+	/** The txt4. */
+	private JTextField txt4;
 
-    /** The title. */
-    private String title;
+	/** The title. */
+	private String title;
 
-    /** The task status views. */
-    List<TaskStatusView> views;
+	/** The task status views. */
+	List<TaskStatusView> views;
 
-    /**
-     * Create the panel.
-     */
-    public WorkFlowView() {
-        ViewEventController.getInstance().setWorkFlowView(this);
-        workFlowObj = new WorkFlow();
-        views = new ArrayList<TaskStatusView>();
+	/**
+	 * Create the panel.
+	 */
+	public WorkFlowView() {
+		ViewEventController.getInstance().setWorkFlowView(this);
+		workFlowObj = new WorkFlow();
+		views = new ArrayList<TaskStatusView>();
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
-        final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+		final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
+		// this.add(hbar, BorderLayout.SOUTH);
+		// JScrollPane scrollPane = new JScrollPane();
+		// this.add(scrollPane, BorderLayout.SOUTH);
 
-        taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
-        final TaskStatusView taskStatusSelDev =
-                new TaskStatusView("Selected for Development", "scheduled");
-        final TaskStatusView taskStatusInDev =
-                new TaskStatusView("Currently in Development", "in progress");
-        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
+		taskStatusPanel = new JPanel();
+		this.add(taskStatusPanel, BorderLayout.CENTER);
+		final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
+		final TaskStatusView taskStatusSelDev =
+				new TaskStatusView("Selected for Development", "scheduled");
+		final TaskStatusView taskStatusInDev =
+				new TaskStatusView("Currently in Development", "in progress");
+		final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
 
-        taskStatusPanel
-                .setLayout(new MigLayout(
-                        "",
-                        "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                        "[278px,grow 500]"));
-        
-        // Hard Coded Task Statuses, move this to database soon
-        taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
-        taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
-        taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
-        taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
+		taskStatusPanel
+		.setLayout(new MigLayout(
+				"",
+				"[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+						+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
+				"[278px,grow 500]"));
 
-        views.add(taskStatusNew);
-        views.add(taskStatusSelDev);
-        views.add(taskStatusInDev);
-        views.add(taskStatusDone);
-    }
+		// Hard Coded Task Statuses, move this to database soon
+		taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
+		taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
+		taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
+		taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
 
-    /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    public WorkFlow getWorkFlowObj() {
-        return workFlowObj;
-    }
+		views.add(taskStatusNew);
+		views.add(taskStatusSelDev);
+		views.add(taskStatusInDev);
+		views.add(taskStatusDone);
+	}
 
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        this.workFlowObj = workFlowObj;
-    }
+	/**
+	 * Gets the work flow obj.
+	 *
+	 * @return the work flow obj
+	 */
+	public WorkFlow getWorkFlowObj() {
+		return workFlowObj;
+	}
 
-    /**
-     * Refresh.
-     */
-    public void refresh() {
-        for (TaskStatusView v : views) {
-            v.requestTasksFromDb();
-        }
-    }
+	/**
+	 * Sets the work flow obj.
+	 *
+	 * @param workFlowObj the new work flow obj
+	 */
+	public void setWorkFlowObj(WorkFlow workFlowObj) {
+		this.workFlowObj = workFlowObj;
+	}
+
+	/**
+	 * Refresh.
+	 */
+	public void refresh() {
+		for (TaskStatusView v : views) {
+			v.requestTasksFromDb();
+		}
+	}
 
 }

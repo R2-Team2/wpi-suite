@@ -22,73 +22,73 @@ import javax.swing.SwingConstants;
  */
 public class ScrollablePanel extends JPanel implements Scrollable {
 
-    /**
-     * Method getPreferredScrollableViewportSize.
-     * 
-     * @return Dimension
-     * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
-     * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
-     */
-    @Override
-    public Dimension getPreferredScrollableViewportSize() {
-        return getPreferredSize();
-    }
+	/**
+	 * Method getPreferredScrollableViewportSize.
+	 * 
+	 * @return Dimension
+	 * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
+	 * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
+	 */
+	@Override
+	public Dimension getPreferredScrollableViewportSize() {
+		return getPreferredSize();
+	}
 
-    /**
-     * Method getScrollableUnitIncrement.
-     *
-     * @param visibleRect Rectangle
-     * @param orientation int
-     * @param direction int
-     * @return int
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
-     */
-    @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
-            int orientation, int direction) {
-        return 10;
-    }
+	/**
+	 * Method getScrollableUnitIncrement.
+	 *
+	 * @param visibleRect Rectangle
+	 * @param orientation int
+	 * @param direction int
+	 * @return int
+	 * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
+	 * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
+	 */
+	@Override
+	public int getScrollableUnitIncrement(Rectangle visibleRect,
+			int orientation, int direction) {
+		return 10;
+	}
 
-    /**
-     * Method getScrollableBlockIncrement.
-     *
-     * @param visibleRect Rectangle
-     * @param orientation int
-     * @param direction int
-     * @return int
-     * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
-     * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
-     */
-    @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-            int orientation, int direction) {
-        return ((orientation == SwingConstants.VERTICAL)
-                ? visibleRect.height : visibleRect.width) - 10;
-    }
+	/**
+	 * Method getScrollableBlockIncrement.
+	 *
+	 * @param visibleRect Rectangle
+	 * @param orientation int
+	 * @param direction int
+	 * @return int
+	 * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
+	 * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
+	 */
+	@Override
+	public int getScrollableBlockIncrement(Rectangle visibleRect,
+			int orientation, int direction) {
+		return ((orientation == SwingConstants.VERTICAL)
+				? visibleRect.height : visibleRect.width) - 10;
+	}
 
-    /**
-     * Method getScrollableTracksViewportWidth.
-     * 
-     * @return boolean
-     * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
-     * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
-     */
-    @Override
-    public boolean getScrollableTracksViewportWidth() {
-        return true;
-    }
+	/**
+	 * Method getScrollableTracksViewportWidth.
+	 * 
+	 * @return boolean
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
+	 */
+	@Override
+	public boolean getScrollableTracksViewportWidth() {
+		return true;
+	}
 
-    /**
-     * Method getScrollableTracksViewportHeight.
-     * 
-     * @return boolean
-     * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
-     * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
-     */
-    @Override
-    public boolean getScrollableTracksViewportHeight() {
-        return false;
-    }
+	/**
+	 * Method getScrollableTracksViewportHeight.
+	 * 
+	 * @return boolean
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
+	 */
+	@Override
+	public boolean getScrollableTracksViewportHeight() {
+		return false;
+	}
 
 }

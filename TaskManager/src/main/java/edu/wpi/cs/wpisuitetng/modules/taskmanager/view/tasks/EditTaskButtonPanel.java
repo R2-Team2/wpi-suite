@@ -28,7 +28,7 @@ import javax.swing.JButton;
  */
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel{
-	
+
 	protected EditTaskPanel parentPanel;
 
 	/**
@@ -38,7 +38,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 	 */
 	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
 		//Set Panel Layout
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		//Set Parent Panel
 		this.parentPanel = parentPanel;
 		//Set Button Messages
@@ -49,9 +49,9 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 		buttonCancel = new JButton(cancelString);
 		this.add(buttonSave);
 		this.add(buttonCancel);
-//		parentPanel.createPressed();
-		
-		this.setupListeners();
+		//		parentPanel.createPressed();
+
+		setupListeners();
 	}
 
 	/**
@@ -60,30 +60,32 @@ public class EditTaskButtonPanel extends AbstractButtonPanel{
 	 */
 	protected void setupListeners() {
 		buttonSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.savePressed();
 			}
 		});
-		
-		buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
 
-        });
+		buttonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.cancelPressed();
+			}
+
+		});
 	}
 
 	/**
-     * Validate task info.
-     */
-    public void validateTaskInfo() {
-        if (parentPanel.title.length() <= 0) {
-            buttonSave.setEnabled(false);
-        }
-        else {
-            buttonSave.setEnabled(true);
-        }
-    }
-    
+	 * Validate task info.
+	 */
+	@Override
+	public void validateTaskInfo() {
+		if (parentPanel.title.length() <= 0) {
+			buttonSave.setEnabled(false);
+		}
+		else {
+			buttonSave.setEnabled(true);
+		}
+	}
+
 }

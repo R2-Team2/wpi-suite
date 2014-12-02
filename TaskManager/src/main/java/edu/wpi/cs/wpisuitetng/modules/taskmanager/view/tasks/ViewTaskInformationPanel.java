@@ -10,41 +10,41 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 /**
  * The Class ViewTaskInformationPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
-    /**
-     * Constructor for the ViewTaskButtonPanel.
-     *
-     * @param aParentPanel the parent panel
-     */
-    public ViewTaskInformationPanel(ViewTaskPanel aParentPanel) {
-        parentPanel = aParentPanel;
-        this.buildLayout();
-        this.disableAll(true);
-        setTask();
-    }
+	/**
+	 * Constructor for the ViewTaskButtonPanel.
+	 *
+	 * @param aParentPanel the parent panel
+	 */
+	public ViewTaskInformationPanel(ViewTaskPanel aParentPanel) {
+		parentPanel = aParentPanel;
+		buildLayout();
+		disableAll(true);
+		initiateTask();
+	}
 
-    /**
-     * Sets the fields from the class's task object.
-     */
-    public void setTask() {
-        final Task viewTask = parentPanel.aTask;
+	/**
+	 * Sets the fields from the class's task object.
+	 */
+	public void initiateTask() {
+		final Task viewTask = parentPanel.aTask;
 
-        // viewTask.getTaskID();
-        final String t = viewTask.getTitle();
-        boxTitle.setText(t);
-        boxDescription.setText(viewTask.getDescription());
-        dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
-        // requirement
-        listChosenAssignees = viewTask.getAssignedUsers();
-        calStartDate.setDate(viewTask.getStartDate());
-        calDueDate.setDate(viewTask.getDueDate());
-        spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
-        spinnerActualEffort.setValue(viewTask.getActualEffort());
-    }
+		// viewTask.getTaskID();
+		final String t = viewTask.getTitle();
+		boxTitle.setText(t);
+		boxDescription.setText(viewTask.getDescription());
+		dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
+		// requirement
+		listChosenAssignees = viewTask.getAssignedUsers();
+		calStartDate.setDate(viewTask.getStartDate());
+		calDueDate.setDate(viewTask.getDueDate());
+		spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
+		spinnerActualEffort.setValue(viewTask.getActualEffort());
+	}
 
 }

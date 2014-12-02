@@ -26,171 +26,171 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  */
 public class EditTaskPanel extends AbstractTaskPanel {
 
-    /**
-     * Constructor for the NewTaskPanel.
-     *
-     * @param parent is the parent panel
-     * @param editTask is the task object to be edited.
-     */
+	/**
+	 * Constructor for the NewTaskPanel.
+	 *
+	 * @param parent is the parent panel
+	 * @param editTask is the task object to be edited.
+	 */
 
-    public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
-        parentPanel = parent;
-        aTask = editTask;
-        title = editTask.getTitle();
-        buildLayout();
-    }
+	public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
+		parentPanel = parent;
+		aTask = editTask;
+		title = editTask.getTitle();
+		buildLayout();
+	}
 
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    @Override
-    protected void buildLayout() {
-        buttonPanel = new EditTaskButtonPanel(this);
-        infoPanel = new EditTaskInformationPanel(this);
+	/**
+	 * Creates the GUI for the NewTaskPanel.
+	 */
+	@Override
+	protected void buildLayout() {
+		buttonPanel = new EditTaskButtonPanel(this);
+		infoPanel = new EditTaskInformationPanel(this);
 
-        setLayout(new BorderLayout());
-        this.add(infoPanel, BorderLayout.CENTER);
-        this.add(buttonPanel, BorderLayout.SOUTH);
-    }
+		setLayout(new BorderLayout());
+		this.add(infoPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);
+	}
 
-    /**
-     * Called when the Save Button is pressed Loads data into the database in the existing Task.
-     */
-    public void savePressed() {
+	/**
+	 * Called when the Save Button is pressed Loads data into the database in the existing Task.
+	 */
+	public void savePressed() {
 
-        // create a task, send to to controller
-        final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(aTask);
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-        // TODO: create task card
-        // TODO: put task card in proper task status
-        ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
-    }
+		// create a task, send to to controller
+		final UpdateTaskController updateTask = new UpdateTaskController(this);
+		updateTask.updateTask(aTask);
+		// RetrieveTasksController retrieveTasks = new RetrieveTasksController();
+		// retrieveTasks.requestTasks();
+		// TODO: create task card
+		// TODO: put task card in proper task status
+		ViewEventController.getInstance().removeSplitTab();
+		parentPanel.checkForHide();
+	}
 
-    /**
-     * Called when the Cancel Button is pressed Closes out the NewTask Tab.
-     */
-    @Override
-    public void cancelPressed() {
-        ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
-    }
+	/**
+	 * Called when the Cancel Button is pressed Closes out the NewTask Tab.
+	 */
+	@Override
+	public void cancelPressed() {
+		ViewEventController.getInstance().removeSplitTab();
+		parentPanel.checkForHide();
+	}
 
 
-    /**
-     * Returns the title information from infoPanel.
-     *
-     * @return String
-     */
-    @Override
-    public String getTitle() {
-        return infoPanel.getTitle().getText();
-    }
+	/**
+	 * Returns the title information from infoPanel.
+	 *
+	 * @return String
+	 */
+	@Override
+	public String getTitle() {
+		return infoPanel.getTitle().getText();
+	}
 
-    /**
-     * Returns the description information from infoPanel.
-     *
-     * @return String
-     */
-    @Override
-    public String getDescription() {
-        return infoPanel.getDescription().getText();
-    }
+	/**
+	 * Returns the description information from infoPanel.
+	 *
+	 * @return String
+	 */
+	@Override
+	public String getDescription() {
+		return infoPanel.getDescription().getText();
+	}
 
-    /**
-     * Retrieves the Estimated Effort from infoPanel.
-     *
-     * @return int
-     */
-    @Override
-    public int getEstimatedEffort() {
-        return (int) infoPanel.getEstimatedEffort().getValue();
-    }
+	/**
+	 * Retrieves the Estimated Effort from infoPanel.
+	 *
+	 * @return int
+	 */
+	@Override
+	public int getEstimatedEffort() {
+		return (int) infoPanel.getEstimatedEffort().getValue();
+	}
 
-    /**
-     * Retrieves the Actual Effort from infoPanel.
-     *
-     * @return int
-     */
-    @Override
-    public int getActualEffort() {
-        return (int) infoPanel.getActualEffort().getValue();
-    }
+	/**
+	 * Retrieves the Actual Effort from infoPanel.
+	 *
+	 * @return int
+	 */
+	@Override
+	public int getActualEffort() {
+		return (int) infoPanel.getActualEffort().getValue();
+	}
 
-    /**
-     * Retrieves the Status from infoPanel.
-     *
-     * @return String
-     */
-    @Override
-    public String getStatus() {
-        return infoPanel.getStatus().getSelectedItem().toString();
-    }
+	/**
+	 * Retrieves the Status from infoPanel.
+	 *
+	 * @return String
+	 */
+	@Override
+	public String getStatus() {
+		return infoPanel.getStatus().getSelectedItem().toString();
+	}
 
-    /**
-     * Retrieves the Requirement from infoPanel.
-     *
-     * @return String
-     */
-    @Override
-    public String getRequirement() {
-        return (String) infoPanel.getRequirement().getSelectedItem();
-    }
+	/**
+	 * Retrieves the Requirement from infoPanel.
+	 *
+	 * @return String
+	 */
+	@Override
+	public String getRequirement() {
+		return (String) infoPanel.getRequirement().getSelectedItem();
+	}
 
-    /**
-     * Retrieves the StartDate from infoPanel.
-     *
-     * @return Date
-     */
-    @Override
-    public Date getStartDate() {
-        return infoPanel.getStartDate();
-    }
+	/**
+	 * Retrieves the StartDate from infoPanel.
+	 *
+	 * @return Date
+	 */
+	@Override
+	public Date getStartDate() {
+		return infoPanel.getStartDate();
+	}
 
-    /**
-     * Retrieves the DueDate from infoPanel.
-     *
-     * @return Date
-     */
-    @Override
-    public Date getDueDate() {
-        return infoPanel.getDueDate();
-    }
+	/**
+	 * Retrieves the DueDate from infoPanel.
+	 *
+	 * @return Date
+	 */
+	@Override
+	public Date getDueDate() {
+		return infoPanel.getDueDate();
+	}
 
-    /**
-     * Retrieves the Chosen Members from infoPanel.
-     *
-     * @return String[]
-     */
-    @Override
-    public List<User> getAssignedUsers() {
-        return infoPanel.getAssignedUsers();
-    }
+	/**
+	 * Retrieves the Chosen Members from infoPanel.
+	 *
+	 * @return String[]
+	 */
+	@Override
+	public List<User> getAssignedUsers() {
+		return infoPanel.getAssignedUsers();
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
-     * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
-     */
-    public void setInfoPanel(AbstractInformationPanel aPanel) {
-        infoPanel = aPanel;
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
+	 * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
+	 */
+	public void setInfoPanel(AbstractInformationPanel aPanel) {
+		infoPanel = aPanel;
+	}
 
-    /**
-     * Sets the butt panel.
-     *
-     * @param aPanel the new butt panel
-     */
-    public void setButtPanel(NewTaskButtonPanel aPanel) {
-        buttonPanel = aPanel;
-    }
+	/**
+	 * Sets the butt panel.
+	 *
+	 * @param aPanel the new butt panel
+	 */
+	public void setButtPanel(NewTaskButtonPanel aPanel) {
+		buttonPanel = aPanel;
+	}
 
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
+	@Override
+	public void createPressed() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 }

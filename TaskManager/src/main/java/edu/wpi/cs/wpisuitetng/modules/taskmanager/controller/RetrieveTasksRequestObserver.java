@@ -22,35 +22,35 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveTasksRequestObserver implements RequestObserver {
 
-    /** The controller. */
-    private final RetrieveTasksController controller;
+	/** The controller. */
+	private final RetrieveTasksController controller;
 
-    /**
-     * This method is called when information about an RetrieveTasksRequest which was previously
-     * requested using an asynchronous interface becomes available.
-     *
-     * @param controller the controller
-     */
-    public RetrieveTasksRequestObserver(RetrieveTasksController controller) {
-        this.controller = controller;
-    }
+	/**
+	 * This method is called when information about an RetrieveTasksRequest which was previously
+	 * requested using an asynchronous interface becomes available.
+	 *
+	 * @param controller the controller
+	 */
+	public RetrieveTasksRequestObserver(RetrieveTasksController controller) {
+		this.controller = controller;
+	}
 
-    @Override
-    public void responseSuccess(IRequest iReq) {
-        // TODO Auto-generated method stub
-        final ResponseModel response = iReq.getResponse();
-        final String responseBody = response.getBody();
-        controller.displayTasks(Task.fromJsonArray(responseBody));
-    }
+	@Override
+	public void responseSuccess(IRequest iReq) {
+		// TODO Auto-generated method stub
+		final ResponseModel response = iReq.getResponse();
+		final String responseBody = response.getBody();
+		controller.displayTasks(Task.fromJsonArray(responseBody));
+	}
 
-    @Override
-    public void responseError(IRequest iReq) {
-        System.err.println("The request to get tasks failed.");
-    }
+	@Override
+	public void responseError(IRequest iReq) {
+		System.err.println("The request to get tasks failed.");
+	}
 
-    @Override
-    public void fail(IRequest iReq, Exception exception) {
-        System.err.println("The request to get tasks failed.");
-    }
+	@Override
+	public void fail(IRequest iReq, Exception exception) {
+		System.err.println("The request to get tasks failed.");
+	}
 
 }

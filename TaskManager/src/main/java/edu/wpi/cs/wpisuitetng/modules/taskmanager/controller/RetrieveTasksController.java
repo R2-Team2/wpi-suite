@@ -21,34 +21,34 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class RetrieveTasksController {
 
-    /** The view. */
-    private final TaskStatusView view;
+	/** The view. */
+	private final TaskStatusView view;
 
-    /**
-     * Instantiates a new retrieve tasks controller.
-     *
-     * @param view the view
-     */
-    public RetrieveTasksController(TaskStatusView view) {
-        this.view = view;
-    }
+	/**
+	 * Instantiates a new retrieve tasks controller.
+	 *
+	 * @param view the view
+	 */
+	public RetrieveTasksController(TaskStatusView view) {
+		this.view = view;
+	}
 
-    /**
-     * Request tasks.
-     */
-    public void requestTasks() {
-        final Request request =
-                Network.getInstance().makeRequest("taskmanager/task", HttpMethod.GET);
-        request.addObserver(new RetrieveTasksRequestObserver(this));
-        request.send();
-    }
+	/**
+	 * Request tasks.
+	 */
+	public void requestTasks() {
+		final Request request =
+				Network.getInstance().makeRequest("taskmanager/task", HttpMethod.GET);
+		request.addObserver(new RetrieveTasksRequestObserver(this));
+		request.send();
+	}
 
-    /**
-     * Display tasks.
-     *
-     * @param taskArray the task array
-     */
-    public void displayTasks(Task[] taskArray) {
-        view.fillTaskList(taskArray);
-    }
+	/**
+	 * Display tasks.
+	 *
+	 * @param taskArray the task array
+	 */
+	public void displayTasks(Task[] taskArray) {
+		view.fillTaskList(taskArray);
+	}
 }

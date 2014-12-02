@@ -63,14 +63,14 @@ public class ViewEventController {
 	 * @param mainview MainView
 	 */
 	public void setMainView(MainView mainview) {
-		this.main = mainview;
+		main = mainview;
 	}
 
 	/**
 	 * opens requirement module tab
 	 */
 	public void openRequirementsTab() {
-		((JTabbedPane) ((JPanel) this.main.getParent()).getParent()).setSelectedIndex(2);
+		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
 	}
 
 	/**
@@ -79,14 +79,14 @@ public class ViewEventController {
 	 * @param splitTabbedPanel the new split tabbed panel
 	 */
 	public void setSplitTabbedPanel(WorkFlowSplitTabbedPanel splitTabbedPanel) {
-		this.split = splitTabbedPanel;
+		split = splitTabbedPanel;
 	}
 
 	/**
 	 * Opens a new tab for the creation of a requirement.
 	 */
 	public void createTask() {
-		this.main.showCreateTaskView();
+		main.showCreateTaskView();
 
 	}
 
@@ -94,7 +94,7 @@ public class ViewEventController {
 	 * Edits the work flow view.
 	 */
 	public void editWorkFlowView() {
-		this.main.editWorkFlowView();
+		main.editWorkFlowView();
 
 	}
 
@@ -105,7 +105,7 @@ public class ViewEventController {
 	 * Close new task panel.
 	 */
 	public void closeNewTaskPanel() {
-		this.main.hideCreateTaskView();
+		main.hideCreateTaskView();
 	}
 
 	/**
@@ -114,9 +114,9 @@ public class ViewEventController {
 	 * @param task Task to be viewed
 	 */
 	public void viewTask(Task task) {
-		final WorkFlowSplitTabbedPanel viewParent = this.main.getWF().getWF();
+		final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
 		final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
-		this.main.showViewTaskView(taskView);
+		main.showViewTaskView(taskView);
 		System.out.println("Open View Task");
 		// taskView.
 
@@ -127,14 +127,14 @@ public class ViewEventController {
 	 * Removes the tab for the given JComponent.
 	 */
 	public void removeTab() {
-		this.main.removeTabAt(this.main.getSelectedIndex());
+		main.removeTabAt(main.getSelectedIndex());
 	}
 
 	/**
 	 * Removes the split tab.
 	 */
 	public void removeSplitTab() {
-		this.split.removeTabAt(this.split.getSelectedIndex());
+		split.removeTabAt(split.getSelectedIndex());
 	}
 
 	/**
@@ -150,13 +150,6 @@ public class ViewEventController {
 	 * Refresh work flow view.
 	 */
 	public void refreshWorkFlowView() {
-		this.workflow.refresh();
-	}
-
-	/**
-	 * Open requirement in requirements tab
-	 */
-	public void openRequirement(int reqID) {
-
+		workflow.refresh();
 	}
 }

@@ -20,31 +20,31 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @version $Revision: 1.0 $
  */
 public class UpdateTaskController {
-    private final AbstractTaskPanel view;
+	private final AbstractTaskPanel view;
 
-    /**
-     * Constructor for the UpdateTaskController.
-     *
-     * @param view the parent view
-     */
-    public UpdateTaskController(AbstractTaskPanel view) {
-        this.view = view;
-    }
+	/**
+	 * Constructor for the UpdateTaskController.
+	 *
+	 * @param view the parent view
+	 */
+	public UpdateTaskController(AbstractTaskPanel view) {
+		this.view = view;
+	}
 
-    /**
-     * Calls the request from the request observer.
-     *
-     * @param toSave is the task object to be updated in the database.
-     */
-    public void updateTask(Task toSave) {
-        // Send a request to the core to save this message
-        final Request request =
-                Network.getInstance().makeRequest("taskmanager/task", HttpMethod.POST); // POST ==
-        // save
-        request.setBody(toSave.toJson()); // put the new message in the body of the request
-        request.addObserver(new UpdateTaskRequestObserver(this)); // add an observer to process the
-        // response
-        request.send(); // send the request
-        System.out.println("Sent task to database");
-    }
+	/**
+	 * Calls the request from the request observer.
+	 *
+	 * @param toSave is the task object to be updated in the database.
+	 */
+	public void updateTask(Task toSave) {
+		// Send a request to the core to save this message
+		final Request request =
+				Network.getInstance().makeRequest("taskmanager/task", HttpMethod.POST); // POST ==
+		// save
+		request.setBody(toSave.toJson()); // put the new message in the body of the request
+		request.addObserver(new UpdateTaskRequestObserver(this)); // add an observer to process the
+		// response
+		request.send(); // send the request
+		System.out.println("Sent task to database");
+	}
 }

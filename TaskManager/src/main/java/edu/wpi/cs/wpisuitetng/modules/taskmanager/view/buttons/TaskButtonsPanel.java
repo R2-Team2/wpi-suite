@@ -30,145 +30,145 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  */
 @SuppressWarnings("serial")
 public class TaskButtonsPanel extends ToolbarGroupView {
-    // initialize the main view toolbar buttons
-    /** The create button. */
-    private final JButton createButton = new JButton("<html>Create<br />Task</html>");
+	// initialize the main view toolbar buttons
+	/** The create button. */
+	private final JButton createButton = new JButton("<html>Create<br />Task</html>");
 
-    /** The reports button. */
-    private final JButton reportsButton = new JButton("<html>Reports</html>");
+	/** The reports button. */
+	private final JButton reportsButton = new JButton("<html>Reports</html>");
 
-    /** The settings button. */
-    private final JButton settingsButton = new JButton("<html>Settings</html>");
+	/** The settings button. */
+	private final JButton settingsButton = new JButton("<html>Settings</html>");
 
-    /** The help button. */
-    private final JButton helpButton = new JButton("<html>Help</html>");
+	/** The help button. */
+	private final JButton helpButton = new JButton("<html>Help</html>");
 
-    /** The content panel. */
-    private final JPanel contentPanel = new JPanel();
+	/** The content panel. */
+	private final JPanel contentPanel = new JPanel();
 
-    /**
-     * Instantiates a new task buttons panel.
-     */
-    public TaskButtonsPanel() {
-        super("");
+	/**
+	 * Instantiates a new task buttons panel.
+	 */
+	public TaskButtonsPanel() {
+		super("");
 
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
-        setPreferredWidth(700);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		setPreferredWidth(700);
 
-        createButton.setHorizontalAlignment(SwingConstants.CENTER);
-        try {
-            Image img = ImageIO.read(this.getClass().getResourceAsStream("new_task.png"));
-            createButton.setIcon(new ImageIcon(img));
-            img = ImageIO.read(this.getClass().getResourceAsStream("reports.png"));
-            reportsButton.setIcon(new ImageIcon(img));
-            img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
-            settingsButton.setIcon(new ImageIcon(img));
-            img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
-            helpButton.setIcon(new ImageIcon(img));
-        } catch (IOException ex) {
-            // Hopefully, won't get here
-            System.err.println("Populating Top Bar Buttons Exception");
-            ex.printStackTrace();
-        }
+		createButton.setHorizontalAlignment(SwingConstants.CENTER);
+		try {
+			Image img = ImageIO.read(this.getClass().getResourceAsStream("new_task.png"));
+			createButton.setIcon(new ImageIcon(img));
+			img = ImageIO.read(this.getClass().getResourceAsStream("reports.png"));
+			reportsButton.setIcon(new ImageIcon(img));
+			img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
+			settingsButton.setIcon(new ImageIcon(img));
+			img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
+			helpButton.setIcon(new ImageIcon(img));
+		} catch (IOException ex) {
+			// Hopefully, won't get here
+			System.err.println("Populating Top Bar Buttons Exception");
+			ex.printStackTrace();
+		}
 
-        // the action listener for the Create Action Button
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                ViewEventController.getInstance().createTask();
-            }
-        });
+		// the action listener for the Create Action Button
+		createButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// bring up a create task pane
+				ViewEventController.getInstance().createTask();
+			}
+		});
 
-        // the action listener for the Reports Button
-        reportsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
-            }
-        });
+		// the action listener for the Reports Button
+		reportsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// bring up a create task pane
+				// TODO Action on ViewController ViewEventController.getInstance().createTask();
+			}
+		});
 
-        // the action listener for the Settings Button
-        settingsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a settings view
-                // Currently Brings up the Edit Work Flow View Directly
-                ViewEventController.getInstance().editWorkFlowView();
-            }
-        });
+		// the action listener for the Settings Button
+		settingsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// bring up a settings view
+				// Currently Brings up the Edit Work Flow View Directly
+				ViewEventController.getInstance().editWorkFlowView();
+			}
+		});
 
-        // the action listener for the Help Button
-        helpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
-            }
-        });
+		// the action listener for the Help Button
+		helpButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// bring up a create task pane
+				// TODO Action on ViewController ViewEventController.getInstance().createTask();
+			}
+		});
 
-        // Gray out top bar buttons that are not currently being used
-        reportsButton.setEnabled(false);
-        settingsButton.setEnabled(true);
-        helpButton.setEnabled(false);
-        createButton.setEnabled(true);
+		// Gray out top bar buttons that are not currently being used
+		reportsButton.setEnabled(false);
+		settingsButton.setEnabled(true);
+		helpButton.setEnabled(false);
+		createButton.setEnabled(true);
 
-        contentPanel.add(reportsButton);
-        contentPanel.add(settingsButton);
-        contentPanel.add(helpButton);
-        contentPanel.add(createButton);
-        contentPanel.setOpaque(false);
+		contentPanel.add(reportsButton);
+		contentPanel.add(settingsButton);
+		contentPanel.add(helpButton);
+		contentPanel.add(createButton);
+		contentPanel.setOpaque(false);
 
-        this.add(contentPanel);
-    }
+		this.add(contentPanel);
+	}
 
-    /**
-     * Method getCreateButton.
-     *
-     * @return JButton
-     */
-    public JButton getCreateButton() {
-        return createButton;
-    }
+	/**
+	 * Method getCreateButton.
+	 *
+	 * @return JButton
+	 */
+	public JButton getCreateButton() {
+		return createButton;
+	}
 
-    /**
-     * Method getReportsButton.
-     *
-     * @return JButton
-     */
-    public JButton getReportsButton() {
-        return reportsButton;
-    }
+	/**
+	 * Method getReportsButton.
+	 *
+	 * @return JButton
+	 */
+	public JButton getReportsButton() {
+		return reportsButton;
+	}
 
-    /**
-     * Method getSettingsButton.
-     *
-     * @return JButton
-     */
-    public JButton getSettingsButton() {
-        return settingsButton;
-    }
+	/**
+	 * Method getSettingsButton.
+	 *
+	 * @return JButton
+	 */
+	public JButton getSettingsButton() {
+		return settingsButton;
+	}
 
-    /**
-     * Method getHelpButton.
-     *
-     * @return JButton
-     */
-    public JButton getHelpButton() {
-        return helpButton;
-    }
+	/**
+	 * Method getHelpButton.
+	 *
+	 * @return JButton
+	 */
+	public JButton getHelpButton() {
+		return helpButton;
+	}
 
-    /**
-     * Called when the mouse enters this toolbar group
-     */
-    @Override
-    public void mouseEntered() {}
+	/**
+	 * Called when the mouse enters this toolbar group
+	 */
+	@Override
+	public void mouseEntered() {}
 
-    /**
-     * Called when the mouse exits this toolbar group
-     */
-    @Override
-    public void mouseExited() {}
+	/**
+	 * Called when the mouse exits this toolbar group
+	 */
+	@Override
+	public void mouseExited() {}
 
 }

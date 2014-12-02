@@ -35,171 +35,171 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends JPanel {
 
-    // private WorkFlowSplitTabbedPanel parentPanel;
+	// private WorkFlowSplitTabbedPanel parentPanel;
 
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
+	// private NewTaskInformationPanel infoPanel;
+	// private NewTaskButtonPanel buttonPanel;
 
-    // /** The view event controller. */
-    // private final ViewEventController viewEventController = ViewEventController.getInstance();
+	// /** The view event controller. */
+	// private final ViewEventController viewEventController = ViewEventController.getInstance();
 
-    /** The default border. */
-    protected final Border defaultBorder = BorderFactory.createEtchedBorder();
+	/** The default border. */
+	protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
-    /** Settings Panel Title. */
-    protected JTextField title = new JTextField("Edit Work Flow");
+	/** Settings Panel Title. */
+	protected JTextField title = new JTextField("Edit Work Flow");
 
-    /** The title font. */
-    protected Font titleFont = new Font("SansSerif", Font.BOLD, 30);
+	/** The title font. */
+	protected Font titleFont = new Font("SansSerif", Font.BOLD, 30);
 
-    /** The task status button panel. */
-    private final JPanel taskStatusButtonPanel = new JPanel(new MigLayout());
+	/** The task status button panel. */
+	private final JPanel taskStatusButtonPanel = new JPanel(new MigLayout());
 
-    /** The task status panel. */
-    private final JPanel taskStatusPanel = new JPanel(new MigLayout());
+	/** The task status panel. */
+	private final JPanel taskStatusPanel = new JPanel(new MigLayout());
 
-    /** The add task status panel. */
-    private final JPanel addTaskStatusPanel = new JPanel(new MigLayout());
+	/** The add task status panel. */
+	private final JPanel addTaskStatusPanel = new JPanel(new MigLayout());
 
-    /** The label task status list. */
-    final JLabel labelTaskStatusList = new JLabel("Available Task Statuses");
-
-
-
-    // Task Status Settings Buttons
-    /** The add task status button. */
-    private final JButton addTaskStatusButton = new JButton("Add Task Status");
-
-    /** The remove stage button. */
-    private final JButton removeStageButton = new JButton("Remove Task Status");
-
-    // Bottom Button Panel
-    /** The bottom button panel. */
-    private final JPanel bottomButtonPanel = new JPanel(new MigLayout());
-
-    /** The save settings button. */
-    private final JButton saveSettingsButton = new JButton("Save Settings");
-
-    /** The cancel button. */
-    private final JButton cancelButton = new JButton("Cancel");
-
-    /** The new status title label. */
-    private final JTextField newStatusTitleLabel = new JTextField("New Status Title");
-
-    /** The new status title. */
-    private JTextField newStatusTitle;
-
-    /** The model. */
-    private final DefaultListModel model = new DefaultListModel();
-
-    /** The list. */
-    private final JList list = new JList(model);
-
-    /**
-     * Constructor for the NewTaskPanel.
-     */
-    public WorkFlowEditView() {
-        this.buildLayout();
+	/** The label task status list. */
+	final JLabel labelTaskStatusList = new JLabel("Available Task Statuses");
 
 
-        // Query Database for Task Statuses
 
-    }
+	// Task Status Settings Buttons
+	/** The add task status button. */
+	private final JButton addTaskStatusButton = new JButton("Add Task Status");
 
-    /**
-     * Instantiates a new work flow edit view.
-     *
-     * @param parentPanel the parent panel
-     */
-    public WorkFlowEditView(SettingsSplitTabbedPanel parentPanel) {
+	/** The remove stage button. */
+	private final JButton removeStageButton = new JButton("Remove Task Status");
 
+	// Bottom Button Panel
+	/** The bottom button panel. */
+	private final JPanel bottomButtonPanel = new JPanel(new MigLayout());
 
-        this.buildLayout();
+	/** The save settings button. */
+	private final JButton saveSettingsButton = new JButton("Save Settings");
 
-    }
+	/** The cancel button. */
+	private final JButton cancelButton = new JButton("Cancel");
 
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
-    protected void buildLayout() {
+	/** The new status title label. */
+	private final JTextField newStatusTitleLabel = new JTextField("New Status Title");
 
-        // Add Settings for changing date format?
+	/** The new status title. */
+	private JTextField newStatusTitle;
 
-        // Build Bottom Button Panel
-        bottomButtonPanel.add(saveSettingsButton, "left");
-        bottomButtonPanel.add(cancelButton, "left");
+	/** The model. */
+	private final DefaultListModel model = new DefaultListModel();
 
-        this.buildEditWorkFlowView();
-        this.add(title, BorderLayout.NORTH);
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-        this.add(bottomButtonPanel, BorderLayout.SOUTH);
-    }
+	/** The list. */
+	private final JList list = new JList(model);
 
-    /**
-     * Builds the edit work flow view.
-     */
-    protected void buildEditWorkFlowView() {
-        // Set Minimum Size of the Settings Panel
-        this.setMinimumSize(new Dimension(1000, 1000));
-        this.setLayout(new BorderLayout());
-
-        newStatusTitleLabel.setBackground(getBackground());
-        newStatusTitleLabel.setBorder(null);
-        addTaskStatusPanel.add(newStatusTitleLabel, "center, wrap");
-        newStatusTitle = new JTextField("");
-        newStatusTitle.setMinimumSize(new Dimension(200, 15));
-        addTaskStatusPanel.add(newStatusTitle, "center, wrap");
-        addTaskStatusPanel.add(addTaskStatusButton, "center, wrap");
-
-        list.setBorder(defaultBorder);
-        list.setMinimumSize(new Dimension(200, 500));
-
-        taskStatusPanel.add(addTaskStatusPanel, "center, wrap");
-        taskStatusButtonPanel.add(removeStageButton, "center, wrap");
+	/**
+	 * Constructor for the NewTaskPanel.
+	 */
+	public WorkFlowEditView() {
+		buildLayout();
 
 
-        taskStatusPanel.add(taskStatusButtonPanel, "center, wrap");
-        taskStatusPanel.add(labelTaskStatusList, "center, wrap");
-        taskStatusPanel.add(list, "left, width 200px, height 150px, wrap");
-        taskStatusPanel.setBorder(defaultBorder);
+		// Query Database for Task Statuses
 
-        // Construct the Settings Title
-        title.setBorder(null);
-        title.setBackground(getBackground());
-        title.setFont(titleFont);
-        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    }
+	}
 
-    /**
-     * Sets up the listeners for the buttons in the New Task Information Panel.
-     */
-    protected void setupListeners() {
-        // Text Field Listeners
-        newStatusTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                // parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                // parentPanel.buttonPanel.validateTaskInfo();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                // parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
-
-        addTaskStatusButton.addActionListener(new ActionListener() {
+	/**
+	 * Instantiates a new work flow edit view.
+	 *
+	 * @param parentPanel the parent panel
+	 */
+	public WorkFlowEditView(SettingsSplitTabbedPanel parentPanel) {
 
 
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
+		buildLayout();
+
+	}
+
+	/**
+	 * Creates the GUI for the NewTaskPanel.
+	 */
+	protected void buildLayout() {
+
+		// Add Settings for changing date format?
+
+		// Build Bottom Button Panel
+		bottomButtonPanel.add(saveSettingsButton, "left");
+		bottomButtonPanel.add(cancelButton, "left");
+
+		buildEditWorkFlowView();
+		this.add(title, BorderLayout.NORTH);
+		this.add(taskStatusPanel, BorderLayout.CENTER);
+		this.add(bottomButtonPanel, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Builds the edit work flow view.
+	 */
+	protected void buildEditWorkFlowView() {
+		// Set Minimum Size of the Settings Panel
+		setMinimumSize(new Dimension(1000, 1000));
+		setLayout(new BorderLayout());
+
+		newStatusTitleLabel.setBackground(getBackground());
+		newStatusTitleLabel.setBorder(null);
+		addTaskStatusPanel.add(newStatusTitleLabel, "center, wrap");
+		newStatusTitle = new JTextField("");
+		newStatusTitle.setMinimumSize(new Dimension(200, 15));
+		addTaskStatusPanel.add(newStatusTitle, "center, wrap");
+		addTaskStatusPanel.add(addTaskStatusButton, "center, wrap");
+
+		list.setBorder(defaultBorder);
+		list.setMinimumSize(new Dimension(200, 500));
+
+		taskStatusPanel.add(addTaskStatusPanel, "center, wrap");
+		taskStatusButtonPanel.add(removeStageButton, "center, wrap");
 
 
-            }
-        });
-    }
+		taskStatusPanel.add(taskStatusButtonPanel, "center, wrap");
+		taskStatusPanel.add(labelTaskStatusList, "center, wrap");
+		taskStatusPanel.add(list, "left, width 200px, height 150px, wrap");
+		taskStatusPanel.setBorder(defaultBorder);
+
+		// Construct the Settings Title
+		title.setBorder(null);
+		title.setBackground(getBackground());
+		title.setFont(titleFont);
+		title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	}
+
+	/**
+	 * Sets up the listeners for the buttons in the New Task Information Panel.
+	 */
+	protected void setupListeners() {
+		// Text Field Listeners
+		newStatusTitle.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// parentPanel.buttonPanel.validateTaskInfo();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
+
+		addTaskStatusButton.addActionListener(new ActionListener() {
+
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+
+			}
+		});
+	}
 }

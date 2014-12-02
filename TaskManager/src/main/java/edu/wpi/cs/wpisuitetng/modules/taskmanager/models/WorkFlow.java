@@ -17,54 +17,54 @@ import java.util.List;
  */
 public class WorkFlow {
 
-    /** The work flow id. */
-    private int workFlowID;
+	/** The work flow id. */
+	private int workFlowID;
 
-    /** The task status list. */
-    private List<TaskStatus> taskStatusList;
+	/** The task status list. */
+	private List<TaskStatus> taskStatusList;
 
-    /**
-     * Instantiates a new work flow.
-     */
-    public WorkFlow() {
-        taskStatusList = new ArrayList<TaskStatus>();
-    }
+	/**
+	 * Instantiates a new work flow.
+	 */
+	public WorkFlow() {
+		taskStatusList = new ArrayList<TaskStatus>();
+	}
 
-    /**
-     * Gets the work flow id.
-     *
-     * @return the work flow id
-     */
-    public int getWorkFlowID() {
-        return workFlowID;
-    }
+	/**
+	 * Gets the work flow id.
+	 *
+	 * @return the work flow id
+	 */
+	public int getWorkFlowID() {
+		return workFlowID;
+	}
 
-    /**
-     * Sets the work flow id.
-     *
-     * @param workFlowID the new work flow id
-     */
-    public void setWorkFlowID(int workFlowID) {
-        this.workFlowID = workFlowID;
-    }
+	/**
+	 * Sets the work flow id.
+	 *
+	 * @param workFlowID the new work flow id
+	 */
+	public void setWorkFlowID(int workFlowID) {
+		this.workFlowID = workFlowID;
+	}
 
-    /**
-     * Gets the task status list.
-     *
-     * @return the task status list
-     */
-    public List<TaskStatus> getTaskStatusList() {
-        return taskStatusList;
-    }
+	/**
+	 * Gets the task status list.
+	 *
+	 * @return the task status list
+	 */
+	public List<TaskStatus> getTaskStatusList() {
+		return taskStatusList;
+	}
 
-    /**
-     * Sets the task status list.
-     *
-     * @param taskStatusList the new task status list
-     */
-    public void setTaskStatusList(List<TaskStatus> taskStatusList) {
-        this.taskStatusList = taskStatusList;
-    }
+	/**
+	 * Sets the task status list.
+	 *
+	 * @param taskStatusList the new task status list
+	 */
+	public void setTaskStatusList(List<TaskStatus> taskStatusList) {
+		this.taskStatusList = taskStatusList;
+	}
 
 
 }

@@ -40,120 +40,120 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
-    /** The task status obj. */
-    TaskStatus taskStatusObj;
+	/** The task status obj. */
+	TaskStatus taskStatusObj;
 
-    /** The txtpn title. */
-    JTextPane txtpnTitle = new JTextPane();
+	/** The txtpn title. */
+	JTextPane txtpnTitle = new JTextPane();
 
-    /** The panel. */
-    JPanel panel = new JPanel();
+	/** The panel. */
+	JPanel panel = new JPanel();
 
-    /** The TaskStatus title. */
-    private final String title;
+	/** The TaskStatus title. */
+	private final String title;
 
-    /** Represents whether the view has been initialized. */
-    private boolean initialized;
+	/** Represents whether the view has been initialized. */
+	private boolean initialized;
 
-    /**
-     * Create the panel.
-     *
-     * @param title the title
-     * @param statusType the status type
-     */
-    public TaskStatusView(String title, String statusType) {
+	/**
+	 * Create the panel.
+	 *
+	 * @param title the title
+	 * @param statusType the status type
+	 */
+	public TaskStatusView(String title, String statusType) {
 
-        initialized = false;
-        this.title = title;
+		initialized = false;
+		this.title = title;
 
-        setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType);
+		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+		taskStatusObj = new TaskStatus(statusType);
 
-        final JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportBorder(null);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        // Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBorder(new EtchedBorder());
-        this.add(scrollPane, "cell 0 1,grow");
+		final JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		// Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(new EtchedBorder());
+		this.add(scrollPane, "cell 0 1,grow");
 
-        // Create Format and Add Title JTextPane
-        final StyledDocument document = new DefaultStyledDocument();
-        final javax.swing.text.Style defaultStyle = document.getStyle(StyleContext.DEFAULT_STYLE);
-        StyleConstants.setAlignment(defaultStyle, StyleConstants.ALIGN_CENTER);
-        final JTextPane txtpnTitle = new JTextPane(document);
-        txtpnTitle.setBackground(UIManager.getColor("Button.background"));
-        txtpnTitle.setBorder(null);
-        txtpnTitle.setForeground(Color.black);
-        txtpnTitle.setEditable(false);
-        txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-        txtpnTitle.setText(this.title);
-        this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
-        panel.setBackground(Color.WHITE);
+		// Create Format and Add Title JTextPane
+		final StyledDocument document = new DefaultStyledDocument();
+		final javax.swing.text.Style defaultStyle = document.getStyle(StyleContext.DEFAULT_STYLE);
+		StyleConstants.setAlignment(defaultStyle, StyleConstants.ALIGN_CENTER);
+		final JTextPane txtpnTitle = new JTextPane(document);
+		txtpnTitle.setBackground(UIManager.getColor("Button.background"));
+		txtpnTitle.setBorder(null);
+		txtpnTitle.setForeground(Color.black);
+		txtpnTitle.setEditable(false);
+		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
+		txtpnTitle.setText(this.title);
+		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
+		panel.setBackground(Color.WHITE);
 
-        scrollPane.setViewportView(panel);
-        panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
-    }
-
-
-    /**
-     * Populate TaskStatusView with Cards Associated with the Status.
-     */
-    public void requestTasksFromDb() {
-        final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
-        retrieveTasks.requestTasks();
-    }
-
-    /**
-     * Fill task list.
-     *
-     * @param taskArray the task array
-     */
-    public void fillTaskList(Task[] taskArray) {
-        taskStatusObj.setTaskList(new ArrayList<Task>());
-        for (Task t : taskArray) {
-            if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
-                taskStatusObj.addTask(t);
-            }
-        }
-        populateTaskStatusViewCards();
-    }
-
-    /**
-     * Populate task status view cards.
-     */
-    public void populateTaskStatusViewCards() {
-        final List<Task> taskList = taskStatusObj.getTaskList();
-        panel.removeAll();
-        for (Task t : taskList) {
-        	String dateString = formateDate(t);
-            TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
-            panel.add(card, "newline");
-        }
-        revalidate();
-    }
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
+	}
 
 
-    /**
-     * Returns the formatted due date of a task.
-     *
-     * @param t A given Task Object
-     * @return dateString Formatted Due Date of Task t in mm/dd/yy
-     */
-    private String formateDate(Task t) {
-        final Date date = t.getDueDate();
-        final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
-        final String dateString = dateFormatter.format(date);
-        return dateString;
-    }
+	/**
+	 * Populate TaskStatusView with Cards Associated with the Status.
+	 */
+	public void requestTasksFromDb() {
+		final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
+		retrieveTasks.requestTasks();
+	}
 
-    @Override
-    public void paintComponent(Graphics g) {
-        if (!initialized) {
-            requestTasksFromDb();
-            initialized = true;
-        }
-        super.paintComponent(g);
-    }
+	/**
+	 * Fill task list.
+	 *
+	 * @param taskArray the task array
+	 */
+	public void fillTaskList(Task[] taskArray) {
+		taskStatusObj.setTaskList(new ArrayList<Task>());
+		for (Task t : taskArray) {
+			if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
+				taskStatusObj.addTask(t);
+			}
+		}
+		populateTaskStatusViewCards();
+	}
+
+	/**
+	 * Populate task status view cards.
+	 */
+	public void populateTaskStatusViewCards() {
+		final List<Task> taskList = taskStatusObj.getTaskList();
+		panel.removeAll();
+		for (Task t : taskList) {
+			String dateString = formateDate(t);
+			TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
+			panel.add(card, "newline");
+		}
+		revalidate();
+	}
+
+
+	/**
+	 * Returns the formatted due date of a task.
+	 *
+	 * @param t A given Task Object
+	 * @return dateString Formatted Due Date of Task t in mm/dd/yy
+	 */
+	private String formateDate(Task t) {
+		final Date date = t.getDueDate();
+		final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		final String dateString = dateFormatter.format(date);
+		return dateString;
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		if (!initialized) {
+			requestTasksFromDb();
+			initialized = true;
+		}
+		super.paintComponent(g);
+	}
 
 }

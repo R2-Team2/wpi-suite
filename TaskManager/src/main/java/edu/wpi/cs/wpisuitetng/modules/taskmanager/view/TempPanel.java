@@ -21,7 +21,7 @@ import javax.swing.JTextField;
  * @version $Revision: 1.0 $
  */
 public class TempPanel extends JPanel {
-	
+
 	/** The text field. */
 	private final JTextField textField;
 
@@ -30,10 +30,10 @@ public class TempPanel extends JPanel {
 	 */
 	public TempPanel() {
 		setLayout(new MigLayout("", "[61px,grow]", "[16px][]"));
-		
+
 		final JLabel label = new JLabel("New label");
 		add(label, "cell 0 0,alignx left,aligny top");
-		
+
 		textField = new JTextField();
 		add(textField, "cell 0 1,growx");
 		textField.setColumns(10);

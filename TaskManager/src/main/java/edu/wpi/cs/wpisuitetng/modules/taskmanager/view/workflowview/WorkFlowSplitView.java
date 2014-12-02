@@ -1,4 +1,4 @@
-  /*******************************************************************************
+/*******************************************************************************
  * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -32,47 +32,48 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTab
  * @version $Revision: 1.0 $
  */
 public class WorkFlowSplitView extends JSplitPane{
-	
+
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
 	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
-	
+
 	/**
 	 * Instantiates a new work flow split view.
 	 */
 	public WorkFlowSplitView() {
 		workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
-        ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
-		
-		this.setLeftComponent(new JScrollPane(new WorkFlowView()));
-		this.setRightComponent(null);
+		ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
+
+		setLeftComponent(new JScrollPane(new WorkFlowView()));
+		setRightComponent(null);
 		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-               hideCreateNewTaskPanel();
-            }
-        });
+			@Override
+			public void run() {
+				hideCreateNewTaskPanel();
+			}
+		});
 	}
-	
+
 	/**
 	 * Creates the new task panel.
 	 */
 	public WorkFlowSplitTabbedPanel getWF(){
 		return workflowSplitTabbedPanel;
 	}
-	
+
 	/**
 	 * Creates the new task panel.
 	 */
 	public void createNewTaskPanel() {
 		workflowSplitTabbedPanel.addCreateTaskTab();
 		// Sets the Right Component to its minimum size always
-		this.setResizeWeight(1.0);
-		this.setEnabled( false );
-		this.setOneTouchExpandable(false);
+		setResizeWeight(1.0);
+		setEnabled( false );
+		setOneTouchExpandable(false);
 		//this.setDividerLocation(.6);
-		this.resetToPreferredSizes();
-		this.setRightComponent(workflowSplitTabbedPanel);
+		resetToPreferredSizes();
+		setRightComponent(workflowSplitTabbedPanel);
 	}
 
 	/**
@@ -83,29 +84,29 @@ public class WorkFlowSplitView extends JSplitPane{
 	public void createViewTaskPanel(AbstractTaskPanel viewPanel) {
 		workflowSplitTabbedPanel.addViewTaskTab(viewPanel);
 		// Sets the Right Component to its minimum size always
-		this.setResizeWeight(1.0);
-		this.setEnabled( false );
-		this.setOneTouchExpandable(false);
+		setResizeWeight(1.0);
+		setEnabled( false );
+		setOneTouchExpandable(false);
 		//this.setDividerLocation(.6);
-		this.resetToPreferredSizes();
-		this.setRightComponent(workflowSplitTabbedPanel);
+		resetToPreferredSizes();
+		setRightComponent(workflowSplitTabbedPanel);
 	}
-	
-	
+
+
 	/**
 	 * Hide create new task panel.
 	 */
 	public void hideCreateNewTaskPanel(){
-		this.setRightComponent(null);
-		this.setOneTouchExpandable(false);
+		setRightComponent(null);
+		setOneTouchExpandable(false);
 		//this.setDividerLocation(0.0);
 	}
-	
+
 	/**
 	 * Collapse.
 	 */
 	public void collapse(){
-		this.setOneTouchExpandable(true);
+		setOneTouchExpandable(true);
 		this.setDividerLocation(1.0);
 	}
 

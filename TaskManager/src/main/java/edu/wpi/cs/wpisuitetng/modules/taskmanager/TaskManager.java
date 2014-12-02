@@ -28,49 +28,49 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  */
 public class TaskManager implements IJanewayModule {
 
-    /** A list of tabs owned by this module. */
-    List<JanewayTabModel> tabs;
+	/** A list of tabs owned by this module. */
+	List<JanewayTabModel> tabs;
 
-    /** The toolbar view. */
-    ToolbarView toolbarView;
+	/** The toolbar view. */
+	ToolbarView toolbarView;
 
-    /** The main view. */
-    MainView mainView;
+	/** The main view. */
+	MainView mainView;
 
-    /** Task Manager only uses one tab. */
-    JanewayTabModel tab1;
+	/** Task Manager only uses one tab. */
+	JanewayTabModel tab1;
 
-    /**
-     * Constructs the main views for this module. Namely one tab, containing a toolbar and a main
-     * content panel.
-     */
-    public TaskManager() {
+	/**
+	 * Constructs the main views for this module. Namely one tab, containing a toolbar and a main
+	 * content panel.
+	 */
+	public TaskManager() {
 
-        // Initialize the list of tabs (however, this module has only one tab)
-        tabs = new ArrayList<JanewayTabModel>();
+		// Initialize the list of tabs (however, this module has only one tab)
+		tabs = new ArrayList<JanewayTabModel>();
 
-        // Create a JPanel to hold the toolbar for the tab
-        toolbarView = new ToolbarView();
+		// Create a JPanel to hold the toolbar for the tab
+		toolbarView = new ToolbarView();
 
-        // Constructs and adds the MainPanel
-        mainView = new MainView();
+		// Constructs and adds the MainPanel
+		mainView = new MainView();
 
-        // Create a tab model that contains the toolbar panel and the main content panel
-        tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainView);
+		// Create a tab model that contains the toolbar panel and the main content panel
+		tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainView);
 
-        // Add the tab to the list of tabs owned by this module
-        tabs.add(tab1);
+		// Add the tab to the list of tabs owned by this module
+		tabs.add(tab1);
 
-        ViewEventController.getInstance().setMainView(mainView);
-    }
+		ViewEventController.getInstance().setMainView(mainView);
+	}
 
-    @Override
-    public String getName() {
-        return "Task Manager";
-    }
+	@Override
+	public String getName() {
+		return "Task Manager";
+	}
 
-    @Override
-    public List<JanewayTabModel> getTabs() {
-        return tabs;
-    }
+	@Override
+	public List<JanewayTabModel> getTabs() {
+		return tabs;
+	}
 }

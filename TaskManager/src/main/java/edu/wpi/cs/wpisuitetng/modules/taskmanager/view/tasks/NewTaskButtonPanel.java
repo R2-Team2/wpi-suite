@@ -35,19 +35,19 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 */
 	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
 		// Set Panel Layout
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		// Set Parent Panel
 		this.parentPanel = parentPanel;
 		// Set Button Messages
 		final String createString = "Create";
 		final String cancelString = "Cancel";
 		// Create Buttons
-		this.buttonCreate = new JButton(createString);
-		this.buttonCancel = new JButton(cancelString);
-		this.buttonCreate.setEnabled(false);
-		this.add(this.buttonCreate);
-		this.add(this.buttonCancel);
-		this.setupListeners();
+		buttonCreate = new JButton(createString);
+		buttonCancel = new JButton(cancelString);
+		buttonCreate.setEnabled(false);
+		this.add(buttonCreate);
+		this.add(buttonCancel);
+		setupListeners();
 	}
 
 
@@ -56,14 +56,14 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 * Sets up listeners for the buttons in the new task panel.
 	 */
 	protected void setupListeners() {
-		this.buttonCreate.addActionListener(new ActionListener() {
+		buttonCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				NewTaskButtonPanel.this.parentPanel.createPressed();
+				parentPanel.createPressed();
 				ViewEventController.getInstance().refreshWorkFlowView();
 				// TODO put in proper place
 				try {
-					NewTaskButtonPanel.this.parentPanel.openSelectedRequirement();
+					parentPanel.openSelectedRequirement();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -71,10 +71,10 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 			}
 		});
 
-		this.buttonCancel.addActionListener(new ActionListener() {
+		buttonCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				NewTaskButtonPanel.this.parentPanel.cancelPressed();
+				parentPanel.cancelPressed();
 			}
 
 		});
@@ -85,10 +85,10 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 */
 	@Override
 	public void validateTaskInfo() {
-		if (this.parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
-			this.buttonCreate.setEnabled(false);
+		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
+			buttonCreate.setEnabled(false);
 		} else {
-			this.buttonCreate.setEnabled(true);
+			buttonCreate.setEnabled(true);
 		}
 	}
 

@@ -20,11 +20,11 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractTaskPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractTaskPanel extends JPanel {
+public class AbstractTaskPanel extends JPanel {
 
 	/** The parent panel. */
 	protected String title;
@@ -55,7 +55,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @throws Exception invalid selected requirement
 	 */
 	protected void openSelectedRequirement() throws Exception {
-		this.infoPanel.openSelectedRequirement();
+		infoPanel.openSelectedRequirement();
 	}
 
 	/**
@@ -71,23 +71,25 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * Creates the GUI for the NewTaskPanel.
 	 */
 	protected void buildLayout() {
-		this.title = this.aTask.getTitle();
-		this.setLayout(new BorderLayout());
-		this.add(this.buttonPanel, BorderLayout.SOUTH);
-		this.add(this.infoPanel, BorderLayout.CENTER);
+		title = aTask.getTitle();
+		setLayout(new BorderLayout());
+		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(infoPanel, BorderLayout.CENTER);
 	}
 
 	/**
 	 * Called when the Create Button is pressed Creates a Task from the NewTask Info.
 	 */
-	public abstract void createPressed();
+	public void createPressed() {
+
+	}
 
 	/**
 	 * Called when the Cancel Button is pressed Closes out the NewTask Tab.
 	 */
 	public void cancelPressed() {
 		ViewEventController.getInstance().removeSplitTab();
-		this.parentPanel.checkForHide();
+		parentPanel.checkForHide();
 	}
 
 	/**
@@ -96,7 +98,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return String
 	 */
 	public String getTitle() {
-		return this.infoPanel.getTitle().getText();
+		return infoPanel.getTitle().getText();
 	}
 
 	/**
@@ -105,7 +107,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return String
 	 */
 	public String getDescription() {
-		return this.infoPanel.getDescription().getText();
+		return infoPanel.getDescription().getText();
 	}
 
 	/**
@@ -114,7 +116,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return int
 	 */
 	public int getEstimatedEffort() {
-		return (int) this.infoPanel.getEstimatedEffort().getValue();
+		return (int) infoPanel.getEstimatedEffort().getValue();
 	}
 
 	/**
@@ -123,7 +125,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return int
 	 */
 	public int getActualEffort() {
-		return (int) this.infoPanel.getActualEffort().getValue();
+		return (int) infoPanel.getActualEffort().getValue();
 	}
 
 	/**
@@ -132,7 +134,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return String
 	 */
 	public String getStatus() {
-		return this.infoPanel.getStatus().getSelectedItem().toString();
+		return infoPanel.getStatus().getSelectedItem().toString();
 	}
 
 	/**
@@ -141,7 +143,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return String
 	 */
 	public String getRequirement() {
-		return (String) this.infoPanel.getRequirement().getSelectedItem();
+		return (String) infoPanel.getRequirement().getSelectedItem();
 	}
 
 	/**
@@ -150,7 +152,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return Date
 	 */
 	public Date getStartDate() {
-		return this.infoPanel.getStartDate();
+		return infoPanel.getStartDate();
 	}
 
 	/**
@@ -159,7 +161,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return Date
 	 */
 	public Date getDueDate() {
-		return this.infoPanel.getDueDate();
+		return infoPanel.getDueDate();
 	}
 
 	/**
@@ -168,7 +170,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @return String[]
 	 */
 	public List<User> getAssignedUsers() {
-		return this.infoPanel.getAssignedUsers();
+		return infoPanel.getAssignedUsers();
 	}
 
 	/**
@@ -177,7 +179,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	 * @param aPanel the new info panel
 	 */
 	public void setInfoPanel(NewTaskInformationPanel aPanel) {
-		this.infoPanel = aPanel;
+		infoPanel = aPanel;
 	}
 
 }
