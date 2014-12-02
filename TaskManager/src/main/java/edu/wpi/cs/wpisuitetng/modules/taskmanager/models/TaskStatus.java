@@ -119,8 +119,7 @@ public class TaskStatus extends AbstractModel {
 
     @Override
     public String toJson() {
-        // TODO Auto-generated method stub
-        return null;
+		return new Gson().toJson(this, TaskStatus.class);
     }
 
     @Override
