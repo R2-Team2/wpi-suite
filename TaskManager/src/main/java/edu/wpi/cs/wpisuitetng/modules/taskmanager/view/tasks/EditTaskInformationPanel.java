@@ -186,5 +186,23 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                 parentPanel.buttonPanel.validateTaskInfo();
             }
         });
+        
+        /**
+         * Start Calendar Listener
+         */
+        calStartDate.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		parentPanel.buttonPanel.validateTaskDate();
+        	}
+        });
+        
+        /**
+         * Due Calendar Listener
+         */
+        calDueDate.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		parentPanel.buttonPanel.validateTaskDate();
+        	}
+        });
     }
 }
