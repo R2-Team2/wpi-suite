@@ -6,6 +6,14 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 /**
@@ -24,8 +32,46 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     public ViewTaskInformationPanel(ViewTaskPanel aParentPanel) {
         parentPanel = aParentPanel;
         this.buildLayout();
-        this.disableAll(true);
-        setTask();
+        //this.disableAll(true);
+        //setTask();
+    }
+    
+    @Override
+    public void buildLayout() {
+        this.setMinimumSize(new Dimension(540, 200));
+        // Set the Panel
+        final ScrollablePanel contentPanel = new ScrollablePanel();
+        contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+        
+        //Instantiate GUI Elements
+        // Labels
+        final Task viewTask = parentPanel.aTask;
+        String taskTitle = viewTask.getTitle();
+        final JLabel labelTitle = new JLabel("<html><b>" + taskTitle + "</b></html>");
+        final JLabel labelDescription =
+                new JLabel("<html>Description</html>");
+        final JLabel labelDescrBody = new JLabel("<html>" + viewTask.getDescription() + "</html>");
+        final JLabel labelStatus = new JLabel("Status: ");
+        final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
+        final JLabel labelActualEffort = new JLabel("Actual Effort: ");
+        final JLabel labelDueDate = new JLabel("Due Date: ");
+        final JLabel labelStartDate = new JLabel("Start Date: ");
+        final JLabel labelRequirement = new JLabel("Requirement: ");
+        final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
+        final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+        
+        JPanel descrPanel = new JPanel();
+        descrPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+        descrPanel.add(labelDescription, "split 2, span");
+        descrPanel.add(new JSeparator(SwingConstants.HORIZONTAL), "growx, span, wrap");
+        
+        //Populate ContentPanel
+        contentPanel.add(labelTitle, "wrap");
+        contentPanel.add(descrPanel, "growx, shrinkx, span, wrap");
+        contentPanel.add(labelDescrBody, "wrap");
+
+        this.setViewportView(contentPanel);
+        
     }
 
     /**

@@ -78,7 +78,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public String getTitle() {
-        return infoPanel.getTitle().getText();
+        //return infoPanel.getTitle().getText();
+    	return aTask.getTitle();
     }
 
     /**
