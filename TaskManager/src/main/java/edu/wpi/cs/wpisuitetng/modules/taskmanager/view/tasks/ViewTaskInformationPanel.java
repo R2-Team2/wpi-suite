@@ -41,7 +41,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         this.setMinimumSize(new Dimension(540, 200));
         // Set the Panel
         final ScrollablePanel contentPanel = new ScrollablePanel();
-        contentPanel.setLayout(new MigLayout("", "[grow,fill]", "[][][]5[]30[][]5[grow]30[][]5[][][]"));
+        contentPanel.setLayout(new MigLayout("", "[grow,fill]", "[][][]5[]30[][]5[grow]30[][]5[grow]30[][]5[]"));
         
         //Instantiate GUI Elements
         // Labels
@@ -55,9 +55,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
         final JLabel labelDates = new JLabel("<html><h3>Dates</h3></html>");
-        final JLabel labelDueDate = new JLabel("Due Date: ");
-        final JLabel labelStartDate = new JLabel("Start Date: ");
+        final JLabel labelDueDate = new JLabel(" Due Date:");
+        final JLabel labelStartDate = new JLabel("Start Date:");
         final JLabel labelRequirement = new JLabel("Requirement: ");
+        final JLabel labelPeople = new JLabel("<html><h3>People</h3></html>");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
         
@@ -93,6 +94,19 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         JSeparator separator_2 = new JSeparator();
         contentPanel.add(labelDates, "cell 0 7");
         contentPanel.add(separator_2, "cell 0 8,grow");
+        
+        JPanel datesPanel = new JPanel();
+        datesPanel.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]"));
+        datesPanel.add(labelStartDate,"cell 0 0");
+        datesPanel.add(new JLabel(viewTask.getDueDate().toString()),"cell 1 0");
+        datesPanel.add(labelDueDate,"cell 0 1");
+        datesPanel.add(new JLabel(viewTask.getDueDate().toString()),"cell 1 1");
+        contentPanel.add(datesPanel, "cell 0 9,grow");
+        
+        JSeparator separator_3 = new JSeparator();
+        contentPanel.add(labelPeople, "cell 0 10");
+        contentPanel.add(separator_3, "cell 0 11,grow");
+        
     }
 
     /**
