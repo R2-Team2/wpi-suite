@@ -1,27 +1,26 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractListModel;
+import com.google.gson.Gson;
+
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
  * This class contains the fields and methods for the Taskstatus
  */
-public class TaskStatus extends AbstractListModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3575239378691210918L;
-	private int taskStatusID;
+public class TaskStatus extends AbstractModel {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3575239378691210918L;
+    private int taskStatusID;
     private String name;
     private List<Task> taskList;
 
@@ -30,7 +29,7 @@ public class TaskStatus extends AbstractListModel {
      */
     public TaskStatus(String name) {
         this.name = name;
-        this.taskList = new ArrayList<Task>();
+        taskList = new ArrayList<Task>();
     }
 
     /**
@@ -39,7 +38,7 @@ public class TaskStatus extends AbstractListModel {
      * @return name String
      */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
@@ -57,12 +56,11 @@ public class TaskStatus extends AbstractListModel {
      * @return taskList ArrayList
      */
     public List<Task> getTaskList() {
-        return this.taskList;
+        return taskList;
     }
 
     /**
      * Sets the tasklist of the object
-     *
      */
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
@@ -70,38 +68,76 @@ public class TaskStatus extends AbstractListModel {
 
     /**
      * Adds a task to the tasklist
+     *
      * @param task String
      */
     public void addTask(Task task) {
-        this.taskList.add(task);
+        taskList.add(task);
     }
 
     /**
      * Removes a task from the tasklist
+     *
      * @param task String
      */
     public void remTask(String task) {
-        this.taskList.remove(task);
+        taskList.remove(task);
     }
 
     public int getSize() {
-        return this.taskList.size();
+        return taskList.size();
     }
 
     public Task getElementAt(int index) {
-        return this.taskList.get(index);
+        return taskList.get(index);
     }
-    
+
+    @Override
     public String toString() {
-    	return this.name;
+        return name;
     }
 
-	public int getTaskStatusID() {
-		return taskStatusID;
-	}
+    public int getTaskStatusID() {
+        return taskStatusID;
+    }
 
-	public void setTaskStatusID(int taskStatusID) {
-		this.taskStatusID = taskStatusID;
-	}
+    public void setTaskStatusID(int taskStatusID) {
+        this.taskStatusID = taskStatusID;
+    }
+
+    @Override
+    public void save() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public String toJson() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Boolean identify(Object o) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, TaskStatus.class);
+    }
+
+    public void update(TaskStatus updatedTaskStatus) {
+        name = updatedTaskStatus.name;
+        taskList = updatedTaskStatus.taskList;
+
+    }
 
 }

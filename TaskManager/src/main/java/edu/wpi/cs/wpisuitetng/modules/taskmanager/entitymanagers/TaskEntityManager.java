@@ -7,7 +7,7 @@
  * Contributors:
  * 	Team R2-Team2
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.database.Data;
 
 /**
