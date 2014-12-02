@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
@@ -24,6 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  */
 public abstract class AbstractTaskPanel extends JPanel {
 
+	/** The parent panel. */
+    protected String title;
+	
     /** The parent panel. */
     protected WorkFlowSplitTabbedPanel parentPanel;
 
@@ -32,6 +36,9 @@ public abstract class AbstractTaskPanel extends JPanel {
 
     /** The button panel. */
     protected AbstractButtonPanel buttonPanel;
+
+    /** A task. */
+    protected Task aTask;
 
     /** The view event controller. */
     private final ViewEventController viewEventController = ViewEventController.getInstance();
@@ -49,7 +56,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @param parentPanel the parent panel
      */
     protected AbstractTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
-        this.parentPanel = parentPanel;
+        this.parentPanel = parentPanel;        
     }
 
     /**
@@ -57,6 +64,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      */
     protected void buildLayout()
     {
+    	title = aTask.getTitle();
         this.setLayout(new BorderLayout());
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.add(infoPanel, BorderLayout.CENTER);
@@ -135,7 +143,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @return Date
      */
     public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
+        return infoPanel.getStartDate();
     }
 
     /**
@@ -144,7 +152,7 @@ public abstract class AbstractTaskPanel extends JPanel {
      * @return Date
      */
     public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
+        return infoPanel.getDueDate();
     }
 
     /**

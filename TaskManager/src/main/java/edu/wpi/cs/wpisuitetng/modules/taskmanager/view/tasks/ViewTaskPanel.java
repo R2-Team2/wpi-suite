@@ -6,69 +6,41 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class NewTaskPanel.
+ * The Class ViewTaskPanel.
  * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-@SuppressWarnings("serial")
-public class NewTaskPanel extends AbstractTaskPanel {
-
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
+public class ViewTaskPanel extends AbstractTaskPanel {
 
     /**
-     * Constructor for the NewTaskPanel.
-     */
-    public NewTaskPanel() {
-
-
-        buildLayout();
-
-    }
-
-    /**
-     * Constructor for the NewTaskPanel.
+     * Constructor for the ViewTaskPanel.
      *
-     * @param parentPanel the parent panel
+     * @param parent the parent panel
+     * @param viewTask task to view
      */
-    public NewTaskPanel(WorkFlowSplitTabbedPanel parentPanel) {
-        super(parentPanel);
-        this.parentPanel = parentPanel;
+    public ViewTaskPanel(WorkFlowSplitTabbedPanel parent, Task viewTask) {
+        parentPanel = parent;
+        aTask = viewTask;
         buildLayout();
-
     }
 
-    /**
-     * Creates the GUI for the NewTaskPanel.
-     */
     @Override
     protected void buildLayout() {
-        buttonPanel = new NewTaskButtonPanel(this);
-        infoPanel = new NewTaskInformationPanel(this);
+        buttonPanel = new ViewTaskButtonPanel(this);
+        infoPanel = new ViewTaskInformationPanel(this);
 
         setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
@@ -76,21 +48,18 @@ public class NewTaskPanel extends AbstractTaskPanel {
     }
 
     /**
-     * Called when the Create Button is pressed Creates a Task from the NewTask Info.
+     * Controller for the edit button listener
      */
-    @Override
-    public void createPressed() {
-        // create a task, send to to controller
-        final AddTaskController addNewTask = new AddTaskController(this);
-        addNewTask.addTask();
+    public void editPressed() {
+        final Task passTask = aTask;
 
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-
-        // TODO: create task card
-        // TODO: put task card in proper task status
+        final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
+        System.out.println("Edit Pressed");
         ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
+        ViewEventController.getInstance().refreshWorkFlowView();
+        System.out.println("Removed view, adding edit panels");
+        parentPanel.getParent().createViewTaskPanel(editView);
+        // addViewTaskTab(editView);
     }
 
     /**
@@ -192,8 +161,13 @@ public class NewTaskPanel extends AbstractTaskPanel {
         return infoPanel.getAssignedUsers();
     }
 
-    @Override
-    public void setInfoPanel(NewTaskInformationPanel aPanel) {
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
+     * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
+     */
+    public void setInfoPanel(AbstractInformationPanel aPanel) {
         infoPanel = aPanel;
     }
 
@@ -205,4 +179,11 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public void setButtPanel(NewTaskButtonPanel aPanel) {
         buttonPanel = aPanel;
     }
+
+    @Override
+    public void createPressed() {
+        // TODO Auto-generated method stub
+
+    }
+
 }
