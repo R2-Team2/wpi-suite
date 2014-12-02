@@ -61,13 +61,13 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.createPressed();
 				ViewEventController.getInstance().refreshWorkFlowView();
-				// TODO put in proper place
-				try {
-					parentPanel.openSelectedRequirement();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// // TODO put in proper place
+				// try {
+				// parentPanel.openSelectedRequirement();
+				// } catch (Exception e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
 			}
 		});
 
