@@ -6,10 +6,15 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons;
 
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -20,6 +25,7 @@ import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -99,19 +105,44 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             }
         });
 
+
+
         // the action listener for the Help Button
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
+
+                // @see
+                // <link>http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button</link>
+                if (Desktop.isDesktopSupported()) {
+                    final Desktop desktop = Desktop.getDesktop();
+                    if (!desktop.isSupported(Action.BROWSE)) {
+                        System.err.println("Browse Action is not supported on this platform!");
+                    } else {
+                        try {
+                            desktop.browse(new URL(
+                                    "http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki")
+                                    .toURI());
+                        } catch (MalformedURLException e1) {
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                } else {
+                    System.err.println("User's current platform is not supported!");
+                }
+
             }
         });
+
 
         // Gray out top bar buttons that are not currently being used
         reportsButton.setEnabled(false);
         settingsButton.setEnabled(true);
-        helpButton.setEnabled(false);
+        helpButton.setEnabled(true);
         createButton.setEnabled(true);
 
         contentPanel.add(reportsButton);
@@ -119,6 +150,15 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         contentPanel.add(helpButton);
         contentPanel.add(createButton);
         contentPanel.setOpaque(false);
+
+        if (Desktop.isDesktopSupported()) {
+            final Desktop desktop = Desktop.getDesktop();
+            if (!desktop.isSupported(Action.BROWSE)) {
+                helpButton.setEnabled(false);
+            }
+        } else {
+            helpButton.setEnabled(false);
+        }
 
         this.add(contentPanel);
     }
