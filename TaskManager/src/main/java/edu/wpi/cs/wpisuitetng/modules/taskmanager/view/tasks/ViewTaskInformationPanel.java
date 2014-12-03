@@ -9,6 +9,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -113,9 +115,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JPanel datesPanel = new JPanel();
 		datesPanel.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]"));
 		datesPanel.add(labelStartDate, "cell 0 0");
-		datesPanel.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 0");
+		datesPanel.add(new JLabel(formatDate(viewTask.getStartDate())), "cell 1 0");
 		datesPanel.add(labelDueDate, "cell 0 1");
-		datesPanel.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 1");
+		datesPanel.add(new JLabel(formatDate(viewTask.getDueDate())), "cell 1 1");
 		contentPanel.add(datesPanel, "cell 0 9,grow");
 
 		final JSeparator separator_3 = new JSeparator();
@@ -151,6 +153,18 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 			}
 		});
 	}
+	
+	/**
+     * Returns the formatted due date of a task.
+     *
+     * @param t A given Task Object
+     * @return dateString Formatted Due Date of Task t in mm/dd/yy
+     */
+    private String formatDate(Date date) {
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        final String dateString = dateFormatter.format(date);
+        return dateString;
+    }
 
 
 }
