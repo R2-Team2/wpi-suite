@@ -390,7 +390,19 @@ public class AbstractInformationPanel extends JScrollPane {
 		spinnerEstimatedEffort.setEnabled(io);
 		spinnerActualEffort.setEnabled(io);
 	}
+
+	/**
+	 * opens selected requirement. May be overriden
+	 */
+	protected void openRequirement() {
+		try {
+			parentPanel.openSelectedRequirement();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
 }
+
 
 
 /**
