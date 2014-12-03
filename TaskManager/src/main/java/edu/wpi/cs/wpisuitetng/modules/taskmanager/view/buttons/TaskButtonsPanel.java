@@ -10,6 +10,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.awt.Desktop;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -18,8 +21,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.sun.org.apache.xerces.internal.util.URI;
+
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -99,19 +105,46 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             }
         });
 
+//        public static void openWebpage(java.net.URI uri) {
+//            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+//            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+//                try {
+//                    desktop.browse(uri);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        public static void openWebpage(URL url) {
+//            try {
+//                openWebpage(url.toURI());
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        
         // the action listener for the Help Button
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
                 // TODO Action on ViewController ViewEventController.getInstance().createTask();
+            	
+            	//code source: http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
+            	try 
+                {
+                    Desktop.getDesktop().browse(new URL("http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki").toURI());
+                }           
+                catch (Exception r) {}
             }
         });
+        
 
         // Gray out top bar buttons that are not currently being used
         reportsButton.setEnabled(false);
         settingsButton.setEnabled(true);
-        helpButton.setEnabled(false);
+        helpButton.setEnabled(true);
         createButton.setEnabled(true);
 
         contentPanel.add(reportsButton);
