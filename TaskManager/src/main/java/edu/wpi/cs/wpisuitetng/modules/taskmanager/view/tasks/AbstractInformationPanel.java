@@ -406,7 +406,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	
 	private void validateRequirementView() {
 		System.out.println(getRequirement().getSelectedItem());
-		if (getRequirement() == null || getRequirement().getSelectedItem() == "None") {
+		if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
 			buttonOpenRequirement.setEnabled(false);
 		}
 		else{
