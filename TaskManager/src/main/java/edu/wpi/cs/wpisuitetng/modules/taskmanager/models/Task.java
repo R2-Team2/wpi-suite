@@ -262,7 +262,7 @@ public class Task extends AbstractModel {
      * @param l the new task id
      */
     public void setTaskID(long l) {
-        this.taskID = l;
+        taskID = l;
     }
 
     /**

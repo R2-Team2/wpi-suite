@@ -435,7 +435,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	}
 
 	/**
-	 * opens selected requirement. May be overriden
+	 * opens selected requirement. May be overridden
 	 */
 	protected void openRequirement() {
 		try {
@@ -445,6 +445,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract Task getTask();
 }
 
