@@ -6,6 +6,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 

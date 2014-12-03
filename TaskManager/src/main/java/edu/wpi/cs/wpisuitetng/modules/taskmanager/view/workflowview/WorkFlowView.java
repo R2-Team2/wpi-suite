@@ -16,6 +16,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
@@ -61,6 +62,7 @@ public class WorkFlowView extends JPanel {
      */
     public WorkFlowView() {
         ViewEventController.getInstance().setWorkFlowView(this);
+        
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
 

@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 // TODO: Auto-generated Javadoc
@@ -32,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 public class Task extends AbstractModel {
 
     /** The task id. */
-    private int taskID;
+    private long taskID;
 
     /** The title. */
     private String title;
@@ -82,7 +83,7 @@ public class Task extends AbstractModel {
      * @param assignedUsers the assigned users
      * @param activityList the activity list
      */
-    public Task(int taskID, String title, String description, int estimatedEffort,
+    public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
             List<User> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
@@ -251,17 +252,17 @@ public class Task extends AbstractModel {
      *
      * @return the task id
      */
-    public int getTaskID() {
+    public long getTaskID() {
         return taskID;
     }
 
     /**
      * Sets the task id.
      *
-     * @param taskID the new task id
+     * @param l the new task id
      */
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setTaskID(long l) {
+        this.taskID = l;
     }
 
     /**
@@ -441,5 +442,23 @@ public class Task extends AbstractModel {
         final Gson parser = new Gson();
         final Task[] tasks = parser.fromJson(json, Task[].class);
         return tasks;
+
+    }
+
+    /**
+	 * copies old task params to this task.
+	 * @param toCopyFrom old task.
+	 */
+    public void copyFrom(Task toCopyFrom) {
+        //borrowed idea from requirements manager
+        title = toCopyFrom.title;
+        description = toCopyFrom.description;
+        assignedUsers = toCopyFrom.assignedUsers;
+        estimatedEffort = toCopyFrom.estimatedEffort;
+        actualEffort = toCopyFrom.actualEffort;
+        dueDate = toCopyFrom.dueDate;
+        activityList = toCopyFrom.activityList;
+        requirement = toCopyFrom.requirement;
+        status = toCopyFrom.status;
     }
 }

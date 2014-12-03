@@ -10,9 +10,11 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
  * The Class UpdateTaskRequestObserver.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -31,32 +33,31 @@ public class UpdateTaskRequestObserver implements RequestObserver {
     public UpdateTaskRequestObserver(UpdateTaskController controller) {
         this.controller = controller;
     }
-    
+
     /*
-     * Parse the message that was received from the server then pass them to
-     * the controller.
-     * @see
-     * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+     * Parse the message that was received from the server then pass them to the controller.
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
      * .cs.wpisuitetng.network.models.IRequest)
      */
     @Override
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
+        ViewEventController.getInstance().refreshWorkFlowView();
     }
-    
+
     @Override
     public void responseError(IRequest iReq) {
-        //TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        // TODO replace with log slf4j?
+        System.err.println("The request to add a message returned error.");
     }
-    
+
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        //TODO replace with log slf4j?
+        // TODO replace with log slf4j?
         System.err.println("The request to add a message failed.");
     }
-    
+
     /**
      * @return the controller
      */

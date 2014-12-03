@@ -40,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 // TODO: Auto-generated Javadoc
@@ -49,7 +50,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
 	/** The parent panel. */
 	protected AbstractTaskPanel parentPanel;
@@ -142,13 +143,15 @@ public class AbstractInformationPanel extends JScrollPane {
 
 		}
 		Collections.sort(requirements, new RequirementComparator());
-		final String[] arrListOfRequirements = new String[requirements.size()];
+		final String[] arrListOfRequirements = new String[requirements.size() + 1];
+		strListOfRequirements.add("none");
+		arrListOfRequirements[0] = "none";
 		for (int i = 0; i < requirements.size(); i++) {
 			// build a List<String> of the names of the requirements
 			// defaultComboBoxModel, below, requires an array of string
 			String tempName = requirements.get(i).getName();
 			strListOfRequirements.add(tempName);
-			arrListOfRequirements[i] = tempName;
+			arrListOfRequirements[i + 1] = tempName;
 		}
 
 
@@ -315,7 +318,7 @@ public class AbstractInformationPanel extends JScrollPane {
 	 * @return JSpinner
 	 */
 	public JSpinner getActualEffort() {
-		return spinnerEstimatedEffort;
+		return spinnerActualEffort;
 	}
 
 	/**
@@ -385,9 +388,9 @@ public class AbstractInformationPanel extends JScrollPane {
 	 */
 	public void openSelectedRequirement() throws Exception {
 		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-		.editRequirement(getSelectedRequirement());
+				.editRequirement(getSelectedRequirement());
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-		.openRequirementsTab();
+				.openRequirementsTab();
 	}
 
 	/**
@@ -419,6 +422,8 @@ public class AbstractInformationPanel extends JScrollPane {
 			e1.printStackTrace();
 		}
 	}
+
+	public abstract Task getTask();
 }
 
 
@@ -450,4 +455,5 @@ class RequirementComparator implements Comparator<Requirement> {
 	public int compare(Requirement R1, Requirement R2) {
 		return R1.getName().compareTo(R2.getName());
 	}
+
 }

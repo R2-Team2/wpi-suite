@@ -1,15 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
- * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this <<<<<<<
+ * HEAD distribution, and is available at http://www.eclipse.org/legal/epl-v10.html =======
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
- * R2-Team2
+ * R2-Team2 >>>>>>> develop
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractListModel;
+import com.google.gson.Gson;
+
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -18,13 +21,14 @@ import javax.swing.AbstractListModel;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class TaskStatus extends AbstractListModel {
+
+public class TaskStatus extends AbstractModel {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3575239378691210918L;
 
     /** The task status id. */
-    private int taskStatusID;
+    private long taskStatusID;
 
     /** The name. */
     private String name;
@@ -70,7 +74,7 @@ public class TaskStatus extends AbstractListModel {
     }
 
     /**
-     * Sets the tasklist of the object.
+     * Sets the tasklist of the object
      *
      * @param taskList the new task list
      */
@@ -79,7 +83,7 @@ public class TaskStatus extends AbstractListModel {
     }
 
     /**
-     * Adds a task to the tasklist.
+     * Adds a task to the tasklist
      *
      * @param task String
      */
@@ -88,7 +92,7 @@ public class TaskStatus extends AbstractListModel {
     }
 
     /**
-     * Removes a task from the tasklist.
+     * Removes a task from the tasklist
      *
      * @param task String
      */
@@ -96,12 +100,14 @@ public class TaskStatus extends AbstractListModel {
         taskList.remove(task);
     }
 
-    @Override
     public int getSize() {
         return taskList.size();
     }
-
-    @Override
+    /**
+     *return a task from a list 
+     * @param index the index in the list
+     * @return task at that spot in the array
+     */
     public Task getElementAt(int index) {
         return taskList.get(index);
     }
@@ -116,7 +122,7 @@ public class TaskStatus extends AbstractListModel {
      *
      * @return the task status id
      */
-    public int getTaskStatusID() {
+    public long getTaskStatusID() {
         return taskStatusID;
     }
 
@@ -125,8 +131,47 @@ public class TaskStatus extends AbstractListModel {
      *
      * @param taskStatusID the new task status id
      */
-    public void setTaskStatusID(int taskStatusID) {
+    public void setTaskStatusID(long taskStatusID) {
         this.taskStatusID = taskStatusID;
     }
 
+    @Override
+    public void save() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public String toJson() {
+        return new Gson().toJson(this, TaskStatus.class);
+    }
+
+    @Override
+    public Boolean identify(Object o) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    /**
+     * convert from string to taskstatus
+     * @param json the string
+     * @return the formed taskstatus
+     */
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        return parser.fromJson(json, TaskStatus.class);
+    }
+    /**
+     * update taskstatus objects
+     * @param updatedTaskStatus task status to update.
+     */
+    public void update(TaskStatus updatedTaskStatus) {
+        name = updatedTaskStatus.name;
+        taskList = updatedTaskStatus.taskList;
+    }
 }
