@@ -214,20 +214,23 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		});
 	}
 
-        public Task getTask() {
-        final long id = parentPanel.aTask.getTaskID();
-        final String title = getTitle().getText();
-        final String description = getDescription().getText();
-        final int estimatedEffort = (int) getEstimatedEffort().getValue();
-        final int actualEffort = (int) getActualEffort().getValue();
-        final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-        final String requirement = null;//getRequirement().getSelectedItem().toString();
-        final Date startDate = getStartDate();
-        final Date dueDate = getDueDate();
-        final List<User> assignedUsers = getAssignedUsers();
-        final Task updatedTask;
-        updatedTask = new Task(id, title, description, estimatedEffort, actualEffort, status, requirement, startDate, dueDate, assignedUsers, null);
-        
-        return updatedTask;
-    }
+	@Override
+	public Task getTask() {
+		final long id = parentPanel.aTask.getTaskID();
+		final String title = getTitle().getText();
+		final String description = getDescription().getText();
+		final int estimatedEffort = (int) getEstimatedEffort().getValue();
+		final int actualEffort = (int) getActualEffort().getValue();
+		final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
+		final String requirement = getRequirement().getSelectedItem().toString();
+		final Date startDate = getStartDate();
+		final Date dueDate = getDueDate();
+		final List<User> assignedUsers = getAssignedUsers();
+		final Task updatedTask;
+		updatedTask =
+				new Task(id, title, description, estimatedEffort, actualEffort, status,
+						requirement, startDate, dueDate, assignedUsers, null);
+
+		return updatedTask;
+	}
 }
