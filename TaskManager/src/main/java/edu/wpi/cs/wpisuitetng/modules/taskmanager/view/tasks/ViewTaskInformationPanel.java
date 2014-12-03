@@ -96,7 +96,12 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		detailsPanel.add(labelActualEffort, "cell 0 2");
 		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
 		detailsPanel.add(labelRequirement, "cell 0 3");
-		detailsPanel.add(new JLabel("" + viewTask.getRequirement()), "cell 1 3");
+		String requirementText = viewTask.getRequirement();
+		if (requirementText == null || requirementText == "None") {
+			requirementText = "None";
+			buttonOpenRequirement.setEnabled(false);
+		}
+		detailsPanel.add(new JLabel(requirementText), "cell 1 3");
 		detailsPanel.add(buttonOpenRequirement, "left, wrap");
 
 		contentPanel.add(detailsPanel, "cell 0 6,grow");
