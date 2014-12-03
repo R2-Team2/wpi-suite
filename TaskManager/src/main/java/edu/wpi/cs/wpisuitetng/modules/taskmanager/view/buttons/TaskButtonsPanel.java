@@ -111,13 +111,11 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
 
-                // code source:
-                // http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
+                // @see
+                // <link>http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button</link>
                 if (Desktop.isDesktopSupported()) {
-                    Desktop desktop = Desktop.getDesktop();
+                    final Desktop desktop = Desktop.getDesktop();
                     if (!desktop.isSupported(Action.BROWSE)) {
                         System.err.println("Browse Action is not supported on this platform!");
                     } else {
@@ -152,6 +150,15 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         contentPanel.add(helpButton);
         contentPanel.add(createButton);
         contentPanel.setOpaque(false);
+
+        if (Desktop.isDesktopSupported()) {
+            final Desktop desktop = Desktop.getDesktop();
+            if (!desktop.isSupported(Action.BROWSE)) {
+                helpButton.setEnabled(false);
+            }
+        } else {
+            helpButton.setEnabled(false);
+        }
 
         this.add(contentPanel);
     }
