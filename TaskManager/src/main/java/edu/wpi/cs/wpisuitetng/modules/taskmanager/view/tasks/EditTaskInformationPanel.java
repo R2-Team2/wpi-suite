@@ -48,7 +48,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxTitle.setText(parentPanel.aTask.getTitle());
 		boxDescription.setText(parentPanel.aTask.getDescription());
 		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-		// requirement
+		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
 		listChosenAssignees = parentPanel.aTask.getAssignedUsers();
 		calStartDate.setDate(parentPanel.aTask.getStartDate());
 		calDueDate.setDate(parentPanel.aTask.getDueDate());
@@ -151,6 +151,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
 		});
 
+		buttonOpenRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.infoPanel.openRequirement();
+			}
+		});
 
 		/**
 		 * Text Field (Title) Listeners

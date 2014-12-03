@@ -71,6 +71,7 @@ public class ViewEventController {
 	 * opens requirement module tab
 	 */
 	public void openRequirementsTab() {
+		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager tab
 		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
 	}
 

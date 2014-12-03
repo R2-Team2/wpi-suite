@@ -8,6 +8,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -102,6 +104,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	/** The button remove. */
 	protected JButton buttonRemove;
 
+	/** The button that opens the requirement in RequirementManager. */
+	protected JButton buttonOpenRequirement;
+
 	/** The cal start date. */
 	protected JXDatePicker calStartDate;
 
@@ -141,8 +146,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		}
 		Collections.sort(requirements, new RequirementComparator());
 		final String[] arrListOfRequirements = new String[requirements.size() + 1];
-		strListOfRequirements.add("none");
-		arrListOfRequirements[0] = "none";
+		strListOfRequirements.add("None");
+		arrListOfRequirements[0] = "None";
 		for (int i = 0; i < requirements.size(); i++) {
 			// build a List<String> of the names of the requirements
 			// defaultComboBoxModel, below, requires an array of string
@@ -165,6 +170,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		final JLabel labelRequirement = new JLabel("Requirement: ");
 		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+
+		// TODO use a nice icon
+		buttonOpenRequirement = new JButton("<");
+		// TODO force the button to be this small
+		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+
 		// Text Areas
 		boxTitle = new JTextField("");
 		boxTitle.setBorder(defaultBorder);
@@ -249,7 +260,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
 		leftColumn.add(labelRequirement, "left, wrap");
-		leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
+		leftColumn.add(dropdownRequirement, "left, width 200px");
+		
+		leftColumn.add(buttonOpenRequirement, "left, wrap");
+		validateRequirementView();
+		dropdownRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validateRequirementView();
+			}
+		});
+		
 		leftColumn.add(labelStartDate, "left, wrap");
 		leftColumn.add(calStartDate, "left, wrap");
 		rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -382,6 +403,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
 				.openRequirementsTab();
 	}
+	
+	private void validateRequirementView() {
+		System.out.println(getRequirement().getSelectedItem());
+		if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
+			buttonOpenRequirement.setEnabled(false);
+		}
+		else{
+			buttonOpenRequirement.setEnabled(true);
+		}
+	}
+	
 
 	/**
 	 * Disables all of the text fields based on boolean io
