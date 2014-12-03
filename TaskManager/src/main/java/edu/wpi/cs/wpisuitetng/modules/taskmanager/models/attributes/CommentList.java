@@ -8,6 +8,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -19,11 +20,12 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  */
 public class CommentList {
 
-    private final LinkedList<Comment> comments;
+    private final List<Comment> comments;
 
     /**
      * Stores a thread of comments.
      */
+
     public CommentList() {
         comments = new LinkedList<Comment>();
     }
@@ -33,7 +35,7 @@ public class CommentList {
      *
      * @return the linked list of comments.
      */
-    public LinkedList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 

@@ -65,7 +65,7 @@ public class Task extends AbstractModel {
     private List<String> activityList;
 
     /** The comment thread on the task. */
-    private List<Comment> comments;
+    private final List<Comment> comments = new LinkedList<Comment>();
 
     /**
      * Instantiates a new task.
@@ -96,7 +96,6 @@ public class Task extends AbstractModel {
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
         this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
-        comments = new LinkedList<Comment>(comments);
     }
 
 
