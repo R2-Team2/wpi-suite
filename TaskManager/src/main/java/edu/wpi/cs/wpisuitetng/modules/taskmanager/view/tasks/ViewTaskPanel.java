@@ -40,6 +40,7 @@ public class ViewTaskPanel extends AbstractTaskPanel {
 	protected void buildLayout() {
 		buttonPanel = new ViewTaskButtonPanel(this);
 		infoPanel = new ViewTaskInformationPanel(this);
+
 		setLayout(new BorderLayout());
 		this.add(infoPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -76,7 +77,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
 	 */
 	@Override
 	public String getTitle() {
-		return infoPanel.getTitle().getText();
+		// return infoPanel.getTitle().getText();
+		return aTask.getTitle();
 	}
 
 	/**
@@ -183,5 +185,4 @@ public class ViewTaskPanel extends AbstractTaskPanel {
 		// TODO Auto-generated method stub
 
 	}
-
 }

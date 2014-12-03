@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractButtonPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractButtonPanel extends JPanel {
+public class AbstractButtonPanel extends JPanel {
 	// Class Variables
 	/** The button save. */
 	protected JButton buttonSave;
@@ -34,23 +34,18 @@ public abstract class AbstractButtonPanel extends JPanel {
 	 * Sets up the listeners for the buttons in the New Task Button Panel.
 	 */
 	/*
-	 * protected void setupListeners() { buttonCancel.addActionListener(new
-	 * ActionListener() {
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) {
-	 * parentPanel.cancelPressed(); }
-	 * 
-	 * }); }
+	 * protected void setupListeners() { buttonCancel.addActionListener(new ActionListener() {
+	 * @Override public void actionPerformed(ActionEvent e) { parentPanel.cancelPressed(); } }); }
 	 */
 
 	/**
 	 * Validate task title and description
 	 */
-	public abstract void validateTaskInfo();
+	public void validateTaskInfo() {};
 
 	/**
 	 * Validate task dates
 	 */
-	public abstract void validateTaskDate();
+	public void validateTaskDate() {};
 
 }
