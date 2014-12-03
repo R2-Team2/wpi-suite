@@ -7,6 +7,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.JList;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -76,10 +78,11 @@ public class Task extends AbstractModel {
 	 * @param startDate the start date
 	 * @param dueDate the due date
 	 * @param assignedUsers the assigned users
+	 * @param activityList the activity list
 	 */
 	public Task(long taskID, String title, String description, int estimatedEffort,
 			int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
-			List<User> assignedUsers) {
+			List<User> assignedUsers, List<String> activityList) {
 		this.taskID = taskID;
 		this.title = title;
 		this.description = description;
@@ -90,8 +93,7 @@ public class Task extends AbstractModel {
 		this.startDate = startDate;
 		this.dueDate = dueDate;
 		this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
-		activityList =
-				(activityList != null) ? new ArrayList<String>(activityList) : null;
+		this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
 	}
 
 
@@ -406,6 +408,19 @@ public class Task extends AbstractModel {
 		actualEffort = updatedTask.actualEffort;
 		dueDate = updatedTask.dueDate;
 		activityList = updatedTask.activityList;
+		// checks to see if the task changes status
+		// if status has changed, create an activity
+		if (!(status.equals(updatedTask.status))) {
+			// Code inspired by mkyong
+			final String user = ConfigManager.getConfig().getUserName();
+			final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+			final Date date = new Date();
+			final String statusChange = updatedTask.status.getName();
+			final String updateActivity =
+					"Status changed to " + statusChange + " at " + dateFormat.format(date) + "("
+							+ user + ")";
+			activityList.add(updateActivity); // add activity entry to activity list
+		}
 		requirement = updatedTask.requirement;
 		status = updatedTask.status;
 	}
