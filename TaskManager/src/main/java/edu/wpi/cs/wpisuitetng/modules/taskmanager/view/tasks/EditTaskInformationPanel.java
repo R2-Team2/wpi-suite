@@ -48,7 +48,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxTitle.setText(parentPanel.aTask.getTitle());
 		boxDescription.setText(parentPanel.aTask.getDescription());
 		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-		// requirement
+		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
 		listChosenAssignees = parentPanel.aTask.getAssignedUsers();
 		calStartDate.setDate(parentPanel.aTask.getStartDate());
 		calDueDate.setDate(parentPanel.aTask.getDueDate());

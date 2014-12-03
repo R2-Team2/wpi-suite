@@ -87,7 +87,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
 		// TODO use a nice icon
-		buttonOpenRequirement = new JButton("O");
+		buttonOpenRequirement = new JButton("<");
 		// TODO force the button to be this small
 		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
