@@ -71,7 +71,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
                 db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-                        null), s.getProject());
+                        null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -91,6 +91,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // Update the original Task with new values
         final Task existingTask = (Task) oldTasks.get(0);
         existingTask.update(updatedTask);
+
 
         // Save the original Task, now updated
         if (!db.save(existingTask, s.getProject())) {
@@ -136,7 +137,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     @Override
     public int Count() {
         return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null))
+                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
                 .size();
     }
 

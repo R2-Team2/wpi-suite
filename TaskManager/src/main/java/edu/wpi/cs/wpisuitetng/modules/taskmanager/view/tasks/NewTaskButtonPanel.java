@@ -36,6 +36,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
 		// Set Panel Layout
 		setLayout(new FlowLayout(FlowLayout.LEFT));
+
 		// Set Parent Panel
 		this.parentPanel = parentPanel;
 		// Set Button Messages
@@ -49,7 +50,6 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 		this.add(buttonCancel);
 		setupListeners();
 	}
-
 
 
 	/**
@@ -78,10 +78,25 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 */
 	@Override
 	public void validateTaskInfo() {
-		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0) {
+		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0
+				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
 			buttonCreate.setEnabled(false);
 		} else {
 			buttonCreate.setEnabled(true);
+		}
+	}
+
+	/**
+	 * Validate task dates
+	 */
+	@Override
+	public void validateTaskDate() {
+		if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+			parentPanel.infoPanel.labelDueDate
+					.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+		} else {
+			parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+
 		}
 	}
 

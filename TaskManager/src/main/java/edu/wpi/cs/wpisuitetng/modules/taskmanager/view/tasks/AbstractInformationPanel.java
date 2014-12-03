@@ -107,6 +107,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	/** The cal due date. */
 	protected JXDatePicker calDueDate;
 
+	/** The cal start label */
+	protected JLabel labelStartDate = new JLabel("Start Date: ");
+
+	/** The cal due label */
+	protected JLabel labelDueDate = new JLabel("Due Date: ");
+
 	/** Calendar Button Dropdown Icon. */
 	protected ImageIcon icon;
 
@@ -210,6 +216,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		// Setup Columns
 		final JPanel leftColumn = new JPanel(new MigLayout());
 		final JPanel rightColumn = new JPanel(new MigLayout());
+
 
 		final JPanel bottom = new JPanel(new MigLayout());
 
@@ -328,6 +335,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		return calStartDate.getDate();
 	}
 
+
 	/**
 	 * Returns the Due Date.
 	 *
@@ -367,9 +375,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	 */
 	public void openSelectedRequirement() throws Exception {
 		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-		.editRequirement(getSelectedRequirement());
+				.editRequirement(getSelectedRequirement());
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-		.openRequirementsTab();
+				.openRequirementsTab();
 	}
 
 	/**
