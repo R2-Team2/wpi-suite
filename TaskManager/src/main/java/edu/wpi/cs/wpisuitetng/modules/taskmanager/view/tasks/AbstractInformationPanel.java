@@ -101,6 +101,9 @@ public class AbstractInformationPanel extends JScrollPane {
 	/** The button remove. */
 	protected JButton buttonRemove;
 
+	/** The button that opens the requirement in RequirementManager. */
+	protected JButton buttonOpenRequirement;
+
 	/** The cal start date. */
 	protected JXDatePicker calStartDate;
 
@@ -162,6 +165,12 @@ public class AbstractInformationPanel extends JScrollPane {
 		final JLabel labelRequirement = new JLabel("Requirement: ");
 		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+
+		// TODO use a nice icon
+		buttonOpenRequirement = new JButton("O");
+		// TODO force the button to be this small
+		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+
 		// Text Areas
 		boxTitle = new JTextField("");
 		boxTitle.setBorder(defaultBorder);
@@ -246,7 +255,8 @@ public class AbstractInformationPanel extends JScrollPane {
 		leftColumn.add(labelStatus, "left, wrap");
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
 		leftColumn.add(labelRequirement, "left, wrap");
-		leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
+		leftColumn.add(dropdownRequirement, "left, width 200px");
+		leftColumn.add(buttonOpenRequirement, "left, wrap");
 		leftColumn.add(labelStartDate, "left, wrap");
 		leftColumn.add(calStartDate, "left, wrap");
 		rightColumn.add(labelEstimatedEffort, "left, wrap");

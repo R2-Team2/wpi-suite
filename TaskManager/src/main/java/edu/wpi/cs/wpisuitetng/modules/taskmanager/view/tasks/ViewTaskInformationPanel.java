@@ -7,7 +7,10 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -31,6 +34,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	public ViewTaskInformationPanel(ViewTaskPanel aParentPanel) {
 		parentPanel = aParentPanel;
 		buildLayout();
+		setupListeners();
 		// this.disableAll(true);
 		// setTask();
 	}
@@ -62,6 +66,11 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
+		// TODO use a nice icon
+		buttonOpenRequirement = new JButton("O");
+		// TODO force the button to be this small
+		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+
 		// Populate ContentPanel
 		contentPanel.add(labelTitle, "cell 0 0");
 		contentPanel.add(labelDescr, "cell 0 1");
@@ -88,6 +97,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
 		detailsPanel.add(labelRequirement, "cell 0 3");
 		detailsPanel.add(new JLabel("" + viewTask.getRequirement()), "cell 1 3");
+		detailsPanel.add(buttonOpenRequirement, "left, wrap");
 
 		contentPanel.add(detailsPanel, "cell 0 6,grow");
 
@@ -127,5 +137,15 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
 		spinnerActualEffort.setValue(viewTask.getActualEffort());
 	}
+
+	protected void setupListeners() {
+		buttonOpenRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.infoPanel.openRequirement();
+			}
+		});
+	}
+
 
 }

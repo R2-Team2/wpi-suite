@@ -193,6 +193,14 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 	        		parentPanel.buttonPanel.validateTaskDate();
 	        	}
 	        });
+
+		buttonOpenRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.infoPanel.openRequirement();
+			}
+		});
+
 	}
 }
 

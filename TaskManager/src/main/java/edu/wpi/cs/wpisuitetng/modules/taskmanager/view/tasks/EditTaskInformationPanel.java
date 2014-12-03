@@ -145,6 +145,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
 		});
 
+		buttonOpenRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.infoPanel.openRequirement();
+			}
+		});
 
 		/**
 		 * Text Field (Title) Listeners
