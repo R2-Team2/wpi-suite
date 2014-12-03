@@ -10,11 +10,12 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import static org.junit.Assert.assertNotNull;
 // import static org.mockito.Mockito.mock;
 
-// import org.junit.Before;
-import org.junit.Test;
 // import java.awt.Dimension;
 // import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+
+// import org.junit.Before;
+import org.junit.Test;
 
 // import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 // import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
