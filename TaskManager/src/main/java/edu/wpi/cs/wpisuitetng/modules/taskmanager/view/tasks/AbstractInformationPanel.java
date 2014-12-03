@@ -8,6 +8,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -259,7 +261,16 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
 		leftColumn.add(labelRequirement, "left, wrap");
 		leftColumn.add(dropdownRequirement, "left, width 200px");
+		
 		leftColumn.add(buttonOpenRequirement, "left, wrap");
+		validateRequirementView();
+		dropdownRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validateRequirementView();
+			}
+		});
+		
 		leftColumn.add(labelStartDate, "left, wrap");
 		leftColumn.add(calStartDate, "left, wrap");
 		rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -393,11 +404,16 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 				.openRequirementsTab();
 	}
 	
-	/*
-	if (requirementText == null || requirementText == "None") {
-		buttonOpenRequirement.setEnabled(false);
+	private void validateRequirementView() {
+		System.out.println(getRequirement().getSelectedItem());
+		if (getRequirement() == null || getRequirement().getSelectedItem() == "None") {
+			buttonOpenRequirement.setEnabled(false);
+		}
+		else{
+			buttonOpenRequirement.setEnabled(true);
+		}
 	}
-	*/
+	
 
 	/**
 	 * Disables all of the text fields based on boolean io
