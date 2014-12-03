@@ -6,13 +6,15 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons;
 
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.awt.Desktop;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -20,8 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import com.sun.org.apache.xerces.internal.util.URI;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -106,23 +106,40 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         });
 
 
-        
+
         // the action listener for the Help Button
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
                 // TODO Action on ViewController ViewEventController.getInstance().createTask();
-            	
-            	//code source: http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
-            	try 
-                {
-                    Desktop.getDesktop().browse(new URL("http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki").toURI());
-                }           
-                catch (Exception r) {}
+
+                // code source:
+                // http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    if (!desktop.isSupported(Action.BROWSE)) {
+                        System.err.println("Browse Action is not supported on this platform!");
+                    } else {
+                        try {
+                            desktop.browse(new URL(
+                                    "http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki")
+                                    .toURI());
+                        } catch (MalformedURLException e1) {
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                } else {
+                    System.err.println("User's current platform is not supported!");
+                }
+
             }
         });
-        
+
 
         // Gray out top bar buttons that are not currently being used
         reportsButton.setEnabled(false);
