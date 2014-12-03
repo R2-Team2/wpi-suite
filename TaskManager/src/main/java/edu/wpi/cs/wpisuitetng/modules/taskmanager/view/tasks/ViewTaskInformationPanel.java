@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  */
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	
-	final private List<Requirement> requirements = new ArrayList<Requirement>();
+	private final List<Requirement> requirements = new ArrayList<Requirement>();
 	
 	/**
 	 * Constructor for the ViewTaskButtonPanel.
@@ -166,7 +166,11 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
 		spinnerActualEffort.setValue(viewTask.getActualEffort());
 	}
-
+	
+	/**
+	 * Sets up listeners for members of panel
+	 * 
+	 */
 	protected void setupListeners() {
 		buttonOpenRequirement.addActionListener(new ActionListener() {
 			@Override
@@ -199,7 +203,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	 * @throws Exception
 	 */
 	private Requirement getCurrentRequirement() throws Exception {
-		final String reqName = (String) parentPanel.aTask.getRequirement();
+		final String reqName = parentPanel.aTask.getRequirement();
 
 		for (Requirement requirement : requirements) {
 			if (requirement.getName().equals(reqName)) {
