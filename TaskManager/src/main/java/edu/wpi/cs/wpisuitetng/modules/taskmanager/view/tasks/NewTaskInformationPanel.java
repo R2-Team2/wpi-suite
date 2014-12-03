@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 
 
 /**
@@ -193,6 +195,12 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 	        		parentPanel.buttonPanel.validateTaskDate();
 	        	}
 	        });
+	}
+
+	@Override
+	public Task getTask() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

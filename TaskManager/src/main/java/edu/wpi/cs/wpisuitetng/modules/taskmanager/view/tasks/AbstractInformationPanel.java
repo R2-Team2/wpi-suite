@@ -40,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 // TODO: Auto-generated Javadoc
@@ -375,9 +376,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	 */
 	public void openSelectedRequirement() throws Exception {
 		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-				.editRequirement(getSelectedRequirement());
+		.editRequirement(getSelectedRequirement());
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-				.openRequirementsTab();
+		.openRequirementsTab();
 	}
 
 	/**
@@ -409,6 +410,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 			e1.printStackTrace();
 		}
 	}
+	
+	public abstract Task getTask();
 }
 
 
@@ -440,4 +443,5 @@ class RequirementComparator implements Comparator<Requirement> {
 	public int compare(Requirement R1, Requirement R2) {
 		return R1.getName().compareTo(R2.getName());
 	}
+
 }
