@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 /**
  * The Class ViewTaskInformationPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -26,19 +26,18 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	/**
 	 * Constructor for the ViewTaskButtonPanel.
 	 *
-	 * @param aParentPanel
-	 *            the parent panel
+	 * @param aParentPanel the parent panel
 	 */
 	public ViewTaskInformationPanel(ViewTaskPanel aParentPanel) {
 		parentPanel = aParentPanel;
-		this.buildLayout();
+		buildLayout();
 		// this.disableAll(true);
 		// setTask();
 	}
 
 	@Override
 	public void buildLayout() {
-		this.setMinimumSize(new Dimension(540, 200));
+		setMinimumSize(new Dimension(540, 200));
 		// Set the Panel
 		final ScrollablePanel contentPanel = new ScrollablePanel();
 		contentPanel.setLayout(new MigLayout("", "[grow,fill]",
@@ -48,12 +47,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		// Labels
 		final Task viewTask = parentPanel.aTask;
 		// String taskTitle = viewTask.getTitle();
-		final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle()
-				+ "</h1></html>");
-		final JLabel labelDescr = new JLabel(
-				"<html><h3>Description</h3></html>");
-		final JLabel labelDescrBody = new JLabel("<html>"
-				+ viewTask.getDescription() + "</html>");
+		final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle() + "</h1></html>");
+		final JLabel labelDescr = new JLabel("<html><h3>Description</h3></html>");
+		final JLabel labelDescrBody = new JLabel("<html>" + viewTask.getDescription() + "</html>");
 		final JLabel labelDetails = new JLabel("<html><h3>Details</h3></html>");
 		final JLabel labelStatus = new JLabel("Status: ");
 		final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
@@ -74,7 +70,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(separator, "cell 0 2,grow");
 		contentPanel.add(labelDescrBody, "cell 0 3");
 
-		this.setViewportView(contentPanel);
+		setViewportView(contentPanel);
 
 		contentPanel.add(labelDetails, "cell 0 4");
 
@@ -82,20 +78,16 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(separator_1, "cell 0 5,grow");
 
 		final JPanel detailsPanel = new JPanel();
-		detailsPanel
-				.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]5[]5[]"));
+		detailsPanel.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]5[]5[]"));
 
 		detailsPanel.add(labelStatus, "cell 0 0");
 		detailsPanel.add(new JLabel("" + viewTask.getStatus()), "cell 1 0");
 		detailsPanel.add(labelEstimatedEffort, "cell 0 1");
-		detailsPanel.add(new JLabel("" + viewTask.getEstimatedEffort()),
-				"cell 1 1");
+		detailsPanel.add(new JLabel("" + viewTask.getEstimatedEffort()), "cell 1 1");
 		detailsPanel.add(labelActualEffort, "cell 0 2");
-		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()),
-				"cell 1 2");
+		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
 		detailsPanel.add(labelRequirement, "cell 0 3");
-		detailsPanel
-				.add(new JLabel("" + viewTask.getRequirement()), "cell 1 3");
+		detailsPanel.add(new JLabel("" + viewTask.getRequirement()), "cell 1 3");
 
 		contentPanel.add(detailsPanel, "cell 0 6,grow");
 
@@ -106,11 +98,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JPanel datesPanel = new JPanel();
 		datesPanel.setLayout(new MigLayout("", "[][grow,fill]", "[]5[]"));
 		datesPanel.add(labelStartDate, "cell 0 0");
-		datesPanel
-				.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 0");
+		datesPanel.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 0");
 		datesPanel.add(labelDueDate, "cell 0 1");
-		datesPanel
-				.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 1");
+		datesPanel.add(new JLabel(viewTask.getDueDate().toString()), "cell 1 1");
 		contentPanel.add(datesPanel, "cell 0 9,grow");
 
 		final JSeparator separator_3 = new JSeparator();
@@ -122,7 +112,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	/**
 	 * Sets the fields from the class's task object.
 	 */
-	public void setTask() {
+	public void setupTask() {
 		final Task viewTask = parentPanel.aTask;
 
 		// viewTask.getTaskID();

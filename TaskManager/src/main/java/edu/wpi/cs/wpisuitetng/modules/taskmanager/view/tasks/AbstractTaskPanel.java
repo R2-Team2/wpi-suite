@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractTaskPanel extends JPanel {
+public class AbstractTaskPanel extends JPanel {
 
 	/** The parent panel. */
 	protected String title;
@@ -80,7 +80,7 @@ public abstract class AbstractTaskPanel extends JPanel {
 	/**
 	 * Called when the Create Button is pressed Creates a Task from the NewTask Info.
 	 */
-	public abstract void createPressed();
+	public void createPressed() {};
 
 	/**
 	 * Called when the Cancel Button is pressed Closes out the NewTask Tab.
