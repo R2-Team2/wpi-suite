@@ -173,5 +173,5 @@ public abstract class AbstractTaskPanel extends JPanel {
     {
         infoPanel = aPanel;
     }
-
+    
 }

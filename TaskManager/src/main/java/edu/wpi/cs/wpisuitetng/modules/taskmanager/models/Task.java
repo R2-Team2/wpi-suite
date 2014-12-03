@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -420,4 +421,17 @@ public class Task extends AbstractModel {
 		final Task[] tasks = parser.fromJson(json, Task[].class);
 		return tasks;
 	}
+	
+    public void copyFrom(Task toCopyFrom) {
+        //borrowed idea from requirements manager
+        this.title = toCopyFrom.title;
+        this.description = toCopyFrom.description;
+        this.assignedUsers = toCopyFrom.assignedUsers;
+        this.estimatedEffort = toCopyFrom.estimatedEffort;
+        this.actualEffort = toCopyFrom.actualEffort;
+        this.dueDate = toCopyFrom.dueDate;
+        this.activityList = toCopyFrom.activityList;
+        this.requirement = toCopyFrom.requirement;
+        this.status = toCopyFrom.status;
+    }
 }

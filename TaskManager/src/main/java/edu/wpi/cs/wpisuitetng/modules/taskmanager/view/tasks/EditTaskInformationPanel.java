@@ -8,9 +8,15 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -186,5 +192,24 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                 parentPanel.buttonPanel.validateTaskInfo();
             }
         });
+    }
+    
+    
+    public Task getTask() {
+    	final long id = parentPanel.aTask.getTaskID();
+    	final String title = getTitle().getText();
+        final String description = getDescription().getText();
+        final int estimatedEffort = (int) getEstimatedEffort().getValue();
+        final int actualEffort = (int) getActualEffort().getValue();
+        final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
+        final String requirement = null;//getRequirement().getSelectedItem().toString();
+        final Date startDate = getStartDate();
+        final Date dueDate = getDueDate();
+        final List<User> assignedUsers = getAssignedUsers();
+        Task updatedTask;
+        updatedTask = new Task(id, title, description, estimatedEffort, actualEffort,
+                status, requirement, startDate, dueDate, assignedUsers);
+        
+        return updatedTask;
     }
 }

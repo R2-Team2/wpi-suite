@@ -7,6 +7,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -47,7 +48,7 @@ public class UpdateTaskRequestObserver implements RequestObserver {
     @Override
     public void responseError(IRequest iReq) {
         // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        System.err.println("The request to add a message returned error.");
     }
 
     @Override

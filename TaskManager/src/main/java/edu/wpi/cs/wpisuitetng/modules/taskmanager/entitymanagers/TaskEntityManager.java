@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -122,23 +123,34 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 	@Override
 	public Task update(Session s, String content) throws WPISuiteException {
+		System.out.println("update method called in Task Entity Manager");
+		
 		final Task updatedTask = Task.fromJson(content);
+		System.out.println("updatedTask: " + updatedTask.toJson());
 
-		// Retrieve the original Task
-		final List<Model> oldTasks =
-				db.retrieve(Task.class, "id", updatedTask.getTaskID(), s.getProject());
-		if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
-			throw new BadRequestException("Task with ID does not exist.");
+		/*
+		 * Because of the disconnected objects problem in db4o, we can't just save tasks.
+		 * We have to get the original defect from db4o, copy properties from updatedTask,
+		 * then save the original Task again.
+		 */
+		
+		List<Model> oldTasks = db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
+		if(oldTasks.size() < 1 || oldTasks.get(0) == null) {
+			throw new BadRequestException("Requirement with ID does not exist.");
 		}
+		
+		Task existingTask = (Task)oldTasks.get(0);		
 
-		// Update the original Task with new values
-		final Task existingTask = (Task) oldTasks.get(0);
-		existingTask.update(updatedTask);
-
-		// Save the original Task, now updated
-		if (!db.save(existingTask, s.getProject())) {
-			throw new WPISuiteException("Unable to save TNG");
+		// copy values to old requirement and fill in our changeset appropriately
+		existingTask.copyFrom(updatedTask);
+		
+		if(!db.save(existingTask, s.getProject())) {
+			throw new WPISuiteException();
 		}
+		
+		//db.save(updatedTask, s.getProject());
+
+		System.out.println("Updated Task Success: " + existingTask.toJson());
 		return existingTask;
 	}
 
@@ -150,6 +162,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 */
 	@Override
 	public void save(Session s, Task model) {
+		System.out.println("Task Entity Manager is Saving");
 		db.save(model);
 	}
 
@@ -215,6 +228,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 	@Override
 	public String advancedPost(Session s, String string, String content) {
+		System.out.println("Task Entity Manager is in advancedPost");
+
 		return null;
 	}
 

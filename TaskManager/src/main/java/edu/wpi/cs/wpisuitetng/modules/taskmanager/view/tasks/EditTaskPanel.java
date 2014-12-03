@@ -59,8 +59,9 @@ public class EditTaskPanel extends AbstractTaskPanel {
     public void savePressed() {
 
         // create a task, send to to controller
-        final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(aTask);
+        Task updatedTask = this.infoPanel.getTask();
+    	final UpdateTaskController updateTask = new UpdateTaskController(this);
+        updateTask.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
         // retrieveTasks.requestTasks();
         // TODO: create task card

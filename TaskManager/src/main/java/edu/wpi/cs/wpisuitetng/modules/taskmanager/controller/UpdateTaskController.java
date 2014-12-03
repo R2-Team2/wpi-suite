@@ -46,6 +46,7 @@ public class UpdateTaskController {
         request.addObserver(new UpdateTaskRequestObserver(this)); // add an observer to process the
                                                                   // response
         request.send(); // send the request
+        System.out.println("Task: " + toSave.toJson());
         System.out.println("Sent task to database");
         // }
     }

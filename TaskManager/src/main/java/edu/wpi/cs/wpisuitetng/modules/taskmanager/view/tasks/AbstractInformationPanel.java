@@ -40,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 
@@ -368,6 +369,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         spinnerEstimatedEffort.setEnabled(io);
         spinnerActualEffort.setEnabled(io);
     }
+    
+    public abstract Task getTask();
 }
 
 
@@ -400,4 +403,5 @@ class RequirementComparator implements Comparator<Requirement> {
     public int compare(Requirement R1, Requirement R2) {
         return R1.getName().compareTo(R2.getName());
     }
+    
 }

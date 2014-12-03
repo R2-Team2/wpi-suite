@@ -47,4 +47,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         spinnerActualEffort.setValue(viewTask.getActualEffort());
     }
 
+	@Override
+	public Task getTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
