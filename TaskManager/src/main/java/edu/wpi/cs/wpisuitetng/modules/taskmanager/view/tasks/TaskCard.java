@@ -63,7 +63,7 @@ public class TaskCard extends JPanel {
      * @param aTask is the task object displayed in the task card.
      */
     public TaskCard(String nameData, String dateData, String userNameData, Task aTask) {
-    	taskObj = aTask;
+        taskObj = aTask;
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 

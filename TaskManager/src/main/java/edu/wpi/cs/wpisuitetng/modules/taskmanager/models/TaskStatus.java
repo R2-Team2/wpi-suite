@@ -154,13 +154,20 @@ public class TaskStatus extends AbstractModel {
         return null;
     }
 
-    public static TaskStatus fromJson(String json) {
+    /**
+     * Returns an array of TaskStatuses parsed from the given JSON-encoded string.
+     *
+     * @param json a string containing a JSON-encoded array of TaskStatuses
+     * @return an array of TaskStatuses deserialized from the given json string
+     */
+    public static TaskStatus[] fromJsonArray(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, TaskStatus.class);
+        return parser.fromJson(json, TaskStatus[].class);
     }
 
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;
     }
+
 }
