@@ -111,6 +111,8 @@ public class MainView extends JTabbedPane {
 	 * Edits the work flow view.
 	 */
 	public void editWorkFlowView() {
+		workflow.createNewSettings();
+		setSelectedComponent(workflow);/*
 		if (!isTabAlreadyOpen(workFlowEditView)) {
 			this.addTab("Edit Work Flow", null, workFlowEditView, null);
 
@@ -182,7 +184,7 @@ public class MainView extends JTabbedPane {
 				setSelectedIndex(getTabCount() - 1);
 				setSelectedComponent(workFlowEditView);
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -192,7 +194,7 @@ public class MainView extends JTabbedPane {
 	 * @return true, if successful
 	 */
 	private boolean isTabAlreadyOpen(Component componentOpen) {
-		boolean ret = false;
+		boolean ret = false;	
 		for (int i = 1; i < getTabCount(); i++) {
 			if (componentOpen.equals(getTabComponentAt(i))) {
 				ret = true;

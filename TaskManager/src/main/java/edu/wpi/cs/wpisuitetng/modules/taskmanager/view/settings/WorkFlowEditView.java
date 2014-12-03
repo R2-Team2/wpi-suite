@@ -18,12 +18,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -33,7 +36,7 @@ import net.miginfocom.swing.MigLayout;
  * @author R2-Team2
  */
 @SuppressWarnings("serial")
-public class WorkFlowEditView extends JPanel {
+public class WorkFlowEditView extends AbstractTaskPanel  {
 
     // private WorkFlowSplitTabbedPanel parentPanel;
 
@@ -47,10 +50,10 @@ public class WorkFlowEditView extends JPanel {
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
     /** Settings Panel Title. */
-    protected JTextField title = new JTextField("Edit Work Flow");
+    protected JTextField title = new JTextField("Settings");
 
     /** The title font. */
-    protected Font titleFont = new Font("SansSerif", Font.BOLD, 30);
+    protected Font titleFont = new Font("SansSerif", Font.BOLD, 20);
 
     /** The task status button panel. */
     private final JPanel taskStatusButtonPanel = new JPanel(new MigLayout());
@@ -97,8 +100,9 @@ public class WorkFlowEditView extends JPanel {
 
     /**
      * Constructor for the NewTaskPanel.
+     * @param settingsSplitTabbedPanel 
      */
-    public WorkFlowEditView() {
+    public WorkFlowEditView(SettingsSplitTabbedPanel settingsSplitTabbedPanel) {
         this.buildLayout();
 
 
@@ -106,19 +110,26 @@ public class WorkFlowEditView extends JPanel {
 
     }
 
+
+
     /**
-     * Instantiates a new work flow edit view.
-     *
-     * @param parentPanel the parent panel
-     */
-    public WorkFlowEditView(SettingsSplitTabbedPanel parentPanel) {
-
-
-        this.buildLayout();
+	 * Description
+	 *
+	 */
+    public WorkFlowEditView(WorkFlowSplitTabbedPanel parentPanel) {
+        /*super(parentPanel);
+        this.parentPanel = parentPanel;*/
+        buildLayout();
 
     }
+    
+	public WorkFlowEditView() {
+		// TODO Auto-generated constructor stub
+	}
+	
 
-    /**
+
+	/**
      * Creates the GUI for the NewTaskPanel.
      */
     protected void buildLayout() {
@@ -126,6 +137,7 @@ public class WorkFlowEditView extends JPanel {
         // Add Settings for changing date format?
 
         // Build Bottom Button Panel
+    	JScrollPane mainScrollPane=new JScrollPane();
         bottomButtonPanel.add(saveSettingsButton, "left");
         bottomButtonPanel.add(cancelButton, "left");
 
@@ -140,7 +152,7 @@ public class WorkFlowEditView extends JPanel {
      */
     protected void buildEditWorkFlowView() {
         // Set Minimum Size of the Settings Panel
-        this.setMinimumSize(new Dimension(1000, 1000));
+        this.setMinimumSize(new Dimension(540, 600));
         this.setLayout(new BorderLayout());
 
         newStatusTitleLabel.setBackground(getBackground());
@@ -202,4 +214,13 @@ public class WorkFlowEditView extends JPanel {
             }
         });
     }
+
+	/*
+	 * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
+	 */
+	@Override
+	public void createPressed() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -19,10 +19,9 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 
 
 // TODO: Auto-generated Javadoc
@@ -74,6 +73,18 @@ public class WorkFlowSplitView extends JSplitPane{
 		this.resetToPreferredSizes();
 		this.setRightComponent(workflowSplitTabbedPanel);
 	}
+	
+	public void createNewSettings() {
+		workflowSplitTabbedPanel.addSettingsTab();
+		// Sets the Right Component to its minimum size always
+		this.setResizeWeight(1.0);
+		this.setEnabled( false );
+		this.setOneTouchExpandable(false);
+		//this.setDividerLocation(.6);
+		this.resetToPreferredSizes();
+		this.setRightComponent(workflowSplitTabbedPanel);
+	}
+
 
 	/**
 	 * Creates the view task panel.

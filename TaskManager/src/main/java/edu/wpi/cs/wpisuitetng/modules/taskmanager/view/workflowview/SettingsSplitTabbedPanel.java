@@ -4,7 +4,8 @@
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
  * R2-Team2
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings;
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
+//package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 /*******************************************************************************
  * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
@@ -26,10 +27,13 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,7 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
-public class SettingsSplitTabbedPanel extends JTabbedPane {
+public class SettingsSplitTabbedPanel extends JSplitPane {
 
     /** The popup. */
     private final JPopupMenu popup = new JPopupMenu();
@@ -50,11 +54,30 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     private final JMenuItem closeOthers = new JMenuItem("Close Others");
 
     /** The parent panel. */
-    private final WorkFlowSplitView parentPanel;
+    private WorkFlowSplitView parentPanel;
 
     /** The workflow edit view. */
-    private final WorkFlowEditView workflowEditView;
+    private WorkFlowEditView workflowEditView;
+    
+    private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
 
+	public SettingsSplitTabbedPanel() {
+		settingsSplitTabbedPanel = new SettingsSplitTabbedPanel();
+
+        ViewEventController.getInstance().setSettingsSplitTabbedPanel(settingsSplitTabbedPanel);
+		
+		this.setLeftComponent(new JScrollPane(new WorkFlowView()));
+		this.setRightComponent(null);
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+	}
+    
 
     /**
      * Instantiates a new work flow split tabbed panel.
@@ -95,6 +118,17 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     }
 
     /**
+	 * Description goes here.
+	 *
+	 * @param scrollTabLayout
+	 */
+	private void setTabLayoutPolicy(int scrollTabLayout) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
      * Adds the create task tab.
      */
     public void addSettingsTab() {
@@ -148,7 +182,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
             final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
-            final JLabel lblTitle = new JLabel("Settings");
+            final JLabel lblTitle = new JLabel("New Task");
             lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
             final GridBagConstraints gbc = new GridBagConstraints();
@@ -169,6 +203,67 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     }
 
     /**
+	 * Description goes here.
+	 *
+	 * @param i
+	 * @param panel
+	 */
+	private void setTabComponentAt(int i, JPanel panel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @param i
+	 */
+	private void setSelectedIndex(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @param i
+	 * @return
+	 */
+	protected JPanel getTabComponentAt(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @return
+	 */
+	private int getTabCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @param string
+	 * @param object
+	 * @param workFlowEditView2
+	 * @param object2
+	 */
+	private void addTab(String string, Object object,
+			WorkFlowEditView workFlowEditView2, Object object2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
      * Check for hide.
      */
     public void checkForHide() {
@@ -176,5 +271,27 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
             ViewEventController.getInstance().closeNewTaskPanel();
         }
     }
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @return
+	 */
+	public Object getSelectedIndex() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * Description goes here.
+	 *
+	 * @param selectedIndex
+	 */
+	public void removeTabAt(Object selectedIndex) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

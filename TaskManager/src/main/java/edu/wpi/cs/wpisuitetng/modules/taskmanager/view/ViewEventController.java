@@ -8,9 +8,9 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
@@ -36,7 +36,7 @@ public class ViewEventController {
     private WorkFlowSplitTabbedPanel split = null;
 
     /** The settings panel. */
-    private final WorkFlowEditView settingsPanel = new WorkFlowEditView();
+    //private final WorkFlowEditView settingsPanel = new WorkFlowEditView();
 
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
@@ -143,6 +143,18 @@ public class ViewEventController {
     public void refreshWorkFlowView() {
         workflow.refresh();
     }
+
+	/**
+	 * Description goes here.
+	 *
+	 * @param settingsSplitTabbedPanel
+	 */
+	public void setSettingsSplitTabbedPanel(
+			SettingsSplitTabbedPanel settingsSplitTabbedPanel) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

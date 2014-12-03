@@ -19,11 +19,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,16 +48,31 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 	private final JMenuItem closeOthers = new JMenuItem("Close Others");
 
 	/** The parent panel. */
-	private final WorkFlowSplitView parentPanel;
+	private final edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView parentPanel;
 
 
 	/**
 	 * Instantiates a new work flow split tabbed panel.
 	 *
 	 * @param parentPanel the parent panel
+	 * @return 
 	 */
-	public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
-		this.parentPanel = parentPanel;
+	/*public void WorkFlowSplitTabbedPanel() {
+		/*WorkFlowSplitTabbedPanel workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
+
+        ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
+		
+		this.setLeftComponent(new JScrollPane(new WorkFlowView()));
+		this.setRightComponent(null);
+		SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+               hideCreateNewTaskPanel();
+            }
+        });
+	}*/
+	
+	public WorkFlowSplitTabbedPanel(edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView workFlowSplitView) {
+		this.parentPanel = workFlowSplitView;
 
 		setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		// this.setMaximumSize(new Dimension(100,100));
@@ -98,6 +117,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 	 */
 	public void addCreateTaskTab() {
 		this.addTab("New Task", null, new NewTaskPanel(this), null);
+		
 
 		final WorkFlowSplitTabbedPanel thisPane = this;
 
@@ -166,6 +186,77 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 			setSelectedIndex(getTabCount() - 1);
 		}
 	}
+	
+	 public void addSettingsTab() {
+			this.addTab("Settings", null, new WorkFlowEditView(this), null);
+
+			final WorkFlowSplitTabbedPanel thisPane = this;
+
+	        // create a "cross" button
+	        final JButton tabCloseButton = new JButton("\u2716");
+	        tabCloseButton.setActionCommand("" + this.getTabCount());
+	        tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
+	        tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+
+	        final ActionListener closeButtonListener;
+	        closeButtonListener = new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent action) {
+
+	                // get button which was clicked
+	                JButton tmpButton = (JButton) action.getSource();
+
+	                // get previously defined action command (sort of identifier)
+	                final String clickedActionCommand = tmpButton.getActionCommand();
+
+	                // for all tabs in tabpane
+	                for (int i = 0; i < thisPane.getTabCount(); i++) {
+
+	                    // get a panel of current tab component
+	                    JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+
+	                    // take a button from it
+	                    tmpButton = (JButton) tabPanel.getComponent(1);
+
+	                    // retrieve its action command
+	                    String actualActionCommand = tmpButton.getActionCommand();
+
+	                    // if this command is equal to that of clicked button, then we've found our tab
+	                    if (clickedActionCommand.equals(actualActionCommand)) {
+	                        thisPane.removeTabAt(i); // and we remove it
+	                        thisPane.checkForHide();
+	                        break;
+	                    }
+	                }
+	            }
+	        };
+	        tabCloseButton.addActionListener(closeButtonListener);
+
+	        // this part of code manually creates a panel with title and button
+	        // and adds it to tab component
+	        if (this.getTabCount() != 0) {
+	            final JPanel panel = new JPanel();
+	            panel.setOpaque(false);
+
+	            final JLabel lblTitle = new JLabel("Settings");
+	            lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+
+	            final GridBagConstraints gbc = new GridBagConstraints();
+	            gbc.gridx = 0;
+	            gbc.gridy = 0;
+	            gbc.weightx = 1;
+
+	            panel.add(lblTitle, gbc);
+
+	            gbc.gridx++;
+	            gbc.weightx = 0;
+	            panel.add(tabCloseButton, gbc);
+
+
+	            this.setTabComponentAt(this.getTabCount() - 1, panel);
+	            this.setSelectedIndex(this.getTabCount() - 1);
+	        }
+	    }
 
 	/**
 	 * Add new tab with the given panel.
