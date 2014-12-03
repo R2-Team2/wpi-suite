@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  */
 public class CommentList {
 
-    private final List<Comment> comments;
+    private final LinkedList<Comment> comments;
 
     /**
      * Stores a thread of comments.
@@ -33,7 +33,7 @@ public class CommentList {
      *
      * @return the linked list of comments.
      */
-    public List<Comment> getComments() {
+    public LinkedList<Comment> getComments() {
         return comments;
     }
 
