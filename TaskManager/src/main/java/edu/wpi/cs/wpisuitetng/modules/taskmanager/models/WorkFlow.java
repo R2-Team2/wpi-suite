@@ -25,27 +25,25 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 public class WorkFlow extends AbstractModel {
 
     /** The work flow id. */
-    private int workFlowID;
+    private long workFlowID;
 
     /** The task status list. */
-    private List<TaskStatus> taskStatusList;
+    private ArrayList<Long> taskStatusList;
 
     /**
      * Instantiates a new work flow.
      */
-
     public WorkFlow() {
-        taskStatusList = new ArrayList<TaskStatus>();
+        taskStatusList = new ArrayList<Long>();
     }
 
 
     /**
      * Gets the work flow id.
-     *
      * @return the work flow id
      */
 
-    public int getWorkFlowID() {
+    public long getWorkFlowID() {
         return workFlowID;
     }
 
@@ -53,11 +51,11 @@ public class WorkFlow extends AbstractModel {
     /**
      * Sets the work flow id.
      *
-     * @param workFlowID the new work flow id
+     * @param l the new work flow id
      */
 
-    public void setWorkFlowID(int workFlowID) {
-        this.workFlowID = workFlowID;
+    public void setWorkFlowID(long l) {
+        this.workFlowID = l;
     }
 
 
@@ -66,7 +64,7 @@ public class WorkFlow extends AbstractModel {
      *
      * @return the task status list
      */
-    public List<TaskStatus> getTaskStatusList() {
+    public ArrayList<Long> getTaskStatusList() {
         return taskStatusList;
     }
 
@@ -76,7 +74,7 @@ public class WorkFlow extends AbstractModel {
      * @param taskStatusList the new task status list
      */
 
-    public void setTaskStatusList(List<TaskStatus> taskStatusList) {
+    public void setTaskStatusList(ArrayList<Long> taskStatusList) {
         this.taskStatusList = taskStatusList;
     }
 

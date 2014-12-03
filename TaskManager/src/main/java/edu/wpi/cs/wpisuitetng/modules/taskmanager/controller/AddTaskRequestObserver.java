@@ -44,7 +44,7 @@ public class AddTaskRequestObserver implements RequestObserver {
     @Override
     public void responseError(IRequest iReq) {
         // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        System.err.println("The request to add a message returned an error.");
     }
 
     @Override

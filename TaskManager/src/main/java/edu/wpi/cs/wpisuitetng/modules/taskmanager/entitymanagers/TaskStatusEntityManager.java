@@ -13,6 +13,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
@@ -31,7 +32,12 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     public TaskStatus makeEntity(Session s, String content)
             throws BadRequestException, ConflictException, WPISuiteException {
 
-        final TaskStatus newTaskStatus = TaskStatus.fromJson(content);
+        TaskStatus newTaskStatus = TaskStatus.fromJson(content);
+        
+        List<Model> idList = db.retrieve(IDNum.class, "id", 0);
+        IDNum idObj = (IDNum) idList.get(0);
+        
+        newTaskStatus.setTaskStatusID(idObj.getAndIncID());
 
         if (!db.save(newTaskStatus, s.getProject())) {
             throw new WPISuiteException();

@@ -28,7 +28,7 @@ public class TaskStatus extends AbstractModel {
     private static final long serialVersionUID = 3575239378691210918L;
 
     /** The task status id. */
-    private int taskStatusID;
+    private long taskStatusID;
 
     /** The name. */
     private String name;
@@ -118,7 +118,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @return the task status id
      */
-    public int getTaskStatusID() {
+    public long getTaskStatusID() {
         return taskStatusID;
     }
 
@@ -127,7 +127,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @param taskStatusID the new task status id
      */
-    public void setTaskStatusID(int taskStatusID) {
+    public void setTaskStatusID(long taskStatusID) {
         this.taskStatusID = taskStatusID;
     }
 

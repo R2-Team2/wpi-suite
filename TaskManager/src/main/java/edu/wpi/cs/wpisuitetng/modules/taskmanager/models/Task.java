@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Task extends AbstractModel {
 
 	/** The task id. */
-	private int taskID;
+	private long taskID;
 
 	/** The title. */
 	private String title;
@@ -76,7 +76,7 @@ public class Task extends AbstractModel {
 	 * @param dueDate the due date
 	 * @param assignedUsers the assigned users
 	 */
-	public Task(int taskID, String title, String description, int estimatedEffort,
+	public Task(long taskID, String title, String description, int estimatedEffort,
 			int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
 			List<User> assignedUsers) {
 		this.taskID = taskID;
@@ -246,7 +246,7 @@ public class Task extends AbstractModel {
 	 *
 	 * @return the task id
 	 */
-	public int getTaskID() {
+	public long getTaskID() {
 		return taskID;
 	}
 
@@ -255,7 +255,7 @@ public class Task extends AbstractModel {
 	 *
 	 * @param taskID the new task id
 	 */
-	public void setTaskID(int taskID) {
+	public void setTaskID(long taskID) {
 		this.taskID = taskID;
 	}
 

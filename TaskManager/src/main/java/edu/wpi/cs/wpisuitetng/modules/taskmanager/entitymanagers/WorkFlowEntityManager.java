@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -13,6 +14,8 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
@@ -20,158 +23,249 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
  */
 public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
-    private Data db;
+	private Data db;
 
-    public WorkFlowEntityManager(Data db) {
-        this.db = db;
-    }
+	public WorkFlowEntityManager(Data db) {
+		this.db = db;
+	}
 
-    @Override
-    public WorkFlow makeEntity(Session s, String content)
-            throws BadRequestException, ConflictException, WPISuiteException {
+	@Override
+	public WorkFlow makeEntity(Session s, String content)
+			throws BadRequestException, ConflictException, WPISuiteException {
 
-        final WorkFlow newWorkFlow = WorkFlow.fromJson(content);
+		WorkFlow newWorkFlow = WorkFlow.fromJson(content);
+		if(newWorkFlow.getTaskStatusList()==null){
+			WorkFlow defaultWF = newWorkFlow;
+			
+			//Initialize ID
+			IDNum idStore = new IDNum(db);
+			db.save(idStore);
 
-        if (!db.save(newWorkFlow, s.getProject())) {
-            throw new WPISuiteException();
-        }
+			//set default workflow id to 0.
+			defaultWF.setWorkFlowID(idStore.getAndIncID());
 
-        return newWorkFlow;
-    }
+			//Create Default Task Statuses
+			TaskStatus newStatus = new TaskStatus("New");
+			newStatus.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus selected = new TaskStatus("Selected for Development");
+			selected.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus develop = new TaskStatus("Currently in Development");
+			develop.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus completed = new TaskStatus("Completed");
+			completed.setTaskStatusID(idStore.getAndIncID());
 
-    /*
-     * Individual messages cannot be retrieved. This message always throws an exception.
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng .Session,
-     * java.lang.String)
-     */
-    @Override
-    public WorkFlow[] getEntity(Session s, String id) throws NotFoundException,
-    WPISuiteException {
-        List<Model> workflows =
-                db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
-        return workflows.toArray(new WorkFlow[0]);
-    }
+			//Save Default Task Statuses
+			db.save(newStatus, s.getProject());
+			db.save(selected, s.getProject());
+			db.save(develop, s.getProject());
+			db.save(completed, s.getProject());
 
-    /**
-     * Retrieves all WorkFlows from the given session database
-     *
-     * @param s Session which is querying the server
-     * @return all WorkFlows in the session database
-     */
-    @Override
-    public WorkFlow[] getAll(Session s) throws WPISuiteException {
-        // Retrieve all WorkFlows (no arguments specified)
-        List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+			//Add TaskStatus ID's to WorkFlow object
+			ArrayList<Long> defaultTSid = new ArrayList<Long>();
+			defaultTSid.add(newStatus.getTaskStatusID());
+			defaultTSid.add(selected.getTaskStatusID());
+			defaultTSid.add(develop.getTaskStatusID());
+			defaultTSid.add(completed.getTaskStatusID());
 
-        // Convert the List into an array
-        return workflows.toArray(new WorkFlow[0]);
-    }
+			defaultWF.setTaskStatusList(defaultTSid);
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng .Session,
-     * java.lang.String)
-     */
-    @Override
-    public WorkFlow update(Session s, String content) throws WPISuiteException {
-        WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
+			db.save(defaultWF, s.getProject());
+			
+			return defaultWF;
+		}
+		else
+		{
+			List<Model> idList = db.retrieve(IDNum.class, "id", 0);
+			IDNum idObj = (IDNum) idList.get(0);
 
-        // Retrieve the original WorkFlow
-        List<Model> oldWorkFlow =
-                db.retrieve(WorkFlow.class, "id", updatedWorkFlow.getWorkFlowID(), s.getProject());
-        if (oldWorkFlow.size() < 1 || oldWorkFlow.get(0) == null) {
-            throw new BadRequestException("WorkFlow with ID does not exist.");
-        }
+			newWorkFlow.setWorkFlowID(idObj.getAndIncID());
 
-        // Update the original WorkFlow with new values
-        WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
-        existingWorkFlow.update(updatedWorkFlow);
+			if (!db.save(newWorkFlow, s.getProject())) {
+				throw new WPISuiteException();
+			}
 
-        // Save the original WorkFlow, now updated
-        if (!db.save(existingWorkFlow, s.getProject())) {
-            throw new WPISuiteException();
-        }
-        return existingWorkFlow;
-    }
+			return newWorkFlow;
+		}
+	}
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng .Session,
-     * edu.wpi.cs.wpisuitetng.modules.Model)
-     */
-    @Override
-    public void save(Session s, WorkFlow model) throws WPISuiteException {
-        db.save(model);
-    }
+	/*
+	 * Individual messages cannot be retrieved. This message always throws an exception.
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng .Session,
+	 * java.lang.String)
+	 */
+	@Override
+	public WorkFlow[] getEntity(Session s, String id) throws NotFoundException,
+	WPISuiteException {
+		List<Model> workflows =
+				db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
 
-    /**
-     * Deletes the WorkFlow with the given id, if the session has ADMIN permissions
-     *
-     * @param s Session which is querying the server
-     * @param id ID number of the WorkFlow to be deleted
-     * @return The deleted WorkFlow
-     * @throws WPISuiteException
-     */
-    @Override
-    public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-        ensureRole(s, Role.ADMIN);
-        WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
-        return (deletedObject != null);
-    }
+		//Create default workflow if none exist:
+		if (workflows.toArray(new WorkFlow[0])==null){
+			WorkFlow defaultWF = new WorkFlow();
 
-    // TaskManager does not support deleting all tasks at once
-    @Override
-    public void deleteAll(Session s) throws WPISuiteException {
-        throw new WPISuiteException();
-    }
+			//Initialize ID
+			IDNum idStore = new IDNum(db);
+			db.save(idStore);
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
-     */
-    @Override
-    public int Count() throws WPISuiteException {
-        // Return the number of PostBoardMessages currently in the database
-        return db.retrieveAll(new WorkFlow()).size();
-    }
+			//set default workflow id to 0.
+			defaultWF.setWorkFlowID(idStore.getAndIncID());
 
-    /**
-     * Gets all WorkFlow where the property args[0] has the value args[1]
-     *
-     * @param s Session which is querying the server
-     * @param args Array of arguments sent in the request
-     * @return List of WorkFlow that have the desired value for the given field
-     */
-    @Override
-    public String advancedGet(Session s, String[] args)
-            throws WPISuiteException {
-        return null;
-    }
+			//Create Default Task Statuses
+			TaskStatus newStatus = new TaskStatus("New");
+			newStatus.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus selected = new TaskStatus("Selected for Development");
+			selected.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus develop = new TaskStatus("Currently in Development");
+			develop.setTaskStatusID(idStore.getAndIncID());
+			TaskStatus completed = new TaskStatus("Completed");
+			completed.setTaskStatusID(idStore.getAndIncID());
 
-    @Override
-    public String advancedPut(Session s, String[] args, String content)
-            throws WPISuiteException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+			//Save Default Task Statuses
+			db.save(newStatus, s.getProject());
+			db.save(selected, s.getProject());
+			db.save(develop, s.getProject());
+			db.save(completed, s.getProject());
 
-    @Override
-    public String advancedPost(Session s, String string, String content)
-            throws WPISuiteException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+			//Add TaskStatus ID's to WorkFlow object
+			ArrayList<Long> defaultTSid = new ArrayList<Long>();
+			defaultTSid.add(newStatus.getTaskStatusID());
+			defaultTSid.add(selected.getTaskStatusID());
+			defaultTSid.add(develop.getTaskStatusID());
+			defaultTSid.add(completed.getTaskStatusID());
 
-    /**
-     * Ensures that a user is of the specified role Originally written for RequirementsManager,
-     * should probably be a common library
-     *
-     * @param session the session
-     * @param role the role being verified
-     * @throws WPISuiteException user isn't authorized for the given role
-     */
-    private void ensureRole(Session session, Role role) throws WPISuiteException {
-        User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
-        if (!user.getRole().equals(role)) {
-            throw new UnauthorizedException();
-        }
-    }
+			defaultWF.setTaskStatusList(defaultTSid);
+
+			db.save(defaultWF, s.getProject());
+
+			WorkFlow[] returnArry = new WorkFlow[1];
+			returnArry[0] = defaultWF;
+			System.out.println("New Workflow and Default TaskStatuses created.");
+			return returnArry;
+		}
+
+		return workflows.toArray(new WorkFlow[0]);
+	}
+
+	/**
+	 * Retrieves all WorkFlows from the given session database
+	 *
+	 * @param s Session which is querying the server
+	 * @return all WorkFlows in the session database
+	 */
+	@Override
+	public WorkFlow[] getAll(Session s) throws WPISuiteException {
+		// Retrieve all WorkFlows (no arguments specified)
+		List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+
+		// Convert the List into an array
+		return workflows.toArray(new WorkFlow[0]);
+	}
+
+	/*
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng .Session,
+	 * java.lang.String)
+	 */
+	@Override
+	public WorkFlow update(Session s, String content) throws WPISuiteException {
+		WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
+
+		// Retrieve the original WorkFlow
+		List<Model> oldWorkFlow =
+				db.retrieve(WorkFlow.class, "id", updatedWorkFlow.getWorkFlowID(), s.getProject());
+		if (oldWorkFlow.size() < 1 || oldWorkFlow.get(0) == null) {
+			throw new BadRequestException("WorkFlow with ID does not exist.");
+		}
+
+		// Update the original WorkFlow with new values
+		WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
+		existingWorkFlow.update(updatedWorkFlow);
+
+		// Save the original WorkFlow, now updated
+		if (!db.save(existingWorkFlow, s.getProject())) {
+			throw new WPISuiteException();
+		}
+		return existingWorkFlow;
+	}
+
+	/*
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng .Session,
+	 * edu.wpi.cs.wpisuitetng.modules.Model)
+	 */
+	@Override
+	public void save(Session s, WorkFlow model) throws WPISuiteException {
+		db.save(model);
+	}
+
+	/**
+	 * Deletes the WorkFlow with the given id, if the session has ADMIN permissions
+	 *
+	 * @param s Session which is querying the server
+	 * @param id ID number of the WorkFlow to be deleted
+	 * @return The deleted WorkFlow
+	 * @throws WPISuiteException
+	 */
+	@Override
+	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+		ensureRole(s, Role.ADMIN);
+		WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
+		return (deletedObject != null);
+	}
+
+	// TaskManager does not support deleting all tasks at once
+	@Override
+	public void deleteAll(Session s) throws WPISuiteException {
+		throw new WPISuiteException();
+	}
+
+	/*
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
+	 */
+	@Override
+	public int Count() throws WPISuiteException {
+		// Return the number of PostBoardMessages currently in the database
+		return db.retrieveAll(new WorkFlow()).size();
+	}
+
+	/**
+	 * Gets all WorkFlow where the property args[0] has the value args[1]
+	 *
+	 * @param s Session which is querying the server
+	 * @param args Array of arguments sent in the request
+	 * @return List of WorkFlow that have the desired value for the given field
+	 */
+	@Override
+	public String advancedGet(Session s, String[] args)
+			throws WPISuiteException {
+		return null;
+	}
+
+	@Override
+	public String advancedPut(Session s, String[] args, String content)
+			throws WPISuiteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String advancedPost(Session s, String string, String content)
+			throws WPISuiteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Ensures that a user is of the specified role Originally written for RequirementsManager,
+	 * should probably be a common library
+	 *
+	 * @param session the session
+	 * @param role the role being verified
+	 * @throws WPISuiteException user isn't authorized for the given role
+	 */
+	private void ensureRole(Session session, Role role) throws WPISuiteException {
+		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		if (!user.getRole().equals(role)) {
+			throw new UnauthorizedException();
+		}
+	}
 
 }

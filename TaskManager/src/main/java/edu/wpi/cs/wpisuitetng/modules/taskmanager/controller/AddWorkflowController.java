@@ -50,5 +50,14 @@ public class AddWorkflowController {
 		request.addObserver(new AddWorkflowRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 	}
+	
+	public void initWF(){
+		WorkFlow newWF = new WorkFlow();
+		
+		final Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT); // PUT == create
+		request.setBody(newWF.toJson()); // put the new message in the body of the request
+		request.addObserver(new AddWorkflowRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+	}
 
 }
