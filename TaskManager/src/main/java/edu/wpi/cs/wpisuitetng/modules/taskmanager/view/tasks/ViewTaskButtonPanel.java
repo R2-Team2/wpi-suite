@@ -24,12 +24,12 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
 
 	/**
 	 * Constructor for the ViewTaskButtonPanel.
-	 * 
+	 *
 	 * @param parentPanel the parent panel.
 	 */
 	public ViewTaskButtonPanel(ViewTaskPanel parentPanel) {
 		// Set Panel Layout
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		// Set Parent Panel
 		this.parentPanel = parentPanel;
 
@@ -38,32 +38,32 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
 		final String cancelString = "Cancel";
 
 		// Create Buttons
-		this.buttonEdit = new JButton(editString);
-		this.buttonCancel = new JButton(cancelString);
-		this.add(this.buttonEdit);
-		this.add(this.buttonCancel);
+		buttonEdit = new JButton(editString);
+		buttonCancel = new JButton(cancelString);
+		this.add(buttonEdit);
+		this.add(buttonCancel);
 		// super.setupListeners();
-		this.setupListeners();
+		setupListeners();
 	}
 
 	/**
 	 * Sets the listeners for the View task buttons.
 	 */
 	protected void setupListeners() {
-		this.buttonEdit.addActionListener(new ActionListener() {
+		buttonEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewTaskButtonPanel.this.parentPanel.editPressed();
+				parentPanel.editPressed();
 				System.out.println("edit pressed");
 				// TODO put it to the right place
 
 			}
 		});
 
-		this.buttonCancel.addActionListener(new ActionListener() {
+		buttonCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewTaskButtonPanel.this.parentPanel.cancelPressed();
+				parentPanel.cancelPressed();
 			}
 
 		});
