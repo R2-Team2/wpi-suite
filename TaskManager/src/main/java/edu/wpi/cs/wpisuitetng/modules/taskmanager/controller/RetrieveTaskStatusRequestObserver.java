@@ -26,6 +26,7 @@ public class RetrieveTaskStatusRequestObserver implements RequestObserver {
 	
 	/**
 	 * Constructor for the RetrieveTaskStatusRequestObserver.
+	 * @param aController the controller for the retrieve task status observer
 	 */
 	public RetrieveTaskStatusRequestObserver(RetrieveTaskStatusController aController){
 		controller = aController;
@@ -35,7 +36,7 @@ public class RetrieveTaskStatusRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// TODO Auto-generated method stub
 		final ResponseModel response = iReq.getResponse();
-		String responseBody = response.getBody();
+		final String responseBody = response.getBody();
 		//TODO is this necessary? 
 		//controller.displayTaskStatus(Task.fromJsonArray(responseBody));
 	}

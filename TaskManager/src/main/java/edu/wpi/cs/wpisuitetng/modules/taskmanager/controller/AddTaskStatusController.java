@@ -22,14 +22,13 @@ public class AddTaskStatusController {
 	/**
 	 * Construct an AddTaskStatusController for the given model, view pair
 	 */
-	public AddTaskStatusController(){
-		
-	}
+	/*public AddTaskStatusController(){	
+	}*/
 	
 	public void addTaskStatus(){
 		//TODO populate TaskStatus object
 		
-		TaskStatus newTaskStatus = new TaskStatus(null);
+		final TaskStatus newTaskStatus = new TaskStatus(null);
 		
 		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT); // PUT == create
 		request.setBody(newTaskStatus.toJson()); // put the new message in the body of the request

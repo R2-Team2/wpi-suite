@@ -29,9 +29,9 @@ public class AddWorkflowController {
 	/**
 	 * Construct an AddWorkflowController for the given model, view pair
 	 * */
-	public AddWorkflowController() {
+	/*public AddWorkflowController() {
 		//TODO find parent panel
-	}
+	}*/
 
 	/**
 	 * This method is called when the user clicks the Submit button
@@ -42,7 +42,7 @@ public class AddWorkflowController {
 		//TODO generate workflow get data from view
 
 		// Create Workflow
-		WorkFlow newWF = new WorkFlow();
+		final WorkFlow newWF = new WorkFlow();
 		
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT); // PUT == create
@@ -50,9 +50,12 @@ public class AddWorkflowController {
 		request.addObserver(new AddWorkflowRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 	}
-	
+	/**
+	 * initializes a workflow and neccesary objects 
+	 * 
+	 */
 	public void initWF(){
-		WorkFlow newWF = new WorkFlow();
+		final WorkFlow newWF = new WorkFlow();
 		
 		final Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.PUT); // PUT == create
 		request.setBody(newWF.toJson()); // put the new message in the body of the request

@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import com.google.gson.Gson;
@@ -10,17 +17,18 @@ public class IDNum extends AbstractModel {
 
     private long Num;
     private static Data db;
-    private int id;
+    final private int id;
     
 
     /**
      * IDNum object should be instantiated only if it doesn't already exist in database. If it is
      * instantiated, it will be initialized with a counter value of 0.
+     * @param db the database 
      */
     public IDNum(Data db) {
         id = 0;
     	Num = 0;
-    	IDNum.db = db;
+    	this.db = db;
     }
 
     public long getNum(){
@@ -55,8 +63,8 @@ public class IDNum extends AbstractModel {
      * @throws WPISuiteException 
      */
     public long getAndIncID() throws WPISuiteException {
-        long oldIDNum = Num;
-        this.Num = Num + 1;
+        final long oldIDNum = Num;
+        Num = Num + 1;
    
         IDNum.db.save(this);
         //IDNum.db.update(IDNum.class, "id", 0, "Num", this.Num);

@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 public class TaskEntityManager implements EntityManager<Task> {
 
 	/** The db. */
-	private Data db;
+	private final Data db;
 
 	/**
 	 * Instantiates a new task entity manager.
@@ -50,19 +50,19 @@ public class TaskEntityManager implements EntityManager<Task> {
 	@Override
 	public Task makeEntity(Session s, String content) throws WPISuiteException {
 		System.out.println("begin make entity");
-		Task newMessage = Task.fromJson(content);
+		final Task newMessage = Task.fromJson(content);
 
 
 
-		List<Model> idList = db.retrieveAll(new IDNum(this.db));
+		final List<Model> idList = db.retrieveAll(new IDNum(db));
 		//List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 		
-		IDNum[] idArry = idList.toArray(new IDNum[0]);
+		final IDNum[] idArry = idList.toArray(new IDNum[0]);
 		if(idArry.length == 0)
 		{
 			System.out.println("Creating new IDNum object");
 			//Initialize ID
-			IDNum idStore = new IDNum(db);
+			final IDNum idStore = new IDNum(db);
 			db.save(idStore);
 			
 			newMessage.setTaskID(idStore.getAndIncID());
@@ -134,12 +134,12 @@ public class TaskEntityManager implements EntityManager<Task> {
 		 * then save the original Task again.
 		 */
 		
-		List<Model> oldTasks = db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
+		final List<Model> oldTasks = db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
 		if(oldTasks.size() < 1 || oldTasks.get(0) == null) {
 			throw new BadRequestException("Requirement with ID does not exist.");
 		}
 		
-		Task existingTask = (Task)oldTasks.get(0);		
+		final Task existingTask = (Task)oldTasks.get(0);		
 
 		// copy values to old requirement and fill in our changeset appropriately
 		existingTask.copyFrom(updatedTask);

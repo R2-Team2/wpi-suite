@@ -369,7 +369,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         spinnerEstimatedEffort.setEnabled(io);
         spinnerActualEffort.setEnabled(io);
     }
-    
+    /**
+     * to form a task from information panel
+     * @return the task object.
+     */
     public abstract Task getTask();
 }
 

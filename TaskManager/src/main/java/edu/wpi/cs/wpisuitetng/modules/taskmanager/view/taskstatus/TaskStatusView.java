@@ -111,7 +111,7 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-    	RetrieveWorkflowController controller = new RetrieveWorkflowController();
+    	final RetrieveWorkflowController controller = new RetrieveWorkflowController();
     	controller.requestWorkflow();
     	
         taskStatusObj.setTaskList(new ArrayList<Task>());

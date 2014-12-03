@@ -56,6 +56,6 @@ public class AddTaskStatusRequestObserver implements RequestObserver{
 	 * @return the controller
 	 */
 	public AddTaskStatusController getController() {
-		return this.controller;
+		return controller;
 	}
 }

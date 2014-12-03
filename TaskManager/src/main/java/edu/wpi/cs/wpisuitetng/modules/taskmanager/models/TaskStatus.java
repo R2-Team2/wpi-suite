@@ -103,7 +103,11 @@ public class TaskStatus extends AbstractModel {
     public int getSize() {
         return taskList.size();
     }
-
+    /**
+     *return a task from a list 
+     * @param index the index in the list
+     * @return task at that spot in the array
+     */
     public Task getElementAt(int index) {
         return taskList.get(index);
     }
@@ -153,12 +157,19 @@ public class TaskStatus extends AbstractModel {
         // TODO Auto-generated method stub
         return null;
     }
-
+    /**
+     * convert from string to taskstatus
+     * @param json the string
+     * @return the formed taskstatus
+     */
     public static TaskStatus fromJson(String json) {
         final Gson parser = new Gson();
         return parser.fromJson(json, TaskStatus.class);
     }
-
+    /**
+     * update taskstatus objects
+     * @param updatedTaskStatus task status to update.
+     */
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;

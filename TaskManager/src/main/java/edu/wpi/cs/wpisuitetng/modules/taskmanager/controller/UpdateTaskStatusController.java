@@ -22,9 +22,9 @@ public class UpdateTaskStatusController {
 	/**
 	 * Constructor for the UpdateTaskStatusController.
 	 */
-	public UpdateTaskStatusController(){
+	/*public UpdateTaskStatusController(){
 	//TODO get parent view	
-	}
+	}*/
 	
 	/**
 	 * Calls the request from the request observer.

@@ -20,16 +20,19 @@ public class RetrieveWorkflowController {
 	/**
 	 * Constructor for Controller
 	 */
-	public RetrieveWorkflowController(){
+	/*public RetrieveWorkflowController(){
 		//TODO find parent view
-	}
+	}*/
 	
 	public void requestWorkflow() {
-		Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
 		request.addObserver(new RetrieveWorkflowRequestObserver(this));
 		request.send();
 	}
-
+	/**
+	 * populate workflow view. 
+	 * @param WorkflowArray  list of workflows
+	 */
 	public void displayWorkflows(WorkFlow[] WorkflowArray) {
 		//TODO publish retrieved workflows.
 		//view.fillTaskList(taskArray);

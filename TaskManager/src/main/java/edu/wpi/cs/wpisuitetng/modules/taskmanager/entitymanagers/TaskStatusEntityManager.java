@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
 import java.util.List;
@@ -22,8 +29,11 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
  */
 public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
 
-    private Data db;
-
+    private final Data db;
+    /**
+     * constructor for the task status entity manager
+     * @param db the database interface.
+     */
     public TaskStatusEntityManager(Data db) {
         this.db = db;
     }
@@ -32,10 +42,10 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     public TaskStatus makeEntity(Session s, String content)
             throws BadRequestException, ConflictException, WPISuiteException {
 
-        TaskStatus newTaskStatus = TaskStatus.fromJson(content);
+        final TaskStatus newTaskStatus = TaskStatus.fromJson(content);
         
-        List<Model> idList = db.retrieve(IDNum.class, "id", 0);
-        IDNum idObj = (IDNum) idList.get(0);
+        final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
+        final IDNum idObj = (IDNum) idList.get(0);
         
         newTaskStatus.setTaskStatusID(idObj.getAndIncID());
 
@@ -54,7 +64,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public TaskStatus[] getEntity(Session s, String id) throws NotFoundException,
             WPISuiteException {
-        List<Model> taskstatuses =
+        final List<Model> taskstatuses =
                 db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
         return taskstatuses.toArray(new TaskStatus[0]);
     }
@@ -68,7 +78,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public TaskStatus[] getAll(Session s) throws WPISuiteException {
         // Retrieve all TaskStatus (no arguments specified)
-        List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+        final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
 
         // Convert the List into an array
         return workflows.toArray(new TaskStatus[0]);
@@ -80,10 +90,10 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      */
     @Override
     public TaskStatus update(Session s, String content) throws WPISuiteException {
-        TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
+        final TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
 
         // Retrieve the original TaskStatus
-        List<Model> oldTaskStatus =
+        final List<Model> oldTaskStatus =
                 db.retrieve(TaskStatus.class, "id", updatedTaskStatus.getTaskStatusID(),
                         s.getProject());
         if (oldTaskStatus.size() < 1 || oldTaskStatus.get(0) == null) {
@@ -91,7 +101,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
         }
 
         // Update the original TaskStatus with new values
-        TaskStatus existingTaskStatus = (TaskStatus) oldTaskStatus.get(0);
+        final TaskStatus existingTaskStatus = (TaskStatus) oldTaskStatus.get(0);
         existingTaskStatus.update(updatedTaskStatus);
 
         // Save the original TaskStatus, now updated
@@ -121,7 +131,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public boolean deleteEntity(Session s, String id) throws WPISuiteException {
         ensureRole(s, Role.ADMIN);
-        TaskStatus deletedObject = db.delete(getEntity(s, id)[0]);
+        final TaskStatus deletedObject = db.delete(getEntity(s, id)[0]);
         return (deletedObject != null);
     }
 
@@ -176,7 +186,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @throws WPISuiteException user isn't authorized for the given role
      */
     private void ensureRole(Session session, Role role) throws WPISuiteException {
-        User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+        final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
         if (!user.getRole().equals(role)) {
             throw new UnauthorizedException();
         }

@@ -421,17 +421,20 @@ public class Task extends AbstractModel {
 		final Task[] tasks = parser.fromJson(json, Task[].class);
 		return tasks;
 	}
-	
+	/**
+	 * copies old task params to this task.
+	 * @param toCopyFrom old task.
+	 */
     public void copyFrom(Task toCopyFrom) {
         //borrowed idea from requirements manager
-        this.title = toCopyFrom.title;
-        this.description = toCopyFrom.description;
-        this.assignedUsers = toCopyFrom.assignedUsers;
-        this.estimatedEffort = toCopyFrom.estimatedEffort;
-        this.actualEffort = toCopyFrom.actualEffort;
-        this.dueDate = toCopyFrom.dueDate;
-        this.activityList = toCopyFrom.activityList;
-        this.requirement = toCopyFrom.requirement;
-        this.status = toCopyFrom.status;
+        title = toCopyFrom.title;
+        description = toCopyFrom.description;
+        assignedUsers = toCopyFrom.assignedUsers;
+        estimatedEffort = toCopyFrom.estimatedEffort;
+        actualEffort = toCopyFrom.actualEffort;
+        dueDate = toCopyFrom.dueDate;
+        activityList = toCopyFrom.activityList;
+        requirement = toCopyFrom.requirement;
+        status = toCopyFrom.status;
     }
 }

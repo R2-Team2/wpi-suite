@@ -206,7 +206,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<User> assignedUsers = getAssignedUsers();
-        Task updatedTask;
+        final Task updatedTask;
         updatedTask = new Task(id, title, description, estimatedEffort, actualEffort,
                 status, requirement, startDate, dueDate, assignedUsers);
         

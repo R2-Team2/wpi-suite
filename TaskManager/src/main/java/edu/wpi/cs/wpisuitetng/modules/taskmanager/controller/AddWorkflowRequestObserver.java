@@ -22,7 +22,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class AddWorkflowRequestObserver implements RequestObserver {
     
     private final AddWorkflowController controller;
-    
+    /**
+     * constructor for add wf controller
+     * 
+     * @param controller
+     */
     public AddWorkflowRequestObserver(AddWorkflowController controller) {
         this.controller = controller;
     }
@@ -56,6 +60,6 @@ public class AddWorkflowRequestObserver implements RequestObserver {
      * @return the controller
      */
     public AddWorkflowController getController() {
-        return this.controller;
+        return controller;
     }
 }

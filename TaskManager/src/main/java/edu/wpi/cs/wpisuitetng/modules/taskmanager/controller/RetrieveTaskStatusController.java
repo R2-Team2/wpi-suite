@@ -25,12 +25,12 @@ public class RetrieveTaskStatusController {
 	/**
 	 * Constructor for the RetrieveTaskStatusController.
 	 */
-	public RetrieveTaskStatusController(){
+	/*public RetrieveTaskStatusController(){
 	//TODO get parent view	
-	}
+	}*/
 	
 	public void requestTaskStatus() {
-		Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
 		request.addObserver(new RetrieveTaskStatusRequestObserver(this));
 		request.send();
 	}

@@ -7,10 +7,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
  * The Class UpdateTaskRequestObserver.
@@ -43,6 +43,7 @@ public class UpdateTaskRequestObserver implements RequestObserver {
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
+        ViewEventController.getInstance().refreshWorkFlowView();
     }
 
     @Override

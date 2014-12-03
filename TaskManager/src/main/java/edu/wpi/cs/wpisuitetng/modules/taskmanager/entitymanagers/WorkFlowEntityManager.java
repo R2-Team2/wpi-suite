@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
 import java.util.ArrayList;
@@ -23,8 +30,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
  */
 public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
-	private Data db;
+	final private Data db;
 
+	/**
+	 * Constructor for the workflwo entity manager
+	 * @param db interface to the database to task management.
+	 */
 	public WorkFlowEntityManager(Data db) {
 		this.db = db;
 	}
@@ -33,25 +44,25 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	public WorkFlow makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
-		WorkFlow newWorkFlow = WorkFlow.fromJson(content);
+		final WorkFlow newWorkFlow = WorkFlow.fromJson(content);
 		if(newWorkFlow.getTaskStatusList()==null){
-			WorkFlow defaultWF = newWorkFlow;
+			final WorkFlow defaultWF = newWorkFlow;
 			
 			//Initialize ID
-			IDNum idStore = new IDNum(db);
+			final IDNum idStore = new IDNum(db);
 			db.save(idStore);
 
 			//set default workflow id to 0.
 			defaultWF.setWorkFlowID(idStore.getAndIncID());
 
 			//Create Default Task Statuses
-			TaskStatus newStatus = new TaskStatus("New");
+			final TaskStatus newStatus = new TaskStatus("New");
 			newStatus.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus selected = new TaskStatus("Selected for Development");
+			final TaskStatus selected = new TaskStatus("Selected for Development");
 			selected.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus develop = new TaskStatus("Currently in Development");
+			final TaskStatus develop = new TaskStatus("Currently in Development");
 			develop.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus completed = new TaskStatus("Completed");
+			final TaskStatus completed = new TaskStatus("Completed");
 			completed.setTaskStatusID(idStore.getAndIncID());
 
 			//Save Default Task Statuses
@@ -61,7 +72,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 			db.save(completed, s.getProject());
 
 			//Add TaskStatus ID's to WorkFlow object
-			ArrayList<Long> defaultTSid = new ArrayList<Long>();
+			final ArrayList<Long> defaultTSid = new ArrayList<Long>();
 			defaultTSid.add(newStatus.getTaskStatusID());
 			defaultTSid.add(selected.getTaskStatusID());
 			defaultTSid.add(develop.getTaskStatusID());
@@ -75,8 +86,8 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 		}
 		else
 		{
-			List<Model> idList = db.retrieve(IDNum.class, "id", 0);
-			IDNum idObj = (IDNum) idList.get(0);
+			final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
+			final IDNum idObj = (IDNum) idList.get(0);
 
 			newWorkFlow.setWorkFlowID(idObj.getAndIncID());
 
@@ -96,28 +107,28 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	@Override
 	public WorkFlow[] getEntity(Session s, String id) throws NotFoundException,
 	WPISuiteException {
-		List<Model> workflows =
+		final List<Model> workflows =
 				db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
 
 		//Create default workflow if none exist:
 		if (workflows.toArray(new WorkFlow[0])==null){
-			WorkFlow defaultWF = new WorkFlow();
+			final WorkFlow defaultWF = new WorkFlow();
 
 			//Initialize ID
-			IDNum idStore = new IDNum(db);
+			final IDNum idStore = new IDNum(db);
 			db.save(idStore);
 
 			//set default workflow id to 0.
 			defaultWF.setWorkFlowID(idStore.getAndIncID());
 
 			//Create Default Task Statuses
-			TaskStatus newStatus = new TaskStatus("New");
+			final TaskStatus newStatus = new TaskStatus("New");
 			newStatus.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus selected = new TaskStatus("Selected for Development");
+			final TaskStatus selected = new TaskStatus("Selected for Development");
 			selected.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus develop = new TaskStatus("Currently in Development");
+			final TaskStatus develop = new TaskStatus("Currently in Development");
 			develop.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus completed = new TaskStatus("Completed");
+			final TaskStatus completed = new TaskStatus("Completed");
 			completed.setTaskStatusID(idStore.getAndIncID());
 
 			//Save Default Task Statuses
@@ -127,7 +138,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 			db.save(completed, s.getProject());
 
 			//Add TaskStatus ID's to WorkFlow object
-			ArrayList<Long> defaultTSid = new ArrayList<Long>();
+			final ArrayList<Long> defaultTSid = new ArrayList<Long>();
 			defaultTSid.add(newStatus.getTaskStatusID());
 			defaultTSid.add(selected.getTaskStatusID());
 			defaultTSid.add(develop.getTaskStatusID());
@@ -137,7 +148,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
 			db.save(defaultWF, s.getProject());
 
-			WorkFlow[] returnArry = new WorkFlow[1];
+			final WorkFlow[] returnArry = new WorkFlow[1];
 			returnArry[0] = defaultWF;
 			System.out.println("New Workflow and Default TaskStatuses created.");
 			return returnArry;
@@ -155,7 +166,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	@Override
 	public WorkFlow[] getAll(Session s) throws WPISuiteException {
 		// Retrieve all WorkFlows (no arguments specified)
-		List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+		final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
 
 		// Convert the List into an array
 		return workflows.toArray(new WorkFlow[0]);
@@ -167,17 +178,17 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	 */
 	@Override
 	public WorkFlow update(Session s, String content) throws WPISuiteException {
-		WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
+		final WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
 
 		// Retrieve the original WorkFlow
-		List<Model> oldWorkFlow =
+		final List<Model> oldWorkFlow =
 				db.retrieve(WorkFlow.class, "id", updatedWorkFlow.getWorkFlowID(), s.getProject());
 		if (oldWorkFlow.size() < 1 || oldWorkFlow.get(0) == null) {
 			throw new BadRequestException("WorkFlow with ID does not exist.");
 		}
 
 		// Update the original WorkFlow with new values
-		WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
+		final WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
 		existingWorkFlow.update(updatedWorkFlow);
 
 		// Save the original WorkFlow, now updated
@@ -207,7 +218,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
-		WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
+		final WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
 		return (deletedObject != null);
 	}
 
@@ -262,7 +273,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 	 * @throws WPISuiteException user isn't authorized for the given role
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if (!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
