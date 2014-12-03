@@ -68,7 +68,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
-        ViewEventController.getInstance().viewTask(aTask);
+        ViewEventController.getInstance().viewTask(updatedTask);
     }
 
     /**

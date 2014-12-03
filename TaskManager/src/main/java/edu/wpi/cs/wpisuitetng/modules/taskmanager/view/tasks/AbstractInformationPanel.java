@@ -144,8 +144,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		}
 		Collections.sort(requirements, new RequirementComparator());
 		final String[] arrListOfRequirements = new String[requirements.size() + 1];
-		strListOfRequirements.add("none");
-		arrListOfRequirements[0] = "none";
+		strListOfRequirements.add("None");
+		arrListOfRequirements[0] = "None";
 		for (int i = 0; i < requirements.size(); i++) {
 			// build a List<String> of the names of the requirements
 			// defaultComboBoxModel, below, requires an array of string
@@ -392,6 +392,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
 				.openRequirementsTab();
 	}
+	
+	/*
+	if (requirementText == null || requirementText == "None") {
+		buttonOpenRequirement.setEnabled(false);
+	}
+	*/
 
 	/**
 	 * Disables all of the text fields based on boolean io
