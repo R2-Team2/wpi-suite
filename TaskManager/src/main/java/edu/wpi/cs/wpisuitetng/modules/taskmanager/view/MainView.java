@@ -21,9 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
@@ -53,18 +54,17 @@ public class MainView extends JTabbedPane {
 	private final WorkFlowSplitView workflow = new WorkFlowSplitView();
 
 	/** The Settings view. */
-	private final WorkFlowEditView workFlowEditView = new WorkFlowEditView();
-
-	/** The tab counter. */
-	private final int tabCounter = 0;
+	private final JScrollPane settingsView;
+	
+	private final WorkFlowEditView editWorkFlowView = new WorkFlowEditView();
 
 
 	/**
 	 * Construct the panel. There is some test text inside the panel.
 	 */
 	public MainView() {
+		settingsView = new JScrollPane(editWorkFlowView);
 		setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-
 		closeAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -92,8 +92,19 @@ public class MainView extends JTabbedPane {
 		});
 
 		this.addTab("Work Flow", null, workflow, null);
-		// this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
 		
+		setupListeners();
+	}
+
+	private void setupListeners() {
+		// Refreshes tabs on ANY Selection Change
+		addChangeListener(new ChangeListener()
+	    {
+	      public void stateChanged(ChangeEvent e)
+	      {
+	    	  editWorkFlowView.refresh();
+	      }
+	    });
 	}
 
 	public WorkFlowSplitView getWF() {
@@ -113,8 +124,8 @@ public class MainView extends JTabbedPane {
 	 * Edits the work flow view.
 	 */
 	public void editWorkFlowView() {
-		if (!isTabAlreadyOpen(workFlowEditView)) {
-			this.addTab("Edit Work Flow", null, workFlowEditView, null);
+		if (!isTabAlreadyOpen(settingsView)) {
+			this.addTab("Edit Work Flow", null, settingsView, null);
 
 			final MainView thisPane = this;
 
@@ -182,7 +193,7 @@ public class MainView extends JTabbedPane {
 
 				setTabComponentAt(getTabCount() - 1, panel);
 				setSelectedIndex(getTabCount() - 1);
-				setSelectedComponent(workFlowEditView);
+				setSelectedComponent(editWorkFlowView);
 			}
 		}
 	}

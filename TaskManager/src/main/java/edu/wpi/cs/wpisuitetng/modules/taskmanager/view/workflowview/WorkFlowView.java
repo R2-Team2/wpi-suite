@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class WorkFlowView extends JPanel {
+public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
@@ -124,6 +124,7 @@ public class WorkFlowView extends JPanel {
      */
     public void refresh() {
         for (TaskStatusView v : views) {
+        	System.out.println("Currently in Refresh method");
             v.requestTasksFromDb();
         }
     }
