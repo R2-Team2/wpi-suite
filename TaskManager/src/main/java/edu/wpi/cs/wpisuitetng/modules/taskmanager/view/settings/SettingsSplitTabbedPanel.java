@@ -98,10 +98,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
      * Adds the create task tab.
      */
     public void addSettingsTab() {
-        this.addTab("New Task", null, new WorkFlowEditView(this), null);
-
         final SettingsSplitTabbedPanel thisPane = this;
-
         // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
         tabCloseButton.setActionCommand("" + this.getTabCount());
