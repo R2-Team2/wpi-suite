@@ -97,9 +97,9 @@ public class AbstractInformationPanelTest {
 	 */
 	@Test
 	public void taskInfoValidationTest() {
-		NewTaskPanel ntp = new NewTaskPanel();
-		NewTaskInformationPanel newTaskInfoPanel = new NewTaskInformationPanel(ntp);
-		NewTaskButtonPanel ntbp = new NewTaskButtonPanel(ntp);
+		final NewTaskPanel ntp = new NewTaskPanel();
+		final NewTaskInformationPanel newTaskInfoPanel = new NewTaskInformationPanel(ntp);
+		final NewTaskButtonPanel ntbp = new NewTaskButtonPanel(ntp);
 
 		newTaskInfoPanel.boxTitle.setText("  ");
 		newTaskInfoPanel.boxDescription.setText("sss");
