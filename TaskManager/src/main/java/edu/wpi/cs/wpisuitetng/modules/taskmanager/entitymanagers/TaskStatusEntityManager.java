@@ -12,8 +12,6 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
@@ -26,12 +24,17 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
  * The Class TaskEntityManager.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
 
     private final Data db;
+
     /**
      * constructor for the task status entity manager
+     *
      * @param db the database interface.
      */
     public TaskStatusEntityManager(Data db) {
@@ -40,13 +43,13 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
 
     @Override
     public TaskStatus makeEntity(Session s, String content)
-            throws BadRequestException, ConflictException, WPISuiteException {
+            throws WPISuiteException {
 
         final TaskStatus newTaskStatus = TaskStatus.fromJson(content);
-        
+
         final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
         final IDNum idObj = (IDNum) idList.get(0);
-        
+
         newTaskStatus.setTaskStatusID(idObj.getAndIncID());
 
         if (!db.save(newTaskStatus, s.getProject())) {
@@ -62,8 +65,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * java.lang.String)
      */
     @Override
-    public TaskStatus[] getEntity(Session s, String id) throws NotFoundException,
-            WPISuiteException {
+    public TaskStatus[] getEntity(Session s, String id) throws WPISuiteException {
         final List<Model> taskstatuses =
                 db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
         return taskstatuses.toArray(new TaskStatus[0]);
@@ -76,7 +78,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @return all TaskStatus in the session database
      */
     @Override
-    public TaskStatus[] getAll(Session s) throws WPISuiteException {
+    public TaskStatus[] getAll(Session s) {
         // Retrieve all TaskStatus (no arguments specified)
         final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
 
@@ -116,7 +118,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * edu.wpi.cs.wpisuitetng.modules.Model)
      */
     @Override
-    public void save(Session s, TaskStatus model) throws WPISuiteException {
+    public void save(Session s, TaskStatus model) {
         db.save(model);
     }
 
@@ -145,7 +147,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
      */
     @Override
-    public int Count() throws WPISuiteException {
+    public int Count() {
         // Return the number of TaskStatuses currently in the database
         return db.retrieveAll(new TaskStatus(null)).size();
     }
@@ -158,21 +160,18 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @return List of WorkFlow that have the desired value for the given field
      */
     @Override
-    public String advancedGet(Session s, String[] args)
-            throws WPISuiteException {
+    public String advancedGet(Session s, String[] args) {
         return null;
     }
 
     @Override
-    public String advancedPut(Session s, String[] args, String content)
-            throws WPISuiteException {
+    public String advancedPut(Session s, String[] args, String content) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String advancedPost(Session s, String string, String content)
-            throws WPISuiteException {
+    public String advancedPost(Session s, String string, String content) {
         // TODO Auto-generated method stub
         return null;
     }
