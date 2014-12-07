@@ -32,7 +32,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
 	 */
 	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
 		// Set Panel Layout
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		// Set Parent Panel
 		this.parentPanel = parentPanel;
 		// Set Button Messages
@@ -45,7 +45,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
 		this.add(buttonCancel);
 		// parentPanel.createPressed();
 
-		this.setupListeners();
+		setupListeners();
 	}
 
 	/**
@@ -72,13 +72,17 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
 	 * Validate task info.
 	 */
 	@Override
-	public void validateTaskInfo() {
-		if (parentPanel.title.length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
+	public boolean validateTaskInfo() {
+		if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
+				|| parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+				|| (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+						.equals("new") && parentPanel.infoPanel.listChosenAssignees.getModel()
+						.getSize() == 0)) {
 			buttonSave.setEnabled(false);
-		}
-		else {
+			return false;
+		} else {
 			buttonSave.setEnabled(true);
+			return true;
 		}
 	}
 
@@ -91,8 +95,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
 		if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
 			parentPanel.infoPanel.labelDueDate
 			.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
-		}
-		else {
+		} else {
 			parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
 		}
 	}
