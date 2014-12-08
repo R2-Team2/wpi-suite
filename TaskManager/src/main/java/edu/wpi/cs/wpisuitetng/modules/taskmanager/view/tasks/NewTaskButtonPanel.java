@@ -77,12 +77,17 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	 * Validate task info.
 	 */
 	@Override
-	public void validateTaskInfo() {
-		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
+	public boolean validateTaskInfo() {
+		if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
+				|| parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+				|| (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+						.equals("new") && parentPanel.infoPanel.listChosenAssignees.getModel()
+						.getSize() == 0)) {
 			buttonCreate.setEnabled(false);
+			return false;
 		} else {
 			buttonCreate.setEnabled(true);
+			return true;
 		}
 	}
 

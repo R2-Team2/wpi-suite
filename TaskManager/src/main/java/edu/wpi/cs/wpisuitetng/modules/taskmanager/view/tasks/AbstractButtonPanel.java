@@ -41,7 +41,9 @@ public class AbstractButtonPanel extends JPanel {
 	/**
 	 * Validate task title and description
 	 */
-	public void validateTaskInfo() {};
+	public boolean validateTaskInfo() {
+		return true;
+	};
 
 	/**
 	 * Validate task dates
