@@ -79,7 +79,9 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 	@Override
 	public void validateTaskInfo() {
 		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
+				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0
+				|| parentPanel.infoPanel.calDueDate.getDate() == null
+				|| parentPanel.infoPanel.calStartDate.getDate() == null) {
 			buttonCreate.setEnabled(false);
 		} else {
 			buttonCreate.setEnabled(true);
