@@ -200,6 +200,16 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		});
 
 		/**
+		 * Status combo-box Listener
+		 */
+		dropdownStatus.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
+
+		/**
 		 * Start Calendar Listener
 		 */
 		calStartDate.addActionListener(new ActionListener() {

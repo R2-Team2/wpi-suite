@@ -69,7 +69,7 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
 	}
 
 	@Override
-	public void validateTaskInfo() {
+	public boolean validateTaskInfo() {
 		throw new IllegalStateException(
 				"ViewTaskButtonPanel.validateTaskInfo() should not be called");
 	}
