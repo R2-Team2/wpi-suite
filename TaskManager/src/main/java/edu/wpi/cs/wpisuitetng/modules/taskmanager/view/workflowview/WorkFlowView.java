@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -23,35 +22,15 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 // TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class WorkFlowView extends JPanel {
+public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
-
-    /** The txt text. */
-    private JTextField txtText;
-
-    /** The task status panel. */
-    private final JPanel taskStatusPanel;
-
-    /** The txt1. */
-    private JTextField txt1;
-
-    /** The txt2. */
-    private JTextField txt2;
-
-    /** The txt3. */
-    private JTextField txt3;
-
-    /** The txt4. */
-    private JTextField txt4;
-
-    /** The title. */
-    private String title;
 
     /** The task status views. */
     List<TaskStatusView> views;
@@ -61,6 +40,7 @@ public class WorkFlowView extends JPanel {
      */
     public WorkFlowView() {
         ViewEventController.getInstance().setWorkFlowView(this);
+
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
 
@@ -86,7 +66,7 @@ public class WorkFlowView extends JPanel {
                         "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
                                 + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
                         "[278px,grow 500]"));
-        
+
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
         taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
@@ -104,6 +84,7 @@ public class WorkFlowView extends JPanel {
      *
      * @return the work flow obj
      */
+    @Override
     public WorkFlow getWorkFlowObj() {
         return workFlowObj;
     }
@@ -113,6 +94,7 @@ public class WorkFlowView extends JPanel {
      *
      * @param workFlowObj the new work flow obj
      */
+    @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
     }
@@ -120,8 +102,10 @@ public class WorkFlowView extends JPanel {
     /**
      * Refresh.
      */
+    @Override
     public void refresh() {
         for (TaskStatusView v : views) {
+            System.out.println("Currently in Refresh method");
             v.requestTasksFromDb();
         }
     }

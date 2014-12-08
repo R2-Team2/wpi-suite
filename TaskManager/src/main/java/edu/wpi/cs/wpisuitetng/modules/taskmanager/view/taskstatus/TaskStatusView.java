@@ -26,6 +26,7 @@ import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
@@ -96,10 +97,20 @@ public class TaskStatusView extends JPanel {
     }
 
 
-    /**
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return title;
+	}
+
+
+	/**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
+    	System.out.println("Currently in requestTasksFromDb method");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
     }
@@ -110,6 +121,9 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
+    	final RetrieveWorkflowController controller = new RetrieveWorkflowController();
+    	controller.requestWorkflow();
+    	
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
             if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {

@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 
 /**
  * The Class NewTaskInformationPanel.
@@ -26,43 +28,43 @@ import javax.swing.event.DocumentListener;
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
 
-    /**
-     * Constructor for NewTaskInformationPanel.
-     *
-     * @param parentPanel the parent panel
-     */
-    public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
-        this.parentPanel = parentPanel;
-        // this.setMinimumSize(new Dimension(540, 200));
+	/**
+	 * Constructor for NewTaskInformationPanel.
+	 *
+	 * @param parentPanel the parent panel
+	 */
+	public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
+		this.parentPanel = parentPanel;
+		// this.setMinimumSize(new Dimension(540, 200));
 
-        buildLayout();
-        new RetrieveUsersController(this).requestUsers();
-        setupListeners();
-    }
+		buildLayout();
+		new RetrieveUsersController(this).requestUsers();
+		setupListeners();
+	}
 
-    /**
-     * Sets up listeners for text validation and button presses.
-     */
-    protected void setupListeners() {
-        // Text Field Listeners
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+	/**
+	 * Sets up listeners for text validation.
+	 */
+	protected void setupListeners() {
+		// Text Field Listeners
+		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
 
-        buttonAdd.addActionListener(new ActionListener() {
+		buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!possibleAssigneeList.isSelectionEmpty()) {
@@ -102,45 +104,89 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         });
 
 
-        /**
-         * Text Field (Title) Listeners
-         */
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+		/**
+		 * Text Field (Title) Listeners
+		 */
+		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
 
 
-        /**
-         * Text Field (Description) Listeners
-         */
-        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+		/**
+		 * Text Field (Description) Listeners
+		 */
+		boxDescription.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
-            }
-        });
-    }
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
+
+		/**
+		 * Start Calendar Listener
+		 */
+		calStartDate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.buttonPanel.validateTaskDate();
+			}
+		});
+
+		/**
+		 * Due Calendar Listener
+		 */
+		calDueDate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.buttonPanel.validateTaskDate();
+			}
+		});
+
+		/**
+		 * Status combo-box Listener
+		 */
+		dropdownStatus.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.buttonPanel.validateTaskInfo();
+			}
+		});
+
+		buttonOpenRequirement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.infoPanel.openRequirement();
+			}
+		});
+
+	}
+
+	@Override
+	public Task getTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -9,6 +9,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -47,11 +49,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel.
  *
@@ -71,8 +71,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The list of statuses. */
     protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-            new TaskStatus("scheduled").toString(),
-            new TaskStatus("in progress").toString(),
+            new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(),
             new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 
     /** The string list of requirements. */
@@ -111,15 +110,25 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** The button remove. */
     protected JButton buttonRemove;
 
+    /** The button that opens the requirement in RequirementManager. */
+    protected JButton buttonOpenRequirement;
+
     /** The cal start date. */
     protected JXDatePicker calStartDate;
 
     /** The cal due date. */
     protected JXDatePicker calDueDate;
 
+    /** The cal start label */
+    protected JLabel labelStartDate = new JLabel("Start Date: ");
+
+    /** The cal due label */
+    protected JLabel labelDueDate = new JLabel("Due Date: ");
+
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
+    final private List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
      * Builds the layout.
@@ -134,7 +143,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
-        final List<Requirement> requirements = new ArrayList<Requirement>();
         Collections.sort(iterations, new IterationComparator());
         for (int i = 0; i < iterations.size(); i++) {
 
@@ -143,13 +151,15 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size()];
+        final String[] arrListOfRequirements = new String[requirements.size() + 1];
+        strListOfRequirements.add("None");
+        arrListOfRequirements[0] = "None";
         for (int i = 0; i < requirements.size(); i++) {
             // build a List<String> of the names of the requirements
             // defaultComboBoxModel, below, requires an array of string
             String tempName = requirements.get(i).getName();
             strListOfRequirements.add(tempName);
-            arrListOfRequirements[i] = tempName;
+            arrListOfRequirements[i + 1] = tempName;
         }
 
 
@@ -166,6 +176,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+
+        // TODO use a nice icon
+        buttonOpenRequirement = new JButton("<");
+        // TODO force the button to be this small
+        buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+
         // Text Areas
         boxTitle = new JTextField("");
         boxTitle.setBorder(defaultBorder);
@@ -207,7 +223,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
         calDueDate.setDate(Calendar.getInstance().getTime());
-        icon = new ImageIcon(getClass().getResource("calendar.png"));
+        icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
                         .getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
@@ -223,6 +239,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Setup Columns
         final JPanel leftColumn = new JPanel(new MigLayout());
         final JPanel rightColumn = new JPanel(new MigLayout());
+
 
         final JPanel bottom = new JPanel(new MigLayout());
 
@@ -253,7 +270,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
         leftColumn.add(labelRequirement, "left, wrap");
-        leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
+        leftColumn.add(dropdownRequirement, "left, width 200px");
+
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
+
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -279,119 +306,173 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     }
 
 
-            /**
-             * Returns the JTextField holding the title.
-             *
-             * @return JTextField
-             */
-            public JTextField getTitle() {
-                return boxTitle;
-            }
+    /**
+     * Returns the JTextField holding the title.
+     *
+     * @return JTextField
+     */
+    public JTextField getTitle() {
+        return boxTitle;
+    }
 
-            /**
-             * Returns the JTextArea holding the description.
-             *
-             * @return JTextArea
-             */
-            public JTextArea getDescription() {
-                return boxDescription;
-            }
+    /**
+     * Returns the JTextArea holding the description.
+     *
+     * @return JTextArea
+     */
+    public JTextArea getDescription() {
+        return boxDescription;
+    }
 
-            /**
-             * Returns the JSpinner holding the estimated effort.
-             *
-             * @return JSpinner
-             */
-            public JSpinner getEstimatedEffort() {
-                return spinnerEstimatedEffort;
-            }
+    /**
+     * Returns the JSpinner holding the estimated effort.
+     *
+     * @return JSpinner
+     */
+    public JSpinner getEstimatedEffort() {
+        return spinnerEstimatedEffort;
+    }
 
-            /**
-             * Returns the JSpinner holding the actual effort.
-             *
-             * @return JSpinner
-             */
-            public JSpinner getActualEffort() {
-                return spinnerEstimatedEffort;
-            }
+    /**
+     * Returns the JSpinner holding the actual effort.
+     *
+     * @return JSpinner
+     */
+    public JSpinner getActualEffort() {
+        return spinnerActualEffort;
+    }
 
-            /**
-             * Returns the JComboBox holding the status.
-             *
-             * @return JComboBox<String>
-             */
-            public JComboBox<String> getStatus() {
-                return dropdownStatus;
-            }
+    /**
+     * Returns the JComboBox holding the status.
+     *
+     * @return JComboBox<String>
+     */
+    public JComboBox<String> getStatus() {
+        return dropdownStatus;
+    }
 
-            /**
-             * Returns the JComboBox holding the Requirement.
-             *
-             * @return JComboBox<String>
-             */
-            public JComboBox<String> getRequirement() {
-                return dropdownRequirement;
-            }
+    /**
+     * Returns the JComboBox holding the Requirement.
+     *
+     * @return JComboBox<String>
+     */
+    public JComboBox<String> getRequirement() {
+        return dropdownRequirement;
+    }
 
-            /**
-             * Returns the Start Date.
-             *
-             * @return Date
-             */
-            public Date getStartDate() {
-                return calStartDate.getDate();
-            }
+    /**
+     * Returns the Start Date.
+     *
+     * @return Date
+     */
+    public Date getStartDate() {
+        return calStartDate.getDate();
+    }
 
-            /**
-             * Returns the Due Date.
-             *
-             * @return Date
-             */
-            public Date getDueDate() {
-                return calDueDate.getDate();
-            }
 
-            public void populateUsers(User[] users) {
-                possibleAssigneeModel.clear();
-                for (User u: users) {
-                    possibleAssigneeModel.addElement(u);
-                }
-            }
+    /**
+     * Returns the Due Date.
+     *
+     * @return Date
+     */
+    public Date getDueDate() {
+        return calDueDate.getDate();
+    }
 
-            /**
-             * Returns the JList holding the Chosen Members.
-             *
-             * @return JList<String>
-             */
-            public List<User> getAssignedUsers() {
-                List<User> userList = new ArrayList<User>();
-                for (int i = 0; i < chosenAssigneeModel.size(); i++) {
-                    userList.add(chosenAssigneeModel.elementAt(i));
-                }
-                return userList;
-            }
+    public void populateUsers(User[] users) {
+    	possibleAssigneeModel.clear();
+    	for (User u: users) {
+    	possibleAssigneeModel.addElement(u);
+    	}
+    }
+    
+    /**
+     * Returns the JList holding the Chosen Members.
+     *
+     * @return JList<String>
+     */
+    public List<User> getAssignedUsers() {
+        List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+            userList.add(chosenAssigneeModel.elementAt(i));
+        }
+        return userList;
+    }
+    
+    /**
+     * @return selected requirement object
+     * @throws Exception
+     */
+    private Requirement getSelectedRequirement() throws Exception {
+        final String reqName = (String) dropdownRequirement.getSelectedItem();
 
-            /**
-             * Disables all of the text fields based on boolean io
-             *
-             * @param io is a flag that if true disables fields, if false enables all fields.
-             */
-            public void disableAll(Boolean io)
-            {
-                io = !io;
-                // aTask.getTaskID();
-                boxTitle.setEnabled(io);
-                boxDescription.setEnabled(io);
-                dropdownStatus.setEnabled(io);
-                // requirement
-                chosenAssigneeList.setEnabled(io);
-                possibleAssigneeList.setEnabled(io);
-                calStartDate.setEnabled(io);
-                calDueDate.setEnabled(io);
-                spinnerEstimatedEffort.setEnabled(io);
-                spinnerActualEffort.setEnabled(io);
+        for (Requirement requirement : requirements) {
+            if (requirement.getName().equals(reqName)) {
+                return requirement;
             }
+        }
+
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @throws Exception invalid requirement selected
+     */
+    public void openSelectedRequirement() throws Exception {
+        edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
+                .editRequirement(getSelectedRequirement());
+        edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
+                .openRequirementsTab();
+    }
+
+    private void validateRequirementView() {
+        System.out.println(getRequirement().getSelectedItem());
+        if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
+            buttonOpenRequirement.setEnabled(false);
+        }
+        else {
+            buttonOpenRequirement.setEnabled(true);
+        }
+    }
+
+
+    /**
+     * Disables all of the text fields based on boolean io
+     *
+     * @param io is a flag that if true disables fields, if false enables all fields.
+     */
+    public void disableAll(Boolean io) {
+        io = !io;
+        // aTask.getTaskID();
+        boxTitle.setEnabled(io);
+        boxDescription.setEnabled(io);
+        dropdownStatus.setEnabled(io);
+        // requirement
+        chosenAssigneeList.setEnabled(io);
+        possibleAssigneeList.setEnabled(io);
+        calStartDate.setEnabled(io);
+        calDueDate.setEnabled(io);
+        spinnerEstimatedEffort.setEnabled(io);
+        spinnerActualEffort.setEnabled(io);
+    }
+
+    /**
+     * opens selected requirement. May be overridden
+     */
+    protected void openRequirement() {
+        try {
+            parentPanel.openSelectedRequirement();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    /**
+     * @return Task
+     */
+    public abstract Task getTask();
 }
+
 
 
 /**
@@ -401,12 +482,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 class IterationComparator implements Comparator<Iteration> {
     @Override
     public int compare(Iteration I1, Iteration I2) {
-        if (I1.getStart() == null)
-        {
+        if (I1.getStart() == null) {
             return -1;
         }
-        if (I2.getStart() == null)
-        {
+        if (I2.getStart() == null) {
             return 1;
         }
         return I1.getStart().getDate().compareTo(I2.getStart().getDate());
@@ -423,4 +502,5 @@ class RequirementComparator implements Comparator<Requirement> {
     public int compare(Requirement R1, Requirement R2) {
         return R1.getName().compareTo(R2.getName());
     }
+
 }

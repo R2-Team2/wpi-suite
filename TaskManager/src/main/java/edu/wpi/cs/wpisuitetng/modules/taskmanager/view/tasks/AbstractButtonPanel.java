@@ -6,52 +6,50 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
-
-
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractButtonPanel.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractButtonPanel extends JPanel {
-    // Class Variables
-    /** The button save. */
-    protected JButton buttonSave;
+public class AbstractButtonPanel extends JPanel {
+	// Class Variables
+	/** The button save. */
+	protected JButton buttonSave;
 
-    /** The button create. */
-    protected JButton buttonCreate;
+	/** The button create. */
+	protected JButton buttonCreate;
 
-    /** The button cancel. */
-    protected JButton buttonCancel;
+	/** The button cancel. */
+	protected JButton buttonCancel;
 
-    /** The button edit. */
+	/** The button edit. */
 	protected JButton buttonEdit;
 
+	/**
+	 * Sets up the listeners for the buttons in the New Task Button Panel.
+	
+	 * @return boolean */
+	/*
+	 * protected void setupListeners() { buttonCancel.addActionListener(new ActionListener() {
+	 * @Override public void actionPerformed(ActionEvent e) { parentPanel.cancelPressed(); } }); }
+	 */
 
-    /**
-     * Sets up the listeners for the buttons in the New Task Button Panel.
-     */
-    /*protected void setupListeners() {
-        buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentPanel.cancelPressed();
-            }
+	/**
+	 * Validate task title and description
+	 * @return boolean
+	 */
+	public boolean validateTaskInfo() {
+		return true;
+	};
 
-        });
-    }*/
-
-    /**
-     * Validate task title and description
-     */
-    public abstract void validateTaskInfo();
-
+	/**
+	 * Validate task dates
+	 */
+	public void validateTaskDate() {};
 
 }
