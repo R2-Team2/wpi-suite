@@ -13,26 +13,33 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the Submit button by
- * adding the contents of the task text field to the model as a new
- * task.
+ * This controller responds when the user clicks the Submit button by adding the contents of the
+ * task text field to the model as a new task.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 public class AddTaskStatusController {
-	
-	/**
-	 * Construct an AddTaskStatusController for the given model, view pair
-	 */
-	/*public AddTaskStatusController(){	
-	}*/
-	
-	public void addTaskStatus(){
-		//TODO populate TaskStatus object
-		
-		final TaskStatus newTaskStatus = new TaskStatus(null);
-		
-		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT); // PUT == create
-		request.setBody(newTaskStatus.toJson()); // put the new message in the body of the request
-		request.addObserver(new AddTaskStatusRequestObserver(this)); // add an observer to process the response
-		request.send(); // send the request
-	}
+
+    /**
+     * Construct an AddTaskStatusController for the given model, view pair
+     */
+    /*
+     * public AddTaskStatusController(){ }
+     */
+
+    public void addTaskStatus() {
+        // TODO populate TaskStatus object
+
+        final TaskStatus newTaskStatus = new TaskStatus(null);
+
+        final Request request =
+                Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT); // PUT
+        // ==
+        // create
+        request.setBody(newTaskStatus.toJson()); // put the new message in the body of the request
+        request.addObserver(new AddTaskStatusRequestObserver(this)); // add an observer to process
+        // the response
+        request.send(); // send the request
+    }
 }

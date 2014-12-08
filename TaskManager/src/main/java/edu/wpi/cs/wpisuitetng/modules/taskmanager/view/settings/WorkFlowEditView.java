@@ -29,43 +29,43 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
 
-	private final int maxTitleLen = 30;
-	
-	private final JPanel sidePanel = new JPanel(new MigLayout());
-	
+    private final int maxTitleLen = 30;
+
+    private final JPanel sidePanel = new JPanel(new MigLayout());
+
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
     protected final Dimension textFieldDimension = new Dimension(200, 10);
     protected final Dimension listMinSize = new Dimension(200, 100);
     protected final Dimension listMaxSize = new Dimension(200, 10000000);
-    
-	private final JButton addButton = new JButton("Add Status");
-	private final JButton removeButton = new JButton("Remove Status");
-	private final JButton saveButton = new JButton("Save");
-	
-	private final JButton upButton = new JButton("\u2191");
-	private final JButton downButton = new JButton("\u2193");
-	
-	
-	// Add Status Fields
-	private final JTextField newStatusTitleField = new JTextField();
-	private final JLabel newStatusTitleLabel = new JLabel("New Status Title");
-	private final JTextField newStatusTypeField = new JTextField();
-	private final JLabel newStatusTypeLabel = new JLabel("New Status Type");
-	
-	// Show and Remove Status Components
 
-	private final DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
-	private final JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
+    private final JButton addButton = new JButton("Add Status");
+    private final JButton removeButton = new JButton("Remove Status");
+    private final JButton saveButton = new JButton("Save");
+
+    private final JButton upButton = new JButton("\u2191");
+    private final JButton downButton = new JButton("\u2193");
+
+
+    // Add Status Fields
+    private final JTextField newStatusTitleField = new JTextField();
+    private final JLabel newStatusTitleLabel = new JLabel("New Status Title");
+    private final JTextField newStatusTypeField = new JTextField();
+    private final JLabel newStatusTypeLabel = new JLabel("New Status Type");
+
+    // Show and Remove Status Components
+
+    private final DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
+    private final JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
 
     /**
      * Create the panel.
@@ -74,7 +74,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         newStatusTitleField.setBorder(defaultBorder);
         newStatusTitleField.setMinimumSize(textFieldDimension);
         newStatusTypeField.setMinimumSize(textFieldDimension);
-        
+
         // Add status Components
         sidePanel.add(newStatusTitleLabel, "wrap");
         sidePanel.add(newStatusTitleField, "wrap");
@@ -82,7 +82,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         sidePanel.add(newStatusTypeField, "wrap");
         addButton.setEnabled(false);
         sidePanel.add(addButton, "wrap");
-        
+
         // Remove Status Components
         buildList();
         listOfStatus.setBorder(defaultBorder);
@@ -92,29 +92,33 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         sidePanel.add(listOfStatus, "span 2 2");
         sidePanel.add(upButton, "wrap");
         sidePanel.add(downButton, "wrap");
-        if(model.size() <= 1) removeButton.setEnabled(false);
+        if (model.size() <= 1) {
+            removeButton.setEnabled(false);
+        }
         sidePanel.add(removeButton, "wrap");
-        
+
         // Save Changes
         // This needs to work with database to actually save the changes made in this view
         sidePanel.add(saveButton, "wrap");
-        
+
         taskStatusPanel.add(sidePanel, "dock east,");
         setupListeners();
     }
-    
-    private void buildList(){
+
+    private void buildList() {
         for (TaskStatusView t : getViews()) {
-        	if(!model.contains(t)){
-            	model.addElement(t);
-        	}
+            if (!model.contains(t)) {
+                model.addElement(t);
+            }
         }
     }
+
     /**
      * Gets the work flow obj.
      *
      * @return the work flow obj
      */
+    @Override
     public WorkFlow getWorkFlowObj() {
         return super.getWorkFlowObj();
     }
@@ -124,6 +128,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      *
      * @param workFlowObj the new work flow obj
      */
+    @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         setWorkFlowObj(workFlowObj);
     }
@@ -131,193 +136,198 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     /**
      * Refresh.
      */
+    @Override
     public void refresh() {
         super.refresh();
         buildList();
     }
+
     /**
      * Set up Listeners for Work Flow Edit Components
      */
     protected void setupListeners() {
-    	model.addListDataListener(new ListDataListener() {
-			
-			@Override
-			public void intervalRemoved(ListDataEvent e) {
-				 removeButton.setEnabled(isModelSizeValid());
-			}
-			
-			@Override
-			public void intervalAdded(ListDataEvent e) {
-				removeButton.setEnabled(isModelSizeValid());
-			}
-			
-			@Override
-			public void contentsChanged(ListDataEvent e) {
-				removeButton.setEnabled(isModelSizeValid());
-			}
-		});
-    	
-    	addButton.addActionListener(new ActionListener() {
+        model.addListDataListener(new ListDataListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(validateNewStatusTitleField()){
-	            	addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(), 
-	            			newStatusTitleField.getText()));
-	            	clearNewStatusFields();
-            	}
-            	refresh();
+            public void intervalRemoved(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
+            }
+
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
             }
         });
 
-    	removeButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	// remove selected from JList
-            	if((model.size() > 1)){
-	            	final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
-	            	model.removeElement(taskStatusViewToRemove);
-	            	removeTaskStatusView(taskStatusViewToRemove);
-	            	buildTaskStatusViews();
-	            	refresh();
-	            	revalidate();
-	            	repaint();
-            	}
+                if (validateNewStatusTitleField()) {
+                    addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(),
+                            newStatusTitleField.getText()));
+                    clearNewStatusFields();
+                }
+                refresh();
             }
         });
-    	
-    	upButton.addActionListener(new ActionListener() {
+
+        removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	// remove selected from JList
-            	final TaskStatusView taskStatusViewToMoveUp = listOfStatus.getSelectedValue();
-            	moveStatusUp(taskStatusViewToMoveUp);
-            	refresh();
-            	revalidate();
-            	repaint();
+                // remove selected from JList
+                if ((model.size() > 1)) {
+                    final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
+                    model.removeElement(taskStatusViewToRemove);
+                    removeTaskStatusView(taskStatusViewToRemove);
+                    buildTaskStatusViews();
+                    refresh();
+                    revalidate();
+                    repaint();
+                }
             }
         });
-    	downButton.addActionListener(new ActionListener() {
+
+        upButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	// remove selected from JList
-            	final TaskStatusView taskStatusViewToMoveDown = listOfStatus.getSelectedValue();
-            	moveStatusDown(taskStatusViewToMoveDown);
-            	
-            	buildTaskStatusViews();
-            	refresh();
-            	revalidate();
-            	repaint();
+                // remove selected from JList
+                final TaskStatusView taskStatusViewToMoveUp = listOfStatus.getSelectedValue();
+                moveStatusUp(taskStatusViewToMoveUp);
+                refresh();
+                revalidate();
+                repaint();
             }
         });
-    	    	
-    	newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
+        downButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove selected from JList
+                final TaskStatusView taskStatusViewToMoveDown = listOfStatus.getSelectedValue();
+                moveStatusDown(taskStatusViewToMoveDown);
+
+                buildTaskStatusViews();
+                refresh();
+                revalidate();
+                repaint();
+            }
+        });
+
+        newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	validateNewStatusFields();
+                validateNewStatusFields();
             }
 
-			@Override
+            @Override
             public void removeUpdate(DocumentEvent e) {
-				validateNewStatusFields();
+                validateNewStatusFields();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	validateNewStatusFields();
+                validateNewStatusFields();
             }
         });
-    	newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
+        newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	validateNewStatusFields();
+                validateNewStatusFields();
             }
 
-			@Override
+            @Override
             public void removeUpdate(DocumentEvent e) {
-				validateNewStatusFields();
+                validateNewStatusFields();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	validateNewStatusFields();
+                validateNewStatusFields();
             }
         });
     }
-    
+
     /**
      * Validate Model
+     *
      * @return Valid if at least one TaskStatusView is in model
      */
     protected boolean isModelSizeValid() {
-    	return !(model.size() <= 1);
-	}
+        return !(model.size() <= 1);
+    }
 
-	/**
-     *	@param taskStatusViewToMoveUp this TaskStatusView is moved up in the order
-     *	of Work Flow View
+    /**
+     * @param taskStatusViewToMoveUp this TaskStatusView is moved up in the order of Work Flow View
      */
     protected void moveStatusUp(TaskStatusView taskStatusViewToMoveUp) {
-		if(!(model.indexOf(taskStatusViewToMoveUp) <= 0)){
-			// Move in views
-			moveUp(taskStatusViewToMoveUp);
-			// update JList
-			final int source = model.indexOf(taskStatusViewToMoveUp);
-			final int dest = model.indexOf(taskStatusViewToMoveUp) - 1;
-	    	
-			final TaskStatusView sourceStatusView = model.get(source);
-			final TaskStatusView destStatusView = model.get(dest);
-	    	
-	    	model.set(dest, sourceStatusView);
-	    	model.set(source, destStatusView);
-	    	listOfStatus.setSelectedValue(taskStatusViewToMoveUp, true);
-	    	buildList();
-		}
-	}
-    /**
-     *	@param taskStatusViewToMoveDown this TaskStatusView is moved down in the order
-     *	of Work Flow View
-     */
-	protected void moveStatusDown(TaskStatusView taskStatusViewToMoveDown) {
-		if(!(model.indexOf(taskStatusViewToMoveDown) >= model.getSize() - 1)){
-			// Move in views
-			moveDown(taskStatusViewToMoveDown);
-			// update JList
-			final int source = model.indexOf(taskStatusViewToMoveDown);
-			final int dest = model.indexOf(taskStatusViewToMoveDown) + 1;
-			
-			final TaskStatusView sourceStatusView = model.get(source);
-			final TaskStatusView destStatusView = model.get(dest);
-			
-			model.set(dest, sourceStatusView);
-			model.set(source, destStatusView);
-			listOfStatus.setSelectedValue(taskStatusViewToMoveDown, true);
-			buildList();
-		}
-	}
+        if (!(model.indexOf(taskStatusViewToMoveUp) <= 0)) {
+            // Move in views
+            moveUp(taskStatusViewToMoveUp);
+            // update JList
+            final int source = model.indexOf(taskStatusViewToMoveUp);
+            final int dest = model.indexOf(taskStatusViewToMoveUp) - 1;
 
-	/**
-     *	Clear The Fields for creating a new TaskStatusView
-     *	usually called when a {@link TaskStatusView}usView has just been added
-     *	to clear that view for a new {@link TaskStatusView}skStatusView to be added
-     */
-	protected void clearNewStatusFields() {
-		newStatusTitleField.setText("");
-		newStatusTypeField.setText("");
-	}
+            final TaskStatusView sourceStatusView = model.get(source);
+            final TaskStatusView destStatusView = model.get(dest);
 
-	private void validateNewStatusFields(){
-    	if(validateNewStatusTitleField() && validateNewStatusTypeField()){
-    		addButton.setEnabled(true);
-    	}
-    	else{
-    		addButton.setEnabled(false);
-    	}
+            model.set(dest, sourceStatusView);
+            model.set(source, destStatusView);
+            listOfStatus.setSelectedValue(taskStatusViewToMoveUp, true);
+            buildList();
+        }
     }
+
+    /**
+     * @param taskStatusViewToMoveDown this TaskStatusView is moved down in the order of Work Flow
+     *        View
+     */
+    protected void moveStatusDown(TaskStatusView taskStatusViewToMoveDown) {
+        if (!(model.indexOf(taskStatusViewToMoveDown) >= model.getSize() - 1)) {
+            // Move in views
+            moveDown(taskStatusViewToMoveDown);
+            // update JList
+            final int source = model.indexOf(taskStatusViewToMoveDown);
+            final int dest = model.indexOf(taskStatusViewToMoveDown) + 1;
+
+            final TaskStatusView sourceStatusView = model.get(source);
+            final TaskStatusView destStatusView = model.get(dest);
+
+            model.set(dest, sourceStatusView);
+            model.set(source, destStatusView);
+            listOfStatus.setSelectedValue(taskStatusViewToMoveDown, true);
+            buildList();
+        }
+    }
+
+    /**
+     * Clear The Fields for creating a new TaskStatusView usually called when a
+     * {@link TaskStatusView}usView has just been added to clear that view for a new
+     * {@link TaskStatusView}skStatusView to be added
+     */
+    protected void clearNewStatusFields() {
+        newStatusTitleField.setText("");
+        newStatusTypeField.setText("");
+    }
+
+    private void validateNewStatusFields() {
+        if (validateNewStatusTitleField() && validateNewStatusTypeField()) {
+            addButton.setEnabled(true);
+        }
+        else {
+            addButton.setEnabled(false);
+        }
+    }
+
     private boolean validateNewStatusTitleField() {
-    	return !(newStatusTitleField.getText().length() <= 0) && (newStatusTitleField.getText().length() <= maxTitleLen);
-	}
-    
+        return !(newStatusTitleField.getText().length() <= 0)
+                && (newStatusTitleField.getText().length() <= maxTitleLen);
+    }
+
     private boolean validateNewStatusTypeField() {
-    	return !(newStatusTypeField.getText().length() <= 0);
-	}
+        return !(newStatusTypeField.getText().length() <= 0);
+    }
 }

@@ -10,31 +10,40 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.database.Data;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
+
+/**
+ * IDNum class for storing ID counter.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
+ */
 public class IDNum extends AbstractModel {
 
     private long Num;
-    private static Data db;
+    private static Data db = null;
     final private int id;
-    
+
 
     /**
      * IDNum object should be instantiated only if it doesn't already exist in database. If it is
      * instantiated, it will be initialized with a counter value of 0.
-     * @param db the database 
+     *
+     * @param db the database
      */
     public IDNum(Data db) {
         id = 0;
-    	Num = 0;
-    	this.db = db;
+        Num = 0;
+        if (IDNum.db == null) {
+            IDNum.db = db;
+        }
     }
 
-    public long getNum(){
-    	return Num;
+    public long getNum() {
+        return Num;
     }
-    
+
     @Override
     public void save() {
         // TODO Auto-generated method stub
@@ -60,14 +69,13 @@ public class IDNum extends AbstractModel {
 
     /**
      * @return long next available ID number
-     * @throws WPISuiteException 
      */
-    public long getAndIncID() throws WPISuiteException {
+    public long getAndIncID() {
         final long oldIDNum = Num;
         Num = Num + 1;
-   
+
         IDNum.db.save(this);
-        //IDNum.db.update(IDNum.class, "id", 0, "Num", this.Num);
+        // IDNum.db.update(IDNum.class, "id", 0, "Num", this.Num);
         return oldIDNum;
     }
 
