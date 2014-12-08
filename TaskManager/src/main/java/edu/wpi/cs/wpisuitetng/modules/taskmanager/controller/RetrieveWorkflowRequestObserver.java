@@ -22,12 +22,20 @@ public class RetrieveWorkflowRequestObserver implements RequestObserver {
 
     @Override
     public void responseSuccess(IRequest iReq) {
-        System.out.println("Request to retrieve WorkFlow was successful.");
-        final ResponseModel response = iReq.getResponse();
-        final String responseBody = response.getBody();
-        controller.displayWorkflow(WorkFlow.fromJson(responseBody));
+    	int counter = 0;
+        if (counter==0)
+        {
+        	System.out.println("Request to retrieve WorkFlow was successful.");
+        	final ResponseModel response = iReq.getResponse();
+        	final String responseBody = response.getBody();
+        	//System.out.println("Response " + responseBody);
+        	controller.displayWorkflow(WorkFlow.fromJsonArray(responseBody));
+        	counter +=1;
+        }
 
     }
+    
+    
 
     @Override
     public void responseError(IRequest iReq) {

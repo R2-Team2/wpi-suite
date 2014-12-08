@@ -147,6 +147,17 @@ public class TaskStatus extends AbstractModel {
     public String toJson() {
         return new Gson().toJson(this, TaskStatus.class);
     }
+    /**
+	 * From json.
+	 *
+	 * @param json the json string
+	 * @return task the task from the json string
+	 */
+	public static TaskStatus fromJson(String json) {
+		final Gson parser = new Gson();
+		final TaskStatus taskStatus = parser.fromJson(json, TaskStatus.class);
+		return taskStatus;
+	}
 
     @Override
     public Boolean identify(Object o) {
@@ -168,6 +179,7 @@ public class TaskStatus extends AbstractModel {
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;
+        taskStatusID = updatedTaskStatus.taskStatusID;
     }
 
 }

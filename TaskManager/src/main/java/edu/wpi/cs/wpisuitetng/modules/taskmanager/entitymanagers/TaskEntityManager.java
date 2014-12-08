@@ -99,7 +99,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	@Override
 	public Task[] getEntity(Session s, String id) throws WPISuiteException {
 		final List<Model> tasks =
-				db.retrieve(Task.class, "id", Integer.parseInt(id), s.getProject());
+				db.retrieve(Task.class, "taskID", Integer.parseInt(id), s.getProject());
 		return tasks.toArray(new Task[0]);
 	}
 
@@ -126,7 +126,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 		// Retrieve the original Task
 		final List<Model> oldTasks =
-				db.retrieve(Task.class, "id", updatedTask.getTaskID(), s.getProject());
+				db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
 		if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
 			throw new BadRequestException("Task with ID does not exist.");
 		}

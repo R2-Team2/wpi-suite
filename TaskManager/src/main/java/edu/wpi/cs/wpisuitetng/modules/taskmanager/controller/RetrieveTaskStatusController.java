@@ -6,8 +6,13 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
+import java.util.ArrayList;
+
+import com.lowagie.text.List;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -37,7 +42,14 @@ public class RetrieveTaskStatusController {
     }
 
     public void displayTaskStatuses(TaskStatus[] taskStatusArray) {
-        view.utilizeTaskStatuses(taskStatusArray);
+    	//Change from Array to List
+    	ArrayList<TaskStatus> tsList = new ArrayList<TaskStatus>();
+    	for (int i=0;i<taskStatusArray.length;i++)
+    	{
+    		tsList.add(taskStatusArray[i]);
+    	}
+    	//Set the list of status objects in the Workflow view.
+    	WorkFlowView.getInstance().setStatuses(tsList);
     }
 
 }

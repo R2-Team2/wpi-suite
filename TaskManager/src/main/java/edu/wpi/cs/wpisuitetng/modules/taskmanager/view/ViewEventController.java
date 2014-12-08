@@ -141,7 +141,7 @@ public class ViewEventController {
      * Refresh work flow view.
      */
     public void refreshWorkFlowView() {
-        workflow.refresh();
+    	workflow.refresh();
     }
 
 

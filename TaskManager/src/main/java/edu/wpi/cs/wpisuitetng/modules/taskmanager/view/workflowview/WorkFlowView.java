@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -31,15 +32,19 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public class WorkFlowView extends AbsView {
+    private static WorkFlowView instance = null;
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
 
     /** The task status panel. */
-    private final JPanel taskStatusPanel;
+    private JPanel taskStatusPanel;
 
     /** The task status views. */
     List<TaskStatusView> views;
+
+    /** The task status objects */
+    List<TaskStatus> statuses;
 
     /**
      * Create the panel.
@@ -49,40 +54,42 @@ public class WorkFlowView extends AbsView {
 
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
+        statuses = new ArrayList<TaskStatus>();
 
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
         // this.add(hbar, BorderLayout.SOUTH);
         // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+        // this.add(scrollPane, BorderLayout.SOUTH
+
+    }
+
+    public void rebuildWF() {
+        System.out.println("Rebuilding workflow");
+        getWorkFlowFromDB();
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
-        final TaskStatusView taskStatusSelDev =
-                new TaskStatusView("Selected for Development", "scheduled");
-        final TaskStatusView taskStatusInDev =
-                new TaskStatusView("Currently in Development", "in progress");
-        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
 
         taskStatusPanel
-                .setLayout(new MigLayout(
-                        "",
-                        "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                        "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
-        // Hard Coded Task Statuses, move this to database soon
-        taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
-        taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
-        taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
-        taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
 
-        views.add(taskStatusNew);
-        views.add(taskStatusSelDev);
-        views.add(taskStatusInDev);
-        views.add(taskStatusDone);
+        // retrieve task status objects
+        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+        retrieveTS.requestTaskStatuses();
+
+        for (int i = 0; i < statuses.size(); i++) {
+            System.out.println("Building Task Status Views");
+            TaskStatusView aView = new TaskStatusView();
+            aView.setTaskStatusObj(statuses.get(i));
+            taskStatusPanel.add(aView, "cell " + i + " 0,grow");
+            views.add(aView);
+        }
+        ViewEventController.getInstance().setWorkFlowView(this);
+
     }
 
     /**
@@ -91,6 +98,28 @@ public class WorkFlowView extends AbsView {
     public void getWorkFlowFromDB() {
         RetrieveWorkflowController retrieveWF = new RetrieveWorkflowController(this);
         retrieveWF.requestWorkflow();
+
+    }
+
+    /**
+     * Get an instance of the work flow viewer.
+     *
+     * @return an instance of the workflow view
+     */
+    public static WorkFlowView getInstance() {
+        if (instance == null) {
+            instance = new WorkFlowView();
+        }
+        return instance;
+    }
+
+    /**
+     * Sets the objects list of task status objects
+     *
+     * @param listOfStatus the list of status objects.
+     */
+    public void setStatuses(List<TaskStatus> listOfStatus) {
+        statuses = listOfStatus;
     }
 
     /**
@@ -117,15 +146,17 @@ public class WorkFlowView extends AbsView {
      */
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
+        // rebuildWF();
     }
 
     /**
      * Refresh.
      */
     public void refresh() {
-        for (TaskStatusView v : views) {
-            v.getTasksFromDb();
-        }
+        // rebuildWF();
+        /*
+         * for (TaskStatusView v : views) { v.getTasksFromDb(); }
+         */
     }
 
 }

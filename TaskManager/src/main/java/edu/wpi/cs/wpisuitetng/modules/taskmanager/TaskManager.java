@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowControll
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -65,6 +66,7 @@ public class TaskManager implements IJanewayModule {
         tabs.add(tab1);
         
         ViewEventController.getInstance().setMainView(mainView);
+        
     }
     
     @Override
