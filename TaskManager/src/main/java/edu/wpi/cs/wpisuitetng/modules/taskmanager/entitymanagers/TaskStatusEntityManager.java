@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
 import java.util.List;
@@ -5,7 +12,6 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -19,19 +25,26 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
  * The Class TaskEntityManager.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
 
-    private Data db;
+    private final Data db;
 
+    /**
+     * constructor for the task status entity manager
+     *
+     * @param db the database interface.
+     */
     public TaskStatusEntityManager(Data db) {
         this.db = db;
     }
 
     @Override
     public TaskStatus makeEntity(Session s, String content)
-            throws BadRequestException, ConflictException, WPISuiteException {
-
+            throws WPISuiteException {
         TaskStatus newTaskStatus = TaskStatus.fromJson(content);
         
         List<Model> idList = db.retrieveAll(new IDNum(this.db));
@@ -97,9 +110,9 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @return all TaskStatus in the session database
      */
     @Override
-    public TaskStatus[] getAll(Session s) throws WPISuiteException {
+    public TaskStatus[] getAll(Session s) {
         // Retrieve all TaskStatus (no arguments specified)
-        List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+        final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
 
         // Convert the List into an array
         return workflows.toArray(new TaskStatus[0]);
@@ -111,7 +124,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      */
     @Override
     public TaskStatus update(Session s, String content) throws WPISuiteException {
-        TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
+        final TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
 
         // Retrieve the original TaskStatus
         List<Model> oldTaskStatus =
@@ -137,7 +150,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * edu.wpi.cs.wpisuitetng.modules.Model)
      */
     @Override
-    public void save(Session s, TaskStatus model) throws WPISuiteException {
+    public void save(Session s, TaskStatus model) {
         db.save(model);
     }
 
@@ -152,7 +165,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public boolean deleteEntity(Session s, String id) throws WPISuiteException {
         ensureRole(s, Role.ADMIN);
-        TaskStatus deletedObject = db.delete(getEntity(s, id)[0]);
+        final TaskStatus deletedObject = db.delete(getEntity(s, id)[0]);
         return (deletedObject != null);
     }
 
@@ -166,7 +179,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
      */
     @Override
-    public int Count() throws WPISuiteException {
+    public int Count() {
         // Return the number of TaskStatuses currently in the database
         return db.retrieveAll(new TaskStatus(null)).size();
     }
@@ -179,21 +192,18 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @return List of WorkFlow that have the desired value for the given field
      */
     @Override
-    public String advancedGet(Session s, String[] args)
-            throws WPISuiteException {
+    public String advancedGet(Session s, String[] args) {
         return null;
     }
 
     @Override
-    public String advancedPut(Session s, String[] args, String content)
-            throws WPISuiteException {
+    public String advancedPut(Session s, String[] args, String content) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String advancedPost(Session s, String string, String content)
-            throws WPISuiteException {
+    public String advancedPost(Session s, String string, String content) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -207,7 +217,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * @throws WPISuiteException user isn't authorized for the given role
      */
     private void ensureRole(Session session, Role role) throws WPISuiteException {
-        User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+        final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
         if (!user.getRole().equals(role)) {
             throw new UnauthorizedException();
         }

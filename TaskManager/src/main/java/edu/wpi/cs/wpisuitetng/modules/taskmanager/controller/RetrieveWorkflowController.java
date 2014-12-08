@@ -12,6 +12,12 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * Controller for sending a workflow GET request.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
+ */
 public class RetrieveWorkflowController {
 
     private final WorkFlowView view;

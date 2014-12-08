@@ -6,6 +6,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -34,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 public class TaskEntityManager implements EntityManager<Task> {
 
 	/** The db. */
-	private Data db;
+	private final Data db;
 
 	/**
 	 * Instantiates a new task entity manager.
@@ -49,19 +51,19 @@ public class TaskEntityManager implements EntityManager<Task> {
 	@Override
 	public Task makeEntity(Session s, String content) throws WPISuiteException {
 		System.out.println("begin make entity");
-		Task newMessage = Task.fromJson(content);
+		final Task newMessage = Task.fromJson(content);
 
 
 
-		List<Model> idList = db.retrieveAll(new IDNum(this.db));
+		final List<Model> idList = db.retrieveAll(new IDNum(db));
 		//List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 		
-		IDNum[] idArry = idList.toArray(new IDNum[0]);
+		final IDNum[] idArry = idList.toArray(new IDNum[0]);
 		if(idArry.length == 0)
 		{
 			System.out.println("Creating new IDNum object");
 			//Initialize ID
-			IDNum idStore = new IDNum(db);
+			final IDNum idStore = new IDNum(db);
 			db.save(idStore);
 			
 			newMessage.setTaskID(idStore.getAndIncID());
@@ -114,7 +116,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 		// Retrieve all Tasks (no arguments specified)
 		final List<Model> tasks =
 				db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-						null), s.getProject());
+						null, null), s.getProject());
 
 		// Convert the List into an array
 		return tasks.toArray(new Task[0]);
@@ -122,7 +124,10 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 	@Override
 	public Task update(Session s, String content) throws WPISuiteException {
+		System.out.println("update method called in Task Entity Manager");
+		
 		final Task updatedTask = Task.fromJson(content);
+		System.out.println("updatedTask: " + updatedTask.toJson());
 
 		// Retrieve the original Task
 		final List<Model> oldTasks =
@@ -130,15 +135,19 @@ public class TaskEntityManager implements EntityManager<Task> {
 		if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
 			throw new BadRequestException("Task with ID does not exist.");
 		}
+		
+		final Task existingTask = (Task)oldTasks.get(0);
 
-		// Update the original Task with new values
-		final Task existingTask = (Task) oldTasks.get(0);
-		existingTask.update(updatedTask);
-
-		// Save the original Task, now updated
-		if (!db.save(existingTask, s.getProject())) {
-			throw new WPISuiteException("Unable to save TNG");
+		// copy values to old requirement and fill in our changeset appropriately
+		existingTask.copyFrom(updatedTask);
+		
+		if(!db.save(existingTask, s.getProject())) {
+			throw new WPISuiteException();
 		}
+		
+		//db.save(updatedTask, s.getProject());
+
+		System.out.println("Updated Task Success: " + existingTask.toJson());
 		return existingTask;
 	}
 
@@ -150,6 +159,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 	 */
 	@Override
 	public void save(Session s, Task model) {
+		System.out.println("Task Entity Manager is Saving");
 		db.save(model);
 	}
 
@@ -179,8 +189,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 	@Override
 	public int Count() {
 		return db.retrieveAll(
-				new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null))
-				.size();
+				new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null)).size();
+	
 	}
 
 	/**
@@ -215,6 +225,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 
 	@Override
 	public String advancedPost(Session s, String string, String content) {
+		System.out.println("Task Entity Manager is in advancedPost");
+
 		return null;
 	}
 

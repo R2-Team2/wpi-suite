@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
 import java.util.ArrayList;
@@ -20,10 +27,13 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
  * The Class TaskEntityManager.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
-	private Data db;
+	final private Data db;
 
 	public WorkFlowEntityManager(Data db) {
 		this.db = db;
@@ -207,61 +217,6 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 		return workflows.toArray(new WorkFlow[0]);
 	}
 
-	/*
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng .Session,
-	 * java.lang.String)
-	 */
-	@Override
-	public WorkFlow update(Session s, String content) throws WPISuiteException {
-		WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
-		System.out.println("Running update WF");
-		// Retrieve the original WorkFlow
-		List<Model> oldWorkFlow =
-				db.retrieve(WorkFlow.class, "id", updatedWorkFlow.getWorkFlowID(), s.getProject());
-		if (oldWorkFlow.size() < 1 || oldWorkFlow.get(0) == null) {
-			throw new BadRequestException("WorkFlow with ID does not exist.");
-		}
-
-		// Update the original WorkFlow with new values
-		WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
-		existingWorkFlow.update(updatedWorkFlow);
-
-		// Save the original WorkFlow, now updated
-		if (!db.save(existingWorkFlow, s.getProject())) {
-			throw new WPISuiteException();
-		}
-		return existingWorkFlow;
-	}
-
-	/*
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng .Session,
-	 * edu.wpi.cs.wpisuitetng.modules.Model)
-	 */
-	@Override
-	public void save(Session s, WorkFlow model) throws WPISuiteException {
-		db.save(model);
-	}
-
-	/**
-	 * Deletes the WorkFlow with the given id, if the session has ADMIN permissions
-	 *
-	 * @param s Session which is querying the server
-	 * @param id ID number of the WorkFlow to be deleted
-	 * @return The deleted WorkFlow
-	 * @throws WPISuiteException
-	 */
-	@Override
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-		ensureRole(s, Role.ADMIN);
-		WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
-		return (deletedObject != null);
-	}
-
-	// TaskManager does not support deleting all tasks at once
-	@Override
-	public void deleteAll(Session s) throws WPISuiteException {
-		throw new WPISuiteException();
-	}
 
 	/*
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
@@ -299,19 +254,77 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 		return null;
 	}
 
-	/**
-	 * Ensures that a user is of the specified role Originally written for RequirementsManager,
-	 * should probably be a common library
-	 *
-	 * @param session the session
-	 * @param role the role being verified
-	 * @throws WPISuiteException user isn't authorized for the given role
-	 */
-	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
-		if (!user.getRole().equals(role)) {
-			throw new UnauthorizedException();
-		}
-	}
+
+    /*
+     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng .Session,
+     * java.lang.String)
+     */
+    @Override
+    public WorkFlow update(Session s, String content) throws WPISuiteException {
+        final WorkFlow updatedWorkFlow = WorkFlow.fromJson(content);
+
+        // Retrieve the original WorkFlow
+        final List<Model> oldWorkFlow =
+                db.retrieve(WorkFlow.class, "id", updatedWorkFlow.getWorkFlowID(), s.getProject());
+        if (oldWorkFlow.size() < 1 || oldWorkFlow.get(0) == null) {
+            throw new BadRequestException("WorkFlow with ID does not exist.");
+        }
+
+        // Update the original WorkFlow with new values
+        final WorkFlow existingWorkFlow = (WorkFlow) oldWorkFlow.get(0);
+        existingWorkFlow.update(updatedWorkFlow);
+
+        // Save the original WorkFlow, now updated
+        if (!db.save(existingWorkFlow, s.getProject())) {
+            throw new WPISuiteException();
+        }
+        return existingWorkFlow;
+    }
+
+    /*
+     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng .Session,
+     * edu.wpi.cs.wpisuitetng.modules.Model)
+     */
+    @Override
+    public void save(Session s, WorkFlow model) {
+        db.save(model);
+    }
+
+    /**
+     * Deletes the WorkFlow with the given id, if the session has ADMIN permissions
+     *
+     * @param s Session which is querying the server
+     * @param id ID number of the WorkFlow to be deleted
+     * @return The deleted WorkFlow
+     * @throws WPISuiteException
+     */
+    @Override
+    public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+        ensureRole(s, Role.ADMIN);
+        final WorkFlow deletedObject = db.delete(getEntity(s, id)[0]);
+        return (deletedObject != null);
+    }
+
+    // TaskManager does not support deleting all tasks at once
+    @Override
+    public void deleteAll(Session s) throws WPISuiteException {
+        throw new WPISuiteException();
+    }
+
+
+    /**
+     * Ensures that a user is of the specified role Originally written for RequirementsManager,
+     * should probably be a common library
+     *
+     * @param session the session
+     * @param role the role being verified
+     * @throws WPISuiteException user isn't authorized for the given role
+     */
+    private void ensureRole(Session session, Role role) throws WPISuiteException {
+        final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+        if (!user.getRole().equals(role)) {
+            throw new UnauthorizedException();
+        }
+    }
 
 }

@@ -7,9 +7,12 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -143,6 +146,14 @@ public class ViewEventController {
     public void refreshWorkFlowView() {
     	workflow.refresh();
     }
+
+    /**
+	 * opens requirement module tab
+	 */
+	public void openRequirementsTab() {
+		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager tab
+		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
+	}
 
 
 }

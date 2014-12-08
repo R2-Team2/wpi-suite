@@ -24,9 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 public class TaskStatus extends AbstractModel {
 
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 3575239378691210918L;
-
     /** The task status id. */
     private long taskStatusID;
 
@@ -104,6 +101,12 @@ public class TaskStatus extends AbstractModel {
         return taskList.size();
     }
 
+    /**
+     * return a task from a list
+     * 
+     * @param index the index in the list
+     * @return task at that spot in the array
+     */
     public Task getElementAt(int index) {
         return taskList.get(index);
     }
@@ -176,6 +179,11 @@ public class TaskStatus extends AbstractModel {
         return parser.fromJson(json, TaskStatus[].class);
     }
 
+    /**
+     * update taskstatus objects
+     * 
+     * @param updatedTaskStatus task status to update.
+     */
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;

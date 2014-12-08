@@ -8,8 +8,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import java.util.ArrayList;
 
-import com.lowagie.text.List;
-
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;

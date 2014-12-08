@@ -68,10 +68,10 @@ public class TaskCard extends JPanel {
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
 
-        // truncates the displayed task title if it's longer than 25 characters. if
-        if (nameData.length() > 45) {
+        // truncates the displayed task title if it's longer than 30 characters. if
+        if (nameData.length() > 30) {
             taskName.setToolTipText(nameData);
-            nameData = nameData.substring(0, 45).concat("...");
+            nameData = nameData.substring(0, 30).concat("...");
         }
 
         taskName.setText(nameData);

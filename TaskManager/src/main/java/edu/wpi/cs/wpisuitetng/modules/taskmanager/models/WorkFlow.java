@@ -28,7 +28,7 @@ public class WorkFlow extends AbstractModel {
     private long workFlowID;
 
     /** The task status list. */
-    private ArrayList<Long> taskStatusList;
+    private List<Long> taskStatusList;
 
     /**
      * Instantiates a new work flow.
@@ -55,7 +55,7 @@ public class WorkFlow extends AbstractModel {
      */
 
     public void setWorkFlowID(long l) {
-        this.workFlowID = l;
+        workFlowID = l;
     }
 
 
@@ -64,7 +64,7 @@ public class WorkFlow extends AbstractModel {
      *
      * @return the task status list
      */
-    public ArrayList<Long> getTaskStatusList() {
+    public List<Long> getTaskStatusList() {
         return taskStatusList;
     }
 
@@ -74,7 +74,7 @@ public class WorkFlow extends AbstractModel {
      * @param taskStatusList the new task status list
      */
 
-    public void setTaskStatusList(ArrayList<Long> taskStatusList) {
+    public void setTaskStatusList(List<Long> taskStatusList) {
         this.taskStatusList = taskStatusList;
     }
 
@@ -101,6 +101,11 @@ public class WorkFlow extends AbstractModel {
         return null;
     }
 
+    /**
+     * convert from string to workflow object
+     * @param json the string 
+     * @return the formed workflow object.
+     */
     public static WorkFlow fromJson(String json) {
         final Gson parser = new Gson();
         final WorkFlow wf =  parser.fromJson(json, WorkFlow.class);
@@ -119,9 +124,12 @@ public class WorkFlow extends AbstractModel {
 		return wf;
 	}
 	
-public void update(WorkFlow updatedWorkFlow) {
+    /**
+     * update the workflow object in the database.
+     * @param updatedWorkFlow the workflow to update
+     */
+    public void update(WorkFlow updatedWorkFlow) {
         taskStatusList = updatedWorkFlow.taskStatusList;
-
     }
 
 }

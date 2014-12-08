@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class WorkFlowView extends AbsView {
+public class WorkFlowView extends AbsWorkFlowView {
     private static WorkFlowView instance = null;
 
     /** The work flow obj. */
@@ -83,7 +83,7 @@ public class WorkFlowView extends AbsView {
 
         for (int i = 0; i < statuses.size(); i++) {
             System.out.println("Building Task Status Views");
-            TaskStatusView aView = new TaskStatusView();
+            TaskStatusView aView = new TaskStatusView(new TaskStatus(null));
             aView.setTaskStatusObj(statuses.get(i));
             taskStatusPanel.add(aView, "cell " + i + " 0,grow");
             views.add(aView);
@@ -135,6 +135,7 @@ public class WorkFlowView extends AbsView {
      *
      * @return the work flow obj
      */
+    @Override
     public WorkFlow getWorkFlowObj() {
         return workFlowObj;
     }
@@ -144,6 +145,7 @@ public class WorkFlowView extends AbsView {
      *
      * @param workFlowObj the new work flow obj
      */
+    @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
         // rebuildWF();
@@ -152,6 +154,7 @@ public class WorkFlowView extends AbsView {
     /**
      * Refresh.
      */
+    @Override
     public void refresh() {
         // rebuildWF();
         /*

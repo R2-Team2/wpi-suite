@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -5,6 +12,12 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observer for processing response for workflow GET request.
+ *
+ * @version $Revision: 1.0 $
+ * @author R2-Team2
+ */
 public class RetrieveWorkflowRequestObserver implements RequestObserver {
 
     /** The controller. */
@@ -45,7 +58,7 @@ public class RetrieveWorkflowRequestObserver implements RequestObserver {
 
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        System.err.println("Request to retrieve WorkFlow failed.");
+        // TODO Auto-generated method stub
 
     }
 

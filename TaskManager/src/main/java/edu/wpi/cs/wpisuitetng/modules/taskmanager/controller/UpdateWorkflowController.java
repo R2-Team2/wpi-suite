@@ -24,9 +24,9 @@ public class UpdateWorkflowController {
 	/**
 	 * Constructor for the UpdateWorkflowController.
 	 */
-	public UpdateWorkflowController() {
+	/*public UpdateWorkflowController() {
 		//TODO determine parent view
-	}
+	}*/
 	
 	/**
 	 * Calls the request from the request observer.
