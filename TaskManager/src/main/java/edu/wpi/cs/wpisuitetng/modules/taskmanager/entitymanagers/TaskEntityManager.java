@@ -140,7 +140,7 @@ public class TaskEntityManager implements EntityManager<Task> {
 			throw new BadRequestException("Requirement with ID does not exist.");
 		}
 		
-		final Task existingTask = (Task)oldTasks.get(0);		
+		final Task existingTask = (Task)oldTasks.get(0);
 
 		// copy values to old requirement and fill in our changeset appropriately
 		existingTask.copyFrom(updatedTask);
