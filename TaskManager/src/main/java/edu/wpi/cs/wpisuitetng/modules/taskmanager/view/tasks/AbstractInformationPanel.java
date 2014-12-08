@@ -12,11 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Collections;
-import java.util.Comparator; //wpi-38
-import java.util.List;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator; // wpi-38
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -31,26 +31,20 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 
 import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-//requirement module integration
+// requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel.
  *
@@ -70,8 +64,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The list of statuses. */
     protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-            new TaskStatus("scheduled").toString(),
-            new TaskStatus("in progress").toString(),
+            new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(),
             new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
 
     /** The string list of requirements. */
@@ -110,48 +103,59 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** The button remove. */
     protected JButton buttonRemove;
 
+    /** The button that opens the requirement in RequirementManager. */
+    protected JButton buttonOpenRequirement;
+
     /** The cal start date. */
     protected JXDatePicker calStartDate;
 
     /** The cal due date. */
     protected JXDatePicker calDueDate;
 
-    /**Calendar Button Dropdown Icon. */
+    /** The cal start label */
+    protected JLabel labelStartDate = new JLabel("Start Date: ");
+
+    /** The cal due label */
+    protected JLabel labelDueDate = new JLabel("Due Date: ");
+
+    /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
+    final private List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
      * Builds the layout.
      */
     protected void buildLayout() {
-        this.setMinimumSize(new Dimension(540, 200));
+        setMinimumSize(new Dimension(540, 200));
         // Set the Panel
         final ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
         // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
-       
+
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
-        final List<Requirement> requirements = new ArrayList<Requirement>();
         Collections.sort(iterations, new IterationComparator());
         for (int i = 0; i < iterations.size(); i++) {
-            
-            requirements.addAll(iterations.get(i).getRequirements()); 
-            //gets the list of requirements that is associated with the iteration
-            
+
+            requirements.addAll(iterations.get(i).getRequirements());
+            // gets the list of requirements that is associated with the iteration
+
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size()];
-        for (int i = 0; i < requirements.size(); i++){ 
-        	//build a List<String> of the names of the requirements
-        	//defaultComboBoxModel, below, requires an array of string
-        	String tempName = requirements.get(i).getName();
-        	strListOfRequirements.add(tempName);
-        	arrListOfRequirements[i] = tempName;
+        final String[] arrListOfRequirements = new String[requirements.size() + 1];
+        strListOfRequirements.add("None");
+        arrListOfRequirements[0] = "None";
+        for (int i = 0; i < requirements.size(); i++) {
+            // build a List<String> of the names of the requirements
+            // defaultComboBoxModel, below, requires an array of string
+            String tempName = requirements.get(i).getName();
+            strListOfRequirements.add(tempName);
+            arrListOfRequirements[i + 1] = tempName;
         }
-        
-        
+
+
         // Instantiate GUI Elements
         // Labels
         final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
@@ -165,6 +169,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+
+        // TODO use a nice icon
+        buttonOpenRequirement = new JButton("<");
+        // TODO force the button to be this small
+        buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+
         // Text Areas
         boxTitle = new JTextField("");
         boxTitle.setBorder(defaultBorder);
@@ -177,7 +187,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
         dropdownRequirement = new JComboBox<String>();
-        
+
         dropdownRequirement.setModel(new DefaultComboBoxModel<String>(arrListOfRequirements));
         dropdownRequirement.setEnabled(true);
         dropdownRequirement.setBackground(Color.WHITE);
@@ -203,8 +213,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
         calDueDate.setDate(Calendar.getInstance().getTime());
-        icon = new ImageIcon(getClass().getResource("calendar.png"));
-        ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(20, 20,java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(this.getClass().getResource("calendar.png"));
+        final ImageIcon scaledIcon =
+                new ImageIcon(icon.getImage()
+                        .getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         // Code taken from:
         // http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
         ((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
@@ -217,6 +229,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Setup Columns
         final JPanel leftColumn = new JPanel(new MigLayout());
         final JPanel rightColumn = new JPanel(new MigLayout());
+
 
         final JPanel bottom = new JPanel(new MigLayout());
 
@@ -246,7 +259,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         leftColumn.add(labelStatus, "left, wrap");
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
         leftColumn.add(labelRequirement, "left, wrap");
-        leftColumn.add(dropdownRequirement, "left, width 200px, wrap");
+        leftColumn.add(dropdownRequirement, "left, width 200px");
+
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
+
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -268,7 +291,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
-        this.setViewportView(contentPanel);
+        setViewportView(contentPanel);
     }
 
 
@@ -305,7 +328,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * @return JSpinner
      */
     public JSpinner getActualEffort() {
-        return spinnerEstimatedEffort;
+        return spinnerActualEffort;
     }
 
     /**
@@ -335,6 +358,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         return calStartDate.getDate();
     }
 
+
     /**
      * Returns the Due Date.
      *
@@ -352,54 +376,108 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     public List<User> getAssignedUsers() {
         return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
     }
-    
+
+    /**
+     * @return selected requirement object
+     * @throws Exception
+     */
+    private Requirement getSelectedRequirement() throws Exception {
+        final String reqName = (String) dropdownRequirement.getSelectedItem();
+
+        for (Requirement requirement : requirements) {
+            if (requirement.getName().equals(reqName)) {
+                return requirement;
+            }
+        }
+
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @throws Exception invalid requirement selected
+     */
+    public void openSelectedRequirement() throws Exception {
+        edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
+                .editRequirement(getSelectedRequirement());
+        edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
+                .openRequirementsTab();
+    }
+
+    private void validateRequirementView() {
+        System.out.println(getRequirement().getSelectedItem());
+        if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
+            buttonOpenRequirement.setEnabled(false);
+        }
+        else {
+            buttonOpenRequirement.setEnabled(true);
+        }
+    }
+
+
     /**
      * Disables all of the text fields based on boolean io
-     * 
-     * @param io is a flag that if true disables fields, if false enables all fields. 
+     *
+     * @param io is a flag that if true disables fields, if false enables all fields.
      */
-	public void disableAll(Boolean io)
-	{
-		io = !io;
-		//aTask.getTaskID();
-		boxTitle.setEnabled(io);
-		boxDescription.setEnabled(io);
-		dropdownStatus.setEnabled(io); 
-		//requirement
-		listChosenAssignees.setEnabled(io);
-		calStartDate.setEnabled(io);
-		calDueDate.setEnabled(io);
-		spinnerEstimatedEffort.setEnabled(io);
-		spinnerActualEffort.setEnabled(io);
-	}
+    public void disableAll(Boolean io) {
+        io = !io;
+        // aTask.getTaskID();
+        boxTitle.setEnabled(io);
+        boxDescription.setEnabled(io);
+        dropdownStatus.setEnabled(io);
+        // requirement
+        listChosenAssignees.setEnabled(io);
+        calStartDate.setEnabled(io);
+        calDueDate.setEnabled(io);
+        spinnerEstimatedEffort.setEnabled(io);
+        spinnerActualEffort.setEnabled(io);
+    }
+
+    /**
+     * opens selected requirement. May be overridden
+     */
+    protected void openRequirement() {
+        try {
+            parentPanel.openSelectedRequirement();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    /**
+     * @return Task
+     */
+    public abstract Task getTask();
 }
+
+
 
 /**
  * @version legacy
- * @author Kevin from the requirements manager
- *         sorts the Iterations by date
+ * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
+    @Override
     public int compare(Iteration I1, Iteration I2) {
-        if (I1.getStart() == null)
-        {
+        if (I1.getStart() == null) {
             return -1;
         }
-        if (I2.getStart() == null)
-        {
+        if (I2.getStart() == null) {
             return 1;
         }
         return I1.getStart().getDate().compareTo(I2.getStart().getDate());
     }
 }
 
+
 /**
  * @version legacy
- * @author Kevin from the requirements manager
- *         sorts Requirements by name
+ * @author Kevin from the requirements manager sorts Requirements by name
  */
 class RequirementComparator implements Comparator<Requirement> {
+    @Override
     public int compare(Requirement R1, Requirement R2) {
         return R1.getName().compareTo(R2.getName());
     }
+
 }

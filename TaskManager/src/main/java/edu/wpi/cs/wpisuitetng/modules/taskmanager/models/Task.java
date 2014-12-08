@@ -7,17 +7,21 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-
 
 import javax.swing.JList;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Task extends AbstractModel {
 
     /** The task id. */
-    private int taskID;
+    private long taskID;
 
     /** The title. */
     private String title;
@@ -61,7 +65,8 @@ public class Task extends AbstractModel {
     /** The activity list. */
     private List<String> activityList;
 
-
+    /** The comment thread on the task. */
+    private final List<Comment> comments = new LinkedList<Comment>();
 
     /**
      * Instantiates a new task.
@@ -76,10 +81,11 @@ public class Task extends AbstractModel {
      * @param startDate the start date
      * @param dueDate the due date
      * @param assignedUsers the assigned users
+     * @param activityList the activity list
      */
-    public Task(int taskID, String title, String description, int estimatedEffort,
+    public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
-            List<User> assignedUsers) {
+            List<User> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -90,7 +96,7 @@ public class Task extends AbstractModel {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
-        activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
     }
 
 
@@ -246,17 +252,17 @@ public class Task extends AbstractModel {
      *
      * @return the task id
      */
-    public int getTaskID() {
+    public long getTaskID() {
         return taskID;
     }
 
     /**
      * Sets the task id.
      *
-     * @param taskID the new task id
+     * @param l the new task id
      */
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setTaskID(long l) {
+        taskID = l;
     }
 
     /**
@@ -301,18 +307,13 @@ public class Task extends AbstractModel {
      * @return the assigned users
      */
     public JList<User> getAssignedUsers() {
-        /*User[] midArry= new User[assignedUsers.size()]; 
-        for (int i=0;i< assignedUsers.size(); i++)
-        {
-        	//returnUsers.addElement(assignedUsers.get(i));
-        	midArry[i] = assignedUsers.get(i);
-        }
-        
-        //returnUsers=midArry;
-         * 
+        /*
+         * User[] midArry= new User[assignedUsers.size()]; for (int i=0;i< assignedUsers.size();
+         * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
+         * } //returnUsers=midArry;
          */
         final JList<User> returnUsers = new JList(assignedUsers.toArray());
-    	return returnUsers;
+        return returnUsers;
     }
 
     /**
@@ -348,6 +349,10 @@ public class Task extends AbstractModel {
      */
     public List<String> getActivityList() {
         return activityList;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
     /**
@@ -410,6 +415,19 @@ public class Task extends AbstractModel {
         actualEffort = updatedTask.actualEffort;
         dueDate = updatedTask.dueDate;
         activityList = updatedTask.activityList;
+        // checks to see if the task changes status
+        // if status has changed, create an activity
+        if (!(status.equals(updatedTask.status))) {
+            // Code inspired by mkyong
+            final String user = ConfigManager.getConfig().getUserName();
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+            final Date date = new Date();
+            final String statusChange = updatedTask.status.getName();
+            final String updateActivity =
+                    "Status changed to " + statusChange + " at " + dateFormat.format(date) + "("
+                            + user + ")";
+            activityList.add(updateActivity); // add activity entry to activity list
+        }
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
@@ -424,5 +442,23 @@ public class Task extends AbstractModel {
         final Gson parser = new Gson();
         final Task[] tasks = parser.fromJson(json, Task[].class);
         return tasks;
+
+    }
+
+    /**
+	 * copies old task params to this task.
+	 * @param toCopyFrom old task.
+	 */
+    public void copyFrom(Task toCopyFrom) {
+        //borrowed idea from requirements manager
+        title = toCopyFrom.title;
+        description = toCopyFrom.description;
+        assignedUsers = toCopyFrom.assignedUsers;
+        estimatedEffort = toCopyFrom.estimatedEffort;
+        actualEffort = toCopyFrom.actualEffort;
+        dueDate = toCopyFrom.dueDate;
+        activityList = toCopyFrom.activityList;
+        requirement = toCopyFrom.requirement;
+        status = toCopyFrom.status;
     }
 }

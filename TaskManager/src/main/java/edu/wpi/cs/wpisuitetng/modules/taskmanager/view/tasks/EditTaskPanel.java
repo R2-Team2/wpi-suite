@@ -37,7 +37,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         parentPanel = parent;
         aTask = editTask;
         title = editTask.getTitle();
-        this.buildLayout();
+        buildLayout();
     }
 
     /**
@@ -56,18 +56,19 @@ public class EditTaskPanel extends AbstractTaskPanel {
     /**
      * Called when the Save Button is pressed Loads data into the database in the existing Task.
      */
-    public void savePressed()
-    {
+    public void savePressed() {
 
         // create a task, send to to controller
-        final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(aTask);
+        final Task updatedTask = infoPanel.getTask();
+    	final UpdateTaskController updateTask = new UpdateTaskController(this);
+        updateTask.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
         // retrieveTasks.requestTasks();
         // TODO: create task card
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
+        ViewEventController.getInstance().viewTask(updatedTask);
     }
 
     /**
@@ -147,7 +148,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public Date getStartDate() {
-        return infoPanel.getStartDate().getDate();
+        return infoPanel.getStartDate();
     }
 
     /**
@@ -157,7 +158,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public Date getDueDate() {
-        return infoPanel.getDueDate().getDate();
+        return infoPanel.getDueDate();
     }
 
     /**
@@ -176,8 +177,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
-    public void setInfoPanel(AbstractInformationPanel aPanel)
-    {
+    public void setInfoPanel(AbstractInformationPanel aPanel) {
         infoPanel = aPanel;
     }
 
@@ -186,8 +186,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
      *
      * @param aPanel the new butt panel
      */
-    public void setButtPanel(NewTaskButtonPanel aPanel)
-    {
+    public void setButtPanel(NewTaskButtonPanel aPanel) {
         buttonPanel = aPanel;
     }
 

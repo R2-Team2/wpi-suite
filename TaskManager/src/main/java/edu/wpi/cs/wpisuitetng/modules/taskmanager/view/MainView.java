@@ -21,14 +21,17 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
-// TODO: Auto-generated Javadoc
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
  *
@@ -51,18 +54,17 @@ public class MainView extends JTabbedPane {
     private final WorkFlowSplitView workflow = new WorkFlowSplitView();
 
     /** The Settings view. */
-    private final WorkFlowEditView workFlowEditView = new WorkFlowEditView();
+    private final JScrollPane settingsView;
 
-    /** The tab counter. */
-    private final int tabCounter = 0;
+    private final WorkFlowEditView editWorkFlowView = new WorkFlowEditView();
 
 
     /**
      * Construct the panel. There is some test text inside the panel.
      */
     public MainView() {
-        this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-
+        settingsView = new JScrollPane(editWorkFlowView);
+        setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         closeAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,43 +82,57 @@ public class MainView extends JTabbedPane {
         popup.add(closeAll);
         popup.add(closeOthers);
 
-        this.addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    MainView.this.popup.show(e.getComponent(), e.getX(), e.getY());
+                    popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
 
         this.addTab("Work Flow", null, workflow, null);
-        // this.addTab("Edit Work Flow", null, new NewSettingsPanel(), null);
+
+        setupListeners();
     }
-    public WorkFlowSplitView getWF(){
-    	return workflow;
+
+    private void setupListeners() {
+        // Refreshes tabs on ANY Selection Change
+        addChangeListener(new ChangeListener()
+        {
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                editWorkFlowView.refresh();
+            }
+        });
     }
-    
+
+    public WorkFlowSplitView getWF() {
+        return workflow;
+    }
+
 
     /**
      * Show create task view.
      */
     public void showCreateTaskView() {
         workflow.createNewTaskPanel();
-        this.setSelectedComponent(workflow);
+        setSelectedComponent(workflow);
     }
 
     /**
      * Edits the work flow view.
      */
     public void editWorkFlowView() {
-        if (!isTabAlreadyOpen(workFlowEditView)) {
-            this.addTab("Edit Work Flow", null, workFlowEditView, null);
+        if (!isTabAlreadyOpen(settingsView)) {
+            this.addTab("Edit Work Flow", null, settingsView, null);
 
             final MainView thisPane = this;
 
             // create a "close" button
             final JButton tabCloseButton = new JButton("\u2716");
-            tabCloseButton.setActionCommand("" + this.getTabCount());
+            tabCloseButton.setActionCommand("" + getTabCount());
             tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
             tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
@@ -157,7 +173,7 @@ public class MainView extends JTabbedPane {
 
             // this part of code manually creates a panel with title and button
             // and adds it to tab component
-            if (this.getTabCount() != 0) {
+            if (getTabCount() != 0) {
                 final JPanel panel = new JPanel();
                 panel.setOpaque(false);
 
@@ -176,9 +192,9 @@ public class MainView extends JTabbedPane {
                 panel.add(tabCloseButton, gbc);
 
 
-                this.setTabComponentAt(this.getTabCount() - 1, panel);
-                this.setSelectedIndex(this.getTabCount() - 1);
-                this.setSelectedComponent(workFlowEditView);
+                setTabComponentAt(getTabCount() - 1, panel);
+                setSelectedIndex(getTabCount() - 1);
+                setSelectedComponent(editWorkFlowView);
             }
         }
     }
@@ -191,20 +207,21 @@ public class MainView extends JTabbedPane {
      */
     private boolean isTabAlreadyOpen(Component componentOpen) {
         boolean ret = false;
-        for (int i = 1; i < this.getTabCount(); i++) {
-            if (componentOpen.equals(this.getTabComponentAt(i))) {
+        for (int i = 1; i < getTabCount(); i++) {
+            if (componentOpen.equals(getTabComponentAt(i))) {
                 ret = true;
             }
         }
         return ret;
     }
+
     /**
-     * Show create task view.
+     * Show view task view.
      * 
      * @param aPanel is the panel to be created.
      */
-    public void showViewTaskView(AbstractTaskPanel aPanel){
-    	workflow.createViewTaskPanel(aPanel);
+    public void showViewTaskView(AbstractTaskPanel aPanel) {
+        workflow.createViewTaskPanel(aPanel);
     }
 
     /**
@@ -218,7 +235,7 @@ public class MainView extends JTabbedPane {
      * Check for hide.
      */
     public void checkForHide() {
-        if (this.getTabCount() <= 0) {
+        if (getTabCount() <= 0) {
             ViewEventController.getInstance().closeNewTaskPanel();
         }
     }

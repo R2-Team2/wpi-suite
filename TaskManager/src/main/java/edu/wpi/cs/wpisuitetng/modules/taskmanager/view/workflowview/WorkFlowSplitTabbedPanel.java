@@ -25,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitTabbedPanel.
  *
@@ -55,7 +54,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
         this.parentPanel = parentPanel;
 
-        this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         // this.setMaximumSize(new Dimension(100,100));
         closeAll.addActionListener(new ActionListener() {
             @Override
@@ -74,22 +73,23 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         popup.add(closeAll);
         popup.add(closeOthers);
 
-        this.addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    WorkFlowSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
+                    popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
 
     }
-    
+
     /**
      * Adds the get parent
      */
-    public WorkFlowSplitView getParent(){
-    	return parentPanel;
+    @Override
+    public WorkFlowSplitView getParent() {
+        return parentPanel;
     }
 
     /**
@@ -102,7 +102,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
         // create a "close" button
         final JButton tabCloseButton = new JButton("\u2716");
-        tabCloseButton.setActionCommand("" + this.getTabCount());
+        tabCloseButton.setActionCommand("" + getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
         tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
@@ -142,7 +142,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
         // this part of code manually creates a panel with title and button
         // and adds it to tab component
-        if (this.getTabCount() != 0) {
+        if (getTabCount() != 0) {
             final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
@@ -161,25 +161,32 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             panel.add(tabCloseButton, gbc);
 
 
-            this.setTabComponentAt(this.getTabCount() - 1, panel);
-            this.setSelectedIndex(this.getTabCount() - 1);
+            setTabComponentAt(getTabCount() - 1, panel);
+            setSelectedIndex(getTabCount() - 1);
         }
     }
 
-	/**
-	 * Add new tab with the given panel.
-	 *
-	 * @param aPanel panel to view 
-	 */
+    /**
+     * Add new tab with the given panel.
+     *
+     * @param aPanel panel to view
+     */
     public void addViewTaskTab(AbstractTaskPanel aPanel) {
-        final String title = aPanel.getTitle();
-    	this.addTab(title, null, aPanel, null);
+        String title = aPanel.getTitle();
+        final String toolTip = new String(title);
+
+        // truncates the displayed task title if it's longer than 25 characters. if
+        if (title.length() > 15) {
+            title = title.substring(0, 15).concat("...");
+        }
+
+        this.addTab(title, null, aPanel, toolTip);
 
         final WorkFlowSplitTabbedPanel thisPane = this;
 
         // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
-        tabCloseButton.setActionCommand("" + this.getTabCount());
+        tabCloseButton.setActionCommand("" + getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
         tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
@@ -219,7 +226,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
         // this part of code manually creates a panel with title and button
         // and adds it to tab component
-        if (this.getTabCount() != 0) {
+        if (getTabCount() != 0) {
             final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
@@ -238,15 +245,16 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             panel.add(tabCloseButton, gbc);
 
 
-            this.setTabComponentAt(this.getTabCount() - 1, panel);
-            this.setSelectedIndex(this.getTabCount() - 1);
+            setTabComponentAt(getTabCount() - 1, panel);
+            setSelectedIndex(getTabCount() - 1);
         }
     }
+
     /**
      * Check for hide.
      */
     public void checkForHide() {
-        if (this.getTabCount() <= 0) {
+        if (getTabCount() <= 0) {
             ViewEventController.getInstance().closeNewTaskPanel();
         }
     }
