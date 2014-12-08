@@ -169,7 +169,7 @@ DragGestureListener {
 
 	@Override
 	public void dragEnter(DragSourceDragEvent dsde) {
-		System.out.println("f*ck");
+		System.out.println("dragging");
 
 	}
 
