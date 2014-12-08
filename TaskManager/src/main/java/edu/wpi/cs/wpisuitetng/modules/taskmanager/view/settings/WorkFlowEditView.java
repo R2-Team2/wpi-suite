@@ -28,6 +28,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class WorkFlowView.
@@ -168,8 +169,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateNewStatusTitleField()) {
-                    addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(),
-                            newStatusTitleField.getText()));
+                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
                     clearNewStatusFields();
                 }
                 refresh();

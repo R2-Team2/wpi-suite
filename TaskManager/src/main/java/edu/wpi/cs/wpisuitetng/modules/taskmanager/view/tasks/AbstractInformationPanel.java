@@ -63,9 +63,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     protected User[] listOfPossibleAssignees = new User[] {};
 
     /** The list of statuses. */
-    protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-            new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(),
-            new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+    protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+            new TaskStatus("Selected for Development").toString(), new TaskStatus("Currently in Development").toString(),
+            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();

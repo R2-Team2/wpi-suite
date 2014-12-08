@@ -50,9 +50,6 @@ public class TaskStatusView extends JPanel {
     /** The panel. */
     JPanel panel = new JPanel();
 
-    /** The TaskStatus title. */
-    private final String title;
-
     /** Represents whether the view has been initialized. */
     private boolean initialized;
 
@@ -60,15 +57,13 @@ public class TaskStatusView extends JPanel {
      * Create the panel.
      *
      * @param title the title
-     * @param statusType the status type
      */
-    public TaskStatusView(String title, String statusType) {
+    public TaskStatusView(TaskStatus taskStatusObject) {
 
         initialized = false;
-        this.title = title;
+        taskStatusObj = taskStatusObject;
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType);
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -88,23 +83,13 @@ public class TaskStatusView extends JPanel {
         txtpnTitle.setForeground(Color.black);
         txtpnTitle.setEditable(false);
         txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-        txtpnTitle.setText(this.title);
+        txtpnTitle.setText(taskStatusObj.getName());
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
         panel.setBackground(Color.WHITE);
 
         scrollPane.setViewportView(panel);
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
-
-
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return title;
-	}
-
 
 	/**
      * Populate TaskStatusView with Cards Associated with the Status.

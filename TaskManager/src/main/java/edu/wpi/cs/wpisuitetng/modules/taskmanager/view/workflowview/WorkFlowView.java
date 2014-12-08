@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
@@ -53,12 +54,10 @@ public class WorkFlowView extends AbsWorkFlowView {
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
-        final TaskStatusView taskStatusSelDev =
-                new TaskStatusView("Selected for Development", "scheduled");
-        final TaskStatusView taskStatusInDev =
-                new TaskStatusView("Currently in Development", "in progress");
-        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
+        final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
+        final TaskStatusView taskStatusSelDev = new TaskStatusView(new TaskStatus("Selected for Development"));
+        final TaskStatusView taskStatusInDev = new TaskStatusView(new TaskStatus("Currently in Development"));
+        final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
 
         taskStatusPanel
                 .setLayout(new MigLayout(
