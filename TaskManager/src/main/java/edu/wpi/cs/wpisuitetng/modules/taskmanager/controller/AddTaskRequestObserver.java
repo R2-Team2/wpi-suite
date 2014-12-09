@@ -34,38 +34,19 @@ public class AddTaskRequestObserver implements RequestObserver {
         this.controller = controller;
     }
 
-    /*
-     * Parse the message that was received from the server then pass them to the controller.
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
-     * .cs.wpisuitetng.network.models.IRequest)
-     */
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
+    // Parse the message that was received from the server then pass them to the controller.
     @Override
     public void responseSuccess(IRequest iReq) {
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
     @Override
     public void responseError(IRequest iReq) {
         // TODO replace with log slf4j?
-        System.err.println("The request to add a message failed.");
+        System.err.println("The request to add a message returned an error.");
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail
-     * (edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-     */
     @Override
     public void fail(IRequest iReq, Exception exception) {
         // TODO replace with log slf4j?

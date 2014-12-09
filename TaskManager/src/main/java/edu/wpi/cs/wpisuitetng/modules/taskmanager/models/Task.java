@@ -7,25 +7,33 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.JList;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Task.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 public class Task extends AbstractModel {
 
     /** The task id. */
-    private int taskID;
+    private long taskID;
 
     /** The title. */
     private String title;
@@ -57,7 +65,8 @@ public class Task extends AbstractModel {
     /** The activity list. */
     private List<String> activityList;
 
-
+    /** The comment thread on the task. */
+    private final List<Comment> comments = new LinkedList<Comment>();
 
     /**
      * Instantiates a new task.
@@ -72,10 +81,11 @@ public class Task extends AbstractModel {
      * @param startDate the start date
      * @param dueDate the due date
      * @param assignedUsers the assigned users
+     * @param activityList the activity list
      */
-    public Task(int taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status,
-            String requirement, Date startDate, Date dueDate, List<User> assignedUsers) {
+    public Task(long taskID, String title, String description, int estimatedEffort,
+            int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
+            List<User> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -86,12 +96,11 @@ public class Task extends AbstractModel {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
-        activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
     }
 
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.models.ITask#getTitle()
      */
     /**
@@ -243,47 +252,53 @@ public class Task extends AbstractModel {
      *
      * @return the task id
      */
-    public int getTaskID() {
+    public long getTaskID() {
         return taskID;
     }
 
     /**
      * Sets the task id.
      *
-     * @param taskID the new task id
+     * @param l the new task id
      */
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setTaskID(long l) {
+        taskID = l;
     }
 
     /**
      * Adds a user to the assigned users. Will not add a user that is already in the list
-     * 
+     *
      * @param u user to be added
      */
     public void addAssignedUser(User u) {
+        boolean alreadyExists = false;
         for (User user : assignedUsers) {
             if (user.getIdNum() == u.getIdNum()) {
-                return;
+                alreadyExists = true;
+                break;
             }
         }
-        assignedUsers.add(u);
+        if (!alreadyExists) {
+            assignedUsers.add(u);
+        }
     }
 
     /**
      * Deletes a user, given the user's ID number.
      *
      * @param id ID number of user to be deleted
-    
-     * @return user if found, null otherwise */
+     * @return deletedUser if found, null otherwise
+     */
     public User deleteUser(int id) {
+        User deletedUser = null;
         for (User user : assignedUsers) {
             if (user.getIdNum() == id) {
                 assignedUsers.remove(user);
-                return user;
+                deletedUser = user;
+                break;
             }
         }
-        return null;
+        return deletedUser;
     }
 
     /**
@@ -291,8 +306,14 @@ public class Task extends AbstractModel {
      *
      * @return the assigned users
      */
-    public List<User> getAssignedUsers() {
-        return assignedUsers;
+    public JList<User> getAssignedUsers() {
+        /*
+         * User[] midArry= new User[assignedUsers.size()]; for (int i=0;i< assignedUsers.size();
+         * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
+         * } //returnUsers=midArry;
+         */
+        final JList<User> returnUsers = new JList(assignedUsers.toArray());
+        return returnUsers;
     }
 
     /**
@@ -301,15 +322,15 @@ public class Task extends AbstractModel {
      * @return String
      */
     public String getUserForTaskCard() {
+        String user;
         if (assignedUsers.size() > 1) {
-            return assignedUsers.get(0).getName() + " ...";
+            user = assignedUsers.get(0).getName() + " ...";
+        } else if (assignedUsers.size() == 0) {
+            user = "";
+        } else {
+            user = assignedUsers.get(0).getName();
         }
-        else if (assignedUsers.size() == 0) {
-            return "";
-        }
-        else {
-            return assignedUsers.get(0).getName();
-        }
+        return user;
     }
 
     /**
@@ -330,19 +351,23 @@ public class Task extends AbstractModel {
         return activityList;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     /**
      * From json.
      *
-     * @param json the json
-    
-     * @return the task */
+     * @param json the json string
+     * @return task the task from the json string
+     */
     public static Task fromJson(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, Task.class);
+        final Task task = parser.fromJson(json, Task.class);
+        return task;
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
      */
     @Override
@@ -352,7 +377,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
      */
     @Override
@@ -362,7 +386,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#toJson()
      */
     @Override
@@ -371,7 +394,6 @@ public class Task extends AbstractModel {
     }
 
     /*
-     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
      */
     @Override
@@ -393,6 +415,19 @@ public class Task extends AbstractModel {
         actualEffort = updatedTask.actualEffort;
         dueDate = updatedTask.dueDate;
         activityList = updatedTask.activityList;
+        // checks to see if the task changes status
+        // if status has changed, create an activity
+        if (!(status.equals(updatedTask.status))) {
+            // Code inspired by mkyong
+            final String user = ConfigManager.getConfig().getUserName();
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+            final Date date = new Date();
+            final String statusChange = updatedTask.status.getName();
+            final String updateActivity =
+                    "Status changed to " + statusChange + " at " + dateFormat.format(date) + "("
+                            + user + ")";
+            activityList.add(updateActivity); // add activity entry to activity list
+        }
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
@@ -401,11 +436,29 @@ public class Task extends AbstractModel {
      * Returns an array of Tasks parsed from the given JSON-encoded string.
      *
      * @param json a string containing a JSON-encoded array of Tasks
-    
-     * @return an array of Tasks deserialized from the given json string */
+     * @return tasks an array of Tasks deserialized from the given json string
+     */
     public static Task[] fromJsonArray(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, Task[].class);
+        final Task[] tasks = parser.fromJson(json, Task[].class);
+        return tasks;
+
     }
 
+    /**
+	 * copies old task params to this task.
+	 * @param toCopyFrom old task.
+	 */
+    public void copyFrom(Task toCopyFrom) {
+        //borrowed idea from requirements manager
+        title = toCopyFrom.title;
+        description = toCopyFrom.description;
+        assignedUsers = toCopyFrom.assignedUsers;
+        estimatedEffort = toCopyFrom.estimatedEffort;
+        actualEffort = toCopyFrom.actualEffort;
+        dueDate = toCopyFrom.dueDate;
+        activityList = toCopyFrom.activityList;
+        requirement = toCopyFrom.requirement;
+        status = toCopyFrom.status;
+    }
 }

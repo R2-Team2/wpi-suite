@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskEntityManager.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -40,34 +41,18 @@ public class TaskEntityManager implements EntityManager<Task> {
         this.db = db;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session,
-     * java.lang.String)
-     */
     @Override
-    public Task makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public Task makeEntity(Session s, String content) throws WPISuiteException {
 
         final Task newMessage = Task.fromJson(content);
 
         if (!db.save(newMessage, s.getProject())) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Unable to save TNG");
         }
 
         return newMessage;
     }
 
-    /*
-     * Individual messages cannot be retrieved. This message always throws an exception.
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng .Session,
-     * java.lang.String)
-     */
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session,
-     * java.lang.String)
-     */
     @Override
     public Task[] getEntity(Session s, String id) throws WPISuiteException {
         final List<Model> tasks =
@@ -84,22 +69,14 @@ public class TaskEntityManager implements EntityManager<Task> {
     @Override
     public Task[] getAll(Session s) {
         // Retrieve all Tasks (no arguments specified)
-        final List<Model> tasks = db.retrieveAll(new Task(0, "", "", 0, 0,
-                new TaskStatus("new"), "", null, null, null), s.getProject());
+        final List<Model> tasks =
+                db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
+                        null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
     }
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng .Session,
-     * java.lang.String)
-     */
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session,
-     * java.lang.String)
-     */
     @Override
     public Task update(Session s, String content) throws WPISuiteException {
         final Task updatedTask = Task.fromJson(content);
@@ -115,24 +92,17 @@ public class TaskEntityManager implements EntityManager<Task> {
         final Task existingTask = (Task) oldTasks.get(0);
         existingTask.update(updatedTask);
 
+
         // Save the original Task, now updated
         if (!db.save(existingTask, s.getProject())) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Unable to save TNG");
         }
         return existingTask;
     }
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng .Session,
-     * edu.wpi.cs.wpisuitetng.modules.Model)
-     */
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session,
-     * edu.wpi.cs.wpisuitetng.modules.Model)
-     */
     /**
      * Method save.
+     *
      * @param s Session
      * @param model Task
      */
@@ -156,28 +126,18 @@ public class TaskEntityManager implements EntityManager<Task> {
         return (deletedObject != null);
     }
 
+
     // TaskManager does not support deleting all tasks at once
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
-     */
     @Override
     public void deleteAll(Session s) throws WPISuiteException {
-        throw new WPISuiteException();
+        throw new WPISuiteException("Unable to delete everything in session");
     }
 
-    /*
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
-     */
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
-     */
+    // Return the number of PostBoardMessages currently in the database
     @Override
     public int Count() {
-        // Return the number of PostBoardMessages currently in the database
         return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null))
+                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
                 .size();
     }
 
@@ -190,11 +150,10 @@ public class TaskEntityManager implements EntityManager<Task> {
      * @throws WPISuiteException the WPI suite exception
      */
     @Override
-    public String advancedGet(Session s, String[] args)
-            throws WPISuiteException {
+    public String advancedGet(Session s, String[] args) throws WPISuiteException {
         final List<Model> tasks;
         if (args.length < 2) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Too few arguments");
         }
 
         switch (args[0]) {
@@ -202,31 +161,18 @@ public class TaskEntityManager implements EntityManager<Task> {
                 tasks = db.retrieve(Task.class, "status", "new", s.getProject());
                 break;
             default:
-                throw new WPISuiteException();
+                throw new WPISuiteException("first argument is sobmething other than status");
         }
         return new Gson().toJson(tasks.toArray(new Task[0]), Task[].class);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session,
-     * java.lang.String[], java.lang.String)
-     */
     @Override
     public String advancedPut(Session s, String[] args, String content) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session,
-     * java.lang.String, java.lang.String)
-     */
     @Override
     public String advancedPost(Session s, String string, String content) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -241,7 +187,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     private void ensureRole(Session session, Role role) throws WPISuiteException {
         final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
         if (!user.getRole().equals(role)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("User is unauthorized");
         }
     }
 }
