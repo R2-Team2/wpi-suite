@@ -77,7 +77,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
                 || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
-                        .equals("new") && parentPanel.infoPanel.listChosenAssignees.getModel()
+                        .equals("New") && parentPanel.infoPanel.listChosenAssignees.getModel()
                         .getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
