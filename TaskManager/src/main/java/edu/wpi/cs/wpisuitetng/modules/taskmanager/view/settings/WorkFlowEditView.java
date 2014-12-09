@@ -28,6 +28,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class WorkFlowView.
@@ -167,9 +168,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validateNewStatusTitleField()) {
-                    addTaskStatusView(new TaskStatusView(newStatusTitleField.getText(),
-                            newStatusTitleField.getText()));
+                if (isNewStatusTitleFieldValid()) {
+                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
                     clearNewStatusFields();
                 }
                 refresh();
@@ -314,7 +314,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     }
 
     private void validateNewStatusFields() {
-        if (validateNewStatusTitleField() && validateNewStatusTypeField()) {
+        if (isNewStatusTitleFieldValid() && isNewStatusTypeFieldValid()) {
             addButton.setEnabled(true);
         }
         else {
@@ -322,12 +322,12 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         }
     }
 
-    private boolean validateNewStatusTitleField() {
+    private boolean isNewStatusTitleFieldValid() {
         return !(newStatusTitleField.getText().length() <= 0)
                 && (newStatusTitleField.getText().length() <= maxTitleLen);
     }
 
-    private boolean validateNewStatusTypeField() {
+    private boolean isNewStatusTypeFieldValid() {
         return !(newStatusTypeField.getText().length() <= 0);
     }
 }

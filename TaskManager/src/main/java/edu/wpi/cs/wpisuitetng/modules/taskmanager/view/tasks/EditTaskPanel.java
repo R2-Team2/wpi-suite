@@ -17,13 +17,13 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
  *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class EditTaskPanel extends AbstractTaskPanel {
 
     /**
@@ -60,8 +60,8 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
         // create a task, send to to controller
         final Task updatedTask = infoPanel.getTask();
-    	final UpdateTaskController updateTask = new UpdateTaskController(this);
-        updateTask.updateTask(updatedTask);
+        final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
+        updateTaskCntrlr.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
         // retrieveTasks.requestTasks();
         // TODO: create task card
