@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -71,7 +70,8 @@ public class ViewEventController {
 	 * opens requirement module tab
 	 */
 	public void openRequirementsTab() {
-		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager tab
+		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
+		// tab
 		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
 	}
 
@@ -90,6 +90,10 @@ public class ViewEventController {
 	public void createTask() {
 		main.showCreateTaskView();
 
+	}
+
+	public void taskListView() {
+		main.taskListView();
 	}
 
 	/**
