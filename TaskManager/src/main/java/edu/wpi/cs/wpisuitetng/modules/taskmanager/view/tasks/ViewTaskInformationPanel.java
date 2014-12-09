@@ -95,7 +95,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
 		// Populate ContentPanel
 		//**Title**
-		JPanel titlePanel = new JPanel(new MigLayout());
+		final JPanel titlePanel = new JPanel(new MigLayout());
 		titlePanel.add(labelTitle, "cell 0 0");
 		contentPanel.add(titlePanel, "cell 0 0");
 		
@@ -115,14 +115,14 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(new JSeparator(), "cell 0 3, growx, wrap");
 		
 		//Details Body
-		JPanel detailsPanel = new JPanel(new MigLayout("", "[]100[]", "[][][][]"));
+		final JPanel detailsPanel = new JPanel(new MigLayout("", "[]100[]", "[][][][]"));
 		
 		detailsPanel.add(labelStatus, "cell 0 0");
 		detailsPanel.add(new JLabel("" + viewTask.getStatus()), "cell 1 0");
 		detailsPanel.add(labelEstimatedEffort, "cell 0 1");
-		detailsPanel.add(new JLabel("" + viewTask.getEstimatedEffort()),"cell 1 1");
+		detailsPanel.add(new JLabel("" + viewTask.getEstimatedEffort()), "cell 1 1");
 		detailsPanel.add(labelActualEffort, "cell 0 2");
-		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()),"cell 1 2");
+		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
 		detailsPanel.add(labelRequirement, "cell 0 3");
 		
 		String requirementText = viewTask.getRequirement();
@@ -145,7 +145,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(new JSeparator(), "cell 0 5, growx, wrap");
 
 		//Dates Panel
-		JPanel datesPanel = new JPanel(new MigLayout("", "[]135[]", "[][]"));
+		final JPanel datesPanel = new JPanel(new MigLayout("", "[]135[]", "[][]"));
 		
 		datesPanel.add(labelStartDate, "cell 0 0");
 		datesPanel.add(new JLabel(formatDate(viewTask.getStartDate())), "cell 1 0");
