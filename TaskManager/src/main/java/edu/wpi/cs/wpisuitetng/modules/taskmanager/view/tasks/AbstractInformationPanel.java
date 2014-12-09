@@ -231,28 +231,30 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel rightColumn = new JPanel(new MigLayout());
 
 
-        final JPanel bottom = new JPanel(new MigLayout());
+        final JPanel assigneeCell = new JPanel(new MigLayout());
 
-        final JPanel bottomLeft = new JPanel(new MigLayout());
-        final JPanel bottomCenter = new JPanel(new MigLayout());
-        final JPanel bottomRight = new JPanel(new MigLayout());
+        final JPanel possibleAssigneeCell = new JPanel(new MigLayout());
+        final JPanel manageAssigneeCell = new JPanel(new MigLayout());
+        final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
+
+        final JPanel commentCell = new JPanel(new MigLayout());
 
         // Assignee view created and populated to the bottom Panel
         listPossibleAssignees.setBorder(defaultBorder);
-        bottomLeft.add(labelPossibleAssignee, "left, wrap");
-        bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+        possibleAssigneeCell.add(labelPossibleAssignee, "left, wrap");
+        possibleAssigneeCell.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
 
-        bottomCenter.add(buttonAdd, "center, wrap");
-        bottomCenter.add(buttonRemove, "center, wrap");
+        manageAssigneeCell.add(buttonAdd, "center, wrap");
+        manageAssigneeCell.add(buttonRemove, "center, wrap");
 
         listChosenAssignees.setBorder(defaultBorder);
-        bottomRight.add(labelChosenAssignee, "left, wrap");
-        bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+        chosenAssigneeCell.add(labelChosenAssignee, "left, wrap");
+        chosenAssigneeCell.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
 
-        bottom.add(bottomLeft);
-        bottom.add(bottomCenter);
-        bottom.add(bottomRight);
-        bottom.setBorder(defaultBorder);
+        assigneeCell.add(possibleAssigneeCell);
+        assigneeCell.add(manageAssigneeCell);
+        assigneeCell.add(chosenAssigneeCell);
+        assigneeCell.setBorder(defaultBorder);
 
 
         // left and right columns
@@ -286,10 +288,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
-        contentPanel.add(leftColumn, "left, spany, growy, push");
-        contentPanel.add(rightColumn, "right, spany, growy, push");
+        contentPanel.add(leftColumn, "span 3, growy, push");
+        contentPanel.add(rightColumn, "span 2, growy, push, wrap");
 
-        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
+        contentPanel.add(assigneeCell, "spany, growy, push, wrap");
+
+        contentPanel.add(commentCell, "spany, growy, push, wrap");
 
         setViewportView(contentPanel);
     }
@@ -398,9 +402,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
     private void validateRequirementView() {
