@@ -51,7 +51,8 @@ public class WorkFlowSplitView extends JSplitPane {
 	}
 
 	/**
-	 * Creates the new task panel.
+	 * Returns the workflowSplitTabbedPanel used by this WorkFlowSplitView
+	 * @return WorkFlowSplitTabbedPanel
 	 */
 	public WorkFlowSplitTabbedPanel getWF() {
 		return workflowSplitTabbedPanel;

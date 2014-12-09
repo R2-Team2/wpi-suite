@@ -110,7 +110,6 @@ public class TaskStatusView extends JPanel {
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
-    	System.out.println("Currently in requestTasksFromDb method");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
     }
