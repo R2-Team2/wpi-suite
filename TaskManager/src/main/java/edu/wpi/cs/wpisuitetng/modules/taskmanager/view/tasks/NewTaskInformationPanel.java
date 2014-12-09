@@ -18,8 +18,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
 /**
- * The Class NewTaskInformationPanel.
- *
+ * The Class NewTaskInformationPanel. <<<<<<< HEAD ======= >>>>>>> refs/heads/develop
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -183,6 +183,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.buttonPanel.validateTaskDate();
+				parentPanel.buttonPanel.validateTaskInfo();
 			}
 		});
 
@@ -193,15 +194,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				parentPanel.buttonPanel.validateTaskDate();
-			}
-		});
-
-		/**
-		 * Status combo-box Listener
-		 */
-		dropdownStatus.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
 				parentPanel.buttonPanel.validateTaskInfo();
 			}
 		});
