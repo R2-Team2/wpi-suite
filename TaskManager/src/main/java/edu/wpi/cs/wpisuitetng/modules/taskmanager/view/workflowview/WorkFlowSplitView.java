@@ -10,14 +10,12 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 
-
-
-
-
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -55,6 +53,7 @@ public class WorkFlowSplitView extends JSplitPane{
         workflowObj = new WorkFlowView();
 		this.setLeftComponent(new JScrollPane(workflowObj));
 		this.setRightComponent(null);
+		this.setDividerSize(5);
 		expanded = false;
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
