@@ -288,8 +288,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
-        contentPanel.add(leftColumn, "span 3, growy, push");
-        contentPanel.add(rightColumn, "span 2, growy, push, wrap");
+        contentPanel.add(leftColumn, "split 2, spanx, growy");
+        contentPanel.add(rightColumn, "spanx, growy, wrap");
 
         contentPanel.add(assigneeCell, "spany, growy, push, wrap");
 
