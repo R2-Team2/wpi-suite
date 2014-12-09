@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -80,6 +79,7 @@ public class ViewEventController {
      * Opens a new tab for the creation of a requirement.
      */
     public void createTask() {
+        WorkFlowView.getInstance().refresh();
         main.showCreateTaskView();
 
     }
@@ -88,6 +88,7 @@ public class ViewEventController {
      * Edits the work flow view.
      */
     public void editWorkFlowView() {
+        WorkFlowView.getInstance().refresh();
         main.editWorkFlowView();
 
     }
@@ -99,6 +100,7 @@ public class ViewEventController {
      * Close new task panel.
      */
     public void closeNewTaskPanel() {
+        WorkFlowView.getInstance().refresh();
         main.hideCreateTaskView();
     }
 
@@ -108,12 +110,12 @@ public class ViewEventController {
      * @param task Task to be viewed
      */
     public void viewTask(Task task) {
-    	final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
+        final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
         final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
         main.showViewTaskView(taskView);
         System.out.println("Open View Task");
-        //taskView.
-        
+        // taskView.
+
     }
 
 
@@ -141,19 +143,29 @@ public class ViewEventController {
     }
 
     /**
-     * Refresh work flow view.
+     * getter for the workflowview field.
+     * 
+     * @return the workflowview.
      */
-    public void refreshWorkFlowView() {
-    	workflow.refresh();
+    public WorkFlowView getWorkflow() {
+        return workflow;
     }
 
     /**
-	 * opens requirement module tab
-	 */
-	public void openRequirementsTab() {
-		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager tab
-		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
-	}
+     * Refresh work flow view.
+     */
+    public void refreshWorkFlowView() {
+        workflow.refresh();
+    }
+
+    /**
+     * opens requirement module tab
+     */
+    public void openRequirementsTab() {
+        // TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
+        // tab
+        ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
+    }
 
 
 }

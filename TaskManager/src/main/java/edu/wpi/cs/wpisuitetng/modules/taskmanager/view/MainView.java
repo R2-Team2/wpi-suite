@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 /**
  * This panel fills the main content area of the tab for this module. It is currently blank.
@@ -99,12 +98,12 @@ public class MainView extends JTabbedPane {
 
     private void setupListeners() {
         // Refreshes tabs on ANY Selection Change
-        addChangeListener(new ChangeListener()
-        {
+        addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e)
-            {
+            public void stateChanged(ChangeEvent e) {
                 editWorkFlowView.refresh();
+                // WorkFlowView.getInstance().refresh();
+
             }
         });
     }
@@ -195,7 +194,7 @@ public class MainView extends JTabbedPane {
 
                 setTabComponentAt(getTabCount() - 1, panel);
                 setSelectedIndex(getTabCount() - 1);
-                setSelectedComponent(editWorkFlowView);
+
             }
         }
     }
@@ -218,7 +217,7 @@ public class MainView extends JTabbedPane {
 
     /**
      * Show view task view.
-     * 
+     *
      * @param aPanel is the panel to be created.
      */
     public void showViewTaskView(AbstractTaskPanel aPanel) {

@@ -39,7 +39,5 @@ public class RetrieveWorkflowController {
     public void displayWorkflow(WorkFlow[] workFlowObj) {
         view.setWorkFlowObj(workFlowObj[0]);
         WorkFlowView.getInstance().setWorkFlowObj(workFlowObj[0]);
-        // System.out.println("WorkFlowObject: " + workFlowObj[0].toJson());
-        // return view.getWorkFlowObj();
     }
 }

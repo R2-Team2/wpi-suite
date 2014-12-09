@@ -63,9 +63,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     protected User[] listOfPossibleAssignees = new User[] {};
 
     /** The list of statuses. */
-    protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-            new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(),
-            new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+    protected String[] listOfStatuses;
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();
@@ -138,11 +136,19 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
         Collections.sort(iterations, new IterationComparator());
         for (int i = 0; i < iterations.size(); i++) {
-
             requirements.addAll(iterations.get(i).getRequirements());
             // gets the list of requirements that is associated with the iteration
-
         }
+
+        // Add TaskStatuses:
+        List<TaskStatus> tsList = parentPanel.viewEventController.getWorkflow().getStatuses();
+        System.out.println("Number of Task Statuses: " + tsList.size());
+        List<String> nameList = new ArrayList<String>();
+        for (int j = 0; j < tsList.size(); j++) {
+            nameList.add(tsList.get(j).getName());
+        }
+        listOfStatuses = nameList.toArray(new String[0]);
+
         Collections.sort(requirements, new RequirementComparator());
         final String[] arrListOfRequirements = new String[requirements.size() + 1];
         strListOfRequirements.add("None");
@@ -294,7 +300,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         setViewportView(contentPanel);
     }
 
-
     /**
      * Returns the JTextField holding the title.
      *
@@ -407,8 +412,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
             buttonOpenRequirement.setEnabled(false);
-        }
-        else {
+        } else {
             buttonOpenRequirement.setEnabled(true);
         }
     }

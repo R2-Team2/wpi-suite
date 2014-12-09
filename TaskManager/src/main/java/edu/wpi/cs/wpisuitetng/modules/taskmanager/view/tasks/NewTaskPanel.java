@@ -10,11 +10,14 @@ import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskStatusController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -71,20 +74,39 @@ public class NewTaskPanel extends AbstractTaskPanel {
 
     /**
      * Called when the Create Button is pressed Creates a Task from the NewTask Info.
+     *
+     * @throws WPISuiteException throws exception if task status is unknown.
      */
     @Override
-    public void createPressed() {
+    public void createPressed() throws WPISuiteException {
         // create a task, send to to controller
         final AddTaskController addNewTask = new AddTaskController(this);
         addNewTask.addTask();
 
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
+        updateTaskStatus(infoPanel.getTask().getStatus().getName(), infoPanel.getTask());
 
-        // TODO: create task card
-        // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
+    }
+
+    /**
+     * Updates TaskStatusObjects with references to new task objects
+     *
+     * @param name the Name of the Task Status
+     * @param aTask the task being added to the taskStatus object
+     */
+    public void updateTaskStatus(String name, Task aTask) throws WPISuiteException {
+        TaskStatus updatedTS = null;
+        for (int i = 0; i < infoPanel.listOfStatuses.length; i++) {
+            if (infoPanel.listOfStatuses[i] == name) {
+                updatedTS = viewEventController.getWorkflow().getStatuses().get(i).addTask(aTask);
+            }
+        }
+        if (updatedTS != null) {
+            UpdateTaskStatusController tsController = new UpdateTaskStatusController();
+            tsController.updateTask(updatedTS);
+        } else
+            throw new WPISuiteException("Unknown Task Status Selected");
     }
 
     /**
@@ -92,7 +114,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public void cancelPressed() {
-        WorkFlowView.getInstance().refresh();
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
     }

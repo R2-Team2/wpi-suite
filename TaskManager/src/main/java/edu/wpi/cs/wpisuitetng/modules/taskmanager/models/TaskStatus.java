@@ -84,8 +84,9 @@ public class TaskStatus extends AbstractModel {
      *
      * @param task String
      */
-    public void addTask(Task task) {
+    public TaskStatus addTask(Task task) {
         taskList.add(task);
+        return this;
     }
 
     /**
@@ -103,7 +104,7 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * return a task from a list
-     * 
+     *
      * @param index the index in the list
      * @return task at that spot in the array
      */
@@ -150,17 +151,18 @@ public class TaskStatus extends AbstractModel {
     public String toJson() {
         return new Gson().toJson(this, TaskStatus.class);
     }
+
     /**
-	 * From json.
-	 *
-	 * @param json the json string
-	 * @return task the task from the json string
-	 */
-	public static TaskStatus fromJson(String json) {
-		final Gson parser = new Gson();
-		final TaskStatus taskStatus = parser.fromJson(json, TaskStatus.class);
-		return taskStatus;
-	}
+     * From json.
+     *
+     * @param json the json string
+     * @return task the task from the json string
+     */
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        final TaskStatus taskStatus = parser.fromJson(json, TaskStatus.class);
+        return taskStatus;
+    }
 
     @Override
     public Boolean identify(Object o) {
@@ -181,7 +183,7 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * update taskstatus objects
-     * 
+     *
      * @param updatedTaskStatus task status to update.
      */
     public void update(TaskStatus updatedTaskStatus) {

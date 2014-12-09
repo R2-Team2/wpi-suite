@@ -7,8 +7,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +14,15 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 // TODO: Auto-generated Javadoc
 /**
  * This is a blank module that will become the Task Manager. It currently contains a blank toolbar
  * and a blank main view.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -49,7 +45,6 @@ public class TaskManager implements IJanewayModule {
      * content panel.
      */
     public TaskManager() {
-
         // Initialize the list of tabs (however, this module has only one tab)
         tabs = new ArrayList<JanewayTabModel>();
 
@@ -64,11 +59,11 @@ public class TaskManager implements IJanewayModule {
 
         // Add the tab to the list of tabs owned by this module
         tabs.add(tab1);
-        
+
         ViewEventController.getInstance().setMainView(mainView);
-        
+
     }
-    
+
     @Override
     public String getName() {
         return "Task Manager";

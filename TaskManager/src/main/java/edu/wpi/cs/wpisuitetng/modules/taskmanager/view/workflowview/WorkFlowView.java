@@ -58,11 +58,11 @@ public class WorkFlowView extends AbsWorkFlowView {
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH
 
+        // refresh();
         instance = this;
+
+
     }
 
     public void rebuildWF() {
@@ -73,8 +73,8 @@ public class WorkFlowView extends AbsWorkFlowView {
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
 
         // retrieve task status objects
@@ -91,13 +91,12 @@ public class WorkFlowView extends AbsWorkFlowView {
                 taskStatusPanel.add(aView, "cell " + i + " 0,grow");
                 views.add(aView);
             }
-
-            System.out.println("Finished build of View, # Views: " + taskStatusPanel.size());
             ViewEventController.getInstance().setWorkFlowView(this);
         } else {
             System.out.println("Currently No Statuses");
             rebuildWF();
         }
+        instance = this;
     }
 
     /**
@@ -106,7 +105,7 @@ public class WorkFlowView extends AbsWorkFlowView {
     public void getWorkFlowFromDB() {
         RetrieveWorkflowController retrieveWF = new RetrieveWorkflowController(this);
         retrieveWF.requestWorkflow();
-
+        instance = this;
     }
 
     /**
@@ -117,8 +116,11 @@ public class WorkFlowView extends AbsWorkFlowView {
     public static WorkFlowView getInstance() {
         if (instance == null) {
             instance = new WorkFlowView();
+            return instance;
+        } else {
+            return instance;
         }
-        return instance;
+
     }
 
     /**
@@ -128,6 +130,17 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     public void setStatuses(List<TaskStatus> listOfStatus) {
         statuses = listOfStatus;
+        instance = this;
+    }
+
+    /**
+     * Returns the statuses field
+     *
+     * @return array of task statuses.
+     */
+    public List<TaskStatus> getStatuses() {
+        instance = this;
+        return statuses;
     }
 
     /**
@@ -145,6 +158,7 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     @Override
     public WorkFlow getWorkFlowObj() {
+        instance = this;
         return workFlowObj;
     }
 
@@ -156,7 +170,7 @@ public class WorkFlowView extends AbsWorkFlowView {
     @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
-        // rebuildWF();
+        instance = this;
     }
 
     /**
@@ -166,9 +180,7 @@ public class WorkFlowView extends AbsWorkFlowView {
     public void refresh() {
         getWorkFlowFromDB();
         rebuildWF();
-        /*
-         * for (TaskStatusView v : views) { v.getTasksFromDb(); }
-         */
+        instance = this;
     }
 
 }

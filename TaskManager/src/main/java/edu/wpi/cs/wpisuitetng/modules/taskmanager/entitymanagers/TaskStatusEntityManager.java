@@ -120,6 +120,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public TaskStatus update(Session s, String content) throws WPISuiteException {
         final TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
+        System.out.println("update method called in TaskStatus Entity Manager");
 
         // Retrieve the original TaskStatus
         List<Model> oldTaskStatus =

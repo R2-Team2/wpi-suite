@@ -10,9 +10,12 @@ import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
@@ -55,20 +58,41 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
     /**
      * Called when the Save Button is pressed Loads data into the database in the existing Task.
+     *
+     * @throws WPISuiteException if no known task status is recognized.
      */
-    public void savePressed() {
+    public void savePressed() throws WPISuiteException {
 
         // create a task, send to to controller
         final Task updatedTask = infoPanel.getTask();
-    	final UpdateTaskController updateTask = new UpdateTaskController(this);
+        final UpdateTaskController updateTask = new UpdateTaskController(this);
         updateTask.updateTask(updatedTask);
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-        // TODO: create task card
-        // TODO: put task card in proper task status
+
+        updateTaskStatus(updatedTask.getStatus().getName(), updatedTask);
+
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
         ViewEventController.getInstance().viewTask(updatedTask);
+    }
+
+    /**
+     * Updates TaskStatusObjects with references to new task objects
+     *
+     * @param name the Name of the Task Status
+     * @param aTask the task being added to the taskStatus object
+     */
+    public void updateTaskStatus(String name, Task aTask) throws WPISuiteException {
+        TaskStatus updatedTS = null;
+        for (int i = 0; i < infoPanel.listOfStatuses.length; i++) {
+            if (infoPanel.listOfStatuses[i] == name) {
+                updatedTS = viewEventController.getWorkflow().getStatuses().get(i).addTask(aTask);
+            }
+        }
+        if (updatedTS != null) {
+            UpdateTaskStatusController tsController = new UpdateTaskStatusController();
+            tsController.updateTask(updatedTS);
+        } else
+            throw new WPISuiteException("Unknown Task Status Selected");
     }
 
     /**

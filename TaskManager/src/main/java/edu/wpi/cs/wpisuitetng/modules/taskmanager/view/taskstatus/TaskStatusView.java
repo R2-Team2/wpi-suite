@@ -27,7 +27,6 @@ import javax.swing.text.StyledDocument;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
@@ -100,11 +99,11 @@ public class TaskStatusView extends AbsView {
     }
 
 
-	/**
+    /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
-    	System.out.println("Currently in requestTasksFromDb method");
+        // System.out.println("Currently in requestTasksFromDb method");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
 
@@ -116,7 +115,7 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-    	
+
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
             if (t.getStatus() != null
@@ -184,12 +183,14 @@ public class TaskStatusView extends AbsView {
         }
 
     }
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return taskStatusObj.getName();
-	}
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return taskStatusObj.getName();
+    }
 
 }
