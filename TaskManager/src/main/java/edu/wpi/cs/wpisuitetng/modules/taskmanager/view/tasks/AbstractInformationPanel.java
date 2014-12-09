@@ -46,12 +46,13 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
- * The Class AbstractInformationPanel.
+ * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractInformationPanel extends JScrollPane {
+@SuppressWarnings("serial")
+public class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -121,7 +122,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
-    final private List<Requirement> requirements = new ArrayList<Requirement>();
+    private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
      * Builds the layout.
@@ -445,9 +446,13 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * This acts as an Abstract method
+     *
      * @return Task
      */
-    public abstract Task getTask();
+    public Task getTask() {
+        return null;
+    }
 }
 
 
@@ -459,13 +464,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 class IterationComparator implements Comparator<Iteration> {
     @Override
     public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
         if (I1.getStart() == null) {
-            return -1;
+            result = -1;
         }
-        if (I2.getStart() == null) {
-            return 1;
+        else if (I2.getStart() == null) {
+            result = 1;
         }
-        return I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        else {
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
     }
 }
 

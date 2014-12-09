@@ -23,81 +23,85 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel {
 
-	protected EditTaskPanel parentPanel;
+    protected EditTaskPanel parentPanel;
 
-	/**
-	 * Constructor for the EditTaskButtonPanel.
-	 *
-	 * @param parentPanel the parent panel
-	 */
-	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
-		// Set Panel Layout
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		// Set Parent Panel
-		this.parentPanel = parentPanel;
-		// Set Button Messages
-		final String saveString = "Save";
-		final String cancelString = "Cancel";
-		// Create Buttons
-		buttonSave = new JButton(saveString);
-		buttonCancel = new JButton(cancelString);
-		this.add(buttonSave);
-		this.add(buttonCancel);
-		// parentPanel.createPressed();
+    /**
+     * Constructor for the EditTaskButtonPanel.
+     *
+     * @param parentPanel the parent panel
+     */
+    public EditTaskButtonPanel(EditTaskPanel parentPanel) {
+        // Set Panel Layout
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        // Set Parent Panel
+        this.parentPanel = parentPanel;
+        // Set Button Messages
+        final String saveString = "Save";
+        final String cancelString = "Cancel";
+        // Create Buttons
+        buttonSave = new JButton(saveString);
+        buttonCancel = new JButton(cancelString);
+        this.add(buttonSave);
+        this.add(buttonCancel);
+        // parentPanel.createPressed();
 
-		setupListeners();
-	}
+        setupListeners();
+    }
 
-	/**
-	 * Sets up listeners for the edit task panel, and the edit buttons.
-	 */
-	protected void setupListeners() {
-		buttonSave.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.savePressed();
-			}
-		});
+    /**
+     * Sets up listeners for the edit task panel, and the edit buttons.
+     */
+    protected void setupListeners() {
+        buttonSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.savePressed();
+            }
+        });
 
-		buttonCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.cancelPressed();
-			}
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
 
-		});
-	}
+        });
+    }
 
-	/**
-	 * Validate task info.
-	 */
-	@Override
-	public boolean validateTaskInfo() {
-		if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
-				|| (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
-						.equals("new") && parentPanel.infoPanel.listChosenAssignees.getModel()
-						.getSize() == 0)) {
-			buttonSave.setEnabled(false);
-			return false;
-		} else {
-			buttonSave.setEnabled(true);
-			return true;
-		}
-	}
+    /**
+     * Validate task info.
+     */
+    @Override
+    public boolean isTaskInfoValid() {
+        boolean result = false;
+        if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
+                || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+                || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+                        .equals("new") && parentPanel.infoPanel.listChosenAssignees.getModel()
+                        .getSize() == 0)) {
+            buttonSave.setEnabled(false);
+            result = false;
+        }
+        else {
+            buttonSave.setEnabled(true);
+            result = true;
+        }
+
+        return result;
+    }
 
 
-	/**
-	 * Validate task dates
-	 */
-	@Override
-	public void validateTaskDate() {
-		if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-			parentPanel.infoPanel.labelDueDate
-			.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
-		} else {
-			parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
-		}
-	}
+    /**
+     * Validate task dates
+     */
+    @Override
+    public void validateTaskDate() {
+        if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+            parentPanel.infoPanel.labelDueDate.setText(
+                    "<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+        } else {
+            parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+        }
+    }
 
 }

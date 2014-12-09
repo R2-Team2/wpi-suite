@@ -30,7 +30,7 @@ public class NewTaskPanelTest {
 		final NewTaskPanel NTP = new NewTaskPanel(null);
 		NTP.infoPanel.getTitle().setText("Title");
 		NTP.infoPanel.getDescription().setText("");
-		NTP.buttonPanel.validateTaskInfo();
+		NTP.buttonPanel.isTaskInfoValid();
 		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
 	}
 
@@ -42,7 +42,7 @@ public class NewTaskPanelTest {
 		final NewTaskPanel NTP = new NewTaskPanel(null);
 		NTP.infoPanel.getTitle().setText("");
 		NTP.infoPanel.getDescription().setText("");
-		NTP.buttonPanel.validateTaskInfo();
+		NTP.buttonPanel.isTaskInfoValid();
 		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
 	}
 
@@ -54,7 +54,7 @@ public class NewTaskPanelTest {
 		final NewTaskPanel NTP = new NewTaskPanel(null);
 		NTP.infoPanel.getTitle().setText("");
 		NTP.infoPanel.getDescription().setText("Description");
-		NTP.buttonPanel.validateTaskInfo();
+		NTP.buttonPanel.isTaskInfoValid();
 		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
 	}
 
@@ -66,7 +66,7 @@ public class NewTaskPanelTest {
 		final NewTaskPanel NTP = new NewTaskPanel(null);
 		NTP.infoPanel.getTitle().setText("Title");
 		NTP.infoPanel.getDescription().setText("Description");
-		NTP.buttonPanel.validateTaskInfo();
+		NTP.buttonPanel.isTaskInfoValid();
 		assertTrue(NTP.buttonPanel.buttonCreate.isEnabled());
 	}
 
