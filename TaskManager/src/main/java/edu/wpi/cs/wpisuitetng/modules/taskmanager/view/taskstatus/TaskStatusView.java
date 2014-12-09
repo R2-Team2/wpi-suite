@@ -56,7 +56,7 @@ public class TaskStatusView extends JPanel {
     /**
      * Create the panel.
      *
-     * @param title the title
+     * @param taskStatusObject the Task Status Object
      */
     public TaskStatusView(TaskStatus taskStatusObject) {
 
