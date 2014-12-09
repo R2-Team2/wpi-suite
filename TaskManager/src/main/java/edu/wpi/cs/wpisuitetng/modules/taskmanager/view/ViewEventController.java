@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddWorkflowController;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -71,7 +70,8 @@ public class ViewEventController {
 	 * opens requirement module tab
 	 */
 	public void openRequirementsTab() {
-		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager tab
+		// TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
+		// tab
 		((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
 	}
 
@@ -100,6 +100,24 @@ public class ViewEventController {
 
 	}
 
+	/**
+	 * Filters Task Cards
+	 *
+	 * @param filterString filter string
+	 */
+	public void filterTasks(String filterString) {
+		workflow.filter(filterString);
+	}
+
+	/**
+	 * Filters Task Cards considering description
+	 *
+	 * @param filterString filter string
+	 */
+	public void filterTasksWithDescription(String filterString) {
+		workflow.filterWithDescription(filterString);
+	}
+
 	/*
 	 * Removes the current tab
 	 */
@@ -124,6 +142,12 @@ public class ViewEventController {
 
 	}
 
+	/**
+	 * revalidates UI
+	 */
+	public void revalidateAll() {
+		main.resetPreferedSize();
+	}
 
 	/**
 	 * Removes the tab for the given JComponent.
@@ -152,6 +176,13 @@ public class ViewEventController {
 	 * Refresh work flow view.
 	 */
 	public void refreshWorkFlowView() {
+		workflow.refresh();
+	}
+
+	/**
+	 * Refresh work flow view.
+	 */
+	public void filterWorkFlowView(String filterString) {
 		workflow.refresh();
 	}
 

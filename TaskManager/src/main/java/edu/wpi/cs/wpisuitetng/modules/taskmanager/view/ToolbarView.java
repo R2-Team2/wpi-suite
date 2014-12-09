@@ -7,6 +7,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import java.awt.BorderLayout;
+
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons.TaskButtonsPanel;
 
@@ -14,33 +16,35 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.buttons.TaskButtonsPanel;
 // TODO: Auto-generated Javadoc
 /**
  * This is the toolbar for the Task Manager module.
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class ToolbarView extends DefaultToolbarView {
 
-    /** The new button. */
-    TaskButtonsPanel newButton = new TaskButtonsPanel();
+	/** The new button. */
+	TaskButtonsPanel newButton = new TaskButtonsPanel();
+	SearchBarGroup searchBar = new SearchBarGroup();
 
-    /**
-     * Construct this view and prevent it from being moved.
-     */
-    public ToolbarView() {
+	/**
+	 * Construct this view and prevent it from being moved.
+	 */
+	public ToolbarView() {
 
-        // Prevent this toolbar from being moved
-        setFloatable(false);
-        this.addGroup(newButton);
+		// Prevent this toolbar from being moved
+		setFloatable(false);
+		addGroup(newButton);
+		add(searchBar, BorderLayout.EAST);
+	}
 
-    }
-
-    /**
-     * Method getNewButton.
-     *
-     * @return TaskButtonsPanel
-     */
-    public TaskButtonsPanel getReqButton() {
-        return newButton;
-    }
+	/**
+	 * Method getNewButton.
+	 *
+	 * @return TaskButtonsPanel
+	 */
+	public TaskButtonsPanel getReqButton() {
+		return newButton;
+	}
 
 }
