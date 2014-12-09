@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public abstract class AbsWorkFlowView extends JPanel {
+public class AbsWorkFlowView extends JPanel {
     /** The work flow obj. */
     private WorkFlow workFlowObj;
 
@@ -37,7 +37,7 @@ public abstract class AbsWorkFlowView extends JPanel {
     /**
      * Constructor for AbsWorkFlowView.
      */
-    public AbsWorkFlowView() {
+    protected AbsWorkFlowView() {
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
         views.add(new TaskStatusView(new TaskStatus("New")));

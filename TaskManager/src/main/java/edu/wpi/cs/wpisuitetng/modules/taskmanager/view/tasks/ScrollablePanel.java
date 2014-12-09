@@ -13,18 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ScrollablePanel.
  *
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
+@SuppressWarnings("serial")
 public class ScrollablePanel extends JPanel implements Scrollable {
 
     /**
      * Method getPreferredScrollableViewportSize.
-     * 
+     *
      * @return Dimension
      * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
      * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
@@ -69,7 +69,7 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 
     /**
      * Method getScrollableTracksViewportWidth.
-     * 
+     *
      * @return boolean
      * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
      * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
@@ -81,7 +81,7 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 
     /**
      * Method getScrollableTracksViewportHeight.
-     * 
+     *
      * @return boolean
      * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
      * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()

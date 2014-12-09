@@ -32,14 +32,12 @@ public class AddTaskStatusController {
         // TODO populate TaskStatus object
 
         final TaskStatus newTaskStatus = new TaskStatus(null);
-
         final Request request =
-                Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT); // PUT
-        // ==
-        // create
+                Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.PUT);
+
         request.setBody(newTaskStatus.toJson()); // put the new message in the body of the request
-        request.addObserver(new AddTaskStatusRequestObserver(this)); // add an observer to process
-        // the response
+        // add an observer to process the response
+        request.addObserver(new AddTaskStatusRequestObserver(this));
         request.send(); // send the request
     }
 }

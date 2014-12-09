@@ -168,7 +168,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validateNewStatusTitleField()) {
+                if (isNewStatusTitleFieldValid()) {
                     addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
                     clearNewStatusFields();
                 }
@@ -314,7 +314,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     }
 
     private void validateNewStatusFields() {
-        if (validateNewStatusTitleField() && validateNewStatusTypeField()) {
+        if (isNewStatusTitleFieldValid() && isNewStatusTypeFieldValid()) {
             addButton.setEnabled(true);
         }
         else {
@@ -322,12 +322,12 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         }
     }
 
-    private boolean validateNewStatusTitleField() {
+    private boolean isNewStatusTitleFieldValid() {
         return !(newStatusTitleField.getText().length() <= 0)
                 && (newStatusTitleField.getText().length() <= maxTitleLen);
     }
 
-    private boolean validateNewStatusTypeField() {
+    private boolean isNewStatusTypeFieldValid() {
         return !(newStatusTypeField.getText().length() <= 0);
     }
 }

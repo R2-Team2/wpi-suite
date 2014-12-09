@@ -9,6 +9,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 // import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+// import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertNull;
 
 // import java.awt.Dimension;
 // import javax.swing.DefaultListModel;
@@ -30,18 +32,13 @@ import org.junit.Test;
 // import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
- * The class <code>AbstractInformationPanelTest</code> contains tests for the class {@link <code>AbstractInformationPanel</code>}
+ * The class <code>AbstractInformationPanelTest</code> contains 
+ * tests for the class {@link <code>AbstractInformationPanel</code>}
  *
  * @pattern JUnit Test Case
  * @generatedBy CodePro at 11/23/14 10:22 PM
  * @author R2-Team2
  * @version v0
- */
-/**
- * Description
- *
- * @author Evan
- * @version Nov 24, 2014
  */
 public class AbstractInformationPanelTest {
 
@@ -93,6 +90,18 @@ public class AbstractInformationPanelTest {
 	}
 
 	/**
+	 * Checks whether dates are not set when creating a task
+	 */
+	@Test
+	public void datesInitiallyEmptyTest() {
+		final NewTaskPanel ntp = new NewTaskPanel();
+		final NewTaskInformationPanel ntip = new NewTaskInformationPanel(ntp);
+
+		assertNull(ntip.calDueDate.getDate());
+		assertNull(ntip.calStartDate.getDate());
+	}
+
+	/**
 	 * Checks whether the calendar image can be loaded.
 	 */
 	@Test
@@ -103,19 +112,19 @@ public class AbstractInformationPanelTest {
 
 		newTaskInfoPanel.boxTitle.setText("  ");
 		newTaskInfoPanel.boxDescription.setText("sss");
-		assertFalse("Whitespace task title", ntbp.validateTaskInfo());
+		assertFalse("Whitespace task title", ntbp.isTaskInfoValid());
 
 		newTaskInfoPanel.boxTitle.setText("");
 		newTaskInfoPanel.boxDescription.setText("sss");
-		assertFalse("Empty task title", ntbp.validateTaskInfo());
+		assertFalse("Empty task title", ntbp.isTaskInfoValid());
 
 		newTaskInfoPanel.boxTitle.setText("sss");
 		newTaskInfoPanel.boxDescription.setText("");
-		assertFalse("Empty task description", ntbp.validateTaskInfo());
+		assertFalse("Empty task description", ntbp.isTaskInfoValid());
 
 		newTaskInfoPanel.boxTitle.setText("sss");
 		newTaskInfoPanel.boxDescription.setText("   ");
-		assertFalse("Whitespace task description", ntbp.validateTaskInfo());
+		assertFalse("Whitespace task description", ntbp.isTaskInfoValid());
 	}
 
 	// /**
