@@ -78,20 +78,23 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
      * Validate task info.
      */
     @Override
-    public boolean validateTaskInfo() {
+    public boolean isTaskInfoValid() {
+        boolean result = false;
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
                 || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
                         .equals("New") && parentPanel.infoPanel.listChosenAssignees.getModel()
                         .getSize() == 0)) {
             buttonSave.setEnabled(false);
-            return false;
-        } else {
-            buttonSave.setEnabled(true);
-            return true;
+            result = false;
         }
-    }
+        else {
+            buttonSave.setEnabled(true);
+            result = true;
+        }
 
+        return result;
+    }
 
     /**
      * Validate task dates

@@ -51,17 +51,17 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -145,17 +145,17 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -166,17 +166,17 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         boxDescription.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -187,6 +187,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -206,7 +207,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         dropdownStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 

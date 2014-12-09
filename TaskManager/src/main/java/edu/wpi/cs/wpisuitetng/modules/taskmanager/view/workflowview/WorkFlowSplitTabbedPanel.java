@@ -31,231 +31,249 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
-    /** The popup. */
-    private final JPopupMenu popup = new JPopupMenu();
+	/** The popup. */
+	private final JPopupMenu popup = new JPopupMenu();
 
-    /** The close all. */
-    private final JMenuItem closeAll = new JMenuItem("Close All Tabs");
+	/** The close all. */
+	private final JMenuItem closeAll = new JMenuItem("Close All Tabs");
 
-    /** The close others. */
-    private final JMenuItem closeOthers = new JMenuItem("Close Others");
+	/** The close others. */
+	private final JMenuItem closeOthers = new JMenuItem("Close Others");
 
-    /** The parent panel. */
-    private final WorkFlowSplitView parentPanel;
+	/** The parent panel. */
+	private final WorkFlowSplitView parentPanel;
 
+	/**
+	 * Instantiates a new work flow split tabbed panel.
+	 *
+	 * @param parentPanel
+	 *            the parent panel
+	 */
+	public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
+		this.parentPanel = parentPanel;
 
-    /**
-     * Instantiates a new work flow split tabbed panel.
-     *
-     * @param parentPanel the parent panel
-     */
-    public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
-        this.parentPanel = parentPanel;
+		setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		// this.setMaximumSize(new Dimension(100,100));
+		closeAll.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ViewEventController.getInstance().closeAllTabs();
+			}
+		});
 
-        setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        // this.setMaximumSize(new Dimension(100,100));
-        closeAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ViewEventController.getInstance().closeAllTabs();
-            }
-        });
+		closeOthers.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ViewEventController.getInstance().closeOthers();
+			}
+		});
 
-        closeOthers.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ViewEventController.getInstance().closeOthers();
-            }
-        });
+		popup.add(closeAll);
+		popup.add(closeOthers);
 
-        popup.add(closeAll);
-        popup.add(closeOthers);
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popup.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
+	}
 
-    }
+	/**
+	 * Adds the get parent
+	 */
+	@Override
+	public WorkFlowSplitView getParent() {
+		return parentPanel;
+	}
 
-    /**
-     * Adds the get parent
-     */
-    @Override
-    public WorkFlowSplitView getParent() {
-        return parentPanel;
-    }
+	/**
+	 * Adds the create task tab.
+	 */
+	public void addCreateTaskTab() {
+		this.addTab("New Task", null, new NewTaskPanel(this), null);
 
-    /**
-     * Adds the create task tab.
-     */
-    public void addCreateTaskTab() {
-        this.addTab("New Task", null, new NewTaskPanel(this), null);
+		final WorkFlowSplitTabbedPanel thisPane = this;
 
-        final WorkFlowSplitTabbedPanel thisPane = this;
+		// create a "close" button
+		final JButton tabCloseButton = new JButton("\u2716");
+		tabCloseButton.setActionCommand("" + getTabCount());
+		tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
+		tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
-        // create a "close" button
-        final JButton tabCloseButton = new JButton("\u2716");
-        tabCloseButton.setActionCommand("" + getTabCount());
-        tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
-        tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+		final ActionListener closeButtonListener;
+		closeButtonListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent action) {
 
-        final ActionListener closeButtonListener;
-        closeButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent action) {
+				// get button which was clicked
+				JButton tmpButton = (JButton) action.getSource();
 
-                // get button which was clicked
-                JButton tmpButton = (JButton) action.getSource();
+				// get previously defined action command (sort of identifier)
+				final String clickedActionCommand = tmpButton
+						.getActionCommand();
 
-                // get previously defined action command (sort of identifier)
-                final String clickedActionCommand = tmpButton.getActionCommand();
+				// for all tabs in tabpane
+				for (int i = 0; i < thisPane.getTabCount(); i++) {
 
-                // for all tabs in tabpane
-                for (int i = 0; i < thisPane.getTabCount(); i++) {
+					// get a panel of current tab component
+					JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
 
-                    // get a panel of current tab component
-                    JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+					// take a button from it
+					tmpButton = (JButton) tabPanel.getComponent(1);
 
-                    // take a button from it
-                    tmpButton = (JButton) tabPanel.getComponent(1);
+					// retrieve its action command
+					String actualActionCommand = tmpButton.getActionCommand();
 
-                    // retrieve its action command
-                    String actualActionCommand = tmpButton.getActionCommand();
+					// if this command is equal to that of clicked button, then
+					// we've found our tab
+					if (clickedActionCommand.equals(actualActionCommand)) {
+						thisPane.removeTabAt(i); // and we remove it
+						thisPane.checkForHide();
+						break;
+					}
+				}
+			}
+		};
+		tabCloseButton.addActionListener(closeButtonListener);
 
-                    // if this command is equal to that of clicked button, then we've found our tab
-                    if (clickedActionCommand.equals(actualActionCommand)) {
-                        thisPane.removeTabAt(i); // and we remove it
-                        thisPane.checkForHide();
-                        break;
-                    }
-                }
-            }
-        };
-        tabCloseButton.addActionListener(closeButtonListener);
+		// this part of code manually creates a panel with title and button
+		// and adds it to tab component
+		if (getTabCount() != 0) {
+			final JPanel panel = new JPanel();
+			panel.setOpaque(false);
 
-        // this part of code manually creates a panel with title and button
-        // and adds it to tab component
-        if (getTabCount() != 0) {
-            final JPanel panel = new JPanel();
-            panel.setOpaque(false);
+			final JLabel lblTitle = new JLabel("New Task");
+			lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
-            final JLabel lblTitle = new JLabel("New Task");
-            lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+			final GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.weightx = 1;
 
-            final GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.weightx = 1;
+			panel.add(lblTitle, gbc);
 
-            panel.add(lblTitle, gbc);
+			gbc.gridx++;
+			gbc.weightx = 0;
+			panel.add(tabCloseButton, gbc);
 
-            gbc.gridx++;
-            gbc.weightx = 0;
-            panel.add(tabCloseButton, gbc);
+			setTabComponentAt(getTabCount() - 1, panel);
+			setSelectedIndex(getTabCount() - 1);
+		}
+	}
 
+	/**
+	 * Add new tab with the given panel.
+	 *
+	 * @param aPanel
+	 *            panel to view
+	 */
+	public void addViewTaskTab(AbstractTaskPanel aPanel) {
+		final int index = indexOfTab(aPanel.getTitle());
+		if (index > -1) {
+			setSelectedIndex(index);
+			repaint();
+			validate();
+		} else {
+			String title = aPanel.getTitle();
+			final String toolTip = new String(title);
 
-            setTabComponentAt(getTabCount() - 1, panel);
-            setSelectedIndex(getTabCount() - 1);
-        }
-    }
+			// truncates the displayed task title if it's longer than 25
+			// characters.
+			// if
+			if (title.length() > 15) {
+				title = title.substring(0, 15).concat("...");
+			}
 
-    /**
-     * Add new tab with the given panel.
-     *
-     * @param aPanel panel to view
-     */
-    public void addViewTaskTab(AbstractTaskPanel aPanel) {
-        String title = aPanel.getTitle();
-        final String toolTip = new String(title);
+			this.addTab(title, null, aPanel, toolTip);
 
-        // truncates the displayed task title if it's longer than 25 characters. if
-        if (title.length() > 15) {
-            title = title.substring(0, 15).concat("...");
-        }
+			final WorkFlowSplitTabbedPanel thisPane = this;
 
-        this.addTab(title, null, aPanel, toolTip);
+			// create a "cross" button
+			final JButton tabCloseButton = new JButton("\u2716");
+			tabCloseButton.setActionCommand("" + getTabCount());
+			tabCloseButton.setFont(tabCloseButton.getFont().deriveFont(
+					(float) 8));
+			tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
-        final WorkFlowSplitTabbedPanel thisPane = this;
+			final ActionListener closeButtonListener;
+			closeButtonListener = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent action) {
 
-        // create a "cross" button
-        final JButton tabCloseButton = new JButton("\u2716");
-        tabCloseButton.setActionCommand("" + getTabCount());
-        tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
-        tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+					// get button which was clicked
+					JButton tmpButton = (JButton) action.getSource();
 
-        final ActionListener closeButtonListener;
-        closeButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent action) {
+					// get previously defined action command (sort of
+					// identifier)
+					final String clickedActionCommand = tmpButton
+							.getActionCommand();
 
-                // get button which was clicked
-                JButton tmpButton = (JButton) action.getSource();
+					// for all tabs in tabpane
+					for (int i = 0; i < thisPane.getTabCount(); i++) {
 
-                // get previously defined action command (sort of identifier)
-                final String clickedActionCommand = tmpButton.getActionCommand();
+						// get a panel of current tab component
+						JPanel tabPanel = (JPanel) thisPane
+								.getTabComponentAt(i);
 
-                // for all tabs in tabpane
-                for (int i = 0; i < thisPane.getTabCount(); i++) {
+						// take a button from it
+						tmpButton = (JButton) tabPanel.getComponent(1);
 
-                    // get a panel of current tab component
-                    JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+						// retrieve its action command
+						String actualActionCommand = tmpButton
+								.getActionCommand();
 
-                    // take a button from it
-                    tmpButton = (JButton) tabPanel.getComponent(1);
+						// if this command is equal to that of clicked button,
+						// then
+						// we've found our tab
+						if (clickedActionCommand.equals(actualActionCommand)) {
+							thisPane.removeTabAt(i); // and we remove it
+							thisPane.checkForHide();
+							break;
+						}
+					}
+				}
+			};
+			tabCloseButton.addActionListener(closeButtonListener);
 
-                    // retrieve its action command
-                    String actualActionCommand = tmpButton.getActionCommand();
+			// this part of code manually creates a panel with title and button
+			// and adds it to tab component
+			if (getTabCount() != 0) {
+				final JPanel panel = new JPanel();
+				panel.setOpaque(false);
 
-                    // if this command is equal to that of clicked button, then we've found our tab
-                    if (clickedActionCommand.equals(actualActionCommand)) {
-                        thisPane.removeTabAt(i); // and we remove it
-                        thisPane.checkForHide();
-                        break;
-                    }
-                }
-            }
-        };
-        tabCloseButton.addActionListener(closeButtonListener);
+				final JLabel lblTitle = new JLabel(title);
+				lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 
-        // this part of code manually creates a panel with title and button
-        // and adds it to tab component
-        if (getTabCount() != 0) {
-            final JPanel panel = new JPanel();
-            panel.setOpaque(false);
+				final GridBagConstraints gbc = new GridBagConstraints();
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+				gbc.weightx = 1;
 
-            final JLabel lblTitle = new JLabel(title);
-            lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+				panel.add(lblTitle, gbc);
 
-            final GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.weightx = 1;
+				gbc.gridx++;
+				gbc.weightx = 0;
+				panel.add(tabCloseButton, gbc);
 
-            panel.add(lblTitle, gbc);
+				setTabComponentAt(getTabCount() - 1, panel);
+				setSelectedIndex(getTabCount() - 1);
+			}
+		}
+	}
 
-            gbc.gridx++;
-            gbc.weightx = 0;
-            panel.add(tabCloseButton, gbc);
-
-
-            setTabComponentAt(getTabCount() - 1, panel);
-            setSelectedIndex(getTabCount() - 1);
-        }
-    }
-
-    /**
-     * Check for hide.
-     */
-    public void checkForHide() {
-        if (getTabCount() <= 0) {
-            ViewEventController.getInstance().closeNewTaskPanel();
-        }
-    }
+	/**
+	 * Check for hide.
+	 */
+	public void checkForHide() {
+		if (getTabCount() <= 0) {
+			ViewEventController.getInstance().closeNewTaskPanel();
+		}
+	}
 }

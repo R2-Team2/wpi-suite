@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class contains the fields and methods for the Taskstatus.
  *

@@ -6,8 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
-
-
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -15,10 +13,7 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
-// import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitView.
  *

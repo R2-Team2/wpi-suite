@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
  *

@@ -41,7 +41,15 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends AbsView {
 
-    /** The task status obj. */
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return taskStatusObj.toString();
+	}
+
+	/** The task status obj. */
     TaskStatus taskStatusObj;
 
     /** The txtpn title. */
@@ -56,8 +64,7 @@ public class TaskStatusView extends AbsView {
     /**
      * Create the panel.
      *
-     * @param title the title
-     * @param statusType the status type
+     * @param taskStatusObject the Task Status Object
      */
     public TaskStatusView(TaskStatus taskStatusObject) {
 
@@ -98,12 +105,10 @@ public class TaskStatusView extends AbsView {
         initialized = true;
     }
 
-
-    /**
+	/**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
-        // System.out.println("Currently in requestTasksFromDb method");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
 
@@ -182,15 +187,6 @@ public class TaskStatusView extends AbsView {
             }
         }
 
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return taskStatusObj.getName();
     }
 
 }

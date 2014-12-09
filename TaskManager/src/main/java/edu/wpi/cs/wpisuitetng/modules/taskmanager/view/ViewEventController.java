@@ -15,7 +15,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
-// TODO: Auto-generated Javadoc
 /**
  * Provides an interface for interaction with the main GUI elements All actions on GUI elements
  * should be conducted through this controller.
@@ -113,8 +112,6 @@ public class ViewEventController {
         final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
         final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
         main.showViewTaskView(taskView);
-        System.out.println("Open View Task");
-        // taskView.
 
     }
 

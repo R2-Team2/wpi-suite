@@ -7,7 +7,6 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import java.util.ArrayList;
-
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

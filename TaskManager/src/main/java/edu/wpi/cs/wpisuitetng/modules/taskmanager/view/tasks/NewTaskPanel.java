@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
  *
@@ -28,14 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
  */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
-
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
 
     /**
      * Constructor for the NewTaskPanel.

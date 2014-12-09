@@ -38,7 +38,7 @@ public abstract class AbsWorkFlowView extends AbsView {
     /**
      * Constructor for AbsWorkFlowView.
      */
-    public AbsWorkFlowView() {
+    protected AbsWorkFlowView() {
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
         views.add(new TaskStatusView(new TaskStatus("New")));

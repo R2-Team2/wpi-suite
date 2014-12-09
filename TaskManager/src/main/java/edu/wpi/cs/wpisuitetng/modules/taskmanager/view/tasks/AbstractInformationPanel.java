@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
@@ -46,24 +45,27 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
- * The Class AbstractInformationPanel.
+ * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public abstract class AbstractInformationPanel extends JScrollPane {
 
-    /** The parent panel. */
-    protected AbstractTaskPanel parentPanel;
+	/** The parent panel. */
+	protected AbstractTaskPanel parentPanel;
 
-    /** The list of chosen assignees. */
-    protected User[] listOfChosenAssignees = new User[] {};
+	/** The list of chosen assignees. */
+	protected User[] listOfChosenAssignees = new User[] {};
 
-    /** The list of possible assignees. */
-    protected User[] listOfPossibleAssignees = new User[] {};
+	/** The list of possible assignees. */
+	protected User[] listOfPossibleAssignees = new User[] {};
 
     /** The list of statuses. */
-    protected String[] listOfStatuses;
+	protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+        new TaskStatus("Selected for Development").toString(), new TaskStatus("Currently in Development").toString(),
+        new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();
@@ -215,10 +217,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
-        calStartDate.setDate(Calendar.getInstance().getTime());
+        //calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
-        calDueDate.setDate(Calendar.getInstance().getTime());
+        //calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
@@ -463,13 +465,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 class IterationComparator implements Comparator<Iteration> {
     @Override
     public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
         if (I1.getStart() == null) {
-            return -1;
+            result = -1;
         }
-        if (I2.getStart() == null) {
-            return 1;
+        else if (I2.getStart() == null) {
+            result = 1;
         }
-        return I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        else {
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
     }
 }
 
@@ -479,9 +485,9 @@ class IterationComparator implements Comparator<Iteration> {
  * @author Kevin from the requirements manager sorts Requirements by name
  */
 class RequirementComparator implements Comparator<Requirement> {
-    @Override
-    public int compare(Requirement R1, Requirement R2) {
-        return R1.getName().compareTo(R2.getName());
-    }
+	@Override
+	public int compare(Requirement R1, Requirement R2) {
+		return R1.getName().compareTo(R2.getName());
+	}
 
 }
