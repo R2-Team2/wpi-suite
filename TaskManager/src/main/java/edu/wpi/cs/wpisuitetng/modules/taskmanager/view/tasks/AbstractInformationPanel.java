@@ -378,20 +378,11 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     public Date getDueDate() {
         return calDueDate.getDate();
     }
-
-    public void populateUsers(User[] users) {
-    	possibleAssigneeModel.clear();
-    	for (User u: users) {
-    		if (!chosenAssigneeModel.contains(u)) {
-    			possibleAssigneeModel.addElement(u);
-    		}
-    	}
-    }
     
     /**
      * Returns the JList holding the Chosen Members.
      *
-     * @return JList<String>
+     * @return List<String>
      */
     public List<User> getAssignedUsers() {
         List<User> userList = new ArrayList<User>();

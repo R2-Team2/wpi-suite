@@ -8,6 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		this.parentPanel = parentPanel;
 		buildLayout();
 		setupTask();
-		new RetrieveUsersController(this).requestUsers();
+		new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers()).requestUsers();
 		setupListeners();
 	}
 
@@ -51,7 +52,10 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxDescription.setText(parentPanel.aTask.getDescription());
 		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
 		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
-		chosenAssigneeList.setModel(parentPanel.aTask.getAssignedUsers().getModel());
+		for (String username : parentPanel.aTask.getAssignedUsers()) {
+			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+			possibleAssigneeModel.removeElement(username);
+		}
 		calStartDate.setDate(parentPanel.aTask.getStartDate());
 		calDueDate.setDate(parentPanel.aTask.getDueDate());
 		spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
@@ -209,7 +213,11 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		final String requirement = getRequirement().getSelectedItem().toString();
 		final Date startDate = getStartDate();
 		final Date dueDate = getDueDate();
-		final List<User> assignedUsers = getAssignedUsers();
+		final List<String> assignedUsers = new ArrayList<String>();
+		for (User u : getAssignedUsers()) {
+			assignedUsers.add(u.getUsername());
+		}
+		
 		final Task updatedTask;
 		updatedTask =
 				new Task(id, title, description, estimatedEffort, actualEffort, status,

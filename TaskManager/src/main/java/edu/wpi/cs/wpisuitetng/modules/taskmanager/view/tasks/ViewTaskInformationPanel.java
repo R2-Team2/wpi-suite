@@ -24,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 /**
@@ -160,7 +161,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		boxDescription.setText(viewTask.getDescription());
 		dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
 		// requirement
-		chosenAssigneeList = viewTask.getAssignedUsers();
+		for (String username : viewTask.getAssignedUsers()) {
+			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+		}
 		calStartDate.setDate(viewTask.getStartDate());
 		calDueDate.setDate(viewTask.getDueDate());
 		spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());

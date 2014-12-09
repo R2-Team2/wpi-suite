@@ -27,7 +27,7 @@ public class RetrieveUsersRequestObserver implements RequestObserver {
 		// TODO Auto-generated method stub
 		final ResponseModel response = iReq.getResponse();
 		String responseBody = response.getBody();
-		controller.returnUsers(User.fromJsonArray(responseBody));
+		controller.populateList(User.fromJsonArray(responseBody));
 	}
 	@Override
 	public void responseError(IRequest iReq) {

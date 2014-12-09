@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -29,12 +30,10 @@ public class TaskTest {
 
     /** The t1. */
     Task t1;
-
-    /** The u1. */
-    User u1;
-
-    /** The u2. */
-    User u2;
+    
+    /** Test users */
+    String user1;
+    String user2;
 
     /** The date. */
     Date date;
@@ -50,11 +49,11 @@ public class TaskTest {
      */
     @Before
     public void beginTest() {
-        u1 = new User("John Doe", "jdoe", "pswd", 3);
-        u2 = new User("Mark Knights", "mknights", "", 5);
-
-        final List<User> userList = new ArrayList<User>();
-        userList.add(u1);
+    	user1 = "mknightley";
+    	user2 = "jdoe";
+    	
+        final List<String> userList = new ArrayList<String>();
+        userList.add(user1);
         date = new Date();
 
 
@@ -73,7 +72,7 @@ public class TaskTest {
         assertEquals(t1.getTitle(), "Title");
         assertEquals(t1.getDescription(), "Description");
 
-        final JList<User> assignedUsers = t1.getAssignedUsers();
+        final List<String> assignedUsers = t1.getAssignedUsers();
 
         // assertTrue(assignedUsers.contains(u1));
         assertEquals(assignedUsers.size(), 1);
@@ -149,13 +148,13 @@ public class TaskTest {
     @Test
     @Ignore
     public void testAddAssignedUser() {
-        t1.addAssignedUser(u1);
-        // assertTrue(t1.getAssignedUsers().contains(u1));
+        t1.addAssignedUser(user1);
+        assertTrue(t1.getAssignedUsers().contains(user1));
         assertEquals(t1.getAssignedUsers().size(), 1);
 
-        t1.addAssignedUser(u2);
-        // assertTrue(t1.getAssignedUsers().contains(u1));
-        // assertTrue(t1.getAssignedUsers().contains(u2));
+        t1.addAssignedUser(user2);
+        assertTrue(t1.getAssignedUsers().contains(user1));
+        assertTrue(t1.getAssignedUsers().contains(user2));
         assertEquals(t1.getAssignedUsers().size(), 2);
     }
 
@@ -165,19 +164,19 @@ public class TaskTest {
     @Test
     @Ignore
     public void testDeleteUser() {
-        t1.deleteUser(u2.getIdNum());
-        // assertTrue(t1.getAssignedUsers().contains(u1));
+        t1.deleteUser(user2);
+        assertTrue(t1.getAssignedUsers().contains(user1));
         assertEquals(t1.getAssignedUsers().size(), 1);
 
-        t1.deleteUser(u1.getIdNum());
-        // assertFalse(t1.getAssignedUsers().contains(u1));
+        t1.deleteUser(user1);
+        assertFalse(t1.getAssignedUsers().contains(user1));
         assertEquals(t1.getAssignedUsers().size(), 0);
 
-        t1.addAssignedUser(u1);
-        t1.addAssignedUser(u2);
-        t1.deleteUser(u1.getIdNum());
-        // assertTrue(t1.getAssignedUsers().contains(u2));
-        // assertFalse(t1.getAssignedUsers().contains(u1));
+        t1.addAssignedUser(user1);
+        t1.addAssignedUser(user2);
+        t1.deleteUser(user1);
+        assertTrue(t1.getAssignedUsers().contains(4));
+        assertFalse(t1.getAssignedUsers().contains(3));
         assertEquals(t1.getAssignedUsers().size(), 1);
     }
 

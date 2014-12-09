@@ -59,8 +59,8 @@ public class Task extends AbstractModel {
     /** The due date. */
     private Date dueDate;
 
-    /** The assigned users. */
-    private List<User> assignedUsers;
+    /** The IDs of the assigned users. */
+    private List<String> assignedUsers;
 
     /** The activity list. */
     private List<String> activityList;
@@ -85,7 +85,7 @@ public class Task extends AbstractModel {
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
-            List<User> assignedUsers, List<String> activityList) {
+            List<String> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -95,7 +95,7 @@ public class Task extends AbstractModel {
         this.requirement = requirement;
         this.startDate = startDate;
         this.dueDate = dueDate;
-        this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
+        this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
         this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
     }
 
@@ -268,31 +268,31 @@ public class Task extends AbstractModel {
     /**
      * Adds a user to the assigned users. Will not add a user that is already in the list
      *
-     * @param u user to be added
+     * @param user username of user to be added
      */
-    public void addAssignedUser(User u) {
+    public void addAssignedUser(String user) {
         boolean alreadyExists = false;
-        for (User user : assignedUsers) {
-            if (user.getIdNum() == u.getIdNum()) {
+        for (String u : assignedUsers) {
+            if (user.equals(u)) {
                 alreadyExists = true;
                 break;
             }
         }
         if (!alreadyExists) {
-            assignedUsers.add(u);
+            assignedUsers.add(user);
         }
     }
 
     /**
      * Deletes a user, given the user's ID number.
      *
-     * @param id ID number of user to be deleted
-     * @return deletedUser if found, null otherwise
+     * @param user username of user to be deleted
+     * @return username of user if found, -1 otherwise
      */
-    public User deleteUser(int id) {
-        User deletedUser = null;
-        for (User user : assignedUsers) {
-            if (user.getIdNum() == id) {
+    public String deleteUser(String user) {
+        String deletedUser = null;
+        for (String u : assignedUsers) {
+            if (user.equals(u)) {
                 assignedUsers.remove(user);
                 deletedUser = user;
                 break;
@@ -306,14 +306,8 @@ public class Task extends AbstractModel {
      *
      * @return the assigned users
      */
-    public JList<User> getAssignedUsers() {
-        /*
-         * User[] midArry= new User[assignedUsers.size()]; for (int i=0;i< assignedUsers.size();
-         * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
-         * } //returnUsers=midArry;
-         */
-        final JList<User> returnUsers = new JList(assignedUsers.toArray());
-        return returnUsers;
+    public List<String> getAssignedUsers() {
+        return new ArrayList<String>(assignedUsers);
     }
 
     /**
@@ -324,11 +318,11 @@ public class Task extends AbstractModel {
     public String getUserForTaskCard() {
         String user;
         if (assignedUsers.size() > 1) {
-            user = assignedUsers.get(0).getName() + " ...";
+            user = assignedUsers.get(0) + " ...";
         } else if (assignedUsers.size() == 0) {
             user = "";
         } else {
-            user = assignedUsers.get(0).getName();
+            user = assignedUsers.get(0);
         }
         return user;
     }

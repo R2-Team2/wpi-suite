@@ -38,7 +38,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 		// this.setMinimumSize(new Dimension(540, 200));
 
 		buildLayout();
-		new RetrieveUsersController(this).requestUsers();
+		new RetrieveUsersController(possibleAssigneeModel).requestUsers();
 		setupListeners();
 	}
 
