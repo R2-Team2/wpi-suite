@@ -84,7 +84,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JLabel labelStartDate = new JLabel("Start Date:");
 		final JLabel labelRequirement = new JLabel("Requirement: ");
 		final JLabel labelPeople = new JLabel("<html><h3>People</h3></html>");
-		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
 		// TODO use a nice icon
@@ -147,6 +146,20 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(labelPeople, "cell 0 10");
 		contentPanel.add(separator_3, "cell 0 11,grow");
 
+		final JPanel peoplePanel = new JPanel();
+		peoplePanel.setLayout(new MigLayout("", "[][]", "[]"));
+		peoplePanel.add(labelChosenAssignee, "cell 0 0");
+		String usernameString = "";
+		for (String username : viewTask.getAssignedUsers()) {
+			usernameString += (username + ", ");
+		}
+		if (usernameString.length() == 0) {
+			usernameString = "...";
+		} else {
+			usernameString = usernameString.substring(0, usernameString.length() - 2);
+		}
+		peoplePanel.add(new JLabel(usernameString), "cell 1 0");
+		contentPanel.add(peoplePanel, "cell 0 12,grow");
 	}
 
 	/**

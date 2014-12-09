@@ -54,7 +54,6 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
 		for (String username : parentPanel.aTask.getAssignedUsers()) {
 			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
-			possibleAssigneeModel.removeElement(username);
 		}
 		calStartDate.setDate(parentPanel.aTask.getStartDate());
 		calDueDate.setDate(parentPanel.aTask.getDueDate());

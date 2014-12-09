@@ -215,7 +215,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Buttons
         buttonAdd = new JButton(">>");
         buttonRemove = new JButton("<<");
-        buttonRemove.setEnabled(false);
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
