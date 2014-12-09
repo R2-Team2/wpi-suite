@@ -31,13 +31,13 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowSplitTabbedPanel.
  *
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
+@SuppressWarnings("serial")
 public class SettingsSplitTabbedPanel extends JTabbedPane {
 
     /** The popup. */
@@ -64,7 +64,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
     public SettingsSplitTabbedPanel(WorkFlowSplitView parentPanel) {
         this.parentPanel = parentPanel;
         workflowEditView = new WorkFlowEditView();
-        this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         // this.setMaximumSize(new Dimension(100,100));
         closeAll.addActionListener(new ActionListener() {
             @Override
@@ -83,11 +83,11 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
         popup.add(closeAll);
         popup.add(closeOthers);
 
-        this.addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    SettingsSplitTabbedPanel.this.popup.show(e.getComponent(), e.getX(), e.getY());
+                    popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
@@ -101,7 +101,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
         final SettingsSplitTabbedPanel thisPane = this;
         // create a "cross" button
         final JButton tabCloseButton = new JButton("\u2716");
-        tabCloseButton.setActionCommand("" + this.getTabCount());
+        tabCloseButton.setActionCommand("" + getTabCount());
         tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
         tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
@@ -141,7 +141,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
 
         // this part of code manually creates a panel with title and button
         // and adds it to tab component
-        if (this.getTabCount() != 0) {
+        if (getTabCount() != 0) {
             final JPanel panel = new JPanel();
             panel.setOpaque(false);
 
@@ -160,8 +160,8 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
             panel.add(tabCloseButton, gbc);
 
 
-            this.setTabComponentAt(this.getTabCount() - 1, panel);
-            this.setSelectedIndex(this.getTabCount() - 1);
+            setTabComponentAt(getTabCount() - 1, panel);
+            setSelectedIndex(getTabCount() - 1);
         }
     }
 
@@ -169,7 +169,7 @@ public class SettingsSplitTabbedPanel extends JTabbedPane {
      * Check for hide.
      */
     public void checkForHide() {
-        if (this.getTabCount() <= 0) {
+        if (getTabCount() <= 0) {
             ViewEventController.getInstance().closeNewTaskPanel();
         }
     }

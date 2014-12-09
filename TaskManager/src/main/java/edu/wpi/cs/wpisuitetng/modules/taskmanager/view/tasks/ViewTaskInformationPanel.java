@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	
 	private final List<Requirement> requirements = new ArrayList<Requirement>();
@@ -219,40 +220,41 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
-	@Override
-	public Task getTask() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/**
-	 * @return selected requirement object
-	 * @throws Exception
-	 */
-	private Requirement getCurrentRequirement() throws Exception {
-		final String reqName = parentPanel.aTask.getRequirement();
+    @Override
+    public Task getTask() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-		for (Requirement requirement : requirements) {
-			if (requirement.getName().equals(reqName)) {
-				return requirement;
-			}
-		}
+    /**
+     * @return selected requirement object
+     * @throws Exception
+     */
+    private Requirement getCurrentRequirement() throws Exception {
+        final String reqName = parentPanel.aTask.getRequirement();
 
-		throw new Exception("Invalid requirement selected");
-	}
-	
-	/**
-	 * @throws Exception invalid requirement selected
-	 */
-	protected void openRequirement() {
-		try {
-			edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-					.getInstance().editRequirement(getCurrentRequirement());
-			edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
-					.getInstance().openRequirementsTab();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+        for (Requirement requirement : requirements) {
+            if (requirement.getName().equals(reqName)) {
+                return requirement;
+            }
+        }
 
-	}
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @throws Exception invalid requirement selected
+     */
+    @Override
+    protected void openRequirement() {
+        try {
+            edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
+                    .getInstance().editRequirement(getCurrentRequirement());
+            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
+                    .getInstance().openRequirementsTab();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+    }
 }

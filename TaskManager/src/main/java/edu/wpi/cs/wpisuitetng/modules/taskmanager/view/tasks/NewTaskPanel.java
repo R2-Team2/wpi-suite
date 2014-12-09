@@ -10,35 +10,19 @@ import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
-
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
 
     /**
      * Constructor for the NewTaskPanel.

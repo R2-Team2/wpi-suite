@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class contains the fields and methods for the Taskstatus.
  *
@@ -103,7 +102,7 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * return a task from a list
-     * 
+     *
      * @param index the index in the list
      * @return task at that spot in the array
      */
@@ -159,7 +158,7 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * convert from string to taskstatus
-     * 
+     *
      * @param json the string
      * @return the formed taskstatus
      */
@@ -170,7 +169,7 @@ public class TaskStatus extends AbstractModel {
 
     /**
      * update taskstatus objects
-     * 
+     *
      * @param updatedTaskStatus task status to update.
      */
     public void update(TaskStatus updatedTaskStatus) {

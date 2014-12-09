@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Task.
  *

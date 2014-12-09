@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
  *
@@ -61,11 +60,11 @@ public class WorkFlowView extends AbsWorkFlowView {
         final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
 
         taskStatusPanel
-                .setLayout(new MigLayout(
-                        "",
-                        "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                        "[278px,grow 500]"));
+        .setLayout(new MigLayout(
+                "",
+                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
+                "[278px,grow 500]"));
 
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
