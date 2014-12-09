@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 // import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 // import static org.mockito.Mockito.mock;
 import static org.junit.Assert.assertNull;
@@ -94,7 +95,7 @@ public class AbstractInformationPanelTest {
 	}
 
 	/**
-	 * Checks whether dates are not set when creating a tesk
+	 * Checks whether dates are not set when creating a task
 	 */
 	@Test
 	public void datesInitiallyEmptyTest() {
@@ -103,6 +104,32 @@ public class AbstractInformationPanelTest {
 
 		assertNull(ntip.calDueDate.getDate());
 		assertNull(ntip.calStartDate.getDate());
+	}
+
+	/**
+	 * Checks whether the calendar image can be loaded.
+	 */
+	@Test
+	public void taskInfoValidationTest() {
+		final NewTaskPanel ntp = new NewTaskPanel();
+		final NewTaskInformationPanel newTaskInfoPanel = new NewTaskInformationPanel(ntp);
+		final NewTaskButtonPanel ntbp = new NewTaskButtonPanel(ntp);
+
+		newTaskInfoPanel.boxTitle.setText("  ");
+		newTaskInfoPanel.boxDescription.setText("sss");
+		assertFalse("Whitespace task title", ntbp.validateTaskInfo());
+
+		newTaskInfoPanel.boxTitle.setText("");
+		newTaskInfoPanel.boxDescription.setText("sss");
+		assertFalse("Empty task title", ntbp.validateTaskInfo());
+
+		newTaskInfoPanel.boxTitle.setText("sss");
+		newTaskInfoPanel.boxDescription.setText("");
+		assertFalse("Empty task description", ntbp.validateTaskInfo());
+
+		newTaskInfoPanel.boxTitle.setText("sss");
+		newTaskInfoPanel.boxDescription.setText("   ");
+		assertFalse("Whitespace task description", ntbp.validateTaskInfo());
 	}
 
 	// /**

@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
 /**
- * The Class NewTaskInformationPanel.
+ * The Class NewTaskInformationPanel. <<<<<<< HEAD ======= >>>>>>> refs/heads/develop
  * 
  * @author R2-Team2
  * @version $Revision: 1.0 $

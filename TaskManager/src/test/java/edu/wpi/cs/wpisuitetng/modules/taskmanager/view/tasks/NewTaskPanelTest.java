@@ -9,6 +9,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
@@ -66,6 +67,8 @@ public class NewTaskPanelTest {
 		final NewTaskPanel NTP = new NewTaskPanel(null);
 		NTP.infoPanel.getTitle().setText("Title");
 		NTP.infoPanel.getDescription().setText("Description");
+		NTP.infoPanel.calStartDate.setDate(Calendar.getInstance().getTime());
+		NTP.infoPanel.calDueDate.setDate(Calendar.getInstance().getTime());
 		NTP.buttonPanel.validateTaskInfo();
 		assertTrue(NTP.buttonPanel.buttonCreate.isEnabled());
 	}
