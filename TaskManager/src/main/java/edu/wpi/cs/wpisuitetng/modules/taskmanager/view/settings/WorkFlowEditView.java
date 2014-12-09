@@ -169,7 +169,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateNewStatusTitleField()) {
-                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
+                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField
+                            .getText())));
                     clearNewStatusFields();
                 }
                 refresh();
@@ -316,8 +317,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private void validateNewStatusFields() {
         if (validateNewStatusTitleField() && validateNewStatusTypeField()) {
             addButton.setEnabled(true);
-        }
-        else {
+        } else {
             addButton.setEnabled(false);
         }
     }
@@ -331,9 +331,9 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         return !(newStatusTypeField.getText().length() <= 0);
     }
 
-	@Override
-	public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        // TODO Auto-generated method stub
+
+    }
 }

@@ -33,13 +33,13 @@ public class RetrieveWorkflowController {
         Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
         request.addObserver(new RetrieveWorkflowRequestObserver(this));
         request.send();
-        
+
     }
 
     public void displayWorkflow(WorkFlow[] workFlowObj) {
         view.setWorkFlowObj(workFlowObj[0]);
         WorkFlowView.getInstance().setWorkFlowObj(workFlowObj[0]);
-        System.out.println("WorkFlowObject: " + workFlowObj[0].toJson());
-        //return view.getWorkFlowObj();
+        // System.out.println("WorkFlowObject: " + workFlowObj[0].toJson());
+        // return view.getWorkFlowObj();
     }
 }

@@ -62,11 +62,12 @@ public class WorkFlowView extends AbsWorkFlowView {
         // JScrollPane scrollPane = new JScrollPane();
         // this.add(scrollPane, BorderLayout.SOUTH
 
+        instance = this;
     }
 
     public void rebuildWF() {
 
-        getWorkFlowFromDB();
+        // getWorkFlowFromDB();
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
@@ -79,17 +80,24 @@ public class WorkFlowView extends AbsWorkFlowView {
         // retrieve task status objects
         RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
         retrieveTS.requestTaskStatuses();
+        System.out.println("Begin Building TS Views.");
+        if (statuses.size() > 0) {
+            System.out.println(statuses.size());
+            for (int i = 0; i < statuses.size(); i++) {
+                TaskStatusView aView =
+                        new TaskStatusView(new TaskStatus(statuses.get(i).getName()));
+                aView.setTaskStatusObj(statuses.get(i));
+                // System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
+                taskStatusPanel.add(aView, "cell " + i + " 0,grow");
+                views.add(aView);
+            }
 
-        for (int i = 0; i < statuses.size(); i++) {
-            TaskStatusView aView = new TaskStatusView(new TaskStatus(null));
-            aView.setTaskStatusObj(statuses.get(i));
-            System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
-            taskStatusPanel.add(aView, "cell " + i + " 0,grow");
-            views.add(aView);
+            System.out.println("Finished build of View, # Views: " + taskStatusPanel.size());
+            ViewEventController.getInstance().setWorkFlowView(this);
+        } else {
+            System.out.println("Currently No Statuses");
+            rebuildWF();
         }
-
-        ViewEventController.getInstance().setWorkFlowView(this);
-
     }
 
     /**
@@ -156,7 +164,8 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     @Override
     public void refresh() {
-        // rebuildWF();
+        getWorkFlowFromDB();
+        rebuildWF();
         /*
          * for (TaskStatusView v : views) { v.getTasksFromDb(); }
          */
