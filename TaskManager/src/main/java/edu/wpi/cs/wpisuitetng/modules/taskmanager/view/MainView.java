@@ -26,6 +26,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.reports.TaskListView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
@@ -56,7 +57,11 @@ public class MainView extends JTabbedPane {
 	/** The Settings view. */
 	private final JScrollPane settingsView;
 
+	private final JScrollPane reportsView;
+
 	private final WorkFlowEditView editWorkFlowView = new WorkFlowEditView();
+
+	private final TaskListView taskListView = new TaskListView();
 
 
 	/**
@@ -64,6 +69,8 @@ public class MainView extends JTabbedPane {
 	 */
 	public MainView() {
 		settingsView = new JScrollPane(editWorkFlowView);
+		// not sure if correct
+		reportsView = new JScrollPane(taskListView);
 		setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		closeAll.addActionListener(new ActionListener() {
 			@Override
@@ -121,9 +128,84 @@ public class MainView extends JTabbedPane {
 		setSelectedComponent(workflow);
 	}
 
+	/**
+	 * Task list view in reports.
+	 */
 	public void taskListView() {
-		// DANIEL FOX, do some stuff here
+		if (!isTabAlreadyOpen(reportsView)) {
+			this.addTab("Task List View", null, reportsView, null);
+
+			final MainView thisPane = this;
+
+			// create a "close" button
+			final JButton tabCloseButton = new JButton("\u2716");
+			tabCloseButton.setActionCommand("" + getTabCount());
+			tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
+			tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
+
+			final ActionListener closeButtonListener;
+			closeButtonListener = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent action) {
+
+					// get button which was clicked
+					JButton tmpButton = (JButton) action.getSource();
+
+					// get previously defined action command (sort of identifier)
+					final String clickedActionCommand = tmpButton.getActionCommand();
+
+					// for all tabs in tabpane
+					for (int i = 1; i < thisPane.getTabCount(); i++) {
+
+						// get a panel of current tab component
+						JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
+
+						// take a button from it
+						tmpButton = (JButton) tabPanel.getComponent(i);
+
+						// retrieve its action command
+						String actualActionCommand = tmpButton.getActionCommand();
+
+						// if this command is equal to that of clicked button, then we've found our
+						// tab
+						if (clickedActionCommand.equals(actualActionCommand)) {
+							thisPane.removeTabAt(i); // and we remove it
+							thisPane.checkForHide();
+							break;
+						}
+					}
+				}
+			};
+			tabCloseButton.addActionListener(closeButtonListener);
+
+			// this part of code manually creates a panel with title and button
+			// and adds it to tab component
+			if (getTabCount() != 0) {
+				final JPanel panel = new JPanel();
+				panel.setOpaque(false);
+
+				final JLabel lblTitle = new JLabel("Task List");
+				lblTitle.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
+
+				final GridBagConstraints gbc = new GridBagConstraints();
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+				gbc.weightx = 1;
+
+				panel.add(lblTitle, gbc);
+
+				gbc.gridx++;
+				gbc.weightx = 0;
+				panel.add(tabCloseButton, gbc);
+
+
+				setTabComponentAt(getTabCount() - 1, panel);
+				setSelectedIndex(getTabCount() - 1);
+				setSelectedComponent(taskListView);
+			}
+		}
 	}
+
 
 	/**
 	 * Edits the work flow view.
@@ -221,7 +303,7 @@ public class MainView extends JTabbedPane {
 
 	/**
 	 * Show view task view.
-	 * 
+	 *
 	 * @param aPanel is the panel to be created.
 	 */
 	public void showViewTaskView(AbstractTaskPanel aPanel) {

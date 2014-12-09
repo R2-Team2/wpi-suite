@@ -92,6 +92,9 @@ public class ViewEventController {
 
 	}
 
+	/**
+	 * Task list view for reports.
+	 */
 	public void taskListView() {
 		main.taskListView();
 	}

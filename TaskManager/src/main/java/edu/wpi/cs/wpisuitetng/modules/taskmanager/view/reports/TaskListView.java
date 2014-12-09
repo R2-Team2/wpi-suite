@@ -8,13 +8,11 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.reports;
 
 import java.awt.Font;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
 /**
@@ -23,25 +21,30 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class TaskListView {
+public class TaskListView extends JPanel {
 	private final JScrollPane TaskList = new JScrollPane();
 
 	public TaskListView() {
 
-		buildLayout();
-	}
-
-	protected void buildLayout() {
-
-		String labels[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-		ArrayList<Task> tasks = null;
-		JList list = new JList(labels);
+		// this is a test and will be changed soon (hopefully)
+		final String labels[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+		// should not be null
+		// final List<Task> tasks = null;
+		final JList<String> list = new JList<String>(labels);
 		TaskList.setViewportView(list);
 
 		final JLabel lblAllTasks = new JLabel("<html><h1>" + "All Tasks" + "</h1></html>");
 		// JLabel lblAllTasks = new JLabel("All Tasks");
 		lblAllTasks.setFont(new Font("Tahoma", Font.BOLD, 14));
 		TaskList.setColumnHeaderView(lblAllTasks);
+
+		buildLayout();
+	}
+
+	/**
+	 * Builds the layout.
+	 */
+	protected void buildLayout() {
 
 	}
 }

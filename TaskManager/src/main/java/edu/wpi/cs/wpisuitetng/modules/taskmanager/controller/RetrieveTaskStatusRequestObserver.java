@@ -10,7 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;

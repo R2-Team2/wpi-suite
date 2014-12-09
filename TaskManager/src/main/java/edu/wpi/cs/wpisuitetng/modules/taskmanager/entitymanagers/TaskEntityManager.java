@@ -6,7 +6,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
-import java.util.Date;
+
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
