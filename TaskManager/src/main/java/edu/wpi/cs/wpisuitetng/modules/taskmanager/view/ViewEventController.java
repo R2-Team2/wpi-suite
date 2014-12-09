@@ -16,7 +16,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
-// TODO: Auto-generated Javadoc
 /**
  * Provides an interface for interaction with the main GUI elements All actions on GUI elements
  * should be conducted through this controller.
