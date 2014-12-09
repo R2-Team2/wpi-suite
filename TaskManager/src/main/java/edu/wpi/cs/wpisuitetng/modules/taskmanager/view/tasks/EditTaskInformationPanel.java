@@ -69,17 +69,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 		});
 
@@ -135,17 +135,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 		});
 
@@ -156,17 +156,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxDescription.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 		});
 
@@ -176,7 +176,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		dropdownStatus.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
+				parentPanel.buttonPanel.isTaskInfoValid();
 			}
 		});
 

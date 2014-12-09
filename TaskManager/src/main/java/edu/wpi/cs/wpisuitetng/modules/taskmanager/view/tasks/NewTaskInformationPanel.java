@@ -28,165 +28,156 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
 
-	/**
-	 * Constructor for NewTaskInformationPanel.
-	 *
-	 * @param parentPanel the parent panel
-	 */
-	public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
-		this.parentPanel = parentPanel;
-		// this.setMinimumSize(new Dimension(540, 200));
+    /**
+     * Constructor for NewTaskInformationPanel.
+     *
+     * @param parentPanel the parent panel
+     */
+    public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
+        this.parentPanel = parentPanel;
+        // this.setMinimumSize(new Dimension(540, 200));
 
-		buildLayout();
-		new RetrieveUsersController(possibleAssigneeModel).requestUsers();
-		setupListeners();
-	}
+        buildLayout();
+        new RetrieveUsersController(possibleAssigneeModel).requestUsers();
+        setupListeners();
+    }
 
-	/**
-	 * Sets up listeners for text validation.
-	 */
-	protected void setupListeners() {
-		// Text Field Listeners
-		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
+    /**
+     * Sets up listeners for text validation.
+     */
+    protected void setupListeners() {
+        // Text Field Listeners
+        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-		});
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
 		buttonAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!possibleAssigneeList.isSelectionEmpty()) {
+					int[] toAdd = possibleAssigneeList.getSelectedIndices();
+					for (int i = toAdd.length - 1; i >= 0; i--) {
+						User transfer = possibleAssigneeModel.remove(toAdd[i]);
+						chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+					}
+					if (possibleAssigneeModel.size() == 0) {
+						buttonAdd.setEnabled(false);
+					}
+					if (chosenAssigneeModel.size() > 0) {
+						buttonRemove.setEnabled(true);
+					}
+				}
+			}
+		});
+
+		buttonRemove.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!chosenAssigneeList.isSelectionEmpty()) {
+					int[] toRemove = chosenAssigneeList.getSelectedIndices();
+					for (int i = toRemove.length - 1; i >= 0; i--) {
+						User transfer = chosenAssigneeModel.remove(toRemove[i]);
+						possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+					}
+					if (chosenAssigneeModel.size() == 0) {
+						buttonRemove.setEnabled(false);
+					}
+					if (possibleAssigneeModel.size() > 0) {
+						buttonAdd.setEnabled(true);
+					}
+				}
+			}
+
+		});
+
+        /**
+         * Text Field (Title) Listeners
+         */
+        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!possibleAssigneeList.isSelectionEmpty()) {
-                    int[] toAdd = possibleAssigneeList.getSelectedIndices();
-                    for (int i = toAdd.length - 1; i >= 0; i--) {
-                        User transfer = possibleAssigneeModel.remove(toAdd[i]);
-                        chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
-                    }
-                    if (possibleAssigneeModel.size() == 0) {
-                        buttonAdd.setEnabled(false);
-                    }
-                    if (chosenAssigneeModel.size() > 0) {
-                        buttonRemove.setEnabled(true);
-                    }
-                }
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
-        buttonRemove.addActionListener(new ActionListener() {
+
+        /**
+         * Text Field (Description) Listeners
+         */
+        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!chosenAssigneeList.isSelectionEmpty()) {
-                    int[] toRemove = chosenAssigneeList.getSelectedIndices();
-                    for (int i = toRemove.length - 1; i >= 0; i--) {
-                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
-                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
-                    }
-                    if (chosenAssigneeModel.size() == 0) {
-                        buttonRemove.setEnabled(false);
-                    }
-                    if (possibleAssigneeModel.size() > 0) {
-                        buttonAdd.setEnabled(true);
-                    }
-                }
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
         });
 
+        /**
+         * Start Calendar Listener
+         */
+        calStartDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
-		/**
-		 * Text Field (Title) Listeners
-		 */
-		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
+        /**
+         * Due Calendar Listener
+         */
+        calDueDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
+        buttonOpenRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.infoPanel.openRequirement();
+            }
+        });
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-		});
+    }
 
-
-		/**
-		 * Text Field (Description) Listeners
-		 */
-		boxDescription.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-		});
-
-		/**
-		 * Start Calendar Listener
-		 */
-		calStartDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskDate();
-			}
-		});
-
-		/**
-		 * Due Calendar Listener
-		 */
-		calDueDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskDate();
-			}
-		});
-
-		/**
-		 * Status combo-box Listener
-		 */
-		dropdownStatus.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskInfo();
-			}
-		});
-
-		buttonOpenRequirement.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.infoPanel.openRequirement();
-			}
-		});
-
-	}
-
-	@Override
-	public Task getTask() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Task getTask() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

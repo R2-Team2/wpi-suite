@@ -23,7 +23,7 @@ public class IDNum extends AbstractModel {
 
     private long Num;
     private static Data db = null;
-    final private int id;
+    private final int id;
 
 
     /**
@@ -72,7 +72,7 @@ public class IDNum extends AbstractModel {
      */
     public long getAndIncID() {
         final long oldIDNum = Num;
-        Num = Num + 1;
+        Num += 1;
 
         IDNum.db.save(this);
         // IDNum.db.update(IDNum.class, "id", 0, "Num", this.Num);
