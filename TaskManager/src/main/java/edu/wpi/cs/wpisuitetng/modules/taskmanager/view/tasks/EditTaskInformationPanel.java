@@ -15,6 +15,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
@@ -37,6 +38,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		this.parentPanel = parentPanel;
 		buildLayout();
 		setupTask();
+		new RetrieveUsersController(this).requestUsers();
 		setupListeners();
 	}
 
@@ -49,7 +51,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxDescription.setText(parentPanel.aTask.getDescription());
 		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
 		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
-		chosenAssigneeList = parentPanel.aTask.getAssignedUsers();
+		chosenAssigneeList.setModel(parentPanel.aTask.getAssignedUsers().getModel());
 		calStartDate.setDate(parentPanel.aTask.getStartDate());
 		calDueDate.setDate(parentPanel.aTask.getDueDate());
 		spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
@@ -79,77 +81,43 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		});
 
 		buttonAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// if(!listPossibleAssignees.isSelectionEmpty()) {
-				// String[] a = listOfPossibleAssignees;
-				// String[] b = listOfChosenAssignees;
-				// int[] c = listPossibleAssignees.getSelectedIndices();
-				// String[] tempA = new String[a.length - c.length];
-				// String[] tempB = new String[b.length + c.length];
-				// for(int i = 0; i < b.length; i++) {
-				// tempB[i] = b[i];
-				// }
-				// int counterA = 0;
-				// int counterB = b.length;
-				// for(int i = 0; i < a.length; i++) {
-				// boolean canAdd = true;
-				// for(int x : c) {
-				// if(x == i) {
-				// tempB[counterB] = a[i];
-				// counterB++;
-				// }
-				// else {
-				// tempA[counterA] = a[i];
-				// counterA++;
-				// }
-				// }
-				// }
-				// listOfPossibleAssignees = tempA;
-				// listOfChosenAssignees = tempB;
-				// //Repaint the GUI
-				// listChosenAssignees.repaint();
-				// listPossibleAssignees.repaint();
-				// }
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    int[] toAdd = possibleAssigneeList.getSelectedIndices();
+                    for (int i = toAdd.length - 1; i >= 0; i--) {
+                        User transfer = possibleAssigneeModel.remove(toAdd[i]);
+                        chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+                    }
+                    if (possibleAssigneeModel.size() == 0) {
+                        buttonAdd.setEnabled(false);
+                    }
+                    if (chosenAssigneeModel.size() > 0) {
+                        buttonRemove.setEnabled(true);
+                    }
+                }
+            }
+        });
 
-		buttonRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// if(!listChosenAssignees.isSelectionEmpty()) {
-				// String[] a = listOfChosenAssignees;
-				// String[] b = listOfPossibleAssignees;
-				// int[] c = listChosenAssignees.getSelectedIndices();
-				// String[] tempA = new String[a.length - c.length];
-				// String[] tempB = new String[b.length + c.length];
-				// for(int i = 0; i < b.length; i++) {
-				// tempB[i] = b[i];
-				// }
-				// int counterA = 0;
-				// int counterB = b.length;
-				// for(int i = 0; i < a.length; i++) {
-				// boolean canAdd = true;
-				// for(int x : c) {
-				// if(x == i) {
-				// tempB[counterB] = a[i];
-				// counterB++;
-				// }
-				// else {
-				// tempA[counterA] = a[i];
-				// counterA++;
-				// }
-				// }
-				// }
-				// listOfPossibleAssignees = tempB;
-				// listOfChosenAssignees = tempA;
-				// //Repaint the GUI
-				// listChosenAssignees.repaint();
-				// listPossibleAssignees.repaint();
-				// }
-			}
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!chosenAssigneeList.isSelectionEmpty()) {
+                    int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+                    }
+                    if (chosenAssigneeModel.size() == 0) {
+                        buttonRemove.setEnabled(false);
+                    }
+                    if (possibleAssigneeModel.size() > 0) {
+                        buttonAdd.setEnabled(true);
+                    }
+                }
+            }
 
-		});
+        });
 
 		buttonOpenRequirement.addActionListener(new ActionListener() {
 			@Override

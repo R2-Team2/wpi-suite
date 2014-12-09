@@ -32,11 +32,11 @@ public class RetrieveUsersRequestObserver implements RequestObserver {
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
-		System.err.println("The request to get tasks failed.");
+		System.err.println("The request to get users failed.");
 	}
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-		System.err.println("The request to get tasks failed.");
+		System.err.println("The request to get users failed.");
 	}
 }

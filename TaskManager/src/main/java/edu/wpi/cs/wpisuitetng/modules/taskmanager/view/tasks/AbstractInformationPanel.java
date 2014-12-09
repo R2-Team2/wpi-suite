@@ -382,7 +382,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     public void populateUsers(User[] users) {
     	possibleAssigneeModel.clear();
     	for (User u: users) {
-    	possibleAssigneeModel.addElement(u);
+    		if (!chosenAssigneeModel.contains(u)) {
+    			possibleAssigneeModel.addElement(u);
+    		}
     	}
     }
     
