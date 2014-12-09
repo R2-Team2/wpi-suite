@@ -10,15 +10,23 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Request observer for the RetrieveUsersController
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class RetrieveUsersRequestObserver implements RequestObserver {
 
 	private final RetrieveUsersController controller;
 
+	/**
+	 * Creates an observer with a reference back to the controller
+	 * @param controller
+	 */
 	public RetrieveUsersRequestObserver(RetrieveUsersController controller) {
 		this.controller = controller;
 	}
@@ -26,7 +34,7 @@ public class RetrieveUsersRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// TODO Auto-generated method stub
 		final ResponseModel response = iReq.getResponse();
-		String responseBody = response.getBody();
+		final String responseBody = response.getBody();
 		controller.populateList(User.fromJsonArray(responseBody));
 	}
 	@Override

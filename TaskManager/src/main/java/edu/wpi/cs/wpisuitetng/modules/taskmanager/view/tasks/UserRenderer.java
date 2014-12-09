@@ -12,15 +12,17 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * Custom cell renderer for lists of Users. This changes the text that JLists
+ *   displays for Users to username instead of the output of .toString()
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class UserRenderer extends DefaultListCellRenderer {
-	
-	public UserRenderer() {}
 
 	@Override
 	public Component getListCellRendererComponent(JList<?> list,

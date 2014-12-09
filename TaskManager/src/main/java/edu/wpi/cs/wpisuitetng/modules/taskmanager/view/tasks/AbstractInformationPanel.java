@@ -7,12 +7,10 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
@@ -31,8 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
@@ -41,15 +37,13 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
@@ -202,7 +196,7 @@ public class AbstractInformationPanel extends JScrollPane {
 		dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
 		dropdownStatus.setEnabled(true);
 		dropdownStatus.setBackground(Color.WHITE);
-		// Lists & Models
+		// Lists and Models
 		chosenAssigneeModel = new DefaultListModel<User>();
 		chosenAssigneeList = new JList<User>(chosenAssigneeModel);
 		chosenAssigneeList.setCellRenderer(new UserRenderer());
@@ -383,7 +377,7 @@ public class AbstractInformationPanel extends JScrollPane {
 	 * @return List<User>
 	 */
 	public List<User> getAssignedUsers() {
-		List<User> userList = new ArrayList<User>();
+		final List<User> userList = new ArrayList<User>();
         for (int i = 0; i < chosenAssigneeModel.size(); i++) {
             userList.add(chosenAssigneeModel.elementAt(i));
         }

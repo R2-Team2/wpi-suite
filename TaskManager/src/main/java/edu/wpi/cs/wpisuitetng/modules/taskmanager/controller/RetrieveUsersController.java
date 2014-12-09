@@ -18,32 +18,64 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * Controller used to populate lists of Users from the server database
+ * @author R2-Team2
+ * @version $Revision: 1.0 $
+ */
 public class RetrieveUsersController {
 
 	private DefaultListModel<User> model;
 	private List<String> filter;
 
+	/**
+	 * Constructor for RetrieveUsersController.
+	 * @param model The list model for retrieved users to be put in
+	 */
 	public RetrieveUsersController(DefaultListModel<User> model) {
 		this(model, null);
 	}
 	
+	/**
+	 * If given a filter, RetrieveUsersController will disallow these
+	 * 	from the list model
+	 * @param model The list model for retrieved users to be put in
+	 * @param filter Usernames to be left out of the list model
+	 */
 	public RetrieveUsersController(DefaultListModel<User> model, List<String> filter) {
 		this.model = model;
 		this.filter = filter;
 	}
 
-	public void requestUsers() {
-		Request request = Network.getInstance().makeRequest("core/user", HttpMethod.GET);
+	/**
+	 * Calling this method sends a request to the database to retrieve
+	 *   all Users.
+	 */
+	public void requestAllUsers() {
+		final Request request = Network.getInstance()
+				.makeRequest("core/user", HttpMethod.GET);
 		request.addObserver(new RetrieveUsersRequestObserver(this));
 		request.send();
 	}
 	
+	/**
+	 * Calling this method sends a request to the database to retrieve
+     *   the User with the given username
+	 * @param username String
+	 */
 	public void requestUser(String username) {
-		Request request = Network.getInstance().makeRequest("core/user/" + username, HttpMethod.GET);
+		final Request request = Network.getInstance()
+				.makeRequest("core/user/" + username, HttpMethod.GET);
 		request.addObserver(new RetrieveUsersRequestObserver(this));
 		request.send();
 	}
 
+	/**
+     * Populates the model list provided initially with the users
+     *   retrieved from the database. This method is called by the
+	 *   request observer with the response from the server.
+	 * @param userArray the array of Users from the database
+	 */
 	public void populateList(User[] userArray) {
 	    for (User u : userArray) {
     		model.addElement(u);

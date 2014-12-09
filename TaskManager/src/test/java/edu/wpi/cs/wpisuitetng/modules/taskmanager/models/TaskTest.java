@@ -14,13 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JList;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * @author R2-Team2

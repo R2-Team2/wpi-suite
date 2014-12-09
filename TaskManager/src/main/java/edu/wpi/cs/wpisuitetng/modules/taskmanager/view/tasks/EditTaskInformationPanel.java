@@ -39,7 +39,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		this.parentPanel = parentPanel;
 		buildLayout();
 		setupTask();
-		new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers()).requestUsers();
+		new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
+				.requestAllUsers();
 		setupListeners();
 	}
 
@@ -87,7 +88,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!possibleAssigneeList.isSelectionEmpty()) {
-                    int[] toAdd = possibleAssigneeList.getSelectedIndices();
+                    final int[] toAdd = possibleAssigneeList.getSelectedIndices();
                     for (int i = toAdd.length - 1; i >= 0; i--) {
                         User transfer = possibleAssigneeModel.remove(toAdd[i]);
                         chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
@@ -106,7 +107,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!chosenAssigneeList.isSelectionEmpty()) {
-                    int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
                     for (int i = toRemove.length - 1; i >= 0; i--) {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);

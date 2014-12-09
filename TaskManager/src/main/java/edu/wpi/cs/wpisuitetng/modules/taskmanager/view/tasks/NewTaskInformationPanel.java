@@ -38,7 +38,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         // this.setMinimumSize(new Dimension(540, 200));
 
         buildLayout();
-        new RetrieveUsersController(possibleAssigneeModel).requestUsers();
+        new RetrieveUsersController(possibleAssigneeModel).requestAllUsers();
         setupListeners();
     }
 
@@ -68,7 +68,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!possibleAssigneeList.isSelectionEmpty()) {
-					int[] toAdd = possibleAssigneeList.getSelectedIndices();
+					final int[] toAdd = possibleAssigneeList.getSelectedIndices();
 					for (int i = toAdd.length - 1; i >= 0; i--) {
 						User transfer = possibleAssigneeModel.remove(toAdd[i]);
 						chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
@@ -87,7 +87,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!chosenAssigneeList.isSelectionEmpty()) {
-					int[] toRemove = chosenAssigneeList.getSelectedIndices();
+					final int[] toRemove = chosenAssigneeList.getSelectedIndices();
 					for (int i = toRemove.length - 1; i >= 0; i--) {
 						User transfer = chosenAssigneeModel.remove(toRemove[i]);
 						possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
