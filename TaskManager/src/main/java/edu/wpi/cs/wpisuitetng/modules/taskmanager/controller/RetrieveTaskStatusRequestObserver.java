@@ -6,7 +6,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
+import java.util.ArrayList;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -30,10 +33,16 @@ public class RetrieveTaskStatusRequestObserver implements RequestObserver {
 
     @Override
     public void responseSuccess(IRequest iReq) {
-        System.out.println("The request to retrieve TaskStatuses was successful.");
         final ResponseModel response = iReq.getResponse();
         final String responseBody = response.getBody();
-        controller.displayTaskStatuses(TaskStatus.fromJsonArray(responseBody));
+        System.out.println(responseBody);
+        TaskStatus[] tsArry = TaskStatus.fromJsonArray(responseBody);
+        controller.displayTaskStatuses(tsArry);
+        ArrayList<TaskStatus> tsList = new ArrayList<TaskStatus>();
+        for (int i = 0; i < tsArry.length; i++) {
+            tsList.add(tsArry[i]);
+        }
+        WorkFlowView.getInstance().setStatuses(tsList);
     }
 
     @Override

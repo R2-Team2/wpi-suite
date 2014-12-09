@@ -21,7 +21,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
  * The Class TaskEntityManager.
@@ -43,50 +42,46 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     }
 
     @Override
-    public TaskStatus makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public TaskStatus makeEntity(Session s, String content) throws WPISuiteException {
         TaskStatus newTaskStatus = TaskStatus.fromJson(content);
-        
-        List<Model> idList = db.retrieveAll(new IDNum(this.db));
-        
+
+        List<Model> idList = db.retrieveAll(new IDNum(db));
+
         IDNum[] idArry = idList.toArray(new IDNum[0]);
-		if(idArry.length == 0)
-		{
-			System.out.println("Creating new IDNum object");
-			//Initialize ID
-			IDNum idStore = new IDNum(db);
-			db.save(idStore);
-			
-			newTaskStatus.setTaskStatusID(idStore.getAndIncID());
-			System.out.println("gave task new id: " + newTaskStatus.toJson());
-			
-			if (!db.save(newTaskStatus, s.getProject())) {
-				throw new WPISuiteException("Unable to save TNG");
-			}
-			
-			db.save(newTaskStatus, s.getProject());
-			
-			return newTaskStatus;
-		}
-		else
-		{
-			System.out.println("retrieved id list");
-			System.out.println("id object: " + idArry[0].toJson());
-			newTaskStatus.setTaskStatusID(idArry[0].getAndIncID());
+        if (idArry.length == 0) {
+            System.out.println("Creating new IDNum object");
+            // Initialize ID
+            IDNum idStore = new IDNum(db);
+            db.save(idStore);
 
-			System.out.println("id: " + idList.get(0).toJson());
+            newTaskStatus.setTaskStatusID(idStore.getAndIncID());
+            System.out.println("gave task new id: " + newTaskStatus.toJson());
+
+            if (!db.save(newTaskStatus, s.getProject())) {
+                throw new WPISuiteException("Unable to save TNG");
+            }
+
+            db.save(newTaskStatus, s.getProject());
+
+            return newTaskStatus;
+        } else {
+            System.out.println("retrieved id list");
+            System.out.println("id object: " + idArry[0].toJson());
+            newTaskStatus.setTaskStatusID(idArry[0].getAndIncID());
+
+            System.out.println("id: " + idList.get(0).toJson());
 
 
-			//IDNum idObj[] = idList.toArray(new IDNum[0]);
+            // IDNum idObj[] = idList.toArray(new IDNum[0]);
 
-			if (!db.save(newTaskStatus, s.getProject())) {
-				throw new WPISuiteException("Unable to save TNG");
-			}
+            if (!db.save(newTaskStatus, s.getProject())) {
+                throw new WPISuiteException("Unable to save TNG");
+            }
 
-			db.save(newTaskStatus, s.getProject());
-			System.out.println("New Message TaskID: " + newTaskStatus.getTaskStatusID());
-			return newTaskStatus;
-		}
+            db.save(newTaskStatus, s.getProject());
+            System.out.println("New Message TaskID: " + newTaskStatus.getTaskStatusID());
+            return newTaskStatus;
+        }
     }
 
     /*
@@ -95,9 +90,8 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * java.lang.String)
      */
     @Override
-    public TaskStatus[] getEntity(Session s, String id) throws NotFoundException,
-            WPISuiteException {
-    	
+    public TaskStatus[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
+        System.out.println("get entity task statuses");
         List<Model> taskstatuses =
                 db.retrieve(TaskStatus.class, "taskStatusID", Integer.parseInt(id), s.getProject());
         return taskstatuses.toArray(new TaskStatus[0]);
@@ -111,11 +105,12 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      */
     @Override
     public TaskStatus[] getAll(Session s) {
-        // Retrieve all TaskStatus (no arguments specified)
-        final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+        // Retrieve all TaskStatus (no arguments specified
+        final List<Model> taskStatuses = db.retrieveAll(new TaskStatus(null), s.getProject());
+        System.out.println("get all task statuses");
 
         // Convert the List into an array
-        return workflows.toArray(new TaskStatus[0]);
+        return taskStatuses.toArray(new TaskStatus[0]);
     }
 
     /*

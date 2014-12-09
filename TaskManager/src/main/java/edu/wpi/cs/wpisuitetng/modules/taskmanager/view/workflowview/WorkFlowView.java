@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusC
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
@@ -66,15 +65,15 @@ public class WorkFlowView extends AbsWorkFlowView {
     }
 
     public void rebuildWF() {
-        System.out.println("Rebuilding workflow");
+
         getWorkFlowFromDB();
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
         taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
 
         // retrieve task status objects
@@ -82,12 +81,13 @@ public class WorkFlowView extends AbsWorkFlowView {
         retrieveTS.requestTaskStatuses();
 
         for (int i = 0; i < statuses.size(); i++) {
-            System.out.println("Building Task Status Views");
             TaskStatusView aView = new TaskStatusView(new TaskStatus(null));
             aView.setTaskStatusObj(statuses.get(i));
+            System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
             taskStatusPanel.add(aView, "cell " + i + " 0,grow");
             views.add(aView);
         }
+
         ViewEventController.getInstance().setWorkFlowView(this);
 
     }

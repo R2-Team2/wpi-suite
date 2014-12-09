@@ -33,226 +33,222 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
  */
 public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
-	final private Data db;
+    final private Data db;
 
-	public WorkFlowEntityManager(Data db) {
-		this.db = db;
-	}
+    public WorkFlowEntityManager(Data db) {
+        this.db = db;
+    }
 
-	@Override
-	public WorkFlow makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
-		System.out.println("Running Make Entity on WF");
-		WorkFlow newWorkFlow = WorkFlow.fromJson(content);
-		if(newWorkFlow.getTaskStatusList()==null){
-			WorkFlow defaultWF = newWorkFlow;
-			
-			//Initialize ID
-			IDNum idStore = new IDNum(db);
-			db.save(idStore);
+    @Override
+    public WorkFlow makeEntity(Session s, String content) throws BadRequestException,
+            ConflictException, WPISuiteException {
+        System.out.println("Running Make Entity on WF");
+        WorkFlow newWorkFlow = WorkFlow.fromJson(content);
+        if (newWorkFlow.getTaskStatusList() == null) {
+            WorkFlow defaultWF = newWorkFlow;
 
-			//set default workflow id to 0.
-			defaultWF.setWorkFlowID(idStore.getAndIncID());
+            // Initialize ID
+            IDNum idStore = new IDNum(db);
+            db.save(idStore);
 
-			//Create Default Task Statuses
-			TaskStatus newStatus = new TaskStatus("New");
-			newStatus.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus selected = new TaskStatus("Selected for Development");
-			selected.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus develop = new TaskStatus("Currently in Development");
-			develop.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus completed = new TaskStatus("Completed");
-			completed.setTaskStatusID(idStore.getAndIncID());
+            // set default workflow id to 0.
+            defaultWF.setWorkFlowID(idStore.getAndIncID());
 
-			//Save Default Task Statuses
-			db.save(newStatus, s.getProject());
-			db.save(selected, s.getProject());
-			db.save(develop, s.getProject());
-			db.save(completed, s.getProject());
+            // Create Default Task Statuses
+            TaskStatus newStatus = new TaskStatus("New");
+            newStatus.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus selected = new TaskStatus("Selected for Development");
+            selected.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus develop = new TaskStatus("Currently in Development");
+            develop.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus completed = new TaskStatus("Completed");
+            completed.setTaskStatusID(idStore.getAndIncID());
 
-			//Add TaskStatus ID's to WorkFlow object
-			ArrayList<Long> defaultTSid = new ArrayList<Long>();
-			defaultTSid.add(newStatus.getTaskStatusID());
-			defaultTSid.add(selected.getTaskStatusID());
-			defaultTSid.add(develop.getTaskStatusID());
-			defaultTSid.add(completed.getTaskStatusID());
+            // Save Default Task Statuses
+            db.save(newStatus, s.getProject());
+            db.save(selected, s.getProject());
+            db.save(develop, s.getProject());
+            db.save(completed, s.getProject());
 
-			defaultWF.setTaskStatusList(defaultTSid);
+            // Add TaskStatus ID's to WorkFlow object
+            ArrayList<Long> defaultTSid = new ArrayList<Long>();
+            defaultTSid.add(newStatus.getTaskStatusID());
+            defaultTSid.add(selected.getTaskStatusID());
+            defaultTSid.add(develop.getTaskStatusID());
+            defaultTSid.add(completed.getTaskStatusID());
 
-			db.save(defaultWF, s.getProject());
-			
-			return defaultWF;
-		}
-		else
-		{
-			List<Model> idList = db.retrieve(IDNum.class, "id", 0);
-			IDNum idObj = (IDNum) idList.get(0);
+            defaultWF.setTaskStatusList(defaultTSid);
 
-			newWorkFlow.setWorkFlowID(idObj.getAndIncID());
+            db.save(defaultWF, s.getProject());
 
-			if (!db.save(newWorkFlow, s.getProject())) {
-				throw new WPISuiteException();
-			}
+            return defaultWF;
+        } else {
+            List<Model> idList = db.retrieve(IDNum.class, "id", 0);
+            IDNum idObj = (IDNum) idList.get(0);
 
-			return newWorkFlow;
-		}
-	}
+            newWorkFlow.setWorkFlowID(idObj.getAndIncID());
 
-	/*
-	 * Individual messages cannot be retrieved. This message always throws an exception.
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng .Session,
-	 * java.lang.String)
-	 */
-	@Override
-	public WorkFlow[] getEntity(Session s, String id) throws NotFoundException,
-	WPISuiteException {
-		List<Model> workflows =
-				db.retrieve(WorkFlow.class, "workFlowID", 0);
-				//db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
-		System.out.println("Running Get Entity on WF");
-		//Create default workflow if none exist:
-		if (workflows.toArray(new WorkFlow[0])==null){
-			WorkFlow defaultWF = new WorkFlow();
+            if (!db.save(newWorkFlow, s.getProject())) {
+                throw new WPISuiteException();
+            }
 
-			//Initialize ID
-			IDNum idStore = new IDNum(db);
-			db.save(idStore);
+            return newWorkFlow;
+        }
+    }
 
-			//set default workflow id to 0.
-			defaultWF.setWorkFlowID(idStore.getAndIncID());
+    /*
+     * Individual messages cannot be retrieved. This message always throws an exception.
+     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng .Session,
+     * java.lang.String)
+     */
+    @Override
+    public WorkFlow[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
+        List<Model> workflows = db.retrieve(WorkFlow.class, "workFlowID", 0);
+        // db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
+        System.out.println("Running Get Entity on WF");
+        // Create default workflow if none exist:
+        if (workflows.toArray(new WorkFlow[0]) == null) {
+            WorkFlow defaultWF = new WorkFlow();
 
-			//Create Default Task Statuses
-			TaskStatus newStatus = new TaskStatus("New");
-			newStatus.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus selected = new TaskStatus("Selected for Development");
-			selected.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus develop = new TaskStatus("Currently in Development");
-			develop.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus completed = new TaskStatus("Completed");
-			completed.setTaskStatusID(idStore.getAndIncID());
+            // Initialize ID
+            IDNum idStore = new IDNum(db);
+            db.save(idStore);
 
-			//Save Default Task Statuses
-			db.save(newStatus, s.getProject());
-			db.save(selected, s.getProject());
-			db.save(develop, s.getProject());
-			db.save(completed, s.getProject());
+            // set default workflow id to 0.
+            defaultWF.setWorkFlowID(idStore.getAndIncID());
 
-			//Add TaskStatus ID's to WorkFlow object
-			ArrayList<Long> defaultTSid = new ArrayList<Long>();
-			defaultTSid.add(newStatus.getTaskStatusID());
-			defaultTSid.add(selected.getTaskStatusID());
-			defaultTSid.add(develop.getTaskStatusID());
-			defaultTSid.add(completed.getTaskStatusID());
+            // Create Default Task Statuses
+            TaskStatus newStatus = new TaskStatus("New");
+            newStatus.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus selected = new TaskStatus("Selected for Development");
+            selected.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus develop = new TaskStatus("Currently in Development");
+            develop.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus completed = new TaskStatus("Completed");
+            completed.setTaskStatusID(idStore.getAndIncID());
 
-			defaultWF.setTaskStatusList(defaultTSid);
+            // Save Default Task Statuses
+            db.save(newStatus, s.getProject());
+            db.save(selected, s.getProject());
+            db.save(develop, s.getProject());
+            db.save(completed, s.getProject());
 
-			db.save(defaultWF, s.getProject());
+            // Add TaskStatus ID's to WorkFlow object
+            ArrayList<Long> defaultTSid = new ArrayList<Long>();
+            defaultTSid.add(newStatus.getTaskStatusID());
+            defaultTSid.add(selected.getTaskStatusID());
+            defaultTSid.add(develop.getTaskStatusID());
+            defaultTSid.add(completed.getTaskStatusID());
 
-			WorkFlow[] returnArry = new WorkFlow[1];
-			returnArry[0] = defaultWF;
-			System.out.println("New Workflow and Default TaskStatuses created.");
-			return returnArry;
-		}
+            defaultWF.setTaskStatusList(defaultTSid);
 
-		return workflows.toArray(new WorkFlow[0]);
-	}
+            db.save(defaultWF, s.getProject());
 
-	/**
-	 * Retrieves all WorkFlows from the given session database
-	 *
-	 * @param s Session which is querying the server
-	 * @return all WorkFlows in the session database
-	 */
-	@Override
-	public WorkFlow[] getAll(Session s) throws WPISuiteException {
-		List<Model> workflows =
-				db.retrieveAll(new WorkFlow(), s.getProject());
-				//db.retrieve(WorkFlow.class, "workFlowID", Integer.parseInt("0"));
-		System.out.println("Running Get All on WF");
-		
-		//Create default workflow if none exist:
-		if (workflows.toArray(new WorkFlow[0]).length==0){
-			WorkFlow defaultWF = new WorkFlow();
-			System.out.println("Making new workflow");
-			//Initialize ID
-			IDNum idStore = new IDNum(db);
-			db.save(idStore);
+            WorkFlow[] returnArry = new WorkFlow[1];
+            returnArry[0] = defaultWF;
+            System.out.println("New Workflow and Default TaskStatuses created.");
+            return returnArry;
+        }
 
-			//set default workflow id to 0.
-			defaultWF.setWorkFlowID(idStore.getAndIncID());
+        return workflows.toArray(new WorkFlow[0]);
+    }
 
-			//Create Default Task Statuses
-			TaskStatus newStatus = new TaskStatus("New");
-			newStatus.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus selected = new TaskStatus("Selected for Development");
-			selected.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus develop = new TaskStatus("Currently in Development");
-			develop.setTaskStatusID(idStore.getAndIncID());
-			TaskStatus completed = new TaskStatus("Completed");
-			completed.setTaskStatusID(idStore.getAndIncID());
+    /**
+     * Retrieves all WorkFlows from the given session database
+     *
+     * @param s Session which is querying the server
+     * @return all WorkFlows in the session database
+     */
+    @Override
+    public WorkFlow[] getAll(Session s) throws WPISuiteException {
+        List<Model> workflows = db.retrieveAll(new WorkFlow(), s.getProject());
+        // db.retrieve(WorkFlow.class, "workFlowID", Integer.parseInt("0"));
+        System.out.println("Running Get All on WF");
 
-			//Save Default Task Statuses
-			db.save(newStatus, s.getProject());
-			db.save(selected, s.getProject());
-			db.save(develop, s.getProject());
-			db.save(completed, s.getProject());
+        // Create default workflow if none exist:
+        if (workflows.toArray(new WorkFlow[0]).length == 0) {
+            WorkFlow defaultWF = new WorkFlow();
+            System.out.println("Making new workflow");
+            // Initialize ID
+            IDNum idStore = new IDNum(db);
+            db.save(idStore);
 
-			//Add TaskStatus ID's to WorkFlow object
-			ArrayList<Long> defaultTSid = new ArrayList<Long>();
-			defaultTSid.add(newStatus.getTaskStatusID());
-			defaultTSid.add(selected.getTaskStatusID());
-			defaultTSid.add(develop.getTaskStatusID());
-			defaultTSid.add(completed.getTaskStatusID());
+            // set default workflow id to 0.
+            defaultWF.setWorkFlowID(idStore.getAndIncID());
 
-			defaultWF.setTaskStatusList(defaultTSid);
+            // Create Default Task Statuses
+            TaskStatus newStatus = new TaskStatus("New");
+            newStatus.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus selected = new TaskStatus("Selected for Development");
+            selected.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus develop = new TaskStatus("Currently in Development");
+            develop.setTaskStatusID(idStore.getAndIncID());
+            TaskStatus completed = new TaskStatus("Completed");
+            completed.setTaskStatusID(idStore.getAndIncID());
 
-			db.save(defaultWF, s.getProject());
+            // Save Default Task Statuses
+            System.out.println("Make new: " + newStatus.toJson());
+            db.save(newStatus, s.getProject());
+            System.out.println("Make selected: " + selected.toJson());
+            db.save(selected, s.getProject());
+            System.out.println("Make develop: " + develop.toJson());
+            db.save(develop, s.getProject());
+            System.out.println("Make completed: " + completed.toJson());
+            db.save(completed, s.getProject());
 
-			WorkFlow[] returnArry = new WorkFlow[1];
-			returnArry[0] = defaultWF;
-			System.out.println("New Workflow and Default TaskStatuses created.");
-			return returnArry;
-		}
+            // Add TaskStatus ID's to WorkFlow object
+            ArrayList<Long> defaultTSid = new ArrayList<Long>();
+            defaultTSid.add(newStatus.getTaskStatusID());
+            defaultTSid.add(selected.getTaskStatusID());
+            defaultTSid.add(develop.getTaskStatusID());
+            defaultTSid.add(completed.getTaskStatusID());
 
-		return workflows.toArray(new WorkFlow[0]);
-	}
+            defaultWF.setTaskStatusList(defaultTSid);
+
+            db.save(defaultWF, s.getProject());
+            System.out.println("WF Object: " + defaultWF.toJson());
+            WorkFlow[] returnArry = new WorkFlow[1];
+            returnArry[0] = defaultWF;
+            System.out.println("New Workflow and Default TaskStatuses created.");
+            return returnArry;
+        }
+
+        return workflows.toArray(new WorkFlow[0]);
+    }
 
 
-	/*
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
-	 */
-	@Override
-	public int Count() throws WPISuiteException {
-		// Return the number of PostBoardMessages currently in the database
-		return db.retrieveAll(new WorkFlow()).size();
-	}
+    /*
+     * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
+     */
+    @Override
+    public int Count() throws WPISuiteException {
+        // Return the number of PostBoardMessages currently in the database
+        return db.retrieveAll(new WorkFlow()).size();
+    }
 
-	/**
-	 * Gets all WorkFlow where the property args[0] has the value args[1]
-	 *
-	 * @param s Session which is querying the server
-	 * @param args Array of arguments sent in the request
-	 * @return List of WorkFlow that have the desired value for the given field
-	 */
-	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
-		return null;
-	}
+    /**
+     * Gets all WorkFlow where the property args[0] has the value args[1]
+     *
+     * @param s Session which is querying the server
+     * @param args Array of arguments sent in the request
+     * @return List of WorkFlow that have the desired value for the given field
+     */
+    @Override
+    public String advancedGet(Session s, String[] args) throws WPISuiteException {
+        return null;
+    }
 
-	@Override
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String advancedPut(Session s, String[] args, String content) throws WPISuiteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String advancedPost(Session s, String string, String content) throws WPISuiteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 
     /*

@@ -37,17 +37,17 @@ public class RetrieveTaskStatusController {
                 Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
         request.addObserver(new RetrieveTaskStatusRequestObserver(this));
         request.send();
+        System.out.println("Request Task Status sent");
     }
 
     public void displayTaskStatuses(TaskStatus[] taskStatusArray) {
-    	//Change from Array to List
-    	ArrayList<TaskStatus> tsList = new ArrayList<TaskStatus>();
-    	for (int i=0;i<taskStatusArray.length;i++)
-    	{
-    		tsList.add(taskStatusArray[i]);
-    	}
-    	//Set the list of status objects in the Workflow view.
-    	WorkFlowView.getInstance().setStatuses(tsList);
+        // Change from Array to List
+        ArrayList<TaskStatus> tsList = new ArrayList<TaskStatus>();
+        for (int i = 0; i < taskStatusArray.length; i++) {
+            tsList.add(taskStatusArray[i]);
+        }
+        // Set the list of status objects in the Workflow view.
+        WorkFlowView.getInstance().setStatuses(tsList);
     }
 
 }
