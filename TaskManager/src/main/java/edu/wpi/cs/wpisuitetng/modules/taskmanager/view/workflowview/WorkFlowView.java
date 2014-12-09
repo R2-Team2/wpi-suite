@@ -8,10 +8,13 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import javax.swing.JScrollBar;
 
 import net.miginfocom.swing.MigLayout;
@@ -34,6 +37,8 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The task status views. */
     List<TaskStatusView> views;
+    
+    final JButton collapseSideButton;
 
     /**
      * Create the panel.
@@ -47,9 +52,15 @@ public class WorkFlowView extends AbsWorkFlowView {
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+        
+        final JPanel collapseButtonPanel = new JPanel();
+        collapseSideButton = new JButton(">");
+        collapseButtonPanel.setLayout(new MigLayout());
+        collapseSideButton.setBounds(10, 10, 10, 10);
+        collapseButtonPanel.add(collapseSideButton, "");
+        this.add(collapseButtonPanel, BorderLayout.EAST);
+        
+        
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);

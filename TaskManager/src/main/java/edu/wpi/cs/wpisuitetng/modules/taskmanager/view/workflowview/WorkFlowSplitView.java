@@ -14,9 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
+import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
@@ -36,6 +41,8 @@ public class WorkFlowSplitView extends JSplitPane{
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
 	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
+	private WorkFlowView workflowObj;
+	private boolean expanded;
 	
 	/**
 	 * Instantiates a new work flow split view.
@@ -45,13 +52,17 @@ public class WorkFlowSplitView extends JSplitPane{
 
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 		
-		this.setLeftComponent(new JScrollPane(new WorkFlowView()));
+        workflowObj = new WorkFlowView();
+		this.setLeftComponent(new JScrollPane(workflowObj));
 		this.setRightComponent(null);
+		expanded = false;
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                hideCreateNewTaskPanel();
             }
         });
+		
+		setupListeners();
 	}
 	
 	/**
@@ -73,6 +84,8 @@ public class WorkFlowSplitView extends JSplitPane{
 		//this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
 		this.setRightComponent(workflowSplitTabbedPanel);
+		expanded = true;
+		updateCollapseButtonText();
 	}
 
 	/**
@@ -89,6 +102,8 @@ public class WorkFlowSplitView extends JSplitPane{
 		//this.setDividerLocation(.6);
 		this.resetToPreferredSizes();
 		this.setRightComponent(workflowSplitTabbedPanel);
+		expanded = true;
+		updateCollapseButtonText();
 	}
 	
 	
@@ -98,15 +113,75 @@ public class WorkFlowSplitView extends JSplitPane{
 	public void hideCreateNewTaskPanel(){
 		this.setRightComponent(null);
 		this.setOneTouchExpandable(false);
+		expanded = false;
+		updateCollapseButtonText();
 		//this.setDividerLocation(0.0);
 	}
 	
 	/**
-	 * Collapse.
+	 * Decides whether to expand or collapse side panel
 	 */
-	public void collapse(){
-		this.setOneTouchExpandable(true);
-		this.setDividerLocation(1.0);
+	public void movePanel(){
+		if(expanded){
+			collapsePanel();
+		}
+		else if(!expanded){
+			expandPanel();
+		}
+		else{
+			System.out.println("Side Panel is in an Unknown State (collapseSidePanel Listener)");
+		}
 	}
+	
+	/**
+	 * Update collapse/expand button text
+	 */
+	public void updateCollapseButtonText(){
+		if(workflowSplitTabbedPanel.getTabCount() > 0){
+			workflowObj.collapseSideButton.setEnabled(true);
+		}
+		else{
+			workflowObj.collapseSideButton.setEnabled(false);
+		}
+		if(expanded){
+			workflowObj.collapseSideButton.setText(">");
+		}
+		else{
+			workflowObj.collapseSideButton.setText("< " + workflowSplitTabbedPanel.getTabCount());
+		}
+	}
+	
+	/**
+	 * Expand task panel.
+	 */
+	public void expandPanel(){
+		this.resetToPreferredSizes();
+		expanded = true;
+		updateCollapseButtonText();
+	}
+	
+	/**
+	 * Collapse task panel.
+	 */
+	public void collapsePanel(){
+		this.setOneTouchExpandable(false);
+		this.setDividerLocation(1.0);
+		expanded = false;
+		updateCollapseButtonText();
+	}
+	
+	/**
+	 * Setup Listeners
+	 */
+	private void setupListeners(){
+    	workflowObj.collapseSideButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					movePanel();
+				}
+			});
+    	
+    	
+    }
 
 }
