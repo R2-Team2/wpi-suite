@@ -10,13 +10,6 @@ import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -25,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -90,6 +83,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         // TODO: create task card
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
     }
 
