@@ -32,18 +32,13 @@ import org.junit.Test;
 // import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
- * The class <code>AbstractInformationPanelTest</code> contains tests for the class {@link <code>AbstractInformationPanel</code>}
+ * The class <code>AbstractInformationPanelTest</code> contains tests for the class 
+ * {@link <code>AbstractInformationPanel</code>}
  *
  * @pattern JUnit Test Case
  * @generatedBy CodePro at 11/23/14 10:22 PM
  * @author R2-Team2
  * @version v0
- */
-/**
- * Description
- *
- * @author Evan
- * @version Nov 24, 2014
  */
 public class AbstractInformationPanelTest {
 
@@ -99,8 +94,8 @@ public class AbstractInformationPanelTest {
 	 */
 	@Test
 	public void datesInitiallyEmptyTest() {
-		NewTaskPanel ntp = new NewTaskPanel();
-		NewTaskInformationPanel ntip = new NewTaskInformationPanel(ntp);
+		final NewTaskPanel ntp = new NewTaskPanel();
+		final NewTaskInformationPanel ntip = new NewTaskInformationPanel(ntp);
 
 		assertNull(ntip.calDueDate.getDate());
 		assertNull(ntip.calStartDate.getDate());

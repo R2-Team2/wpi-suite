@@ -50,6 +50,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public abstract class AbstractInformationPanel extends JScrollPane {
 
 	/** The parent panel. */
@@ -120,7 +121,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 	/** Calendar Button Dropdown Icon. */
 	protected ImageIcon icon;
 
-	final private List<Requirement> requirements = new ArrayList<Requirement>();
+	private final List<Requirement> requirements = new ArrayList<Requirement>();
 
 	/**
 	 * Builds the layout.
