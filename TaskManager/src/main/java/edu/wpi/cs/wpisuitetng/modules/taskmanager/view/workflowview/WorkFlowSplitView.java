@@ -25,81 +25,84 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 @SuppressWarnings("serial")
 public class WorkFlowSplitView extends JSplitPane {
 
-    /** The split tabbed panel. */
-    WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
-    private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
+	/** The split tabbed panel. */
+	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
+	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
 
-    /**
-     * Instantiates a new work flow split view.
-     */
-    public WorkFlowSplitView() {
-        workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
+	/**
+	 * Instantiates a new work flow split view.
+	 */
+	public WorkFlowSplitView() {
+		workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
 
-        ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
+		ViewEventController.getInstance().setSplitTabbedPanel(
+				workflowSplitTabbedPanel);
 
-        setLeftComponent(new JScrollPane(new WorkFlowView()));
-        setRightComponent(null);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                hideCreateNewTaskPanel();
-            }
-        });
-    }
+		setLeftComponent(new JScrollPane(new WorkFlowView()));
+		setRightComponent(null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				hideCreateNewTaskPanel();
+			}
+		});
+	}
 
-    /**
-     * Creates the new task panel.
-     */
-    public WorkFlowSplitTabbedPanel getWF() {
-        return workflowSplitTabbedPanel;
-    }
+	/**
+	 * Returns the workflowSplitTabbedPanel used by this WorkFlowSplitView
+	 * @return WorkFlowSplitTabbedPanel
+	 */
+	public WorkFlowSplitTabbedPanel getWF() {
+		return workflowSplitTabbedPanel;
+	}
 
-    /**
-     * Creates the new task panel.
-     */
-    public void createNewTaskPanel() {
-        workflowSplitTabbedPanel.addCreateTaskTab();
-        // Sets the Right Component to its minimum size always
-        setResizeWeight(1.0);
-        setEnabled(false);
-        setOneTouchExpandable(false);
-        // this.setDividerLocation(.6);
-        resetToPreferredSizes();
-        setRightComponent(workflowSplitTabbedPanel);
-    }
+	/**
+	 * Creates the new task panel.
+	 */
+	public void createNewTaskPanel() {
+		workflowSplitTabbedPanel.addCreateTaskTab();
+		// Sets the Right Component to its minimum size always
+		setResizeWeight(1.0);
+		setEnabled(false);
+		setOneTouchExpandable(false);
+		// this.setDividerLocation(.6);
+		resetToPreferredSizes();
+		setRightComponent(workflowSplitTabbedPanel);
+	}
 
-    /**
-     * Creates the view task panel.
-     *
-     * @param viewPanel is the panel to display in the created view panel
-     */
-    public void createViewTaskPanel(AbstractTaskPanel viewPanel) {
-        workflowSplitTabbedPanel.addViewTaskTab(viewPanel);
-        // Sets the Right Component to its minimum size always
-        setResizeWeight(1.0);
-        setEnabled(false);
-        setOneTouchExpandable(false);
-        // this.setDividerLocation(.6);
-        resetToPreferredSizes();
-        setRightComponent(workflowSplitTabbedPanel);
-    }
+	/**
+	 * Creates the view task panel.
+	 *
+	 * @param viewPanel
+	 *            is the panel to display in the created view panel
+	 */
+	public void createViewTaskPanel(AbstractTaskPanel viewPanel) {
+		workflowSplitTabbedPanel.addViewTaskTab(viewPanel);
+		// Sets the Right Component to its minimum size always
+		System.out.println(getName());
+		setResizeWeight(1.0);
+		setEnabled(false);
+		setOneTouchExpandable(false);
+		// this.setDividerLocation(.6);
+		resetToPreferredSizes();
+		setRightComponent(workflowSplitTabbedPanel);
+	}
 
+	/**
+	 * Hide create new task panel.
+	 */
+	public void hideCreateNewTaskPanel() {
+		setRightComponent(null);
+		setOneTouchExpandable(false);
+		// this.setDividerLocation(0.0);
+	}
 
-    /**
-     * Hide create new task panel.
-     */
-    public void hideCreateNewTaskPanel() {
-        setRightComponent(null);
-        setOneTouchExpandable(false);
-        // this.setDividerLocation(0.0);
-    }
-
-    /**
-     * Collapse.
-     */
-    public void collapse() {
-        setOneTouchExpandable(true);
-        this.setDividerLocation(1.0);
-    }
+	/**
+	 * Collapse.
+	 */
+	public void collapse() {
+		setOneTouchExpandable(true);
+		this.setDividerLocation(1.0);
+	}
 
 }

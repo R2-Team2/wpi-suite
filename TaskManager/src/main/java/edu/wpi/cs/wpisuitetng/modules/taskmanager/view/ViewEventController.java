@@ -70,6 +70,7 @@ public class ViewEventController {
      * opens requirement module tab
      */
     public void openRequirementsTab() {
+        // TODO use a more robust way of obtaining the Requirements Manager tab
         ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
     }
 
@@ -117,8 +118,6 @@ public class ViewEventController {
         final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
         final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
         main.showViewTaskView(taskView);
-        System.out.println("Open View Task");
-        // taskView.
 
     }
 
