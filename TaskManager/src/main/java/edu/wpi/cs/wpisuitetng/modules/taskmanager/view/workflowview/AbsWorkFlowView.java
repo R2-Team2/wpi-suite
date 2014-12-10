@@ -13,9 +13,11 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 /**
@@ -27,68 +29,118 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 @SuppressWarnings("serial")
 public abstract class AbsWorkFlowView extends AbsView {
     /** The work flow obj. */
-    private WorkFlow workFlowObj;
+    private WorkFlow workFlowObj = new WorkFlow();
 
     /** The task status panel. */
-    protected JPanel taskStatusPanel;
+    protected JPanel taskStatusPanel = new JPanel();
 
     /** The task status views. */
-    private final List<TaskStatusView> views;
+    private final List<TaskStatusView> views = new ArrayList<TaskStatusView>();
+    
+    /** The task status objects */
+    List<TaskStatus> statuses = new ArrayList<TaskStatus>();
 
     /**
      * Constructor for AbsWorkFlowView.
      */
     protected AbsWorkFlowView() {
-        workFlowObj = new WorkFlow();
-        views = new ArrayList<TaskStatusView>();
-        views.add(new TaskStatusView(new TaskStatus("New")));
-        views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
-        views.add(new TaskStatusView(new TaskStatus("Currently in Development")));
-        views.add(new TaskStatusView(new TaskStatus("Completed")));
-
         setLayout(new BorderLayout());
-
-        taskStatusPanel = new JPanel();
-
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-
+        
         taskStatusPanel.setLayout(new MigLayout(
                 "",
                 "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
                         + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
                 "[278px,grow 500]"));
-        buildTaskStatusViews();
+        //buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
+    
+    /**
+     * Refresh.
+     */
+    public void refresh() {
+    	updateTaskStatuses();
+    	updateTaskStatusViews();
+        for (TaskStatusView v : views) {
+            v.requestTasksFromDb();
+        }
+        updateView();
+        revalidate();
+        repaint();
+    }
+    
+    public void updateTaskStatuses(){
+    	RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+        retrieveTS.requestTaskStatuses();
+        System.out.println("Begin Building TS Views.");
+    }
+    
+    public void updateTaskStatusViews(){
+    	for (TaskStatus status : statuses) {
+    		TaskStatusView aView = new TaskStatusView(status);
+            if(!views.contains(aView)){
+            	views.add(aView);
+            }
+            	
+    	}
+    }
+    
+    /**
+     * Method updateView.
+     */
+    public void updateView() {
+        this.remove(taskStatusPanel);
+    	for (TaskStatusView t : views) {
+            taskStatusPanel.add(t, "grow");
+    	}
+        this.add(taskStatusPanel, BorderLayout.CENTER);
+    }
+    
+    public void buildTaskStatusView() {
+        if (statuses.size() > 0) {
+            for (int i = 0; i < statuses.size(); i++) {
+                TaskStatusView aView =
+                        new TaskStatusView(new TaskStatus(statuses.get(i).getName()));
+                aView.setTaskStatusObj(statuses.get(i));
+                // System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
+                //taskStatusPanel.add(aView, "cell " + i + " 0,grow");
+                addTaskStatusView(aView);
+            }
+        } else {
+            System.out.println("Currently No Statuses");
+            //rebuildWF();
+        }
+    }
+    
+    /**
+     * Sets the objects list of task status objects
+     *
+     * @param listOfStatus the list of status objects.
+     */
+    public void setStatuses(List<TaskStatus> listOfStatus) {
+        statuses = listOfStatus;
+        //instance = this;
+    }
 
+    /**
+     * Returns the statuses field
+     *
+     * @return array of task statuses.
+     */
+    public List<TaskStatus> getStatuses() {
+        //instance = this;
+        return statuses;
+    }
     /**
      * Method addTaskStatusView.
      *
      * @param taskStatusView TaskStatusView
      */
     public void addTaskStatusView(TaskStatusView taskStatusView) {
-        views.add(taskStatusView);
-        buildTaskStatusViews();
-    }
-
-    /**
-     * Method buildTaskStatusViews.
-     */
-    public void buildTaskStatusViews() {
-        for (TaskStatusView t : views) {
-            taskStatusPanel.add(t, "grow");
+        if(!views.contains(taskStatusView)){
+        	views.add(taskStatusView);
         }
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-    }
-
-    /**
-     * Method addStatus.
-     *
-     * @param taskStatus TaskStatusView
-     */
-    public void addStatus(TaskStatusView taskStatus) {
-        views.add(taskStatus);
-        buildTaskStatusViews();
+        updateView();
     }
 
     /**
@@ -109,17 +161,11 @@ public abstract class AbsWorkFlowView extends AbsView {
         workFlowObj = workFlowObj2;
     }
 
-    /**
-     * Refresh.
-     */
-    public void refresh() {
-        for (TaskStatusView v : views) {
-            v.requestTasksFromDb();
-        }
-    }
+
 
     public List<TaskStatusView> getViews() {
-        return views;
+    	refresh();
+    	return views;
     }
 
     /**
@@ -152,7 +198,6 @@ public abstract class AbsWorkFlowView extends AbsView {
             views.set(dest, sourceStatusView);
             views.set(source, destStatusView);
             refresh();
-            buildTaskStatusViews();
         }
     }
 
@@ -175,7 +220,6 @@ public abstract class AbsWorkFlowView extends AbsView {
             views.set(dest, sourceStatusView);
             views.set(source, destStatusView);
             refresh();
-            buildTaskStatusViews();
         }
     }
 

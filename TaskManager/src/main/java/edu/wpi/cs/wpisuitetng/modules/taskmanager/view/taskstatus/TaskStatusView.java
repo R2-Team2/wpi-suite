@@ -99,11 +99,43 @@ public class TaskStatusView extends AbsView {
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
 
-    public void getTaskStatusFromDB() {
-        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
-        retrieveTS.requestTaskStatuses();
-        initialized = true;
-    }
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((taskStatusObj == null) ? 0 : taskStatusObj.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TaskStatusView))
+			return false;
+		TaskStatusView other = (TaskStatusView) obj;
+		if (taskStatusObj == null) {
+			if (other.taskStatusObj != null)
+				return false;
+		} else if (!taskStatusObj.equals(other.taskStatusObj))
+			return false;
+		return true;
+	}
+
+//	public void getTaskStatusFromDB() {
+//        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+//        retrieveTS.requestTaskStatuses();
+//        initialized = true;
+//    }
 
 	/**
      * Populate TaskStatusView with Cards Associated with the Status.
