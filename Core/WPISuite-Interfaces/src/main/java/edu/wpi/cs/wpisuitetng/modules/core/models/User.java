@@ -257,5 +257,19 @@ public class User extends AbstractModel {
     public void setProject(Project aProject) {
         //Users are not currently Associated with projects directly 
     }
+    
+    /**
+    * Returns an array of Tasks parsed from the given JSON-encoded
+    * string.
+    *
+    * @param json a string containing a JSON-encoded array of Tasks
+    * @return an array of Tasks deserialized from the given json
+    * string
+    */
+    
+    public static User[] fromJsonArray(String json) {
+    	final Gson parser = new Gson();
+    	return parser.fromJson(json, User[].class);
+    }
 
 }

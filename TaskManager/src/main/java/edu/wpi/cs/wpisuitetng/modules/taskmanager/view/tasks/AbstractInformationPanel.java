@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -57,10 +57,10 @@ public class AbstractInformationPanel extends JScrollPane {
 	protected AbstractTaskPanel parentPanel;
 
 	/** The list of chosen assignees. */
-	protected User[] listOfChosenAssignees = new User[] {};
+	protected DefaultListModel<User> chosenAssigneeModel;
 
 	/** The list of possible assignees. */
-	protected User[] listOfPossibleAssignees = new User[] {};
+	protected DefaultListModel<User> possibleAssigneeModel;
 
 	/** The list of statuses. */
 	protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
@@ -87,10 +87,10 @@ public class AbstractInformationPanel extends JScrollPane {
 	protected JComboBox<String> dropdownRequirement;
 
 	/** The list chosen assignees. */
-	protected JList<User> listChosenAssignees;
+	protected JList<User> chosenAssigneeList;
 
 	/** The list possible assignees. */
-	protected JList<User> listPossibleAssignees;
+	protected JList<User> possibleAssigneeList;
 
 	/** The spinner estimated effort. */
 	protected JSpinner spinnerEstimatedEffort;
@@ -200,17 +200,19 @@ public class AbstractInformationPanel extends JScrollPane {
 		dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
 		dropdownStatus.setEnabled(true);
 		dropdownStatus.setBackground(Color.WHITE);
-		// Lists
-		listChosenAssignees = new JList<User>();
-		listPossibleAssignees = new JList<User>();
+		// Lists and Models
+		chosenAssigneeModel = new DefaultListModel<User>();
+		chosenAssigneeList = new JList<User>(chosenAssigneeModel);
+		chosenAssigneeList.setCellRenderer(new UserRenderer());
+		possibleAssigneeModel = new DefaultListModel<User>();
+		possibleAssigneeList = new JList<User>(possibleAssigneeModel);
+		possibleAssigneeList.setCellRenderer(new UserRenderer());
 		// Spinners
 		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
 		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
 		// Buttons
 		buttonAdd = new JButton(">>");
-		buttonAdd.setEnabled(false);
 		buttonRemove = new JButton("<<");
-		buttonRemove.setEnabled(false);
 		// Calendars
 		calStartDate = new JXDatePicker();
 		calStartDate.setName("start date");
@@ -243,16 +245,16 @@ public class AbstractInformationPanel extends JScrollPane {
 		final JPanel bottomRight = new JPanel(new MigLayout());
 
 		// Assignee view created and populated to the bottom Panel
-		listPossibleAssignees.setBorder(defaultBorder);
+		possibleAssigneeList.setBorder(defaultBorder);
 		bottomLeft.add(labelPossibleAssignee, "left, wrap");
-		bottomLeft.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+		bottomLeft.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
 
 		bottomCenter.add(buttonAdd, "center, wrap");
 		bottomCenter.add(buttonRemove, "center, wrap");
 
-		listChosenAssignees.setBorder(defaultBorder);
+		chosenAssigneeList.setBorder(defaultBorder);
 		bottomRight.add(labelChosenAssignee, "left, wrap");
-		bottomRight.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+		bottomRight.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
 
 		bottom.add(bottomLeft);
 		bottom.add(bottomCenter);
@@ -376,10 +378,14 @@ public class AbstractInformationPanel extends JScrollPane {
 	/**
 	 * Returns the JList holding the Chosen Members.
 	 *
-	 * @return JList<String>
+	 * @return List<User>
 	 */
 	public List<User> getAssignedUsers() {
-		return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
+		final List<User> userList = new ArrayList<User>();
+		for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+			userList.add(chosenAssigneeModel.elementAt(i));
+		}
+		return userList;
 	}
 
 	/**
@@ -403,9 +409,9 @@ public class AbstractInformationPanel extends JScrollPane {
 	 */
 	public void openSelectedRequirement() throws Exception {
 		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-		.editRequirement(getSelectedRequirement());
+				.editRequirement(getSelectedRequirement());
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-		.openRequirementsTab();
+				.openRequirementsTab();
 	}
 
 	private void validateRequirementView() {
@@ -430,7 +436,8 @@ public class AbstractInformationPanel extends JScrollPane {
 		boxDescription.setEnabled(io);
 		dropdownStatus.setEnabled(io);
 		// requirement
-		listChosenAssignees.setEnabled(io);
+		chosenAssigneeList.setEnabled(io);
+		possibleAssigneeList.setEnabled(io);
 		calStartDate.setEnabled(io);
 		calDueDate.setEnabled(io);
 		spinnerEstimatedEffort.setEnabled(io);
