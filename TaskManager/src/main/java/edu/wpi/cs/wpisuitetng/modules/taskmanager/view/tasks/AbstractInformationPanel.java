@@ -37,13 +37,12 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
@@ -57,17 +56,17 @@ public class AbstractInformationPanel extends JScrollPane {
 	/** The parent panel. */
 	protected AbstractTaskPanel parentPanel;
 
-    /** The list of chosen assignees. */
-    protected DefaultListModel<User> chosenAssigneeModel;
+	/** The list of chosen assignees. */
+	protected DefaultListModel<User> chosenAssigneeModel;
 
-    /** The list of possible assignees. */
-    protected DefaultListModel<User> possibleAssigneeModel;
+	/** The list of possible assignees. */
+	protected DefaultListModel<User> possibleAssigneeModel;
 
-    /** The list of statuses. */
-    protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
-            new TaskStatus("Selected for Development").toString(), 
-            new TaskStatus("Currently in Development").toString(),
-            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
+	/** The list of statuses. */
+	protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+			new TaskStatus("Selected for Development").toString(),
+			new TaskStatus("Currently in Development").toString(),
+			new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
 	/** The string list of requirements. */
 	protected List<String> strListOfRequirements = new ArrayList<String>();
@@ -153,6 +152,10 @@ public class AbstractInformationPanel extends JScrollPane {
 			// build a List<String> of the names of the requirements
 			// defaultComboBoxModel, below, requires an array of string
 			String tempName = requirements.get(i).getName();
+			if (tempName.length() > 15) {
+				tempName = tempName.substring(0, 15) + "...";
+			}
+			System.out.println(tempName);
 			strListOfRequirements.add(tempName);
 			arrListOfRequirements[i + 1] = tempName;
 		}
@@ -379,10 +382,10 @@ public class AbstractInformationPanel extends JScrollPane {
 	 */
 	public List<User> getAssignedUsers() {
 		final List<User> userList = new ArrayList<User>();
-        for (int i = 0; i < chosenAssigneeModel.size(); i++) {
-            userList.add(chosenAssigneeModel.elementAt(i));
-        }
-        return userList;
+		for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+			userList.add(chosenAssigneeModel.elementAt(i));
+		}
+		return userList;
 	}
 
 	/**
@@ -467,20 +470,20 @@ public class AbstractInformationPanel extends JScrollPane {
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
-    @Override
-    public int compare(Iteration I1, Iteration I2) {
-        int result = 0;
-        if (I1.getStart() == null) {
-            result = -1;
-        }
-        else if (I2.getStart() == null) {
-            result = 1;
-        }
-        else {
-            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
-        }
-        return result;
-    }
+	@Override
+	public int compare(Iteration I1, Iteration I2) {
+		int result = 0;
+		if (I1.getStart() == null) {
+			result = -1;
+		}
+		else if (I2.getStart() == null) {
+			result = 1;
+		}
+		else {
+			result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+		}
+		return result;
+	}
 }
 
 
