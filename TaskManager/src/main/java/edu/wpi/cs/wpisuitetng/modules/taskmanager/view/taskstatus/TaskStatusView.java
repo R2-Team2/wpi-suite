@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -90,7 +91,7 @@ public class TaskStatusView extends JPanel {
         txtpnTitle.setBorder(null);
         txtpnTitle.setForeground(Color.black);
         txtpnTitle.setEditable(false);
-        txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
+        txtpnTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
         txtpnTitle.setText(taskStatusObj.getName());
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
         panel.setBackground(Color.WHITE);
@@ -113,9 +114,9 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-    	final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-    	controller.requestWorkflow();
-    	
+        final RetrieveWorkflowController controller = new RetrieveWorkflowController();
+        controller.requestWorkflow();
+
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
             if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
@@ -132,7 +133,7 @@ public class TaskStatusView extends JPanel {
         final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
         for (Task t : taskList) {
-        	String dateString = formateDate(t);
+            String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
         }
