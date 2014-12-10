@@ -74,6 +74,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         // TODO: create task card
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
     }
 

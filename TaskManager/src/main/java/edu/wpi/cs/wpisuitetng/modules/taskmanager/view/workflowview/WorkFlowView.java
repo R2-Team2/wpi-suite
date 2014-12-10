@@ -106,6 +106,8 @@ public class WorkFlowView extends AbsWorkFlowView {
             System.out.println("Currently in Refresh method");
             v.requestTasksFromDb();
         }
+        revalidate();
+        repaint();
     }
 
 }
