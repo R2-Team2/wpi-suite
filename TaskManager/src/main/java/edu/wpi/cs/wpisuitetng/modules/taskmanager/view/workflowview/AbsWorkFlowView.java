@@ -51,6 +51,16 @@ public abstract class AbsWorkFlowView extends AbsView {
                 "[278px,grow 500]"));
         //buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
+        new java.util.Timer().schedule( 
+    	        new java.util.TimerTask() {
+    	            @Override
+    	            public void run() {
+    	                refresh();
+    	            }
+    	        }, 
+    	        5000 
+    	);
+        
     }
     
     /**

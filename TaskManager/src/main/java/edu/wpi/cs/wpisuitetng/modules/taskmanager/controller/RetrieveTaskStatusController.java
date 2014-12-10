@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -23,12 +24,12 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class RetrieveTaskStatusController {
 
-    private final AbsView view;
+    private final AbsWorkFlowView view;
 
     /**
      * Constructor for the RetrieveTaskStatusController.
      */
-    public RetrieveTaskStatusController(AbsView view) {
+    public RetrieveTaskStatusController(AbsWorkFlowView view) {
         this.view = view;
     }
 

@@ -6,6 +6,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+import java.awt.Graphics;
+
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -25,7 +27,9 @@ public class WorkFlowSplitView extends JSplitPane {
     /** The split tabbed panel. */
     WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
     private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
-
+    
+    WorkFlowView theWorkFlowView = new WorkFlowView();
+    JScrollPane theScrollPane = new JScrollPane(theWorkFlowView);
     /**
      * Instantiates a new work flow split view.
      */
@@ -34,7 +38,7 @@ public class WorkFlowSplitView extends JSplitPane {
 
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 
-        setLeftComponent(new JScrollPane(new WorkFlowView()));
+        setLeftComponent(theScrollPane);
         setRightComponent(null);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -99,5 +103,4 @@ public class WorkFlowSplitView extends JSplitPane {
         setOneTouchExpandable(true);
         this.setDividerLocation(1.0);
     }
-
 }

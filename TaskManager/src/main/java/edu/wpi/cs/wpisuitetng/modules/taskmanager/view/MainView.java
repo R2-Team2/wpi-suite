@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Timer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -58,7 +59,10 @@ public class MainView extends JTabbedPane {
 
     private final WorkFlowEditView editWorkFlowView = new WorkFlowEditView();
 
-
+    // And From your main() method or any other method
+   
+    
+    
     /**
      * Construct the panel. There is some test text inside the panel.
      */
@@ -243,6 +247,10 @@ public class MainView extends JTabbedPane {
 	public WorkFlowEditView getEditWorkFlowView() {
 		return editWorkFlowView;
 		
+	}
+
+	public void setWorkFlow() {
+		setSelectedComponent(workflow);		
 	}
 
 

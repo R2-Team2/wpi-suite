@@ -6,6 +6,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
+import java.util.Timer;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -23,7 +25,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  * @author R2-Team2
  */
 public class ViewEventController {
-
+	Timer timer = new Timer();
+	
     /** The instance. */
     private static ViewEventController instance = null;
 
@@ -38,13 +41,20 @@ public class ViewEventController {
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
 
-    /** The settings panel. */
-    private final WorkFlowEditView settingsPanel = new WorkFlowEditView();
-
     /**
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
      */
-    private ViewEventController() {}
+    private ViewEventController() {
+    	new java.util.Timer().schedule( 
+    	        new java.util.TimerTask() {
+    	            @Override
+    	            public void run() {
+    	                createTask();
+    	            }
+    	        }, 
+    	        5000 
+    	);
+    }
 
     /**
      * Returns the singleton instance of the vieweventcontroller.

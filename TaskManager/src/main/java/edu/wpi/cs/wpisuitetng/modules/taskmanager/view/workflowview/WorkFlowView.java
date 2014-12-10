@@ -7,6 +7,8 @@
 // this class has depricated through task 24- create collapsing sidebar.
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
+import java.awt.Graphics;
+
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -24,7 +26,6 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
-
     /**
      * Create the panel.
      */
@@ -88,5 +89,6 @@ public class WorkFlowView extends AbsWorkFlowView {
         this.workFlowObj = workFlowObj;
         instance = this;
     }
-
+    
+    
 }

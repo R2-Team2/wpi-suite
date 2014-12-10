@@ -102,8 +102,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         buildList();
     }
 
-    
-
     /**
      * Validate Model
      *
