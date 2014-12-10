@@ -10,7 +10,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JList;
@@ -20,8 +19,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -66,7 +64,7 @@ public class Task extends AbstractModel {
     private List<String> activityList;
 
     /** The comment thread on the task. */
-    private final List<Comment> comments = new LinkedList<Comment>();
+    private final CommentList comments;
 
     /**
      * Instantiates a new task.
@@ -97,6 +95,7 @@ public class Task extends AbstractModel {
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<User>(assignedUsers) : null;
         this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        comments = new CommentList();
     }
 
 
@@ -351,7 +350,11 @@ public class Task extends AbstractModel {
         return activityList;
     }
 
-    public List<Comment> getComments() {
+    public void addComment(String msg) {
+        comments.add(msg);
+    }
+
+    public CommentList getComments() {
         return comments;
     }
 
@@ -446,9 +449,9 @@ public class Task extends AbstractModel {
     }
 
     /**
-	 * copies old task params to this task.
-	 * @param toCopyFrom old task.
-	 */
+     * copies old task params to this task.
+     * @param toCopyFrom old task.
+     */
     public void copyFrom(Task toCopyFrom) {
         //borrowed idea from requirements manager
         title = toCopyFrom.title;

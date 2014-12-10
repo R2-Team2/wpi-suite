@@ -28,6 +28,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -44,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.TaskTabPane;
 
 /**
  * The Class AbstractInformationPanel.
@@ -223,9 +225,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         ((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
 
-        // Setup GUI
-
-
         // Setup Columns
         final JPanel leftColumn = new JPanel(new MigLayout());
         final JPanel rightColumn = new JPanel(new MigLayout());
@@ -237,7 +236,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel manageAssigneeCell = new JPanel(new MigLayout());
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
 
-        final JPanel commentCell = new JPanel(new MigLayout());
+        final JTabbedPane commentCell = new TaskTabPane(getTask());
+        commentCell.setSize(new Dimension(1000, 1000));
 
         // Assignee view created and populated to the bottom Panel
         listPossibleAssignees.setBorder(defaultBorder);
@@ -281,6 +281,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
 
+
+
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
@@ -291,9 +293,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(leftColumn, "split 2, spanx, growy");
         contentPanel.add(rightColumn, "spanx, growy, wrap");
 
-        contentPanel.add(assigneeCell, "spany, growy, push, wrap");
+        contentPanel.add(assigneeCell, "spanx, growy, wrap");
 
-        contentPanel.add(commentCell, "spany, growy, push, wrap");
+        contentPanel.add(commentCell, "spanx, growy, wrap");
 
         setViewportView(contentPanel);
     }
