@@ -133,9 +133,9 @@ public class TaskStatusView extends AbsView {
                 }
             }
         }
-        System.out.println("Number of tasks, all: " + allTasks.length);
-        System.out.println("Number of tasks to display: " + displayTasks.size());
-        System.out.println(taskStatusObj.toJson());
+        // System.out.println("Number of tasks, all: " + allTasks.length);
+        // System.out.println("Number of tasks to display: " + displayTasks.size());
+        // System.out.println(taskStatusObj.toJson());
         // System.out.println(displayTasks.get(0).toJson());
 
         populateTaskStatusViewCards();
