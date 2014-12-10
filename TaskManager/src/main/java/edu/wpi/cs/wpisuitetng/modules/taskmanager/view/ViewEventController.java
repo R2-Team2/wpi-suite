@@ -100,19 +100,15 @@ public class ViewEventController {
 
 	}
 
-	/**
-	 * Filters Task Cards
-	 *
-	 * @param filterString filter string
-	 */
-	public void filterTasks(String filterString) {
-		workflow.filter(filterString);
-	}
 
 	/**
-	 * Filters Task Cards considering description
+	 * Filters task cards considering title, description, assignee, requirement and archived tasks.
 	 *
-	 * @param filterString filter string
+	 * @param filterString search string
+	 * @param description true if should search through description
+	 * @param requirement true if should search through requirement
+	 * @param assignee true if should search through assignee
+	 * @param archived true if should search through archived tasks
 	 */
 	public void filterTasksWithParameters(String filterString, boolean description,
 			boolean requirement, boolean assignee, boolean archived) {
@@ -177,13 +173,6 @@ public class ViewEventController {
 	 * Refresh work flow view.
 	 */
 	public void refreshWorkFlowView() {
-		workflow.refresh();
-	}
-
-	/**
-	 * Refresh work flow view.
-	 */
-	public void filterWorkFlowView(String filterString) {
 		workflow.refresh();
 	}
 

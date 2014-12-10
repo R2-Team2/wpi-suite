@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 /**
  * @author dbogatov
+ * @version 0.1
  */
 public class SearchBarGroup extends ToolbarGroupView {
 
@@ -41,7 +42,7 @@ public class SearchBarGroup extends ToolbarGroupView {
 
 		this.add(contentPanel);
 
-		JLabel lblSearch = new JLabel("Search:");
+		final JLabel lblSearch = new JLabel("Search:");
 		lblSearch.setBounds(6, 12, 61, 16);
 		contentPanel.add(lblSearch);
 

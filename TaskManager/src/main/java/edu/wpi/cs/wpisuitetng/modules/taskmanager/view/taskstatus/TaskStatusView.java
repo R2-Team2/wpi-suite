@@ -154,9 +154,13 @@ public class TaskStatusView extends JPanel {
 	}
 
 	/**
-	 * Populate task status view cards using filter and considering description.
-	 *
-	 * @param filterString filter string
+	 * Filters task cards considering title, description, assignee, requirement and archived tasks.
+	 * 
+	 * @param filterString search string
+	 * @param description true if should search through description
+	 * @param requirement true if should search through requirement
+	 * @param assignee true if should search through assignee
+	 * @param archived true if should search through archived tasks
 	 */
 	public void filterTaskStatusViewCardsWithParameters(String filterString, boolean description,
 			boolean requirement, boolean assignee, boolean archived) {
@@ -167,14 +171,14 @@ public class TaskStatusView extends JPanel {
 			if (description) {
 				shouldAppear =
 						shouldAppear
-						|| t.getDescription().toLowerCase()
-						.contains(filterString.toLowerCase());
+								|| t.getDescription().toLowerCase()
+										.contains(filterString.toLowerCase());
 			}
 			if (requirement) {
 				shouldAppear =
 						shouldAppear
-						|| t.getRequirement().toLowerCase()
-						.contains(filterString.toLowerCase());
+								|| t.getRequirement().toLowerCase()
+										.contains(filterString.toLowerCase());
 			}
 			if (assignee) {
 				try {
@@ -184,8 +188,8 @@ public class TaskStatusView extends JPanel {
 								+ user.getName());
 						shouldAppear =
 								shouldAppear
-								|| user.getName().toLowerCase()
-								.contains(filterString.toLowerCase());
+										|| user.getName().toLowerCase()
+												.contains(filterString.toLowerCase());
 					}
 				} catch (NullPointerException e) {
 					System.out.println("For the task \"" + t.getTitle()

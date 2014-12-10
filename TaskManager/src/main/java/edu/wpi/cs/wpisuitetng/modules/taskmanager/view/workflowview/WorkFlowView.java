@@ -61,8 +61,8 @@ public class WorkFlowView extends AbsWorkFlowView {
 		final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
 
 		taskStatusPanel
-				.setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-						+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+		.setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+				+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
 		// Hard Coded Task Statuses, move this to database soon
 		taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -108,16 +108,13 @@ public class WorkFlowView extends AbsWorkFlowView {
 	}
 
 	/**
-	 * Filter.
-	 */
-	public void filter(String filterString) {
-		for (TaskStatusView v : views) {
-			v.filterTaskStatusViewCards(filterString);
-		}
-	}
-
-	/**
-	 * Filter considering description.
+	 * Filters task cards considering title, description, assignee, requirement and archived tasks.
+	 * 
+	 * @param filterString search string
+	 * @param description true if should search through description
+	 * @param requirement true if should search through requirement
+	 * @param assignee true if should search through assignee
+	 * @param archived true if should search through archived tasks
 	 */
 	public void filterWithParameters(String filterString, boolean description, boolean requirement,
 			boolean assignee, boolean archived) {

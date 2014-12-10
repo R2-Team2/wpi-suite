@@ -215,7 +215,7 @@ public class MainView extends JTabbedPane {
 
 	/**
 	 * Show view task view.
-	 * 
+	 *
 	 * @param aPanel is the panel to be created.
 	 */
 	public void showViewTaskView(AbstractTaskPanel aPanel) {
@@ -238,6 +238,9 @@ public class MainView extends JTabbedPane {
 		}
 	}
 
+	/**
+	 * resets workflow size refreshing its contents
+	 */
 	public void resetPreferedSize() {
 		workflow.resetToPreferredSizes();
 	}
