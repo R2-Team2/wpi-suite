@@ -80,6 +80,7 @@ public class TaskStatusView extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         // Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(new EtchedBorder());
         this.add(scrollPane, "cell 0 1,grow");
 
