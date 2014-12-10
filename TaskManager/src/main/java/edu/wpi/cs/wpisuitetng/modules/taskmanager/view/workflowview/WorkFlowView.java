@@ -72,8 +72,8 @@ public class WorkFlowView extends AbsWorkFlowView {
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
         taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
 
         // retrieve task status objects
@@ -83,8 +83,7 @@ public class WorkFlowView extends AbsWorkFlowView {
         if (statuses.size() > 0) {
             System.out.println(statuses.size());
             for (int i = 0; i < statuses.size(); i++) {
-                TaskStatusView aView =
-                        new TaskStatusView(new TaskStatus(statuses.get(i).getName()));
+                TaskStatusView aView = new TaskStatusView(statuses.get(i));
                 aView.setTaskStatusObj(statuses.get(i));
                 // System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
                 taskStatusPanel.add(aView, "cell " + i + " 0,grow");

@@ -52,6 +52,9 @@ public class TaskStatusView extends AbsView {
 	/** The task status obj. */
     TaskStatus taskStatusObj;
 
+    Task[] allTasks;
+    List<Task> displayTasks = new ArrayList<Task>();
+
     /** The txtpn title. */
     JTextPane txtpnTitle = new JTextPane();
 
@@ -120,14 +123,16 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-
-        taskStatusObj.setTaskList(new ArrayList<Task>());
-        for (Task t : taskArray) {
-            if (t.getStatus() != null
-                    && taskStatusObj.getTaskStatusID() == t.getStatus().getTaskStatusID()) {
-                taskStatusObj.addTask(t);
+        allTasks = taskArray;
+        for (long id : taskStatusObj.getTaskList()) {
+            for (int i = 0; i < allTasks.length; i++) {
+                if (allTasks[i].getTaskID() == id) {
+                    displayTasks.add(i, allTasks[i]);
+                }
             }
         }
+
+
         populateTaskStatusViewCards();
     }
 
@@ -135,9 +140,8 @@ public class TaskStatusView extends AbsView {
      * Populate task status view cards.
      */
     public void populateTaskStatusViewCards() {
-        final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
-        for (Task t : taskList) {
+        for (Task t : displayTasks) {
             String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
