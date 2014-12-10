@@ -17,10 +17,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-<<<<<<< HEAD
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-=======
->>>>>>> refs/heads/develop
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 /**
@@ -438,6 +434,7 @@ public class Task extends AbstractModel {
 
     /**
      * copies old task params to this task.
+     * 
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {
