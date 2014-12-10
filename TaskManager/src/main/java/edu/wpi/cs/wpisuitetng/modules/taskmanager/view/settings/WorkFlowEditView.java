@@ -25,10 +25,10 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class WorkFlowView.
@@ -169,8 +169,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isNewStatusTitleFieldValid()) {
-                	addTaskStatusView(new TaskStatusView(
-                			new TaskStatus(newStatusTitleField.getText())));
+                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField
+                            .getText())));
                     clearNewStatusFields();
                 }
                 refresh();
@@ -314,11 +314,11 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         newStatusTypeField.setText("");
     }
 
+
     private void validateNewStatusFields() {
         if (isNewStatusTitleFieldValid() && isNewStatusTypeFieldValid()) {
             addButton.setEnabled(true);
-        }
-        else {
+        } else {
             addButton.setEnabled(false);
         }
     }

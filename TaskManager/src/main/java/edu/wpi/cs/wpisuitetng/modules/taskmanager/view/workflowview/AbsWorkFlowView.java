@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public class AbsWorkFlowView extends JPanel {
+
     /** The work flow obj. */
     private WorkFlow workFlowObj;
 
@@ -33,6 +34,7 @@ public class AbsWorkFlowView extends JPanel {
 
     /** The task status views. */
     private final List<TaskStatusView> views;
+
 
     /**
      * Constructor for AbsWorkFlowView.
@@ -51,11 +53,10 @@ public class AbsWorkFlowView extends JPanel {
 
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
-        taskStatusPanel.setLayout(new MigLayout(
-                "",
-                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                "[278px,grow 500]"));
+        taskStatusPanel
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }

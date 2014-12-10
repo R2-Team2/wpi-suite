@@ -70,9 +70,11 @@ public class ViewEventController {
      * opens requirement module tab
      */
     public void openRequirementsTab() {
-        // TODO use a more robust way of obtaining the Requirements Manager tab
+        // TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
+        // tab
         ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
     }
+
 
     /**
      * Sets the split tabbed panel.
@@ -99,6 +101,20 @@ public class ViewEventController {
 
     }
 
+    /**
+     * Filters task cards considering title, description, assignee, requirement and archived tasks.
+     *
+     * @param filterString search string
+     * @param description true if should search through description
+     * @param requirement true if should search through requirement
+     * @param assignee true if should search through assignee
+     * @param archived true if should search through archived tasks
+     */
+    public void filterTasksWithParameters(String filterString, boolean description,
+            boolean requirement, boolean assignee, boolean archived) {
+        workflow.filterWithParameters(filterString, description, requirement, assignee, archived);
+    }
+
     /*
      * Removes the current tab
      */
@@ -109,6 +125,7 @@ public class ViewEventController {
         main.hideCreateTaskView();
     }
 
+
     /**
      * Opens a new tab for viewing the given Task.
      *
@@ -118,9 +135,14 @@ public class ViewEventController {
         final WorkFlowSplitTabbedPanel viewParent = main.getWF().getWF();
         final ViewTaskPanel taskView = new ViewTaskPanel(viewParent, task);
         main.showViewTaskView(taskView);
-
     }
 
+    /**
+     * revalidates UI
+     */
+    public void revalidateAll() {
+        main.resetPreferedSize();
+    }
 
     /**
      * Removes the tab for the given JComponent.
