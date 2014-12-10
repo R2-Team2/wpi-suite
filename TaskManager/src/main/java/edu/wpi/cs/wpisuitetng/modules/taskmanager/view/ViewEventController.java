@@ -114,8 +114,9 @@ public class ViewEventController {
 	 *
 	 * @param filterString filter string
 	 */
-	public void filterTasksWithDescription(String filterString) {
-		workflow.filterWithDescription(filterString);
+	public void filterTasksWithParameters(String filterString, boolean description,
+			boolean requirement, boolean assignee, boolean archived) {
+		workflow.filterWithParameters(filterString, description, requirement, assignee, archived);
 	}
 
 	/*

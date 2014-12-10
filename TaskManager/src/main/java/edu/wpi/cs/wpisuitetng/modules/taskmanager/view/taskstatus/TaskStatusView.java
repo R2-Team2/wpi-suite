@@ -25,6 +25,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -157,12 +158,45 @@ public class TaskStatusView extends JPanel {
 	 *
 	 * @param filterString filter string
 	 */
-	public void filterTaskStatusViewCardsWithDescription(String filterString) {
+	public void filterTaskStatusViewCardsWithParameters(String filterString, boolean description,
+			boolean requirement, boolean assignee, boolean archived) {
 		final List<Task> taskList = taskStatusObj.getTaskList();
 		panel.removeAll();
 		for (Task t : taskList) {
-			if (t.getTitle().toLowerCase().contains(filterString.toLowerCase())
-					|| t.getDescription().toLowerCase().contains(filterString.toLowerCase())) {
+			boolean shouldAppear = t.getTitle().toLowerCase().contains(filterString.toLowerCase());
+			if (description) {
+				shouldAppear =
+						shouldAppear
+						|| t.getDescription().toLowerCase()
+						.contains(filterString.toLowerCase());
+			}
+			if (requirement) {
+				shouldAppear =
+						shouldAppear
+						|| t.getRequirement().toLowerCase()
+						.contains(filterString.toLowerCase());
+			}
+			if (assignee) {
+				try {
+					for (int i = 0; i < t.getAssignedUsers().getModel().getSize(); i++) {
+						User user = t.getAssignedUsers().getModel().getElementAt(i);
+						System.out.println("For the task \"" + t.getTitle() + "\" assignee are: "
+								+ user.getName());
+						shouldAppear =
+								shouldAppear
+								|| user.getName().toLowerCase()
+								.contains(filterString.toLowerCase());
+					}
+				} catch (NullPointerException e) {
+					System.out.println("For the task \"" + t.getTitle()
+							+ "\" assignee are not defined!");
+				}
+			}
+			if (archived) {
+				// TODO implement this branch if we decide to use archiving
+			}
+
+			if (shouldAppear) {
 				String dateString = formateDate(t);
 				TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
 				panel.add(card, "newline");

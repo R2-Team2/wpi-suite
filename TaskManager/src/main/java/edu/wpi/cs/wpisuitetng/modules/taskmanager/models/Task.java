@@ -311,8 +311,12 @@ public class Task extends AbstractModel {
 		 * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
 		 * } //returnUsers=midArry;
 		 */
-		final JList<User> returnUsers = new JList(assignedUsers.toArray());
-		return returnUsers;
+		try {
+			final JList<User> returnUsers = new JList(assignedUsers.toArray());
+			return returnUsers; // != null ? returnUsers : new JList<User>();
+		} catch (NullPointerException e) {
+			return new JList<User>();
+		}
 	}
 
 	/**
@@ -450,7 +454,7 @@ public class Task extends AbstractModel {
 
 	/**
 	 * copies old task params to this task.
-	 * 
+	 *
 	 * @param toCopyFrom old task.
 	 */
 	public void copyFrom(Task toCopyFrom) {
