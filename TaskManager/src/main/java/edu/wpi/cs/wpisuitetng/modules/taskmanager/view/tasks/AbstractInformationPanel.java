@@ -169,8 +169,10 @@ public class AbstractInformationPanel extends JScrollPane {
 		final JLabel labelStatus = new JLabel("Status: ");
 		final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
 		final JLabel labelActualEffort = new JLabel("Actual Effort: ");
-		final JLabel labelDueDate = new JLabel("Due Date: ");
-		final JLabel labelStartDate = new JLabel("Start Date: ");
+		final JLabel labelDueDate =
+				new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
+		final JLabel labelStartDate =
+				new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
 		final JLabel labelRequirement = new JLabel("Requirement: ");
 		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
 		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
