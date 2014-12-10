@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
@@ -21,6 +22,7 @@ import org.junit.Test;
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
+@Ignore
 public class NewTaskPanelTest {
 
 	/**
