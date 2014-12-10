@@ -67,7 +67,7 @@ public class WorkFlowView extends AbsWorkFlowView {
     public void rebuildWF() {
 
         // getWorkFlowFromDB();
-
+        taskStatusPanel = null;
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
@@ -79,7 +79,7 @@ public class WorkFlowView extends AbsWorkFlowView {
         // retrieve task status objects
         RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
         retrieveTS.requestTaskStatuses();
-        System.out.println("Begin Building TS Views.");
+        // System.out.println("Begin Building TS Views.");
         if (statuses.size() > 0) {
             System.out.println(statuses.size());
             for (int i = 0; i < statuses.size(); i++) {
@@ -91,10 +91,10 @@ public class WorkFlowView extends AbsWorkFlowView {
             }
             ViewEventController.getInstance().setWorkFlowView(this);
         } else {
-            System.out.println("Currently No Statuses");
             rebuildWF();
         }
         instance = this;
+        // System.out.println("Work Flow View Built.");
     }
 
     /**

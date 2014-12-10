@@ -41,15 +41,16 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends AbsView {
 
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return taskStatusObj.toString();
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return taskStatusObj.toString();
+    }
 
-	/** The task status obj. */
+    /** The task status obj. */
     TaskStatus taskStatusObj;
 
     Task[] allTasks;
@@ -108,7 +109,7 @@ public class TaskStatusView extends AbsView {
         initialized = true;
     }
 
-	/**
+    /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
@@ -123,6 +124,7 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
+        System.out.println("Parsing all tasks.");
         allTasks = taskArray;
         for (long id : taskStatusObj.getTaskList()) {
             for (int i = 0; i < allTasks.length; i++) {
@@ -131,7 +133,10 @@ public class TaskStatusView extends AbsView {
                 }
             }
         }
-
+        System.out.println("Number of tasks, all: " + allTasks.length);
+        System.out.println("Number of tasks to display: " + displayTasks.size());
+        System.out.println(taskStatusObj.toJson());
+        // System.out.println(displayTasks.get(0).toJson());
 
         populateTaskStatusViewCards();
     }
