@@ -22,7 +22,6 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Task.
  *
@@ -317,6 +316,7 @@ public class Task extends AbstractModel {
 		} catch (NullPointerException e) {
 			return new JList<User>();
 		}
+
 	}
 
 	/**
@@ -325,15 +325,11 @@ public class Task extends AbstractModel {
 	 * @return String
 	 */
 	public String getUserForTaskCard() {
-		if (assignedUsers == null) {
-			return "";
-		}
-
 		String user;
-		if (assignedUsers.size() > 1) {
-			user = assignedUsers.get(0).getName() + " ...";
-		} else if (assignedUsers.size() == 0) {
+		if (assignedUsers == null || assignedUsers.size() == 0) {
 			user = "";
+		} else if (assignedUsers.size() > 1) {
+			user = assignedUsers.get(0).getName() + " ...";
 		} else {
 			user = assignedUsers.get(0).getName();
 		}
@@ -380,7 +376,6 @@ public class Task extends AbstractModel {
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -389,7 +384,6 @@ public class Task extends AbstractModel {
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -400,7 +394,7 @@ public class Task extends AbstractModel {
 		return new Gson().toJson(this, Task.class);
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -437,6 +431,7 @@ public class Task extends AbstractModel {
 		}
 		requirement = updatedTask.requirement;
 		status = updatedTask.status;
+
 	}
 
 	/**
@@ -449,7 +444,6 @@ public class Task extends AbstractModel {
 		final Gson parser = new Gson();
 		final Task[] tasks = parser.fromJson(json, Task[].class);
 		return tasks;
-
 	}
 
 	/**

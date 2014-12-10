@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +43,16 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return taskStatusObj.toString();
+	}
+
 	/** The task status obj. */
 	TaskStatus taskStatusObj;
 
@@ -51,25 +62,24 @@ public class TaskStatusView extends JPanel {
 	/** The panel. */
 	JPanel panel = new JPanel();
 
-	/** The TaskStatus title. */
-	private final String title;
 
 	/** Represents whether the view has been initialized. */
 	private boolean initialized;
 
+
 	/**
 	 * Create the panel.
 	 *
-	 * @param title the title
-	 * @param statusType the status type
+	 * @param taskStatusObject the Task Status Object
 	 */
-	public TaskStatusView(String title, String statusType) {
+	public TaskStatusView(TaskStatus taskStatusObject) {
 
 		initialized = false;
-		this.title = title;
+
+		taskStatusObj = taskStatusObject;
 
 		setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-		taskStatusObj = new TaskStatus(statusType);
+
 
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(null);
@@ -78,6 +88,7 @@ public class TaskStatusView extends JPanel {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBorder(new EtchedBorder());
 		this.add(scrollPane, "cell 0 1,grow");
+
 
 		// Create Format and Add Title JTextPane
 		final StyledDocument document = new DefaultStyledDocument();
@@ -88,23 +99,13 @@ public class TaskStatusView extends JPanel {
 		txtpnTitle.setBorder(null);
 		txtpnTitle.setForeground(Color.black);
 		txtpnTitle.setEditable(false);
-		txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-		txtpnTitle.setText(this.title);
+		txtpnTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
+		txtpnTitle.setText(taskStatusObj.getName());
 		this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
 		panel.setBackground(Color.WHITE);
 
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
-	}
-
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return title;
 	}
 
 
@@ -116,6 +117,7 @@ public class TaskStatusView extends JPanel {
 		final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
 		retrieveTasks.requestTasks();
 	}
+
 
 	/**
 	 * Fill task list.
@@ -155,7 +157,7 @@ public class TaskStatusView extends JPanel {
 
 	/**
 	 * Filters task cards considering title, description, assignee, requirement and archived tasks.
-	 * 
+	 *
 	 * @param filterString search string
 	 * @param description true if should search through description
 	 * @param requirement true if should search through requirement
@@ -171,14 +173,14 @@ public class TaskStatusView extends JPanel {
 			if (description) {
 				shouldAppear =
 						shouldAppear
-								|| t.getDescription().toLowerCase()
-										.contains(filterString.toLowerCase());
+						|| t.getDescription().toLowerCase()
+						.contains(filterString.toLowerCase());
 			}
 			if (requirement) {
 				shouldAppear =
 						shouldAppear
-								|| t.getRequirement().toLowerCase()
-										.contains(filterString.toLowerCase());
+						|| t.getRequirement().toLowerCase()
+						.contains(filterString.toLowerCase());
 			}
 			if (assignee) {
 				try {
@@ -188,8 +190,8 @@ public class TaskStatusView extends JPanel {
 								+ user.getName());
 						shouldAppear =
 								shouldAppear
-										|| user.getName().toLowerCase()
-												.contains(filterString.toLowerCase());
+								|| user.getName().toLowerCase()
+								.contains(filterString.toLowerCase());
 					}
 				} catch (NullPointerException e) {
 					System.out.println("For the task \"" + t.getTitle()
@@ -222,6 +224,7 @@ public class TaskStatusView extends JPanel {
 		}
 		revalidate();
 	}
+
 
 
 	/**
