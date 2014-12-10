@@ -54,8 +54,10 @@ public class WorkFlowView extends AbsWorkFlowView {
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
         final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
-        final TaskStatusView taskStatusSelDev = new TaskStatusView(new TaskStatus("Selected for Development"));
-        final TaskStatusView taskStatusInDev = new TaskStatusView(new TaskStatus("Currently in Development"));
+        final TaskStatusView taskStatusSelDev = new TaskStatusView(
+        		new TaskStatus("Selected for Development"));
+        final TaskStatusView taskStatusInDev = new TaskStatusView(
+        		new TaskStatus("Currently in Development"));
         final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
 
         taskStatusPanel

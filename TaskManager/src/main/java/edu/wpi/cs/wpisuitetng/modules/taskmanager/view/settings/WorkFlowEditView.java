@@ -169,7 +169,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isNewStatusTitleFieldValid()) {
-                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
+                	addTaskStatusView(new TaskStatusView(
+                			new TaskStatus(newStatusTitleField.getText())));
                     clearNewStatusFields();
                 }
                 refresh();

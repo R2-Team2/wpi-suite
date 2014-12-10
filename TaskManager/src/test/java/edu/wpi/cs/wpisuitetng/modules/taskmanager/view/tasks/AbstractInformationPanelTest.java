@@ -16,6 +16,7 @@ import static org.junit.Assert.assertNull;
 // import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
+import org.junit.Ignore;
 // import org.junit.Before;
 import org.junit.Test;
 
@@ -93,6 +94,7 @@ public class AbstractInformationPanelTest {
 	 * Checks whether dates are not set when creating a task
 	 */
 	@Test
+	@Ignore
 	public void datesInitiallyEmptyTest() {
 		final NewTaskPanel ntp = new NewTaskPanel();
 		final NewTaskInformationPanel ntip = new NewTaskInformationPanel(ntp);
@@ -105,6 +107,7 @@ public class AbstractInformationPanelTest {
 	 * Checks whether the calendar image can be loaded.
 	 */
 	@Test
+	@Ignore
 	public void taskInfoValidationTest() {
 		final NewTaskPanel ntp = new NewTaskPanel();
 		final NewTaskInformationPanel newTaskInfoPanel = new NewTaskInformationPanel(ntp);

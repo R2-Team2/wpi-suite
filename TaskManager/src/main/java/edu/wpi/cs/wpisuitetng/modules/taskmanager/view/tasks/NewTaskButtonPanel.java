@@ -82,7 +82,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
                 || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
-                        .equals("New") && parentPanel.infoPanel.listChosenAssignees.getModel()
+                        .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
                         .getSize() == 0) || parentPanel.infoPanel.calDueDate.getDate() == null
                 || parentPanel.infoPanel.calStartDate.getDate() == null) {
             buttonCreate.setEnabled(false);
