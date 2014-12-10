@@ -54,8 +54,9 @@ public class AbsWorkFlowView extends JPanel {
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
