@@ -55,13 +55,13 @@ public class TaskEntityManager implements EntityManager<Task> {
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
         if (idArry.length == 0) {
-            System.out.println("Creating new IDNum object");
+            // System.out.println("Creating new IDNum object");
             // Initialize ID
             final IDNum idStore = new IDNum(db);
             db.save(idStore);
 
             newMessage.setTaskID(idStore.getAndIncID());
-            System.out.println("gave task new id: " + newMessage.toJson());
+            // System.out.println("gave task new id: " + newMessage.toJson());
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
@@ -75,18 +75,75 @@ public class TaskEntityManager implements EntityManager<Task> {
             System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
 
-            System.out.println("id: " + idList.get(0).toJson());
-
-
-            // IDNum idObj[] = idList.toArray(new IDNum[0]);
-
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
             }
 
+            // updateTaskStatus(s, newMessage);
+            // add update task status functionality
+            List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+            TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+
+            // if (tsArray.length == 0 || tsArray[0] == null) {
+            // System.out.println("Error: No tasks updated for new task!");
+            // } else {
+            for (int i = 0; i < tsArray.length; i++) {
+                System.out.println("tsArray.getName: -" + tsArray[i].getName()
+                        + "- task.getStatus: -" + newMessage.getStatus() + "-");
+                if (tsArray[i].getName().equals(newMessage.getStatus())) {
+                    System.out.println("Found matching Task Status");
+                    TaskStatus updatedTS = tsArray[i].addTask(newMessage);
+                    tsArray[i].update(updatedTS);
+                    System.out.println(tsArray[i].toJson());
+
+                    db.save(tsArray[i], s.getProject());
+
+                    System.out.println("");
+                    System.out.println("Do We Get here to end of update Task Status?");
+                    System.out.println("");
+                }
+                // }
+
+
+            }
             db.save(newMessage, s.getProject());
-            System.out.println("New Message TaskID: " + newMessage.getTaskID());
             return newMessage;
+        }
+    }
+
+    /**
+     * updates the task status to include a reference to this task.
+     *
+     * @param s is the session
+     * @param aTask task to add in task status.
+     * @return boolean flag to tell whether sucessfull.
+     */
+    public boolean updateTaskStatus(Session s, Task aTask) {
+        System.out.println("Updating Task Status from New Task");
+        boolean flag = false;
+        List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+        TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+
+        if (tsArray.length == 0 || tsArray[0] == null) {
+            System.out.println("Error: No tasks updated for new task!");
+            return flag = false;
+        } else {
+            for (int i = 0; i < tsList.size(); i++) {
+                if (tsArray[i].getName() == aTask.getStatus()) {
+                    System.out.println("Found matching Task Status");
+                    TaskStatus updatedTS = tsArray[i].addTask(aTask);
+                    tsArray[i].update(updatedTS);
+                    System.out.println(tsArray[i].toJson());
+                    db.save(tsArray[i], s.getProject());
+
+                    System.out.println("");
+                    System.out.println("Do We Get here to end of update Task Status?");
+                    System.out.println("");
+
+                    return flag = true;
+                }
+            }
+            return flag;
         }
     }
 
@@ -107,8 +164,8 @@ public class TaskEntityManager implements EntityManager<Task> {
     public Task[] getAll(Session s) {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
-                db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-                        null, null), s.getProject());
+                db.retrieveAll(new Task(0, "", "", 0, 0, null, "", null, null, null, null),
+                        s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -176,8 +233,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     // Return the number of PostBoardMessages currently in the database
     @Override
     public int Count() {
-        return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
+        return db.retrieveAll(new Task(0, null, null, 0, 0, null, null, null, null, null, null))
                 .size();
 
     }

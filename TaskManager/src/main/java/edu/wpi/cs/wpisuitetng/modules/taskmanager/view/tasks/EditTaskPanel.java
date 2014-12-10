@@ -68,7 +68,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         final UpdateTaskController updateTask = new UpdateTaskController(this);
         updateTask.updateTask(updatedTask);
 
-        updateTaskStatus(updatedTask.getStatus().getName(), updatedTask);
+        updateTaskStatus(updatedTask.getStatus(), updatedTask);
 
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();

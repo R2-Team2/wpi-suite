@@ -113,6 +113,7 @@ public class TaskStatus extends AbstractModel {
      */
     public TaskStatus addTask(Task task) {
         taskList.add(task.getTaskID());
+        System.out.println("TS from addTask: " + toJson());
         return this;
     }
 
