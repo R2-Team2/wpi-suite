@@ -240,5 +240,10 @@ public class MainView extends JTabbedPane {
         }
     }
 
+	public WorkFlowEditView getEditWorkFlowView() {
+		return editWorkFlowView;
+		
+	}
+
 
 }

@@ -83,7 +83,6 @@ public class WorkFlowView extends AbsWorkFlowView {
      *
      * @return the work flow obj
      */
-    @Override
     public WorkFlow getWorkFlowObj() {
         instance = this;
         return workFlowObj;
@@ -94,7 +93,6 @@ public class WorkFlowView extends AbsWorkFlowView {
      *
      * @param workFlowObj the new work flow obj
      */
-    @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
         instance = this;

@@ -27,8 +27,10 @@ import javax.swing.event.ListDataListener;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
 /**
  * The Class WorkFlowView.
@@ -38,7 +40,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowV
  */
 @SuppressWarnings("serial")
 public class WorkFlowEditView extends AbsWorkFlowView {
-
+	
+//	private static WorkFlowEditView instance = null;
+	
     private final int maxTitleLen = 30;
     private final JPanel sidePanel = new JPanel(new MigLayout());
 
@@ -63,19 +67,23 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     // Show and Remove Status Components
     private final DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
     private final JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
+	
+    private WorkFlowView workFlowView;
+    private static boolean first = true;
 
     /**
      * Create the panel.
      */
     public WorkFlowEditView() {
     	buildSidePanel();
-        taskStatusPanel.add(sidePanel, "dock east,");
+    	
+    	taskStatusPanel.add(sidePanel, "dock east,");
+        this.add(taskStatusPanel);
+        
         setupListeners();
     }
 
     private void buildList() {
-        super.refresh();
-        System.out.println(getViews().toString());
     	for (TaskStatusView t : getViews()) {
             if (!model.contains(t)) {
                 model.addElement(t);
@@ -84,31 +92,13 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     }
 
     /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    @Override
-    public WorkFlow getWorkFlowObj() {
-        return super.getWorkFlowObj();
-    }
-
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    @Override
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        setWorkFlowObj(workFlowObj);
-    }
-
-    /**
      * Refresh.
      */
     @Override
     public void refresh() {
-        super.refresh();
+        if(first) 
+    	//super.refresh();
+        this.add(workFlowView);
         buildList();
     }
 
@@ -328,4 +318,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
             }
         });
     }
+
+	public void setWorkFlowView(WorkFlowView workFlowView) {
+		this.workFlowView = workFlowView;
+	}
 }

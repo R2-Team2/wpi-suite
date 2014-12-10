@@ -28,11 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public abstract class AbsWorkFlowView extends AbsView {
-    /** The work flow obj. */
-    private WorkFlow workFlowObj = new WorkFlow();
 
     /** The task status panel. */
-    protected JPanel taskStatusPanel = new JPanel();
+    public JPanel taskStatusPanel = new JPanel();
 
     /** The task status views. */
     private final List<TaskStatusView> views = new ArrayList<TaskStatusView>();
@@ -150,21 +148,7 @@ public abstract class AbsWorkFlowView extends AbsView {
         return taskStatusPanel;
     }
 
-    public WorkFlow getWorkFlowObj() {
-        // TODO Auto-generated method stub
-        return workFlowObj;
-    }
-
-
-    public void setWorkFlowObj(WorkFlow workFlowObj2) {
-        // TODO Auto-generated method stub
-        workFlowObj = workFlowObj2;
-    }
-
-
-
     public List<TaskStatusView> getViews() {
-    	refresh();
     	return views;
     }
 

@@ -32,6 +32,8 @@ public class ViewEventController {
 
     /** The workflow. */
     private WorkFlowView workflow = null;
+    
+//    private WorkFlowEditView editWorkFlowView = null;
 
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
@@ -88,7 +90,9 @@ public class ViewEventController {
      */
     public void editWorkFlowView() {
         WorkFlowView.getInstance().refresh();
+        main.getEditWorkFlowView().setWorkFlowView(ViewEventController.getInstance().getWorkflow());
         main.editWorkFlowView();
+        
 
     }
 
@@ -138,7 +142,10 @@ public class ViewEventController {
     public void setWorkFlowView(WorkFlowView workflow) {
         this.workflow = workflow;
     }
-
+    
+//    public void setWorkFlowEditView(WorkFlowEditView editWorkFlow){
+//    	this.editWorkFlowView = editWorkFlow;
+//    }
     /**
      * getter for the workflowview field.
      * 
