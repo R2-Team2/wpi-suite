@@ -28,6 +28,7 @@ import javax.swing.text.StyledDocument;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
@@ -153,8 +154,8 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-        final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-        controller.requestWorkflow();
+        //final RetrieveWorkflowController controller = new RetrieveWorkflowController();
+        //controller.requestWorkflow();
 
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
