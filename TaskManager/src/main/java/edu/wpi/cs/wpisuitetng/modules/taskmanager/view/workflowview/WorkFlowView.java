@@ -29,85 +29,102 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 @SuppressWarnings("serial")
 public class WorkFlowView extends AbsWorkFlowView {
 
-    /** The work flow obj. */
-    private WorkFlow workFlowObj;
+	/** The work flow obj. */
+	private WorkFlow workFlowObj;
 
-    /** The task status views. */
-    List<TaskStatusView> views;
+	/** The task status views. */
+	List<TaskStatusView> views;
 
-    /**
-     * Create the panel.
-     */
-    public WorkFlowView() {
-        ViewEventController.getInstance().setWorkFlowView(this);
+	/**
+	 * Create the panel.
+	 */
+	public WorkFlowView() {
+		ViewEventController.getInstance().setWorkFlowView(this);
 
-        workFlowObj = new WorkFlow();
-        views = new ArrayList<TaskStatusView>();
+		workFlowObj = new WorkFlow();
+		views = new ArrayList<TaskStatusView>();
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
-        final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+		final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
+		// this.add(hbar, BorderLayout.SOUTH);
+		// JScrollPane scrollPane = new JScrollPane();
+		// this.add(scrollPane, BorderLayout.SOUTH);
 
-        taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
-        final TaskStatusView taskStatusSelDev = new TaskStatusView(new TaskStatus("Selected for Development"));
-        final TaskStatusView taskStatusInDev = new TaskStatusView(new TaskStatus("Currently in Development"));
-        final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
 
-        taskStatusPanel
-        .setLayout(new MigLayout(
-                "",
-                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                "[278px,grow 500]"));
+		taskStatusPanel = new JPanel();
+		this.add(taskStatusPanel, BorderLayout.CENTER);
+		final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
+		final TaskStatusView taskStatusSelDev =
+				new TaskStatusView(new TaskStatus("Selected for Development"));
+		final TaskStatusView taskStatusInDev =
+				new TaskStatusView(new TaskStatus("Currently in Development"));
+		final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
 
-        // Hard Coded Task Statuses, move this to database soon
-        taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
-        taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
-        taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
-        taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
+		taskStatusPanel
+				.setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+						+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
-        views.add(taskStatusNew);
-        views.add(taskStatusSelDev);
-        views.add(taskStatusInDev);
-        views.add(taskStatusDone);
-    }
+		// Hard Coded Task Statuses, move this to database soon
+		taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
+		taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
+		taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
+		taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
 
-    /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    @Override
-    public WorkFlow getWorkFlowObj() {
-        return workFlowObj;
-    }
+		views.add(taskStatusNew);
+		views.add(taskStatusSelDev);
+		views.add(taskStatusInDev);
+		views.add(taskStatusDone);
+	}
 
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    @Override
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        this.workFlowObj = workFlowObj;
-    }
+	/**
+	 * Gets the work flow obj.
+	 *
+	 * @return the work flow obj
+	 */
+	@Override
+	public WorkFlow getWorkFlowObj() {
+		return workFlowObj;
+	}
 
-    /**
-     * Refresh.
-     */
-    @Override
-    public void refresh() {
-        for (TaskStatusView v : views) {
-            System.out.println("Currently in Refresh method");
-            v.requestTasksFromDb();
-        }
-        revalidate();
-        repaint();
-    }
+	/**
+	 * Sets the work flow obj.
+	 *
+	 * @param workFlowObj the new work flow obj
+	 */
+	@Override
+	public void setWorkFlowObj(WorkFlow workFlowObj) {
+		this.workFlowObj = workFlowObj;
+	}
+
+	/**
+	 * Filters task cards considering title, description, assignee, requirement and archived tasks.
+	 *
+	 * @param filterString search string
+	 * @param description true if should search through description
+	 * @param requirement true if should search through requirement
+	 * @param assignee true if should search through assignee
+	 * @param archived true if should search through archived tasks
+	 */
+	public void filterWithParameters(String filterString, boolean description, boolean requirement,
+			boolean assignee, boolean archived) {
+		for (TaskStatusView v : views) {
+			v.filterTaskStatusViewCardsWithParameters(filterString, description, requirement,
+					assignee, archived);
+		}
+	}
+
+	/**
+	 * Refresh.
+	 */
+	@Override
+	public void refresh() {
+		for (TaskStatusView v : views) {
+			System.out.println("Currently in Refresh method");
+			v.requestTasksFromDb();
+		}
+		revalidate();
+		repaint();
+	}
 
 }

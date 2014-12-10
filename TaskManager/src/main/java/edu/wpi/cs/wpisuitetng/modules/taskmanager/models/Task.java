@@ -310,8 +310,13 @@ public class Task extends AbstractModel {
 		 * i++) { //returnUsers.addElement(assignedUsers.get(i)); midArry[i] = assignedUsers.get(i);
 		 * } //returnUsers=midArry;
 		 */
-		final JList<User> returnUsers = new JList(assignedUsers.toArray());
-		return returnUsers;
+		try {
+			final JList<User> returnUsers = new JList(assignedUsers.toArray());
+			return returnUsers; // != null ? returnUsers : new JList<User>();
+		} catch (NullPointerException e) {
+			return new JList<User>();
+		}
+
 	}
 
 	/**
@@ -371,7 +376,6 @@ public class Task extends AbstractModel {
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -380,7 +384,6 @@ public class Task extends AbstractModel {
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -391,7 +394,7 @@ public class Task extends AbstractModel {
 		return new Gson().toJson(this, Task.class);
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -428,6 +431,7 @@ public class Task extends AbstractModel {
 		}
 		requirement = updatedTask.requirement;
 		status = updatedTask.status;
+
 	}
 
 	/**
@@ -440,12 +444,11 @@ public class Task extends AbstractModel {
 		final Gson parser = new Gson();
 		final Task[] tasks = parser.fromJson(json, Task[].class);
 		return tasks;
-
 	}
 
 	/**
 	 * copies old task params to this task.
-	 * 
+	 *
 	 * @param toCopyFrom old task.
 	 */
 	public void copyFrom(Task toCopyFrom) {
