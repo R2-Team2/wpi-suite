@@ -96,7 +96,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      */
     @Override
     public void refresh() {
-        if(first) 
+//        if(first) 
     	//super.refresh();
         this.add(workFlowView);
         buildList();

@@ -128,7 +128,7 @@ public class MainView extends JTabbedPane {
     /**
      * Edits the work flow view.
      */
-    public void editWorkFlowView() {
+    public void showEditWorkFlowView() {
         if (!isTabAlreadyOpen(settingsView)) {
             this.addTab("Edit Work Flow", null, settingsView, null);
 

@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public abstract class AbsWorkFlowView extends AbsView {
     /** The task status objects */
     List<TaskStatus> statuses = new ArrayList<TaskStatus>();
 
+	private boolean initialized = false;
+
     /**
      * Constructor for AbsWorkFlowView.
      */
@@ -51,16 +54,6 @@ public abstract class AbsWorkFlowView extends AbsView {
                 "[278px,grow 500]"));
         //buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-        new java.util.Timer().schedule( 
-    	        new java.util.TimerTask() {
-    	            @Override
-    	            public void run() {
-    	                refresh();
-    	            }
-    	        }, 
-    	        5000 
-    	);
-        
     }
     
     /**
@@ -216,5 +209,12 @@ public abstract class AbsWorkFlowView extends AbsView {
             refresh();
         }
     }
-
+    @Override
+    public void paintComponent(Graphics g) {
+        if (!initialized ) {
+            this.refresh();
+            initialized = true;
+        }
+        super.paintComponent(g);
+    }
 }

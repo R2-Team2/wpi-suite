@@ -25,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView
  * @author R2-Team2
  */
 public class ViewEventController {
-	Timer timer = new Timer();
 	
     /** The instance. */
     private static ViewEventController instance = null;
@@ -36,8 +35,6 @@ public class ViewEventController {
     /** The workflow. */
     private WorkFlowView workflow = null;
     
-//    private WorkFlowEditView editWorkFlowView = null;
-
     /** The split. */
     private WorkFlowSplitTabbedPanel split = null;
 
@@ -45,15 +42,6 @@ public class ViewEventController {
      * Default constructor for ViewEventController. Is protected to prevent instantiation.
      */
     private ViewEventController() {
-    	new java.util.Timer().schedule( 
-    	        new java.util.TimerTask() {
-    	            @Override
-    	            public void run() {
-    	                createTask();
-    	            }
-    	        }, 
-    	        5000 
-    	);
     }
 
     /**
@@ -100,8 +88,8 @@ public class ViewEventController {
      */
     public void editWorkFlowView() {
         WorkFlowView.getInstance().refresh();
-        main.getEditWorkFlowView().setWorkFlowView(ViewEventController.getInstance().getWorkflow());
-        main.editWorkFlowView();
+//        main.getEditWorkFlowView().setWorkFlowView(ViewEventController.getInstance().getWorkflow());
+        main.showEditWorkFlowView();
         
 
     }

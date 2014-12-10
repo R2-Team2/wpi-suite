@@ -26,6 +26,7 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
+
     /**
      * Create the panel.
      */
@@ -59,8 +60,6 @@ public class WorkFlowView extends AbsWorkFlowView {
         }
 
     }
-
-
 
     /**
      * Generates views field from taskStatusArray
