@@ -62,10 +62,11 @@ public class AbstractInformationPanel extends JScrollPane {
 	/** The list of possible assignees. */
 	protected User[] listOfPossibleAssignees = new User[] {};
 
-    /** The list of statuses. */
-    protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
-            new TaskStatus("Selected for Development").toString(), new TaskStatus("Currently in Development").toString(),
-            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
+	/** The list of statuses. */
+	protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+			new TaskStatus("Selected for Development").toString(),
+			new TaskStatus("Currently in Development").toString(),
+			new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
 	/** The string list of requirements. */
 	protected List<String> strListOfRequirements = new ArrayList<String>();
@@ -151,6 +152,10 @@ public class AbstractInformationPanel extends JScrollPane {
 			// build a List<String> of the names of the requirements
 			// defaultComboBoxModel, below, requires an array of string
 			String tempName = requirements.get(i).getName();
+			if (tempName.length() > 15) {
+				tempName = tempName.substring(0, 15) + "...";
+			}
+			System.out.println(tempName);
 			strListOfRequirements.add(tempName);
 			arrListOfRequirements[i + 1] = tempName;
 		}
@@ -398,9 +403,9 @@ public class AbstractInformationPanel extends JScrollPane {
 	 */
 	public void openSelectedRequirement() throws Exception {
 		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-				.editRequirement(getSelectedRequirement());
+		.editRequirement(getSelectedRequirement());
 		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-				.openRequirementsTab();
+		.openRequirementsTab();
 	}
 
 	private void validateRequirementView() {
@@ -458,20 +463,20 @@ public class AbstractInformationPanel extends JScrollPane {
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
-    @Override
-    public int compare(Iteration I1, Iteration I2) {
-        int result = 0;
-        if (I1.getStart() == null) {
-            result = -1;
-        }
-        else if (I2.getStart() == null) {
-            result = 1;
-        }
-        else {
-            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
-        }
-        return result;
-    }
+	@Override
+	public int compare(Iteration I1, Iteration I2) {
+		int result = 0;
+		if (I1.getStart() == null) {
+			result = -1;
+		}
+		else if (I2.getStart() == null) {
+			result = 1;
+		}
+		else {
+			result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+		}
+		return result;
+	}
 }
 
 
