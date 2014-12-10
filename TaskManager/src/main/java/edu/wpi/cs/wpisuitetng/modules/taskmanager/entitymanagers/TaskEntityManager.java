@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
-
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -55,8 +54,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
-        if (idArry.length == 0)
-        {
+        if (idArry.length == 0) {
             System.out.println("Creating new IDNum object");
             // Initialize ID
             final IDNum idStore = new IDNum(db);
@@ -70,9 +68,9 @@ public class TaskEntityManager implements EntityManager<Task> {
             }
 
             db.save(newMessage, s.getProject());
-        }
-        else
-        {
+
+            return newMessage;
+        } else {
             System.out.println("retrieved id list");
             System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
@@ -88,15 +86,14 @@ public class TaskEntityManager implements EntityManager<Task> {
 
             db.save(newMessage, s.getProject());
             System.out.println("New Message TaskID: " + newMessage.getTaskID());
+            return newMessage;
         }
-
-        return newMessage;
     }
 
     @Override
     public Task[] getEntity(Session s, String id) throws WPISuiteException {
         final List<Model> tasks =
-                db.retrieve(Task.class, "id", Integer.parseInt(id), s.getProject());
+                db.retrieve(Task.class, "taskID", Integer.parseInt(id), s.getProject());
         return tasks.toArray(new Task[0]);
     }
 
@@ -119,21 +116,16 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public Task update(Session s, String content) throws WPISuiteException {
-        System.out.println("update method called in Task Entity Manager");
+        // System.out.println("update method called in Task Entity Manager");
 
         final Task updatedTask = Task.fromJson(content);
         System.out.println("updatedTask: " + updatedTask.toJson());
 
-        /*
-         * Because of the disconnected objects problem in db4o, we can't just save tasks. We have to
-         * get the original defect from db4o, copy properties from updatedTask, then save the
-         * original Task again.
-         */
-
+        // Retrieve the original Task
         final List<Model> oldTasks =
                 db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
         if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
-            throw new BadRequestException("Requirement with ID does not exist.");
+            throw new BadRequestException("Task with ID does not exist.");
         }
 
         final Task existingTask = (Task) oldTasks.get(0);
@@ -144,10 +136,6 @@ public class TaskEntityManager implements EntityManager<Task> {
         if (!db.save(existingTask, s.getProject())) {
             throw new WPISuiteException("Task save to database failed!");
         }
-
-        // db.save(updatedTask, s.getProject());
-
-        System.out.println("Updated Task Success: " + existingTask.toJson());
         return existingTask;
     }
 

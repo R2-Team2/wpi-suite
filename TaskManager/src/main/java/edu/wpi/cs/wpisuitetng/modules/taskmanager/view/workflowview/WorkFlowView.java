@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -28,53 +30,52 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public class WorkFlowView extends AbsWorkFlowView {
+    private static WorkFlowView instance = null;
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
-
-    /** The task status views. */
-    List<TaskStatusView> views;
 
     /**
      * Create the panel.
      */
     public WorkFlowView() {
-        ViewEventController.getInstance().setWorkFlowView(this);
+        ViewEventController.getInstance().setWorkFlowView(this);        
+        
+        instance = this;
+    }
 
-        workFlowObj = new WorkFlow();
-        views = new ArrayList<TaskStatusView>();
+    /**
+     * Retrieves workflow object stored in database. Chain of sequence ends at setWorkFlowObj().
+     */
+    public void getWorkFlowFromDB() {
+        RetrieveWorkflowController retrieveWF = new RetrieveWorkflowController(this);
+        retrieveWF.requestWorkflow();
+        instance = this;
+    }
 
-        setLayout(new BorderLayout());
+    /**
+     * Get an instance of the work flow viewer.
+     *
+     * @return an instance of the workflow view
+     */
+    public static WorkFlowView getInstance() {
+        if (instance == null) {
+            instance = new WorkFlowView();
+            return instance;
+        } else {
+            return instance;
+        }
 
-        final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+    }
 
-        taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
-        final TaskStatusView taskStatusSelDev = new TaskStatusView(new TaskStatus("Selected for Development"));
-        final TaskStatusView taskStatusInDev = new TaskStatusView(new TaskStatus("Currently in Development"));
-        final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
+    
 
-        taskStatusPanel
-        .setLayout(new MigLayout(
-                "",
-                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                "[278px,grow 500]"));
-
-        // Hard Coded Task Statuses, move this to database soon
-        taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
-        taskStatusPanel.add(taskStatusSelDev, "cell 1 0,grow");
-        taskStatusPanel.add(taskStatusInDev, "cell 2 0,grow");
-        taskStatusPanel.add(taskStatusDone, "cell 3 0,grow");
-
-        views.add(taskStatusNew);
-        views.add(taskStatusSelDev);
-        views.add(taskStatusInDev);
-        views.add(taskStatusDone);
+    /**
+     * Generates views field from taskStatusArray
+     */
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        // Generate views field from taskStatusArray
     }
 
     /**
@@ -84,30 +85,19 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     @Override
     public WorkFlow getWorkFlowObj() {
+        instance = this;
         return workFlowObj;
     }
 
     /**
-     * Sets the work flow obj.
+     * Sets the work flow obj. Should only be called by RetrieveWorkflowController.
      *
      * @param workFlowObj the new work flow obj
      */
     @Override
     public void setWorkFlowObj(WorkFlow workFlowObj) {
         this.workFlowObj = workFlowObj;
-    }
-
-    /**
-     * Refresh.
-     */
-    @Override
-    public void refresh() {
-        for (TaskStatusView v : views) {
-            System.out.println("Currently in Refresh method");
-            v.requestTasksFromDb();
-        }
-        revalidate();
-        repaint();
+        instance = this;
     }
 
 }

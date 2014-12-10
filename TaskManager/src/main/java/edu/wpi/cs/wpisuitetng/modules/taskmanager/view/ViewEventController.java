@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -67,14 +66,6 @@ public class ViewEventController {
     }
 
     /**
-     * opens requirement module tab
-     */
-    public void openRequirementsTab() {
-        // TODO use a more robust way of obtaining the Requirements Manager tab
-        ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
-    }
-
-    /**
      * Sets the split tabbed panel.
      *
      * @param splitTabbedPanel the new split tabbed panel
@@ -87,6 +78,7 @@ public class ViewEventController {
      * Opens a new tab for the creation of a requirement.
      */
     public void createTask() {
+        WorkFlowView.getInstance().refresh();
         main.showCreateTaskView();
 
     }
@@ -95,6 +87,7 @@ public class ViewEventController {
      * Edits the work flow view.
      */
     public void editWorkFlowView() {
+        WorkFlowView.getInstance().refresh();
         main.editWorkFlowView();
 
     }
@@ -106,6 +99,7 @@ public class ViewEventController {
      * Close new task panel.
      */
     public void closeNewTaskPanel() {
+        WorkFlowView.getInstance().refresh();
         main.hideCreateTaskView();
     }
 
@@ -146,10 +140,29 @@ public class ViewEventController {
     }
 
     /**
+     * getter for the workflowview field.
+     * 
+     * @return the workflowview.
+     */
+    public WorkFlowView getWorkflow() {
+        return workflow;
+    }
+
+    /**
      * Refresh work flow view.
      */
     public void refreshWorkFlowView() {
         workflow.refresh();
     }
+
+    /**
+     * opens requirement module tab
+     */
+    public void openRequirementsTab() {
+        // TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
+        // tab
+        ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
+    }
+
 
 }

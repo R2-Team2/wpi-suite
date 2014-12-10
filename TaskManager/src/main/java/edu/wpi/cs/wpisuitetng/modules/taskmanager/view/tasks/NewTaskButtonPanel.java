@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 /**
@@ -59,7 +60,11 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
         buttonCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.createPressed();
+                try {
+                    parentPanel.createPressed();
+                } catch (WPISuiteException e1) {
+                    e1.printStackTrace();
+                }
                 ViewEventController.getInstance().refreshWorkFlowView();
             }
         });

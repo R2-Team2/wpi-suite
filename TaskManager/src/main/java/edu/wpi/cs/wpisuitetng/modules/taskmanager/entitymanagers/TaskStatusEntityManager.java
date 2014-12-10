@@ -12,6 +12,7 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
+import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
@@ -20,7 +21,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 
 /**
  * The Class TaskEntityManager.
@@ -42,21 +42,46 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     }
 
     @Override
-    public TaskStatus makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public TaskStatus makeEntity(Session s, String content) throws WPISuiteException {
+        TaskStatus newTaskStatus = TaskStatus.fromJson(content);
 
-        final TaskStatus newTaskStatus = TaskStatus.fromJson(content);
+        List<Model> idList = db.retrieveAll(new IDNum(db));
 
-        final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
-        final IDNum idObj = (IDNum) idList.get(0);
+        IDNum[] idArry = idList.toArray(new IDNum[0]);
+        if (idArry.length == 0) {
+            System.out.println("Creating new IDNum object");
+            // Initialize ID
+            IDNum idStore = new IDNum(db);
+            db.save(idStore);
 
-        newTaskStatus.setTaskStatusID(idObj.getAndIncID());
+            newTaskStatus.setTaskStatusID(idStore.getAndIncID());
+            System.out.println("gave task new id: " + newTaskStatus.toJson());
 
-        if (!db.save(newTaskStatus, s.getProject())) {
-            throw new WPISuiteException("Taskstatus save to database failed!");
+            if (!db.save(newTaskStatus, s.getProject())) {
+                throw new WPISuiteException("Unable to save TNG");
+            }
+
+            db.save(newTaskStatus, s.getProject());
+
+            return newTaskStatus;
+        } else {
+            System.out.println("retrieved id list");
+            System.out.println("id object: " + idArry[0].toJson());
+            newTaskStatus.setTaskStatusID(idArry[0].getAndIncID());
+
+            System.out.println("id: " + idList.get(0).toJson());
+
+
+            // IDNum idObj[] = idList.toArray(new IDNum[0]);
+
+            if (!db.save(newTaskStatus, s.getProject())) {
+                throw new WPISuiteException("Unable to save TNG");
+            }
+
+            db.save(newTaskStatus, s.getProject());
+            System.out.println("New Message TaskID: " + newTaskStatus.getTaskStatusID());
+            return newTaskStatus;
         }
-
-        return newTaskStatus;
     }
 
     /*
@@ -65,9 +90,10 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      * java.lang.String)
      */
     @Override
-    public TaskStatus[] getEntity(Session s, String id) throws WPISuiteException {
-        final List<Model> taskstatuses =
-                db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
+    public TaskStatus[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
+        System.out.println("get entity task statuses");
+        List<Model> taskstatuses =
+                db.retrieve(TaskStatus.class, "taskStatusID", Integer.parseInt(id), s.getProject());
         return taskstatuses.toArray(new TaskStatus[0]);
     }
 
@@ -79,11 +105,12 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      */
     @Override
     public TaskStatus[] getAll(Session s) {
-        // Retrieve all TaskStatus (no arguments specified)
-        final List<Model> workflows = db.retrieveAll(new WorkFlow() {}, s.getProject());
+        // Retrieve all TaskStatus (no arguments specified
+        final List<Model> taskStatuses = db.retrieveAll(new TaskStatus(null), s.getProject());
+        System.out.println("get all task statuses");
 
         // Convert the List into an array
-        return workflows.toArray(new TaskStatus[0]);
+        return taskStatuses.toArray(new TaskStatus[0]);
     }
 
     /*
@@ -93,10 +120,11 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     @Override
     public TaskStatus update(Session s, String content) throws WPISuiteException {
         final TaskStatus updatedTaskStatus = TaskStatus.fromJson(content);
+        System.out.println("update method called in TaskStatus Entity Manager");
 
         // Retrieve the original TaskStatus
-        final List<Model> oldTaskStatus =
-                db.retrieve(TaskStatus.class, "id", updatedTaskStatus.getTaskStatusID(),
+        List<Model> oldTaskStatus =
+                db.retrieve(TaskStatus.class, "taskStatusID", updatedTaskStatus.getTaskStatusID(),
                         s.getProject());
         if (oldTaskStatus.size() < 1 || oldTaskStatus.get(0) == null) {
             throw new BadRequestException("TaskStatus with ID does not exist.");

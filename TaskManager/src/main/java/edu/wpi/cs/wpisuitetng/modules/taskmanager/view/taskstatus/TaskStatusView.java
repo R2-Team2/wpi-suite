@@ -26,13 +26,13 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
  *
@@ -40,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class TaskStatusView extends JPanel {
+public class TaskStatusView extends AbsView {
 
     /* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -70,9 +70,9 @@ public class TaskStatusView extends JPanel {
     public TaskStatusView(TaskStatus taskStatusObject) {
 
         initialized = false;
-        taskStatusObj = taskStatusObject;
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+        taskStatusObj = taskStatusObject;
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -100,12 +100,51 @@ public class TaskStatusView extends JPanel {
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
 
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((taskStatusObj == null) ? 0 : taskStatusObj.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TaskStatusView))
+			return false;
+		TaskStatusView other = (TaskStatusView) obj;
+		if (taskStatusObj == null) {
+			if (other.taskStatusObj != null)
+				return false;
+		} else if (!taskStatusObj.equals(other.taskStatusObj))
+			return false;
+		return true;
+	}
+
+//	public void getTaskStatusFromDB() {
+//        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+//        retrieveTS.requestTaskStatuses();
+//        initialized = true;
+//    }
+
 	/**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
+
     }
 
     /**
@@ -119,7 +158,8 @@ public class TaskStatusView extends JPanel {
 
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
-            if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
+            if (t.getStatus() != null
+                    && taskStatusObj.getTaskStatusID() == t.getStatus().getTaskStatusID()) {
                 taskStatusObj.addTask(t);
             }
         }
@@ -140,6 +180,13 @@ public class TaskStatusView extends JPanel {
         revalidate();
     }
 
+    public void setTaskStatusObj(TaskStatus taskStatus) {
+        taskStatusObj = taskStatus;
+    }
+
+    public TaskStatus getTaskStatusObj() {
+        return taskStatusObj;
+    }
 
     /**
      * Returns the formatted due date of a task.
@@ -161,6 +208,20 @@ public class TaskStatusView extends JPanel {
             initialized = true;
         }
         super.paintComponent(g);
+    }
+
+    /**
+     * Acts as a setter for taskStatusObj when taskStatus is retrieved from DB.
+     */
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        for (TaskStatus ts : taskStatusArray) {
+            if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
+                taskStatusObj = ts;
+                break;
+            }
+        }
+
     }
 
 }

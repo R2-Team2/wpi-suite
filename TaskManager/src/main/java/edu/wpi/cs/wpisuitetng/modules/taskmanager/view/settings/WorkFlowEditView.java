@@ -25,10 +25,10 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The Class WorkFlowView.
@@ -40,7 +40,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 public class WorkFlowEditView extends AbsWorkFlowView {
 
     private final int maxTitleLen = 30;
-
     private final JPanel sidePanel = new JPanel(new MigLayout());
 
     /** The default border. */
@@ -52,10 +51,8 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private final JButton addButton = new JButton("Add Status");
     private final JButton removeButton = new JButton("Remove Status");
     private final JButton saveButton = new JButton("Save");
-
     private final JButton upButton = new JButton("\u2191");
     private final JButton downButton = new JButton("\u2193");
-
 
     // Add Status Fields
     private final JTextField newStatusTitleField = new JTextField();
@@ -64,7 +61,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private final JLabel newStatusTypeLabel = new JLabel("New Status Type");
 
     // Show and Remove Status Components
-
     private final DefaultListModel<TaskStatusView> model = new DefaultListModel<TaskStatusView>();
     private final JList<TaskStatusView> listOfStatus = new JList<TaskStatusView>(model);
 
@@ -72,42 +68,15 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      * Create the panel.
      */
     public WorkFlowEditView() {
-        newStatusTitleField.setBorder(defaultBorder);
-        newStatusTitleField.setMinimumSize(textFieldDimension);
-        newStatusTypeField.setMinimumSize(textFieldDimension);
-
-        // Add status Components
-        sidePanel.add(newStatusTitleLabel, "wrap");
-        sidePanel.add(newStatusTitleField, "wrap");
-        sidePanel.add(newStatusTypeLabel, "wrap");
-        sidePanel.add(newStatusTypeField, "wrap");
-        addButton.setEnabled(false);
-        sidePanel.add(addButton, "wrap");
-
-        // Remove Status Components
-        buildList();
-        listOfStatus.setBorder(defaultBorder);
-        listOfStatus.setMinimumSize(listMinSize);
-        listOfStatus.setMaximumSize(listMaxSize);
-        listOfStatus.setSize(textFieldDimension);
-        sidePanel.add(listOfStatus, "span 2 2");
-        sidePanel.add(upButton, "wrap");
-        sidePanel.add(downButton, "wrap");
-        if (model.size() <= 1) {
-            removeButton.setEnabled(false);
-        }
-        sidePanel.add(removeButton, "wrap");
-
-        // Save Changes
-        // This needs to work with database to actually save the changes made in this view
-        sidePanel.add(saveButton, "wrap");
-
+    	buildSidePanel();
         taskStatusPanel.add(sidePanel, "dock east,");
         setupListeners();
     }
 
     private void buildList() {
-        for (TaskStatusView t : getViews()) {
+        super.refresh();
+        System.out.println(getViews().toString());
+    	for (TaskStatusView t : getViews()) {
             if (!model.contains(t)) {
                 model.addElement(t);
             }
@@ -143,113 +112,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
         buildList();
     }
 
-    /**
-     * Set up Listeners for Work Flow Edit Components
-     */
-    protected void setupListeners() {
-        model.addListDataListener(new ListDataListener() {
-
-            @Override
-            public void intervalRemoved(ListDataEvent e) {
-                removeButton.setEnabled(isModelSizeValid());
-            }
-
-            @Override
-            public void intervalAdded(ListDataEvent e) {
-                removeButton.setEnabled(isModelSizeValid());
-            }
-
-            @Override
-            public void contentsChanged(ListDataEvent e) {
-                removeButton.setEnabled(isModelSizeValid());
-            }
-        });
-
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isNewStatusTitleFieldValid()) {
-                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
-                    clearNewStatusFields();
-                }
-                refresh();
-            }
-        });
-
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // remove selected from JList
-                if ((model.size() > 1)) {
-                    final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
-                    model.removeElement(taskStatusViewToRemove);
-                    removeTaskStatusView(taskStatusViewToRemove);
-                    buildTaskStatusViews();
-                    refresh();
-                    revalidate();
-                    repaint();
-                }
-            }
-        });
-
-        upButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // remove selected from JList
-                final TaskStatusView taskStatusViewToMoveUp = listOfStatus.getSelectedValue();
-                moveStatusUp(taskStatusViewToMoveUp);
-                refresh();
-                revalidate();
-                repaint();
-            }
-        });
-        downButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // remove selected from JList
-                final TaskStatusView taskStatusViewToMoveDown = listOfStatus.getSelectedValue();
-                moveStatusDown(taskStatusViewToMoveDown);
-
-                buildTaskStatusViews();
-                refresh();
-                revalidate();
-                repaint();
-            }
-        });
-
-        newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-        });
-        newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-        });
-    }
+    
 
     /**
      * Validate Model
@@ -316,8 +179,7 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private void validateNewStatusFields() {
         if (isNewStatusTitleFieldValid() && isNewStatusTypeFieldValid()) {
             addButton.setEnabled(true);
-        }
-        else {
+        } else {
             addButton.setEnabled(false);
         }
     }
@@ -329,5 +191,141 @@ public class WorkFlowEditView extends AbsWorkFlowView {
 
     private boolean isNewStatusTypeFieldValid() {
         return !(newStatusTypeField.getText().length() <= 0);
+    }
+
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        // TODO Auto-generated method stub
+
+    }
+    
+    private void buildSidePanel(){
+    	newStatusTitleField.setBorder(defaultBorder);
+        newStatusTitleField.setMinimumSize(textFieldDimension);
+        newStatusTypeField.setMinimumSize(textFieldDimension);
+
+        // Add status Components
+        sidePanel.add(newStatusTitleLabel, "wrap");
+        sidePanel.add(newStatusTitleField, "wrap");
+        sidePanel.add(newStatusTypeLabel, "wrap");
+        sidePanel.add(newStatusTypeField, "wrap");
+        addButton.setEnabled(false);
+        sidePanel.add(addButton, "wrap");
+
+        // Remove Status Components
+        //buildList();
+        listOfStatus.setBorder(defaultBorder);
+        listOfStatus.setMinimumSize(listMinSize);
+        listOfStatus.setMaximumSize(listMaxSize);
+        listOfStatus.setSize(textFieldDimension);
+        sidePanel.add(listOfStatus, "span 2 2");
+        sidePanel.add(upButton, "wrap");
+        sidePanel.add(downButton, "wrap");
+        if (model.size() <= 1) {
+            removeButton.setEnabled(false);
+        }
+        sidePanel.add(removeButton, "wrap");
+
+        // Save Changes
+        // This needs to work with database to actually save the changes made in this view
+        sidePanel.add(saveButton, "wrap");
+    }
+    /**
+     * Set up Listeners for Work Flow Edit Components
+     */
+    protected void setupListeners() {
+        model.addListDataListener(new ListDataListener() {
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
+            }
+
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                removeButton.setEnabled(isModelSizeValid());
+            }
+        });
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isNewStatusTitleFieldValid()) {
+                    addTaskStatusView(new TaskStatusView(new TaskStatus(newStatusTitleField.getText())));
+                    clearNewStatusFields();
+                }
+                refresh();
+            }
+        });
+
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove selected from JList
+                if ((model.size() > 1)) {
+                    final TaskStatusView taskStatusViewToRemove = listOfStatus.getSelectedValue();
+                    model.removeElement(taskStatusViewToRemove);
+                    removeTaskStatusView(taskStatusViewToRemove);
+                    refresh();
+                }
+            }
+        });
+
+        upButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove selected from JList
+                final TaskStatusView taskStatusViewToMoveUp = listOfStatus.getSelectedValue();
+                moveStatusUp(taskStatusViewToMoveUp);
+                refresh();
+            }
+        });
+        downButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove selected from JList
+                final TaskStatusView taskStatusViewToMoveDown = listOfStatus.getSelectedValue();
+                moveStatusDown(taskStatusViewToMoveDown);
+                refresh();
+            }
+        });
+
+        newStatusTitleField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+        });
+        newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateNewStatusFields();
+            }
+        });
     }
 }

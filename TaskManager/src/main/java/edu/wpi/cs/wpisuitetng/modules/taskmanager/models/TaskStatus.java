@@ -23,7 +23,35 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 public class TaskStatus extends AbstractModel {
 
-    /** The task status id. */
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (taskStatusID ^ (taskStatusID >>> 32));
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TaskStatus))
+			return false;
+		TaskStatus other = (TaskStatus) obj;
+		if (taskStatusID != other.taskStatusID)
+			return false;
+		return true;
+	}
+
+	/** The task status id. */
     private long taskStatusID;
 
     /** The name. */
@@ -83,8 +111,9 @@ public class TaskStatus extends AbstractModel {
      *
      * @param task String
      */
-    public void addTask(Task task) {
+    public TaskStatus addTask(Task task) {
         taskList.add(task);
+        return this;
     }
 
     /**
@@ -150,6 +179,18 @@ public class TaskStatus extends AbstractModel {
         return new Gson().toJson(this, TaskStatus.class);
     }
 
+    /**
+     * From json.
+     *
+     * @param json the json string
+     * @return task the task from the json string
+     */
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        final TaskStatus taskStatus = parser.fromJson(json, TaskStatus.class);
+        return taskStatus;
+    }
+
     @Override
     public Boolean identify(Object o) {
         // TODO Auto-generated method stub
@@ -157,14 +198,14 @@ public class TaskStatus extends AbstractModel {
     }
 
     /**
-     * convert from string to taskstatus
+     * Returns an array of TaskStatuses parsed from the given JSON-encoded string.
      *
-     * @param json the string
-     * @return the formed taskstatus
+     * @param json a string containing a JSON-encoded array of TaskStatuses
+     * @return an array of TaskStatuses deserialized from the given json string
      */
-    public static TaskStatus fromJson(String json) {
+    public static TaskStatus[] fromJsonArray(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, TaskStatus.class);
+        return parser.fromJson(json, TaskStatus[].class);
     }
 
     /**
@@ -175,5 +216,7 @@ public class TaskStatus extends AbstractModel {
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;
+        taskStatusID = updatedTaskStatus.taskStatusID;
     }
+
 }

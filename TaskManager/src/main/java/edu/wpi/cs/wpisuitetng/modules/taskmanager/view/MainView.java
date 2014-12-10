@@ -98,12 +98,12 @@ public class MainView extends JTabbedPane {
 
     private void setupListeners() {
         // Refreshes tabs on ANY Selection Change
-        addChangeListener(new ChangeListener()
-        {
+        addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e)
-            {
+            public void stateChanged(ChangeEvent e) {
                 editWorkFlowView.refresh();
+                // WorkFlowView.getInstance().refresh();
+
             }
         });
     }
@@ -194,7 +194,7 @@ public class MainView extends JTabbedPane {
 
                 setTabComponentAt(getTabCount() - 1, panel);
                 setSelectedIndex(getTabCount() - 1);
-                setSelectedComponent(editWorkFlowView);
+
             }
         }
     }
@@ -217,7 +217,7 @@ public class MainView extends JTabbedPane {
 
     /**
      * Show view task view.
-     * 
+     *
      * @param aPanel is the panel to be created.
      */
     public void showViewTaskView(AbstractTaskPanel aPanel) {

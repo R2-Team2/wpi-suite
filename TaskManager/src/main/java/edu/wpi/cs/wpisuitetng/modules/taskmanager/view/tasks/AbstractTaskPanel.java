@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -42,12 +43,13 @@ public class AbstractTaskPanel extends JPanel {
     /** A task. */
     protected Task aTask;
 
+    /** The view event controller. */
+    final ViewEventController viewEventController = ViewEventController.getInstance();
+
     /**
      * Instantiates a new abstract task panel.
      */
-    protected AbstractTaskPanel() {
-
-    }
+    protected AbstractTaskPanel() {}
 
     /**
      * @throws Exception invalid selected requirement
@@ -73,12 +75,18 @@ public class AbstractTaskPanel extends JPanel {
         setLayout(new BorderLayout());
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.add(infoPanel, BorderLayout.CENTER);
+        viewEventController.refreshWorkFlowView();
+        /*
+         * try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+         */
     }
 
     /**
      * Called when the Create Button is pressed Creates a Task from the NewTask Info.
+     * 
+     * @throws WPISuiteException
      */
-    public void createPressed() {};
+    public void createPressed() throws WPISuiteException {};
 
     /**
      * Called when the Cancel Button is pressed Closes out the NewTask Tab.
