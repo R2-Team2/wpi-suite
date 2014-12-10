@@ -25,155 +25,157 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public class AbsWorkFlowView extends JPanel {
-	/** The work flow obj. */
-	private WorkFlow workFlowObj;
 
-	/** The task status panel. */
-	protected JPanel taskStatusPanel;
+    /** The work flow obj. */
+    private WorkFlow workFlowObj;
 
-	/** The task status views. */
-	private final List<TaskStatusView> views;
+    /** The task status panel. */
+    protected JPanel taskStatusPanel;
 
-	/**
-	 * Constructor for AbsWorkFlowView.
-	 */
-	protected AbsWorkFlowView() {
-		workFlowObj = new WorkFlow();
-		views = new ArrayList<TaskStatusView>();
-		views.add(new TaskStatusView(new TaskStatus("New")));
-		views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
-		views.add(new TaskStatusView(new TaskStatus("Currently in Development")));
-		views.add(new TaskStatusView(new TaskStatus("Completed")));
-
-		setLayout(new BorderLayout());
-
-		taskStatusPanel = new JPanel();
-
-		this.add(taskStatusPanel, BorderLayout.CENTER);
-
-		taskStatusPanel
-				.setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-						+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
-		buildTaskStatusViews();
-		this.add(taskStatusPanel, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Method addTaskStatusView.
-	 *
-	 * @param taskStatusView TaskStatusView
-	 */
-	public void addTaskStatusView(TaskStatusView taskStatusView) {
-		views.add(taskStatusView);
-		buildTaskStatusViews();
-	}
-
-	/**
-	 * Method buildTaskStatusViews.
-	 */
-	public void buildTaskStatusViews() {
-		for (TaskStatusView t : views) {
-			taskStatusPanel.add(t, "grow");
-		}
-		this.add(taskStatusPanel, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Method addStatus.
-	 *
-	 * @param taskStatus TaskStatusView
-	 */
-	public void addStatus(TaskStatusView taskStatus) {
-		views.add(taskStatus);
-		buildTaskStatusViews();
-	}
-
-	/**
-	 * @return the taskStatusPanel
-	 */
-	public JPanel getTaskStatusPanel() {
-		return taskStatusPanel;
-	}
-
-	public WorkFlow getWorkFlowObj() {
-		// TODO Auto-generated method stub
-		return workFlowObj;
-	}
+    /** The task status views. */
+    private final List<TaskStatusView> views;
 
 
-	public void setWorkFlowObj(WorkFlow workFlowObj2) {
-		// TODO Auto-generated method stub
-		workFlowObj = workFlowObj2;
-	}
+    /**
+     * Constructor for AbsWorkFlowView.
+     */
+    protected AbsWorkFlowView() {
+        workFlowObj = new WorkFlow();
+        views = new ArrayList<TaskStatusView>();
+        views.add(new TaskStatusView(new TaskStatus("New")));
+        views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
+        views.add(new TaskStatusView(new TaskStatus("Currently in Development")));
+        views.add(new TaskStatusView(new TaskStatus("Completed")));
 
-	/**
-	 * Refresh.
-	 */
-	public void refresh() {
-		for (TaskStatusView v : views) {
-			v.requestTasksFromDb();
-		}
-	}
+        setLayout(new BorderLayout());
 
-	public List<TaskStatusView> getViews() {
-		return views;
-	}
+        taskStatusPanel = new JPanel();
 
-	/**
-	 * Method removeTaskStatusView.
-	 *
-	 * @param taskStatusView TaskStatusView
-	 * @return boolean
-	 */
-	public boolean removeTaskStatusView(TaskStatusView taskStatusView) {
-		taskStatusPanel.remove(taskStatusView);
-		return views.remove(taskStatusView);
-	}
+        this.add(taskStatusPanel, BorderLayout.CENTER);
 
-	/**
-	 * Method moveUp.
-	 *
-	 * @param taskStatusViewToMoveUp TaskStatusView
-	 */
-	public void moveUp(TaskStatusView taskStatusViewToMoveUp) {
-		if (!(views.indexOf(taskStatusViewToMoveUp) <= 0)) {
-			// find index of tomove
-			// get index moveto
-			// move that to next
-			final int source = views.indexOf(taskStatusViewToMoveUp);
-			final int dest = views.indexOf(taskStatusViewToMoveUp) - 1;
+        taskStatusPanel
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+        buildTaskStatusViews();
+        this.add(taskStatusPanel, BorderLayout.CENTER);
+    }
 
-			final TaskStatusView sourceStatusView = views.get(source);
-			final TaskStatusView destStatusView = views.get(dest);
+    /**
+     * Method addTaskStatusView.
+     *
+     * @param taskStatusView TaskStatusView
+     */
+    public void addTaskStatusView(TaskStatusView taskStatusView) {
+        views.add(taskStatusView);
+        buildTaskStatusViews();
+    }
 
-			views.set(dest, sourceStatusView);
-			views.set(source, destStatusView);
-			refresh();
-			buildTaskStatusViews();
-		}
-	}
+    /**
+     * Method buildTaskStatusViews.
+     */
+    public void buildTaskStatusViews() {
+        for (TaskStatusView t : views) {
+            taskStatusPanel.add(t, "grow");
+        }
+        this.add(taskStatusPanel, BorderLayout.CENTER);
+    }
 
-	/**
-	 * Method moveDown.
-	 *
-	 * @param taskStatusViewToMoveDown TaskStatusView
-	 */
-	public void moveDown(TaskStatusView taskStatusViewToMoveDown) {
-		if (!(views.indexOf(taskStatusViewToMoveDown) >= views.size() - 1)) {
-			// find index of tomove
-			// get index moveto
-			// move that to next
-			final int source = views.indexOf(taskStatusViewToMoveDown);
-			final int dest = views.indexOf(taskStatusViewToMoveDown) + 1;
+    /**
+     * Method addStatus.
+     *
+     * @param taskStatus TaskStatusView
+     */
+    public void addStatus(TaskStatusView taskStatus) {
+        views.add(taskStatus);
+        buildTaskStatusViews();
+    }
 
-			final TaskStatusView sourceStatusView = views.get(source);
-			final TaskStatusView destStatusView = views.get(dest);
+    /**
+     * @return the taskStatusPanel
+     */
+    public JPanel getTaskStatusPanel() {
+        return taskStatusPanel;
+    }
 
-			views.set(dest, sourceStatusView);
-			views.set(source, destStatusView);
-			refresh();
-			buildTaskStatusViews();
-		}
-	}
+    public WorkFlow getWorkFlowObj() {
+        // TODO Auto-generated method stub
+        return workFlowObj;
+    }
+
+
+    public void setWorkFlowObj(WorkFlow workFlowObj2) {
+        // TODO Auto-generated method stub
+        workFlowObj = workFlowObj2;
+    }
+
+    /**
+     * Refresh.
+     */
+    public void refresh() {
+        for (TaskStatusView v : views) {
+            v.requestTasksFromDb();
+        }
+    }
+
+    public List<TaskStatusView> getViews() {
+        return views;
+    }
+
+    /**
+     * Method removeTaskStatusView.
+     *
+     * @param taskStatusView TaskStatusView
+     * @return boolean
+     */
+    public boolean removeTaskStatusView(TaskStatusView taskStatusView) {
+        taskStatusPanel.remove(taskStatusView);
+        return views.remove(taskStatusView);
+    }
+
+    /**
+     * Method moveUp.
+     *
+     * @param taskStatusViewToMoveUp TaskStatusView
+     */
+    public void moveUp(TaskStatusView taskStatusViewToMoveUp) {
+        if (!(views.indexOf(taskStatusViewToMoveUp) <= 0)) {
+            // find index of tomove
+            // get index moveto
+            // move that to next
+            final int source = views.indexOf(taskStatusViewToMoveUp);
+            final int dest = views.indexOf(taskStatusViewToMoveUp) - 1;
+
+            final TaskStatusView sourceStatusView = views.get(source);
+            final TaskStatusView destStatusView = views.get(dest);
+
+            views.set(dest, sourceStatusView);
+            views.set(source, destStatusView);
+            refresh();
+            buildTaskStatusViews();
+        }
+    }
+
+    /**
+     * Method moveDown.
+     *
+     * @param taskStatusViewToMoveDown TaskStatusView
+     */
+    public void moveDown(TaskStatusView taskStatusViewToMoveDown) {
+        if (!(views.indexOf(taskStatusViewToMoveDown) >= views.size() - 1)) {
+            // find index of tomove
+            // get index moveto
+            // move that to next
+            final int source = views.indexOf(taskStatusViewToMoveDown);
+            final int dest = views.indexOf(taskStatusViewToMoveDown) + 1;
+
+            final TaskStatusView sourceStatusView = views.get(source);
+            final TaskStatusView destStatusView = views.get(dest);
+
+            views.set(dest, sourceStatusView);
+            views.set(source, destStatusView);
+            refresh();
+            buildTaskStatusViews();
+        }
+    }
 
 }

@@ -24,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 /**
@@ -32,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	
 	private final List<Requirement> requirements = new ArrayList<Requirement>();
@@ -65,7 +67,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		// Set the Panel
 		final ScrollablePanel contentPanel = new ScrollablePanel();
 		contentPanel.setLayout(new MigLayout("", "20[grow,fill]20",
-				"[][]3[]24[]3[]24[]3[]24[]24[]24[]24"));
+				"[][]3[]24[]3[]24[]3[]24[]3[]24[]24[]24"));
 
 		// Instantiate GUI Elements
 		// Labels
@@ -84,7 +86,8 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		final JLabel labelDueDate = new JLabel(" Due Date:");
 		final JLabel labelStartDate = new JLabel("Start Date:");
 		final JLabel labelRequirement = new JLabel("Requirement: ");
-		final JLabel labelAssignees = new JLabel("<html><h3>Assignees</h3></html>");
+		final JLabel labelPeople = new JLabel("<html><h3>People</h3></html>");
+		final JLabel labelAssignees = new JLabel("Assignees: ");
 		final JLabel labelComments = new JLabel("<html><h3>Comments</h3></html>");
 		final JLabel labelActivityLog = new JLabel("<html><h3>Activity Log</h3></html>");
 
@@ -156,23 +159,38 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		//**People**
 		
 		//People Title and Separator
-		contentPanel.add(labelAssignees, "cell 0 7, split 2, span");
+		contentPanel.add(labelPeople, "cell 0 7, split 2, span");
 		contentPanel.add(new JSeparator(), "cell 0 7, growx, wrap");
+
+		//People Panel
+		final JPanel peoplePanel = new JPanel();
+		peoplePanel.setLayout(new MigLayout("", "[]130[]", "[]"));
+		peoplePanel.add(labelAssignees, "cell 0 0");
+		String usernameString = "";
+		for (String username : viewTask.getAssignedUsers()) {
+			usernameString += (username + ", ");
+		}
+		if (usernameString.length() == 0) {
+			usernameString = "...";
+		} else {
+			usernameString = usernameString.substring(0, usernameString.length() - 2);
+		}
+		peoplePanel.add(new JLabel(usernameString), "cell 1 0");
+		contentPanel.add(peoplePanel, "cell 0 8,grow");
 		
 		//**Comments**
 		
-		//People Title and Separator
-		contentPanel.add(labelComments, "cell 0 8, split 2, span");
-		contentPanel.add(new JSeparator(), "cell 0 8, growx, wrap");
+		//Comment Title and Separator
+		contentPanel.add(labelComments, "cell 0 9, split 2, span");
+		contentPanel.add(new JSeparator(), "cell 0 9, growx, wrap");
 		
 		//**Activity Log**
 		
-		//People Title and Separator
-		contentPanel.add(labelActivityLog, "cell 0 9, split 2, span");
-		contentPanel.add(new JSeparator(), "cell 0 9, growx, wrap");
+		//Activity Title and Separator
+		contentPanel.add(labelActivityLog, "cell 0 10, split 2, span");
+		contentPanel.add(new JSeparator(), "cell 0 10, growx, wrap");
 
 		this.setViewportView(contentPanel);
-
 	}
 
 	/**
@@ -187,7 +205,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		boxDescription.setText(viewTask.getDescription());
 		dropdownStatus.setSelectedItem(viewTask.getStatus().toString());
 		// requirement
-		listChosenAssignees = viewTask.getAssignedUsers();
+		for (String username : viewTask.getAssignedUsers()) {
+			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+		}
 		calStartDate.setDate(viewTask.getStartDate());
 		calDueDate.setDate(viewTask.getDueDate());
 		spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
@@ -219,40 +239,41 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
-	@Override
-	public Task getTask() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/**
-	 * @return selected requirement object
-	 * @throws Exception
-	 */
-	private Requirement getCurrentRequirement() throws Exception {
-		final String reqName = parentPanel.aTask.getRequirement();
+    @Override
+    public Task getTask() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-		for (Requirement requirement : requirements) {
-			if (requirement.getName().equals(reqName)) {
-				return requirement;
-			}
-		}
+    /**
+     * @return selected requirement object
+     * @throws Exception
+     */
+    private Requirement getCurrentRequirement() throws Exception {
+        final String reqName = parentPanel.aTask.getRequirement();
 
-		throw new Exception("Invalid requirement selected");
-	}
-	
-	/**
-	 * @throws Exception invalid requirement selected
-	 */
-	protected void openRequirement() {
-		try {
-			edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-					.getInstance().editRequirement(getCurrentRequirement());
-			edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
-					.getInstance().openRequirementsTab();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+        for (Requirement requirement : requirements) {
+            if (requirement.getName().equals(reqName)) {
+                return requirement;
+            }
+        }
 
-	}
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @throws Exception invalid requirement selected
+     */
+    @Override
+    protected void openRequirement() {
+        try {
+            edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
+                    .getInstance().editRequirement(getCurrentRequirement());
+            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
+                    .getInstance().openRequirementsTab();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+    }
 }

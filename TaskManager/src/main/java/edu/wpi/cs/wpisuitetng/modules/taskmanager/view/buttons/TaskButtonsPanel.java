@@ -111,9 +111,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // @see
-                // <link>http://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button</link>
                 if (Desktop.isDesktopSupported()) {
                     final Desktop desktop = Desktop.getDesktop();
                     if (!desktop.isSupported(Action.BROWSE)) {
@@ -122,7 +119,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
                         try {
                             desktop.browse(new URL(
                                     "http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki")
-                                    .toURI());
+                            .toURI());
                         } catch (MalformedURLException e1) {
                             e1.printStackTrace();
                         } catch (IOException e1) {
