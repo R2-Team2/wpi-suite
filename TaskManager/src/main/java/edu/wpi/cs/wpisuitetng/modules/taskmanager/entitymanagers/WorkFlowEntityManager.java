@@ -31,11 +31,11 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
  */
 public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
-    final private Data db;
+    private final Data db;
 
     /**
      * Constructor for the workflwo entity manager
-     * 
+     *
      * @param db interface to the database to task management.
      */
     public WorkFlowEntityManager(Data db) {
@@ -48,14 +48,12 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
         final WorkFlow newWorkFlow = WorkFlow.fromJson(content);
         if (newWorkFlow.getTaskStatusList() == null) {
-            final WorkFlow defaultWF = newWorkFlow;
-
             // Initialize ID
             final IDNum idStore = new IDNum(db);
             db.save(idStore);
 
             // set default workflow id to 0.
-            defaultWF.setWorkFlowID(idStore.getAndIncID());
+            newWorkFlow.setWorkFlowID(idStore.getAndIncID());
 
             // Create Default Task Statuses
             final TaskStatus newStatus = new TaskStatus("New");
@@ -80,11 +78,9 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             defaultTSid.add(develop.getTaskStatusID());
             defaultTSid.add(completed.getTaskStatusID());
 
-            defaultWF.setTaskStatusList(defaultTSid);
+            newWorkFlow.setTaskStatusList(defaultTSid);
 
-            db.save(defaultWF, s.getProject());
-
-            return defaultWF;
+            db.save(newWorkFlow, s.getProject());
         }
         else
         {
@@ -94,11 +90,11 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             newWorkFlow.setWorkFlowID(idObj.getAndIncID());
 
             if (!db.save(newWorkFlow, s.getProject())) {
-                throw new WPISuiteException();
+                throw new WPISuiteException("Workflow save to database failed!");
             }
-
-            return newWorkFlow;
         }
+
+        return newWorkFlow;
     }
 
     /*
@@ -110,6 +106,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
     public WorkFlow[] getEntity(Session s, String id) throws WPISuiteException {
         final List<Model> workflows =
                 db.retrieve(WorkFlow.class, "id", Integer.parseInt(id), s.getProject());
+        WorkFlow[] returnArray = new WorkFlow[1];
 
         // Create default workflow if none exist:
         if (workflows.toArray(new WorkFlow[0]) == null) {
@@ -149,13 +146,14 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
             db.save(defaultWF, s.getProject());
 
-            final WorkFlow[] returnArry = new WorkFlow[1];
-            returnArry[0] = defaultWF;
+            returnArray[0] = defaultWF;
             System.out.println("New Workflow and Default TaskStatuses created.");
-            return returnArry;
+        }
+        else {
+            returnArray = workflows.toArray(new WorkFlow[0]);
         }
 
-        return workflows.toArray(new WorkFlow[0]);
+        return returnArray;
     }
 
     /**
@@ -194,7 +192,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
         // Save the original WorkFlow, now updated
         if (!db.save(existingWorkFlow, s.getProject())) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Workflow save to database failed!");
         }
         return existingWorkFlow;
     }
@@ -223,10 +221,10 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
         return (deletedObject != null);
     }
 
-    // TaskManager does not support deleting all tasks at once
+    // TaskManager does not support deleting all workflows at once
     @Override
     public void deleteAll(Session s) throws WPISuiteException {
-        throw new WPISuiteException();
+        throw new WPISuiteException("Cannot delete all workflows at once.");
     }
 
     /*
@@ -273,7 +271,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
     private void ensureRole(Session session, Role role) throws WPISuiteException {
         final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
         if (!user.getRole().equals(role)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("User is not authorized for the given role.");
         }
     }
 

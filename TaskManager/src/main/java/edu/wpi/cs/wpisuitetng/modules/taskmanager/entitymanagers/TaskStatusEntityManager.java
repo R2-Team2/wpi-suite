@@ -53,7 +53,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
         newTaskStatus.setTaskStatusID(idObj.getAndIncID());
 
         if (!db.save(newTaskStatus, s.getProject())) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Taskstatus save to database failed!");
         }
 
         return newTaskStatus;
@@ -108,7 +108,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
 
         // Save the original TaskStatus, now updated
         if (!db.save(existingTaskStatus, s.getProject())) {
-            throw new WPISuiteException();
+            throw new WPISuiteException("Taskstatus save to database failed!");
         }
         return existingTaskStatus;
     }
@@ -140,7 +140,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     // TaskStatusManager does not support deleting all tasks at once
     @Override
     public void deleteAll(Session s) throws WPISuiteException {
-        throw new WPISuiteException();
+        throw new WPISuiteException("Cannot delete all taskstatuses at once!");
     }
 
     /*
@@ -187,7 +187,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     private void ensureRole(Session session, Role role) throws WPISuiteException {
         final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
         if (!user.getRole().equals(role)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("User is not authorized for the given role.");
         }
     }
 

@@ -23,7 +23,7 @@ public class AddTaskStatusRequestObserver implements RequestObserver {
 
     /**
      * Construct an AddTaskStatusRequestObserver for the given controller
-     * 
+     *
      * @param controller the controller containing the messages
      */
     public AddTaskStatusRequestObserver(AddTaskStatusController controller) {
@@ -32,8 +32,6 @@ public class AddTaskStatusRequestObserver implements RequestObserver {
 
     /*
      * Parse the message that was received from the server then pass them to the controller.
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
-     * .cs.wpisuitetng.network.models.IRequest)
      */
     @Override
     public void responseSuccess(IRequest iReq) {
