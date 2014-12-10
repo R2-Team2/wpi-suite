@@ -14,11 +14,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * The Class UpdateTaskStatusController.
-<<<<<<< HEAD
  * 
-=======
- *
->>>>>>> develop
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -40,14 +36,13 @@ public class UpdateTaskStatusController {
         // Send a request to the core to save this message
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.POST); // POST
-                                                                                              // ==
-                                                                                              // save
+        // ==
+        // save
         request.setBody(toSave.toJson()); // put the new message in the body of the request
         request.addObserver(new UpdateTaskStatusRequestObserver(this)); // add an observer to
-                                                                        // process the response
+        // process the response
         request.send(); // send the request
         System.out.println("Sent taskstatus to database");
-        // }
     }
 
 }

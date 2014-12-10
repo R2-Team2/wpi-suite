@@ -91,11 +91,15 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
      */
     @Override
     public TaskStatus[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
-        System.out.println("get entity task statuses");
-        List<Model> taskstatuses =
-                db.retrieve(TaskStatus.class, "taskStatusID", Integer.parseInt(id), s.getProject());
-        return taskstatuses.toArray(new TaskStatus[0]);
+        return null;
     }
+
+    // System.out.println("get entity task statuses");
+    // List<Model> taskstatuses =
+    // db.retrieve(TaskStatus.class, "taskStatusID", Integer.parseInt(id), s.getProject());
+    // return taskstatuses.toArray(new TaskStatus[0]);
+    // }
+
 
     /**
      * Retrieves all TaskStatus from the given session database

@@ -58,7 +58,7 @@ public class TaskStatus extends AbstractModel {
     private String name;
 
     /** The task list. */
-    private List<Task> taskList;
+    private List<Long> taskList;
 
     /**
      * Constructor for the Taskstatus class.
@@ -67,7 +67,7 @@ public class TaskStatus extends AbstractModel {
      */
     public TaskStatus(String name) {
         this.name = name;
-        taskList = new ArrayList<Task>();
+        taskList = new ArrayList<Long>();
     }
 
     /**
@@ -93,7 +93,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @return taskList ArrayList
      */
-    public List<Task> getTaskList() {
+    public List<Long> getTaskList() {
         return taskList;
     }
 
@@ -102,7 +102,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @param taskList the new task list
      */
-    public void setTaskList(List<Task> taskList) {
+    public void setTaskList(List<Long> taskList) {
         this.taskList = taskList;
     }
 
@@ -112,7 +112,7 @@ public class TaskStatus extends AbstractModel {
      * @param task String
      */
     public TaskStatus addTask(Task task) {
-        taskList.add(task);
+        taskList.add(task.getTaskID());
         return this;
     }
 
@@ -135,7 +135,7 @@ public class TaskStatus extends AbstractModel {
      * @param index the index in the list
      * @return task at that spot in the array
      */
-    public Task getElementAt(int index) {
+    public long getElementAt(int index) {
         return taskList.get(index);
     }
 

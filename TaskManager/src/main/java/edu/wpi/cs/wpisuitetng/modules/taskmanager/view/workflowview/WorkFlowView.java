@@ -7,20 +7,10 @@
 // this class has depricated through task 24- create collapsing sidebar.
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 /**
  * The Class WorkFlowView.
@@ -39,9 +29,10 @@ public class WorkFlowView extends AbsWorkFlowView {
      * Create the panel.
      */
     public WorkFlowView() {
-        ViewEventController.getInstance().setWorkFlowView(this);        
-        
+        ViewEventController.getInstance().setWorkFlowView(this);
+
         instance = this;
+        // System.out.println("Work Flow View Built.");
     }
 
     /**
@@ -68,7 +59,7 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     }
 
-    
+
 
     /**
      * Generates views field from taskStatusArray

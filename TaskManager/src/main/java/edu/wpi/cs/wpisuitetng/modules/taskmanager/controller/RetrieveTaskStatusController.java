@@ -37,7 +37,7 @@ public class RetrieveTaskStatusController {
                 Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
         request.addObserver(new RetrieveTaskStatusRequestObserver(this));
         request.send();
-        System.out.println("Request Task Status sent");
+        // System.out.println("Request Task Status sent");
     }
 
     public void displayTaskStatuses(TaskStatus[] taskStatusArray) {

@@ -26,9 +26,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
@@ -43,16 +41,20 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 @SuppressWarnings("serial")
 public class TaskStatusView extends AbsView {
 
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return taskStatusObj.toString();
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return taskStatusObj.toString();
+    }
 
-	/** The task status obj. */
+    /** The task status obj. */
     TaskStatus taskStatusObj;
+
+    Task[] allTasks;
+    List<Task> displayTasks = new ArrayList<Task>();
 
     /** The txtpn title. */
     JTextPane txtpnTitle = new JTextPane();
@@ -101,45 +103,46 @@ public class TaskStatusView extends AbsView {
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
 
-    /* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((taskStatusObj == null) ? 0 : taskStatusObj.hashCode());
-		return result;
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((taskStatusObj == null) ? 0 : taskStatusObj.hashCode());
+        return result;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TaskStatusView))
-			return false;
-		TaskStatusView other = (TaskStatusView) obj;
-		if (taskStatusObj == null) {
-			if (other.taskStatusObj != null)
-				return false;
-		} else if (!taskStatusObj.equals(other.taskStatusObj))
-			return false;
-		return true;
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof TaskStatusView))
+            return false;
+        TaskStatusView other = (TaskStatusView) obj;
+        if (taskStatusObj == null) {
+            if (other.taskStatusObj != null)
+                return false;
+        } else if (!taskStatusObj.equals(other.taskStatusObj))
+            return false;
+        return true;
+    }
 
-//	public void getTaskStatusFromDB() {
-//        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
-//        retrieveTS.requestTaskStatuses();
-//        initialized = true;
-//    }
+    // public void getTaskStatusFromDB() {
+    // RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+    // retrieveTS.requestTaskStatuses();
+    // initialized = true;
+    // }
 
-	/**
+    /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
@@ -154,16 +157,20 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-        //final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-        //controller.requestWorkflow();
-
-        taskStatusObj.setTaskList(new ArrayList<Task>());
-        for (Task t : taskArray) {
-            if (t.getStatus() != null
-                    && taskStatusObj.getTaskStatusID() == t.getStatus().getTaskStatusID()) {
-                taskStatusObj.addTask(t);
+        System.out.println("Parsing all tasks.");
+        allTasks = taskArray;
+        for (long id : taskStatusObj.getTaskList()) {
+            for (int i = 0; i < allTasks.length; i++) {
+                if (allTasks[i].getTaskID() == id) {
+                    displayTasks.add(i, allTasks[i]);
+                }
             }
         }
+        System.out.println("Number of tasks, all: " + allTasks.length);
+        System.out.println("Number of tasks to display: " + displayTasks.size());
+        System.out.println(taskStatusObj.toJson());
+        // System.out.println(displayTasks.get(0).toJson());
+
         populateTaskStatusViewCards();
     }
 
@@ -171,9 +178,8 @@ public class TaskStatusView extends AbsView {
      * Populate task status view cards.
      */
     public void populateTaskStatusViewCards() {
-        final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
-        for (Task t : taskList) {
+        for (Task t : displayTasks) {
             String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
