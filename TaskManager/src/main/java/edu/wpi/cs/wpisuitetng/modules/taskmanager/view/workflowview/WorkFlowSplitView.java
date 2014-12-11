@@ -79,6 +79,7 @@ public class WorkFlowSplitView extends JSplitPane {
 	public void createViewTaskPanel(AbstractTaskPanel viewPanel) {
 		workflowSplitTabbedPanel.addViewTaskTab(viewPanel);
 		// Sets the Right Component to its minimum size always
+		System.out.println(getName());
 		setResizeWeight(1.0);
 		setEnabled(false);
 		setOneTouchExpandable(false);
