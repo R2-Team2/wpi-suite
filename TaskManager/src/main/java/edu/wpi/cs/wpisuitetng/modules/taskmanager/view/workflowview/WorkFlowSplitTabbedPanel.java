@@ -175,22 +175,24 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
      *            panel to view
      */
     public void addViewTaskTab(AbstractTaskPanel aPanel) {
-        final int index = indexOfTab(aPanel.getTitle());
+        String title = aPanel.getTitle();
+        final String toolTip = new String(title);
+        // truncates the displayed task title if it's longer than 25
+        // characters.
+        // if
+        if (title.length() > 15) {
+            title = title.substring(0, 15).concat("...");
+        }
+
+        final int index = indexOfTab(title);
+        for (int i = 0; i < this.getTabCount(); i++) {
+            System.out.println();
+        }
         if (index > -1) {
             setSelectedIndex(index);
             repaint();
             validate();
         } else {
-            String title = aPanel.getTitle();
-            final String toolTip = new String(title);
-
-            // truncates the displayed task title if it's longer than 25
-            // characters.
-            // if
-            if (title.length() > 15) {
-                title = title.substring(0, 15).concat("...");
-            }
-
             this.addTab(title, null, aPanel, toolTip);
 
             final WorkFlowSplitTabbedPanel thisPane = this;
