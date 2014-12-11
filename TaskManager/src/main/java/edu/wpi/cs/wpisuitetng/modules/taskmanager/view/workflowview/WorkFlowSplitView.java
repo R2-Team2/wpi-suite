@@ -14,10 +14,12 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.JTabbedPane;
 
@@ -39,7 +41,8 @@ public class WorkFlowSplitView extends JSplitPane{
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
 	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
-	private WorkFlowView workflowObj;
+	protected JLayeredPane workflowPane;
+	protected WorkFlowView workflowObj;
 	private boolean expanded;
 	
 	/**
@@ -51,7 +54,16 @@ public class WorkFlowSplitView extends JSplitPane{
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 		
         workflowObj = new WorkFlowView();
-		this.setLeftComponent(new JScrollPane(workflowObj));
+        workflowPane = new JLayeredPane();
+        //workflowPane.add(new JScrollPane().add(workflowObj), 1);
+        //workflowPane.add(new JButton("<"), 2);
+        
+        System.out.println(workflowPane.getComponentCount());
+        System.out.println(workflowPane.isDisplayable());
+
+		//this.setLeftComponent(new JPanel().add(workflowPane));
+		//System.out.println(workflowPane.isDisplayable());
+		this.setLeftComponent(workflowObj);
 		this.setRightComponent(null);
 		this.setDividerSize(5);
 		expanded = false;
