@@ -14,10 +14,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,14 +29,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
  */
 public class TaskCommentPanel extends JPanel {
-    static final long serialVersionUID = -3114980850099223953L;
 
     private int commentsAdded;
     private final Task currentTask;
@@ -43,6 +46,8 @@ public class TaskCommentPanel extends JPanel {
     private final JButton buttonAddComment;
     private final JButton buttonClear;
     private final JLabel errorMsg;
+    private final UpdateTaskController taskUpdater;
+    private boolean loaded = false;
 
     /**
      * Constructor for the requirement note panel
@@ -53,9 +58,11 @@ public class TaskCommentPanel extends JPanel {
         this.currentTask = currentTask;
         commentsAdded = 0;
 
+        taskUpdater = new UpdateTaskController();
+
         Component commentField = buildCommentField();
         commentScroll = new JScrollPane();
-
+        commentField.setMaximumSize(new Dimension(600, 600));
         // Buttons to be added to the bottom of the NotePanel
         buttonAddComment = new JButton("Add Comment");
         buttonClear = new JButton("Clear");
@@ -109,6 +116,14 @@ public class TaskCommentPanel extends JPanel {
         this.add(bottomPanel, c); // Add buttons to the panel
 
         setupListeners();
+        if (currentTask != null) {
+            refresh();
+        }
+    }
+
+    public void loadComments() {
+        System.out.println("Number of saved comments: "
+                + currentTask.getComments().getComments().size());
         refresh();
     }
 
@@ -118,6 +133,36 @@ public class TaskCommentPanel extends JPanel {
     private void refresh()
     {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
+
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE); // Background color is white
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+        c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
+        c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
+        c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
+        c.weightx = 1;// Fill horizontally
+        c.gridy = 0; // Row 0
+        c.insets = new Insets(5, 5, 5, 5); // Creates margins between notes
+
+        // Get iterator of the list of notes
+        currentTask.getComments();
+        ListIterator<Comment> itt = currentTask.getComments().getIterator(0);
+
+        // Add each note to panel individually
+        while (itt.hasNext()) {
+            // Create a new NotePanel for each Note and add it to the panel
+            panel.add(new CommentPanel(itt.next()), c);
+            c.gridy++; // Next Row
+        }
+
+        // Create a dummy panel to take up space at the bottom
+        c.weighty = 1;
+        JPanel dummy = new JPanel();
+        dummy.setBackground(Color.WHITE);
+        panel.add(dummy, c);
+
+        commentScroll.setViewportView(panel);
     }
 
     /**
@@ -146,9 +191,10 @@ public class TaskCommentPanel extends JPanel {
                     // Add note to requirement
                     currentTask.addComment(msg);
 
+                    taskUpdater.updateTask(currentTask);
+
                     refresh();
                     commentsAdded++;
-                    // TODO: Update database so task stores new comment
                 }
             }
         });
@@ -211,7 +257,7 @@ public class TaskCommentPanel extends JPanel {
     /**
      * @return the noteScroll
      */
-    JScrollPane getNoteScroll() {
+    JScrollPane getCommentScroll() {
         return commentScroll;
     }
 

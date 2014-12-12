@@ -28,7 +28,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -124,6 +123,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     protected ImageIcon icon;
 
     final private List<Requirement> requirements = new ArrayList<Requirement>();
+
+    protected TaskTabPane comments;
+
 
     /**
      * Builds the layout.
@@ -236,8 +238,14 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel manageAssigneeCell = new JPanel(new MigLayout());
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
 
-        final JTabbedPane commentCell = new TaskTabPane(getTask());
-        commentCell.setSize(new Dimension(1000, 1000));
+        final JPanel commentCell = new JPanel(new MigLayout());
+        comments = new TaskTabPane(getTask());
+        if (getTask() != null) {
+            comments.loadComments();
+            commentCell.add(comments, "spanx, spany");
+        } else {
+            commentCell.setVisible(false);
+        }
 
         // Assignee view created and populated to the bottom Panel
         listPossibleAssignees.setBorder(defaultBorder);

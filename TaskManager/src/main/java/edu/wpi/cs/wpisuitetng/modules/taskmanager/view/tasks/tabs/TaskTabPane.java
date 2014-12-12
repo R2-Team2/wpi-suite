@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 public class TaskTabPane extends JTabbedPane {
 
@@ -14,5 +15,13 @@ public class TaskTabPane extends JTabbedPane {
 
         commentPanel = new TaskCommentPanel(currentTask);
         this.addTab("Comments", commentPanel);
+    }
+
+    public void loadComments() {
+        commentPanel.loadComments();
+    }
+
+    public CommentList getComments() {
+        return currentTask.getComments();
     }
 }

@@ -15,7 +15,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * The Class UpdateTaskController.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -32,6 +32,10 @@ public class UpdateTaskController {
         this.view = view;
     }
 
+    public UpdateTaskController() {
+        view = null;
+    }
+
     /**
      * Calls the request from the request observer.
      *
@@ -41,10 +45,10 @@ public class UpdateTaskController {
         // Send a request to the core to save this message
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/task", HttpMethod.POST); // POST ==
-                                                                                        // save
+        // save
         request.setBody(toSave.toJson()); // put the new message in the body of the request
         request.addObserver(new UpdateTaskRequestObserver(this)); // add an observer to process the
-                                                                  // response
+        // response
         request.send(); // send the request
         System.out.println("Task: " + toSave.toJson());
         System.out.println("Sent task to database");
