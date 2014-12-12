@@ -20,9 +20,18 @@ public class SearchBarGroupTest {
     @Test
     public void cancelButtonTest() {
         SearchBarGroup sbg = new SearchBarGroup();
-        sbg.setCheckBoxes(true, false, false, true);
-        sbg.clickCancel();
-        assertTrue(sbg.isReset());
+        sbg.chckbxArchieved.setSelected(true);
+        sbg.chckbxAssignee.setSelected(true);
+        sbg.chckbxDescription.setSelected(false);
+        sbg.chckbxRequirements.setSelected(false);
+
+        sbg.resetFields();
+
+        System.out.print(sbg.chckbxArchieved.isSelected() + " " + sbg.chckbxAssignee.isSelected() + " " +
+                sbg.chckbxDescription.isSelected() + " " + sbg.chckbxRequirements.isSelected());
+        
+        assertTrue(!(sbg.chckbxArchieved.isSelected() || sbg.chckbxAssignee.isSelected()
+                || sbg.chckbxDescription.isSelected() || sbg.chckbxRequirements.isSelected()));
     }
 }
 

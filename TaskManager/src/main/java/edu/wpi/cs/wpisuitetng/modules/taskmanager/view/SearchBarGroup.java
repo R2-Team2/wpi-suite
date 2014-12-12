@@ -25,11 +25,11 @@ public class SearchBarGroup extends ToolbarGroupView {
     /** The content panel. */
     private final JPanel contentPanel = new JPanel();
     private final JTextField searchBar = new JTextField();
-    private final JButton btnCancel;
-    private final JCheckBox chckbxDescription;
-    private final JCheckBox chckbxRequirements;
-    private final JCheckBox chckbxAssignee;
-    private final JCheckBox chckbxArchieved;
+    final JButton btnCancel;
+    final JCheckBox chckbxDescription;
+    final JCheckBox chckbxRequirements;
+    final JCheckBox chckbxAssignee;
+    final JCheckBox chckbxArchieved;
 
     public SearchBarGroup() {
         super("");
@@ -101,11 +101,7 @@ public class SearchBarGroup extends ToolbarGroupView {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchBar.setText("");
-                chckbxDescription.setSelected(false);
-                chckbxRequirements.setSelected(false);
-                chckbxAssignee.setSelected(false);
-                chckbxArchieved.setSelected(false);
+                resetFields();
                 searchBarTextChanged();
             }
         });
@@ -142,6 +138,14 @@ public class SearchBarGroup extends ToolbarGroupView {
         btnCancel.setEnabled(searchBar.getText().length() != 0);
     }
 
+    void resetFields() {
+    	searchBar.setText("");
+        chckbxDescription.setSelected(false);
+        chckbxRequirements.setSelected(false);
+        chckbxAssignee.setSelected(false);
+        chckbxArchieved.setSelected(false);
+    }
+    
     /**
      * Called when the mouse enters this toolbar group
      */
