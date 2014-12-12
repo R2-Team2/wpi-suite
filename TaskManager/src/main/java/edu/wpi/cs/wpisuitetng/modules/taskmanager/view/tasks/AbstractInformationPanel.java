@@ -67,10 +67,10 @@ public class AbstractInformationPanel extends JScrollPane {
             new TaskStatus("Selected for Development").toString(),
             new TaskStatus("Currently in Development").toString(),
             new TaskStatus("Completed").toString(), new TaskStatus("Archived").toString()}; // needs
-                                                                                            // to be
-                                                                                            // list
-                                                                                            // of
-                                                                                            // TaskStatus
+    // to be
+    // list
+    // of
+    // TaskStatus
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();

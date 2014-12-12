@@ -72,6 +72,13 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     }
 
     /**
+     * Called when the Archive Button is pressed. Archives the task.
+     */
+    public void archivePressed() {
+        final Task updatedTask = infoPanel.getTask();
+    }
+
+    /**
      * Returns the title information from infoPanel.
      *
      * @return String
@@ -121,6 +128,7 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     public String getStatus() {
         return infoPanel.getStatus().getSelectedItem().toString();
     }
+
 
     /**
      * Retrieves the Requirement from infoPanel.
