@@ -27,9 +27,9 @@ Janeway/janeway.conf
 /Core/WPISuite-Interfaces/build/MANIFEST.MF
 /Core/WPISuite/src/META-INF/MANIFEST.MF
 /Core/WPISuite/WPISuite_TNG_local
-/Core/WPISuite/Team2Iteration4.db
+/Core/WPISuite/Team2Iteration*.db
 WPISuite_TNG_local
-Team2Iteration4.db
+Team2Iteration*.db
 
 #RequirementManager module files
 RequirementManager/build
