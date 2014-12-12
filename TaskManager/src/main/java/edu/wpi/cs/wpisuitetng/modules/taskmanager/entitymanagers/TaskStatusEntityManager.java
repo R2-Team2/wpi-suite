@@ -42,8 +42,7 @@ public class TaskStatusEntityManager implements EntityManager<TaskStatus> {
     }
 
     @Override
-    public TaskStatus makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public TaskStatus makeEntity(Session s, String content) throws WPISuiteException {
 
         final TaskStatus newTaskStatus = TaskStatus.fromJson(content);
 

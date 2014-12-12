@@ -43,8 +43,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
     }
 
     @Override
-    public WorkFlow makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public WorkFlow makeEntity(Session s, String content) throws WPISuiteException {
 
         final WorkFlow newWorkFlow = WorkFlow.fromJson(content);
         if (newWorkFlow.getTaskStatusList() == null) {
@@ -81,9 +80,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             newWorkFlow.setTaskStatusList(defaultTSid);
 
             db.save(newWorkFlow, s.getProject());
-        }
-        else
-        {
+        } else {
             final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
             final IDNum idObj = (IDNum) idList.get(0);
 
@@ -148,8 +145,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
             returnArray[0] = defaultWF;
             System.out.println("New Workflow and Default TaskStatuses created.");
-        }
-        else {
+        } else {
             returnArray = workflows.toArray(new WorkFlow[0]);
         }
 

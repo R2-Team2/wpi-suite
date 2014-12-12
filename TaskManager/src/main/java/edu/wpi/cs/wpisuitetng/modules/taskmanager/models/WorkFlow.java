@@ -40,6 +40,7 @@ public class WorkFlow extends AbstractModel {
 
     /**
      * Gets the work flow id.
+     * 
      * @return the work flow id
      */
 
@@ -103,7 +104,8 @@ public class WorkFlow extends AbstractModel {
 
     /**
      * convert from string to workflow object
-     * @param json the string 
+     * 
+     * @param json the string
      * @return the formed workflow object.
      */
     public static WorkFlow fromJson(String json) {
@@ -113,6 +115,7 @@ public class WorkFlow extends AbstractModel {
 
     /**
      * update the workflow object in the database.
+     * 
      * @param updatedWorkFlow the workflow to update
      */
     public void update(WorkFlow updatedWorkFlow) {

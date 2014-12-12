@@ -64,44 +64,44 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
             }
         });
 
-		buttonAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!possibleAssigneeList.isSelectionEmpty()) {
-					final int[] toAdd = possibleAssigneeList.getSelectedIndices();
-					for (int i = toAdd.length - 1; i >= 0; i--) {
-						User transfer = possibleAssigneeModel.remove(toAdd[i]);
-						chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
-					}
-					if (possibleAssigneeModel.size() == 0) {
-						buttonAdd.setEnabled(false);
-					}
-					if (chosenAssigneeModel.size() > 0) {
-						buttonRemove.setEnabled(true);
-					}
-				}
-			}
-		});
+        buttonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toAdd = possibleAssigneeList.getSelectedIndices();
+                    for (int i = toAdd.length - 1; i >= 0; i--) {
+                        User transfer = possibleAssigneeModel.remove(toAdd[i]);
+                        chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+                    }
+                    if (possibleAssigneeModel.size() == 0) {
+                        buttonAdd.setEnabled(false);
+                    }
+                    if (chosenAssigneeModel.size() > 0) {
+                        buttonRemove.setEnabled(true);
+                    }
+                }
+            }
+        });
 
-		buttonRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!chosenAssigneeList.isSelectionEmpty()) {
-					final int[] toRemove = chosenAssigneeList.getSelectedIndices();
-					for (int i = toRemove.length - 1; i >= 0; i--) {
-						User transfer = chosenAssigneeModel.remove(toRemove[i]);
-						possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
-					}
-					if (chosenAssigneeModel.size() == 0) {
-						buttonRemove.setEnabled(false);
-					}
-					if (possibleAssigneeModel.size() > 0) {
-						buttonAdd.setEnabled(true);
-					}
-				}
-			}
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!chosenAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+                    }
+                    if (chosenAssigneeModel.size() == 0) {
+                        buttonRemove.setEnabled(false);
+                    }
+                    if (possibleAssigneeModel.size() > 0) {
+                        buttonAdd.setEnabled(true);
+                    }
+                }
+            }
 
-		});
+        });
 
         /**
          * Text Field (Title) Listeners
