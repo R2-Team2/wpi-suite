@@ -81,15 +81,15 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
                         .getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
-        }
-        else {
+        } else {
             buttonSave.setEnabled(true);
             result = true;
         }
 
+        parentPanel.infoPanel.validateAssigneeButtons();
+
         return result;
     }
-
 
     /**
      * Validate task dates
@@ -97,8 +97,8 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
     @Override
     public void validateTaskDate() {
         if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-            parentPanel.infoPanel.labelDueDate.setText(
-                    "<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+            parentPanel.infoPanel.labelDueDate
+                    .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
         } else {
             parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
         }
