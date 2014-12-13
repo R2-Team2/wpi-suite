@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
 import static org.junit.Assert.assertTrue;
@@ -5,7 +11,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The class <code>SearchBarGroupTest</code> contains tests for the class {@link <code>SearchBarGroup</code>}
+ * The class <code>SearchBarGroupTest</code> contains 
+ * tests for the class {@link <code>SearchBarGroup</code>}
  *
  * @pattern JUnit Test Case
  * @generatedBy CodePro at 12/11/14 9:41 PM
@@ -19,7 +26,7 @@ public class SearchBarGroupTest {
      */
     @Test
     public void cancelButtonTest() {
-        SearchBarGroup sbg = new SearchBarGroup();
+        final SearchBarGroup sbg = new SearchBarGroup();
         sbg.chckbxArchieved.setSelected(true);
         sbg.chckbxAssignee.setSelected(true);
         sbg.chckbxDescription.setSelected(false);
@@ -27,7 +34,8 @@ public class SearchBarGroupTest {
 
         sbg.resetFields();
 
-        System.out.print(sbg.chckbxArchieved.isSelected() + " " + sbg.chckbxAssignee.isSelected() + " " +
+        System.out.print(sbg.chckbxArchieved.isSelected() + 
+                " " + sbg.chckbxAssignee.isSelected() + " " +
                 sbg.chckbxDescription.isSelected() + " " + sbg.chckbxRequirements.isSelected());
         
         assertTrue(!(sbg.chckbxArchieved.isSelected() || sbg.chckbxAssignee.isSelected()

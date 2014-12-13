@@ -137,7 +137,10 @@ public class SearchBarGroup extends ToolbarGroupView {
 
         btnCancel.setEnabled(searchBar.getText().length() != 0);
     }
-
+    
+    /**
+     * Resets Search Fields
+     */
     void resetFields() {
     	searchBar.setText("");
         chckbxDescription.setSelected(false);
