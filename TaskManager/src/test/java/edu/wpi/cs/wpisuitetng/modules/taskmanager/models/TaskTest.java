@@ -26,7 +26,7 @@ public class TaskTest {
 
     /** The t1. */
     Task t1;
-    
+
     /** Test users */
     String user1;
     String user2;
@@ -45,9 +45,9 @@ public class TaskTest {
      */
     @Before
     public void beginTest() {
-    	user1 = "mknightley";
-    	user2 = "jdoe";
-    	
+        user1 = "mknightley";
+        user2 = "jdoe";
+
         final List<String> userList = new ArrayList<String>();
         userList.add(user1);
         date = new Date();
