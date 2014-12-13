@@ -33,7 +33,8 @@ import org.junit.Test;
 // import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
 
 /**
- * The class <code>AbstractInformationPanelTest</code> contains tests for the class {@link <code>AbstractInformationPanel</code>}
+ * The class <code>AbstractInformationPanelTest</code> contains 
+ * tests for the class {@link <code>AbstractInformationPanel</code>}
  *
  * @pattern JUnit Test Case
  * @generatedBy CodePro at 11/23/14 10:22 PM
