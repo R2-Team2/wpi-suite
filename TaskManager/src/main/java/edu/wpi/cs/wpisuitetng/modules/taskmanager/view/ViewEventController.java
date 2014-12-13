@@ -70,7 +70,7 @@ public class ViewEventController {
      * opens requirement module tab
      */
     public void openRequirementsTab() {
-        JTabbedPane mainWindow = (JTabbedPane) ((JPanel) main.getParent()).getParent();
+        final JTabbedPane mainWindow = (JTabbedPane) ((JPanel) main.getParent()).getParent();
         for (int i = 0; i < mainWindow.getTabCount(); i++) {
             if (mainWindow.getTitleAt(i).equals("Requirement Manager")) {
                 mainWindow.setSelectedIndex(i);
