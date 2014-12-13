@@ -193,6 +193,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             }
         });
 
+        /**
+         * Chosen assignee list Listener
+         */
         chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -200,6 +203,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             }
         });
 
+        /**
+         * Possible assignee list Listener
+         */
         possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

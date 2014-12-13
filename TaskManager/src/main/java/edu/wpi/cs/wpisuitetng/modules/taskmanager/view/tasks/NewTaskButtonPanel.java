@@ -87,11 +87,12 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
                 || parentPanel.infoPanel.calStartDate.getDate() == null) {
             buttonCreate.setEnabled(false);
             result = false;
-        }
-        else {
+        } else {
             buttonCreate.setEnabled(true);
             result = true;
         }
+
+        parentPanel.infoPanel.validateAssigneeButtons();
 
         return result;
     }
@@ -104,8 +105,8 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
         if (parentPanel.infoPanel.getDueDate() != null
                 && parentPanel.infoPanel.getStartDate() != null) {
             if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-                parentPanel.infoPanel.labelDueDate.setText(
-                        "<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+                parentPanel.infoPanel.labelDueDate
+                        .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
             } else {
                 parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
             }
