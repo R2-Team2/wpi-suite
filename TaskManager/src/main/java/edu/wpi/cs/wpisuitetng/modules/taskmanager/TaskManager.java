@@ -63,10 +63,10 @@ public class TaskManager implements IJanewayModule {
 
         // Add the tab to the list of tabs owned by this module
         tabs.add(tab1);
-        
+
         ViewEventController.getInstance().setMainView(mainView);
     }
-    
+
     @Override
     public String getName() {
         return "Task Manager";

@@ -35,8 +35,10 @@ public class UpdateWorkflowController {
      */
     public void updateWorkflow(WorkFlow toSave) {
         // Send a request to the core to save this message
-        final Request request = Network.getInstance()
-                .makeRequest("taskmanager/workflow", HttpMethod.POST); // POST == save
+        final Request request =
+                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.POST); // POST
+                                                                                            // ==
+                                                                                            // save
         request.setBody(toSave.toJson()); // put the new message in the body of the request
         // add an observer to process the response
         request.addObserver(new UpdateWorkflowRequestObserver(this));

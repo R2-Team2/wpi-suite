@@ -98,8 +98,9 @@ public class Comment {
         result = prime * result + id;
         result = prime * result + user.hashCode();
         // for safe casting from long to int
-        result = prime * result + (int) Math
-                .max(Math.min(Integer.MAX_VALUE, timestamp), Integer.MIN_VALUE);
+        result =
+                prime * result
+                        + (int) Math.max(Math.min(Integer.MAX_VALUE, timestamp), Integer.MIN_VALUE);
         result = prime * result + message.hashCode();
         return result;
     }

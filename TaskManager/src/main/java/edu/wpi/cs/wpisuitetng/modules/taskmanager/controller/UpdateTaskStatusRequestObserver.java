@@ -13,11 +13,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * The Class UpdateTaskStatusRequestObserver.
+ * 
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
-public class UpdateTaskStatusRequestObserver implements RequestObserver{
-	 /** The controller. */
+public class UpdateTaskStatusRequestObserver implements RequestObserver {
+    /** The controller. */
     private final UpdateTaskStatusController controller;
 
     /**
@@ -29,12 +30,10 @@ public class UpdateTaskStatusRequestObserver implements RequestObserver{
     public UpdateTaskStatusRequestObserver(UpdateTaskStatusController controller) {
         this.controller = controller;
     }
-    
+
     /*
-     * Parse the message that was received from the server then pass them to
-     * the controller.
-     * @see
-     * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+     * Parse the message that was received from the server then pass them to the controller.
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
      * .cs.wpisuitetng.network.models.IRequest)
      */
     @Override
@@ -42,19 +41,19 @@ public class UpdateTaskStatusRequestObserver implements RequestObserver{
         // Get the response to the given request
         final ResponseModel response = iReq.getResponse();
     }
-    
+
     @Override
     public void responseError(IRequest iReq) {
-        //TODO replace with log slf4j?
+        // TODO replace with log slf4j?
         System.err.println("The request to add a message failed.");
     }
-    
+
     @Override
     public void fail(IRequest iReq, Exception exception) {
-        //TODO replace with log slf4j?
+        // TODO replace with log slf4j?
         System.err.println("The request to add a message failed.");
     }
-    
+
     /**
      * @return the controller
      */

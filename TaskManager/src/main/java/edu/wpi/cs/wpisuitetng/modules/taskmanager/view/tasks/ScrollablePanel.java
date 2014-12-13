@@ -45,8 +45,7 @@ public class ScrollablePanel extends JPanel implements Scrollable {
      * @see javax.swing.Scrollable#getScrollableUnitIncrement(Rectangle, int, int)
      */
     @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
-            int orientation, int direction) {
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         return 10;
     }
 
@@ -61,10 +60,8 @@ public class ScrollablePanel extends JPanel implements Scrollable {
      * @see javax.swing.Scrollable#getScrollableBlockIncrement(Rectangle, int, int)
      */
     @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-            int orientation, int direction) {
-        return ((orientation == SwingConstants.VERTICAL)
-                ? visibleRect.height : visibleRect.width) - 10;
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return ((orientation == SwingConstants.VERTICAL) ? visibleRect.height : visibleRect.width) - 10;
     }
 
     /**
