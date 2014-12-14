@@ -5,12 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.CustomMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -128,7 +124,7 @@ public class TaskEntityManagerTest {
 
         // Task with id 8 does not exist in the database
         when(db.retrieve(eq(Task.class), eq("id"), eq(8), any()))
-        .thenReturn(new ArrayList<Model>());
+                .thenReturn(new ArrayList<Model>());
 
         Task[] taskArray1 = manager.getEntity(s, "4");
         assertEquals(1, taskArray1.length);
