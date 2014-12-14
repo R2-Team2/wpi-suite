@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
@@ -174,12 +174,43 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
 
         /**
+         * Requirement drop-down Listener
+         */
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Actual effort spinner Listener
+         */
+        spinnerActualEffort.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Estimated effort spinner Listener
+         */
+        spinnerEstimatedEffort.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
          * Start Calendar Listener
          */
         calStartDate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -190,29 +221,29 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.validateTaskDate();
-            }
-        });
-
-        /**
-         * Chosen assignee list Listener
-         */
-        chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
                 parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
         /**
-         * Possible assignee list Listener
+         * Add assignee button Listener
          */
-        possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
+        buttonAdd.addActionListener(new ActionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
+        /**
+         * Remove assignee button Listener
+         */
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
     }
 
     @Override
@@ -238,14 +269,4 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
         return updatedTask;
     }
-
-
-    /**
-     * Validate assignee buttons
-     */
-    @Override
-    public void validateAssigneeButtons() {
-        buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
-        buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
-    };
 }

@@ -39,6 +39,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -145,21 +146,20 @@ public class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size() + 1];
         strListOfRequirements.add("None");
-        arrListOfRequirements[0] = "None";
-        for (int i = 0; i < requirements.size(); i++) {
-            // build a List<String> of the names of the requirements
-            // defaultComboBoxModel, below, requires an array of string
-            String tempName = requirements.get(i).getName();
-            if (tempName.length() > 15) {
-                tempName = tempName.substring(0, 15) + "...";
+        for (Requirement requirement : requirements) {
+            if (!requirement.getStatus().equals(RequirementStatus.DELETED)) {
+                String tempName = requirement.getName();
+                if (tempName.length() > 15) {
+                    tempName = tempName.substring(0, 15) + "...";
+                }
+                System.out.println(tempName);
+                strListOfRequirements.add(tempName);
             }
-            System.out.println(tempName);
-            strListOfRequirements.add(tempName);
-            arrListOfRequirements[i + 1] = tempName;
         }
 
+        final String[] arrListOfRequirements =
+                strListOfRequirements.toArray(new String[strListOfRequirements.size()]);
 
         // Instantiate GUI Elements
         // Labels
@@ -217,6 +217,7 @@ public class AbstractInformationPanel extends JScrollPane {
         buttonRemove = new JButton("<<");
         buttonAdd.setEnabled(false);
         buttonRemove.setEnabled(false);
+
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
@@ -281,6 +282,28 @@ public class AbstractInformationPanel extends JScrollPane {
             }
         });
 
+
+        leftColumn.add(labelStartDate, "left, wrap");
+        leftColumn.add(calStartDate, "left, wrap");
+        rightColumn.add(labelEstimatedEffort, "left, wrap");
+        rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelActualEffort, "left, wrap");
+        rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelDueDate, "left, wrap");
+        rightColumn.add(calDueDate, "left, wrap");
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
+
+
+        // Populate contentPanel
+        contentPanel.add(labelTitle, "wrap");
+        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -290,21 +313,25 @@ public class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
 
+        contentPanel.add(labelDescription, "wrap");
+        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
+        contentPanel.add(leftColumn, "left, spany, growy, push");
+        contentPanel.add(rightColumn, "right, spany, growy, push");
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+
+
+        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
 
-        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
-
         setViewportView(contentPanel);
     }
-
 
     /**
      * Returns the JTextField holding the title.
@@ -333,8 +360,7 @@ public class AbstractInformationPanel extends JScrollPane {
         return spinnerEstimatedEffort;
     }
 
-    /**
-     * Returns the JSpinner holding the actual effort.
+    /** Returns the JSpinner holding the actual effort.
      *
      * @return JSpinner
      */
@@ -368,7 +394,6 @@ public class AbstractInformationPanel extends JScrollPane {
     public Date getStartDate() {
         return calStartDate.getDate();
     }
-
 
     /**
      * Returns the Due Date.
@@ -427,7 +452,6 @@ public class AbstractInformationPanel extends JScrollPane {
         }
     }
 
-
     /**
      * Disables all of the text fields based on boolean io
      *
@@ -470,8 +494,8 @@ public class AbstractInformationPanel extends JScrollPane {
      * Validate assignee buttons
      */
     public void validateAssigneeButtons() {};
-}
 
+}
 
 
 /**
