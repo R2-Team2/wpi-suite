@@ -8,6 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
@@ -50,7 +52,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxDescription.setText(parentPanel.aTask.getDescription());
         dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
         dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
-        listChosenAssignees = parentPanel.aTask.getAssignedUsers();
+        for (String username : parentPanel.aTask.getAssignedUsers()) {
+            new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+        }
         calStartDate.setDate(parentPanel.aTask.getStartDate());
         calDueDate.setDate(parentPanel.aTask.getDueDate());
         spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
@@ -65,89 +69,43 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // if(!listPossibleAssignees.isSelectionEmpty()) {
-                // String[] a = listOfPossibleAssignees;
-                // String[] b = listOfChosenAssignees;
-                // int[] c = listPossibleAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempA;
-                // listOfChosenAssignees = tempB;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
+
             }
         });
 
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // if(!listChosenAssignees.isSelectionEmpty()) {
-                // String[] a = listOfChosenAssignees;
-                // String[] b = listOfPossibleAssignees;
-                // int[] c = listChosenAssignees.getSelectedIndices();
-                // String[] tempA = new String[a.length - c.length];
-                // String[] tempB = new String[b.length + c.length];
-                // for(int i = 0; i < b.length; i++) {
-                // tempB[i] = b[i];
-                // }
-                // int counterA = 0;
-                // int counterB = b.length;
-                // for(int i = 0; i < a.length; i++) {
-                // boolean canAdd = true;
-                // for(int x : c) {
-                // if(x == i) {
-                // tempB[counterB] = a[i];
-                // counterB++;
-                // }
-                // else {
-                // tempA[counterA] = a[i];
-                // counterA++;
-                // }
-                // }
-                // }
-                // listOfPossibleAssignees = tempB;
-                // listOfChosenAssignees = tempA;
-                // //Repaint the GUI
-                // listChosenAssignees.repaint();
-                // listPossibleAssignees.repaint();
-                // }
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = possibleAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+                    }
+                    if (chosenAssigneeModel.size() == 0) {
+                        buttonRemove.setEnabled(false);
+                    }
+                    if (possibleAssigneeModel.size() > 0) {
+                        buttonAdd.setEnabled(true);
+                    }
+                }
             }
 
         });
@@ -165,17 +123,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -186,17 +144,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxDescription.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -206,7 +164,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         dropdownStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.validateTaskInfo();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -242,7 +200,10 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final String requirement = getRequirement().getSelectedItem().toString();
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
-        final List<User> assignedUsers = getAssignedUsers();
+        final List<String> assignedUsers = new ArrayList<String>();
+        for (User u : getAssignedUsers()) {
+            assignedUsers.add(u.getUsername());
+        }
         final Task updatedTask;
         final CommentList commentList;
         if (comments == null) {

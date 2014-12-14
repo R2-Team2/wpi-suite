@@ -11,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
@@ -20,6 +18,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -47,26 +46,29 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.TaskTabPane;
 
 /**
- * The Class AbstractInformationPanel.
+ * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+
+@SuppressWarnings("serial")
 public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
 
     /** The list of chosen assignees. */
-    protected User[] listOfChosenAssignees = new User[] {};
+    protected DefaultListModel<User> chosenAssigneeModel;
 
     /** The list of possible assignees. */
-    protected User[] listOfPossibleAssignees = new User[] {};
+    protected DefaultListModel<User> possibleAssigneeModel;
 
     /** The list of statuses. */
-    protected String[] listOfStatuses = new String[] {new TaskStatus("new").toString(),
-            new TaskStatus("scheduled").toString(), new TaskStatus("in progress").toString(),
-            new TaskStatus("complete").toString()}; // needs to be list of TaskStatus
+    protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+            new TaskStatus("Selected for Development").toString(),
+            new TaskStatus("Currently in Development").toString(),
+            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();
@@ -87,10 +89,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     protected JComboBox<String> dropdownRequirement;
 
     /** The list chosen assignees. */
-    protected JList<User> listChosenAssignees;
+    protected JList<User> chosenAssigneeList;
 
     /** The list possible assignees. */
-    protected JList<User> listPossibleAssignees;
+    protected JList<User> possibleAssigneeList;
 
     /** The spinner estimated effort. */
     protected JSpinner spinnerEstimatedEffort;
@@ -155,6 +157,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             // build a List<String> of the names of the requirements
             // defaultComboBoxModel, below, requires an array of string
             String tempName = requirements.get(i).getName();
+            if (tempName.length() > 15) {
+                tempName = tempName.substring(0, 15) + "...";
+            }
+            System.out.println(tempName);
             strListOfRequirements.add(tempName);
             arrListOfRequirements[i + 1] = tempName;
         }
@@ -168,8 +174,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
-        final JLabel labelDueDate = new JLabel("Due Date: ");
-        final JLabel labelStartDate = new JLabel("Start Date: ");
+        final JLabel labelDueDate = new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
+        final JLabel labelStartDate = new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -199,9 +205,15 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
         dropdownStatus.setEnabled(true);
         dropdownStatus.setBackground(Color.WHITE);
-        // Lists
-        listChosenAssignees = new JList<User>();
-        listPossibleAssignees = new JList<User>();
+        // Lists and Models
+        chosenAssigneeModel = new DefaultListModel<User>();
+        chosenAssigneeList = new JList<User>(chosenAssigneeModel);
+        chosenAssigneeList.setCellRenderer(new UserRenderer());
+        possibleAssigneeModel = new DefaultListModel<User>();
+        possibleAssigneeList = new JList<User>(possibleAssigneeModel);
+        possibleAssigneeList.setCellRenderer(new UserRenderer());
+        chosenAssigneeList = new JList<User>();
+        possibleAssigneeList = new JList<User>();
         // Spinners
         spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
@@ -213,10 +225,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
-        calStartDate.setDate(Calendar.getInstance().getTime());
+        //calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
-        calDueDate.setDate(Calendar.getInstance().getTime());
+        //calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
@@ -227,10 +239,11 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         ((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
 
+        // Setup GUI
+
         // Setup Columns
         final JPanel leftColumn = new JPanel(new MigLayout());
         final JPanel rightColumn = new JPanel(new MigLayout());
-
 
         final JPanel assigneeCell = new JPanel(new MigLayout());
 
@@ -248,16 +261,16 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         }
 
         // Assignee view created and populated to the bottom Panel
-        listPossibleAssignees.setBorder(defaultBorder);
+        possibleAssigneeList.setBorder(defaultBorder);
         possibleAssigneeCell.add(labelPossibleAssignee, "left, wrap");
-        possibleAssigneeCell.add(listPossibleAssignees, "left, width 200px, height 150px, wrap");
+        possibleAssigneeCell.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
 
         manageAssigneeCell.add(buttonAdd, "center, wrap");
         manageAssigneeCell.add(buttonRemove, "center, wrap");
 
-        listChosenAssignees.setBorder(defaultBorder);
+        chosenAssigneeList.setBorder(defaultBorder);
         chosenAssigneeCell.add(labelChosenAssignee, "left, wrap");
-        chosenAssigneeCell.add(listChosenAssignees, "left, width 200px, height 150px, wrap");
+        chosenAssigneeCell.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
 
         assigneeCell.add(possibleAssigneeCell);
         assigneeCell.add(manageAssigneeCell);
@@ -288,8 +301,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
-
-
 
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
@@ -388,7 +399,11 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * @return JList<String>
      */
     public List<User> getAssignedUsers() {
-        return new ArrayList<User>(Arrays.asList(listOfChosenAssignees));
+        final List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+            userList.add(chosenAssigneeModel.elementAt(i));
+        }
+        return userList;
     }
 
     /**
@@ -440,7 +455,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         boxDescription.setEnabled(io);
         dropdownStatus.setEnabled(io);
         // requirement
-        listChosenAssignees.setEnabled(io);
+        chosenAssigneeList.setEnabled(io);
         calStartDate.setEnabled(io);
         calDueDate.setEnabled(io);
         spinnerEstimatedEffort.setEnabled(io);
@@ -462,9 +477,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * @return Task
      */
     public abstract Task getTask();
+
 }
-
-
 
 /**
  * @version legacy
@@ -473,13 +487,17 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 class IterationComparator implements Comparator<Iteration> {
     @Override
     public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
         if (I1.getStart() == null) {
-            return -1;
+            result = -1;
         }
-        if (I2.getStart() == null) {
-            return 1;
+        else if (I2.getStart() == null) {
+            result = 1;
         }
-        return I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        else {
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
     }
 }
 
