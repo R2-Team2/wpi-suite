@@ -92,7 +92,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @param task String
      */
-    public void remTask(String task) {
+    public void remTask(Task task) {
         taskList.remove(task);
     }
 
