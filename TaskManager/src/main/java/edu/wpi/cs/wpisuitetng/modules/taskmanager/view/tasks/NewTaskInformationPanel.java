@@ -47,23 +47,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
      * Sets up listeners for text validation.
      */
     protected void setupListeners() {
-        // Text Field Listeners
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-        });
 
         buttonAdd.addActionListener(new ActionListener() {
             @Override

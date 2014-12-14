@@ -16,6 +16,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
@@ -226,6 +228,26 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
 
         /**
+         * Chosen assignee list Listener
+         */
+        chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Possible assignee list Listener
+         */
+        possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
          * Add assignee button Listener
          */
         buttonAdd.addActionListener(new ActionListener() {
@@ -269,4 +291,13 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
         return updatedTask;
     }
+
+    /**
+     * Validate assignee buttons
+     */
+    @Override
+    public void validateAssigneeButtons() {
+        buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
+        buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
+    };
 }
