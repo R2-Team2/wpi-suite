@@ -174,4 +174,22 @@ public class ViewEventController {
         workflow.refresh();
     }
 
+    /**
+     *
+     */
+    public void showArchived() {
+        // TODO Auto-generated method stub
+        workflow.showArchived(true);
+
+    }
+
+    /**
+     *
+     */
+    public void hideArchived() {
+        // TODO Auto-generated method stub
+        workflow.showArchived(false);
+
+    }
+
 }
