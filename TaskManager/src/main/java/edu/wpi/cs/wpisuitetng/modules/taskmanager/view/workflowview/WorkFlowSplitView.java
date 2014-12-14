@@ -23,6 +23,7 @@ import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.JTabbedPane;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 //import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
@@ -41,7 +42,6 @@ public class WorkFlowSplitView extends JSplitPane{
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
 	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
-	protected JLayeredPane workflowPane;
 	protected WorkFlowView workflowObj;
 	private boolean expanded;
 	
@@ -54,18 +54,10 @@ public class WorkFlowSplitView extends JSplitPane{
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 		
         workflowObj = new WorkFlowView();
-        workflowPane = new JLayeredPane();
-        //workflowPane.add(new JScrollPane().add(workflowObj), 1);
-        //workflowPane.add(new JButton("<"), 2);
         
-        System.out.println(workflowPane.getComponentCount());
-        System.out.println(workflowPane.isDisplayable());
-
-		//this.setLeftComponent(new JPanel().add(workflowPane));
-		//System.out.println(workflowPane.isDisplayable());
 		this.setLeftComponent(workflowObj);
 		this.setRightComponent(null);
-		this.setDividerSize(5);
+		this.setDividerSize(0);
 		expanded = false;
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {

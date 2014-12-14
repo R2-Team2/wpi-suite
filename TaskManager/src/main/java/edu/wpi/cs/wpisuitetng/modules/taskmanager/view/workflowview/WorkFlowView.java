@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
@@ -63,7 +64,7 @@ public class WorkFlowView extends AbsWorkFlowView {
         
 
         taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
+        this.add(new JScrollPane(taskStatusPanel), BorderLayout.CENTER);
         final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
         final TaskStatusView taskStatusSelDev =
                 new TaskStatusView("Selected for Development", "scheduled");
