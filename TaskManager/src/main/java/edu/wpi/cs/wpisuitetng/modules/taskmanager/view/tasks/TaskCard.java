@@ -21,13 +21,13 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TaskCard.
  *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class TaskCard extends JPanel {
 
     /** The task obj. */
@@ -63,7 +63,7 @@ public class TaskCard extends JPanel {
      * @param aTask is the task object displayed in the task card.
      */
     public TaskCard(String nameData, String dateData, String userNameData, Task aTask) {
-    	taskObj = aTask;
+        taskObj = aTask;
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
