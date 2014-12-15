@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksContro
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
 /**
@@ -124,20 +125,20 @@ public class TaskStatusView extends AbsView {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-        System.out.println("Parsing all tasks.");
+        // System.out.println("Parsing all tasks.");
         allTasks = taskArray;
         for (long id : taskStatusObj.getTaskList()) {
-            for (int i = 0; i < allTasks.length; i++) {
-                if (allTasks[i].getTaskID() == id) {
-                    displayTasks.add(i, allTasks[i]);
+            System.out.println("Task Status ids: " + id);
+            if (allTasks.length > 0) {
+                for (int i = 0; i < allTasks.length; i++) {
+                    if (allTasks[i].getTaskID() == id) {
+                        displayTasks.add(i, allTasks[i]);
+                    }
                 }
+            } else {
+                ViewEventController.getInstance().refreshWorkFlowView();
             }
         }
-        // System.out.println("Number of tasks, all: " + allTasks.length);
-        // System.out.println("Number of tasks to display: " + displayTasks.size());
-        // System.out.println(taskStatusObj.toJson());
-        // System.out.println(displayTasks.get(0).toJson());
-
         populateTaskStatusViewCards();
     }
 

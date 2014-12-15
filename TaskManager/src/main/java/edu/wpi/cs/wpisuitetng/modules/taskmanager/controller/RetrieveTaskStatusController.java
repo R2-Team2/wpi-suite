@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -47,6 +48,7 @@ public class RetrieveTaskStatusController {
             tsList.add(taskStatusArray[i]);
         }
         // Set the list of status objects in the Workflow view.
+        ViewEventController.getInstance().getWorkflow().setStatuses(tsList);
         WorkFlowView.getInstance().setStatuses(tsList);
     }
 

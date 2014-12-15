@@ -34,7 +34,7 @@ public class WorkFlowSplitView extends JSplitPane {
 
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 
-        setLeftComponent(new JScrollPane(new WorkFlowView()));
+        setLeftComponent(new JScrollPane(WorkFlowView.getInstance()));
         setRightComponent(null);
         SwingUtilities.invokeLater(new Runnable() {
             @Override

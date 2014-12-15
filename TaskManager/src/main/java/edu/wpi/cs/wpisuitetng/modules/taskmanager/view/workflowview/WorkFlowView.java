@@ -8,6 +8,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,13 @@ public class WorkFlowView extends AbsWorkFlowView {
     /** The task status objects */
     List<TaskStatus> statuses;
 
+    /** True if view has been initialized */
+    private boolean initialized;
+
     /**
      * Create the panel.
      */
-    public WorkFlowView() {
+    private WorkFlowView() {
         ViewEventController.getInstance().setWorkFlowView(this);
 
         workFlowObj = new WorkFlow();
@@ -66,33 +70,39 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     public void rebuildWF() {
 
-        // getWorkFlowFromDB();
-        taskStatusPanel = null;
-        taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
+        // taskStatusPanel = null;
+        if (taskStatusPanel == null) {
+            taskStatusPanel = new JPanel();
+            this.add(taskStatusPanel, BorderLayout.CENTER);
+        } else {
+            taskStatusPanel.removeAll();
+        }
 
         taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
                         + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
-
-        // retrieve task status objects
-        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
-        retrieveTS.requestTaskStatuses();
+        statuses.clear();
         // System.out.println("Begin Building TS Views.");
-        if (statuses.size() > 0) {
-            // System.out.println(statuses.size());
-            for (int i = 0; i < statuses.size(); i++) {
-                TaskStatusView aView = new TaskStatusView(statuses.get(i));
-                aView.setTaskStatusObj(statuses.get(i));
-                // System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
-                taskStatusPanel.add(aView, "cell " + i + " 0,grow");
-                views.add(aView);
-            }
-            ViewEventController.getInstance().setWorkFlowView(this);
-        } else {
-            rebuildWF();
+        while (!(statuses.size() > 0)) {
+            // retrieve task status objects
+            RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+            retrieveTS.requestTaskStatuses();
         }
+        views.clear(); // testing hotfix
+        System.out.println("Number of Task Statuses: " + statuses.size());
+
+        for (int i = 0; i < statuses.size(); i++) {
+            TaskStatusView aView = new TaskStatusView(statuses.get(i));
+            aView.setTaskStatusObj(statuses.get(i));
+            System.out.println("Print task status: " + i + " - " + statuses.get(i).toJson());
+            taskStatusPanel.add(aView, "cell " + i + " 0,grow");
+            views.add(aView);
+        }
+        // ViewEventController.getInstance().setWorkFlowView(this);
+        // else {
+        // rebuildWF();
+        // }
         instance = this;
         // System.out.println("Work Flow View Built.");
     }
@@ -176,9 +186,18 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     @Override
     public void refresh() {
-        getWorkFlowFromDB();
+        // getWorkFlowFromDB();
         rebuildWF();
         instance = this;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        if (!initialized) {
+            getWorkFlowFromDB();
+            initialized = true;
+        }
+        super.paintComponent(g);
     }
 
 }

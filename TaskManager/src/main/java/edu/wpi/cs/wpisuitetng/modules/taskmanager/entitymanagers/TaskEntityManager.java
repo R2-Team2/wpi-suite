@@ -126,6 +126,7 @@ public class TaskEntityManager implements EntityManager<Task> {
                 if (tsArray[i].getName().equals(aTask.getStatus())) {
                     System.out.println("Found matching Task Status");
                     TaskStatus updatedTS = tsArray[i].addTask(aTask);
+
                     System.out.println("tsArray[i] before update: " + tsArray[i].toJson());
                     tsArray[i].update(updatedTS);
                     System.out.println("tsArray[i] after update: " + tsArray[i].toJson());
