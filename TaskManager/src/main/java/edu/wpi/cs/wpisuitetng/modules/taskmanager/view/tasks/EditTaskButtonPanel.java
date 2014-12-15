@@ -42,6 +42,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         final String cancelString = "Cancel";
         // Create Buttons
         buttonSave = new JButton(saveString);
+        buttonSave.setEnabled(false);
         buttonCancel = new JButton(cancelString);
         this.add(buttonSave);
         this.add(buttonCancel);
@@ -83,12 +84,11 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
                 || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
-                        .equals("New") && parentPanel.infoPanel.listChosenAssignees.getModel()
+                        .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
                         .getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
-        }
-        else {
+        } else {
             buttonSave.setEnabled(true);
             result = true;
         }
@@ -102,8 +102,8 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
     @Override
     public void validateTaskDate() {
         if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-            parentPanel.infoPanel.labelDueDate
-            .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+            parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>"
+                    + "Preceeds Start Date</font></html>");
         } else {
             parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
         }

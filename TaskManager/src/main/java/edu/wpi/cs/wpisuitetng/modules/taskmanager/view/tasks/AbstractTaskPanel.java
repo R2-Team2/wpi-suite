@@ -83,7 +83,7 @@ public class AbstractTaskPanel extends JPanel {
 
     /**
      * Called when the Create Button is pressed Creates a Task from the NewTask Info.
-     * 
+     *
      * @throws WPISuiteException
      */
     public void createPressed() throws WPISuiteException {};

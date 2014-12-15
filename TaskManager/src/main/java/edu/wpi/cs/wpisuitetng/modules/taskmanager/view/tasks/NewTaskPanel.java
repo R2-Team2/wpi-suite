@@ -75,6 +75,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         // updateTaskStatus(infoPanel.getTask().getStatus().getName(), infoPanel.getTask());
 
         ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
     }
 

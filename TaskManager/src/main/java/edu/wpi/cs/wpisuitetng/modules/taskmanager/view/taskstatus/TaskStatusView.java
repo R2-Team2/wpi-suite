@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +84,7 @@ public class TaskStatusView extends AbsView {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         // Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(new EtchedBorder());
         this.add(scrollPane, "cell 0 1,grow");
 
@@ -95,7 +97,7 @@ public class TaskStatusView extends AbsView {
         txtpnTitle.setBorder(null);
         txtpnTitle.setForeground(Color.black);
         txtpnTitle.setEditable(false);
-        txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
+        txtpnTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
         txtpnTitle.setText(taskStatusObj.getName());
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
         panel.setBackground(Color.WHITE);
@@ -162,6 +164,80 @@ public class TaskStatusView extends AbsView {
     public TaskStatus getTaskStatusObj() {
         return taskStatusObj;
     }
+
+    /**
+     * Populate task status view cards using filter.
+     *
+     * @param filterString filter string
+     */
+    public void filterTaskStatusViewCards(String filterString) {
+        final List<Task> taskList = displayTasks;
+        panel.removeAll();
+        for (Task t : taskList) {
+            if (t.getTitle().toLowerCase().contains(filterString.toLowerCase())) {
+                String dateString = formateDate(t);
+                TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
+                panel.add(card, "newline");
+            }
+        }
+        revalidate();
+    }
+
+    /**
+     * Filters task cards considering title, description, assignee, requirement and archived tasks.
+     *
+     * @param filterString search string
+     * @param description true if should search through description
+     * @param requirement true if should search through requirement
+     * @param assignee true if should search through assignee
+     * @param archived true if should search through archived tasks
+     */
+    public void filterTaskStatusViewCardsWithParameters(String filterString, boolean description,
+            boolean requirement, boolean assignee, boolean archived) {
+        final List<Task> taskList = displayTasks;
+        panel.removeAll();
+        for (Task t : taskList) {
+            boolean shouldAppear = t.getTitle().toLowerCase().contains(filterString.toLowerCase());
+            if (description) {
+                shouldAppear =
+                        shouldAppear
+                                || t.getDescription().toLowerCase()
+                                        .contains(filterString.toLowerCase());
+            }
+            if (requirement) {
+                shouldAppear =
+                        shouldAppear
+                                || t.getRequirement().toLowerCase()
+                                        .contains(filterString.toLowerCase());
+            }
+            if (assignee) {
+                try {
+                    for (int i = 0; i < t.getAssignedUsers().size(); i++) {
+                        String user = t.getAssignedUsers().get(i);
+                        System.out.println("For the task \"" + t.getTitle() + "\" assignee are: "
+                                + user);
+                        shouldAppear =
+                                shouldAppear
+                                        || user.toLowerCase().contains(filterString.toLowerCase());
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("For the task \"" + t.getTitle()
+                            + "\" assignee are not defined!");
+                }
+            }
+            if (archived) {
+                // TODO implement this branch if we decide to use archiving
+            }
+
+            if (shouldAppear) {
+                String dateString = formateDate(t);
+                TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
+                panel.add(card, "newline");
+            }
+        }
+        revalidate();
+    }
+
 
     /**
      * Returns the formatted due date of a task.

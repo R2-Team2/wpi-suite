@@ -78,8 +78,8 @@ public class WorkFlowView extends AbsWorkFlowView {
         }
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         statuses.clear();
         // System.out.println("Begin Building TS Views.");
@@ -182,6 +182,23 @@ public class WorkFlowView extends AbsWorkFlowView {
     }
 
     /**
+     * Filters task cards considering title, description, assignee, requirement and archived tasks.
+     *
+     * @param filterString search string
+     * @param description true if should search through description
+     * @param requirement true if should search through requirement
+     * @param assignee true if should search through assignee
+     * @param archived true if should search through archived tasks
+     */
+    public void filterWithParameters(String filterString, boolean description, boolean requirement,
+            boolean assignee, boolean archived) {
+        for (TaskStatusView v : views) {
+            v.filterTaskStatusViewCardsWithParameters(filterString, description, requirement,
+                    assignee, archived);
+        }
+    }
+
+    /**
      * Refresh.
      */
     @Override
@@ -198,6 +215,8 @@ public class WorkFlowView extends AbsWorkFlowView {
             initialized = true;
         }
         super.paintComponent(g);
+        revalidate();
+        repaint();
     }
 
 }

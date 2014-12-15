@@ -53,11 +53,14 @@ public class AddTaskController {
         final String description = view.getDescription();
         final int estimatedEffort = view.getEstimatedEffort();
         final int actualEffort = view.getActualEffort();
-        final String status = view.getStatus();
+        final String status = new String(view.getStatus());
         final String requirement = view.getRequirement();
         final Date startDate = view.getStartDate();
         final Date dueDate = view.getDueDate();
-        final List<User> assignedUsers = view.getAssignedUsers();
+        final List<String> assignedUsers = new ArrayList<String>();
+        for (User u : view.getAssignedUsers()) {
+            assignedUsers.add(u.getUsername());
+        }
         final List<String> activityList = new ArrayList<String>();
         final Task newTask;
         // TODO: Create a comment section

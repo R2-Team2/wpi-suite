@@ -102,8 +102,6 @@ public class MainView extends JTabbedPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 editWorkFlowView.refresh();
-                // WorkFlowView.getInstance().refresh();
-
             }
         });
     }
@@ -194,7 +192,7 @@ public class MainView extends JTabbedPane {
 
                 setTabComponentAt(getTabCount() - 1, panel);
                 setSelectedIndex(getTabCount() - 1);
-
+                setSelectedComponent(editWorkFlowView);
             }
         }
     }
@@ -240,5 +238,11 @@ public class MainView extends JTabbedPane {
         }
     }
 
+    /**
+     * resets workflow size refreshing its contents
+     */
+    public void resetPreferedSize() {
+        workflow.resetToPreferredSizes();
+    }
 
 }
