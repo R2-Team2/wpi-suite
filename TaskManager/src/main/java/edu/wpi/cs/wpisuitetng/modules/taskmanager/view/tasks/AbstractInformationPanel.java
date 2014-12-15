@@ -124,10 +124,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
-    final private List<Requirement> requirements = new ArrayList<Requirement>();
+    private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     protected TaskTabPane comments;
-
 
     /**
      * Builds the layout.
@@ -396,7 +395,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * Returns the JList holding the Chosen Members.
      *
-     * @return JList<String>
+     * @return List<User>
      */
     public List<User> getAssignedUsers() {
         final List<User> userList = new ArrayList<User>();
@@ -436,8 +435,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
             buttonOpenRequirement.setEnabled(false);
-        }
-        else {
+        } else {
             buttonOpenRequirement.setEnabled(true);
         }
     }
@@ -456,6 +454,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         dropdownStatus.setEnabled(io);
         // requirement
         chosenAssigneeList.setEnabled(io);
+        possibleAssigneeList.setEnabled(io);
         calStartDate.setEnabled(io);
         calDueDate.setEnabled(io);
         spinnerEstimatedEffort.setEnabled(io);
@@ -476,8 +475,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * @return Task
      */
-    public abstract Task getTask();
-
+    public Task getTask() {
+        return null;
+    }
 }
 
 /**
@@ -490,11 +490,9 @@ class IterationComparator implements Comparator<Iteration> {
         int result = 0;
         if (I1.getStart() == null) {
             result = -1;
-        }
-        else if (I2.getStart() == null) {
+        } else if (I2.getStart() == null) {
             result = 1;
-        }
-        else {
+        } else {
             result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
         }
         return result;

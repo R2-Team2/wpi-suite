@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -40,6 +42,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         this.parentPanel = parentPanel;
         buildLayout();
         setupTask();
+        new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
+                .requestAllUsers();
         setupListeners();
     }
 
@@ -169,12 +173,43 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
 
         /**
+         * Requirement drop-down Listener
+         */
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Actual effort spinner Listener
+         */
+        spinnerActualEffort.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Estimated effort spinner Listener
+         */
+        spinnerEstimatedEffort.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
          * Start Calendar Listener
          */
         calStartDate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
 
@@ -185,6 +220,27 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.buttonPanel.validateTaskDate();
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Add assignee button Listener
+         */
+        buttonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Remove assignee button Listener
+         */
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
             }
         });
     }
@@ -204,6 +260,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
+        
         final Task updatedTask;
         final CommentList commentList;
         if (comments == null) {
