@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,13 @@ public class WorkFlowTest {
     }
 
     @Test
+    public void testWorkFlowConstructor() {
+        WorkFlow testWorkFlow = new WorkFlow();
+        assertNotNull(testWorkFlow.getTaskStatusList());
+    }
+
+
+    @Test
     public void testSetWorkFlowID() {
         assertEquals(wf.getWorkFlowID(), 0);
         wf.setWorkFlowID(1);
@@ -47,6 +55,41 @@ public class WorkFlowTest {
         List<Long> aTaskStatusList = new ArrayList<Long>();
         wf.setTaskStatusList(aTaskStatusList);
         assertEquals(wf.getTaskStatusList(), aTaskStatusList);
+    }
+
+    @Test
+    public void testToAndFromJson() {
+        final String testToJson = wf.toJson();
+        final WorkFlow testFromJson = WorkFlow.fromJson(testToJson);
+        assertEquals(wf.getWorkFlowID(), testFromJson.getWorkFlowID());
+        assertEquals(wf.getTaskStatusList(), testFromJson.getTaskStatusList());
+    }
+
+    @Test
+    public void testUpdate() {
+        final WorkFlow updatedWF = new WorkFlow();
+        wf.update(updatedWF);
+        assertEquals(updatedWF.getWorkFlowID(), wf.getWorkFlowID());
+        assertEquals(updatedWF.getTaskStatusList(), wf.getTaskStatusList());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIdentify() throws UnsupportedOperationException {
+        final WorkFlow unTested = new WorkFlow();
+        final Object o = new Object();
+        unTested.identify(o);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSave() throws UnsupportedOperationException {
+        final WorkFlow unTested = new WorkFlow();
+        unTested.save();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testDelete() throws UnsupportedOperationException {
+        final WorkFlow unTested = new WorkFlow();
+        unTested.delete();
     }
 
 }

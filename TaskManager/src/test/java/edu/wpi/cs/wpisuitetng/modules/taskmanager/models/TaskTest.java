@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -63,8 +62,7 @@ public class TaskTest {
      * Test constructor.
      */
     @Test
-    @Ignore
-    public void testConstructor() {
+    public void testTaskConstructor() {
         assertEquals(t1.getTaskID(), 12);
         assertEquals(t1.getTitle(), "Title");
         assertEquals(t1.getDescription(), "Description");
@@ -260,6 +258,50 @@ public class TaskTest {
         t2.setStatus(newest);
         t1.update(t2);
         assertEquals(t1.getActivityList().size(), 2);
+    }
+
+    @Test
+    public void testToAndFromJson() {
+        final String testToJson = t1.toJson();
+        final Task testFromJson = Task.fromJson(testToJson);
+
+        assertEquals(t1.getActivityList(), testFromJson.getActivityList());
+        assertEquals(t1.getActualEffort(), testFromJson.getActualEffort());
+        assertEquals(t1.getAssignedUsers(), testFromJson.getAssignedUsers());
+        assertEquals(t1.getComments(), testFromJson.getComments());
+        assertEquals(t1.getDescription(), testFromJson.getDescription());
+        // assertEquals(t1.getDueDate(), testFromJson.getDueDate());
+        assertEquals(t1.getEstimatedEffort(), testFromJson.getEstimatedEffort());
+        assertEquals(t1.getRequirement(), testFromJson.getRequirement());
+        // assertEquals(t1.getStartDate(), testFromJson.getStartDate());
+        // assertEquals(t1.getStatus(), testFromJson.getStatus());
+        assertEquals(t1.getTaskID(), testFromJson.getTaskID());
+        assertEquals(t1.getTitle(), testFromJson.getTitle());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIdentify() throws UnsupportedOperationException {
+        final Task unTested =
+                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                        activityList);
+        final Object o = new Object();
+        unTested.identify(o);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSave() throws UnsupportedOperationException {
+        final Task unTested =
+                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                        activityList);
+        unTested.save();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testDelete() throws UnsupportedOperationException {
+        final Task unTested =
+                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                        activityList);
+        unTested.delete();
     }
 
 }

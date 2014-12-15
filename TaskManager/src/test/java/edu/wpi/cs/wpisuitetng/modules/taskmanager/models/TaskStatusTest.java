@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -70,6 +71,13 @@ public class TaskStatusTest {
     }
 
     @Test
+    public void testTaskStatusConstructor() {
+        TaskStatus testTaskStatus = new TaskStatus("Test");
+        assertEquals(testTaskStatus.getName(), "Test");
+        assertNotNull(testTaskStatus.getTaskList());
+    }
+
+    @Test
     public void testSetName() {
         assertEquals(ts1.getName(), "Task Status 1");
         ts1.setName("foo");
@@ -116,5 +124,43 @@ public class TaskStatusTest {
     public void testSetTaskStatusID() {
         ts1.setTaskStatusID(21);
         assertEquals(ts1.getTaskStatusID(), 21);
+    }
+
+    @Test
+    public void testGetSize() {
+        ts1.setTaskList(taskList);
+        assertEquals(ts1.getSize(), taskList.size());
+    }
+
+    @Test
+    public void testGetElementAt() {
+        ts1.setTaskList(taskList);
+        for (int i = 0; i < taskList.size(); i++) {
+            assertEquals(ts1.getElementAt(i), taskList.get(i));
+        }
+    }
+
+    @Test
+    public void testGetName() {
+        assertEquals(ts1.toString(), "Task Status 1");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIdentify() throws UnsupportedOperationException {
+        final TaskStatus unTested = new TaskStatus("Test");
+        final Object o = new Object();
+        unTested.identify(o);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSave() throws UnsupportedOperationException {
+        final TaskStatus unTested = new TaskStatus("Test");
+        unTested.save();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testDelete() throws UnsupportedOperationException {
+        final TaskStatus unTested = new TaskStatus("Test");
+        unTested.delete();
     }
 }
