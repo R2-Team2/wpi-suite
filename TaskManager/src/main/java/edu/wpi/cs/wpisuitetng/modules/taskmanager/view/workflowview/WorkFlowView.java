@@ -57,7 +57,6 @@ public class WorkFlowView extends AbsWorkFlowView {
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
         statuses = new ArrayList<TaskStatus>();
-
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
@@ -79,8 +78,8 @@ public class WorkFlowView extends AbsWorkFlowView {
         }
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         statuses.clear();
         // System.out.println("Begin Building TS Views.");
@@ -89,7 +88,6 @@ public class WorkFlowView extends AbsWorkFlowView {
             RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
             retrieveTS.requestTaskStatuses();
         }
-        views.clear(); // testing hotfix
         System.out.println("Number of Task Statuses: " + statuses.size());
 
         for (int i = 0; i < statuses.size(); i++) {
@@ -186,15 +184,16 @@ public class WorkFlowView extends AbsWorkFlowView {
      */
     @Override
     public void refresh() {
-        // getWorkFlowFromDB();
         rebuildWF();
+        revalidate();
         instance = this;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         if (!initialized) {
-            getWorkFlowFromDB();
+            WorkFlowView.getInstance().getWorkFlowFromDB();
+            WorkFlowView.getInstance().refresh();
             initialized = true;
         }
         super.paintComponent(g);
