@@ -19,11 +19,12 @@ import javax.swing.event.DocumentListener;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
@@ -175,6 +176,9 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+     */
     @Override
     public Task getTask() {
         // TODO Auto-generated method stub

@@ -45,11 +45,12 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class AbstractInformationPanel extends JScrollPane {
@@ -114,15 +115,16 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The cal due date. */
     protected JXDatePicker calDueDate;
 
-    /** The cal start label */
+    /** The cal start label. */
     protected JLabel labelStartDate = new JLabel("Start Date: ");
 
-    /** The cal due label */
+    /** The cal due label. */
     protected JLabel labelDueDate = new JLabel("Due Date: ");
 
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
+    /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
@@ -172,7 +174,7 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelDueDate =
                 new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
         final JLabel labelStartDate =
-                new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
+                new JLabel("<html>Start Date: </html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -391,8 +393,10 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the selected requirement.
+     *
      * @return selected requirement object
-     * @throws Exception
+     * @throws Exception the exception
      */
     private Requirement getSelectedRequirement() throws Exception {
         final String reqName = (String) dropdownRequirement.getSelectedItem();
@@ -407,6 +411,8 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Open selected requirement.
+     *
      * @throws Exception invalid requirement selected
      */
     public void openSelectedRequirement() throws Exception {
@@ -416,6 +422,9 @@ public class AbstractInformationPanel extends JScrollPane {
                 .openRequirementsTab();
     }
 
+    /**
+     * Validate requirement view.
+     */
     private void validateRequirementView() {
         System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
@@ -427,7 +436,7 @@ public class AbstractInformationPanel extends JScrollPane {
 
 
     /**
-     * Disables all of the text fields based on boolean io
+     * Disables all of the text fields based on boolean io.
      *
      * @param io is a flag that if true disables fields, if false enables all fields.
      */
@@ -458,6 +467,8 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the task.
+     *
      * @return Task
      */
     public Task getTask() {
