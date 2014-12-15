@@ -84,6 +84,7 @@ public class TaskStatusTest {
 
     @Test
     public void testAddTask() {
+        ts1.setTaskList(taskList);
         assertEquals(ts1.getTaskList(), taskList);
 
         ts1.setTaskList(new ArrayList<Task>());

@@ -26,7 +26,9 @@ public class TaskTest {
 
     /** The t1. */
     Task t1;
-    
+
+    List<String> userList = new ArrayList<String>();
+
     /** Test users */
     String user1;
     String user2;
@@ -45,10 +47,9 @@ public class TaskTest {
      */
     @Before
     public void beginTest() {
-    	user1 = "mknightley";
-    	user2 = "jdoe";
-    	
-        final List<String> userList = new ArrayList<String>();
+        user1 = "mknightley";
+        user2 = "jdoe";
+
         userList.add(user1);
         date = new Date();
 
@@ -119,6 +120,16 @@ public class TaskTest {
     }
 
     /**
+     * Test set start date.
+     */
+    @Test
+    public void testSetStartDate() {
+        final Date newDate = new Date();
+        t1.setStartDate(newDate);
+        assertEquals(t1.getStartDate(), newDate);
+    }
+
+    /**
      * Test set due date.
      */
     @Test
@@ -139,10 +150,19 @@ public class TaskTest {
     }
 
     /**
+     * Test set requirement.
+     */
+    @Test
+    public void testSetRequirement() {
+        final String requirement = "Create Task Feature";
+        t1.setRequirement(requirement);
+        assertEquals(t1.getRequirement(), requirement);
+    }
+
+    /**
      * Test add assigned user.
      */
     @Test
-    @Ignore
     public void testAddAssignedUser() {
         t1.addAssignedUser(user1);
         assertTrue(t1.getAssignedUsers().contains(user1));
@@ -158,10 +178,10 @@ public class TaskTest {
      * Test delete user.
      */
     @Test
-    @Ignore
     public void testDeleteUser() {
         t1.deleteUser(user2);
         assertTrue(t1.getAssignedUsers().contains(user1));
+        assertFalse(t1.getAssignedUsers().contains(user2));
         assertEquals(t1.getAssignedUsers().size(), 1);
 
         t1.deleteUser(user1);
@@ -170,10 +190,16 @@ public class TaskTest {
 
         t1.addAssignedUser(user1);
         t1.addAssignedUser(user2);
+        t1.addAssignedUser(user1);
+        t1.addAssignedUser(user2);
+        assertEquals(t1.getAssignedUsers().size(), 2);
+        assertFalse(t1.getAssignedUsers().contains("3"));
+
         t1.deleteUser(user1);
-        assertTrue(t1.getAssignedUsers().contains(4));
-        assertFalse(t1.getAssignedUsers().contains(3));
         assertEquals(t1.getAssignedUsers().size(), 1);
+
+        t1.deleteUser(user2);
+        assertEquals(t1.getAssignedUsers().size(), 0);
     }
 
     // TODO get activityList to work
@@ -196,6 +222,44 @@ public class TaskTest {
         t1.addActivity(comment2);
         assertTrue(t1.getActivityList().contains(comment2));
         assertEquals(t1.getActivityList().size(), 3);
+    }
+
+    @Test
+    public void testGetUserForTaskCard() {
+        t1.addAssignedUser(user1);
+        assertEquals(t1.getUserForTaskCard(), user1);
+
+        t1.addAssignedUser(user2);
+        assertEquals(t1.getUserForTaskCard(), user1 + " ...");
+
+        t1.deleteUser(user1);
+        assertEquals(t1.getUserForTaskCard(), user2);
+
+        t1.deleteUser(user2);
+        assertEquals(t1.getUserForTaskCard(), "");
+
+        Task testNullUsers =
+                new Task(12, "Title", "Description", 3, 2, newest, "Requirement", date, date,
+                        null, activityList);
+        assertEquals(testNullUsers.getUserForTaskCard(), "");
+
+    }
+
+    @Test
+    public void testUpdate() {
+        TaskStatus oldest = new TaskStatus("OLD");
+        Task t2 = new Task(12, "Title", "Description", 3, 2, oldest, "Requirement", date, date,
+                userList, activityList);
+
+        t1.update(t1);
+        assertEquals(t1.getActivityList().size(), 0);
+
+        t1.update(t2);
+        assertEquals(t1.getActivityList().size(), 1);
+
+        t2.setStatus(newest);
+        t1.update(t2);
+        assertEquals(t1.getActivityList().size(), 2);
     }
 
 }
