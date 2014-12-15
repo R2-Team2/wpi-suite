@@ -71,41 +71,35 @@ public class TaskEntityManager implements EntityManager<Task> {
 
             return newMessage;
         } else {
-            System.out.println("retrieved id list");
-            System.out.println("id object: " + idArry[0].toJson());
+            // System.out.println("retrieved id list");
+            // System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
             }
 
-            // updateTaskStatus(s, newMessage);
+            while (!updateTaskStatus(s, newMessage)) {
+            }
+
             // add update task status functionality
-            List<Model> tsList = db.retrieveAll(new TaskStatus(null));
-            TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+            // List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+            // TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
 
             // if (tsArray.length == 0 || tsArray[0] == null) {
             // System.out.println("Error: No tasks updated for new task!");
             // } else {
-            for (int i = 0; i < tsArray.length; i++) {
-                System.out.println("tsArray.getName: -" + tsArray[i].getName()
-                        + "- task.getStatus: -" + newMessage.getStatus() + "-");
-                if (tsArray[i].getName().equals(newMessage.getStatus())) {
-                    System.out.println("Found matching Task Status");
-                    TaskStatus updatedTS = tsArray[i].addTask(newMessage);
-                    tsArray[i].update(updatedTS);
-                    System.out.println(tsArray[i].toJson());
-
-                    db.save(tsArray[i], s.getProject());
-
-                    System.out.println("");
-                    System.out.println("Do We Get here to end of update Task Status?");
-                    System.out.println("");
-                }
-                // }
-
-
-            }
+            /*
+             * for (int i = 0; i < tsArray.length; i++) { System.out.println("tsArray.getName: -" +
+             * tsArray[i].getName() + "- task.getStatus: -" + newMessage.getStatus() + "-"); if
+             * (tsArray[i].getName().equals(newMessage.getStatus())) {
+             * System.out.println("Found matching Task Status"); TaskStatus updatedTS =
+             * tsArray[i].addTask(newMessage); tsArray[i].upd(updatedTS);
+             * System.out.println(tsArray[i].toJson()); db.save(tsArray[i], s.getProject());
+             * System.out.println("");
+             * System.out.println("Do We Get here to end of update Task Status?");
+             * System.out.println(""); } // } }
+             */
             db.save(newMessage, s.getProject());
             return newMessage;
         }
@@ -129,17 +123,15 @@ public class TaskEntityManager implements EntityManager<Task> {
             return flag = false;
         } else {
             for (int i = 0; i < tsList.size(); i++) {
-                if (tsArray[i].getName() == aTask.getStatus()) {
+                if (tsArray[i].getName().equals(aTask.getStatus())) {
                     System.out.println("Found matching Task Status");
                     TaskStatus updatedTS = tsArray[i].addTask(aTask);
+                    System.out.println("tsArray[i] before update: " + tsArray[i].toJson());
                     tsArray[i].update(updatedTS);
-                    System.out.println(tsArray[i].toJson());
+                    System.out.println("tsArray[i] after update: " + tsArray[i].toJson());
+
+                    System.out.println("Task Update Successful");
                     db.save(tsArray[i], s.getProject());
-
-                    System.out.println("");
-                    System.out.println("Do We Get here to end of update Task Status?");
-                    System.out.println("");
-
                     return flag = true;
                 }
             }
