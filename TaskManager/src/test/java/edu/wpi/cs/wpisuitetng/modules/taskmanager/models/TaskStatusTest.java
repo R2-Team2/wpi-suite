@@ -56,14 +56,10 @@ public class TaskStatusTest {
 
         t1 =
                 new Task(taskID1, title1, description1, estimatedEffort1, actualEffort1, ts1,
-                        requirement1,
-                        startDate1, dueDate1,
-                        userList1, activityList);
+                        requirement1, startDate1, dueDate1, userList1, activityList);
         t2 =
                 new Task(taskID2, title2, description2, estimatedEffort2, actualEffort2, ts1,
-                        requirement2,
-                        startDate2, dueDate2,
-                        userList2, activityList);
+                        requirement2, startDate2, dueDate2, userList2, activityList);
 
         taskList.add(t1);
         taskList.add(t2);
