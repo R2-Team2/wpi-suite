@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
@@ -76,6 +77,12 @@ public class ViewTaskPanel extends AbstractTaskPanel {
      */
     public void archivePressed() {
         final Task updatedTask = infoPanel.getTask();
+        updatedTask.archiveTask();
+        final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
+        updateTaskCntrlr.updateTask(updatedTask);
+        parentPanel.checkForHide();
+        ViewEventController.getInstance().viewTask(updatedTask);
+        ViewEventController.getInstance().refreshWorkFlowView();
     }
 
     /**

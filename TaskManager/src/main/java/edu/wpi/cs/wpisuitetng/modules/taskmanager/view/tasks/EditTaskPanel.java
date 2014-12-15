@@ -69,6 +69,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
         ViewEventController.getInstance().viewTask(updatedTask);
+        ViewEventController.getInstance().refreshWorkFlowView();
     }
 
     /**

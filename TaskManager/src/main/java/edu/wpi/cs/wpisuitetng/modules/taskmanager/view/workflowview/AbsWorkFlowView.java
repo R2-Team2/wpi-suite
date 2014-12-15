@@ -179,19 +179,5 @@ public class AbsWorkFlowView extends JPanel {
         }
     }
 
-    public void showArchived(Boolean b) {
-        final TaskStatusView taskStatusArchived =
-                new TaskStatusView(new TaskStatus("Archived"));
-        if (b) {
-            taskStatusPanel.add(taskStatusArchived, "cell 4 0,grow");
-            views.add(taskStatusArchived);
-            refresh();
-        }
-        else {
-            taskStatusPanel.remove(taskStatusArchived);
-            views.remove(taskStatusArchived);
-            refresh();
-        }
-
-    }
+    public void showArchived(Boolean b, TaskStatusView t) {}
 }

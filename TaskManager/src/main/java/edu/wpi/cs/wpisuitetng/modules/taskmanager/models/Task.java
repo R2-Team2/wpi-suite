@@ -420,6 +420,11 @@ public class Task extends AbstractModel {
         status = updatedTask.status;
     }
 
+    public void archiveTask() {
+        TaskStatus archived = new TaskStatus("Archived");
+        setStatus(archived);
+    }
+
     /**
      * Returns an array of Tasks parsed from the given JSON-encoded string.
      *
@@ -434,7 +439,7 @@ public class Task extends AbstractModel {
 
     /**
      * copies old task params to this task.
-     * 
+     *
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {

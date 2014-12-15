@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -177,19 +178,9 @@ public class ViewEventController {
     /**
      *
      */
-    public void showArchived() {
+    public void showArchived(Boolean b, TaskStatusView t) {
         // TODO Auto-generated method stub
-        workflow.showArchived(true);
+        workflow.showArchived(b, t);
 
     }
-
-    /**
-     *
-     */
-    public void hideArchived() {
-        // TODO Auto-generated method stub
-        workflow.showArchived(false);
-
-    }
-
 }

@@ -62,9 +62,9 @@ public class WorkFlowView extends AbsWorkFlowView {
         final TaskStatusView taskStatusArchived = new TaskStatusView(new TaskStatus("Archived"));
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
-                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -130,17 +130,16 @@ public class WorkFlowView extends AbsWorkFlowView {
     }
 
     @Override
-    public void showArchived(Boolean b) {
-        final TaskStatusView taskStatusArchived =
-                new TaskStatusView(new TaskStatus("Archived"));
+    public void showArchived(Boolean b, TaskStatusView t) {
         if (b) {
-            taskStatusPanel.add(taskStatusArchived, "cell 4 0,grow");
-            views.add(taskStatusArchived);
+            taskStatusPanel.add(t, "cell 4 0,grow");
+            views.add(t);
             refresh();
         }
         else {
-            taskStatusPanel.remove(taskStatusArchived);
-            views.remove(taskStatusArchived);
+            taskStatusPanel.remove(t);
+            views.remove(t);
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             refresh();
         }
 
