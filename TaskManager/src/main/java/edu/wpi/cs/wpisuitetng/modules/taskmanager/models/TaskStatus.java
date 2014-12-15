@@ -88,6 +88,15 @@ public class TaskStatus extends AbstractModel {
         return this;
     }
 
+    public TaskStatus removeTask(Task aTask) {
+        for (int i = 0; i < taskList.size(); i++) {
+            if (taskList.get(i) == aTask.getTaskID()) {
+                taskList.remove(i);
+            }
+        }
+        return this;
+    }
+
     /**
      * Removes a task from the tasklist
      *

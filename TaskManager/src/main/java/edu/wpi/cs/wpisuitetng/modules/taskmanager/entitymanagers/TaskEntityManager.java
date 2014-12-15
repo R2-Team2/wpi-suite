@@ -166,14 +166,37 @@ public class TaskEntityManager implements EntityManager<Task> {
         }
 
         final Task existingTask = (Task) oldTasks.get(0);
-
+        final String oldStatus = existingTask.getStatus();
         // copy values to old requirement and fill in our changeset appropriately
         existingTask.copyFrom(updatedTask);
+
+        compareTS(oldStatus, updatedTask, s);
 
         if (!db.save(existingTask, s.getProject())) {
             throw new WPISuiteException("Task save to database failed!");
         }
         return existingTask;
+    }
+
+    public void compareTS(String oldName, Task newTask, Session s) {
+        if (oldName.equals(newTask.getStatus())) {
+
+        } else {
+            List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+            TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+
+            if (tsArray.length == 0 || tsArray[0] == null) {
+                System.out.println("Error: No tasks updated for new task!");
+            } else {
+                for (int i = 0; i < tsArray.length; i++) {
+                    if (oldName.equals(tsArray[i].getName())) {
+                        tsArray[i].update(tsArray[i].removeTask(newTask));
+                        db.save(tsArray[i], s.getProject());
+                    }
+                }
+            }
+        }
+
     }
 
     /**
