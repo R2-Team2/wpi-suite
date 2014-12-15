@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersContro
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskInformationPanel.
  *
@@ -30,61 +29,61 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel {
 
-	/**
-	 * Constructor for NewTaskInformationPanel.
-	 *
-	 * @param parentPanel the parent panel
-	 */
-	public EditTaskInformationPanel(AbstractTaskPanel parentPanel) {
-		this.parentPanel = parentPanel;
-		buildLayout();
-		setupTask();
-		new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-				.requestAllUsers();
-		setupListeners();
-	}
+    /**
+     * Constructor for NewTaskInformationPanel.
+     *
+     * @param parentPanel the parent panel
+     */
+    public EditTaskInformationPanel(AbstractTaskPanel parentPanel) {
+        this.parentPanel = parentPanel;
+        buildLayout();
+        setupTask();
+        new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
+                .requestAllUsers();
+        setupListeners();
+    }
 
-	/**
-	 * Sets the fields with info from the class's task object.
-	 */
-	public void setupTask() {
-		parentPanel.aTask.getTaskID();
-		boxTitle.setText(parentPanel.aTask.getTitle());
-		boxDescription.setText(parentPanel.aTask.getDescription());
-		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
-		for (String username : parentPanel.aTask.getAssignedUsers()) {
-			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
-		}
-		calStartDate.setDate(parentPanel.aTask.getStartDate());
-		calDueDate.setDate(parentPanel.aTask.getDueDate());
-		spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
-		spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
-	}
+    /**
+     * Sets the fields with info from the class's task object.
+     */
+    public void setupTask() {
+        parentPanel.aTask.getTaskID();
+        boxTitle.setText(parentPanel.aTask.getTitle());
+        boxDescription.setText(parentPanel.aTask.getDescription());
+        dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
+        dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
+        for (String username : parentPanel.aTask.getAssignedUsers()) {
+            new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+        }
+        calStartDate.setDate(parentPanel.aTask.getStartDate());
+        calDueDate.setDate(parentPanel.aTask.getDueDate());
+        spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+        spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+    }
 
-	/**
-	 * Sets up listeners for the validation fields.
-	 */
-	protected void setupListeners() {
-		// Text Field Listeners
-		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+    /**
+     * Sets up listeners for the validation fields.
+     */
+    protected void setupListeners() {
+        // Text Field Listeners
+        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
-		});
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
-		buttonAdd.addActionListener(new ActionListener() {
+        buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!possibleAssigneeList.isSelectionEmpty()) {
@@ -123,106 +122,106 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
         });
 
-		buttonOpenRequirement.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.infoPanel.openRequirement();
-			}
-		});
+        buttonOpenRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.infoPanel.openRequirement();
+            }
+        });
 
-		/**
-		 * Text Field (Title) Listeners
-		 */
-		boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+        /**
+         * Text Field (Title) Listeners
+         */
+        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
-		});
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
 
-		/**
-		 * Text Field (Description) Listeners
-		 */
-		boxDescription.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+        /**
+         * Text Field (Description) Listeners
+         */
+        boxDescription.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
-		});
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
-		/**
-		 * Status combo-box Listener
-		 */
-		dropdownStatus.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.isTaskInfoValid();
-			}
-		});
+        /**
+         * Status combo-box Listener
+         */
+        dropdownStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
 
-		/**
-		 * Start Calendar Listener
-		 */
-		calStartDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskDate();
-			}
-		});
+        /**
+         * Start Calendar Listener
+         */
+        calStartDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.validateTaskDate();
+            }
+        });
 
-		/**
-		 * Due Calendar Listener
-		 */
-		calDueDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.buttonPanel.validateTaskDate();
-			}
-		});
-	}
+        /**
+         * Due Calendar Listener
+         */
+        calDueDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.buttonPanel.validateTaskDate();
+            }
+        });
+    }
 
-	@Override
-	public Task getTask() {
-		final long id = parentPanel.aTask.getTaskID();
-		final String title = getTitle().getText();
-		final String description = getDescription().getText();
-		final int estimatedEffort = (int) getEstimatedEffort().getValue();
-		final int actualEffort = (int) getActualEffort().getValue();
-		final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-		final String requirement = getRequirement().getSelectedItem().toString();
-		final Date startDate = getStartDate();
-		final Date dueDate = getDueDate();
-		final List<String> assignedUsers = new ArrayList<String>();
-		for (User u : getAssignedUsers()) {
-			assignedUsers.add(u.getUsername());
-		}
-		
-		final Task updatedTask;
-		updatedTask =
-				new Task(id, title, description, estimatedEffort, actualEffort, status,
-						requirement, startDate, dueDate, assignedUsers, null);
+    @Override
+    public Task getTask() {
+        final long id = parentPanel.aTask.getTaskID();
+        final String title = getTitle().getText();
+        final String description = getDescription().getText();
+        final int estimatedEffort = (int) getEstimatedEffort().getValue();
+        final int actualEffort = (int) getActualEffort().getValue();
+        final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
+        final String requirement = getRequirement().getSelectedItem().toString();
+        final Date startDate = getStartDate();
+        final Date dueDate = getDueDate();
+        final List<String> assignedUsers = new ArrayList<String>();
+        for (User u : getAssignedUsers()) {
+            assignedUsers.add(u.getUsername());
+        }
 
-		return updatedTask;
-	}
+        final Task updatedTask;
+        updatedTask =
+                new Task(id, title, description, estimatedEffort, actualEffort, status,
+                        requirement, startDate, dueDate, assignedUsers, null);
+
+        return updatedTask;
+    }
 }

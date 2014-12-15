@@ -9,20 +9,27 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
+import org.jdesktop.swingx.JXDatePicker;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.RequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ViewMode;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 /**
  * The class <code>AbstractInformationPanelTest</code> contains tests for the class {@link <code>AbstractInformationPanel</code>}
@@ -34,23 +41,37 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  */
 public class AbstractInformationPanelTest {
 
-
-    // mock requirements data for requirements integration testing
-    private final Iteration mockIteration = mock(Iteration.class);
-    private final IterationModel mockIterationModel = mock(IterationModel.class);
-    private final ViewEventController mockViewEventController = mock(ViewEventController.class);
-    private final Requirement mockRequirement = mock(Requirement.class);
-    private final RequirementModel mockRequirementModel = mock(RequirementModel.class);
-    private final RequirementPanel mockRequirementPanel = mock(RequirementPanel.class);
-    private final ViewMode mode = ViewMode.EDITING;
-
-
+    private DefaultListModel<User> chosenAssigneeModel;
+    private DefaultListModel<User> possibleAssigneeModel;
+    private String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+            new TaskStatus("Selected for Development").toString(),
+            new TaskStatus("Currently in Development").toString(),
+            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
+    private List<String> strListOfRequirements = new ArrayList<String>();
+    private Border defaultBorder;
+    private JTextField boxTitle;
+    private JTextArea boxDescription;
+    private JComboBox<String> dropdownStatus;
+    private JComboBox<String> dropdownRequirement;
+    private JList<User> chosenAssigneeList;
+    private JList<User> possibleAssigneeList;
+    private JSpinner spinnerEstimatedEffort;
+    private JSpinner spinnerActualEffort;
+    private JButton buttonAdd;
+    private JButton buttonRemove;
+    private JButton buttonOpenRequirement;
+    private JXDatePicker calStartDate;
+    private JXDatePicker calDueDate;
+    private JLabel labelStartDate = new JLabel("Start Date: ");
+    private JLabel labelDueDate = new JLabel("Due Date: ");
+    private ImageIcon icon;
 
     /**
      * Method requirementsImportTest. tests constructors to assert that requirements code has been
      * imported properly.
      */
     // @Test
+    // @Ignore
     // public void requirementsImportTest() {
     // final RequirementInformationPanel newPanel =
     // new RequirementInformationPanel(mockRequirementPanel, mode,

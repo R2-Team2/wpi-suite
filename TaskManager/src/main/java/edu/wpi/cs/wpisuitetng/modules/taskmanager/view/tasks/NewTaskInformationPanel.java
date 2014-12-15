@@ -7,16 +7,14 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 
 
 /**
@@ -64,44 +62,44 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
             }
         });
 
-		buttonAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!possibleAssigneeList.isSelectionEmpty()) {
-					final int[] toAdd = possibleAssigneeList.getSelectedIndices();
-					for (int i = toAdd.length - 1; i >= 0; i--) {
-						User transfer = possibleAssigneeModel.remove(toAdd[i]);
-						chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
-					}
-					if (possibleAssigneeModel.size() == 0) {
-						buttonAdd.setEnabled(false);
-					}
-					if (chosenAssigneeModel.size() > 0) {
-						buttonRemove.setEnabled(true);
-					}
-				}
-			}
-		});
+        buttonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toAdd = possibleAssigneeList.getSelectedIndices();
+                    for (int i = toAdd.length - 1; i >= 0; i--) {
+                        User transfer = possibleAssigneeModel.remove(toAdd[i]);
+                        chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+                    }
+                    if (possibleAssigneeModel.size() == 0) {
+                        buttonAdd.setEnabled(false);
+                    }
+                    if (chosenAssigneeModel.size() > 0) {
+                        buttonRemove.setEnabled(true);
+                    }
+                }
+            }
+        });
 
-		buttonRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!chosenAssigneeList.isSelectionEmpty()) {
-					final int[] toRemove = chosenAssigneeList.getSelectedIndices();
-					for (int i = toRemove.length - 1; i >= 0; i--) {
-						User transfer = chosenAssigneeModel.remove(toRemove[i]);
-						possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
-					}
-					if (chosenAssigneeModel.size() == 0) {
-						buttonRemove.setEnabled(false);
-					}
-					if (possibleAssigneeModel.size() > 0) {
-						buttonAdd.setEnabled(true);
-					}
-				}
-			}
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!chosenAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
+                    }
+                    if (chosenAssigneeModel.size() == 0) {
+                        buttonRemove.setEnabled(false);
+                    }
+                    if (possibleAssigneeModel.size() > 0) {
+                        buttonAdd.setEnabled(true);
+                    }
+                }
+            }
 
-		});
+        });
 
         /**
          * Text Field (Title) Listeners
@@ -175,9 +173,8 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
 
     }
 
-    @Override
-    public Task getTask() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // @Override
+    // public Task getTask() throws UnsupportedOperationException {
+    // throw new UnsupportedOperationException("GetTask() is an unsupported operation.");
+    // }
 }
