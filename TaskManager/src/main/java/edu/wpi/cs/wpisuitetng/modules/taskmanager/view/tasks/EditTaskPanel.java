@@ -68,9 +68,10 @@ public class EditTaskPanel extends AbstractTaskPanel {
         final UpdateTaskController updateTask = new UpdateTaskController(this);
         updateTask.updateTask(updatedTask);
 
-        updateTaskStatus(updatedTask.getStatus(), updatedTask);
+        // updateTaskStatus(updatedTask.getStatus(), updatedTask);
 
         ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
         ViewEventController.getInstance().viewTask(updatedTask);
     }
@@ -85,7 +86,10 @@ public class EditTaskPanel extends AbstractTaskPanel {
         TaskStatus updatedTS = null;
         for (int i = 0; i < infoPanel.listOfStatuses.length; i++) {
             if (infoPanel.listOfStatuses[i] == name) {
-                updatedTS = viewEventController.getWorkflow().getStatuses().get(i).addTask(aTask);
+                if (!viewEventController.getWorkflow().getStatuses().get(i).getTaskList()
+                        .contains(aTask.getTaskID()))
+                    updatedTS =
+                    viewEventController.getWorkflow().getStatuses().get(i).addTask(aTask);
             }
         }
         if (updatedTS != null) {
