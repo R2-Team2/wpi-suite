@@ -32,6 +32,7 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 
 /**
  * @author justinhess
@@ -47,18 +48,18 @@ public class TaskCommentPanel extends JPanel {
     private final JButton buttonClear;
     private final JLabel errorMsg;
     private final UpdateTaskController taskUpdater;
-    private boolean loaded = false;
 
     /**
      * Constructor for the requirement note panel
      *
+     * @param parentPanel the task panel that is passed here solely for updating the task
      * @param current current requirement
      */
-    public TaskCommentPanel(Task currentTask) {
+    public TaskCommentPanel(Task currentTask, AbstractTaskPanel parentPanel) {
         this.currentTask = currentTask;
         commentsAdded = 0;
 
-        taskUpdater = new UpdateTaskController();
+        taskUpdater = new UpdateTaskController(parentPanel);
 
         Component commentField = buildCommentField();
         commentScroll = new JScrollPane();
@@ -188,7 +189,7 @@ public class TaskCommentPanel extends JPanel {
                     buttonClear.setEnabled(false);
                     buttonAddComment.setEnabled(false);
 
-                    // Add note to requirement
+                    // Add comment to Task
                     currentTask.addComment(msg);
 
                     taskUpdater.updateTask(currentTask);

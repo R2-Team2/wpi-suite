@@ -263,10 +263,10 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         
         final Task updatedTask;
         final CommentList commentList;
-        if (comments == null) {
+        if (attributePane == null) {
             commentList = null;
         } else {
-            commentList = comments.getComments();
+            commentList = attributePane.getComments();
         }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,

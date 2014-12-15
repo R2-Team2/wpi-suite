@@ -126,7 +126,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
-    protected TaskTabPane comments;
+    protected TaskTabPane attributePane;
 
     /**
      * Builds the layout.
@@ -163,7 +163,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             strListOfRequirements.add(tempName);
             arrListOfRequirements[i + 1] = tempName;
         }
-
 
         // Instantiate GUI Elements
         // Labels
@@ -251,10 +250,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
 
         final JPanel commentCell = new JPanel(new MigLayout());
-        comments = new TaskTabPane(getTask());
+        attributePane = new TaskTabPane(getTask(), parentPanel);
         if (getTask() != null) {
-            comments.loadComments();
-            commentCell.add(comments, "spanx, spany");
+            attributePane.loadComments();
+            commentCell.add(attributePane, "spanx, spany");
         } else {
             commentCell.setVisible(false);
         }
@@ -275,7 +274,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         assigneeCell.add(manageAssigneeCell);
         assigneeCell.add(chosenAssigneeCell);
         assigneeCell.setBorder(defaultBorder);
-
 
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
@@ -317,7 +315,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         setViewportView(contentPanel);
     }
-
 
     /**
      * Returns the JTextField holding the title.
@@ -417,7 +414,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
                 return requirement;
             }
         }
-
         throw new Exception("Invalid requirement selected");
     }
 
@@ -439,7 +435,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             buttonOpenRequirement.setEnabled(true);
         }
     }
-
 
     /**
      * Disables all of the text fields based on boolean io
@@ -476,7 +471,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * @return Task
      */
     public Task getTask() {
-        return null;
+        return parentPanel.aTask;
     }
 }
 
@@ -498,7 +493,6 @@ class IterationComparator implements Comparator<Iteration> {
         return result;
     }
 }
-
 
 /**
  * @version legacy
