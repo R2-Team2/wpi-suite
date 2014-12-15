@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 /**
@@ -24,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class AbsWorkFlowView extends JPanel {
+public abstract class AbsWorkFlowView extends AbsView {
 
     /** The work flow obj. */
     private WorkFlow workFlowObj;
@@ -53,10 +54,9 @@ public class AbsWorkFlowView extends JPanel {
 
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
-        taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
-                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
+        taskStatusPanel.setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }

@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
-
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -55,48 +54,83 @@ public class TaskEntityManager implements EntityManager<Task> {
         // List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
-        if (idArry.length == 0)
-        {
-            System.out.println("Creating new IDNum object");
+        if (idArry.length == 0) {
+            // System.out.println("Creating new IDNum object");
             // Initialize ID
             final IDNum idStore = new IDNum(db);
             db.save(idStore);
 
             newMessage.setTaskID(idStore.getAndIncID());
-            System.out.println("gave task new id: " + newMessage.toJson());
+            // System.out.println("gave task new id: " + newMessage.toJson());
+            System.out.println("updating task status in empty idnum list");
+            updateTaskStatus(s, newMessage);
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
             }
 
             db.save(newMessage, s.getProject());
-        }
-        else
-        {
-            System.out.println("retrieved id list");
-            System.out.println("id object: " + idArry[0].toJson());
+
+            return newMessage;
+        } else {
+            // System.out.println("retrieved id list");
+            // System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
-
-            System.out.println("id: " + idList.get(0).toJson());
-
-
-            // IDNum idObj[] = idList.toArray(new IDNum[0]);
+            updateTaskStatus(s, newMessage);
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
             }
 
-            db.save(newMessage, s.getProject());
-            System.out.println("New Message TaskID: " + newMessage.getTaskID());
+            // updateTaskStatus(s, newMessage);
+            // System.out.println("Moving from Updating Task Status to saving task.");
+            // db.save(newMessage, s.getProject());
+            return newMessage;
         }
+    }
 
-        return newMessage;
+    /**
+     * updates the task status to include a reference to this task.
+     *
+     * @param s is the session
+     * @param aTask task to add in task status.
+     * @return boolean flag to tell whether sucessfull.
+     */
+    public boolean updateTaskStatus(Session s, Task aTask) {
+        System.out.println("Updating Task Status from New Task");
+        boolean flag = false;
+        List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+        TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+
+        if (tsArray.length == 0 || tsArray[0] == null) {
+            System.out.println("Error: No tasks updated for new task!");
+            return flag = false;
+        } else {
+            for (int i = 0; i < tsList.size(); i++) {
+                if (tsArray[i].getName().equals(aTask.getStatus())) {
+                    System.out.println("Found matching Task Status");
+                    TaskStatus updatedTS = tsArray[i].addTask(aTask);
+
+                    System.out.println("tsArray[i] before update: " + tsArray[i].toJson());
+                    tsArray[i].update(updatedTS);
+                    System.out.println("tsArray[i] after update: " + tsArray[i].toJson());
+
+                    System.out.println("Task Update Successful");
+                    db.save(tsArray[i], s.getProject());
+                    return flag = true;
+                } else {
+                    System.out.println("Not right status");
+                }
+            }
+            System.out.println("Not available.");
+            return flag;
+        }
     }
 
     @Override
     public Task[] getEntity(Session s, String id) throws WPISuiteException {
         final List<Model> tasks =
-                db.retrieve(Task.class, "id", Integer.parseInt(id), s.getProject());
+                db.retrieve(Task.class, "taskID", Integer.parseInt(id), s.getProject());
         return tasks.toArray(new Task[0]);
     }
 
@@ -110,8 +144,8 @@ public class TaskEntityManager implements EntityManager<Task> {
     public Task[] getAll(Session s) {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
-                db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-                        null, null), s.getProject());
+                db.retrieveAll(new Task(0, "", "", 0, 0, null, "", null, null, null, null),
+                        s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -119,36 +153,50 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public Task update(Session s, String content) throws WPISuiteException {
-        System.out.println("update method called in Task Entity Manager");
+        // System.out.println("update method called in Task Entity Manager");
 
         final Task updatedTask = Task.fromJson(content);
         System.out.println("updatedTask: " + updatedTask.toJson());
 
-        /*
-         * Because of the disconnected objects problem in db4o, we can't just save tasks. We have to
-         * get the original defect from db4o, copy properties from updatedTask, then save the
-         * original Task again.
-         */
-
+        // Retrieve the original Task
         final List<Model> oldTasks =
                 db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
         if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
-            throw new BadRequestException("Requirement with ID does not exist.");
+            throw new BadRequestException("Task with ID does not exist.");
         }
 
         final Task existingTask = (Task) oldTasks.get(0);
-
+        final String oldStatus = existingTask.getStatus();
         // copy values to old requirement and fill in our changeset appropriately
         existingTask.copyFrom(updatedTask);
+
+        compareTS(oldStatus, updatedTask, s);
 
         if (!db.save(existingTask, s.getProject())) {
             throw new WPISuiteException("Task save to database failed!");
         }
-
-        // db.save(updatedTask, s.getProject());
-
-        System.out.println("Updated Task Success: " + existingTask.toJson());
         return existingTask;
+    }
+
+    public void compareTS(String oldName, Task newTask, Session s) {
+        if (oldName.equals(newTask.getStatus())) {
+
+        } else {
+            List<Model> tsList = db.retrieveAll(new TaskStatus(null));
+            TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
+
+            if (tsArray.length == 0 || tsArray[0] == null) {
+                System.out.println("Error: No tasks updated for new task!");
+            } else {
+                for (int i = 0; i < tsArray.length; i++) {
+                    if (oldName.equals(tsArray[i].getName())) {
+                        tsArray[i].update(tsArray[i].removeTask(newTask));
+                        db.save(tsArray[i], s.getProject());
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -188,8 +236,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     // Return the number of PostBoardMessages currently in the database
     @Override
     public int Count() {
-        return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
+        return db.retrieveAll(new Task(0, null, null, 0, 0, null, null, null, null, null, null))
                 .size();
 
     }

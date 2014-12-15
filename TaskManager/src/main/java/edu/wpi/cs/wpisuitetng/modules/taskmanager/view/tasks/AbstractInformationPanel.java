@@ -52,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -123,7 +123,7 @@ public class AbstractInformationPanel extends JScrollPane {
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
-    private final List<Requirement> requirements = new ArrayList<Requirement>();
+    final private List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
      * Builds the layout.
@@ -145,6 +145,16 @@ public class AbstractInformationPanel extends JScrollPane {
             // gets the list of requirements that is associated with the iteration
 
         }
+
+        // Add TaskStatuses:
+        List<TaskStatus> tsList = parentPanel.viewEventController.getWorkflow().getStatuses();
+        System.out.println("Number of Task Statuses: " + tsList.size());
+        List<String> nameList = new ArrayList<String>();
+        for (int j = 0; j < tsList.size(); j++) {
+            nameList.add(tsList.get(j).getName());
+        }
+        listOfStatuses = nameList.toArray(new String[0]);
+
         Collections.sort(requirements, new RequirementComparator());
         strListOfRequirements.add("None");
         for (Requirement requirement : requirements) {
@@ -303,7 +313,6 @@ public class AbstractInformationPanel extends JScrollPane {
         setViewportView(contentPanel);
     }
 
-
     /**
      * Returns the JTextField holding the title.
      *
@@ -411,9 +420,9 @@ public class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
     private void validateRequirementView() {

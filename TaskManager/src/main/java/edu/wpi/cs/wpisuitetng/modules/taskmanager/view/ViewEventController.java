@@ -6,7 +6,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view;
 
-
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -93,6 +92,7 @@ public class ViewEventController {
      * Opens a new tab for the creation of a requirement.
      */
     public void createTask() {
+        WorkFlowView.getInstance().refresh();
         main.showCreateTaskView();
 
     }
@@ -101,6 +101,7 @@ public class ViewEventController {
      * Edits the work flow view.
      */
     public void editWorkFlowView() {
+        WorkFlowView.getInstance().refresh();
         main.editWorkFlowView();
 
     }
@@ -126,6 +127,7 @@ public class ViewEventController {
      * Close new task panel.
      */
     public void closeNewTaskPanel() {
+        WorkFlowView.getInstance().refresh();
         main.hideCreateTaskView();
     }
 
@@ -169,6 +171,15 @@ public class ViewEventController {
      */
     public void setWorkFlowView(WorkFlowView workflow) {
         this.workflow = workflow;
+    }
+
+    /**
+     * getter for the workflowview field.
+     *
+     * @return the workflowview.
+     */
+    public WorkFlowView getWorkflow() {
+        return workflow;
     }
 
     /**

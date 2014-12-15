@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -19,27 +20,24 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class RetrieveWorkflowController {
 
+    private final WorkFlowView view;
+
     /**
      * Constructor for Controller
      */
-    /*
-     * public RetrieveWorkflowController(){ //TODO find parent view }
-     */
-
-    public void requestWorkflow() {
-        final Request request =
-                Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
-        request.addObserver(new RetrieveWorkflowRequestObserver(this));
-        request.send();
+    public RetrieveWorkflowController(WorkFlowView view) {
+        this.view = view;
     }
 
-    /**
-     * populate workflow view.
-     *
-     * @param WorkflowArray list of workflows
-     */
-    public void displayWorkflows(WorkFlow[] WorkflowArray) {
-        // TODO publish retrieved workflows.
-        // view.fillTaskList(taskArray);
+    public void requestWorkflow() {
+        Request request = Network.getInstance().makeRequest("taskmanager/workflow", HttpMethod.GET);
+        request.addObserver(new RetrieveWorkflowRequestObserver(this));
+        request.send();
+
+    }
+
+    public void displayWorkflow(WorkFlow[] workFlowObj) {
+        WorkFlowView.getInstance().setWorkFlowObj(workFlowObj[0]);
+        WorkFlowView.getInstance().refresh();
     }
 }

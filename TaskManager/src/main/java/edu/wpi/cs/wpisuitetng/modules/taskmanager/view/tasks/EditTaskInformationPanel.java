@@ -20,7 +20,6 @@ import javax.swing.event.DocumentListener;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,7 +41,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -263,7 +262,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final String description = getDescription().getText();
         final int estimatedEffort = (int) getEstimatedEffort().getValue();
         final int actualEffort = (int) getActualEffort().getValue();
-        final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
+        final String status = getStatus().getSelectedItem().toString();
         final String requirement = getRequirement().getSelectedItem().toString();
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();

@@ -43,7 +43,7 @@ public class Task extends AbstractModel {
     private int actualEffort;
 
     /** The status. */
-    private TaskStatus status;
+    private String status;
 
     /** The requirement. */
     private String requirement;
@@ -79,7 +79,7 @@ public class Task extends AbstractModel {
      * @param activityList the activity list
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
+            int actualEffort, String status, String requirement, Date startDate, Date dueDate,
             List<String> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
@@ -229,7 +229,7 @@ public class Task extends AbstractModel {
      *
      * @return the status
      */
-    public TaskStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -238,7 +238,7 @@ public class Task extends AbstractModel {
      *
      * @param status the new status
      */
-    public void setStatus(TaskStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -301,6 +301,7 @@ public class Task extends AbstractModel {
      *
      * @return the assigned users
      */
+
     public List<String> getAssignedUsers() {
         return new ArrayList<String>(assignedUsers);
     }
@@ -339,7 +340,6 @@ public class Task extends AbstractModel {
     public List<String> getActivityList() {
         return activityList;
     }
-
 
     public List<Comment> getComments() {
         return comments;
@@ -410,7 +410,7 @@ public class Task extends AbstractModel {
             final String user = ConfigManager.getConfig().getUserName();
             final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
             final Date date = new Date();
-            final String statusChange = updatedTask.status.getName();
+            final String statusChange = updatedTask.status;
             final String updateActivity =
                     "Status changed to " + statusChange + " at " + dateFormat.format(date) + "("
                             + user + ")";
@@ -433,8 +433,8 @@ public class Task extends AbstractModel {
     }
 
     /**
-     * copies old task params to this task.
-     * 
+     * copies old task params to this task. <<<<<<< HEAD ======= >>>>>>> develop
+     *
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {

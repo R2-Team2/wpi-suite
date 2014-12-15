@@ -108,9 +108,22 @@ public class WorkFlow extends AbstractModel {
      */
     public static WorkFlow fromJson(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, WorkFlow.class);
+        final WorkFlow wf =  parser.fromJson(json, WorkFlow.class);
+        return wf;
     }
 
+	/**
+	 * Returns an array of Tasks parsed from the given JSON-encoded string.
+	 *
+	 * @param json a string containing a JSON-encoded array of Tasks
+	 * @return tasks an array of Tasks deserialized from the given json string
+	 */
+	public static WorkFlow[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		final WorkFlow[] wf = parser.fromJson(json, WorkFlow[].class);
+		return wf;
+	}
+	
     /**
      * update the workflow object in the database.
      * @param updatedWorkFlow the workflow to update

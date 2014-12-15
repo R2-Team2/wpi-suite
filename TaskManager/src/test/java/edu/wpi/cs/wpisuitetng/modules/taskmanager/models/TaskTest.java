@@ -35,7 +35,7 @@ public class TaskTest {
     Date date;
 
     /** The newest. */
-    TaskStatus newest = new TaskStatus("NEW");
+    String newest = "New";
 
     /** The activity list */
     List<String> activityList = new ArrayList<String>();
@@ -133,7 +133,7 @@ public class TaskTest {
      */
     @Test
     public void testSetStatus() {
-        final TaskStatus progress = new TaskStatus("IN_PROGRESS");
+        final String progress = "In Progress";
         t1.setStatus(progress);
         assertEquals(t1.getStatus(), progress);
     }

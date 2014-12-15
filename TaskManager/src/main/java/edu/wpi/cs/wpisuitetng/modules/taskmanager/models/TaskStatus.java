@@ -30,7 +30,7 @@ public class TaskStatus extends AbstractModel {
     private String name;
 
     /** The task list. */
-    private List<Task> taskList;
+    private List<Long> taskList;
 
     /**
      * Constructor for the Taskstatus class.
@@ -39,7 +39,7 @@ public class TaskStatus extends AbstractModel {
      */
     public TaskStatus(String name) {
         this.name = name;
-        taskList = new ArrayList<Task>();
+        taskList = new ArrayList<Long>();
     }
 
     /**
@@ -65,7 +65,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @return taskList ArrayList
      */
-    public List<Task> getTaskList() {
+    public List<Long> getTaskList() {
         return taskList;
     }
 
@@ -74,7 +74,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @param taskList the new task list
      */
-    public void setTaskList(List<Task> taskList) {
+    public void setTaskList(List<Long> taskList) {
         this.taskList = taskList;
     }
 
@@ -83,8 +83,18 @@ public class TaskStatus extends AbstractModel {
      *
      * @param task String
      */
-    public void addTask(Task task) {
-        taskList.add(task);
+    public TaskStatus addTask(Task task) {
+        taskList.add(task.getTaskID());
+        return this;
+    }
+
+    public TaskStatus removeTask(Task aTask) {
+        for (int i = 0; i < taskList.size(); i++) {
+            if (taskList.get(i) == aTask.getTaskID()) {
+                taskList.remove(i);
+            }
+        }
+        return this;
     }
 
     /**
@@ -106,7 +116,7 @@ public class TaskStatus extends AbstractModel {
      * @param index the index in the list
      * @return task at that spot in the array
      */
-    public Task getElementAt(int index) {
+    public long getElementAt(int index) {
         return taskList.get(index);
     }
 
@@ -150,6 +160,18 @@ public class TaskStatus extends AbstractModel {
         return new Gson().toJson(this, TaskStatus.class);
     }
 
+    /**
+     * From json.
+     *
+     * @param json the json string
+     * @return task the task from the json string
+     */
+    public static TaskStatus fromJson(String json) {
+        final Gson parser = new Gson();
+        final TaskStatus taskStatus = parser.fromJson(json, TaskStatus.class);
+        return taskStatus;
+    }
+
     @Override
     public Boolean identify(Object o) {
         // TODO Auto-generated method stub
@@ -157,14 +179,14 @@ public class TaskStatus extends AbstractModel {
     }
 
     /**
-     * convert from string to taskstatus
+     * Returns an array of TaskStatuses parsed from the given JSON-encoded string.
      *
-     * @param json the string
-     * @return the formed taskstatus
+     * @param json a string containing a JSON-encoded array of TaskStatuses
+     * @return an array of TaskStatuses deserialized from the given json string
      */
-    public static TaskStatus fromJson(String json) {
+    public static TaskStatus[] fromJsonArray(String json) {
         final Gson parser = new Gson();
-        return parser.fromJson(json, TaskStatus.class);
+        return parser.fromJson(json, TaskStatus[].class);
     }
 
     /**
@@ -175,5 +197,7 @@ public class TaskStatus extends AbstractModel {
     public void update(TaskStatus updatedTaskStatus) {
         name = updatedTaskStatus.name;
         taskList = updatedTaskStatus.taskList;
+        taskStatusID = updatedTaskStatus.taskStatusID;
     }
+
 }

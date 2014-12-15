@@ -331,4 +331,10 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private boolean isNewStatusTypeFieldValid() {
         return !(newStatusTypeField.getText().length() <= 0);
     }
+
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        // TODO Auto-generated method stub
+
+    }
 }

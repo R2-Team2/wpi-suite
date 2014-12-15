@@ -26,13 +26,14 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTaskStatusController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.AbsView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
  *
@@ -40,7 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class TaskStatusView extends JPanel {
+public class TaskStatusView extends AbsView {
 
     /*
      * (non-Javadoc)
@@ -53,6 +54,9 @@ public class TaskStatusView extends JPanel {
 
     /** The task status obj. */
     TaskStatus taskStatusObj;
+
+    Task[] allTasks;
+    List<Task> displayTasks = new ArrayList<Task>();
 
     /** The txtpn title. */
     JTextPane txtpnTitle = new JTextPane();
@@ -71,9 +75,9 @@ public class TaskStatusView extends JPanel {
     public TaskStatusView(TaskStatus taskStatusObject) {
 
         initialized = false;
-        taskStatusObj = taskStatusObject;
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
+        taskStatusObj = taskStatusObject;
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
@@ -102,12 +106,19 @@ public class TaskStatusView extends JPanel {
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
     }
 
+    public void getTaskStatusFromDB() {
+        RetrieveTaskStatusController retrieveTS = new RetrieveTaskStatusController(this);
+        retrieveTS.requestTaskStatuses();
+        initialized = true;
+    }
+
     /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
+
     }
 
     /**
@@ -116,13 +127,18 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-        final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-        controller.requestWorkflow();
-
-        taskStatusObj.setTaskList(new ArrayList<Task>());
-        for (Task t : taskArray) {
-            if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
-                taskStatusObj.addTask(t);
+        // System.out.println("Parsing all tasks.");
+        allTasks = taskArray;
+        for (long id : taskStatusObj.getTaskList()) {
+            System.out.println("Task Status ids: " + id);
+            if (allTasks.length > 0) {
+                for (int i = 0; i < allTasks.length; i++) {
+                    if (allTasks[i].getTaskID() == id) {
+                        displayTasks.add(i, allTasks[i]);
+                    }
+                }
+            } else {
+                ViewEventController.getInstance().refreshWorkFlowView();
             }
         }
         populateTaskStatusViewCards();
@@ -132,14 +148,21 @@ public class TaskStatusView extends JPanel {
      * Populate task status view cards.
      */
     public void populateTaskStatusViewCards() {
-        final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
-        for (Task t : taskList) {
+        for (Task t : displayTasks) {
             String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
         }
         revalidate();
+    }
+
+    public void setTaskStatusObj(TaskStatus taskStatus) {
+        taskStatusObj = taskStatus;
+    }
+
+    public TaskStatus getTaskStatusObj() {
+        return taskStatusObj;
     }
 
     /**
@@ -148,7 +171,7 @@ public class TaskStatusView extends JPanel {
      * @param filterString filter string
      */
     public void filterTaskStatusViewCards(String filterString) {
-        final List<Task> taskList = taskStatusObj.getTaskList();
+        final List<Task> taskList = displayTasks;
         panel.removeAll();
         for (Task t : taskList) {
             if (t.getTitle().toLowerCase().contains(filterString.toLowerCase())) {
@@ -171,7 +194,7 @@ public class TaskStatusView extends JPanel {
      */
     public void filterTaskStatusViewCardsWithParameters(String filterString, boolean description,
             boolean requirement, boolean assignee, boolean archived) {
-        final List<Task> taskList = taskStatusObj.getTaskList();
+        final List<Task> taskList = displayTasks;
         panel.removeAll();
         for (Task t : taskList) {
             boolean shouldAppear = t.getTitle().toLowerCase().contains(filterString.toLowerCase());
@@ -216,7 +239,6 @@ public class TaskStatusView extends JPanel {
     }
 
 
-
     /**
      * Returns the formatted due date of a task.
      *
@@ -237,6 +259,20 @@ public class TaskStatusView extends JPanel {
             initialized = true;
         }
         super.paintComponent(g);
+    }
+
+    /**
+     * Acts as a setter for taskStatusObj when taskStatus is retrieved from DB.
+     */
+    @Override
+    public void utilizeTaskStatuses(TaskStatus[] taskStatusArray) {
+        for (TaskStatus ts : taskStatusArray) {
+            if (ts.getTaskStatusID() == taskStatusObj.getTaskStatusID()) {
+                taskStatusObj = ts;
+                break;
+            }
+        }
+
     }
 
 }
