@@ -78,8 +78,8 @@ public class WorkFlowView extends AbsWorkFlowView {
         }
 
         taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         statuses.clear();
         // System.out.println("Begin Building TS Views.");
@@ -109,8 +109,10 @@ public class WorkFlowView extends AbsWorkFlowView {
      * Retrieves workflow object stored in database. Chain of sequence ends at setWorkFlowObj().
      */
     public void getWorkFlowFromDB() {
+        // while (!(workFlowObj.getTaskStatusList().size() > 0)) {
         RetrieveWorkflowController retrieveWF = new RetrieveWorkflowController(this);
         retrieveWF.requestWorkflow();
+        // }
         instance = this;
     }
 
@@ -193,7 +195,6 @@ public class WorkFlowView extends AbsWorkFlowView {
     public void paintComponent(Graphics g) {
         if (!initialized) {
             WorkFlowView.getInstance().getWorkFlowFromDB();
-            WorkFlowView.getInstance().refresh();
             initialized = true;
         }
         super.paintComponent(g);

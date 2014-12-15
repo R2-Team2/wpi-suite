@@ -62,6 +62,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 
             newMessage.setTaskID(idStore.getAndIncID());
             // System.out.println("gave task new id: " + newMessage.toJson());
+            System.out.println("updating task status in empty idnum list");
+            updateTaskStatus(s, newMessage);
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
@@ -74,33 +76,15 @@ public class TaskEntityManager implements EntityManager<Task> {
             // System.out.println("retrieved id list");
             // System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
+            updateTaskStatus(s, newMessage);
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
             }
 
-            while (!updateTaskStatus(s, newMessage)) {
-            }
-
-            // add update task status functionality
-            // List<Model> tsList = db.retrieveAll(new TaskStatus(null));
-            // TaskStatus[] tsArray = tsList.toArray(new TaskStatus[0]);
-
-            // if (tsArray.length == 0 || tsArray[0] == null) {
-            // System.out.println("Error: No tasks updated for new task!");
-            // } else {
-            /*
-             * for (int i = 0; i < tsArray.length; i++) { System.out.println("tsArray.getName: -" +
-             * tsArray[i].getName() + "- task.getStatus: -" + newMessage.getStatus() + "-"); if
-             * (tsArray[i].getName().equals(newMessage.getStatus())) {
-             * System.out.println("Found matching Task Status"); TaskStatus updatedTS =
-             * tsArray[i].addTask(newMessage); tsArray[i].upd(updatedTS);
-             * System.out.println(tsArray[i].toJson()); db.save(tsArray[i], s.getProject());
-             * System.out.println("");
-             * System.out.println("Do We Get here to end of update Task Status?");
-             * System.out.println(""); } // } }
-             */
-            db.save(newMessage, s.getProject());
+            // updateTaskStatus(s, newMessage);
+            // System.out.println("Moving from Updating Task Status to saving task.");
+            // db.save(newMessage, s.getProject());
             return newMessage;
         }
     }
@@ -134,8 +118,11 @@ public class TaskEntityManager implements EntityManager<Task> {
                     System.out.println("Task Update Successful");
                     db.save(tsArray[i], s.getProject());
                     return flag = true;
+                } else {
+                    System.out.println("Not right status");
                 }
             }
+            System.out.println("Not available.");
             return flag;
         }
     }
