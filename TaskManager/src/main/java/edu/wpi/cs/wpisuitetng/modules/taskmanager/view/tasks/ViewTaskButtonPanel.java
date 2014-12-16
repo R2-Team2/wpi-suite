@@ -45,7 +45,7 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
         buttonArchive = new JButton(archiveString);
         this.add(buttonEdit);
         this.add(buttonCancel);
-        this.add(buttonArchive);
+        // this.add(buttonArchive); //TODO: make this work
         // super.setupListeners();
         setupListeners();
     }
