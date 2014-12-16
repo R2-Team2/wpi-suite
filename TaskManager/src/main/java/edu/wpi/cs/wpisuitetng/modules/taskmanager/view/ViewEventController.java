@@ -180,7 +180,9 @@ public class ViewEventController {
     }
 
     /**
-     *
+     * Passes values to the current workflow's method showArchived
+     * @param b Boolean
+     * @param t TaskStatusView
      */
     public void showArchived(Boolean b, TaskStatusView t) {
         // TODO Auto-generated method stub

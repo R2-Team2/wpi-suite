@@ -419,9 +419,12 @@ public class Task extends AbstractModel {
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
-
+    
+    /**
+     * Sets this Task's status to archived
+     */
     public void archiveTask() {
-        TaskStatus archived = new TaskStatus("Archived");
+        final TaskStatus archived = new TaskStatus("Archived");
         setStatus(archived);
     }
 
