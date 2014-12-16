@@ -22,8 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 /**
  * The Class AbstractTaskPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class AbstractTaskPanel extends JPanel {
@@ -51,6 +51,8 @@ public class AbstractTaskPanel extends JPanel {
     }
 
     /**
+     * Open selected requirement.
+     *
      * @throws Exception invalid selected requirement
      */
     protected void openSelectedRequirement() throws Exception {

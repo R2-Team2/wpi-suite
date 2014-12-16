@@ -16,11 +16,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
@@ -178,6 +179,9 @@ public class NewTaskPanel extends AbstractTaskPanel {
         return infoPanel.getAssignedUsers();
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
+     */
     @Override
     public void setInfoPanel(NewTaskInformationPanel aPanel) {
         infoPanel = aPanel;
