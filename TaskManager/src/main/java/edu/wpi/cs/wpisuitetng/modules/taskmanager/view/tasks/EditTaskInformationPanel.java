@@ -42,7 +42,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -268,6 +268,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
+        final String priority = getPriority();
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
@@ -275,8 +276,18 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final Task updatedTask;
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, null);
+                        requirement, startDate, dueDate, assignedUsers, null, priority);
 
         return updatedTask;
+    }
+
+    /**
+     * Description goes here.
+     *
+     * @return
+     */
+    private String getPriority() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

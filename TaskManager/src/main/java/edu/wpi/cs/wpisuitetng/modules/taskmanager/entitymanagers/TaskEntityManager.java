@@ -55,8 +55,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
-        if (idArry.length == 0)
-        {
+        if (idArry.length == 0) {
             System.out.println("Creating new IDNum object");
             // Initialize ID
             final IDNum idStore = new IDNum(db);
@@ -70,9 +69,7 @@ public class TaskEntityManager implements EntityManager<Task> {
             }
 
             db.save(newMessage, s.getProject());
-        }
-        else
-        {
+        } else {
             System.out.println("retrieved id list");
             System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
@@ -111,7 +108,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
                 db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-                        null, null), s.getProject());
+                        null, null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -189,8 +186,8 @@ public class TaskEntityManager implements EntityManager<Task> {
     @Override
     public int Count() {
         return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
-                .size();
+                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null,
+                        null)).size();
 
     }
 

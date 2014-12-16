@@ -63,6 +63,8 @@ public class Task extends AbstractModel {
     /** The comment thread on the task. */
     private final List<Comment> comments = new LinkedList<Comment>();
 
+    private String priority;
+
     /**
      * Instantiates a new task.
      *
@@ -80,7 +82,7 @@ public class Task extends AbstractModel {
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
-            List<String> assignedUsers, List<String> activityList) {
+            List<String> assignedUsers, List<String> activityList, String priority) {
         this.taskID = taskID;
         this.title = title;
         this.description = description;
@@ -92,6 +94,7 @@ public class Task extends AbstractModel {
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
         this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.priority = priority;
     }
 
 
@@ -251,6 +254,7 @@ public class Task extends AbstractModel {
         return taskID;
     }
 
+
     /**
      * Sets the task id.
      *
@@ -295,6 +299,22 @@ public class Task extends AbstractModel {
         }
         return deletedUser;
     }
+
+    /**
+     * @return the priority
+     */
+    public String getPriority() {
+        return priority;
+    }
+
+    /**
+     * @return the priority
+     */
+    public void setPriority(String newPriority) {
+        priority = newPriority;
+    }
+
+
 
     /**
      * Gets the assigned users.
@@ -434,7 +454,7 @@ public class Task extends AbstractModel {
 
     /**
      * copies old task params to this task.
-     * 
+     *
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {
