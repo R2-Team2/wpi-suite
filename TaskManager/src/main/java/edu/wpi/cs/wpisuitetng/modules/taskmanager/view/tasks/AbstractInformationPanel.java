@@ -136,6 +136,7 @@ public class AbstractInformationPanel extends JScrollPane {
 		// (code partially from requirements module overviewtreepanel.java)
 		final List<Iteration> iterations = IterationModel.getInstance().getIterations();
 		Collections.sort(iterations, new IterationComparator());
+		requirements.add(new Requirement(-1, "None", "Easter Egg"));
 		for (int i = 0; i < iterations.size(); i++) {
 
 			requirements.addAll(iterations.get(i).getRequirements());
