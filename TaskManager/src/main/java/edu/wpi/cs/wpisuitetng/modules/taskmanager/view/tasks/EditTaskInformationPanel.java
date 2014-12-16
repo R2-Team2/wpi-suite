@@ -107,8 +107,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = possibleAssigneeModel.remove(toAdd[i]);
                         chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
                     }
-                        buttonAdd.setEnabled(false);
-                    }
+                    buttonAdd.setEnabled(false);
+                }
             }
         });
 
