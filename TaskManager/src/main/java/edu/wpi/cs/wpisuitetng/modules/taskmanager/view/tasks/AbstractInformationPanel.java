@@ -87,6 +87,9 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The dropdown requirement. */
     protected JComboBox<String> dropdownRequirement;
 
+    /** The dropdown of priorities. */
+    protected JComboBox<String> dropdownPriority;
+
     /** The list chosen assignees. */
     protected JList<User> chosenAssigneeList;
 
@@ -176,6 +179,7 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+        final JLabel labelPriority = new JLabel("Priority: ");
 
         // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
