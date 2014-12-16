@@ -13,14 +13,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ViewTaskButtonPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class ViewTaskButtonPanel extends AbstractButtonPanel {
+    
+    /** The parent panel. */
     protected ViewTaskPanel parentPanel;
 
     /**
@@ -69,12 +72,18 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
         });
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#isTaskInfoValid()
+     */
     @Override
     public boolean isTaskInfoValid() {
         throw new IllegalStateException(
                 "ViewTaskButtonPanel.validateTaskInfo() should not be called");
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#validateTaskDate()
+     */
     @Override
     public void validateTaskDate() {
         throw new IllegalStateException(

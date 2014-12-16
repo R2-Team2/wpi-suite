@@ -26,8 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 /**
  * The Class EditTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel {
@@ -256,6 +256,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+     */
     @Override
     public Task getTask() {
         final long id = parentPanel.aTask.getTaskID();
