@@ -17,84 +17,115 @@ import javax.swing.JButton;
 /**
  * The Class EditTaskButtonPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class EditTaskButtonPanel extends AbstractButtonPanel {
 
-	protected EditTaskPanel parentPanel;
+    /** The parent panel. */
+    protected EditTaskPanel parentPanel;
 
-	/**
-	 * Constructor for the EditTaskButtonPanel.
-	 *
-	 * @param parentPanel the parent panel
-	 */
-	public EditTaskButtonPanel(EditTaskPanel parentPanel) {
-		// Set Panel Layout
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// Set Parent Panel
-		this.parentPanel = parentPanel;
-		// Set Button Messages
-		final String saveString = "Save";
-		final String cancelString = "Cancel";
-		// Create Buttons
-		buttonSave = new JButton(saveString);
-		buttonCancel = new JButton(cancelString);
-		this.add(buttonSave);
-		this.add(buttonCancel);
-		// parentPanel.createPressed();
+    /**
+     * Constructor for the EditTaskButtonPanel.
+     *
+     * @param parentPanel the parent panel
+     */
+    public EditTaskButtonPanel(EditTaskPanel parentPanel) {
+        // Set Panel Layout
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        // Set Parent Panel
+        this.parentPanel = parentPanel;
+        // Set Button Messages
+        final String saveString = "Save";
+        final String cancelString = "Cancel";
+        // Create Buttons
+        buttonSave = new JButton(saveString);
+        buttonSave.setEnabled(false);
+        buttonCancel = new JButton(cancelString);
+        this.add(buttonSave);
+        this.add(buttonCancel);
+        // parentPanel.createPressed();
 
-		this.setupListeners();
-	}
+        setupListeners();
+    }
 
-	/**
-	 * Sets up listeners for the edit task panel, and the edit buttons.
-	 */
-	protected void setupListeners() {
-		buttonSave.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.savePressed();
-			}
-		});
+    /**
+     * Sets up listeners for the edit task panel, and the edit buttons.
+     */
+    protected void setupListeners() {
+        buttonSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.savePressed();
+            }
+        });
 
-		buttonCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.cancelPressed();
-			}
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
 
-		});
-	}
-
-	/**
-	 * Validate task info.
-	 */
-	@Override
-	public void validateTaskInfo() {
-		if (parentPanel.title.length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
-			buttonSave.setEnabled(false);
-		}
-		else {
-			buttonSave.setEnabled(true);
-		}
-	}
+        });
+    }
 
 
-	/**
-	 * Validate task dates
-	 */
-	@Override
-	public void validateTaskDate() {
-		if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-			parentPanel.infoPanel.labelDueDate
-			.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
-		}
-		else {
-			parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
-		}
-	}
+
+    /**
+     * Validate task info.
+     *
+     * @return true, if is task info valid
+     */
+    @Override
+    public boolean isTaskInfoValid() {
+        boolean result = false;
+        if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
+                || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+                || parentPanel.infoPanel.calDueDate.getDate() == null
+                || !(areDatesValid())
+                || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+                        .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
+                        .getSize() == 0)) {
+            buttonSave.setEnabled(false);
+            result = false;
+        } else {
+            buttonSave.setEnabled(true);
+            result = true;
+        }
+
+        parentPanel.infoPanel.validateAssigneeButtons();
+
+        return result;
+    }
+
+    /**
+     * Validate task dates.
+     */
+    @Override
+    public void validateTaskDate() {
+        if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+            parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>"
+                    + "Preceeds Start Date</font></html>");
+        } else {
+            parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#areDatesValid()
+     */
+    @Override
+    public boolean areDatesValid() {
+        if (parentPanel.infoPanel.getDueDate() != null
+                && parentPanel.infoPanel.getStartDate() != null) {
+            return (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate()));
+        }
+        else {
+            return true;
+        }
+    }
 
 }

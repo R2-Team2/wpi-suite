@@ -10,13 +10,6 @@ import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.AddTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -25,20 +18,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 // TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskPanel.
- * 
- * @author R2-Team2
+ *
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskPanel extends AbstractTaskPanel {
-
-    // private WorkFlowSplitTabbedPanel parentPanel;
-
-    // private NewTaskInformationPanel infoPanel;
-    // private NewTaskButtonPanel buttonPanel;
-
-    /** The view event controller. */
-    private final ViewEventController viewEventController = ViewEventController.getInstance();
 
     /**
      * Constructor for the NewTaskPanel.
@@ -90,6 +75,7 @@ public class NewTaskPanel extends AbstractTaskPanel {
         // TODO: create task card
         // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
+        ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
     }
 
@@ -192,6 +178,9 @@ public class NewTaskPanel extends AbstractTaskPanel {
         return infoPanel.getAssignedUsers();
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
+     */
     @Override
     public void setInfoPanel(NewTaskInformationPanel aPanel) {
         infoPanel = aPanel;

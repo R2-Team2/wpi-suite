@@ -14,90 +14,124 @@ import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskButtonPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
-	// Class Variables
+    // Class Variables
 
-	// /** The button create. */
-	// protected JButton buttonCreate;
-	protected NewTaskPanel parentPanel;
+    // /** The button create. */
+    // protected JButton buttonCreate;
+    /** The parent panel. */
+    protected NewTaskPanel parentPanel;
 
-	/**
-	 * Constructor for the NewTaskButtonPanel.
-	 *
-	 * @param parentPanel the parent panel
-	 */
-	public NewTaskButtonPanel(NewTaskPanel parentPanel) {
-		// Set Panel Layout
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+    /**
+     * Constructor for the NewTaskButtonPanel.
+     *
+     * @param parentPanel the parent panel
+     */
+    public NewTaskButtonPanel(NewTaskPanel parentPanel) {
+        // Set Panel Layout
+        setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		// Set Parent Panel
-		this.parentPanel = parentPanel;
-		// Set Button Messages
-		final String createString = "Create";
-		final String cancelString = "Cancel";
-		// Create Buttons
-		buttonCreate = new JButton(createString);
-		buttonCancel = new JButton(cancelString);
-		buttonCreate.setEnabled(false);
-		this.add(buttonCreate);
-		this.add(buttonCancel);
-		setupListeners();
-	}
+        // Set Parent Panel
+        this.parentPanel = parentPanel;
+        // Set Button Messages
+        final String createString = "Create";
+        final String cancelString = "Cancel";
+        // Create Buttons
+        buttonCreate = new JButton(createString);
+        buttonCancel = new JButton(cancelString);
+        buttonCreate.setEnabled(false);
+        this.add(buttonCreate);
+        this.add(buttonCancel);
+        setupListeners();
+    }
 
 
-	/**
-	 * Sets up listeners for the buttons in the new task panel.
-	 */
-	protected void setupListeners() {
-		buttonCreate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.createPressed();
-				ViewEventController.getInstance().refreshWorkFlowView();
-			}
-		});
+    /**
+     * Sets up listeners for the buttons in the new task panel.
+     */
+    protected void setupListeners() {
+        buttonCreate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.createPressed();
+                ViewEventController.getInstance().refreshWorkFlowView();
+            }
+        });
 
-		buttonCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				parentPanel.cancelPressed();
-			}
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.cancelPressed();
+            }
 
-		});
-	}
+        });
+    }
 
-	/**
-	 * Validate task info.
-	 */
-	@Override
-	public void validateTaskInfo() {
-		if (parentPanel.infoPanel.boxTitle.getText().length() <= 0
-				|| parentPanel.infoPanel.boxDescription.getDocument().getLength() <= 0) {
-			buttonCreate.setEnabled(false);
-		} else {
-			buttonCreate.setEnabled(true);
-		}
-	}
+    /**
+     * Validate task info.
+     *
+     * @return true, if is task info valid
+     */
+    @Override
+    public boolean isTaskInfoValid() {
+        boolean result = false;
+        if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
+                || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+                || !(areDatesValid())
+                || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+                        .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
+                        .getSize() == 0) || parentPanel.infoPanel.calDueDate.getDate() == null) {
+            buttonCreate.setEnabled(false);
+            result = false;
+        } else {
+            buttonCreate.setEnabled(true);
+            result = true;
+        }
 
-	/**
-	 * Validate task dates
-	 */
-	@Override
-	public void validateTaskDate() {
-		if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-			parentPanel.infoPanel.labelDueDate
-					.setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
-		} else {
-			parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+        parentPanel.infoPanel.validateAssigneeButtons();
 
-		}
-	}
+        return result;
+    }
+
+    /**
+     * Validate task dates.
+     */
+    @Override
+    public void validateTaskDate() {
+        if (parentPanel.infoPanel.getDueDate() != null
+                && parentPanel.infoPanel.getStartDate() != null) {
+            if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+                parentPanel.infoPanel.labelDueDate
+                        .setText("<html>Due Date: <font color='CC0000'>"
+                                + "Preceeds Start Date</font></html>");
+            } else {
+                parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#areDatesValid()
+     */
+    @Override
+    public boolean areDatesValid() {
+        if (parentPanel.infoPanel.getDueDate() != null
+                && parentPanel.infoPanel.getStartDate() != null) {
+            return (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate()));
+        }
+        else {
+            return true;
+        }
+    }
 
 }

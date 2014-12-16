@@ -10,7 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -30,7 +30,8 @@ public class RetrieveTaskStatusController {
 	}*/
 	
 	public void requestTaskStatus() {
-		final Request request = Network.getInstance().makeRequest("taskmanager/taskstatus", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest(
+				"taskmanager/taskstatus", HttpMethod.GET);
 		request.addObserver(new RetrieveTaskStatusRequestObserver(this));
 		request.send();
 	}

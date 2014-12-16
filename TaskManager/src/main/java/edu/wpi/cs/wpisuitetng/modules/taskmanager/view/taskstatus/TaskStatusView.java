@@ -7,6 +7,7 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,17 +37,28 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class TaskStatusView extends JPanel {
 
-	private int placeholderIndex = -1;  
+
+    private int placeholderIndex = -1;
 
 
-	/** The task status obj. */
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return taskStatusObj.toString();
+    }
+
+    /** The task status obj. */
     TaskStatus taskStatusObj;
 
     /** The txtpn title. */
@@ -55,10 +67,10 @@ public class TaskStatusView extends JPanel {
     /** The panel. */
     JPanel panel = new JPanel();
 
-    /** The TaskStatus title. */
-    private final String title;
-    
+
+
     private Task task;
+
 
     /** Represents whether the view has been initialized. */
     private boolean initialized;
@@ -66,22 +78,21 @@ public class TaskStatusView extends JPanel {
     /**
      * Create the panel.
      *
-     * @param title the title
-     * @param statusType the status type
+     * @param taskStatusObject the Task Status Object
      */
-    public TaskStatusView(String title, String statusType) {
+    public TaskStatusView(TaskStatus taskStatusObject) {
 
         initialized = false;
-        this.title = title;
+        taskStatusObj = taskStatusObject;
 
         setLayout(new MigLayout("", "[236px,grow]", "[26px][200px,grow 500]"));
-        taskStatusObj = new TaskStatus(statusType);
 
         final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         // Change Vertical Scroll Bar Policy to AS_NEEDED When Task Cards are developed
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(new EtchedBorder());
         this.add(scrollPane, "cell 0 1,grow");
 
@@ -94,46 +105,35 @@ public class TaskStatusView extends JPanel {
         txtpnTitle.setBorder(null);
         txtpnTitle.setForeground(Color.black);
         txtpnTitle.setEditable(false);
-        txtpnTitle.setFont(txtpnTitle.getFont().deriveFont(20f));
-        txtpnTitle.setText(this.title);
+        txtpnTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
+        txtpnTitle.setText(taskStatusObj.getName());
         this.add(txtpnTitle, "cell 0 0,alignx center,aligny center");
         panel.setBackground(Color.WHITE);
 
         scrollPane.setViewportView(panel);
         panel.setLayout(new MigLayout("", "[236px,grow,fill]", "[]"));
-        
+
         setTransferHandler(new TransferHandler() {
-			@Override
-			public boolean canImport(TransferHandler.TransferSupport info) {
+            @Override
+            public boolean canImport(TransferHandler.TransferSupport info) {
 
-				return true;
-			}
+                return true;
+            }
 
-		});
-
-
-	}
+        });
 
 
-	public boolean isDragActive() {
-		return placeholderIndex != -1;
-	}
+    }
 
 
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return title;
-	}
+    public boolean isDragActive() {
+        return placeholderIndex != -1;
+    }
 
-
-	/**
+    /**
      * Populate TaskStatusView with Cards Associated with the Status.
      */
     public void requestTasksFromDb() {
-    	System.out.println("Currently in requestTasksFromDb method");
         final RetrieveTasksController retrieveTasks = new RetrieveTasksController(this);
         retrieveTasks.requestTasks();
     }
@@ -144,9 +144,9 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-    	final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-    	controller.requestWorkflow();
-    	
+        final RetrieveWorkflowController controller = new RetrieveWorkflowController();
+        controller.requestWorkflow();
+
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
             if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
@@ -155,57 +155,58 @@ public class TaskStatusView extends JPanel {
         }
         populateTaskStatusViewCards();
     }
-	/**
-	 * Populate task status view cards.
-	 * 
-	 * @param index index at which placeholder will be inserted
-	 */
-	public void redrawInsertingPlaceholder(int index) {
 
-		if (placeholderIndex != index) {
+    /**
+     * Populate task status view cards.
+     * 
+     * @param index index at which placeholder will be inserted
+     */
+    public void redrawInsertingPlaceholder(int index) {
 
-			if (placeholderIndex != -1) {
-				panel.remove(placeholderIndex);
-			}
-			panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", task),
-					"newline", index);
-			placeholderIndex = index;
+        if (placeholderIndex != index) {
 
-			// final List<Task> taskList = this.taskStatusObj.getTaskList();
-			// this.panel.removeAll();
-			// int currentIndex = 0;
-			// for (Task t : taskList) {
-			// if (currentIndex == index) {
-			// this.panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", this),
-			// "newline");
-			// }
-			// String dateString = this.formateDate(t);
-			// TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), this);
-			// this.panel.add(card, "newline");
-			// currentIndex++;
-			// }
-			revalidate();
-		}
-	}
+            if (placeholderIndex != -1) {
+                panel.remove(placeholderIndex);
+            }
+            panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", task), "newline",
+                    index);
+            placeholderIndex = index;
 
-	/**
-	 * @param component
-	 * @return index of component
-	 */
-	public int getIndexOfComponent(JComponent component) {
+            // final List<Task> taskList = this.taskStatusObj.getTaskList();
+            // this.panel.removeAll();
+            // int currentIndex = 0;
+            // for (Task t : taskList) {
+            // if (currentIndex == index) {
+            // this.panel.add(new TaskCard("PlaceHolder", "PlaceHolder", "PlaceHolder", this),
+            // "newline");
+            // }
+            // String dateString = this.formateDate(t);
+            // TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), this);
+            // this.panel.add(card, "newline");
+            // currentIndex++;
+            // }
+            revalidate();
+        }
+    }
 
-		if (component != null && component.getParent() != null) {
-			// Container c = component.getParent();
-			for (int i = 0; i < panel.getComponentCount(); i++) {
-				if (panel.getComponent(i) == component) {
-					return i;
-				}
-			}
-		}
+    /**
+     * @param component
+     * @return index of component
+     */
+    public int getIndexOfComponent(JComponent component) {
 
-		return -1;
-	}
-	
+        if (component != null && component.getParent() != null) {
+            // Container c = component.getParent();
+            for (int i = 0; i < panel.getComponentCount(); i++) {
+                if (panel.getComponent(i) == component) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
     /**
      * Populate task status view cards.
      */
@@ -213,12 +214,86 @@ public class TaskStatusView extends JPanel {
         final List<Task> taskList = taskStatusObj.getTaskList();
         panel.removeAll();
         for (Task t : taskList) {
-        	String dateString = formateDate(t);
+            String dateString = formateDate(t);
             TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
             panel.add(card, "newline");
         }
         revalidate();
     }
+
+    /**
+     * Populate task status view cards using filter.
+     *
+     * @param filterString filter string
+     */
+    public void filterTaskStatusViewCards(String filterString) {
+        final List<Task> taskList = taskStatusObj.getTaskList();
+        panel.removeAll();
+        for (Task t : taskList) {
+            if (t.getTitle().toLowerCase().contains(filterString.toLowerCase())) {
+                String dateString = formateDate(t);
+                TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
+                panel.add(card, "newline");
+            }
+        }
+        revalidate();
+    }
+
+    /**
+     * Filters task cards considering title, description, assignee, requirement and archived tasks.
+     *
+     * @param filterString search string
+     * @param description true if should search through description
+     * @param requirement true if should search through requirement
+     * @param assignee true if should search through assignee
+     * @param archived true if should search through archived tasks
+     */
+    public void filterTaskStatusViewCardsWithParameters(String filterString, boolean description,
+            boolean requirement, boolean assignee, boolean archived) {
+        final List<Task> taskList = taskStatusObj.getTaskList();
+        panel.removeAll();
+        for (Task t : taskList) {
+            boolean shouldAppear = t.getTitle().toLowerCase().contains(filterString.toLowerCase());
+            if (description) {
+                shouldAppear =
+                        shouldAppear
+                                || t.getDescription().toLowerCase()
+                                        .contains(filterString.toLowerCase());
+            }
+            if (requirement) {
+                shouldAppear =
+                        shouldAppear
+                                || t.getRequirement().toLowerCase()
+                                        .contains(filterString.toLowerCase());
+            }
+            if (assignee) {
+                try {
+                    for (int i = 0; i < t.getAssignedUsers().size(); i++) {
+                        String user = t.getAssignedUsers().get(i);
+                        System.out.println("For the task \"" + t.getTitle() + "\" assignee are: "
+                                + user);
+                        shouldAppear =
+                                shouldAppear
+                                        || user.toLowerCase().contains(filterString.toLowerCase());
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("For the task \"" + t.getTitle()
+                            + "\" assignee are not defined!");
+                }
+            }
+            if (archived) {
+                // TODO implement this branch if we decide to use archiving
+            }
+
+            if (shouldAppear) {
+                String dateString = formateDate(t);
+                TaskCard card = new TaskCard(t.getTitle(), dateString, t.getUserForTaskCard(), t);
+                panel.add(card, "newline");
+            }
+        }
+        revalidate();
+    }
+
 
 
     /**

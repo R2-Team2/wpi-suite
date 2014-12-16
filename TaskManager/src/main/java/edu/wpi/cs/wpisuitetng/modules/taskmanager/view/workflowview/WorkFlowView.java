@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlowView.
  *
@@ -53,19 +53,17 @@ public class WorkFlowView extends AbsWorkFlowView {
 
         taskStatusPanel = new JPanel();
         this.add(taskStatusPanel, BorderLayout.CENTER);
-        final TaskStatusView taskStatusNew = new TaskStatusView("New", "new");
+        final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
         final TaskStatusView taskStatusSelDev =
-                new TaskStatusView("Selected for Development", "scheduled");
+                new TaskStatusView(new TaskStatus("Selected for Development"));
         final TaskStatusView taskStatusInDev =
-                new TaskStatusView("Currently in Development", "in progress");
-        final TaskStatusView taskStatusDone = new TaskStatusView("Completed", "complete");
+                new TaskStatusView(new TaskStatus("Currently in Development"));
+        final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
 
         taskStatusPanel
-                .setLayout(new MigLayout(
-                        "",
-                        "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                        "[278px,grow 500]"));
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -100,6 +98,23 @@ public class WorkFlowView extends AbsWorkFlowView {
     }
 
     /**
+     * Filters task cards considering title, description, assignee, requirement and archived tasks.
+     *
+     * @param filterString search string
+     * @param description true if should search through description
+     * @param requirement true if should search through requirement
+     * @param assignee true if should search through assignee
+     * @param archived true if should search through archived tasks
+     */
+    public void filterWithParameters(String filterString, boolean description, boolean requirement,
+            boolean assignee, boolean archived) {
+        for (TaskStatusView v : views) {
+            v.filterTaskStatusViewCardsWithParameters(filterString, description, requirement,
+                    assignee, archived);
+        }
+    }
+
+    /**
      * Refresh.
      */
     @Override
@@ -108,6 +123,8 @@ public class WorkFlowView extends AbsWorkFlowView {
             System.out.println("Currently in Refresh method");
             v.requestTasksFromDb();
         }
+        revalidate();
+        repaint();
     }
 
 }

@@ -20,9 +20,9 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
-import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -34,7 +34,6 @@ import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
 
@@ -42,26 +41,29 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 /**
  * The Class TaskCard.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
-
+@SuppressWarnings("serial")
 public class TaskCard extends JPanel implements Transferable, DragSourceListener,
-DragGestureListener {
+        DragGestureListener {
 
     /** The task obj. */
     private Task taskObj;
-    
-    private DragSource source;
-	private TransferHandler transferHandler;
 
-	private String name;
-	private String date;
-	private String userName;
-	private Task task;
-	
-	/** The task name. */
-    JTextPane taskName = new JTextPane();   
+    private DragSource source;
+    private TransferHandler transferHandler;
+
+    private String name;
+    private String date;
+    private String userName;
+    private Task task;
+
+    /** The task name. */
+    JTextPane taskName = new JTextPane();
+
+    /** The listener. */
+
     MouseListener listener = new MouseListener() {
 
         @Override
@@ -92,15 +94,15 @@ DragGestureListener {
      * @param aTask is the task object displayed in the task card.
      */
     public TaskCard(String nameData, String dateData, String userNameData, Task aTask) {
-    	taskObj = aTask;
+        taskObj = aTask;
         setBorder(new LineBorder(Color.black));
         setLayout(new MigLayout("", "[grow,fill]", "[grow][bottom]"));
 
         name = nameData;
-		date = dateData;
-		userName = userNameData;
-		task = aTask;
-        
+        date = dateData;
+        userName = userNameData;
+        task = aTask;
+
         // truncates the displayed task title if it's longer than 30 characters. if
         if (nameData.length() > 30) {
             taskName.setToolTipText(nameData);
@@ -127,52 +129,51 @@ DragGestureListener {
         infoPanel.add(userName, "cell 1 0,alignx right");
 
         TransferHandler transfer = new TransferHandler("text");
-		setTransferHandler(transfer);
-		
+        setTransferHandler(transfer);
 
-		final String tNameData = nameData;
 
-		transferHandler = new TransferHandler() {
-			@Override
-			public Transferable createTransferable(JComponent c) {
-				return new TaskCard(tNameData, dateData, userNameData, aTask);
-			}
-		};
-		setTransferHandler(transferHandler);
-		source = new DragSource();
-		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
-	}
-        
-	@Override
-	public DataFlavor[] getTransferDataFlavors() {
-		return new DataFlavor[] {new DataFlavor(TaskCard.class, "TaskCard")};
-	}
+        final String tNameData = nameData;
 
-	@Override
-	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		return true;
-	}
+        transferHandler = new TransferHandler() {
+            @Override
+            public Transferable createTransferable(JComponent c) {
+                return new TaskCard(tNameData, dateData, userNameData, aTask);
+            }
+        };
+        setTransferHandler(transferHandler);
+        source = new DragSource();
+        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+    }
 
-	@Override
-	public Object getTransferData(DataFlavor flavor) {
-		return this;
-	}
+    @Override
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[] {new DataFlavor(TaskCard.class, "TaskCard")};
+    }
 
-	@Override
-	public void dragGestureRecognized(DragGestureEvent dge) {
-		source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
-				getWidth() / 2, getHeight() / 2), new TaskCard(name, date,
-						userName, task), this);
-	}
+    @Override
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return true;
+    }
 
-	private BufferedImage createImage(JPanel panel) {
-		int w = panel.getWidth();
-		int h = panel.getHeight();
-		BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = bi.createGraphics();
-		panel.paint(g);
-		return bi;
-	}
+    @Override
+    public Object getTransferData(DataFlavor flavor) {
+        return this;
+    }
+
+    @Override
+    public void dragGestureRecognized(DragGestureEvent dge) {
+        source.startDrag(dge, DragSource.DefaultMoveDrop, this.createImage(this), new Point(
+                getWidth() / 2, getHeight() / 2), new TaskCard(name, date, userName, task), this);
+    }
+
+    private BufferedImage createImage(JPanel panel) {
+        int w = panel.getWidth();
+        int h = panel.getHeight();
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = bi.createGraphics();
+        panel.paint(g);
+        return bi;
+    }
 
     /**
      * Gets the task obj.
@@ -191,33 +192,34 @@ DragGestureListener {
     public void setTaskObj(Task taskObj) {
         this.taskObj = taskObj;
     }
+
     @Override
-	public void dragEnter(DragSourceDragEvent dsde) {
-		System.out.println("dragging");
+    public void dragEnter(DragSourceDragEvent dsde) {
+        System.out.println("dragging");
 
-	}
+    }
 
-	@Override
-	public void dragOver(DragSourceDragEvent dsde) {
-		// TODO Auto-generated method stub
+    @Override
+    public void dragOver(DragSourceDragEvent dsde) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void dropActionChanged(DragSourceDragEvent dsde) {
-		// TODO Auto-generated method stub
+    @Override
+    public void dropActionChanged(DragSourceDragEvent dsde) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void dragExit(DragSourceEvent dse) {
-		// TODO Auto-generated method stub
+    @Override
+    public void dragExit(DragSourceEvent dse) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void dragDropEnd(DragSourceDropEvent dsde) {
-		// TODO Auto-generated method stub
+    @Override
+    public void dragDropEnd(DragSourceDropEvent dsde) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 }

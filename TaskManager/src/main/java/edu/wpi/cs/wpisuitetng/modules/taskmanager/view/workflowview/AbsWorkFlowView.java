@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
@@ -23,7 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public abstract class AbsWorkFlowView extends JPanel {
+public class AbsWorkFlowView extends JPanel {
+
     /** The work flow obj. */
     private WorkFlow workFlowObj;
 
@@ -33,16 +35,17 @@ public abstract class AbsWorkFlowView extends JPanel {
     /** The task status views. */
     private final List<TaskStatusView> views;
 
+
     /**
      * Constructor for AbsWorkFlowView.
      */
-    public AbsWorkFlowView() {
+    protected AbsWorkFlowView() {
         workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
-        views.add(new TaskStatusView("New", "new"));
-        views.add(new TaskStatusView("Selected for Development", "scheduled"));
-        views.add(new TaskStatusView("Currently in Development", "in progress"));
-        views.add(new TaskStatusView("Completed", "complete"));
+        views.add(new TaskStatusView(new TaskStatus("New")));
+        views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
+        views.add(new TaskStatusView(new TaskStatus("Currently in Development")));
+        views.add(new TaskStatusView(new TaskStatus("Completed")));
 
         setLayout(new BorderLayout());
 
@@ -50,11 +53,10 @@ public abstract class AbsWorkFlowView extends JPanel {
 
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
-        taskStatusPanel.setLayout(new MigLayout(
-                "",
-                "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]",
-                "[278px,grow 500]"));
+        taskStatusPanel
+                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
