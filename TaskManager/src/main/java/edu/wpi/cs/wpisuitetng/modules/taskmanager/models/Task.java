@@ -220,32 +220,32 @@ public class Task extends AbstractModel {
         return requirement;
     }
 
-	/**
-	 * @return name of associated requirement
-	 * @throws Exception
-	 */
+    /**
+     * @return name of associated requirement
+     * @throws Exception
+     */
     public String getRequirementTitle() throws Exception {
-		if (getRequirement() == -1) {
-			return "";
-		}
-		// get latest list of requirement objects and sort them
-		// (code partially from requirements module overviewtreepanel.java)
-		final List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		Collections.sort(iterations, new IterationComparator());
-		final List<Requirement> requirements = new ArrayList<Requirement>();
-		for (int i = 0; i < iterations.size(); i++) {
-			// gets the list of requirements that is associated with the iteration
-			requirements.addAll(iterations.get(i).getRequirements());
-		}
-		Collections.sort(requirements, new RequirementComparator());
+        if (getRequirement() == -1) {
+            return "";
+        }
+        // get latest list of requirement objects and sort them
+        // (code partially from requirements module overviewtreepanel.java)
+        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+        Collections.sort(iterations, new IterationComparator());
+        final List<Requirement> requirements = new ArrayList<Requirement>();
+        for (int i = 0; i < iterations.size(); i++) {
+            // gets the list of requirements that is associated with the iteration
+            requirements.addAll(iterations.get(i).getRequirements());
+        }
+        Collections.sort(requirements, new RequirementComparator());
 
-		for (Requirement requirement : requirements) {
-			if (requirement.getId() == getRequirement()) {
-				return requirement.getName();
-			}
-		}
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == getRequirement()) {
+                return requirement.getName();
+            }
+        }
 
-		throw new Exception("No Requirement found with ID '" + getRequirement() + "' ");
+        throw new Exception("No Requirement found with ID '" + getRequirement() + "' ");
     }
 
     /**
@@ -490,20 +490,20 @@ public class Task extends AbstractModel {
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
-	@Override
-	public int compare(Iteration I1, Iteration I2) {
-		int result = 0;
-		if (I1.getStart() == null) {
-			result = -1;
-		}
-		else if (I2.getStart() == null) {
-			result = 1;
-		}
-		else {
-			result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
-		}
-		return result;
-	}
+    @Override
+    public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
+        if (I1.getStart() == null) {
+            result = -1;
+        }
+        else if (I2.getStart() == null) {
+            result = 1;
+        }
+        else {
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
+    }
 }
 
 /**
@@ -512,8 +512,8 @@ class IterationComparator implements Comparator<Iteration> {
  * @author Kevin from the requirements manager sorts Requirements by name
  */
 class RequirementComparator implements Comparator<Requirement> {
-	@Override
-	public int compare(Requirement R1, Requirement R2) {
-		return R1.getName().compareTo(R2.getName());
-	}
+    @Override
+    public int compare(Requirement R1, Requirement R2) {
+        return R1.getName().compareTo(R2.getName());
+    }
 }

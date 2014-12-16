@@ -56,229 +56,211 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 @SuppressWarnings("serial")
 public class AbstractInformationPanel extends JScrollPane {
 
-	/** The parent panel. */
-	protected AbstractTaskPanel parentPanel;
+    /** The parent panel. */
+    protected AbstractTaskPanel parentPanel;
 
-	/** The list of chosen assignees. */
-	protected DefaultListModel<User> chosenAssigneeModel;
+    /** The list of chosen assignees. */
+    protected DefaultListModel<User> chosenAssigneeModel;
 
-	/** The list of possible assignees. */
-	protected DefaultListModel<User> possibleAssigneeModel;
+    /** The list of possible assignees. */
+    protected DefaultListModel<User> possibleAssigneeModel;
 
-	/** The list of statuses. */
-	protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
-			new TaskStatus("Selected for Development").toString(),
-			new TaskStatus("Currently in Development").toString(),
-			new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
+    /** The list of statuses. */
+    protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
+            new TaskStatus("Selected for Development").toString(),
+            new TaskStatus("Currently in Development").toString(),
+            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
-	/** The default border. */
-	protected final Border defaultBorder = BorderFactory.createEtchedBorder();
+    /** The default border. */
+    protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
-	/** The box title. */
-	protected JTextField boxTitle;
+    /** The box title. */
+    protected JTextField boxTitle;
 
-	/** The box description. */
-	protected JTextArea boxDescription;
+    /** The box description. */
+    protected JTextArea boxDescription;
 
-	/** The dropdown status. */
-	protected JComboBox<String> dropdownStatus;
+    /** The dropdown status. */
+    protected JComboBox<String> dropdownStatus;
 
-	/** The dropdown requirement. */
-	protected JComboBox<Requirement> dropdownRequirement;
+    /** The dropdown requirement. */
+    protected JComboBox<Requirement> dropdownRequirement;
 
-	/** The list chosen assignees. */
-	protected JList<User> chosenAssigneeList;
+    /** The list chosen assignees. */
+    protected JList<User> chosenAssigneeList;
 
-	/** The list possible assignees. */
-	protected JList<User> possibleAssigneeList;
+    /** The list possible assignees. */
+    protected JList<User> possibleAssigneeList;
 
-	/** The spinner estimated effort. */
-	protected JSpinner spinnerEstimatedEffort;
+    /** The spinner estimated effort. */
+    protected JSpinner spinnerEstimatedEffort;
 
-	/** The spinner actual effort. */
-	protected JSpinner spinnerActualEffort;
+    /** The spinner actual effort. */
+    protected JSpinner spinnerActualEffort;
 
-	/** The button add. */
-	protected JButton buttonAdd;
+    /** The button add. */
+    protected JButton buttonAdd;
 
-	/** The button remove. */
-	protected JButton buttonRemove;
+    /** The button remove. */
+    protected JButton buttonRemove;
 
-	/** The button that opens the requirement in RequirementManager. */
-	protected JButton buttonOpenRequirement;
+    /** The button that opens the requirement in RequirementManager. */
+    protected JButton buttonOpenRequirement;
 
-	/** The cal start date. */
-	protected JXDatePicker calStartDate;
+    /** The cal start date. */
+    protected JXDatePicker calStartDate;
 
-	/** The cal due date. */
-	protected JXDatePicker calDueDate;
+    /** The cal due date. */
+    protected JXDatePicker calDueDate;
 
     /** The cal start label. */
-	protected JLabel labelStartDate = new JLabel("Start Date: ");
+    protected JLabel labelStartDate = new JLabel("Start Date: ");
 
     /** The cal due label. */
-	protected JLabel labelDueDate = new JLabel("Due Date: ");
+    protected JLabel labelDueDate = new JLabel("Due Date: ");
 
-	/** Calendar Button Dropdown Icon. */
-	protected ImageIcon icon;
+    /** Calendar Button Dropdown Icon. */
+    protected ImageIcon icon;
 
     /** The requirements. */
-	private final List<Requirement> requirements = new ArrayList<Requirement>();
+    private final List<Requirement> requirements = new ArrayList<Requirement>();
 
-	/**
-	 * Builds the layout.
-	 */
-	protected void buildLayout() {
-		setMinimumSize(new Dimension(540, 200));
-		// Set the Panel
-		final ScrollablePanel contentPanel = new ScrollablePanel();
-		contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
-		// contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
+    /**
+     * Builds the layout.
+     */
+    protected void buildLayout() {
+        setMinimumSize(new Dimension(540, 200));
+        // Set the Panel
+        final ScrollablePanel contentPanel = new ScrollablePanel();
+        contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
+        // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
 
-		// get latest list of requirement objects and sort them
-		// (code partially from requirements module overviewtreepanel.java)
-		final List<Iteration> iterations = IterationModel.getInstance().getIterations();
-		Collections.sort(iterations, new IterationComparator());
-		requirements.add(new Requirement(-1, "None", "Easter Egg"));
-		for (int i = 0; i < iterations.size(); i++) {
+        // get latest list of requirement objects and sort them
+        // (code partially from requirements module overviewtreepanel.java)
+        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+        Collections.sort(iterations, new IterationComparator());
+        requirements.add(new Requirement(-1, "None", "Easter Egg"));
+        for (int i = 0; i < iterations.size(); i++) {
 
-			requirements.addAll(iterations.get(i).getRequirements());
-			// gets the list of requirements that is associated with the iteration
+            requirements.addAll(iterations.get(i).getRequirements());
+            // gets the list of requirements that is associated with the iteration
 
-		}
-		Collections.sort(requirements, new RequirementComparator());
+        }
+        Collections.sort(requirements, new RequirementComparator());
 
-		// Instantiate GUI Elements
-		// Labels
-		final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
-		final JLabel labelDescription =
-				new JLabel("<html>Description: <font color='red'>*</font></html>");
-		final JLabel labelStatus = new JLabel("Status: ");
-		final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
-		final JLabel labelActualEffort = new JLabel("Actual Effort: ");
-		final JLabel labelDueDate =
-				new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
-		final JLabel labelStartDate =
+        // Instantiate GUI Elements
+        // Labels
+        final JLabel labelTitle = new JLabel("<html>Title: <font color='red'>*</font></html>");
+        final JLabel labelDescription =
+                new JLabel("<html>Description: <font color='red'>*</font></html>");
+        final JLabel labelStatus = new JLabel("Status: ");
+        final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
+        final JLabel labelActualEffort = new JLabel("Actual Effort: ");
+        final JLabel labelDueDate =
+                new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
+        final JLabel labelStartDate =
                 new JLabel("<html>Start Date: </html> ");
-		final JLabel labelRequirement = new JLabel("Requirement: ");
-		final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
-		final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+        final JLabel labelRequirement = new JLabel("Requirement: ");
+        final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
+        final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
-		// TODO use a nice icon
-		buttonOpenRequirement = new JButton("<");
-		// TODO force the button to be this small
-		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+        // TODO use a nice icon
+        buttonOpenRequirement = new JButton("<");
+        // TODO force the button to be this small
+        buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
-		// Text Areas
-		boxTitle = new JTextField("");
-		boxTitle.setBorder(defaultBorder);
+        // Text Areas
+        boxTitle = new JTextField("");
+        boxTitle.setBorder(defaultBorder);
 
-		final JScrollPane descrScroll = new JScrollPane();
-		boxDescription = new JTextArea();
-		boxDescription.setLineWrap(true);
-		boxDescription.setBorder(null);
-		descrScroll.setBorder(defaultBorder);
-		descrScroll.setViewportView(boxDescription);
-		// Drop Down Menus
-		final Vector<Requirement> reqVec = new Vector<Requirement>();
-		reqVec.addAll(requirements);
-		dropdownRequirement = new JComboBox<Requirement>(reqVec);
+        final JScrollPane descrScroll = new JScrollPane();
+        boxDescription = new JTextArea();
+        boxDescription.setLineWrap(true);
+        boxDescription.setBorder(null);
+        descrScroll.setBorder(defaultBorder);
+        descrScroll.setViewportView(boxDescription);
+        // Drop Down Menus
+        final Vector<Requirement> reqVec = new Vector<Requirement>();
+        reqVec.addAll(requirements);
+        dropdownRequirement = new JComboBox<Requirement>(reqVec);
 
-		dropdownRequirement.setEnabled(true);
-		dropdownRequirement.setBackground(Color.WHITE);
-		dropdownStatus = new JComboBox<String>();
-		dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
-		dropdownStatus.setEnabled(true);
-		dropdownStatus.setBackground(Color.WHITE);
-		// Lists and Models
-		chosenAssigneeModel = new DefaultListModel<User>();
-		chosenAssigneeList = new JList<User>(chosenAssigneeModel);
-		chosenAssigneeList.setCellRenderer(new UserRenderer());
-		possibleAssigneeModel = new DefaultListModel<User>();
-		possibleAssigneeList = new JList<User>(possibleAssigneeModel);
-		possibleAssigneeList.setCellRenderer(new UserRenderer());
-		// Spinners
-		spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-		spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-		// Buttons
-		buttonAdd = new JButton(">>");
-		buttonRemove = new JButton("<<");
+        dropdownRequirement.setEnabled(true);
+        dropdownRequirement.setBackground(Color.WHITE);
+        dropdownStatus = new JComboBox<String>();
+        dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
+        dropdownStatus.setEnabled(true);
+        dropdownStatus.setBackground(Color.WHITE);
+        // Lists and Models
+        chosenAssigneeModel = new DefaultListModel<User>();
+        chosenAssigneeList = new JList<User>(chosenAssigneeModel);
+        chosenAssigneeList.setCellRenderer(new UserRenderer());
+        possibleAssigneeModel = new DefaultListModel<User>();
+        possibleAssigneeList = new JList<User>(possibleAssigneeModel);
+        possibleAssigneeList.setCellRenderer(new UserRenderer());
+        // Spinners
+        spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        // Buttons
+        buttonAdd = new JButton(">>");
+        buttonRemove = new JButton("<<");
         buttonAdd.setEnabled(false);
         buttonRemove.setEnabled(false);
 
-		// Calendars
-		calStartDate = new JXDatePicker();
-		calStartDate.setName("start date");
-		// calStartDate.setDate(Calendar.getInstance().getTime());
-		calDueDate = new JXDatePicker();
-		calDueDate.setName("due date");
-		// calDueDate.setDate(Calendar.getInstance().getTime());
-		icon = new ImageIcon(this.getClass().getResource("calendar.png"));
-		final ImageIcon scaledIcon =
-				new ImageIcon(icon.getImage()
-						.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
-		// Code taken from:
-		// http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
-		((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
+        // Calendars
+        calStartDate = new JXDatePicker();
+        calStartDate.setName("start date");
+        // calStartDate.setDate(Calendar.getInstance().getTime());
+        calDueDate = new JXDatePicker();
+        calDueDate.setName("due date");
+        // calDueDate.setDate(Calendar.getInstance().getTime());
+        icon = new ImageIcon(this.getClass().getResource("calendar.png"));
+        final ImageIcon scaledIcon =
+                new ImageIcon(icon.getImage()
+                        .getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        // Code taken from:
+        // http://stackoverflow.com/questions/8406200/swingx-personalize-jxdatepicker
+        ((JButton) calStartDate.getComponent(1)).setIcon(scaledIcon);
 
-		((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
+        ((JButton) calDueDate.getComponent(1)).setIcon(scaledIcon);
 
-		// Setup GUI
-
-
-		// Setup Columns
-		final JPanel leftColumn = new JPanel(new MigLayout());
-		final JPanel rightColumn = new JPanel(new MigLayout());
+        // Setup GUI
 
 
-		final JPanel bottom = new JPanel(new MigLayout());
-
-		final JPanel bottomLeft = new JPanel(new MigLayout());
-		final JPanel bottomCenter = new JPanel(new MigLayout());
-		final JPanel bottomRight = new JPanel(new MigLayout());
-
-		// Assignee view created and populated to the bottom Panel
-		possibleAssigneeList.setBorder(defaultBorder);
-		bottomLeft.add(labelPossibleAssignee, "left, wrap");
-		bottomLeft.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
-
-		bottomCenter.add(buttonAdd, "center, wrap");
-		bottomCenter.add(buttonRemove, "center, wrap");
-
-		chosenAssigneeList.setBorder(defaultBorder);
-		bottomRight.add(labelChosenAssignee, "left, wrap");
-		bottomRight.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
-
-		bottom.add(bottomLeft);
-		bottom.add(bottomCenter);
-		bottom.add(bottomRight);
-		bottom.setBorder(defaultBorder);
+        // Setup Columns
+        final JPanel leftColumn = new JPanel(new MigLayout());
+        final JPanel rightColumn = new JPanel(new MigLayout());
 
 
-		// left and right columns
-		leftColumn.add(labelStatus, "left, wrap");
-		leftColumn.add(dropdownStatus, "left, width 200px, wrap");
-		leftColumn.add(labelRequirement, "left, wrap");
-		leftColumn.add(dropdownRequirement, "left, width 200px");
+        final JPanel bottom = new JPanel(new MigLayout());
 
-		leftColumn.add(buttonOpenRequirement, "left, wrap");
-		validateRequirementView();
-		dropdownRequirement.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				validateRequirementView();
-			}
-		});
+        final JPanel bottomLeft = new JPanel(new MigLayout());
+        final JPanel bottomCenter = new JPanel(new MigLayout());
+        final JPanel bottomRight = new JPanel(new MigLayout());
+
+        // Assignee view created and populated to the bottom Panel
+        possibleAssigneeList.setBorder(defaultBorder);
+        bottomLeft.add(labelPossibleAssignee, "left, wrap");
+        bottomLeft.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
+
+        bottomCenter.add(buttonAdd, "center, wrap");
+        bottomCenter.add(buttonRemove, "center, wrap");
+
+        chosenAssigneeList.setBorder(defaultBorder);
+        bottomRight.add(labelChosenAssignee, "left, wrap");
+        bottomRight.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
+
+        bottom.add(bottomLeft);
+        bottom.add(bottomCenter);
+        bottom.add(bottomRight);
+        bottom.setBorder(defaultBorder);
 
 
-		leftColumn.add(labelStartDate, "left, wrap");
-		leftColumn.add(calStartDate, "left, wrap");
-		rightColumn.add(labelEstimatedEffort, "left, wrap");
-		rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
-		rightColumn.add(labelActualEffort, "left, wrap");
-		rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
-		rightColumn.add(labelDueDate, "left, wrap");
-		rightColumn.add(calDueDate, "left, wrap");
+        // left and right columns
+        leftColumn.add(labelStatus, "left, wrap");
+        leftColumn.add(dropdownStatus, "left, width 200px, wrap");
+        leftColumn.add(labelRequirement, "left, wrap");
+        leftColumn.add(dropdownRequirement, "left, width 200px");
+
         leftColumn.add(buttonOpenRequirement, "left, wrap");
         validateRequirementView();
         dropdownRequirement.addActionListener(new ActionListener() {
@@ -289,9 +271,27 @@ public class AbstractInformationPanel extends JScrollPane {
         });
 
 
-		// Populate contentPanel
-		contentPanel.add(labelTitle, "wrap");
-		contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
+        leftColumn.add(labelStartDate, "left, wrap");
+        leftColumn.add(calStartDate, "left, wrap");
+        rightColumn.add(labelEstimatedEffort, "left, wrap");
+        rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelActualEffort, "left, wrap");
+        rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelDueDate, "left, wrap");
+        rightColumn.add(calDueDate, "left, wrap");
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
+
+
+        // Populate contentPanel
+        contentPanel.add(labelTitle, "wrap");
+        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -301,208 +301,208 @@ public class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
 
-		contentPanel.add(labelDescription, "wrap");
-		contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+        contentPanel.add(labelDescription, "wrap");
+        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-		contentPanel.add(leftColumn, "left, spany, growy, push");
-		contentPanel.add(rightColumn, "right, spany, growy, push");
+        contentPanel.add(leftColumn, "left, spany, growy, push");
+        contentPanel.add(rightColumn, "right, spany, growy, push");
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
 
-		contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
+        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
 
-		setViewportView(contentPanel);
-	}
+        setViewportView(contentPanel);
+    }
 
-	/**
-	 * Returns the JTextField holding the title.
-	 *
-	 * @return JTextField
-	 */
-	public JTextField getTitle() {
-		return boxTitle;
-	}
+    /**
+     * Returns the JTextField holding the title.
+     *
+     * @return JTextField
+     */
+    public JTextField getTitle() {
+        return boxTitle;
+    }
 
-	/**
-	 * Returns the JTextArea holding the description.
-	 *
-	 * @return JTextArea
-	 */
-	public JTextArea getDescription() {
-		return boxDescription;
-	}
+    /**
+     * Returns the JTextArea holding the description.
+     *
+     * @return JTextArea
+     */
+    public JTextArea getDescription() {
+        return boxDescription;
+    }
 
-	/**
-	 * Returns the JSpinner holding the estimated effort.
-	 *
-	 * @return JSpinner
-	 */
-	public JSpinner getEstimatedEffort() {
-		return spinnerEstimatedEffort;
-	}
+    /**
+     * Returns the JSpinner holding the estimated effort.
+     *
+     * @return JSpinner
+     */
+    public JSpinner getEstimatedEffort() {
+        return spinnerEstimatedEffort;
+    }
 
     /** Returns the JSpinner holding the actual effort.
-	 *
-	 * @return JSpinner
-	 */
-	public JSpinner getActualEffort() {
-		return spinnerActualEffort;
-	}
+     *
+     * @return JSpinner
+     */
+    public JSpinner getActualEffort() {
+        return spinnerActualEffort;
+    }
 
-	/**
-	 * Returns the JComboBox holding the status.
-	 *
-	 * @return JComboBox<String>
-	 */
-	public JComboBox<String> getStatus() {
-		return dropdownStatus;
-	}
+    /**
+     * Returns the JComboBox holding the status.
+     *
+     * @return JComboBox<String>
+     */
+    public JComboBox<String> getStatus() {
+        return dropdownStatus;
+    }
 
-	/**
-	 * Returns the JComboBox holding the Requirement.
-	 *
-	 * @return JComboBox<Requirement>
-	 */
-	// TODO rename this to getRequirementComboBox
-	public JComboBox<Requirement> getRequirement() {
-		return dropdownRequirement;
-	}
+    /**
+     * Returns the JComboBox holding the Requirement.
+     *
+     * @return JComboBox<Requirement>
+     */
+    // TODO rename this to getRequirementComboBox
+    public JComboBox<Requirement> getRequirement() {
+        return dropdownRequirement;
+    }
 
-	/**
-	 * Returns the Start Date.
-	 *
-	 * @return Date
-	 */
-	public Date getStartDate() {
-		return calStartDate.getDate();
-	}
+    /**
+     * Returns the Start Date.
+     *
+     * @return Date
+     */
+    public Date getStartDate() {
+        return calStartDate.getDate();
+    }
 
-	/**
-	 * Returns the Due Date.
-	 *
-	 * @return Date
-	 */
-	public Date getDueDate() {
-		return calDueDate.getDate();
-	}
+    /**
+     * Returns the Due Date.
+     *
+     * @return Date
+     */
+    public Date getDueDate() {
+        return calDueDate.getDate();
+    }
 
-	/**
-	 * Returns the JList holding the Chosen Members.
-	 *
-	 * @return List<User>
-	 */
-	public List<User> getAssignedUsers() {
-		final List<User> userList = new ArrayList<User>();
-		for (int i = 0; i < chosenAssigneeModel.size(); i++) {
-			userList.add(chosenAssigneeModel.elementAt(i));
-		}
-		return userList;
-	}
+    /**
+     * Returns the JList holding the Chosen Members.
+     *
+     * @return List<User>
+     */
+    public List<User> getAssignedUsers() {
+        final List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < chosenAssigneeModel.size(); i++) {
+            userList.add(chosenAssigneeModel.elementAt(i));
+        }
+        return userList;
+    }
 
-	/**
+    /**
      * Gets the selected requirement.
      *
-	 * @return selected requirement object
+     * @return selected requirement object
      * @throws Exception the exception
-	 */
-	private Requirement getSelectedRequirement() throws Exception {
-		final Requirement req = (Requirement) dropdownRequirement.getSelectedItem();
+     */
+    private Requirement getSelectedRequirement() throws Exception {
+        final Requirement req = (Requirement) dropdownRequirement.getSelectedItem();
 
-		for (Requirement requirement : requirements) {
-			if (requirement.getId() == req.getId()) {
-				return requirement;
-			}
-		}
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == req.getId()) {
+                return requirement;
+            }
+        }
 
-		throw new Exception("Invalid requirement selected");
-	}
+        throw new Exception("Invalid requirement selected");
+    }
 
-	/**
-	 * @param reqId ID number of requirement
-	 * @return requirement with given ID
-	 * @throws Exception
-	 */
-	public Requirement findRequirement(int reqId) throws Exception {
-		for (Requirement requirement : requirements) {
-			if (requirement.getId() == reqId) {
-				return requirement;
-			}
-		}
+    /**
+     * @param reqId ID number of requirement
+     * @return requirement with given ID
+     * @throws Exception
+     */
+    public Requirement findRequirement(int reqId) throws Exception {
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == reqId) {
+                return requirement;
+            }
+        }
 
-		throw new Exception("Invalid requirement selected");
-	}
+        throw new Exception("Invalid requirement selected");
+    }
 
-	/**
+    /**
      * Open selected requirement.
      *
-	 * @throws Exception invalid requirement selected
-	 */
-	public void openSelectedRequirement() throws Exception {
-		edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-				.editRequirement(getSelectedRequirement());
-		edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-				.openRequirementsTab();
-	}
+     * @throws Exception invalid requirement selected
+     */
+    public void openSelectedRequirement() throws Exception {
+        edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
+                .editRequirement(getSelectedRequirement());
+        edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
+                .openRequirementsTab();
+    }
 
     /**
      * Validate requirement view.
      */
-	private void validateRequirementView() {
-		// System.out.println(getRequirement().getSelectedItem());
-		if (getRequirement() == null ||
-				((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
-			buttonOpenRequirement.setEnabled(false);
-		} else {
-			buttonOpenRequirement.setEnabled(true);
-		}
-	}
+    private void validateRequirementView() {
+        // System.out.println(getRequirement().getSelectedItem());
+        if (getRequirement() == null ||
+                ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
+            buttonOpenRequirement.setEnabled(false);
+        } else {
+            buttonOpenRequirement.setEnabled(true);
+        }
+    }
 
-	/**
+    /**
      * Disables all of the text fields based on boolean io.
-	 *
-	 * @param io is a flag that if true disables fields, if false enables all fields.
-	 */
-	public void disableAll(Boolean io) {
-		io = !io;
-		// aTask.getTaskID();
-		boxTitle.setEnabled(io);
-		boxDescription.setEnabled(io);
-		dropdownStatus.setEnabled(io);
-		// requirement
-		chosenAssigneeList.setEnabled(io);
-		possibleAssigneeList.setEnabled(io);
-		calStartDate.setEnabled(io);
-		calDueDate.setEnabled(io);
-		spinnerEstimatedEffort.setEnabled(io);
-		spinnerActualEffort.setEnabled(io);
-	}
+     *
+     * @param io is a flag that if true disables fields, if false enables all fields.
+     */
+    public void disableAll(Boolean io) {
+        io = !io;
+        // aTask.getTaskID();
+        boxTitle.setEnabled(io);
+        boxDescription.setEnabled(io);
+        dropdownStatus.setEnabled(io);
+        // requirement
+        chosenAssigneeList.setEnabled(io);
+        possibleAssigneeList.setEnabled(io);
+        calStartDate.setEnabled(io);
+        calDueDate.setEnabled(io);
+        spinnerEstimatedEffort.setEnabled(io);
+        spinnerActualEffort.setEnabled(io);
+    }
 
-	/**
-	 * opens selected requirement. May be overridden
-	 */
-	protected void openRequirement() {
-		try {
-			parentPanel.openSelectedRequirement();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
+    /**
+     * opens selected requirement. May be overridden
+     */
+    protected void openRequirement() {
+        try {
+            parentPanel.openSelectedRequirement();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
 
-	/**
+    /**
      * Gets the task.
      *
-	 * @return Task
-	 */
-	public Task getTask() {
-		return null;
-	}
+     * @return Task
+     */
+    public Task getTask() {
+        return null;
+    }
 
     /**
      * Validate assignee buttons
@@ -517,18 +517,18 @@ public class AbstractInformationPanel extends JScrollPane {
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
 class IterationComparator implements Comparator<Iteration> {
-	@Override
-	public int compare(Iteration I1, Iteration I2) {
-		int result = 0;
-		if (I1.getStart() == null) {
-			result = -1;
+    @Override
+    public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
+        if (I1.getStart() == null) {
+            result = -1;
         } else if (I2.getStart() == null) {
-			result = 1;
+            result = 1;
         } else {
-			result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
-		}
-		return result;
-	}
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
+    }
 }
 
 
@@ -537,9 +537,9 @@ class IterationComparator implements Comparator<Iteration> {
  * @author Kevin from the requirements manager sorts Requirements by name
  */
 class RequirementComparator implements Comparator<Requirement> {
-	@Override
-	public int compare(Requirement R1, Requirement R2) {
-		return R1.getName().compareTo(R2.getName());
-	}
+    @Override
+    public int compare(Requirement R1, Requirement R2) {
+        return R1.getName().compareTo(R2.getName());
+    }
 
 }
