@@ -16,6 +16,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -52,7 +53,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		boxTitle.setText(parentPanel.aTask.getTitle());
 		boxDescription.setText(parentPanel.aTask.getDescription());
 		dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
+		dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement());
 		for (String username : parentPanel.aTask.getAssignedUsers()) {
 			new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
 		}
@@ -210,7 +211,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 		final int estimatedEffort = (int) getEstimatedEffort().getValue();
 		final int actualEffort = (int) getActualEffort().getValue();
 		final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-		final String requirement = getRequirement().getSelectedItem().toString();
+		final int requirement = ((Requirement) getRequirement().getSelectedItem()).getId();
 		final Date startDate = getStartDate();
 		final Date dueDate = getDueDate();
 		final List<String> assignedUsers = new ArrayList<String>();

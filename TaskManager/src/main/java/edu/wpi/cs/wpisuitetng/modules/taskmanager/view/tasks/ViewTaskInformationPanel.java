@@ -128,12 +128,21 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
 		detailsPanel.add(labelRequirement, "cell 0 3");
 		
-		String requirementText = viewTask.getRequirement();
-		if (requirementText == null || requirementText.equals("None")) {
+		int reqId = viewTask.getRequirement();
+		Requirement requirement = null;
+		try {
+			requirement = findRequirement(reqId);
+		}
+		catch (Exception e) {
+			System.out.println("Could not find Requirement with id '" + reqId + "'");
+		}
+		final String requirementText;
+		if (requirement == null || requirement.getName() == null) {
 			requirementText = "None";
 			buttonOpenRequirement.setEnabled(false);
 		}
 		else {
+			requirementText = requirement.getName();
 			buttonOpenRequirement.setEnabled(true);
 		}
 		detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -250,10 +259,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @throws Exception
      */
     private Requirement getCurrentRequirement() throws Exception {
-        final String reqName = parentPanel.aTask.getRequirement();
+        int req = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {
-            if (requirement.getName().equals(reqName)) {
+            if (requirement.getId() == req) {
                 return requirement;
             }
         }

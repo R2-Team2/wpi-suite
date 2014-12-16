@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
@@ -136,10 +137,10 @@ public class AbstractTaskPanel extends JPanel {
     /**
      * Retrieves the Requirement from infoPanel.
      *
-     * @return String
+     * @return int
      */
-    public String getRequirement() {
-        return (String) infoPanel.getRequirement().getSelectedItem();
+    public int getRequirement() {
+        return ((Requirement) infoPanel.getRequirement().getSelectedItem()).getId();
     }
 
     /**

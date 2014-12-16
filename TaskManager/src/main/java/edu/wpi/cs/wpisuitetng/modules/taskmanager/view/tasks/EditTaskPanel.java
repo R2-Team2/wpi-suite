@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -134,11 +135,11 @@ public class EditTaskPanel extends AbstractTaskPanel {
     /**
      * Retrieves the Requirement from infoPanel.
      *
-     * @return String
+     * @return int
      */
     @Override
-    public String getRequirement() {
-        return (String) infoPanel.getRequirement().getSelectedItem();
+    public int getRequirement() {
+        return ((Requirement) infoPanel.getRequirement().getSelectedItem()).getId();
     }
 
     /**
