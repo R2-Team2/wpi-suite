@@ -39,6 +39,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -149,21 +150,20 @@ public class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size() + 1];
         strListOfRequirements.add("None");
-        arrListOfRequirements[0] = "None";
-        for (int i = 0; i < requirements.size(); i++) {
-            // build a List<String> of the names of the requirements
-            // defaultComboBoxModel, below, requires an array of string
-            String tempName = requirements.get(i).getName();
-            if (tempName.length() > 15) {
-                tempName = tempName.substring(0, 15) + "...";
+        for (Requirement requirement : requirements) {
+            if (!requirement.getStatus().equals(RequirementStatus.DELETED)) {
+                String tempName = requirement.getName();
+                if (tempName.length() > 15) {
+                    tempName = tempName.substring(0, 15) + "...";
+                }
+                System.out.println(tempName);
+                strListOfRequirements.add(tempName);
             }
-            System.out.println(tempName);
-            strListOfRequirements.add(tempName);
-            arrListOfRequirements[i + 1] = tempName;
         }
 
+        final String[] arrListOfRequirements =
+                strListOfRequirements.toArray(new String[strListOfRequirements.size()]);
 
         // Instantiate GUI Elements
         // Labels
@@ -306,7 +306,6 @@ public class AbstractInformationPanel extends JScrollPane {
 
         setViewportView(contentPanel);
     }
-
 
     /**
      * Returns the JTextField holding the title.
