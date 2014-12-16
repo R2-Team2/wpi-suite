@@ -191,7 +191,7 @@ public class TaskCommentPanel extends JPanel {
 
                     // Add comment to Task
                     currentTask.addComment(msg);
-
+                    
                     taskUpdater.updateTask(currentTask);
 
                     refresh();

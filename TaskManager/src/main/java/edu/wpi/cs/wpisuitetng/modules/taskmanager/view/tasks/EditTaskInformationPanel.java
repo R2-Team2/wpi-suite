@@ -43,7 +43,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -245,8 +245,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
-    @Override
-    public Task getTask() {
+    public Task getTaskFromFields() {
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();
@@ -260,7 +259,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
-        
+
         final Task updatedTask;
         final CommentList commentList;
         if (attributePane == null) {

@@ -111,7 +111,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
                 db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
-                        null, null), s.getProject());
+                        null, null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
