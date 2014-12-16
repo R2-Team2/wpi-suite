@@ -91,6 +91,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /** The list chosen assignees. */
     protected JList<User> chosenAssigneeList;
 
+    protected JList<String> activityList;
+
     /** The list possible assignees. */
     protected JList<User> possibleAssigneeList;
 
@@ -172,8 +174,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
-        final JLabel labelDueDate = new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
-        final JLabel labelStartDate = new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
+        final JLabel labelDueDate =
+                new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
+        final JLabel labelStartDate =
+                new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -223,10 +227,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
-        //calStartDate.setDate(Calendar.getInstance().getTime());
+        // calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
-        //calDueDate.setDate(Calendar.getInstance().getTime());
+        // calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
@@ -475,6 +479,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     }
 }
 
+
 /**
  * @version legacy
  * @author Kevin from the requirements manager sorts the Iterations by date
@@ -493,6 +498,7 @@ class IterationComparator implements Comparator<Iteration> {
         return result;
     }
 }
+
 
 /**
  * @version legacy

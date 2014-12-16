@@ -43,7 +43,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-        .requestAllUsers();
+                .requestAllUsers();
         setupListeners();
     }
 
@@ -269,7 +269,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, null, commentList);
+                        requirement, startDate, dueDate, assignedUsers,
+                        parentPanel.aTask.getActivityList(), commentList);
         return updatedTask;
     }
 }

@@ -93,6 +93,15 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     }
 
     /**
+     * Returns the description information from infoPanel.
+     *
+     * @return String
+     */
+    public List<String> getActivityList() {
+        return aTask.getActivityList();
+    }
+
+    /**
      * Retrieves the Estimated Effort from infoPanel.
      *
      * @return int
