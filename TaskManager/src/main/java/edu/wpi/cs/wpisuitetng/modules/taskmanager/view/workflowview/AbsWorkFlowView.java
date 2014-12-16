@@ -179,5 +179,11 @@ public class AbsWorkFlowView extends JPanel {
         }
     }
 
+    /**
+     * showArchived STUB
+     *
+     * @param b true if the given view is to be shown, false for hide
+     * @param t the task status view to be operated on
+     */
     public void showArchived(Boolean b, TaskStatusView t) {}
 }
