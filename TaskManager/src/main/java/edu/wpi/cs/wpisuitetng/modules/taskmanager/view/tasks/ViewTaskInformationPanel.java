@@ -6,7 +6,11 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -14,10 +18,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
@@ -26,6 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.CommentPanel;
 
 /**
  * The Class ViewTaskInformationPanel.
@@ -37,6 +45,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 	
 	private final List<Requirement> requirements = new ArrayList<Requirement>();
+	private JScrollPane commentScroll;
+    
 	
 	/**
 	 * Constructor for the ViewTaskButtonPanel.
@@ -95,6 +105,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		buttonOpenRequirement = new JButton("<");
 		// TODO force the button to be this small
 		buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+		
+		//Comment Box
+		commentScroll = new JScrollPane();
+        commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setMinimumSize(new Dimension(100, 200));
+        commentScroll.setMaximumSize(new Dimension(800, 300));
+        fillCommentScroll();
 
 		// Populate ContentPanel
 		//**Title**
@@ -184,11 +201,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 		contentPanel.add(labelComments, "cell 0 9, split 2, span");
 		contentPanel.add(new JSeparator(), "cell 0 9, growx, wrap");
 		
+		contentPanel.add(commentScroll, "cell 0 10, grow, wrap");
+		
 		//**Activity Log**
 		
 		//Activity Title and Separator
-		contentPanel.add(labelActivityLog, "cell 0 10, split 2, span");
-		contentPanel.add(new JSeparator(), "cell 0 10, growx, wrap");
+		contentPanel.add(labelActivityLog, "cell 0 11, split 2, span");
+		contentPanel.add(new JSeparator(), "cell 0 11, growx, wrap");
 
 		this.setViewportView(contentPanel);
 	}
@@ -275,5 +294,43 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
             e1.printStackTrace();
         }
 
+    }
+
+    /**
+     * Refreshes the note panel
+     */
+    private void fillCommentScroll()
+    {
+        // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
+
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE); // Background color is white
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+        c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
+        c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
+        c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
+        c.weightx = 1;// Fill horizontally
+        c.gridy = 0; // Row 0
+        c.insets = new Insets(5, 5, 5, 5); // Creates margins between notes
+
+        // Get iterator of the list of notes
+        parentPanel.aTask.getComments();
+        ListIterator<Comment> itt = parentPanel.aTask.getComments().getIterator(0);
+
+        // Add each note to panel individually
+        while (itt.hasNext()) {
+            // Create a new NotePanel for each Note and add it to the panel
+            panel.add(new CommentPanel(itt.next()), c);
+            c.gridy++; // Next Row
+        }
+
+        // Create a dummy panel to take up space at the bottom
+        c.weighty = 1;
+        JPanel dummy = new JPanel();
+        dummy.setBackground(Color.WHITE);
+        panel.add(dummy, c);
+
+        commentScroll.setViewportView(panel);
     }
 }

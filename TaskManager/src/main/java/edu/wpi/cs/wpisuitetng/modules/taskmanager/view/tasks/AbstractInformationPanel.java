@@ -250,12 +250,13 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
 
         final JPanel commentCell = new JPanel(new MigLayout());
+        
+        boolean addComCell = false;
+        
         attributePane = new TaskTabPane(getTask(), parentPanel);
         if (getTask() != null) {
             attributePane.loadComments();
-            commentCell.add(attributePane, "spanx, spany");
-        } else {
-            commentCell.setVisible(false);
+            addComCell = true;
         }
 
         // Assignee view created and populated to the bottom Panel
@@ -310,8 +311,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(rightColumn, "spanx, growy, wrap");
 
         contentPanel.add(assigneeCell, "spanx, growy, wrap");
-
-        contentPanel.add(commentCell, "spanx, growy, wrap");
+        
+        if(addComCell)
+            contentPanel.add(attributePane, "spanx, grow, wrap");
 
         setViewportView(contentPanel);
     }

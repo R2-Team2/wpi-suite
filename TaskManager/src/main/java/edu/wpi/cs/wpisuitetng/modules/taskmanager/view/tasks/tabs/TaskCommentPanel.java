@@ -58,7 +58,7 @@ public class TaskCommentPanel extends JPanel {
     public TaskCommentPanel(Task currentTask, AbstractTaskPanel parentPanel) {
         this.currentTask = currentTask;
         commentsAdded = 0;
-
+        
         taskUpdater = new UpdateTaskController(parentPanel);
 
         Component commentField = buildCommentField();
@@ -86,7 +86,8 @@ public class TaskCommentPanel extends JPanel {
         // Create new scroll pane for notes
         commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
-        commentScroll.setMinimumSize(new Dimension(100, 100));
+        commentScroll.setMinimumSize(new Dimension(100, 200));
+        commentScroll.setMaximumSize(new Dimension(800, 300));
 
         c.fill = GridBagConstraints.BOTH; // Fill grid cell with elements
         c.weightx = 1; // Fill horizontal space
