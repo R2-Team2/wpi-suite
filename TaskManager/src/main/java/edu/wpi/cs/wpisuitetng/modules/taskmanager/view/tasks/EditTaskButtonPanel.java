@@ -48,8 +48,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         final String saveString = "Save";
         final String cancelString = "Cancel";
         warningLabel =
-                new JLabel(
-                        "<html><font color='red'>Click CANCEL or close tab again to discard unsaved changes.</font></html>");
+                new JLabel("<html><font color='red'>Click again to discard changes.</font></html>");
         setWarning(false);
         // Create Buttons
         buttonSave = new JButton(saveString);
