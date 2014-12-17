@@ -88,12 +88,19 @@ public class AbsWorkFlowView extends JPanel {
     public JPanel getTaskStatusPanel() {
         return taskStatusPanel;
     }
-
+    
+    /**
+     * Returns the stored workflow Object
+     * @return WorkFlow
+     */
     public WorkFlow getWorkFlowObj() {
         return workFlowObj;
     }
 
-
+    /**
+     * Sets the current WorkFlow Object
+     * @param workFlowObj2
+     */
     public void setWorkFlowObj(WorkFlow workFlowObj2) {
         workFlowObj = workFlowObj2;
     }
@@ -106,7 +113,11 @@ public class AbsWorkFlowView extends JPanel {
             v.requestTasksFromDb();
         }
     }
-
+    
+    /**
+     * returns the list of TaskStatusViews in the Workflow
+     * @return List<TaskStatusView>
+     */
     public List<TaskStatusView> getViews() {
         return views;
     }
