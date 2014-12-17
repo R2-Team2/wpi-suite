@@ -16,6 +16,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
@@ -27,8 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 /**
  * The Class EditTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel {
@@ -90,7 +92,14 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toAdd = possibleAssigneeList.getSelectedIndices();
+                    for (int i = toAdd.length - 1; i >= 0; i--) {
+                        User transfer = possibleAssigneeModel.remove(toAdd[i]);
+                        chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
+                    }
+                    buttonAdd.setEnabled(false);
+                }
             }
         });
 
@@ -103,12 +112,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
                     }
-                    if (chosenAssigneeModel.size() == 0) {
-                        buttonRemove.setEnabled(false);
-                    }
-                    if (possibleAssigneeModel.size() > 0) {
-                        buttonAdd.setEnabled(true);
-                    }
+                    buttonAdd.setEnabled(false);
                 }
             }
 
@@ -225,6 +229,26 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
 
         /**
+         * Chosen assignee list Listener
+         */
+        chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Possible assignee list Listener
+         */
+        possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
          * Add assignee button Listener
          */
         buttonAdd.addActionListener(new ActionListener() {
@@ -245,7 +269,15 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
+<<<<<<< HEAD
     public Task getTaskFromFields() {
+=======
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+     */
+    @Override
+    public Task getTask() {
+>>>>>>> develop
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();
@@ -272,4 +304,13 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                         requirement, startDate, dueDate, assignedUsers, null, commentList);
         return updatedTask;
     }
+
+    /**
+     * Validate assignee buttons
+     */
+    @Override
+    public void validateAssigneeButtons() {
+        buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
+        buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
+    };
 }

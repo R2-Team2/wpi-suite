@@ -21,18 +21,23 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TaskCard.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class TaskCard extends JPanel {
 
     /** The task obj. */
     private Task taskObj;
+    
+    /** The task name. */
     JTextPane taskName = new JTextPane();
+    
+    /** The listener. */
     MouseListener listener = new MouseListener() {
 
         @Override
