@@ -286,8 +286,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     @Override
     public Task getTask() {
-        // TODO Auto-generated method stub
-        return null;
+        return parentPanel.aTask;
     }
 
     /**
