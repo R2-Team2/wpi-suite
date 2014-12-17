@@ -11,8 +11,10 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -34,6 +36,8 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The task status views. */
     List<TaskStatusView> views;
+    
+    final JButton collapseSideButton;
 
     /**
      * Create the panel.
@@ -47,12 +51,18 @@ public class WorkFlowView extends AbsWorkFlowView {
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+        
+        final JPanel collapseButtonPanel = new JPanel();
+        collapseSideButton = new JButton(">");
+        collapseButtonPanel.setLayout(new MigLayout());
+        collapseSideButton.setBounds(10, 10, 10, 10);
+        collapseButtonPanel.add(collapseSideButton, "");
+        this.add(collapseButtonPanel, BorderLayout.EAST);
+        
+        
 
         taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
+        this.add(new JScrollPane(taskStatusPanel), BorderLayout.CENTER);
         final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
         final TaskStatusView taskStatusSelDev =
                 new TaskStatusView(new TaskStatus("Selected for Development"));
