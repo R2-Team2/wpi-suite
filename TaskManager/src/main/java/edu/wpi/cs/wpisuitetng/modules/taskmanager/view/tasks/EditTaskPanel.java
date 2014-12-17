@@ -28,13 +28,14 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSpli
 @SuppressWarnings("serial")
 public class EditTaskPanel extends AbstractTaskPanel {
 
+    private boolean triedQuit = false;
+
     /**
      * Constructor for the NewTaskPanel.
      *
      * @param parent is the parent panel
      * @param editTask is the task object to be edited.
      */
-
     public EditTaskPanel(WorkFlowSplitTabbedPanel parent, Task editTask) {
         parentPanel = parent;
         aTask = editTask;
@@ -80,6 +81,12 @@ public class EditTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public void cancelPressed() {
+        if (!triedQuit && ((EditTaskButtonPanel) buttonPanel).wasChange()) {
+            ((EditTaskButtonPanel) buttonPanel).setWarning(true);
+            triedQuit = true;
+            return;
+        }
+
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
     }

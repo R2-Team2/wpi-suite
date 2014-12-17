@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 
 // TODO: Auto-generated Javadoc
@@ -27,6 +28,13 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
     protected EditTaskPanel parentPanel;
 
     /**
+     * warning label
+     */
+    final JLabel warningLabel;
+
+    private boolean wasAnyChange = false;
+
+    /**
      * Constructor for the EditTaskButtonPanel.
      *
      * @param parentPanel the parent panel
@@ -39,15 +47,35 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         // Set Button Messages
         final String saveString = "Save";
         final String cancelString = "Cancel";
+        warningLabel =
+                new JLabel("<html><font color='red'>Click again to discard changes.</font></html>");
+        setWarning(false);
         // Create Buttons
         buttonSave = new JButton(saveString);
         buttonSave.setEnabled(false);
         buttonCancel = new JButton(cancelString);
         this.add(buttonSave);
         this.add(buttonCancel);
+        this.add(warningLabel, "left ");
         // parentPanel.createPressed();
 
         setupListeners();
+    }
+
+    /**
+     * Sets the the visibility of warning label
+     * 
+     * @param warn true to make label visible, false otherwise
+     */
+    public void setWarning(boolean warn) {
+        warningLabel.setVisible(warn);
+    }
+
+    /**
+     * @return true if there was any even invalid change
+     */
+    public boolean wasChange() {
+        return wasAnyChange;
     }
 
     /**
@@ -79,6 +107,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
      */
     @Override
     public boolean isTaskInfoValid() {
+        wasAnyChange = true;
         boolean result = false;
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
@@ -107,7 +136,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
     public void validateTaskDate() {
         if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
             parentPanel.infoPanel.labelDueDate
-            .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+                    .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
 
         } else {
             parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
