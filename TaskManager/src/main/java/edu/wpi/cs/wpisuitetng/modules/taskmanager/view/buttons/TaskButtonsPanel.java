@@ -40,12 +40,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
     /** The create button. */
     private final JButton createButton = new JButton("<html>Create<br />Task</html>");
 
-    /** The reports button. */
-    private final JButton reportsButton = new JButton("<html>Reports</html>");
-
-    /** The settings button. */
-    private final JButton settingsButton = new JButton("<html>Settings</html>");
-
     /** The help button. */
     private final JButton helpButton = new JButton("<html>Help</html>");
 
@@ -66,9 +60,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             Image img = ImageIO.read(this.getClass().getResourceAsStream("new_task.png"));
             createButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("reports.png"));
-            reportsButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
-            settingsButton.setIcon(new ImageIcon(img));
             img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
             helpButton.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
@@ -83,25 +75,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             public void actionPerformed(ActionEvent e) {
                 // bring up a create task pane
                 ViewEventController.getInstance().createTask();
-            }
-        });
-
-        // the action listener for the Reports Button
-        reportsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a create task pane
-                // TODO Action on ViewController ViewEventController.getInstance().createTask();
-            }
-        });
-
-        // the action listener for the Settings Button
-        settingsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // bring up a settings view
-                // Currently Brings up the Edit Work Flow View Directly
-                ViewEventController.getInstance().editWorkFlowView();
             }
         });
 
@@ -134,16 +107,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
 
             }
         });
-
-
-        // Gray out top bar buttons that are not currently being used
-        reportsButton.setEnabled(false);
-        settingsButton.setEnabled(true);
         helpButton.setEnabled(true);
         createButton.setEnabled(true);
-
-        contentPanel.add(reportsButton);
-        contentPanel.add(settingsButton);
         contentPanel.add(helpButton);
         contentPanel.add(createButton);
         contentPanel.setOpaque(false);
@@ -167,24 +132,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
      */
     public JButton getCreateButton() {
         return createButton;
-    }
-
-    /**
-     * Method getReportsButton.
-     *
-     * @return JButton
-     */
-    public JButton getReportsButton() {
-        return reportsButton;
-    }
-
-    /**
-     * Method getSettingsButton.
-     *
-     * @return JButton
-     */
-    public JButton getSettingsButton() {
-        return settingsButton;
     }
 
     /**
