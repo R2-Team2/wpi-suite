@@ -262,7 +262,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @throws Exception the exception
      */
     private Requirement getCurrentRequirement() throws Exception {
-        int req = parentPanel.aTask.getRequirement();
+        final int req = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {
             if (requirement.getId() == req) {

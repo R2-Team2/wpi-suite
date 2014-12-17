@@ -61,7 +61,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
 
         @SuppressWarnings("deprecation")
-        Requirement requirement =
+        final Requirement requirement =
                 parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
                         .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
                         "None", "Easter Egg");
