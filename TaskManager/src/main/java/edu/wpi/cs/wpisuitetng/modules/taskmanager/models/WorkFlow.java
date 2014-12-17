@@ -15,10 +15,9 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WorkFlow.
- * 
+ *
  * @author R2-Team2
  * @version $Revision: 1.0 $
  */
@@ -40,6 +39,7 @@ public class WorkFlow extends AbstractModel {
 
     /**
      * Gets the work flow id.
+     *
      * @return the work flow id
      */
 
@@ -79,15 +79,13 @@ public class WorkFlow extends AbstractModel {
     }
 
     @Override
-    public void save() {
-        // TODO Auto-generated method stub
-
+    public void save() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Save() is an unsupported operation.");
     }
 
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
-
+    public void delete() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Delete() is an unsupported operation.");
     }
 
     @Override
@@ -96,14 +94,14 @@ public class WorkFlow extends AbstractModel {
     }
 
     @Override
-    public Boolean identify(Object o) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean identify(Object o) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Identify() is an unsupported operation.");
     }
 
     /**
      * convert from string to workflow object
-     * @param json the string 
+     *
+     * @param json the string
      * @return the formed workflow object.
      */
     public static WorkFlow fromJson(String json) {
@@ -113,6 +111,7 @@ public class WorkFlow extends AbstractModel {
 
     /**
      * update the workflow object in the database.
+     *
      * @param updatedWorkFlow the workflow to update
      */
     public void update(WorkFlow updatedWorkFlow) {

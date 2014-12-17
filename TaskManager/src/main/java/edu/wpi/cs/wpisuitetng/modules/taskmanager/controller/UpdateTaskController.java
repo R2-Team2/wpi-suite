@@ -42,6 +42,7 @@ public class UpdateTaskController {
      * @param toSave is the task object to be updated in the database.
      */
     public void updateTask(Task toSave) {
+        System.out.println("AAAAAAAAAAA" + toSave.getActivityList());
         // Send a request to the core to save this message
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/task", HttpMethod.POST); // POST ==

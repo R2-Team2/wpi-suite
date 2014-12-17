@@ -45,7 +45,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.TaskTabPane;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
@@ -100,6 +99,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The spinner actual effort. */
     protected JSpinner spinnerActualEffort;
+    
+    /** The List of activities **/
+    protected JList<String> activities;
 
     /** The button add. */
     protected JButton buttonAdd;
@@ -129,6 +131,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     protected TaskTabPane attributePane;
+    
+    private final List<String> activityList = new ArrayList<String>();
 
     /**
      * Builds the layout.
@@ -297,7 +301,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             }
         });
 
-
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -354,7 +357,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         return spinnerEstimatedEffort;
     }
 
-    /** Returns the JSpinner holding the actual effort.
+    /**
+     * Returns the JSpinner holding the actual effort.
      *
      * @return JSpinner
      */

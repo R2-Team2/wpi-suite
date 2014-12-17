@@ -58,7 +58,7 @@ public class Task extends AbstractModel {
     private List<String> assignedUsers;
 
     /** The activity list. */
-    private List<String> activityList;
+    private List<String> activityList = new ArrayList<String>();
 
     /** The comment thread on the task. */
     private CommentList comments;
@@ -91,7 +91,7 @@ public class Task extends AbstractModel {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
-        this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.activityList = activityList;
         comments = new CommentList();
     }
     
@@ -395,16 +395,16 @@ public class Task extends AbstractModel {
      * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
      */
     @Override
-    public void save() {
-        // TODO Auto-generated method stub
+    public void save() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Save() is an unsupported operation.");
     }
 
     /*
      * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
      */
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Delete() is an unsupported operation.");
     }
 
     /*
@@ -419,9 +419,8 @@ public class Task extends AbstractModel {
      * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
      */
     @Override
-    public Boolean identify(Object o) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean identify(Object o) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Identify() is an unsupported operation.");
     }
 
     /**

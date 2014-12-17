@@ -38,7 +38,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buildLayout();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#buildLayout()
      */
     @Override
@@ -49,6 +50,7 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
+        System.out.println("THIS IS NOT NULL:  " + aTask.getActivityList());
     }
 
     /**
@@ -190,7 +192,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
      */
     @Override
