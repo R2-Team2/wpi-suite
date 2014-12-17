@@ -1,11 +1,8 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors: Team Rolling Thunder
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs;
 
@@ -19,16 +16,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
@@ -59,7 +60,7 @@ public class TaskCommentPanel extends JPanel {
     public TaskCommentPanel(Task currentTask, AbstractTaskPanel parentPanel) {
         this.currentTask = currentTask;
         commentsAdded = 0;
-        
+
         taskUpdater = new UpdateTaskController(parentPanel);
 
         final Component commentField = buildCommentField();
@@ -85,7 +86,8 @@ public class TaskCommentPanel extends JPanel {
         final GridBagConstraints bc = new GridBagConstraints();
 
         // Create new scroll pane for notes
-        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -121,8 +123,10 @@ public class TaskCommentPanel extends JPanel {
         if (currentTask != null) {
             refresh();
         }
+        final JScrollBar vertical = commentScroll.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
     }
-    
+
     /**
      * Prints information on comments to console and calls refresh
      */
@@ -196,7 +200,15 @@ public class TaskCommentPanel extends JPanel {
 
                     // Add comment to Task
                     currentTask.addComment(msg);
-                    
+                    // Code inspired by mkyong
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+                    final Date date = new Date();
+                    final String user = ConfigManager.getConfig().getUserName();
+                    final String createActivity =
+                            "Comment added at " + dateFormat.format(date) + " (by "
+                                    + user + ")";
+                    currentTask.addActivity(createActivity); // add activity entry to activity list
+
                     taskUpdater.updateTask(currentTask);
 
                     refresh();
