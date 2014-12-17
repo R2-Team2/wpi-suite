@@ -451,6 +451,14 @@ public class Task extends AbstractModel {
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
+    
+    /**
+     * Sets this Task's status to archived
+     */
+    public void archiveTask() {
+        final TaskStatus archived = new TaskStatus("Archived");
+        setStatus(archived);
+    }
 
     /**
      * Returns an array of Tasks parsed from the given JSON-encoded string.

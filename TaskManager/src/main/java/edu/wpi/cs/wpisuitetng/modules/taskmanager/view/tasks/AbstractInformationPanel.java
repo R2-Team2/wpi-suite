@@ -68,7 +68,8 @@ public class AbstractInformationPanel extends JScrollPane {
     protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
             new TaskStatus("Selected for Development").toString(),
             new TaskStatus("Currently in Development").toString(),
-            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
+            new TaskStatus("Completed").toString(), new TaskStatus("Archived").toString()};
+    // the above needs to be converted to a list of TaskStatus
 
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
@@ -449,9 +450,9 @@ public class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
     /**
