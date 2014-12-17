@@ -17,11 +17,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class EditTaskPanel extends AbstractTaskPanel {
@@ -60,6 +61,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
         // create a task, send to to controller
         final Task updatedTask = infoPanel.getTask();
+        System.out.println("ACTIVITY LIST:  " + updatedTask.getActivityList());
         final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
         updateTaskCntrlr.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
@@ -177,6 +179,11 @@ public class EditTaskPanel extends AbstractTaskPanel {
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
+    /**
+     * Sets the info panel.
+     *
+     * @param aPanel the new info panel
+     */
     public void setInfoPanel(AbstractInformationPanel aPanel) {
         infoPanel = aPanel;
     }
@@ -190,6 +197,10 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
+     */
     @Override
     public void createPressed() {
         // TODO Auto-generated method stub

@@ -48,11 +48,18 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
+ */
+/**
+ * Description
+ *
+ * @author Evan
+ * @version Dec 17, 2014
  */
 @SuppressWarnings("serial")
 public class AbstractInformationPanel extends JScrollPane {
+    public AbstractInformationPanel() {}
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -71,6 +78,9 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The string list of requirements. */
     protected List<String> strListOfRequirements = new ArrayList<String>();
+
+    /** The string array of priority values. */
+    protected String[] possiblePriorities = new String[] {"Minor", "Major", "Critical", "Blocker"};
 
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
@@ -102,6 +112,8 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The spinner actual effort. */
     protected JSpinner spinnerActualEffort;
 
+    protected JList<String> activities;
+
     /** The button add. */
     protected JButton buttonAdd;
 
@@ -117,16 +129,19 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The cal due date. */
     protected JXDatePicker calDueDate;
 
-    /** The cal start label */
+    /** The cal start label. */
     protected JLabel labelStartDate = new JLabel("Start Date: ");
 
-    /** The cal due label */
+    /** The cal due label. */
     protected JLabel labelDueDate = new JLabel("Due Date: ");
 
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
+    /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
+
+    private final List<String> activityList = new ArrayList<String>();
 
     /**
      * Builds the layout.
@@ -174,8 +189,7 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
         final JLabel labelDueDate =
                 new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
-        final JLabel labelStartDate =
-                new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
+        final JLabel labelStartDate = new JLabel("<html>Start Date: </html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -206,6 +220,11 @@ public class AbstractInformationPanel extends JScrollPane {
         dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
         dropdownStatus.setEnabled(true);
         dropdownStatus.setBackground(Color.WHITE);
+
+        dropdownPriority = new JComboBox<String>();
+        dropdownPriority.setModel(new DefaultComboBoxModel<String>(possiblePriorities));
+        dropdownPriority.setEnabled(true);
+        dropdownPriority.setBackground(Color.WHITE);
         // Lists and Models
         chosenAssigneeModel = new DefaultListModel<User>();
         chosenAssigneeList = new JList<User>(chosenAssigneeModel);
@@ -219,6 +238,9 @@ public class AbstractInformationPanel extends JScrollPane {
         // Buttons
         buttonAdd = new JButton(">>");
         buttonRemove = new JButton("<<");
+        buttonAdd.setEnabled(false);
+        buttonRemove.setEnabled(false);
+
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
@@ -273,6 +295,14 @@ public class AbstractInformationPanel extends JScrollPane {
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
         leftColumn.add(labelRequirement, "left, wrap");
         leftColumn.add(dropdownRequirement, "left, width 200px");
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
 
         leftColumn.add(buttonOpenRequirement, "left, wrap");
         validateRequirementView();
@@ -283,6 +313,10 @@ public class AbstractInformationPanel extends JScrollPane {
             }
         });
 
+
+        // Populate contentPanel
+        contentPanel.add(labelTitle, "wrap");
+        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -292,21 +326,25 @@ public class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
 
+        contentPanel.add(labelDescription, "wrap");
+        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
+        contentPanel.add(leftColumn, "left, spany, growy, push");
+        contentPanel.add(rightColumn, "right, spany, growy, push");
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+
+
+        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
 
-        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
-
         setViewportView(contentPanel);
     }
-
 
     /**
      * Returns the JTextField holding the title.
@@ -347,7 +385,7 @@ public class AbstractInformationPanel extends JScrollPane {
     /**
      * Returns the JComboBox holding the status.
      *
-     * @return JComboBox<String>
+     * @return JComboBox<String> The status of the task, such as "New" or "Completed"
      */
     public JComboBox<String> getStatus() {
         return dropdownStatus;
@@ -356,10 +394,19 @@ public class AbstractInformationPanel extends JScrollPane {
     /**
      * Returns the JComboBox holding the Requirement.
      *
-     * @return JComboBox<String>
+     * @return JComboBox<String> The requirements the task is tied to.
      */
     public JComboBox<String> getRequirement() {
         return dropdownRequirement;
+    }
+
+    /**
+     * Returns the JComboBox holding the list of Priorities.
+     *
+     * @return JComboBox<String> The priority the task is set to.
+     */
+    public JComboBox<String> getPriority() {
+        return dropdownPriority;
     }
 
     /**
@@ -370,7 +417,6 @@ public class AbstractInformationPanel extends JScrollPane {
     public Date getStartDate() {
         return calStartDate.getDate();
     }
-
 
     /**
      * Returns the Due Date.
@@ -395,8 +441,10 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the selected requirement.
+     *
      * @return selected requirement object
-     * @throws Exception
+     * @throws Exception the exception
      */
     private Requirement getSelectedRequirement() throws Exception {
         final String reqName = (String) dropdownRequirement.getSelectedItem();
@@ -411,15 +459,20 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Open selected requirement.
+     *
      * @throws Exception invalid requirement selected
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
+    /**
+     * Validate requirement view.
+     */
     private void validateRequirementView() {
         System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
@@ -429,9 +482,8 @@ public class AbstractInformationPanel extends JScrollPane {
         }
     }
 
-
     /**
-     * Disables all of the text fields based on boolean io
+     * Disables all of the text fields based on boolean io.
      *
      * @param io is a flag that if true disables fields, if false enables all fields.
      */
@@ -462,13 +514,20 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the task.
+     *
      * @return Task
      */
     public Task getTask() {
         return null;
     }
-}
 
+    /**
+     * Validate assignee buttons
+     */
+    public void validateAssigneeButtons() {};
+
+}
 
 
 /**

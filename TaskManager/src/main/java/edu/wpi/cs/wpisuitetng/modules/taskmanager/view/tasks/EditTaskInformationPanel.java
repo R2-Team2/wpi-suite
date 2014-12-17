@@ -8,6 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,18 +17,20 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class EditTaskInformationPanel extends AbstractInformationPanel {
@@ -95,12 +98,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = possibleAssigneeModel.remove(toAdd[i]);
                         chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
                     }
-                    if (possibleAssigneeModel.size() == 0) {
-                        buttonAdd.setEnabled(false);
-                    }
-                    if (chosenAssigneeModel.size() > 0) {
-                        buttonRemove.setEnabled(true);
-                    }
+                    buttonAdd.setEnabled(false);
                 }
             }
         });
@@ -114,12 +112,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
                     }
-                    if (chosenAssigneeModel.size() == 0) {
-                        buttonRemove.setEnabled(false);
-                    }
-                    if (possibleAssigneeModel.size() > 0) {
-                        buttonAdd.setEnabled(true);
-                    }
+                    buttonAdd.setEnabled(false);
                 }
             }
 
@@ -236,6 +229,26 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
 
         /**
+         * Chosen assignee list Listener
+         */
+        chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Possible assignee list Listener
+         */
+        possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
          * Add assignee button Listener
          */
         buttonAdd.addActionListener(new ActionListener() {
@@ -268,26 +281,34 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
-        final String priority = getPriority();
+        final String priority = getPriority().toString();
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
-
+        final List<String> activityList = parentPanel.aTask.getActivityList();
+        // Code inspired by mkyong
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        final Date date = new Date();
+        final String user = ConfigManager.getConfig().getUserName();
+        String createActivity = "Updated Task at " + dateFormat.format(date) + " (by " + user + ")";
+        if (status.equals(new TaskStatus("archived"))) {
+            createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
+        }
         final Task updatedTask;
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, null, priority);
-
+                        requirement, startDate, dueDate, assignedUsers, activityList, priority);
+        updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }
 
     /**
-     * Description goes here.
-     *
-     * @return
+     * Validate assignee buttons
      */
-    private String getPriority() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    @Override
+    public void validateAssigneeButtons() {
+        buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
+        buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
+    };
+
 }
