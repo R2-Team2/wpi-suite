@@ -92,7 +92,7 @@ public class TaskStatus extends AbstractModel {
      *
      * @param task String
      */
-    public void remTask(String task) {
+    public void remTask(Task task) {
         taskList.remove(task);
     }
 
@@ -134,15 +134,13 @@ public class TaskStatus extends AbstractModel {
     }
 
     @Override
-    public void save() {
-        // TODO Auto-generated method stub
-
+    public void save() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Save() is an unsupported operation.");
     }
 
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
-
+    public void delete() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Delete() is an unsupported operation.");
     }
 
     @Override
@@ -151,9 +149,8 @@ public class TaskStatus extends AbstractModel {
     }
 
     @Override
-    public Boolean identify(Object o) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean identify(Object o) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Identify() is an unsupported operation.");
     }
 
     /**

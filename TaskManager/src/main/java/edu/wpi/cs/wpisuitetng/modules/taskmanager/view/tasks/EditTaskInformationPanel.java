@@ -8,6 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,12 +20,15 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskInformationPanel.
  *
@@ -56,7 +60,15 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.setText(parentPanel.aTask.getTitle());
         boxDescription.setText(parentPanel.aTask.getDescription());
         dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-        dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
+
+
+        @SuppressWarnings("deprecation")
+        final Requirement requirement =
+                parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
+                        .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
+                        "None", "Easter Egg");
+
+        dropdownRequirement.setSelectedItem(requirement);
         for (String username : parentPanel.aTask.getAssignedUsers()) {
             new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
         }
@@ -105,8 +117,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!chosenAssigneeList.isSelectionEmpty()) {
-                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = possibleAssigneeList.getSelectedIndices();
                     for (int i = toRemove.length - 1; i >= 0; i--) {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
@@ -253,7 +265,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
 
@@ -263,35 +280,55 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
     }
-
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+    
+    /**
+     * Returns a new task with all of the fields from
+     * the task in the Parent Panel
+     * @return Task
      */
-    @Override
-    public Task getTask() {
+    public Task getTaskFromFields() {
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();
         final int estimatedEffort = (int) getEstimatedEffort().getValue();
         final int actualEffort = (int) getActualEffort().getValue();
         final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-        final String requirement = getRequirement().getSelectedItem().toString();
+        final int requirement = ((Requirement) getRequirement().getSelectedItem()).getId();
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
-
+        final List<String> activityList = parentPanel.aTask.getActivityList();
+        // Code inspired by mkyong
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        final Date date = new Date();
+        final String user = ConfigManager.getConfig().getUserName();
+        String createActivity = "Updated Task at " + dateFormat.format(date) + " (by " + user + ")";
+        if (status.equals(new TaskStatus("archived"))) {
+            createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
+        }
         final Task updatedTask;
+        final CommentList commentList;
+        if (attributePane == null) {
+            commentList = null;
+        } else {
+            commentList = attributePane.getComments();
+        }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, null);
-
+                        requirement, startDate, dueDate, assignedUsers, activityList, commentList);
+        updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }
 

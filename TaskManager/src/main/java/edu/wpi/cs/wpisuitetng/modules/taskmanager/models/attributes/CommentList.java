@@ -9,6 +9,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -28,6 +29,18 @@ public class CommentList {
 
     public CommentList() {
         comments = new LinkedList<Comment>();
+    }
+
+    /**
+     * Use this function to get a list iterator that you can use to cycle through the elements of
+     * the list
+     * 
+     * @param index The index of the list that you want the iterator to start on
+     * 
+     * @return The iterator containing all the elements of the list
+     */
+    public ListIterator<Comment> getIterator(int index) {
+        return comments.listIterator(index);
     }
 
     /**
