@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -36,7 +37,7 @@ public class NewTaskInformationPanelTest {
         when(mockTask.getActualEffort()).thenReturn(1);
         when(mockTask.getActivityList()).thenReturn(new ArrayList<String>());
         when(mockTask.getAssignedUsers()).thenReturn(new ArrayList<String>());
-        when(mockTask.getComments()).thenReturn(new ArrayList<Comment>());
+        when(mockTask.getComments()).thenReturn(new CommentList());
         when(mockTask.getDescription()).thenReturn("Test NewTaskInformationPanelTest");
         when(mockTask.getDueDate()).thenReturn(new Date());
         when(mockTask.getEstimatedEffort()).thenReturn(2);
