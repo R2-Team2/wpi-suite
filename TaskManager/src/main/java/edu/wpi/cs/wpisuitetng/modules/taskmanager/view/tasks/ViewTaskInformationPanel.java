@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
@@ -107,10 +108,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         
         //Comment Box
         commentScroll = new JScrollPane();
-        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        commentScroll.setMinimumSize(new Dimension(100, 300));
+        commentScroll.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
+        final JScrollBar vertical = commentScroll.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
 
         // Populate ContentPanel
         // **Title**
@@ -251,7 +255,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
->>>>>>> develop
      * Returns the formatted due date of a task.
      *
      * @param date the date
@@ -259,7 +262,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     private String formatDate(Date date) {
         if (date == null) {
-            return "";
+            return "...";
         }
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         final String dateString = dateFormatter.format(date);

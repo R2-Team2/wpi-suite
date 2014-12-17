@@ -205,8 +205,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         possibleAssigneeModel = new DefaultListModel<User>();
         possibleAssigneeList = new JList<User>(possibleAssigneeModel);
         possibleAssigneeList.setCellRenderer(new UserRenderer());
-        chosenAssigneeList = new JList<User>();
-        possibleAssigneeList = new JList<User>();
         // Spinners
         spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
@@ -251,6 +249,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         attributePane = new TaskTabPane(getTask(), parentPanel);
         if (getTask() != null) {
             attributePane.loadComments();
+            attributePane.loadActivities();
             addComCell = true;
         }
         
