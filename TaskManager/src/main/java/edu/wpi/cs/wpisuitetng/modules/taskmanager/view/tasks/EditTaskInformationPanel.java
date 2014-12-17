@@ -269,15 +269,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
-<<<<<<< HEAD
     public Task getTaskFromFields() {
-=======
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
-     */
-    @Override
-    public Task getTask() {
->>>>>>> develop
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();

@@ -223,13 +223,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         buttonAdd = new JButton(">>");
         buttonAdd.setEnabled(false);
         buttonRemove = new JButton("<<");
-<<<<<<< HEAD
-        buttonRemove.setEnabled(false);
-=======
         buttonAdd.setEnabled(false);
         buttonRemove.setEnabled(false);
 
->>>>>>> develop
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
@@ -338,16 +334,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-<<<<<<< HEAD
-        contentPanel.add(leftColumn, "split 2, spanx, growy");
-        contentPanel.add(rightColumn, "spanx, growy, wrap");
-=======
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
-
->>>>>>> develop
 
         contentPanel.add(assigneeCell, "spanx, growy, wrap");
         
@@ -525,8 +515,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         return parentPanel.aTask;
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Validate assignee buttons
      */
@@ -535,7 +523,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 }
 
 
->>>>>>> develop
 /**
  * @version legacy
  * @author Kevin from the requirements manager sorts the Iterations by date

@@ -47,6 +47,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
     /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
+    private JScrollPane commentScroll;
 
     /**
      * Constructor for the ViewTaskButtonPanel.
@@ -108,6 +109,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         buttonOpenRequirement = new JButton("<");
         // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
+        
+        //Comment Box
+        commentScroll = new JScrollPane();
+        commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setMinimumSize(new Dimension(100, 200));
+        commentScroll.setMaximumSize(new Dimension(800, 300));
+        fillCommentScroll();
 
         // Populate ContentPanel
         // **Title**
@@ -197,11 +205,14 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         contentPanel.add(labelComments, "cell 0 9, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 9, growx, wrap");
 
+        
+        contentPanel.add(commentScroll, "cell 0 10, grow, wrap");
+
         // **Activity Log**
 
         // Activity Title and Separator
-        contentPanel.add(labelActivityLog, "cell 0 10, split 2, span");
-        contentPanel.add(new JSeparator(), "cell 0 10, growx, wrap");
+        contentPanel.add(labelActivityLog, "cell 0 11, split 2, span");
+        contentPanel.add(new JSeparator(), "cell 0 11, growx, wrap");
 
         this.setViewportView(contentPanel);
     }
