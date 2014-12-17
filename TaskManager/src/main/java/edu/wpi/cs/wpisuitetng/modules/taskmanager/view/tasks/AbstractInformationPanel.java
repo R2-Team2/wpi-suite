@@ -248,6 +248,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         attributePane = new TaskTabPane(getTask(), parentPanel);
         if (getTask() != null) {
             attributePane.loadComments();
+            attributePane.loadActivities();
             addComCell = true;
         }
 

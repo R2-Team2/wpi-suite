@@ -25,6 +25,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
@@ -85,7 +86,8 @@ public class TaskCommentPanel extends JPanel {
         final GridBagConstraints bc = new GridBagConstraints();
 
         // Create new scroll pane for notes
-        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -121,6 +123,8 @@ public class TaskCommentPanel extends JPanel {
         if (currentTask != null) {
             refresh();
         }
+        final JScrollBar vertical = commentScroll.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
     }
     
     /**
