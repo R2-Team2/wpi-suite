@@ -71,14 +71,15 @@ public class Task extends AbstractModel {
      * @param taskID the task id
      * @param title the title
      * @param description the description
-     * @param estimatedEffort the estimated effort
-     * @param actualEffort the actual effort
-     * @param status the status
-     * @param requirement the requirement
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
      * @param startDate the start date
      * @param dueDate the due date
      * @param assignedUsers the assigned users
      * @param activityList the activity list
+     * @param priority the priority of the task, such as "major" or "minor"
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,

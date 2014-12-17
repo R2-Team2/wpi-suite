@@ -59,7 +59,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  */
 @SuppressWarnings("serial")
 public class AbstractInformationPanel extends JScrollPane {
-    public AbstractInformationPanel() {}
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -467,9 +466,9 @@ public class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
     /**
