@@ -22,6 +22,8 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -45,7 +47,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-        .requestAllUsers();
+                .requestAllUsers();
         setupListeners();
     }
 
@@ -57,7 +59,15 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.setText(parentPanel.aTask.getTitle());
         boxDescription.setText(parentPanel.aTask.getDescription());
         dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-        dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
+
+
+        @SuppressWarnings("deprecation")
+        final Requirement requirement =
+                parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
+                        .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
+                        "None", "Easter Egg");
+
+        dropdownRequirement.setSelectedItem(requirement);
         for (String username : parentPanel.aTask.getAssignedUsers()) {
             new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
         }
@@ -291,7 +301,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final int estimatedEffort = (int) getEstimatedEffort().getValue();
         final int actualEffort = (int) getActualEffort().getValue();
         final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-        final String requirement = getRequirement().getSelectedItem().toString();
+        final int requirement = ((Requirement) getRequirement().getSelectedItem()).getId();
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
