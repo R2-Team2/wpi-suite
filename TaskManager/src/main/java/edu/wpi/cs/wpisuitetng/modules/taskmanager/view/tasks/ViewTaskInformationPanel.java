@@ -113,7 +113,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         //Comment Box
         commentScroll = new JScrollPane();
         commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        commentScroll.setMinimumSize(new Dimension(100, 200));
+        commentScroll.setMinimumSize(new Dimension(100, 300));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
 

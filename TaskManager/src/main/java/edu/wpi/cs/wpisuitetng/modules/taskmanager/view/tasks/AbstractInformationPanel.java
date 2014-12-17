@@ -254,8 +254,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel possibleAssigneeCell = new JPanel(new MigLayout());
         final JPanel manageAssigneeCell = new JPanel(new MigLayout());
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
-
-        final JPanel commentCell = new JPanel(new MigLayout());
         
         boolean addComCell = false;
         
@@ -264,6 +262,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             attributePane.loadComments();
             addComCell = true;
         }
+        
+        attributePane.setMaximumSize(new Dimension(600, 400));
 
         // Assignee view created and populated to the bottom Panel
         possibleAssigneeList.setBorder(defaultBorder);
