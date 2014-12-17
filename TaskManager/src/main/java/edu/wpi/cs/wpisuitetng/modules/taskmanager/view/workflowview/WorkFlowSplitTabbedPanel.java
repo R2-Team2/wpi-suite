@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.EditTaskPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 
 /**
@@ -49,8 +50,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     /**
      * Instantiates a new work flow split tabbed panel.
      *
-     * @param parentPanel
-     *            the parent panel
+     * @param parentPanel the parent panel
      */
     public WorkFlowSplitTabbedPanel(WorkFlowSplitView parentPanel) {
         this.parentPanel = parentPanel;
@@ -116,8 +116,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
                 JButton tmpButton = (JButton) action.getSource();
 
                 // get previously defined action command (sort of identifier)
-                final String clickedActionCommand = tmpButton
-                        .getActionCommand();
+                final String clickedActionCommand = tmpButton.getActionCommand();
 
                 // for all tabs in tabpane
                 for (int i = 0; i < thisPane.getTabCount(); i++) {
@@ -171,8 +170,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
     /**
      * Add new tab with the given panel.
      *
-     * @param aPanel
-     *            panel to view
+     * @param aPanel panel to view
      */
     public void addViewTaskTab(AbstractTaskPanel aPanel) {
         String title = aPanel.getTitle();
@@ -200,8 +198,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
             // create a "cross" button
             final JButton tabCloseButton = new JButton("\u2716");
             tabCloseButton.setActionCommand("" + getTabCount());
-            tabCloseButton.setFont(tabCloseButton.getFont().deriveFont(
-                    (float) 8));
+            tabCloseButton.setFont(tabCloseButton.getFont().deriveFont((float) 8));
             tabCloseButton.setMargin(new Insets(0, 0, 0, 0));
 
             final ActionListener closeButtonListener;
@@ -214,29 +211,29 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
 
                     // get previously defined action command (sort of
                     // identifier)
-                    final String clickedActionCommand = tmpButton
-                            .getActionCommand();
+                    final String clickedActionCommand = tmpButton.getActionCommand();
 
                     // for all tabs in tabpane
                     for (int i = 0; i < thisPane.getTabCount(); i++) {
 
                         // get a panel of current tab component
-                        JPanel tabPanel = (JPanel) thisPane
-                                .getTabComponentAt(i);
+                        JPanel tabPanel = (JPanel) thisPane.getTabComponentAt(i);
 
                         // take a button from it
                         tmpButton = (JButton) tabPanel.getComponent(1);
 
                         // retrieve its action command
-                        String actualActionCommand = tmpButton
-                                .getActionCommand();
+                        String actualActionCommand = tmpButton.getActionCommand();
 
                         // if this command is equal to that of clicked button,
                         // then
                         // we've found our tab
                         if (clickedActionCommand.equals(actualActionCommand)) {
-                            thisPane.removeTabAt(i); // and we remove it
-                            thisPane.checkForHide();
+                            if (thisPane.getComponentAt(i) instanceof EditTaskPanel) {
+                                ((EditTaskPanel) thisPane.getComponentAt(i)).cancelPressed();
+                            } else {
+                                ((AbstractTaskPanel) thisPane.getComponentAt(i)).cancelPressed();
+                            }
                             break;
                         }
                     }
