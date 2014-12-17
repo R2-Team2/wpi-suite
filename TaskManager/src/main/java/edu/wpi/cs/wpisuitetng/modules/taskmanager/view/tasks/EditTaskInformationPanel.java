@@ -26,7 +26,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersContro
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskInformationPanel.
  *
@@ -46,7 +45,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -270,10 +269,6 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
-     */
     @Override
     public Task getTask() {
         final long id = parentPanel.aTask.getTaskID();
@@ -294,8 +289,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
         final Date date = new Date();
         final String user = ConfigManager.getConfig().getUserName();
-        String createActivity =
-                "Updated Task at " + dateFormat.format(date) + " (by " + user + ")";
+        String createActivity = "Updated Task at " + dateFormat.format(date) + " (by " + user + ")";
         if (status.equals(new TaskStatus("archived"))) {
             createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
         }

@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ViewTaskInformationPanel.
  *
@@ -64,14 +63,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         Collections.sort(requirements, new RequirementComparator());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#buildLayout()
-     */
     @Override
     public void buildLayout() {
-        this.setMinimumSize(new Dimension(540, 200));
+        setMinimumSize(new Dimension(540, 200));
         // Set the Panel
         final ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "20[grow,fill]20",
@@ -202,7 +196,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         activities = new JList(viewTask.getActivityList().toArray());
         contentPanel.add(activities, "cell 0 11,grow");
 
-        this.setViewportView(contentPanel);
+        setViewportView(contentPanel);
     }
 
     /**
@@ -255,6 +249,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
+    <<<<<<< HEAD
     /*
      * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
@@ -265,13 +260,15 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return null;
     }
 
-    /**
-     * Gets the current requirement.
-     *
-     * @return selected requirement object
-     * @throws Exception the exception
-     */
-    private Requirement getCurrentRequirement() throws Exception {
+    =======
+            >>>>>>> develop
+            /**
+             * Gets the current requirement.
+             *
+             * @return selected requirement object
+             * @throws Exception the exception
+             */
+            private Requirement getCurrentRequirement() throws Exception {
         final String reqName = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {

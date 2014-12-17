@@ -45,7 +45,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
@@ -287,7 +286,6 @@ public class AbstractInformationPanel extends JScrollPane {
                 validateRequirementView();
             }
         });
-
 
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
