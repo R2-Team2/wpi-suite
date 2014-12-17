@@ -18,7 +18,6 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -75,7 +74,7 @@ public class ViewTaskInformationPanelTest {
         assertEquals(new Dimension(540, 200), viewPanel.getMinimumSize());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetTask() {
         viewPanel.getTask();
     }

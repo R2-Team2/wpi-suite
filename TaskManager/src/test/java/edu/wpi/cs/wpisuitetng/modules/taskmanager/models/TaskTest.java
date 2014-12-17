@@ -76,7 +76,7 @@ public class TaskTest {
         assertEquals(t1.getDueDate(), date);
         // TODO: get activityList to work
         // assertTrue(t1.getActivityList().size() >= (int)0);
-        assertEquals(t1.getRequirement(), "Requirement");
+        assertEquals(t1.getRequirement(), -1);
         assertEquals(t1.getStatus(), newest);
     }
 
@@ -269,7 +269,10 @@ public class TaskTest {
         assertEquals(t1.getActivityList(), testFromJson.getActivityList());
         assertEquals(t1.getActualEffort(), testFromJson.getActualEffort());
         assertEquals(t1.getAssignedUsers(), testFromJson.getAssignedUsers());
-        assertEquals(t1.getComments(), testFromJson.getComments());
+        for (int i = 0; i < t1.getComments().getComments().size(); i++) {
+            assertEquals(t1.getComments().getComments().get(i), testFromJson.getComments()
+                    .getComments().get(i));
+        }
         assertEquals(t1.getDescription(), testFromJson.getDescription());
         // assertEquals(t1.getDueDate(), testFromJson.getDueDate());
         assertEquals(t1.getEstimatedEffort(), testFromJson.getEstimatedEffort());

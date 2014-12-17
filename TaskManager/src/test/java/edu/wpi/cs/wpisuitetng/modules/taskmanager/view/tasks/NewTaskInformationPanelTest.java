@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -41,11 +40,13 @@ public class NewTaskInformationPanelTest {
         when(mockTask.getDescription()).thenReturn("Test NewTaskInformationPanelTest");
         when(mockTask.getDueDate()).thenReturn(new Date());
         when(mockTask.getEstimatedEffort()).thenReturn(2);
-        when(mockTask.getRequirement()).thenReturn(null);
+        when(mockTask.getRequirement()).thenReturn(0);
         when(mockTask.getStartDate()).thenReturn(new Date());
         when(mockTask.getTitle()).thenReturn("Mock Task");
         when(mockTask.getUserForTaskCard()).thenReturn("Tester");
         when(mockTask.getStatus()).thenReturn(new TaskStatus("New"));
+
+        mockNewTaskPanel.aTask = mockTask;
 
         Request mockReq = mock(Request.class);
         Network mockNet = mock(Network.class);
@@ -65,10 +66,10 @@ public class NewTaskInformationPanelTest {
         assertEquals(new Dimension(540, 200), newPanel.getMinimumSize());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetTask() {
         NewTaskInformationPanel newPanel = new NewTaskInformationPanel(mockNewTaskPanel);
-        newPanel.getTask();
+        assertEquals(newPanel.getTask().getTitle(), mockNewTaskPanel.aTask.getTitle());
     }
 
     @After
