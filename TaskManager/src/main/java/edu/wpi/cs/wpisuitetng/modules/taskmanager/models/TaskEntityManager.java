@@ -4,8 +4,7 @@
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
  * R2-Team2
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
-
+package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.util.List;
 
@@ -20,10 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,47 +39,15 @@ public class TaskEntityManager implements EntityManager<Task> {
      */
     public TaskEntityManager(Data db) {
         this.db = db;
-
     }
 
     @Override
     public Task makeEntity(Session s, String content) throws WPISuiteException {
-        System.out.println("begin make entity");
+
         final Task newMessage = Task.fromJson(content);
-        final List<Model> idList = db.retrieveAll(new IDNum(db));
-        // List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 
-        final IDNum[] idArry = idList.toArray(new IDNum[0]);
-        if (idArry.length == 0) {
-            System.out.println("Creating new IDNum object");
-            // Initialize ID
-            final IDNum idStore = new IDNum(db);
-            db.save(idStore);
-
-            newMessage.setTaskID(idStore.getAndIncID());
-            System.out.println("gave task new id: " + newMessage.toJson());
-
-            if (!db.save(newMessage, s.getProject())) {
-                throw new WPISuiteException("Unable to save TNG");
-            }
-
-            db.save(newMessage, s.getProject());
-        } else {
-            System.out.println("retrieved id list");
-            System.out.println("id object: " + idArry[0].toJson());
-            newMessage.setTaskID(idArry[0].getAndIncID());
-
-            System.out.println("id: " + idList.get(0).toJson());
-
-
-            // IDNum idObj[] = idList.toArray(new IDNum[0]);
-
-            if (!db.save(newMessage, s.getProject())) {
-                throw new WPISuiteException("Unable to save TNG");
-            }
-
-            db.save(newMessage, s.getProject());
-            System.out.println("New Message TaskID: " + newMessage.getTaskID());
+        if (!db.save(newMessage, s.getProject())) {
+            throw new WPISuiteException("Unable to save TNG");
         }
 
         return newMessage;
@@ -108,8 +71,7 @@ public class TaskEntityManager implements EntityManager<Task> {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
                 db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), -1, null, null,
-                        null, null, null, ""), s.getProject());
-
+                        null, null, null, null), s.getProject());
 
         // Convert the List into an array
         return tasks.toArray(new Task[0]);
@@ -117,35 +79,24 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public Task update(Session s, String content) throws WPISuiteException {
-        System.out.println("update method called in Task Entity Manager");
-
         final Task updatedTask = Task.fromJson(content);
-        System.out.println("updatedTask: " + updatedTask.toJson());
 
-        /*
-         * Because of the disconnected objects problem in db4o, we can't just save tasks. We have to
-         * get the original defect from db4o, copy properties from updatedTask, then save the
-         * original Task again.
-         */
-
+        // Retrieve the original Task
         final List<Model> oldTasks =
-                db.retrieve(Task.class, "taskID", updatedTask.getTaskID(), s.getProject());
+                db.retrieve(Task.class, "id", updatedTask.getTaskID(), s.getProject());
         if (oldTasks.size() < 1 || oldTasks.get(0) == null) {
-            throw new BadRequestException("Requirement with ID does not exist.");
+            throw new BadRequestException("Task with ID does not exist.");
         }
 
+        // Update the original Task with new values
         final Task existingTask = (Task) oldTasks.get(0);
+        existingTask.update(updatedTask);
 
-        // copy values to old requirement and fill in our changeset appropriately
-        existingTask.copyFrom(updatedTask);
 
+        // Save the original Task, now updated
         if (!db.save(existingTask, s.getProject())) {
-            throw new WPISuiteException("Task save to database failed!");
+            throw new WPISuiteException("Unable to save TNG");
         }
-
-        // db.save(updatedTask, s.getProject());
-
-        System.out.println("Updated Task Success: " + existingTask.toJson());
         return existingTask;
     }
 
@@ -157,7 +108,6 @@ public class TaskEntityManager implements EntityManager<Task> {
      */
     @Override
     public void save(Session s, Task model) {
-        System.out.println("Task Entity Manager is Saving");
         db.save(model);
     }
 
@@ -187,10 +137,8 @@ public class TaskEntityManager implements EntityManager<Task> {
     @Override
     public int Count() {
         return db.retrieveAll(
-
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), -1, null, null, null, null, ""))
-                .size();
-
+                new Task(0, null, null, 0, 0, new TaskStatus("new"), -1, null, null, null, null,
+                        null, null)).size();
     }
 
     /**
@@ -225,8 +173,6 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public String advancedPost(Session s, String string, String content) {
-        System.out.println("Task Entity Manager is in advancedPost");
-
         return null;
     }
 

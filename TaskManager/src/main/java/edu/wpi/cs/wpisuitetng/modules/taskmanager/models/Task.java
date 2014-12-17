@@ -18,11 +18,10 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 /**
  * The Class Task.
@@ -68,48 +67,18 @@ public class Task extends AbstractModel {
     /** The comment thread on the task. */
     private CommentList comments;
 
+    private String priority;
+
     /**
      * Instantiates a new task.
      *
      * @param taskID the task id
      * @param title the title
      * @param description the description
-     * @param estimatedEffort the estimated effort
-     * @param actualEffort the actual effort
-     * @param status the status
-     * @param requirement the requirement
-     * @param startDate the start date
-     * @param dueDate the due date
-     * @param assignedUsers the assigned users
-     * @param activityList the activity list
-     */
-    public Task(long taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
-            List<String> assignedUsers, List<String> activityList) {
-        this.taskID = taskID;
-        this.title = title;
-        this.description = description;
-        this.estimatedEffort = estimatedEffort;
-        this.actualEffort = actualEffort;
-        this.status = status;
-        this.requirement = requirement;
-        this.startDate = startDate;
-        this.dueDate = dueDate;
-        this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
-        this.activityList = activityList;
-        comments = new CommentList();
-    }
-    
-    /**
-     * Initiates a new Task with comments
-     * 
-     * @param taskID the task id
-     * @param title the title
-     * @param description the description
-     * @param estimatedEffort the estimated effort
-     * @param actualEffort the actual effort
-     * @param status the status
-     * @param requirement the requirement
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
      * @param startDate the start date
      * @param dueDate the due date
      * @param assignedUsers2 the assigned users
@@ -119,11 +88,86 @@ public class Task extends AbstractModel {
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
             List<String> assignedUsers2, List<String> activityList, CommentList commentList) {
-        this(taskID, title, description, estimatedEffort, actualEffort, status, requirement,
-                startDate, dueDate, assignedUsers2, activityList);
+
+
         if (commentList != null) {
             comments = commentList;
         }
+        priority = "No priority.";
+    }
+
+
+    /**
+     * Description
+     *
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param commentList the object holding the list of comments
+     * @param priority the priority of the task, such as "major" or "minor"
+     */
+    public Task(long taskID, String title, String description, int estimatedEffort,
+            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
+            List<String> assignedUsers2, List<String> activityList, CommentList commentList,
+            String priority) {
+        this.taskID = taskID;
+        this.title = title;
+        this.description = description;
+        this.estimatedEffort = estimatedEffort;
+        this.actualEffort = actualEffort;
+        this.status = status;
+        this.requirement = requirement;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
+        this.activityList = activityList;
+        this.priority = priority;
+
+        if (commentList != null) {
+            comments = commentList;
+        }
+
+    }
+
+    /**
+     * Description
+     *
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param priority the priority of the task, such as "major" or "minor"
+     */
+    public Task(long taskID, String title, String description, int estimatedEffort,
+            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
+            List<String> assignedUsers2, List<String> activityList, String priority) {
+        this.taskID = taskID;
+        this.title = title;
+        this.description = description;
+        this.estimatedEffort = estimatedEffort;
+        this.actualEffort = actualEffort;
+        this.status = status;
+        this.requirement = requirement;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
+        this.activityList = activityList;
+        this.priority = priority;
     }
 
     /*
@@ -310,6 +354,7 @@ public class Task extends AbstractModel {
         return taskID;
     }
 
+
     /**
      * Sets the task id.
      *
@@ -354,6 +399,22 @@ public class Task extends AbstractModel {
         }
         return deletedUser;
     }
+
+    /**
+     * @return the priority
+     */
+    public String getPriority() {
+        return priority;
+    }
+
+    /**
+     * @return the priority
+     */
+    public void setPriority(String newPriority) {
+        priority = newPriority;
+    }
+
+
 
     /**
      * Gets the assigned users.
@@ -401,6 +462,7 @@ public class Task extends AbstractModel {
 
     /**
      * Adds a message to the list of comments
+     *
      * @param msg
      */
     public void addComment(String msg) {
@@ -485,7 +547,7 @@ public class Task extends AbstractModel {
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
-    
+
     /**
      * Sets this Task's status to archived
      */
@@ -526,8 +588,10 @@ public class Task extends AbstractModel {
     }
 }
 
+
 /**
  * TODO FIXME copied directly from RequirementManager
+ *
  * @version legacy
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
@@ -537,19 +601,19 @@ class IterationComparator implements Comparator<Iteration> {
         int result = 0;
         if (I1.getStart() == null) {
             result = -1;
-        }
-        else if (I2.getStart() == null) {
+        } else if (I2.getStart() == null) {
             result = 1;
-        }
-        else {
+        } else {
             result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
         }
         return result;
     }
 }
 
+
 /**
  * TODO FIXME copied directly from RequirementManager
+ *
  * @version legacy
  * @author Kevin from the requirements manager sorts Requirements by name
  */

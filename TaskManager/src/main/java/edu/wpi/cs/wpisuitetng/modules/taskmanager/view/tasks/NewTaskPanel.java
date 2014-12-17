@@ -195,4 +195,14 @@ public class NewTaskPanel extends AbstractTaskPanel {
     public void setButtPanel(NewTaskButtonPanel aPanel) {
         buttonPanel = aPanel;
     }
+
+    /**
+     * Description goes here.
+     *
+     * @return
+     */
+    public String getPriority() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

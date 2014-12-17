@@ -308,6 +308,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
+        final String priority = getPriority().toString();
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
@@ -329,7 +330,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, activityList, commentList);
+                        requirement, startDate, dueDate, assignedUsers, activityList, commentList,
+                        priority);
+
         updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }
@@ -342,4 +345,5 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
         buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
     };
+
 }

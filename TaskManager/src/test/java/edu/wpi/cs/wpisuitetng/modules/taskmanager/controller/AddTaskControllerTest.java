@@ -1,7 +1,10 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.controller;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 public class AddTaskControllerTest {
@@ -26,9 +28,10 @@ public class AddTaskControllerTest {
     @Before
     public void setUp() throws Exception {
         task =
-                new Task(0, "The Title", "Brief description", 1, 2, new TaskStatus("running"),
-                        -1, new Date(), new Date(), new ArrayList<String>(),
-                        new ArrayList<String>());
+                new Task(0, "The Title", "Brief description", 1, 2, new TaskStatus("running"), -1,
+                        new Date(), new Date(), new ArrayList<String>(), new ArrayList<String>(),
+                        "");
+
 
         view = mock(NewTaskPanel.class);
         when(view.getTitle()).thenReturn(task.getTitle());

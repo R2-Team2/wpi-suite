@@ -1,6 +1,14 @@
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +18,6 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import static org.mockito.Mockito.*;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -59,13 +66,18 @@ public class TaskEntityManagerTest {
         });
 
         manager = new TaskEntityManager(db);
-        task1 = new Task(0, "Task 1", "to be stored", 0, 0, null, -1, null, null, null, null);
-        task2 = new Task(0, "Task 2", "to be stored", 0, 0, null, -1, null, null, null, null);
-        task3 = new Task(0, "Task 3", "to be stored", 0, 0, null, -1, null, null, null, null);
 
-        task4 = new Task(4, "Task 4", "to be retrieved", 0, 0, null, -1, null, null, null, null);
-        task5 = new Task(5, "Task 5", "to be retrieved", 0, 0, null, -1, null, null, null, null);
-        task6 = new Task(6, "Task 6", "to be retrieved", 0, 0, null, -1, null, null, null, null);
+        task1 = new Task(0, "Task 1", "to be stored", 0, 0, null, -1, null, null, null, null, "");
+        task2 = new Task(0, "Task 2", "to be stored", 0, 0, null, -1, null, null, null, null, "");
+        task3 = new Task(0, "Task 3", "to be stored", 0, 0, null, -1, null, null, null, null, "");
+
+        task4 =
+                new Task(4, "Task 4", "to be retrieved", 0, 0, null, -1, null, null, null, null, "");
+        task5 =
+                new Task(5, "Task 5", "to be retrieved", 0, 0, null, -1, null, null, null, null, "");
+        task6 =
+                new Task(6, "Task 6", "to be retrieved", 0, 0, null, -1, null, null, null, null, "");
+
 
         user = new User("jdoe", "John Doe", "xyzzy", 1);
         user.setRole(Role.ADMIN);
@@ -198,7 +210,7 @@ public class TaskEntityManagerTest {
         when(db.retrieve(eq(Task.class), eq("id"), eq(5), any())).thenReturn(taskList);
         // If delete is called on a task, return task5
         when(db.delete(isA(Task.class))).thenReturn(
-                new Task(0, null, null, 0, 0, null, -1, null, null, null, null));
+                new Task(0, null, null, 0, 0, null, -1, null, null, null, null, null, null));
 
         assertTrue(manager.deleteEntity(s, "5"));
     }

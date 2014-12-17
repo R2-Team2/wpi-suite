@@ -63,20 +63,26 @@ public class AddTaskController {
             assignedUsers.add(u.getUsername());
         }
         final List<String> activityList = new ArrayList<String>();
+
+        final String priority = view.getPriority();
+
         final Task newTask;
         // TODO: Create a comment section
         // final String comment = view.getComment();
         // Create Task
-        newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
-                status, requirement, startDate, dueDate, assignedUsers, activityList);
+        newTask =
+                new Task(taskID, title, description, estimatedEffort, actualEffort, status,
+                        requirement, startDate, dueDate, assignedUsers, activityList, priority);
+
 
         // Create activity entry
         // Code inspired by mkyong
         final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
         final Date date = new Date();
         final String user = ConfigManager.getConfig().getUserName();
-        final String createActivity = "Created task at " + dateFormat.format(date) + " (by "
-                + user + ")";
+        final String createActivity =
+                "Created task at " + dateFormat.format(date) + "(" + user + ")";
+
         newTask.addActivity(createActivity); // add activity entry to activity list
 
         // TODO: Add comment

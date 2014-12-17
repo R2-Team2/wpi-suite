@@ -72,6 +72,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             new TaskStatus("Completed").toString(), new TaskStatus("Archived").toString()};
     // the above needs to be converted to a list of TaskStatus
 
+    /** The string array of priority values. */
+    protected String[] possiblePriorities = new String[] {"Minor", "Major", "Critical", "Blocker"};
+
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
@@ -86,6 +89,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The dropdown requirement. */
     protected JComboBox<Requirement> dropdownRequirement;
+
+    /** The dropdown of priorities. */
+    protected JComboBox<String> dropdownPriority;
 
     /** The list chosen assignees. */
     protected JList<User> chosenAssigneeList;
@@ -170,6 +176,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
+        final JLabel labelPriority = new JLabel("Priority: ");
 
         // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
@@ -197,6 +204,11 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         dropdownStatus.setModel(new DefaultComboBoxModel<String>(listOfStatuses));
         dropdownStatus.setEnabled(true);
         dropdownStatus.setBackground(Color.WHITE);
+
+        dropdownPriority = new JComboBox<String>();
+        dropdownPriority.setModel(new DefaultComboBoxModel<String>(possiblePriorities));
+        dropdownPriority.setEnabled(true);
+        dropdownPriority.setBackground(Color.WHITE);
         // Lists and Models
         chosenAssigneeModel = new DefaultListModel<User>();
         chosenAssigneeList = new JList<User>(chosenAssigneeModel);
@@ -276,7 +288,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         leftColumn.add(dropdownStatus, "left, width 200px, wrap");
         leftColumn.add(labelRequirement, "left, wrap");
         leftColumn.add(dropdownRequirement, "left, width 200px");
-
         leftColumn.add(buttonOpenRequirement, "left, wrap");
         validateRequirementView();
         dropdownRequirement.addActionListener(new ActionListener() {
@@ -285,7 +296,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
                 validateRequirementView();
             }
         });
-
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -296,9 +306,11 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(calDueDate, "left, wrap");
 
 
+
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
+
 
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
@@ -354,20 +366,30 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * Returns the JComboBox holding the status.
      *
-     * @return JComboBox<String>
+     * @return JComboBox<String> The status of the task, such as "New" or "Completed"
      */
     public JComboBox<String> getStatus() {
         return dropdownStatus;
     }
 
     /**
-     * Returns the JComboBox holding the Requirement.
+     * Returns the JComboBox holding the Requirement. <<<<<<< HEAD
      *
-     * @return JComboBox<Requirement>
+     * @return JComboBox<String> The requirements the task is tied to. =======
+     * @return JComboBox<Requirement> >>>>>>> develop
      */
     // TODO rename this to getRequirementComboBox
     public JComboBox<Requirement> getRequirement() {
         return dropdownRequirement;
+    }
+
+    /**
+     * Returns the JComboBox holding the list of Priorities.
+     *
+     * @return JComboBox<String> The priority the task is set to.
+     */
+    public JComboBox<String> getPriority() {
+        return dropdownPriority;
     }
 
     /**
@@ -440,9 +462,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-                .editRequirement(getSelectedRequirement());
+        .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                .openRequirementsTab();
+        .openRequirementsTab();
     }
 
     /**
