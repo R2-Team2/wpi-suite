@@ -462,5 +462,6 @@ public class Task extends AbstractModel {
         activityList = toCopyFrom.activityList;
         requirement = toCopyFrom.requirement;
         status = toCopyFrom.status;
+        comments = toCopyFrom.comments;
     }
 }
