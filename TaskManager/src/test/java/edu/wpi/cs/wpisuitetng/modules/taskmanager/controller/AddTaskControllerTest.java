@@ -28,9 +28,10 @@ public class AddTaskControllerTest {
     @Before
     public void setUp() throws Exception {
         task =
-                new Task(0, "The Title", "Brief description", 1, 2, new TaskStatus("running"),
-                        "some requirement", new Date(), new Date(), new ArrayList<String>(),
-                        new ArrayList<String>(), "");
+                new Task(0, "The Title", "Brief description", 1, 2, new TaskStatus("running"), -1,
+                        new Date(), new Date(), new ArrayList<String>(), new ArrayList<String>(),
+                        "");
+
 
         view = mock(NewTaskPanel.class);
         when(view.getTitle()).thenReturn(task.getTitle());

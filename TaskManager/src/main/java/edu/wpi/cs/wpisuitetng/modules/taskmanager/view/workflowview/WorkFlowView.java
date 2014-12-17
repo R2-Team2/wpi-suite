@@ -11,8 +11,10 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
@@ -34,6 +36,8 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The task status views. */
     List<TaskStatusView> views;
+    
+    final JButton collapseSideButton;
 
     /**
      * Create the panel.
@@ -47,23 +51,30 @@ public class WorkFlowView extends AbsWorkFlowView {
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        // this.add(hbar, BorderLayout.SOUTH);
-        // JScrollPane scrollPane = new JScrollPane();
-        // this.add(scrollPane, BorderLayout.SOUTH);
+        
+        final JPanel collapseButtonPanel = new JPanel();
+        collapseSideButton = new JButton(">");
+        collapseButtonPanel.setLayout(new MigLayout());
+        collapseSideButton.setBounds(10, 10, 10, 10);
+        collapseButtonPanel.add(collapseSideButton, "");
+        this.add(collapseButtonPanel, BorderLayout.EAST);
+        
+        
 
         taskStatusPanel = new JPanel();
-        this.add(taskStatusPanel, BorderLayout.CENTER);
+        this.add(new JScrollPane(taskStatusPanel), BorderLayout.CENTER);
         final TaskStatusView taskStatusNew = new TaskStatusView(new TaskStatus("New"));
         final TaskStatusView taskStatusSelDev =
                 new TaskStatusView(new TaskStatus("Selected for Development"));
         final TaskStatusView taskStatusInDev =
                 new TaskStatusView(new TaskStatus("Currently in Development"));
         final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
+        final TaskStatusView taskStatusArchived = new TaskStatusView(new TaskStatus("Archived"));
 
         taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
-                		+ "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                		+ "[350px:n:500px,grow,left]", "[278px,grow 500]"));
+        .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                        + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -125,6 +136,23 @@ public class WorkFlowView extends AbsWorkFlowView {
         }
         revalidate();
         repaint();
+        System.out.println("Refresh Done");
+    }
+
+    @Override
+    public void showArchived(Boolean b, TaskStatusView t) {
+        if (b) {
+            taskStatusPanel.add(t, "cell 4 0,grow");
+            views.add(t);
+            refresh();
+        }
+        else {
+            taskStatusPanel.remove(t);
+            views.remove(t);
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            refresh();
+        }
+
     }
 
 }

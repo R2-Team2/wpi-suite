@@ -41,8 +41,8 @@ public class TaskStatusTest {
         int estimatedEffort2 = 1;
         int actualEffort1 = 1;
         int actualEffort2 = 1;
-        String requirement1 = "Requirement 1";
-        String requirement2 = "Requirement 2";
+        int requirement1 = 1;
+        int requirement2 = 2;
         Date startDate1 = new Date();
         Date startDate2 = new Date();
         Date dueDate1 = new Date();

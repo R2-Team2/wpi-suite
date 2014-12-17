@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.WorkFlowEditView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.ViewTaskPanel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowView;
 
@@ -178,4 +179,14 @@ public class ViewEventController {
         workflow.refresh();
     }
 
+    /**
+     * Passes values to the current workflow's method showArchived
+     * @param b Boolean
+     * @param t TaskStatusView
+     */
+    public void showArchived(Boolean b, TaskStatusView t) {
+        // TODO Auto-generated method stub
+        workflow.showArchived(b, t);
+
+    }
 }

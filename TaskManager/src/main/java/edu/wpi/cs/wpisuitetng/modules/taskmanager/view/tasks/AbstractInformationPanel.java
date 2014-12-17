@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -39,11 +40,11 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.TaskTabPane;
 
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
@@ -51,14 +52,9 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
-/**
- * Description
- *
- * @author Evan
- * @version Dec 17, 2014
- */
+
 @SuppressWarnings("serial")
-public class AbstractInformationPanel extends JScrollPane {
+public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -73,10 +69,8 @@ public class AbstractInformationPanel extends JScrollPane {
     protected String[] listOfStatuses = new String[] {new TaskStatus("New").toString(),
             new TaskStatus("Selected for Development").toString(),
             new TaskStatus("Currently in Development").toString(),
-            new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
-
-    /** The string list of requirements. */
-    protected List<String> strListOfRequirements = new ArrayList<String>();
+            new TaskStatus("Completed").toString(), new TaskStatus("Archived").toString()};
+    // the above needs to be converted to a list of TaskStatus
 
     /** The string array of priority values. */
     protected String[] possiblePriorities = new String[] {"Minor", "Major", "Critical", "Blocker"};
@@ -94,7 +88,7 @@ public class AbstractInformationPanel extends JScrollPane {
     protected JComboBox<String> dropdownStatus;
 
     /** The dropdown requirement. */
-    protected JComboBox<String> dropdownRequirement;
+    protected JComboBox<Requirement> dropdownRequirement;
 
     /** The dropdown of priorities. */
     protected JComboBox<String> dropdownPriority;
@@ -111,6 +105,7 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The spinner actual effort. */
     protected JSpinner spinnerActualEffort;
 
+    /** The List of activities **/
     protected JList<String> activities;
 
     /** The button add. */
@@ -140,6 +135,8 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
+    protected TaskTabPane attributePane;
+
     private final List<String> activityList = new ArrayList<String>();
 
     /**
@@ -156,6 +153,7 @@ public class AbstractInformationPanel extends JScrollPane {
         // (code partially from requirements module overviewtreepanel.java)
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
         Collections.sort(iterations, new IterationComparator());
+        requirements.add(new Requirement(-1, "None", "Easter Egg"));
         for (int i = 0; i < iterations.size(); i++) {
 
             requirements.addAll(iterations.get(i).getRequirements());
@@ -163,20 +161,6 @@ public class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        strListOfRequirements.add("None");
-        for (Requirement requirement : requirements) {
-            if (!requirement.getStatus().equals(RequirementStatus.DELETED)) {
-                String tempName = requirement.getName();
-                if (tempName.length() > 15) {
-                    tempName = tempName.substring(0, 15) + "...";
-                }
-                System.out.println(tempName);
-                strListOfRequirements.add(tempName);
-            }
-        }
-
-        final String[] arrListOfRequirements =
-                strListOfRequirements.toArray(new String[strListOfRequirements.size()]);
 
         // Instantiate GUI Elements
         // Labels
@@ -210,9 +194,10 @@ public class AbstractInformationPanel extends JScrollPane {
         descrScroll.setBorder(defaultBorder);
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
-        dropdownRequirement = new JComboBox<String>();
+        final Vector<Requirement> reqVec = new Vector<Requirement>();
+        reqVec.addAll(requirements);
+        dropdownRequirement = new JComboBox<Requirement>(reqVec);
 
-        dropdownRequirement.setModel(new DefaultComboBoxModel<String>(arrListOfRequirements));
         dropdownRequirement.setEnabled(true);
         dropdownRequirement.setBackground(Color.WHITE);
         dropdownStatus = new JComboBox<String>();
@@ -236,6 +221,7 @@ public class AbstractInformationPanel extends JScrollPane {
         spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         // Buttons
         buttonAdd = new JButton(">>");
+        buttonAdd.setEnabled(false);
         buttonRemove = new JButton("<<");
         buttonAdd.setEnabled(false);
         buttonRemove.setEnabled(false);
@@ -259,35 +245,42 @@ public class AbstractInformationPanel extends JScrollPane {
 
         // Setup GUI
 
-
         // Setup Columns
         final JPanel leftColumn = new JPanel(new MigLayout());
         final JPanel rightColumn = new JPanel(new MigLayout());
 
+        final JPanel assigneeCell = new JPanel(new MigLayout());
 
-        final JPanel bottom = new JPanel(new MigLayout());
+        final JPanel possibleAssigneeCell = new JPanel(new MigLayout());
+        final JPanel manageAssigneeCell = new JPanel(new MigLayout());
+        final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
 
-        final JPanel bottomLeft = new JPanel(new MigLayout());
-        final JPanel bottomCenter = new JPanel(new MigLayout());
-        final JPanel bottomRight = new JPanel(new MigLayout());
+        boolean addComCell = false;
+
+        attributePane = new TaskTabPane(getTask(), parentPanel);
+        if (getTask() != null) {
+            attributePane.loadComments();
+            addComCell = true;
+        }
+
+        attributePane.setMaximumSize(new Dimension(600, 400));
 
         // Assignee view created and populated to the bottom Panel
         possibleAssigneeList.setBorder(defaultBorder);
-        bottomLeft.add(labelPossibleAssignee, "left, wrap");
-        bottomLeft.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
+        possibleAssigneeCell.add(labelPossibleAssignee, "left, wrap");
+        possibleAssigneeCell.add(possibleAssigneeList, "left, width 200px, height 150px, wrap");
 
-        bottomCenter.add(buttonAdd, "center, wrap");
-        bottomCenter.add(buttonRemove, "center, wrap");
+        manageAssigneeCell.add(buttonAdd, "center, wrap");
+        manageAssigneeCell.add(buttonRemove, "center, wrap");
 
         chosenAssigneeList.setBorder(defaultBorder);
-        bottomRight.add(labelChosenAssignee, "left, wrap");
-        bottomRight.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
+        chosenAssigneeCell.add(labelChosenAssignee, "left, wrap");
+        chosenAssigneeCell.add(chosenAssigneeList, "left, width 200px, height 150px, wrap");
 
-        bottom.add(bottomLeft);
-        bottom.add(bottomCenter);
-        bottom.add(bottomRight);
-        bottom.setBorder(defaultBorder);
-
+        assigneeCell.add(possibleAssigneeCell);
+        assigneeCell.add(manageAssigneeCell);
+        assigneeCell.add(chosenAssigneeCell);
+        assigneeCell.setBorder(defaultBorder);
 
         // left and right columns
         leftColumn.add(labelStatus, "left, wrap");
@@ -302,24 +295,8 @@ public class AbstractInformationPanel extends JScrollPane {
                 validateRequirementView();
             }
         });
-
-        leftColumn.add(buttonOpenRequirement, "left, wrap");
-        validateRequirementView();
-        dropdownRequirement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validateRequirementView();
-            }
-        });
-
-
-        // Populate contentPanel
-        contentPanel.add(labelTitle, "wrap");
-        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
-        leftColumn.add(labelPriority, "left, wrap");
-        leftColumn.add(dropdownPriority, "left, width 200px, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
         rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
         rightColumn.add(labelActualEffort, "left, wrap");
@@ -327,22 +304,24 @@ public class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
 
-        contentPanel.add(labelDescription, "wrap");
-        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+
+
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-        contentPanel.add(leftColumn, "left, spany, growy, push");
-        contentPanel.add(rightColumn, "right, spany, growy, push");
+
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
 
+        contentPanel.add(leftColumn, "left, split 2, spanx");
+        contentPanel.add(rightColumn, "right, growx, wrap");
 
-        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
+        contentPanel.add(assigneeCell, "spanx, growy, wrap");
 
-        contentPanel.add(leftColumn, "left, spany, growy, push");
-        contentPanel.add(rightColumn, "right, spany, growy, push");
+        if (addComCell) {
+            contentPanel.add(attributePane, "spanx, grow, wrap");
+        }
 
         setViewportView(contentPanel);
     }
@@ -393,11 +372,13 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
-     * Returns the JComboBox holding the Requirement.
+     * Returns the JComboBox holding the Requirement. <<<<<<< HEAD
      *
-     * @return JComboBox<String> The requirements the task is tied to.
+     * @return JComboBox<String> The requirements the task is tied to. =======
+     * @return JComboBox<Requirement> >>>>>>> develop
      */
-    public JComboBox<String> getRequirement() {
+    // TODO rename this to getRequirementComboBox
+    public JComboBox<Requirement> getRequirement() {
         return dropdownRequirement;
     }
 
@@ -448,14 +429,28 @@ public class AbstractInformationPanel extends JScrollPane {
      * @throws Exception the exception
      */
     private Requirement getSelectedRequirement() throws Exception {
-        final String reqName = (String) dropdownRequirement.getSelectedItem();
+        final Requirement req = (Requirement) dropdownRequirement.getSelectedItem();
 
         for (Requirement requirement : requirements) {
-            if (requirement.getName().equals(reqName)) {
+            if (requirement.getId() == req.getId()) {
                 return requirement;
             }
         }
 
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @param reqId ID number of requirement
+     * @return requirement with given ID
+     * @throws Exception
+     */
+    public Requirement findRequirement(int reqId) throws Exception {
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == reqId) {
+                return requirement;
+            }
+        }
         throw new Exception("Invalid requirement selected");
     }
 
@@ -475,8 +470,9 @@ public class AbstractInformationPanel extends JScrollPane {
      * Validate requirement view.
      */
     private void validateRequirementView() {
-        System.out.println(getRequirement().getSelectedItem());
-        if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
+        // System.out.println(getRequirement().getSelectedItem());
+        if (getRequirement() == null
+                || ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
             buttonOpenRequirement.setEnabled(false);
         } else {
             buttonOpenRequirement.setEnabled(true);
@@ -520,7 +516,7 @@ public class AbstractInformationPanel extends JScrollPane {
      * @return Task
      */
     public Task getTask() {
-        return null;
+        return parentPanel.aTask;
     }
 
     /**

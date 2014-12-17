@@ -55,7 +55,7 @@ public class AddTaskController {
         final int estimatedEffort = view.getEstimatedEffort();
         final int actualEffort = view.getActualEffort();
         final TaskStatus status = new TaskStatus(view.getStatus());
-        final String requirement = view.getRequirement();
+        final int requirement = view.getRequirement();
         final Date startDate = view.getStartDate();
         final Date dueDate = view.getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();

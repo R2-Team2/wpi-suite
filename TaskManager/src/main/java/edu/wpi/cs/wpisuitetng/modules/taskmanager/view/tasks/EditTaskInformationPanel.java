@@ -22,9 +22,12 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 /**
  * The Class EditTaskInformationPanel.
@@ -57,14 +60,22 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         boxTitle.setText(parentPanel.aTask.getTitle());
         boxDescription.setText(parentPanel.aTask.getDescription());
         dropdownStatus.setSelectedItem(parentPanel.aTask.getStatus().toString());
-        dropdownRequirement.setSelectedItem(parentPanel.aTask.getRequirement().toString());
-        for (String username : parentPanel.aTask.getAssignedUsers()) {
-            new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
-        }
-        calStartDate.setDate(parentPanel.aTask.getStartDate());
-        calDueDate.setDate(parentPanel.aTask.getDueDate());
-        spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
-        spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+
+
+        @SuppressWarnings("deprecation")
+        final Requirement requirement =
+        parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
+                .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
+                        "None", "Easter Egg");
+
+                dropdownRequirement.setSelectedItem(requirement);
+                for (String username : parentPanel.aTask.getAssignedUsers()) {
+                    new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+                }
+                calStartDate.setDate(parentPanel.aTask.getStartDate());
+                calDueDate.setDate(parentPanel.aTask.getDueDate());
+                spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+                spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
     }
 
     /**
@@ -106,8 +117,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!chosenAssigneeList.isSelectionEmpty()) {
-                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = possibleAssigneeList.getSelectedIndices();
                     for (int i = toRemove.length - 1; i >= 0; i--) {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
@@ -254,7 +265,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
 
@@ -264,20 +280,29 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
     }
 
-    @Override
-    public Task getTask() {
+    /**
+     * Returns a new task with all of the fields from the task in the Parent Panel
+     * 
+     * @return Task
+     */
+    public Task getTaskFromFields() {
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();
         final int estimatedEffort = (int) getEstimatedEffort().getValue();
         final int actualEffort = (int) getActualEffort().getValue();
         final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-        final String requirement = getRequirement().getSelectedItem().toString();
+        final int requirement = ((Requirement) getRequirement().getSelectedItem()).getId();
         final Date startDate = getStartDate();
         final Date dueDate = getDueDate();
         final List<String> assignedUsers = new ArrayList<String>();
@@ -295,9 +320,17 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
         }
         final Task updatedTask;
+        final CommentList commentList;
+        if (attributePane == null) {
+            commentList = null;
+        } else {
+            commentList = attributePane.getComments();
+        }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, activityList, priority);
+                        requirement, startDate, dueDate, assignedUsers, activityList, commentList,
+                        priority);
+
         updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }

@@ -84,9 +84,10 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
                 || parentPanel.infoPanel.calDueDate.getDate() == null
                 || !(areDatesValid())
-                || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
-                        .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
-                        .getSize() == 0)) {
+                || (!(((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
+                        .equals("Archived") || ((String) parentPanel.infoPanel.dropdownStatus
+                        .getSelectedItem()).equals("New")) && parentPanel.infoPanel.chosenAssigneeList
+                        .getModel().getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
         } else {
@@ -105,8 +106,9 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
     @Override
     public void validateTaskDate() {
         if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-            parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>"
-                    + "Preceeds Start Date</font></html>");
+            parentPanel.infoPanel.labelDueDate
+            .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+
         } else {
             parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
         }
@@ -122,8 +124,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         if (parentPanel.infoPanel.getDueDate() != null
                 && parentPanel.infoPanel.getStartDate() != null) {
             return (parentPanel.infoPanel.getDueDate().after(parentPanel.infoPanel.getStartDate()));
-        }
-        else {
+        } else {
             return true;
         }
     }

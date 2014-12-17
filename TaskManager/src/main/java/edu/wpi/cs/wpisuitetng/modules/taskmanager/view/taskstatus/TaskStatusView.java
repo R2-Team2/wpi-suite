@@ -182,10 +182,15 @@ public class TaskStatusView extends JPanel {
                                         .contains(filterString.toLowerCase());
             }
             if (requirement) {
-                shouldAppear =
-                        shouldAppear
-                                || t.getRequirement().toLowerCase()
-                                        .contains(filterString.toLowerCase());
+                try {
+                    shouldAppear =
+                            shouldAppear
+                                    || t.getRequirementTitle().toLowerCase()
+                                            .contains(filterString.toLowerCase());
+                }
+                catch (Exception e) {
+                    System.out.println("Could not find Requirement");
+                }
             }
             if (assignee) {
                 try {
