@@ -98,7 +98,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
     /** The spinner actual effort. */
     protected JSpinner spinnerActualEffort;
-    
+
     /** The List of activities **/
     protected JList<String> activities;
 
@@ -130,7 +130,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     protected TaskTabPane attributePane;
-    
+
     private final List<String> activityList = new ArrayList<String>();
 
     /**
@@ -166,8 +166,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelActualEffort = new JLabel("Actual Effort: ");
         final JLabel labelDueDate =
                 new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
-        final JLabel labelStartDate =
-                new JLabel("<html>Start Date: </html> ");
+        final JLabel labelStartDate = new JLabel("<html>Start Date: </html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -205,8 +204,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         possibleAssigneeModel = new DefaultListModel<User>();
         possibleAssigneeList = new JList<User>(possibleAssigneeModel);
         possibleAssigneeList.setCellRenderer(new UserRenderer());
-        chosenAssigneeList = new JList<User>();
-        possibleAssigneeList = new JList<User>();
         // Spinners
         spinnerEstimatedEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
         spinnerActualEffort = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
@@ -220,10 +217,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
-        //calStartDate.setDate(Calendar.getInstance().getTime());
+        // calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
-        //calDueDate.setDate(Calendar.getInstance().getTime());
+        // calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
@@ -245,15 +242,15 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JPanel possibleAssigneeCell = new JPanel(new MigLayout());
         final JPanel manageAssigneeCell = new JPanel(new MigLayout());
         final JPanel chosenAssigneeCell = new JPanel(new MigLayout());
-        
+
         boolean addComCell = false;
-        
+
         attributePane = new TaskTabPane(getTask(), parentPanel);
         if (getTask() != null) {
             attributePane.loadComments();
             addComCell = true;
         }
-        
+
         attributePane.setMaximumSize(new Dimension(600, 400));
 
         // Assignee view created and populated to the bottom Panel
@@ -309,8 +306,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(rightColumn, "right, growx, wrap");
 
         contentPanel.add(assigneeCell, "spanx, growy, wrap");
-        
-        if(addComCell) {
+
+        if (addComCell) {
             contentPanel.add(attributePane, "spanx, grow, wrap");
         }
 
@@ -442,9 +439,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-        .editRequirement(getSelectedRequirement());
+                .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-        .openRequirementsTab();
+                .openRequirementsTab();
     }
 
     /**
@@ -452,8 +449,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      */
     private void validateRequirementView() {
         // System.out.println(getRequirement().getSelectedItem());
-        if (getRequirement() == null ||
-                ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
+        if (getRequirement() == null
+                || ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
             buttonOpenRequirement.setEnabled(false);
         } else {
             buttonOpenRequirement.setEnabled(true);
@@ -526,6 +523,7 @@ class IterationComparator implements Comparator<Iteration> {
         return result;
     }
 }
+
 
 /**
  * @version legacy
