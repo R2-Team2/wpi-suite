@@ -71,8 +71,7 @@ public class WorkFlowView extends AbsWorkFlowView {
         final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
         final TaskStatusView taskStatusArchived = new TaskStatusView(new TaskStatus("Archived"));
 
-        taskStatusPanel
-                .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+        taskStatusPanel.setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
                 + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
                 + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
 
@@ -145,8 +144,7 @@ public class WorkFlowView extends AbsWorkFlowView {
             taskStatusPanel.add(t, "cell 4 0,grow");
             views.add(t);
             refresh();
-        }
-        else {
+        } else {
             taskStatusPanel.remove(t);
             views.remove(t);
             refresh();

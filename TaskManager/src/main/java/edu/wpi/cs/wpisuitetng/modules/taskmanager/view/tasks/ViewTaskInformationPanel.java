@@ -109,8 +109,8 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Comment Box
         commentScroll = new JScrollPane();
         commentScroll
-                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        commentScroll.setMinimumSize(new Dimension(100, 300));
+        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
         final JScrollBar vertical = commentScroll.getVerticalScrollBar();
@@ -220,10 +220,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
                         + viewTask.getActivityList().get(i).substring(0, 75)
                         + "<br/>"
                         + viewTask.getActivityList().get(i)
-                        .substring(76, viewTask.getActivityList().get(i).length())
+                                .substring(76, viewTask.getActivityList().get(i).length())
                         + "</html>");
-            }
-            else {
+            } else {
                 tempList.add("<html>" + viewTask.getActivityList().get(i) + "</html>");
             }
         }
@@ -268,8 +267,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
-     * <<<<<<< HEAD >>>>>>> develop Returns the formatted due date of a task. ======= Returns the
-     * formatted due date of a task. >>>>>>> origin/feature-143-activities_to_edit
+     * <<<<<<< HEAD <<<<<<< HEAD >>>>>>> develop Returns the formatted due date of a task. =======
+     * Returns the formatted due date of a task. >>>>>>> origin/feature-143-activities_to_edit
+     * ======= <<<<<<< HEAD Returns the formatted due date of a task. ======= >>>>>>> develop
+     * Returns the formatted due date of a task. >>>>>>> develop >>>>>>> develop
      *
      * @param date the date
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
@@ -329,8 +330,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     /**
      * Refreshes the note panel
      */
-    private void fillCommentScroll()
-    {
+    private void fillCommentScroll() {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
         final JPanel panel = new JPanel();

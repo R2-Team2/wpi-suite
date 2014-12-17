@@ -99,7 +99,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
                         try {
                             desktop.browse(new URL(
                                     "http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki")
-                                    .toURI());
+                            .toURI());
                         } catch (MalformedURLException e1) {
                             e1.printStackTrace();
                         } catch (IOException e1) {
@@ -132,6 +132,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         this.add(contentPanel);
         chckbxShowArchivedTasks.setSelected(false);
         chckbxShowArchivedTasks.setHorizontalAlignment(SwingConstants.LEFT);
+        chckbxShowArchivedTasks.setOpaque(false);
         final TaskStatusView archived = new TaskStatusView(new TaskStatus("Archived"));
 
         // the action listener for the Settings Button
