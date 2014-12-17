@@ -317,7 +317,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             string += " Actual Effort,";
         }
         final TaskStatus status = (new TaskStatus(getStatus().getSelectedItem().toString()));
-        if (!(status.equals(parentPanel.aTask.getStatus()))) {
+        if (!(status.getName().equals(parentPanel.aTask.getStatus().getName()))) {
             string += " Status,";
         }
         final int requirement = ((Requirement) getRequirement().getSelectedItem()).getId();
@@ -352,7 +352,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         } else {
             commentList = attributePane.getComments();
         }
-        if (commentList.equals(parentPanel.aTask.getComments())) {
+        if (!(commentList.getComments().size() == (parentPanel.aTask.getComments().getComments()
+                .size()))) {
             string += " Comments,";
         }
         string = string.substring(0, string.length() - 1);

@@ -109,7 +109,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Comment Box
         commentScroll = new JScrollPane();
         commentScroll
-        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 300));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -155,7 +155,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         } else {
             requirementText =
                     RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
-                            .getName();
+                    .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -220,7 +220,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
                         + viewTask.getActivityList().get(i).substring(0, 75)
                         + "<br/>"
                         + viewTask.getActivityList().get(i)
-                                .substring(76, viewTask.getActivityList().get(i).length())
+                        .substring(76, viewTask.getActivityList().get(i).length())
                         + "</html>");
             }
             else {
@@ -238,7 +238,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     public void setupTask() {
         final Task viewTask = parentPanel.aTask;
-        System.out.println("Pay attention to me: " + viewTask.getActivityList());
 
         // viewTask.getTaskID();
         final String t = viewTask.getTitle();
@@ -319,9 +318,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-                    .getInstance().editRequirement(getCurrentRequirement());
+            .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                    .openRequirementsTab();
+            .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
