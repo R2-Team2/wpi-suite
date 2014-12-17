@@ -64,7 +64,7 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
 
     /**
      * Sets the the visibility of warning label
-     * 
+     *
      * @param warn true to make label visible, false otherwise
      */
     public void setWarning(boolean warn) {
@@ -115,8 +115,8 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
                 || !(areDatesValid())
                 || (!(((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
                         .equals("Archived") || ((String) parentPanel.infoPanel.dropdownStatus
-                        .getSelectedItem()).equals("New")) && parentPanel.infoPanel.chosenAssigneeList
-                        .getModel().getSize() == 0)) {
+                                .getSelectedItem()).equals("New")) && parentPanel.infoPanel.chosenAssigneeList
+                                .getModel().getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
         } else {
@@ -134,12 +134,14 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
      */
     @Override
     public void validateTaskDate() {
-        if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-            parentPanel.infoPanel.labelDueDate
-                    .setText("<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
-
-        } else {
-            parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+        if (parentPanel.infoPanel.getDueDate() != null
+                && parentPanel.infoPanel.getStartDate() != null) {
+            if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
+                parentPanel.infoPanel.labelDueDate.setText("<html>Due Date: <font color='CC0000'>"
+                        + "Preceeds Start Date</font></html>");
+            } else {
+                parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
+            }
         }
     }
 

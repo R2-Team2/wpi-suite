@@ -1,11 +1,8 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors: Team Rolling Thunder
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs;
 
@@ -50,6 +47,7 @@ public class TaskCommentPanel extends JPanel {
     private final JButton buttonClear;
     private final JLabel errorMsg;
     private final UpdateTaskController taskUpdater;
+    private final AbstractTaskPanel parentPanel;
 
     /**
      * Constructor for the requirement note panel
@@ -59,8 +57,9 @@ public class TaskCommentPanel extends JPanel {
      */
     public TaskCommentPanel(Task currentTask, AbstractTaskPanel parentPanel) {
         this.currentTask = currentTask;
+        this.parentPanel = parentPanel;
         commentsAdded = 0;
-        
+
         taskUpdater = new UpdateTaskController(parentPanel);
 
         final Component commentField = buildCommentField();
@@ -86,8 +85,8 @@ public class TaskCommentPanel extends JPanel {
         final GridBagConstraints bc = new GridBagConstraints();
 
         // Create new scroll pane for notes
-        commentScroll.setVerticalScrollBarPolicy(
-                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll
+        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -126,7 +125,7 @@ public class TaskCommentPanel extends JPanel {
         final JScrollBar vertical = commentScroll.getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
     }
-    
+
     /**
      * Prints information on comments to console and calls refresh
      */
@@ -139,8 +138,7 @@ public class TaskCommentPanel extends JPanel {
     /**
      * Refreshes the note panel
      */
-    private void refresh()
-    {
+    private void refresh() {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
         final JPanel panel = new JPanel();
@@ -177,8 +175,7 @@ public class TaskCommentPanel extends JPanel {
     /**
      * Sets up the listeners
      */
-    private void setupListeners()
-    {
+    private void setupListeners() {
         // Listener for add note button
         buttonAddComment.addActionListener(new ActionListener() {
             @Override
@@ -186,8 +183,7 @@ public class TaskCommentPanel extends JPanel {
                 // Display error message if there is no text in noteMessage
                 if (commentMsg.getText().length() <= 0) {
                     errorMsg.setText(" Error: Must add text to create note.");
-                }
-                else {
+                } else {
 
                     final String msg = commentMsg.getText(); // Get text from
                     // noteMessage
@@ -197,10 +193,11 @@ public class TaskCommentPanel extends JPanel {
                     errorMsg.setText("");
                     buttonClear.setEnabled(false);
                     buttonAddComment.setEnabled(false);
+                    parentPanel.getButtonPanel().isTaskInfoValid();
 
                     // Add comment to Task
                     currentTask.addComment(msg);
-                    
+
                     taskUpdater.updateTask(currentTask);
 
                     refresh();
@@ -228,11 +225,9 @@ public class TaskCommentPanel extends JPanel {
      * @return JTextArea
      */
     private Component buildCommentField() {
-        commentMsg.addKeyListener(new KeyAdapter()
-        {
+        commentMsg.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e)
-            {
+            public void keyReleased(KeyEvent e) {
                 final boolean enabledButtons = !commentMsg.getText().trim().isEmpty();
                 buttonAddComment.setEnabled(enabledButtons);
                 buttonClear.setEnabled(enabledButtons);
@@ -245,9 +240,9 @@ public class TaskCommentPanel extends JPanel {
         commentMsg.setWrapStyleWord(true); // Doesn't chop off words
         commentMsg.setMinimumSize(new Dimension(50, 50));
         commentMsg.setSize(new Dimension(100, 100));
-        final Border b = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        final Border b =
+                BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.GRAY),
+                        BorderFactory.createEmptyBorder(4, 4, 4, 4));
         commentMsg.setBorder(b);
 
         final JScrollPane scroller = new JScrollPane(commentMsg);
