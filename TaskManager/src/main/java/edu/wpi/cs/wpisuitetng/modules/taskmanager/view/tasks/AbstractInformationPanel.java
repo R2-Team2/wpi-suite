@@ -319,6 +319,8 @@ public class AbstractInformationPanel extends JScrollPane {
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
+        leftColumn.add(labelPriority, "left, wrap");
+        leftColumn.add(dropdownPriority, "left, width 200px, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
         rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
         rightColumn.add(labelActualEffort, "left, wrap");
@@ -465,9 +467,9 @@ public class AbstractInformationPanel extends JScrollPane {
      */
     public void openSelectedRequirement() throws Exception {
         edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController.getInstance()
-        .editRequirement(getSelectedRequirement());
+                .editRequirement(getSelectedRequirement());
         edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-        .openRequirementsTab();
+                .openRequirementsTab();
     }
 
     /**
