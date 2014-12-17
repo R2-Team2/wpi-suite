@@ -147,7 +147,6 @@ public class WorkFlowView extends AbsWorkFlowView {
         } else {
             taskStatusPanel.remove(t);
             views.remove(t);
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             refresh();
         }
 
