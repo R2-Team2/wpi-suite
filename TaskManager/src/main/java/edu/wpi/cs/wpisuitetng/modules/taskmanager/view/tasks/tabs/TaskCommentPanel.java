@@ -89,7 +89,7 @@ public class TaskCommentPanel extends JPanel {
 
         // Create new scroll pane for notes
         commentScroll
-                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 

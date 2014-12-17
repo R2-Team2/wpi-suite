@@ -356,10 +356,10 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                 .size()))) {
             string += " Comments,";
         }
+
         if (string.length() != 0) {
             string = string.substring(0, string.length() - 1);
         }
-
         String createActivity =
                 "Changed:" + string + " at " + dateFormat.format(date) + " (by " + user + ")";
         if (status.equals(new TaskStatus("archived"))) {
