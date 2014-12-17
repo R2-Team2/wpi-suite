@@ -23,6 +23,7 @@ public class TaskTabPane extends JTabbedPane {
 
     private final Task currentTask;
     private final TaskCommentPanel commentPanel;
+    private final TaskActivitiesPanel activitiesPanel;
     
     /**
      * Constructor for TaskTabPane
@@ -34,6 +35,10 @@ public class TaskTabPane extends JTabbedPane {
 
         commentPanel = new TaskCommentPanel(currentTask, parentPanel);
         this.addTab("Comments", commentPanel);
+        
+        activitiesPanel = new TaskActivitiesPanel(currentTask);
+        
+        this.addTab("Activity Log", activitiesPanel);
     }
     
     /**
@@ -49,5 +54,12 @@ public class TaskTabPane extends JTabbedPane {
      */
     public CommentList getComments() {
         return currentTask.getComments();
+    }
+    
+    /**
+     * Calls refresh() in the activitiesPanel
+     */
+    public void loadActivities() {
+        activitiesPanel.refresh();
     }
 }

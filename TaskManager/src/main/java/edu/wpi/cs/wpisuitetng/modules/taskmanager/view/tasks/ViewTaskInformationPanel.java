@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
@@ -109,9 +110,11 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         commentScroll = new JScrollPane();
         commentScroll
                 .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        commentScroll.setMinimumSize(new Dimension(100, 300));
+        commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
+        final JScrollBar vertical = commentScroll.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
 
         // Populate ContentPanel
         // **Title**
@@ -152,7 +155,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         } else {
             requirementText =
                     RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
-                    .getName();
+                            .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -252,14 +255,15 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
-     * >>>>>>> develop Returns the formatted due date of a task.
+     * <<<<<<< HEAD Returns the formatted due date of a task. ======= >>>>>>> develop Returns the
+     * formatted due date of a task. >>>>>>> develop
      *
      * @param date the date
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
      */
     private String formatDate(Date date) {
         if (date == null) {
-            return "";
+            return "...";
         }
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         final String dateString = dateFormatter.format(date);
@@ -300,9 +304,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-            .getInstance().editRequirement(getCurrentRequirement());
+                    .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-            .openRequirementsTab();
+                    .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -312,8 +316,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     /**
      * Refreshes the note panel
      */
-    private void fillCommentScroll()
-    {
+    private void fillCommentScroll() {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
         final JPanel panel = new JPanel();
