@@ -62,6 +62,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
         // create a task, send to to controller
         final Task updatedTask = infoPanel.getTask();
+        System.out.println("ACTIVITY LIST:  " + updatedTask.getActivityList());
         final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
         updateTaskCntrlr.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
@@ -197,7 +198,8 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
      */
     @Override

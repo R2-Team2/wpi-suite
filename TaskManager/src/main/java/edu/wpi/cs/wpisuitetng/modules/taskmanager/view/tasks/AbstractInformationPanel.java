@@ -97,6 +97,8 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The spinner actual effort. */
     protected JSpinner spinnerActualEffort;
 
+    protected JList<String> activities;
+
     /** The button add. */
     protected JButton buttonAdd;
 
@@ -123,6 +125,8 @@ public class AbstractInformationPanel extends JScrollPane {
 
     /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
+
+    private final List<String> activityList = new ArrayList<String>();
 
     /**
      * Builds the layout.
