@@ -17,11 +17,12 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ViewTaskPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class ViewTaskPanel extends AbstractTaskPanel {
@@ -38,6 +39,9 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buildLayout();
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#buildLayout()
+     */
     @Override
     protected void buildLayout() {
         buttonPanel = new ViewTaskButtonPanel(this);
@@ -49,7 +53,7 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     }
 
     /**
-     * Controller for the edit button listener
+     * Controller for the edit button listener.
      */
     public void editPressed() {
         final Task passTask = aTask;
@@ -183,6 +187,11 @@ public class ViewTaskPanel extends AbstractTaskPanel {
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
+    /**
+     * Sets the info panel.
+     *
+     * @param aPanel the new info panel
+     */
     public void setInfoPanel(AbstractInformationPanel aPanel) {
         infoPanel = aPanel;
     }
@@ -196,6 +205,9 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
+     */
     @Override
     public void createPressed() {
         // TODO Auto-generated method stub
