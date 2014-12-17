@@ -45,7 +45,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Itera
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
@@ -285,7 +284,6 @@ public class AbstractInformationPanel extends JScrollPane {
             }
         });
 
-
         leftColumn.add(labelStartDate, "left, wrap");
         leftColumn.add(calStartDate, "left, wrap");
         rightColumn.add(labelEstimatedEffort, "left, wrap");
@@ -363,7 +361,8 @@ public class AbstractInformationPanel extends JScrollPane {
         return spinnerEstimatedEffort;
     }
 
-    /** Returns the JSpinner holding the actual effort.
+    /**
+     * Returns the JSpinner holding the actual effort.
      *
      * @return JSpinner
      */

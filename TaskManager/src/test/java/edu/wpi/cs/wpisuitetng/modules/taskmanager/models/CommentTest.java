@@ -75,6 +75,12 @@ public class CommentTest extends TestCase {
         assertFalse(first.getMessage().equals("Second message"));
         assertFalse(second.getMessage().equals("First message"));
     }
+
+    @Test
+    public void testHashCode() {
+        Comment testComment = new Comment(1, "User", 1, "Tester message");
+        assertEquals(testComment.hashCode(), defaultComment.hashCode());
+    }
 }
 
 /*
