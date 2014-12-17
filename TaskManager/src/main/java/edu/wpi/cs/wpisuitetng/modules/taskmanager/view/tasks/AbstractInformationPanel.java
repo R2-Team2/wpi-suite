@@ -306,46 +306,22 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
-        leftColumn.add(buttonOpenRequirement, "left, wrap");
-        validateRequirementView();
-        dropdownRequirement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validateRequirementView();
-            }
-        });
 
 
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
-        leftColumn.add(labelStartDate, "left, wrap");
-        leftColumn.add(calStartDate, "left, wrap");
-        rightColumn.add(labelEstimatedEffort, "left, wrap");
-        rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
-        rightColumn.add(labelActualEffort, "left, wrap");
-        rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
-        rightColumn.add(labelDueDate, "left, wrap");
-        rightColumn.add(calDueDate, "left, wrap");
 
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
-        // Populate contentPanel
-        contentPanel.add(labelTitle, "wrap");
-        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
 
-        contentPanel.add(leftColumn, "left, spany, growy, push");
-        contentPanel.add(rightColumn, "right, spany, growy, push");
-        contentPanel.add(labelDescription, "wrap");
-        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+        contentPanel.add(leftColumn, "left, split 2, spanx");
+        contentPanel.add(rightColumn, "right, growx, wrap");
 
         contentPanel.add(assigneeCell, "spanx, growy, wrap");
         
         if(addComCell)
             contentPanel.add(attributePane, "spanx, grow, wrap");
-
-        contentPanel.add(leftColumn, "left, spany, growy, push");
-        contentPanel.add(rightColumn, "right, spany, growy, push");
 
         setViewportView(contentPanel);
     }

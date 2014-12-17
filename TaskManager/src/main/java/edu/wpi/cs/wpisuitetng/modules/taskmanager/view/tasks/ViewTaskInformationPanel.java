@@ -205,7 +205,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         contentPanel.add(labelComments, "cell 0 9, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 9, growx, wrap");
 
-        
         contentPanel.add(commentScroll, "cell 0 10, grow, wrap");
 
         // **Activity Log**
