@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Team
+ * R2-Team2
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs;
 
 import java.awt.Color;
@@ -16,35 +22,46 @@ import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
+/**
+ * Panel holding interaction with comments
+ * @author R2-team2
+ * @version $Revision: 1.0 $
+ *
+ */
+@SuppressWarnings("serial")
 public class CommentPanel extends JPanel {
-
+    
+    /**
+     * Constructor for CommentPanel
+     * @param comment
+     */
     public CommentPanel(Comment comment) {
         setBorder(BorderFactory.createLineBorder(Color.black)); // Set note border
 
         // Create a text area containing the note's message
-        JTextArea message = new JTextArea(comment.getMessage());
+        final JTextArea message = new JTextArea(comment.getMessage());
         message.setLineWrap(true);
         message.setWrapStyleWord(true);
         message.setEditable(false); // Do not allow to be edited
 
         // Give the message a black border with 2px padding inside
-        Border b =
+        final Border b =
                 BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
                         BorderFactory.createEmptyBorder(2, 2, 2, 2));
         message.setBorder(b);
 
         // Get user name of user who created note
-        String user = comment.getUser();
+        final String user = comment.getUser();
 
         // Get the date the note was added, then format it to display correctly
-        Date date = new Date(comment.getTimestamp());
-        Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
-        String commentDate = format.format(date).toString();
-        JLabel commentInfo = new JLabel("by " + user + " on " + commentDate);
+        final Date date = new Date(comment.getTimestamp());
+        final Format format = new SimpleDateFormat("MMMMM d, yyyy 'at' hh:mm:ss aaa");
+        final String commentDate = format.format(date).toString();
+        final JLabel commentInfo = new JLabel("by " + user + " on " + commentDate);
 
         // Create a layout manager for this note panel
         setLayout(new GridBagLayout());
-        GridBagConstraints commentConstraints = new GridBagConstraints();
+        final GridBagConstraints commentConstraints = new GridBagConstraints();
 
         commentConstraints.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
         commentConstraints.gridy = 0; // Row 0

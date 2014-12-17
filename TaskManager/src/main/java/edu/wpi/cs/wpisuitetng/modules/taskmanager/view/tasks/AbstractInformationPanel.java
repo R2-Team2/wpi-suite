@@ -320,8 +320,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         contentPanel.add(assigneeCell, "spanx, growy, wrap");
         
-        if(addComCell)
+        if(addComCell) {
             contentPanel.add(attributePane, "spanx, grow, wrap");
+        }
 
         setViewportView(contentPanel);
     }

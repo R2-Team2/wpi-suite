@@ -94,7 +94,23 @@ public class Task extends AbstractModel {
         this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
         comments = new CommentList();
     }
-
+    
+    /**
+     * Initiates a new Task with comments
+     * 
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort
+     * @param actualEffort the actual effort
+     * @param status the status
+     * @param requirement the requirement
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param commentList the object holding the list of comments
+     */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
             List<String> assignedUsers2, List<String> activityList, CommentList commentList) {
@@ -350,6 +366,10 @@ public class Task extends AbstractModel {
         return activityList;
     }
 
+    /**
+     * Adds a message to the list of comments
+     * @param msg
+     */
     public void addComment(String msg) {
         comments.add(msg);
     }

@@ -268,7 +268,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             }
         });
     }
-
+    
+    /**
+     * Returns a new task with all of the fields from
+     * the task in the Parent Panel
+     * @return Task
+     */
     public Task getTaskFromFields() {
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();

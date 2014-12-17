@@ -112,7 +112,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         
         //Comment Box
         commentScroll = new JScrollPane();
-        commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 300));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -315,10 +315,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE); // Background color is white
         panel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+        final GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
         c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
         c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
         c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
@@ -328,7 +328,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
         // Get iterator of the list of notes
         parentPanel.aTask.getComments();
-        ListIterator<Comment> itt = parentPanel.aTask.getComments().getIterator(0);
+        final ListIterator<Comment> itt = parentPanel.aTask.getComments().getIterator(0);
 
         // Add each note to panel individually
         while (itt.hasNext()) {
@@ -339,7 +339,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
         // Create a dummy panel to take up space at the bottom
         c.weighty = 1;
-        JPanel dummy = new JPanel();
+        final JPanel dummy = new JPanel();
         dummy.setBackground(Color.WHITE);
         panel.add(dummy, c);
 

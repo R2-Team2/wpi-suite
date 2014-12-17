@@ -35,9 +35,10 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 
 /**
- * @author justinhess
+ * @author R2-Team2
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class TaskCommentPanel extends JPanel {
 
     private int commentsAdded;
@@ -52,8 +53,8 @@ public class TaskCommentPanel extends JPanel {
     /**
      * Constructor for the requirement note panel
      *
+     * @param currentTask currently selected task
      * @param parentPanel the task panel that is passed here solely for updating the task
-     * @param current current requirement
      */
     public TaskCommentPanel(Task currentTask, AbstractTaskPanel parentPanel) {
         this.currentTask = currentTask;
@@ -61,7 +62,7 @@ public class TaskCommentPanel extends JPanel {
         
         taskUpdater = new UpdateTaskController(parentPanel);
 
-        Component commentField = buildCommentField();
+        final Component commentField = buildCommentField();
         commentScroll = new JScrollPane();
         commentField.setMaximumSize(new Dimension(600, 600));
         // Buttons to be added to the bottom of the NotePanel
@@ -80,11 +81,11 @@ public class TaskCommentPanel extends JPanel {
 
         // Layout manager for panel that contains the buttons
         final GridBagLayout bottomLayout = new GridBagLayout();
-        JPanel bottomPanel = new JPanel(bottomLayout);
+        final JPanel bottomPanel = new JPanel(bottomLayout);
         final GridBagConstraints bc = new GridBagConstraints();
 
         // Create new scroll pane for notes
-        commentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -121,7 +122,10 @@ public class TaskCommentPanel extends JPanel {
             refresh();
         }
     }
-
+    
+    /**
+     * Prints information on comments to console and calls refresh
+     */
     public void loadComments() {
         System.out.println("Number of saved comments: "
                 + currentTask.getComments().getComments().size());
@@ -135,10 +139,10 @@ public class TaskCommentPanel extends JPanel {
     {
         // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE); // Background color is white
         panel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+        final GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
         c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
         c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
         c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
@@ -148,7 +152,7 @@ public class TaskCommentPanel extends JPanel {
 
         // Get iterator of the list of notes
         currentTask.getComments();
-        ListIterator<Comment> itt = currentTask.getComments().getIterator(0);
+        final ListIterator<Comment> itt = currentTask.getComments().getIterator(0);
 
         // Add each note to panel individually
         while (itt.hasNext()) {
@@ -159,7 +163,7 @@ public class TaskCommentPanel extends JPanel {
 
         // Create a dummy panel to take up space at the bottom
         c.weighty = 1;
-        JPanel dummy = new JPanel();
+        final JPanel dummy = new JPanel();
         dummy.setBackground(Color.WHITE);
         panel.add(dummy, c);
 
@@ -178,9 +182,10 @@ public class TaskCommentPanel extends JPanel {
                 // Display error message if there is no text in noteMessage
                 if (commentMsg.getText().length() <= 0) {
                     errorMsg.setText(" Error: Must add text to create note.");
-                } else {
+                }
+                else {
 
-                    String msg = commentMsg.getText(); // Get text from
+                    final String msg = commentMsg.getText(); // Get text from
                     // noteMessage
 
                     // Clear all text areas
@@ -224,7 +229,7 @@ public class TaskCommentPanel extends JPanel {
             @Override
             public void keyReleased(KeyEvent e)
             {
-                boolean enabledButtons = !commentMsg.getText().trim().isEmpty();
+                final boolean enabledButtons = !commentMsg.getText().trim().isEmpty();
                 buttonAddComment.setEnabled(enabledButtons);
                 buttonClear.setEnabled(enabledButtons);
             }
@@ -236,12 +241,12 @@ public class TaskCommentPanel extends JPanel {
         commentMsg.setWrapStyleWord(true); // Doesn't chop off words
         commentMsg.setMinimumSize(new Dimension(50, 50));
         commentMsg.setSize(new Dimension(100, 100));
-        Border b = BorderFactory.createCompoundBorder(
+        final Border b = BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.GRAY),
                 BorderFactory.createEmptyBorder(4, 4, 4, 4));
         commentMsg.setBorder(b);
 
-        JScrollPane scroller = new JScrollPane(commentMsg);
+        final JScrollPane scroller = new JScrollPane(commentMsg);
         scroller.setMinimumSize(new Dimension(50, 50));
         scroller.setPreferredSize(new Dimension(60, 60));
 
