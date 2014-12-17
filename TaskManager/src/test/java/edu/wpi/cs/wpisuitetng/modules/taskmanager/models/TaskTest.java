@@ -17,6 +17,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
+
 /**
  * @author R2-Team2
  * @version $Revision: 1.0 $
@@ -25,6 +27,9 @@ public class TaskTest {
 
     /** The t1. */
     Task t1;
+
+    /** The t2. */
+    Task t2;
 
     /** Test users */
     String user1;
@@ -51,10 +56,15 @@ public class TaskTest {
         userList.add(user1);
         date = new Date();
 
+        CommentList commentList = new CommentList();
+        commentList.add("A Comment");
 
         t1 =
                 new Task(12, "Title", "Description", 3, 2, newest, -1, date, date, userList,
                         activityList);
+        t2 = new Task(14, "Title 2", "Description 2", 5,
+                4, newest, -1, date, date,
+                userList, activityList, commentList);
     }
 
     /**
@@ -78,6 +88,27 @@ public class TaskTest {
         // assertTrue(t1.getActivityList().size() >= (int)0);
         assertEquals(t1.getRequirement(), -1);
         assertEquals(t1.getStatus(), newest);
+    }
+
+    @Test
+    public void testTaskConstructorWithComments() {
+        assertEquals(t2.getTaskID(), 14);
+        assertEquals(t2.getTitle(), "Title 2");
+        assertEquals(t2.getDescription(), "Description 2");
+
+        final List<String> assignedUsers = t2.getAssignedUsers();
+
+        // assertTrue(assignedUsers.contains(u1));
+        assertEquals(assignedUsers.size(), 1);
+
+        assertEquals(t2.getEstimatedEffort(), 5);
+        assertEquals(t2.getActualEffort(), 4);
+        assertEquals(t2.getDueDate(), date);
+        // TODO: get activityList to work
+        // assertTrue(t1.getActivityList().size() >= (int)0);
+        assertEquals(t2.getRequirement(), -1);
+        assertEquals(t2.getStatus(), newest);
+        assertEquals(t2.getComments().getComments().get(0).getMessage(), "A Comment");
     }
 
     /**
