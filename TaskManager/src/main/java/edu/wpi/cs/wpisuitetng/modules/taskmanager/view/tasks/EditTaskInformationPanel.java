@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersContro
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskInformationPanel.
  *
