@@ -280,12 +280,14 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new java.util.Timer().schedule(new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        parentPanel.buttonPanel.isTaskInfoValid();
+                if (!chosenAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
                     }
-                }, 100);
+                    buttonRemove.setEnabled(false);
+                }
             }
         });
     }

@@ -286,8 +286,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     @Override
     public Task getTask() {
-        // TODO Auto-generated method stub
-        return null;
+        return parentPanel.aTask;
     }
 
     /**
@@ -315,9 +314,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-                    .getInstance().editRequirement(getCurrentRequirement());
+            .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                    .openRequirementsTab();
+            .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
