@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
@@ -22,81 +21,80 @@ import org.junit.Test;
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
-@Ignore
 public class NewTaskPanelTest {
 
-	/**
-	 * Title but no description.
-	 */
-	@Test
-	public void TitleButNoDescription() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.getTitle().setText("Title");
-		NTP.infoPanel.getDescription().setText("");
-		NTP.buttonPanel.isTaskInfoValid();
-		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
-	}
+    /**
+     * Title but no description.
+     */
+    @Test
+    public void TitleButNoDescription() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.getTitle().setText("Title");
+        NTP.infoPanel.getDescription().setText("");
+        NTP.buttonPanel.isTaskInfoValid();
+        assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
+    }
 
-	/**
-	 * No fields filled.
-	 */
-	@Test
-	public void NoFieldsFilled() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.getTitle().setText("");
-		NTP.infoPanel.getDescription().setText("");
-		NTP.buttonPanel.isTaskInfoValid();
-		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
-	}
+    /**
+     * No fields filled.
+     */
+    @Test
+    public void NoFieldsFilled() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.getTitle().setText("");
+        NTP.infoPanel.getDescription().setText("");
+        NTP.buttonPanel.isTaskInfoValid();
+        assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
+    }
 
-	/**
-	 * Description but no title.
-	 */
-	@Test
-	public void DescriptionButNoTitle() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.getTitle().setText("");
-		NTP.infoPanel.getDescription().setText("Description");
-		NTP.buttonPanel.isTaskInfoValid();
-		assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
-	}
+    /**
+     * Description but no title.
+     */
+    @Test
+    public void DescriptionButNoTitle() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.getTitle().setText("");
+        NTP.infoPanel.getDescription().setText("Description");
+        NTP.buttonPanel.isTaskInfoValid();
+        assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
+    }
 
-	/**
-	 * Title and description.
-	 */
-	@Test
-	public void TitleAndDescription() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.getTitle().setText("Title");
-		NTP.infoPanel.getDescription().setText("Description");
-		NTP.infoPanel.calStartDate.setDate(Calendar.getInstance().getTime());
-		NTP.infoPanel.calDueDate.setDate(Calendar.getInstance().getTime());
-		NTP.buttonPanel.isTaskInfoValid();
-		assertTrue(NTP.buttonPanel.buttonCreate.isEnabled());
-	}
+    /**
+     * Title and description.
+     */
+    @Test
+    public void TitleAndDescription() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.getTitle().setText("Title");
+        NTP.infoPanel.getDescription().setText("Description");
+        NTP.infoPanel.calStartDate.setDate(Calendar.getInstance().getTime());
+        NTP.infoPanel.calDueDate.setDate(Calendar.getInstance().getTime());
+        NTP.buttonPanel.isTaskInfoValid();
+        assertFalse(NTP.buttonPanel.buttonCreate.isEnabled());
+    }
 
-	/**
-	 * End date preceeds start date.
-	 */
-	@Test
-	public void EndDatePreceedsStartDate() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.calDueDate.setDate(new Date(0));
-		NTP.infoPanel.calStartDate.setDate(new Date(86400000));
-		NTP.buttonPanel.validateTaskDate();
-		assertFalse(NTP.infoPanel.labelDueDate.getText().equals("Due Date: "));
-	}
+    /**
+     * End date preceeds start date.
+     */
+    @Test
+    public void EndDatePreceedsStartDate() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.calDueDate.setDate(new Date(0));
+        NTP.infoPanel.calStartDate.setDate(new Date(86400000));
+        NTP.buttonPanel.validateTaskDate();
+        assertFalse(NTP.infoPanel.labelDueDate.getText().equals("Due Date: "));
+    }
 
-	/**
-	 * End date is post start date.
-	 */
-	@Test
-	public void EndDateIsPostStartDate() {
-		final NewTaskPanel NTP = new NewTaskPanel(null);
-		NTP.infoPanel.calDueDate.setDate(new Date(86400000));
-		NTP.infoPanel.calStartDate.setDate(new Date(0));
-		NTP.buttonPanel.validateTaskDate();
-		assertTrue(NTP.infoPanel.labelDueDate.getText().equals("Due Date: "));
-	}
+    /**
+     * End date is post start date.
+     */
+    @Test
+    public void EndDateIsPostStartDate() {
+        final NewTaskPanel NTP = new NewTaskPanel(null);
+        NTP.infoPanel.calDueDate.setDate(new Date(86400000));
+        NTP.infoPanel.calStartDate.setDate(new Date(0));
+        NTP.buttonPanel.validateTaskDate();
+        assertTrue(NTP.infoPanel.labelDueDate.getText().equals("Due Date: "));
+    }
 
 }

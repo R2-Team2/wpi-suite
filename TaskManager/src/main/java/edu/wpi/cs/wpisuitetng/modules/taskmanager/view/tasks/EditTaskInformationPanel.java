@@ -48,7 +48,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -64,18 +64,18 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
         @SuppressWarnings("deprecation")
         final Requirement requirement =
-                parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
-                        .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
+        parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
+                .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
                         "None", "Easter Egg");
 
-        dropdownRequirement.setSelectedItem(requirement);
-        for (String username : parentPanel.aTask.getAssignedUsers()) {
-            new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
-        }
-        calStartDate.setDate(parentPanel.aTask.getStartDate());
-        calDueDate.setDate(parentPanel.aTask.getDueDate());
-        spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
-        spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+                dropdownRequirement.setSelectedItem(requirement);
+                for (String username : parentPanel.aTask.getAssignedUsers()) {
+                    new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+                }
+                calStartDate.setDate(parentPanel.aTask.getStartDate());
+                calDueDate.setDate(parentPanel.aTask.getDueDate());
+                spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+                spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
     }
 
     /**
@@ -280,19 +280,21 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new java.util.Timer().schedule(new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        parentPanel.buttonPanel.isTaskInfoValid();
+                if (!chosenAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                    for (int i = toRemove.length - 1; i >= 0; i--) {
+                        User transfer = chosenAssigneeModel.remove(toRemove[i]);
+                        possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
                     }
-                }, 100);
+                    buttonRemove.setEnabled(false);
+                }
             }
         });
     }
-    
+
     /**
-     * Returns a new task with all of the fields from
-     * the task in the Parent Panel
+     * Returns a new task with all of the fields from the task in the Parent Panel
+     * 
      * @return Task
      */
     public Task getTaskFromFields() {
