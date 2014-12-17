@@ -31,6 +31,9 @@ public class AbstractButtonPanel extends JPanel {
     /** The button edit. */
     protected JButton buttonEdit;
 
+    /** The button archive. */
+    protected JButton buttonArchive;
+
     /**
      * Sets up the listeners for the buttons in the New Task Button Panel.
      *

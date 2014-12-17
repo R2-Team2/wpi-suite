@@ -46,6 +46,7 @@ public class AbsWorkFlowView extends JPanel {
         views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
         views.add(new TaskStatusView(new TaskStatus("Currently in Development")));
         views.add(new TaskStatusView(new TaskStatus("Completed")));
+        views.add(new TaskStatusView(new TaskStatus("Archived")));
 
         setLayout(new BorderLayout());
 
@@ -53,10 +54,10 @@ public class AbsWorkFlowView extends JPanel {
 
         this.add(taskStatusPanel, BorderLayout.CENTER);
 
-        taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
+
+        taskStatusPanel.setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
         buildTaskStatusViews();
         this.add(taskStatusPanel, BorderLayout.CENTER);
     }
@@ -87,12 +88,19 @@ public class AbsWorkFlowView extends JPanel {
     public JPanel getTaskStatusPanel() {
         return taskStatusPanel;
     }
-
+    
+    /**
+     * Returns the stored workflow Object
+     * @return WorkFlow
+     */
     public WorkFlow getWorkFlowObj() {
         return workFlowObj;
     }
 
-
+    /**
+     * Sets the current WorkFlow Object
+     * @param workFlowObj2
+     */
     public void setWorkFlowObj(WorkFlow workFlowObj2) {
         workFlowObj = workFlowObj2;
     }
@@ -105,7 +113,11 @@ public class AbsWorkFlowView extends JPanel {
             v.requestTasksFromDb();
         }
     }
-
+    
+    /**
+     * returns the list of TaskStatusViews in the Workflow
+     * @return List<TaskStatusView>
+     */
     public List<TaskStatusView> getViews() {
         return views;
     }
@@ -167,4 +179,11 @@ public class AbsWorkFlowView extends JPanel {
         }
     }
 
+    /**
+     * showArchived STUB
+     *
+     * @param b true if the given view is to be shown, false for hide
+     * @param t the task status view to be operated on
+     */
+    public void showArchived(Boolean b, TaskStatusView t) {}
 }

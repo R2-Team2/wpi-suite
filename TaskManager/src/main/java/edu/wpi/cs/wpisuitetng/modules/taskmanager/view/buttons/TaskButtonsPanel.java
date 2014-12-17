@@ -20,11 +20,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 
 // TODO: Auto-generated Javadoc
@@ -46,6 +49,10 @@ public class TaskButtonsPanel extends ToolbarGroupView {
     /** The content panel. */
     private final JPanel contentPanel = new JPanel();
 
+
+    private final JCheckBox chckbxShowArchivedTasks = new JCheckBox(
+            "<html>Show<br />Archived Tasks</html>");
+
     /**
      * Instantiates a new task buttons panel.
      */
@@ -63,6 +70,8 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             img = ImageIO.read(this.getClass().getResourceAsStream("settings.png"));
             img = ImageIO.read(this.getClass().getResourceAsStream("help.png"));
             helpButton.setIcon(new ImageIcon(img));
+            // picture taken from http://photosinbox.com/icons/archive-box-icon
+            // img = ImageIO.read(this.getClass().getResourceAsStream("archivebox.png"));
         } catch (IOException ex) {
             // Hopefully, won't get here
             System.err.println("Populating Top Bar Buttons Exception");
@@ -78,8 +87,6 @@ public class TaskButtonsPanel extends ToolbarGroupView {
             }
         });
 
-
-
         // the action listener for the Help Button
         helpButton.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +99,7 @@ public class TaskButtonsPanel extends ToolbarGroupView {
                         try {
                             desktop.browse(new URL(
                                     "http://r2-team2.com:8090/display/WPIS/Task+Manager+Wiki")
-                            .toURI());
+                                    .toURI());
                         } catch (MalformedURLException e1) {
                             e1.printStackTrace();
                         } catch (IOException e1) {
@@ -123,6 +130,23 @@ public class TaskButtonsPanel extends ToolbarGroupView {
         }
 
         this.add(contentPanel);
+        chckbxShowArchivedTasks.setSelected(false);
+        chckbxShowArchivedTasks.setHorizontalAlignment(SwingConstants.LEFT);
+        final TaskStatusView archived = new TaskStatusView(new TaskStatus("Archived"));
+
+        // the action listener for the Settings Button
+        chckbxShowArchivedTasks.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chckbxShowArchivedTasks.isSelected()) {
+                    // TODO: show the archived tasks
+                    ViewEventController.getInstance().showArchived(true, archived);
+                } else {
+                    ViewEventController.getInstance().showArchived(false, archived);
+                }
+            }
+        });
+        contentPanel.add(chckbxShowArchivedTasks);
     }
 
     /**

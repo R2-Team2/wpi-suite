@@ -40,12 +40,15 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
         // Set Button Messages
         final String editString = "Edit";
         final String cancelString = "Cancel";
+        final String archiveString = "Archive";
 
         // Create Buttons
         buttonEdit = new JButton(editString);
         buttonCancel = new JButton(cancelString);
+        buttonArchive = new JButton(archiveString);
         this.add(buttonEdit);
         this.add(buttonCancel);
+        // this.add(buttonArchive); //TODO: make this work
         // super.setupListeners();
         setupListeners();
     }
@@ -58,9 +61,6 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.editPressed();
-                System.out.println("edit pressed");
-                // TODO put it to the right place
-
             }
         });
 
@@ -68,6 +68,13 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentPanel.cancelPressed();
+            }
+        });
+
+        buttonArchive.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentPanel.archivePressed();
             }
         });
     }

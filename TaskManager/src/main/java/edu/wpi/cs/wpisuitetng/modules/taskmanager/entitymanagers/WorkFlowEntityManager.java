@@ -43,8 +43,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
     }
 
     @Override
-    public WorkFlow makeEntity(Session s, String content)
-            throws WPISuiteException {
+    public WorkFlow makeEntity(Session s, String content) throws WPISuiteException {
 
         final WorkFlow newWorkFlow = WorkFlow.fromJson(content);
         if (newWorkFlow.getTaskStatusList() == null) {
@@ -64,12 +63,15 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             develop.setTaskStatusID(idStore.getAndIncID());
             final TaskStatus completed = new TaskStatus("Completed");
             completed.setTaskStatusID(idStore.getAndIncID());
+            final TaskStatus archived = new TaskStatus("Archived");
+            completed.setTaskStatusID(idStore.getAndIncID());
 
             // Save Default Task Statuses
             db.save(newStatus, s.getProject());
             db.save(selected, s.getProject());
             db.save(develop, s.getProject());
             db.save(completed, s.getProject());
+            db.save(archived, s.getProject());
 
             // Add TaskStatus ID's to WorkFlow object
             final ArrayList<Long> defaultTSid = new ArrayList<Long>();
@@ -77,13 +79,12 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             defaultTSid.add(selected.getTaskStatusID());
             defaultTSid.add(develop.getTaskStatusID());
             defaultTSid.add(completed.getTaskStatusID());
+            defaultTSid.add(archived.getTaskStatusID());
 
             newWorkFlow.setTaskStatusList(defaultTSid);
 
             db.save(newWorkFlow, s.getProject());
-        }
-        else
-        {
+        } else {
             final List<Model> idList = db.retrieve(IDNum.class, "id", 0);
             final IDNum idObj = (IDNum) idList.get(0);
 
@@ -128,6 +129,8 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             develop.setTaskStatusID(idStore.getAndIncID());
             final TaskStatus completed = new TaskStatus("Completed");
             completed.setTaskStatusID(idStore.getAndIncID());
+            final TaskStatus archived = new TaskStatus("Archived");
+            archived.setTaskStatusID(idStore.getAndIncID());
 
             // Save Default Task Statuses
             db.save(newStatus, s.getProject());
@@ -141,6 +144,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
             defaultTSid.add(selected.getTaskStatusID());
             defaultTSid.add(develop.getTaskStatusID());
             defaultTSid.add(completed.getTaskStatusID());
+            defaultTSid.add(archived.getTaskStatusID());
 
             defaultWF.setTaskStatusList(defaultTSid);
 
@@ -148,8 +152,7 @@ public class WorkFlowEntityManager implements EntityManager<WorkFlow> {
 
             returnArray[0] = defaultWF;
             System.out.println("New Workflow and Default TaskStatuses created.");
-        }
-        else {
+        } else {
             returnArray = workflows.toArray(new WorkFlow[0]);
         }
 
