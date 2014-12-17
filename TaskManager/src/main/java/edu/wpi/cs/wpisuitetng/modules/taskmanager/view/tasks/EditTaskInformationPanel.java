@@ -48,7 +48,7 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buildLayout();
         setupTask();
         new RetrieveUsersController(possibleAssigneeModel, parentPanel.aTask.getAssignedUsers())
-                .requestAllUsers();
+        .requestAllUsers();
         setupListeners();
     }
 
@@ -64,18 +64,18 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
 
         @SuppressWarnings("deprecation")
         final Requirement requirement =
-                parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
-                        .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
+        parentPanel.aTask.getRequirement() != -1 ? RequirementModel.getInstance()
+                .getRequirement(parentPanel.aTask.getRequirement()) : new Requirement(-1,
                         "None", "Easter Egg");
 
-        dropdownRequirement.setSelectedItem(requirement);
-        for (String username : parentPanel.aTask.getAssignedUsers()) {
-            new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
-        }
-        calStartDate.setDate(parentPanel.aTask.getStartDate());
-        calDueDate.setDate(parentPanel.aTask.getDueDate());
-        spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
-        spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
+                dropdownRequirement.setSelectedItem(requirement);
+                for (String username : parentPanel.aTask.getAssignedUsers()) {
+                    new RetrieveUsersController(chosenAssigneeModel).requestUser(username);
+                }
+                calStartDate.setDate(parentPanel.aTask.getStartDate());
+                calDueDate.setDate(parentPanel.aTask.getDueDate());
+                spinnerEstimatedEffort.setValue(parentPanel.aTask.getEstimatedEffort());
+                spinnerActualEffort.setValue(parentPanel.aTask.getActualEffort());
     }
 
     /**
@@ -356,10 +356,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
                 .size()))) {
             string += " Comments,";
         }
-        string = string.substring(0, string.length() - 1);
+
+        if (string.length() != 0) {
+            string = string.substring(0, string.length() - 1);
+        }
         String createActivity =
-                "Changed:" + string + " at " + dateFormat.format(date) + " (by " + user
-                + ")";
+                "Changed:" + string + " at " + dateFormat.format(date) + " (by " + user + ")";
         if (status.equals(new TaskStatus("archived"))) {
             createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
         }
@@ -367,7 +369,9 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
                         requirement, startDate, dueDate, assignedUsers, activityList, commentList);
-        updatedTask.addActivity(createActivity); // add activity entry to activity list
+        if (string.length() != 0) {
+            updatedTask.addActivity(createActivity); // add activity entry to activity list
+        }
         return updatedTask;
     }
 

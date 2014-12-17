@@ -180,4 +180,8 @@ public class AbstractTaskPanel extends JPanel {
     public void setInfoPanel(NewTaskInformationPanel aPanel) {
         infoPanel = aPanel;
     }
+
+    public AbstractButtonPanel getButtonPanel() {
+        return buttonPanel;
+    }
 }
