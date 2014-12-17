@@ -81,33 +81,6 @@ public class Task extends AbstractModel {
      * @param requirement the requirement the task is tied to, if any
      * @param startDate the start date
      * @param dueDate the due date
-     * @param assignedUsers the assigned users
-     * @param activityList the activity list
-     * @param priority the priority of the task, such as "major" or "minor"
-     */
-    /*
-     * public Task(long taskID, String title, String description, int estimatedEffort, int
-     * actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate, List<String>
-     * assignedUsers, List<String> activityList, String priority) { this.taskID = taskID; this.title
-     * = title; this.description = description; this.estimatedEffort = estimatedEffort;
-     * this.actualEffort = actualEffort; this.status = status; this.requirement = requirement;
-     * this.startDate = startDate; this.dueDate = dueDate; this.assignedUsers = (assignedUsers !=
-     * null) ? new ArrayList<String>(assignedUsers) : null; this.activityList = activityList;
-     * this.priority = priority; comments = new CommentList(); }
-     */
-
-    /**
-     * Initiates a new Task with comments
-     *
-     * @param taskID the task id
-     * @param title the title
-     * @param description the description
-     * @param estimatedEffort the estimated effort
-     * @param actualEffort the actual effort
-     * @param status the status
-     * @param requirement the requirement
-     * @param startDate the start date
-     * @param dueDate the due date
      * @param assignedUsers2 the assigned users
      * @param activityList the activity list
      * @param commentList the object holding the list of comments
@@ -123,6 +96,24 @@ public class Task extends AbstractModel {
         priority = "No priority.";
     }
 
+
+    /**
+     * Description
+     *
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param commentList the object holding the list of comments
+     * @param priority the priority of the task, such as "major" or "minor"
+     */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
             List<String> assignedUsers2, List<String> activityList, CommentList commentList,
@@ -146,6 +137,22 @@ public class Task extends AbstractModel {
 
     }
 
+    /**
+     * Description
+     *
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort, in work units
+     * @param actualEffort the actual effort, in work units
+     * @param status the status the task exists within
+     * @param requirement the requirement the task is tied to, if any
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param priority the priority of the task, such as "major" or "minor"
+     */
     public Task(long taskID, String title, String description, int estimatedEffort,
             int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
             List<String> assignedUsers2, List<String> activityList, String priority) {
@@ -161,8 +168,6 @@ public class Task extends AbstractModel {
         assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
         this.activityList = activityList;
         this.priority = priority;
-
-
     }
 
     /*
