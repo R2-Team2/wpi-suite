@@ -58,7 +58,7 @@ public class Task extends AbstractModel {
     private List<String> assignedUsers;
 
     /** The activity list. */
-    private List<String> activityList;
+    private List<String> activityList = new ArrayList<String>();
 
     /** The comment thread on the task. */
     private final List<Comment> comments = new LinkedList<Comment>();
@@ -91,7 +91,7 @@ public class Task extends AbstractModel {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
-        this.activityList = (activityList != null) ? new ArrayList<String>(activityList) : null;
+        this.activityList = activityList;
     }
 
 
@@ -434,7 +434,7 @@ public class Task extends AbstractModel {
 
     /**
      * copies old task params to this task.
-     * 
+     *
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {

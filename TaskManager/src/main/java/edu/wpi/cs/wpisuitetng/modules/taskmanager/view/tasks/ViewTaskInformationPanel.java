@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
@@ -63,8 +64,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         Collections.sort(requirements, new RequirementComparator());
     }
 
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#buildLayout()
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#buildLayout()
      */
     @Override
     public void buildLayout() {
@@ -192,8 +195,12 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // **Activity Log**
 
         // Activity Title and Separator
+        final JPanel activityPanel = new JPanel();
+
         contentPanel.add(labelActivityLog, "cell 0 10, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 10, growx, wrap");
+        activities = new JList(viewTask.getActivityList().toArray());
+        contentPanel.add(activities, "cell 0 11,grow");
 
         this.setViewportView(contentPanel);
     }
@@ -203,6 +210,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     public void setupTask() {
         final Task viewTask = parentPanel.aTask;
+        System.out.println("Pay attention to me: " + viewTask.getActivityList());
 
         // viewTask.getTaskID();
         final String t = viewTask.getTitle();
@@ -217,6 +225,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         calDueDate.setDate(viewTask.getDueDate());
         spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
         spinnerActualEffort.setValue(viewTask.getActualEffort());
+        activities = new JList(viewTask.getActivityList().toArray());
     }
 
     /**
@@ -246,7 +255,8 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
      */
     @Override

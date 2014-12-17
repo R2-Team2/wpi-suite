@@ -8,6 +8,7 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -268,7 +270,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
      */
     @Override
@@ -286,12 +289,21 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         for (User u : getAssignedUsers()) {
             assignedUsers.add(u.getUsername());
         }
-
+        final List<String> activityList = parentPanel.aTask.getActivityList();
+        // Code inspired by mkyong
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        final Date date = new Date();
+        final String user = ConfigManager.getConfig().getUserName();
+        String createActivity =
+                "Updated Task at " + dateFormat.format(date) + " (by " + user + ")";
+        if (status.equals(new TaskStatus("archived"))) {
+            createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
+        }
         final Task updatedTask;
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, null);
-
+                        requirement, startDate, dueDate, assignedUsers, activityList);
+        updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }
 
