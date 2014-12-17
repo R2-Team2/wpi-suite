@@ -89,6 +89,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         final JLabel labelAssignees = new JLabel("Assignees: ");
         final JLabel labelComments = new JLabel("<html><h3>Comments</h3></html>");
         final JLabel labelActivityLog = new JLabel("<html><h3>Activity Log</h3></html>");
+        final JLabel labelPriority = new JLabel("Priority :");
 
         // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
@@ -117,7 +118,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         contentPanel.add(new JSeparator(), "cell 0 3, growx, wrap");
 
         // Details Body
-        final JPanel detailsPanel = new JPanel(new MigLayout("", "[]100[]", "[][][][]"));
+        final JPanel detailsPanel = new JPanel(new MigLayout("", "[]100[]", "[][][][][]"));
 
         detailsPanel.add(labelStatus, "cell 0 0");
         detailsPanel.add(new JLabel("" + viewTask.getStatus()), "cell 1 0");
@@ -127,6 +128,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
         detailsPanel.add(labelRequirement, "cell 0 3");
 
+        // prevent displaying "null" if there's no requirements
         String requirementText = viewTask.getRequirement();
         if (requirementText == null || requirementText.equals("None")) {
             requirementText = "None";
@@ -136,6 +138,17 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
         detailsPanel.add(buttonOpenRequirement, "cell 2 3, left");
+
+        // prevent displaying "null" priority
+        String priorityText = viewTask.getPriority();
+        if (priorityText == null || priorityText.equals("None")) {
+            priorityText = "None";
+            buttonOpenRequirement.setEnabled(false);
+        } else {
+            buttonOpenRequirement.setEnabled(true);
+        }
+        detailsPanel.add(labelPriority, "cell 0 4");
+        detailsPanel.add(new JLabel("" + priorityText), "cell 1 4");
 
         contentPanel.add(detailsPanel, "cell 0 4, left, growy, push, span, wrap");
 
@@ -280,9 +293,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-                    .getInstance().editRequirement(getCurrentRequirement());
+            .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                    .openRequirementsTab();
+            .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
