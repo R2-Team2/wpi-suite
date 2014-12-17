@@ -65,7 +65,6 @@ public class SearchBarGroup extends ToolbarGroupView {
         chckbxArchieved.setEnabled(false);
         chckbxArchieved.setBounds(123, 66, 94, 23);
         chckbxArchieved.setOpaque(false);
-        contentPanel.add(chckbxArchieved);
 
         btnCancel = new JButton("Cancel");
         btnCancel.setEnabled(false);
@@ -137,18 +136,18 @@ public class SearchBarGroup extends ToolbarGroupView {
 
         btnCancel.setEnabled(searchBar.getText().length() != 0);
     }
-    
+
     /**
      * Resets Search Fields
      */
     void resetFields() {
-    	searchBar.setText("");
+        searchBar.setText("");
         chckbxDescription.setSelected(false);
         chckbxRequirements.setSelected(false);
         chckbxAssignee.setSelected(false);
         chckbxArchieved.setSelected(false);
     }
-    
+
     /**
      * Called when the mouse enters this toolbar group
      */
