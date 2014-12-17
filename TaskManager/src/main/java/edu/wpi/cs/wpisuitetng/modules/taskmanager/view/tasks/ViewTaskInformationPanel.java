@@ -29,6 +29,7 @@ import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
@@ -143,11 +144,14 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
         detailsPanel.add(labelRequirement, "cell 0 3");
 
-        String requirementText = viewTask.getRequirement();
-        if (requirementText == null || requirementText.equals("None")) {
+        final String requirementText;
+        if (viewTask.getRequirement() == -1) {
             requirementText = "None";
             buttonOpenRequirement.setEnabled(false);
         } else {
+            requirementText =
+                    RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
+                            .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -279,10 +283,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @throws Exception the exception
      */
     private Requirement getCurrentRequirement() throws Exception {
-        final String reqName = parentPanel.aTask.getRequirement();
+        final int req = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {
-            if (requirement.getName().equals(reqName)) {
+            if (requirement.getId() == req) {
                 return requirement;
             }
         }

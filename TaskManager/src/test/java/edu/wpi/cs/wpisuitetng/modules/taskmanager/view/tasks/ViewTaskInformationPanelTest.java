@@ -48,7 +48,7 @@ public class ViewTaskInformationPanelTest {
         when(mockTask.getDescription()).thenReturn("Test EditTaskInformationPanelTest");
         when(mockTask.getDueDate()).thenReturn(new Date());
         when(mockTask.getEstimatedEffort()).thenReturn(2);
-        when(mockTask.getRequirement()).thenReturn("Requirement 1");
+        when(mockTask.getRequirement()).thenReturn(-1);
         when(mockTask.getStartDate()).thenReturn(new Date());
         when(mockTask.getTitle()).thenReturn("Mock Task");
         when(mockTask.getUserForTaskCard()).thenReturn("Tester");

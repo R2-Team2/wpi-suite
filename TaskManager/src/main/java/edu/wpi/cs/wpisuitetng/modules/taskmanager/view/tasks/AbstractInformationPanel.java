@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator; // wpi-38
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -70,9 +71,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
             new TaskStatus("Currently in Development").toString(),
             new TaskStatus("Completed").toString()}; // needs to be list of TaskStatus
 
-    /** The string list of requirements. */
-    protected List<String> strListOfRequirements = new ArrayList<String>();
-
     /** The default border. */
     protected final Border defaultBorder = BorderFactory.createEtchedBorder();
 
@@ -86,7 +84,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     protected JComboBox<String> dropdownStatus;
 
     /** The dropdown requirement. */
-    protected JComboBox<String> dropdownRequirement;
+    protected JComboBox<Requirement> dropdownRequirement;
 
     /** The list chosen assignees. */
     protected JList<User> chosenAssigneeList;
@@ -148,6 +146,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // (code partially from requirements module overviewtreepanel.java)
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
         Collections.sort(iterations, new IterationComparator());
+        requirements.add(new Requirement(-1, "None", "Easter Egg"));
         for (int i = 0; i < iterations.size(); i++) {
 
             requirements.addAll(iterations.get(i).getRequirements());
@@ -155,20 +154,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size() + 1];
-        strListOfRequirements.add("None");
-        arrListOfRequirements[0] = "None";
-        for (int i = 0; i < requirements.size(); i++) {
-            // build a List<String> of the names of the requirements
-            // defaultComboBoxModel, below, requires an array of string
-            String tempName = requirements.get(i).getName();
-            if (tempName.length() > 15) {
-                tempName = tempName.substring(0, 15) + "...";
-            }
-            System.out.println(tempName);
-            strListOfRequirements.add(tempName);
-            arrListOfRequirements[i + 1] = tempName;
-        }
 
         // Instantiate GUI Elements
         // Labels
@@ -202,9 +187,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         descrScroll.setBorder(defaultBorder);
         descrScroll.setViewportView(boxDescription);
         // Drop Down Menus
-        dropdownRequirement = new JComboBox<String>();
+        final Vector<Requirement> reqVec = new Vector<Requirement>();
+        reqVec.addAll(requirements);
+        dropdownRequirement = new JComboBox<Requirement>(reqVec);
 
-        dropdownRequirement.setModel(new DefaultComboBoxModel<String>(arrListOfRequirements));
         dropdownRequirement.setEnabled(true);
         dropdownRequirement.setBackground(Color.WHITE);
         dropdownStatus = new JComboBox<String>();
@@ -378,9 +364,10 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * Returns the JComboBox holding the Requirement.
      *
-     * @return JComboBox<String>
+     * @return JComboBox<Requirement>
      */
-    public JComboBox<String> getRequirement() {
+    // TODO rename this to getRequirementComboBox
+    public JComboBox<Requirement> getRequirement() {
         return dropdownRequirement;
     }
 
@@ -422,10 +409,25 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * @throws Exception the exception
      */
     private Requirement getSelectedRequirement() throws Exception {
-        final String reqName = (String) dropdownRequirement.getSelectedItem();
+        final Requirement req = (Requirement) dropdownRequirement.getSelectedItem();
 
         for (Requirement requirement : requirements) {
-            if (requirement.getName().equals(reqName)) {
+            if (requirement.getId() == req.getId()) {
+                return requirement;
+            }
+        }
+
+        throw new Exception("Invalid requirement selected");
+    }
+
+    /**
+     * @param reqId ID number of requirement
+     * @return requirement with given ID
+     * @throws Exception
+     */
+    public Requirement findRequirement(int reqId) throws Exception {
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == reqId) {
                 return requirement;
             }
         }
@@ -448,8 +450,9 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * Validate requirement view.
      */
     private void validateRequirementView() {
-        System.out.println(getRequirement().getSelectedItem());
-        if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
+        // System.out.println(getRequirement().getSelectedItem());
+        if (getRequirement() == null ||
+                ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
             buttonOpenRequirement.setEnabled(false);
         } else {
             buttonOpenRequirement.setEnabled(true);

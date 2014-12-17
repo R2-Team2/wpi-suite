@@ -9,6 +9,8 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +19,10 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
-
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
 
 /**
  * The Class Task.
@@ -46,7 +51,7 @@ public class Task extends AbstractModel {
     private TaskStatus status;
 
     /** The requirement. */
-    private String requirement;
+    private int requirement;
 
     /** The start date. */
     private Date startDate;
@@ -79,7 +84,7 @@ public class Task extends AbstractModel {
      * @param activityList the activity list
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
+            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
             List<String> assignedUsers, List<String> activityList) {
         this.taskID = taskID;
         this.title = title;
@@ -112,7 +117,7 @@ public class Task extends AbstractModel {
      * @param commentList the object holding the list of comments
      */
     public Task(long taskID, String title, String description, int estimatedEffort,
-            int actualEffort, TaskStatus status, String requirement, Date startDate, Date dueDate,
+            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
             List<String> assignedUsers2, List<String> activityList, CommentList commentList) {
         this(taskID, title, description, estimatedEffort, actualEffort, status, requirement,
                 startDate, dueDate, assignedUsers2, activityList);
@@ -237,8 +242,36 @@ public class Task extends AbstractModel {
      *
      * @return the requirement
      */
-    public String getRequirement() {
+    public int getRequirement() {
         return requirement;
+    }
+
+    /**
+     * @return name of associated requirement
+     * @throws Exception
+     */
+    public String getRequirementTitle() throws Exception {
+        if (getRequirement() == -1) {
+            return "";
+        }
+        // get latest list of requirement objects and sort them
+        // (code partially from requirements module overviewtreepanel.java)
+        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+        Collections.sort(iterations, new IterationComparator());
+        final List<Requirement> requirements = new ArrayList<Requirement>();
+        for (int i = 0; i < iterations.size(); i++) {
+            // gets the list of requirements that is associated with the iteration
+            requirements.addAll(iterations.get(i).getRequirements());
+        }
+        Collections.sort(requirements, new RequirementComparator());
+
+        for (Requirement requirement : requirements) {
+            if (requirement.getId() == getRequirement()) {
+                return requirement.getName();
+            }
+        }
+
+        throw new Exception("No Requirement found with ID '" + getRequirement() + "' ");
     }
 
     /**
@@ -246,7 +279,7 @@ public class Task extends AbstractModel {
      *
      * @param requirement the new requirement
      */
-    public void setRequirement(String requirement) {
+    public void setRequirement(int requirement) {
         this.requirement = requirement;
     }
 
@@ -482,5 +515,39 @@ public class Task extends AbstractModel {
         requirement = toCopyFrom.requirement;
         status = toCopyFrom.status;
         comments = toCopyFrom.comments;
+    }
+}
+
+/**
+ * TODO FIXME copied directly from RequirementManager
+ * @version legacy
+ * @author Kevin from the requirements manager sorts the Iterations by date
+ */
+class IterationComparator implements Comparator<Iteration> {
+    @Override
+    public int compare(Iteration I1, Iteration I2) {
+        int result = 0;
+        if (I1.getStart() == null) {
+            result = -1;
+        }
+        else if (I2.getStart() == null) {
+            result = 1;
+        }
+        else {
+            result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
+        }
+        return result;
+    }
+}
+
+/**
+ * TODO FIXME copied directly from RequirementManager
+ * @version legacy
+ * @author Kevin from the requirements manager sorts Requirements by name
+ */
+class RequirementComparator implements Comparator<Requirement> {
+    @Override
+    public int compare(Requirement R1, Requirement R2) {
+        return R1.getName().compareTo(R2.getName());
     }
 }

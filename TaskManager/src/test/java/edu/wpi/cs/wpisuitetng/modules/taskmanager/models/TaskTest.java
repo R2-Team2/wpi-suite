@@ -26,8 +26,6 @@ public class TaskTest {
     /** The t1. */
     Task t1;
 
-    List<String> userList = new ArrayList<String>();
-
     /** Test users */
     String user1;
     String user2;
@@ -49,13 +47,14 @@ public class TaskTest {
         user1 = "mknightley";
         user2 = "jdoe";
 
+        final List<String> userList = new ArrayList<String>();
         userList.add(user1);
         date = new Date();
 
 
         t1 =
-                new Task(12, "Title", "Description", 3, 2, newest, "Requirement", date, date,
-                        userList, activityList);
+                new Task(12, "Title", "Description", 3, 2, newest, -1, date, date, userList,
+                        activityList);
     }
 
     /**
@@ -152,7 +151,7 @@ public class TaskTest {
      */
     @Test
     public void testSetRequirement() {
-        final String requirement = "Create Task Feature";
+        final int requirement = -1;
         t1.setRequirement(requirement);
         assertEquals(t1.getRequirement(), requirement);
     }
@@ -237,7 +236,7 @@ public class TaskTest {
         assertEquals(t1.getUserForTaskCard(), "");
 
         Task testNullUsers =
-                new Task(12, "Title", "Description", 3, 2, newest, "Requirement", date, date,
+                new Task(12, "Title", "Description", 3, 2, newest, -1, date, date,
                         null, activityList);
         assertEquals(testNullUsers.getUserForTaskCard(), "");
 
@@ -246,7 +245,9 @@ public class TaskTest {
     @Test
     public void testUpdate() {
         TaskStatus oldest = new TaskStatus("OLD");
-        Task t2 = new Task(12, "Title", "Description", 3, 2, oldest, "Requirement", date, date,
+        final List<String> userList = new ArrayList<String>();
+        userList.add(user1);
+        Task t2 = new Task(12, "Title", "Description", 3, 2, oldest, -1, date, date,
                 userList, activityList);
 
         t1.update(t1);
@@ -282,7 +283,7 @@ public class TaskTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testIdentify() throws UnsupportedOperationException {
         final Task unTested =
-                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                new Task(0, user1, user1, 0, 0, newest, -1, date, date, activityList,
                         activityList);
         final Object o = new Object();
         unTested.identify(o);
@@ -291,7 +292,7 @@ public class TaskTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testSave() throws UnsupportedOperationException {
         final Task unTested =
-                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                new Task(0, user1, user1, 0, 0, newest, -1, date, date, activityList,
                         activityList);
         unTested.save();
     }
@@ -299,7 +300,7 @@ public class TaskTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testDelete() throws UnsupportedOperationException {
         final Task unTested =
-                new Task(0, user1, user1, 0, 0, newest, user1, date, date, activityList,
+                new Task(0, user1, user1, 0, 0, newest, -1, date, date, activityList,
                         activityList);
         unTested.delete();
     }
