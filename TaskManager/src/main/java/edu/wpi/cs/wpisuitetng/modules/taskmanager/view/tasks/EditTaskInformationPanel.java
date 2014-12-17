@@ -254,7 +254,12 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
 
@@ -264,11 +269,20 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        parentPanel.buttonPanel.isTaskInfoValid();
+                    }
+                }, 100);
             }
         });
     }
 
+    /*
+     * (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+     */
     @Override
     public Task getTask() {
         final long id = parentPanel.aTask.getTaskID();
