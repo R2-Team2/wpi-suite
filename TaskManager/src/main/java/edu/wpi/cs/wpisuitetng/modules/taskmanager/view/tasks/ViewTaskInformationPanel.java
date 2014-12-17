@@ -104,10 +104,11 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         buttonOpenRequirement = new JButton("<");
         // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
-        
-        //Comment Box
+
+        // Comment Box
         commentScroll = new JScrollPane();
-        commentScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll
+                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 300));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -151,7 +152,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         } else {
             requirementText =
                     RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
-                            .getName();
+                    .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -251,8 +252,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
->>>>>>> develop
-     * Returns the formatted due date of a task.
+     * >>>>>>> develop Returns the formatted due date of a task.
      *
      * @param date the date
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
@@ -272,8 +272,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     @Override
     public Task getTask() {
-        // TODO Auto-generated method stub
-        return null;
+        return parentPanel.aTask;
     }
 
     /**
@@ -301,9 +300,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-                    .getInstance().editRequirement(getCurrentRequirement());
+            .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                    .openRequirementsTab();
+            .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
