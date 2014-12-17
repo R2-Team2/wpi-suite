@@ -394,16 +394,16 @@ public class Task extends AbstractModel {
      * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
      */
     @Override
-    public void save() {
-        // TODO Auto-generated method stub
+    public void save() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Save() is an unsupported operation.");
     }
 
     /*
      * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
      */
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Delete() is an unsupported operation.");
     }
 
     /*
@@ -418,9 +418,8 @@ public class Task extends AbstractModel {
      * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
      */
     @Override
-    public Boolean identify(Object o) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean identify(Object o) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Identify() is an unsupported operation.");
     }
 
     /**
@@ -467,7 +466,7 @@ public class Task extends AbstractModel {
 
     /**
      * copies old task params to this task.
-     * 
+     *
      * @param toCopyFrom old task.
      */
     public void copyFrom(Task toCopyFrom) {

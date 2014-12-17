@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersContro
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskInformationPanel.
  *
@@ -75,7 +74,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
                     buttonRemove.setEnabled(false);
                 }
             }
-
         });
 
         /**
@@ -169,9 +167,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
         });
     }
 
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
-     */
     @Override
     public Task getTask() {
         // TODO Auto-generated method stub
