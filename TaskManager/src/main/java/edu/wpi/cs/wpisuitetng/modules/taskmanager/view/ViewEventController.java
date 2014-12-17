@@ -71,9 +71,13 @@ public class ViewEventController {
      * opens requirement module tab
      */
     public void openRequirementsTab() {
-        // TODO use a more robust and obviously-correct way of obtaining the Requirements Manager
-        // tab
-        ((JTabbedPane) ((JPanel) main.getParent()).getParent()).setSelectedIndex(2);
+        final JTabbedPane mainWindow = (JTabbedPane) ((JPanel) main.getParent()).getParent();
+        for (int i = 0; i < mainWindow.getTabCount(); i++) {
+            if (mainWindow.getTitleAt(i).equals("Requirement Manager")) {
+                mainWindow.setSelectedIndex(i);
+                break;
+            }
+        }
     }
 
 
@@ -176,7 +180,9 @@ public class ViewEventController {
     }
 
     /**
-     *
+     * Passes values to the current workflow's method showArchived
+     * @param b Boolean
+     * @param t TaskStatusView
      */
     public void showArchived(Boolean b, TaskStatusView t) {
         // TODO Auto-generated method stub
