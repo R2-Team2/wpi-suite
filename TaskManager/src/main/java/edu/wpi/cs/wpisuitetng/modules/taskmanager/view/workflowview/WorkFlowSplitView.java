@@ -13,7 +13,6 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.settings.SettingsSplitTabbedPanel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel;
 
 // import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.CreateNewTaskPanel;
@@ -29,7 +28,6 @@ public class WorkFlowSplitView extends JSplitPane {
 
 	/** The split tabbed panel. */
 	WorkFlowSplitTabbedPanel workflowSplitTabbedPanel;
-	private SettingsSplitTabbedPanel settingsSplitTabbedPanel;
 	protected WorkFlowView workflowObj;
 	private boolean expanded;
 	/**
@@ -37,6 +35,7 @@ public class WorkFlowSplitView extends JSplitPane {
 	 */
 	public WorkFlowSplitView() {
 		workflowSplitTabbedPanel = new WorkFlowSplitTabbedPanel(this);
+		
         ViewEventController.getInstance().setSplitTabbedPanel(workflowSplitTabbedPanel);
 		
         workflowObj = new WorkFlowView();
@@ -54,13 +53,14 @@ public class WorkFlowSplitView extends JSplitPane {
 		setupListeners();
 	}
 
-	/**
-	 * Returns the workflowSplitTabbedPanel used by this WorkFlowSplitView
-	 * @return WorkFlowSplitTabbedPanel
-	 */
-	public WorkFlowSplitTabbedPanel getWF() {
-		return workflowSplitTabbedPanel;
-	}
+    /**
+     * Returns the workflowSplitTabbedPanel used by this WorkFlowSplitView
+     * 
+     * @return WorkFlowSplitTabbedPanel
+     */
+    public WorkFlowSplitTabbedPanel getWF() {
+        return workflowSplitTabbedPanel;
+    }
 
 	/**
 	 * Creates the new task panel.
@@ -71,7 +71,6 @@ public class WorkFlowSplitView extends JSplitPane {
 		setResizeWeight(1.0);
 		setEnabled( false );
 		setOneTouchExpandable(false);
-		//this.setDividerLocation(.6);
 		resetToPreferredSizes();
 		setRightComponent(workflowSplitTabbedPanel);
 		expanded = true;
@@ -168,8 +167,6 @@ public class WorkFlowSplitView extends JSplitPane {
 					movePanel();
 				}
 			});
-    	
-    	
     }
 
 }

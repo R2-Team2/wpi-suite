@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 /**
  * The Class AbstractButtonPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class AbstractButtonPanel extends JPanel {
@@ -52,8 +52,17 @@ public class AbstractButtonPanel extends JPanel {
     };
 
     /**
-     * Validate task dates
+     * Validate task dates.
      */
     public void validateTaskDate() {};
+
+    /**
+     * Are dates valid.
+     *
+     * @return true, if successful
+     */
+    public boolean areDatesValid() {
+        return true;
+    };
 
 }

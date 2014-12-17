@@ -60,8 +60,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     // Add Status Fields
     private final JTextField newStatusTitleField = new JTextField();
     private final JLabel newStatusTitleLabel = new JLabel("New Status Title");
-    private final JTextField newStatusTypeField = new JTextField();
-    private final JLabel newStatusTypeLabel = new JLabel("New Status Type");
 
     // Show and Remove Status Components
 
@@ -74,13 +72,10 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     public WorkFlowEditView() {
         newStatusTitleField.setBorder(defaultBorder);
         newStatusTitleField.setMinimumSize(textFieldDimension);
-        newStatusTypeField.setMinimumSize(textFieldDimension);
 
         // Add status Components
         sidePanel.add(newStatusTitleLabel, "wrap");
         sidePanel.add(newStatusTitleField, "wrap");
-        sidePanel.add(newStatusTypeLabel, "wrap");
-        sidePanel.add(newStatusTypeField, "wrap");
         addButton.setEnabled(false);
         sidePanel.add(addButton, "wrap");
 
@@ -234,22 +229,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
                 validateNewStatusFields();
             }
         });
-        newStatusTypeField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateNewStatusFields();
-            }
-        });
     }
 
     /**
@@ -311,12 +290,11 @@ public class WorkFlowEditView extends AbsWorkFlowView {
      */
     protected void clearNewStatusFields() {
         newStatusTitleField.setText("");
-        newStatusTypeField.setText("");
     }
 
 
     private void validateNewStatusFields() {
-        if (isNewStatusTitleFieldValid() && isNewStatusTypeFieldValid()) {
+        if (isNewStatusTitleFieldValid()) {
             addButton.setEnabled(true);
         } else {
             addButton.setEnabled(false);
@@ -326,9 +304,5 @@ public class WorkFlowEditView extends AbsWorkFlowView {
     private boolean isNewStatusTitleFieldValid() {
         return !(newStatusTitleField.getText().length() <= 0)
                 && (newStatusTitleField.getText().length() <= maxTitleLen);
-    }
-
-    private boolean isNewStatusTypeFieldValid() {
-        return !(newStatusTypeField.getText().length() <= 0);
     }
 }
