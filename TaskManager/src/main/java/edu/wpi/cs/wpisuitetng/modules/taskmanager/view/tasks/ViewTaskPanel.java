@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
@@ -39,7 +40,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buildLayout();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#buildLayout()
      */
     @Override
@@ -50,6 +52,7 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
+        System.out.println("THIS IS NOT NULL:  " + aTask.getActivityList());
     }
 
     /**
@@ -144,11 +147,11 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     /**
      * Retrieves the Requirement from infoPanel.
      *
-     * @return String
+     * @return int
      */
     @Override
-    public String getRequirement() {
-        return (String) infoPanel.getRequirement().getSelectedItem();
+    public int getRequirement() {
+        return ((Requirement) infoPanel.getRequirement().getSelectedItem()).getId();
     }
 
     /**
@@ -205,7 +208,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
      */
     @Override

@@ -17,11 +17,13 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
@@ -73,12 +75,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Instantiate GUI Elements
         // Labels
         final Task viewTask = parentPanel.aTask;
-        final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle()
-                + "</h1></html>");
-        final JLabel labelDescr = new JLabel(
-                "<html><h3>Description</h3></html>");
-        final JLabel labelDescrBody = new JLabel("<html>"
-                + viewTask.getDescription() + "</html>");
+        final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle() + "</h1></html>");
+        final JLabel labelDescr = new JLabel("<html><h3>Description</h3></html>");
+        final JLabel labelDescrBody = new JLabel("<html>" + viewTask.getDescription() + "</html>");
         final JLabel labelDetails = new JLabel("<html><h3>Details</h3></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
@@ -129,12 +128,14 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         detailsPanel.add(new JLabel("" + viewTask.getActualEffort()), "cell 1 2");
         detailsPanel.add(labelRequirement, "cell 0 3");
 
-        String requirementText = viewTask.getRequirement();
-        if (requirementText == null || requirementText.equals("None")) {
+        final String requirementText;
+        if (viewTask.getRequirement() == -1) {
             requirementText = "None";
             buttonOpenRequirement.setEnabled(false);
-        }
-        else {
+        } else {
+            requirementText =
+                    RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
+                            .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -188,8 +189,12 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // **Activity Log**
 
         // Activity Title and Separator
+        final JPanel activityPanel = new JPanel();
+
         contentPanel.add(labelActivityLog, "cell 0 10, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 10, growx, wrap");
+        activities = new JList(viewTask.getActivityList().toArray());
+        contentPanel.add(activities, "cell 0 11,grow");
 
         setViewportView(contentPanel);
     }
@@ -199,6 +204,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     public void setupTask() {
         final Task viewTask = parentPanel.aTask;
+        System.out.println("Pay attention to me: " + viewTask.getActivityList());
 
         // viewTask.getTaskID();
         final String t = viewTask.getTitle();
@@ -213,6 +219,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         calDueDate.setDate(viewTask.getDueDate());
         spinnerEstimatedEffort.setValue(viewTask.getEstimatedEffort());
         spinnerActualEffort.setValue(viewTask.getActualEffort());
+        activities = new JList(viewTask.getActivityList().toArray());
     }
 
     /**
@@ -242,6 +249,16 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+     */
+    @Override
+    public Task getTask() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     /**
      * Gets the current requirement.
      *
@@ -249,10 +266,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @throws Exception the exception
      */
     private Requirement getCurrentRequirement() throws Exception {
-        final String reqName = parentPanel.aTask.getRequirement();
+        final int req = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {
-            if (requirement.getName().equals(reqName)) {
+            if (requirement.getId() == req) {
                 return requirement;
             }
         }
@@ -267,9 +284,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-            .getInstance().editRequirement(getCurrentRequirement());
-            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
-            .getInstance().openRequirementsTab();
+                    .getInstance().editRequirement(getCurrentRequirement());
+            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
+                    .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }

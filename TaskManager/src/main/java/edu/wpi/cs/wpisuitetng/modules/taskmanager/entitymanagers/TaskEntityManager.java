@@ -110,7 +110,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     public Task[] getAll(Session s) {
         // Retrieve all Tasks (no arguments specified)
         final List<Model> tasks =
-                db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), "", null, null,
+                db.retrieveAll(new Task(0, "", "", 0, 0, new TaskStatus("new"), -1, null, null,
                         null, null), s.getProject());
 
         // Convert the List into an array
@@ -189,7 +189,7 @@ public class TaskEntityManager implements EntityManager<Task> {
     @Override
     public int Count() {
         return db.retrieveAll(
-                new Task(0, null, null, 0, 0, new TaskStatus("new"), null, null, null, null, null))
+                new Task(0, null, null, 0, 0, new TaskStatus("new"), -1, null, null, null, null))
                 .size();
 
     }
