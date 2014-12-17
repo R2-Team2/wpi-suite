@@ -14,11 +14,12 @@ import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskButtonPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
@@ -26,6 +27,7 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 
     // /** The button create. */
     // protected JButton buttonCreate;
+    /** The parent panel. */
     protected NewTaskPanel parentPanel;
 
     /**
@@ -75,40 +77,60 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
 
     /**
      * Validate task info.
+     *
+     * @return true, if is task info valid
      */
     @Override
     public boolean isTaskInfoValid() {
         boolean result = false;
         if (parentPanel.infoPanel.boxTitle.getText().trim().length() <= 0
                 || parentPanel.infoPanel.boxDescription.getText().trim().length() <= 0
+                || !(areDatesValid())
                 || (!((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
                         .equals("New") && parentPanel.infoPanel.chosenAssigneeList.getModel()
-                        .getSize() == 0) || parentPanel.infoPanel.calDueDate.getDate() == null
-                || parentPanel.infoPanel.calStartDate.getDate() == null) {
+                        .getSize() == 0) || parentPanel.infoPanel.calDueDate.getDate() == null) {
             buttonCreate.setEnabled(false);
             result = false;
-        }
-        else {
+        } else {
             buttonCreate.setEnabled(true);
             result = true;
         }
+
+        parentPanel.infoPanel.validateAssigneeButtons();
 
         return result;
     }
 
     /**
-     * Validate task dates
+     * Validate task dates.
      */
     @Override
     public void validateTaskDate() {
         if (parentPanel.infoPanel.getDueDate() != null
                 && parentPanel.infoPanel.getStartDate() != null) {
             if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
-                parentPanel.infoPanel.labelDueDate.setText(
-                        "<html>Due Date: <font color='CC0000'>Preceeds Start Date</font></html>");
+                parentPanel.infoPanel.labelDueDate
+                        .setText("<html>Due Date: <font color='CC0000'>"
+                                + "Preceeds Start Date</font></html>");
             } else {
                 parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
             }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#areDatesValid()
+     */
+    @Override
+    public boolean areDatesValid() {
+        if (parentPanel.infoPanel.getDueDate() != null
+                && parentPanel.infoPanel.getStartDate() != null) {
+            return (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate()));
+        }
+        else {
+            return true;
         }
     }
 

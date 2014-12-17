@@ -39,6 +39,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // requirement module integration
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
@@ -47,8 +48,8 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 /**
  * The Class AbstractInformationPanel. This class behaves as an abstract class.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class AbstractInformationPanel extends JScrollPane {
@@ -113,15 +114,16 @@ public class AbstractInformationPanel extends JScrollPane {
     /** The cal due date. */
     protected JXDatePicker calDueDate;
 
-    /** The cal start label */
+    /** The cal start label. */
     protected JLabel labelStartDate = new JLabel("Start Date: ");
 
-    /** The cal due label */
+    /** The cal due label. */
     protected JLabel labelDueDate = new JLabel("Due Date: ");
 
     /** Calendar Button Dropdown Icon. */
     protected ImageIcon icon;
 
+    /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
@@ -145,21 +147,20 @@ public class AbstractInformationPanel extends JScrollPane {
 
         }
         Collections.sort(requirements, new RequirementComparator());
-        final String[] arrListOfRequirements = new String[requirements.size() + 1];
         strListOfRequirements.add("None");
-        arrListOfRequirements[0] = "None";
-        for (int i = 0; i < requirements.size(); i++) {
-            // build a List<String> of the names of the requirements
-            // defaultComboBoxModel, below, requires an array of string
-            String tempName = requirements.get(i).getName();
-            if (tempName.length() > 15) {
-                tempName = tempName.substring(0, 15) + "...";
+        for (Requirement requirement : requirements) {
+            if (!requirement.getStatus().equals(RequirementStatus.DELETED)) {
+                String tempName = requirement.getName();
+                if (tempName.length() > 15) {
+                    tempName = tempName.substring(0, 15) + "...";
+                }
+                System.out.println(tempName);
+                strListOfRequirements.add(tempName);
             }
-            System.out.println(tempName);
-            strListOfRequirements.add(tempName);
-            arrListOfRequirements[i + 1] = tempName;
         }
 
+        final String[] arrListOfRequirements =
+                strListOfRequirements.toArray(new String[strListOfRequirements.size()]);
 
         // Instantiate GUI Elements
         // Labels
@@ -172,7 +173,7 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelDueDate =
                 new JLabel("<html>Due Date <font color='red'>*</font></html>: ");
         final JLabel labelStartDate =
-                new JLabel("<html>Start Date: <font color='red'>*</font></html> ");
+                new JLabel("<html>Start Date: </html> ");
         final JLabel labelRequirement = new JLabel("Requirement: ");
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
@@ -215,6 +216,9 @@ public class AbstractInformationPanel extends JScrollPane {
         // Buttons
         buttonAdd = new JButton(">>");
         buttonRemove = new JButton("<<");
+        buttonAdd.setEnabled(false);
+        buttonRemove.setEnabled(false);
+
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
@@ -287,22 +291,47 @@ public class AbstractInformationPanel extends JScrollPane {
         rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
         rightColumn.add(labelDueDate, "left, wrap");
         rightColumn.add(calDueDate, "left, wrap");
+        leftColumn.add(buttonOpenRequirement, "left, wrap");
+        validateRequirementView();
+        dropdownRequirement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateRequirementView();
+            }
+        });
+
 
         // Populate contentPanel
         contentPanel.add(labelTitle, "wrap");
         contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
+        leftColumn.add(labelStartDate, "left, wrap");
+        leftColumn.add(calStartDate, "left, wrap");
+        rightColumn.add(labelEstimatedEffort, "left, wrap");
+        rightColumn.add(spinnerEstimatedEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelActualEffort, "left, wrap");
+        rightColumn.add(spinnerActualEffort, "left, width 200px, height 25px, wrap");
+        rightColumn.add(labelDueDate, "left, wrap");
+        rightColumn.add(calDueDate, "left, wrap");
 
         contentPanel.add(labelDescription, "wrap");
         contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+        // Populate contentPanel
+        contentPanel.add(labelTitle, "wrap");
+        contentPanel.add(boxTitle, "growx, pushx, shrinkx, span, wrap");
+
+        contentPanel.add(leftColumn, "left, spany, growy, push");
+        contentPanel.add(rightColumn, "right, spany, growy, push");
+        contentPanel.add(labelDescription, "wrap");
+        contentPanel.add(descrScroll, "growx, pushx, shrinkx, span, height 200px, wmin 10, wrap");
+
+
+        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
 
         contentPanel.add(leftColumn, "left, spany, growy, push");
         contentPanel.add(rightColumn, "right, spany, growy, push");
 
-        contentPanel.add(bottom, "left 5, dock south, spany, growy, push");
-
         setViewportView(contentPanel);
     }
-
 
     /**
      * Returns the JTextField holding the title.
@@ -367,7 +396,6 @@ public class AbstractInformationPanel extends JScrollPane {
         return calStartDate.getDate();
     }
 
-
     /**
      * Returns the Due Date.
      *
@@ -391,8 +419,10 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the selected requirement.
+     *
      * @return selected requirement object
-     * @throws Exception
+     * @throws Exception the exception
      */
     private Requirement getSelectedRequirement() throws Exception {
         final String reqName = (String) dropdownRequirement.getSelectedItem();
@@ -407,6 +437,8 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Open selected requirement.
+     *
      * @throws Exception invalid requirement selected
      */
     public void openSelectedRequirement() throws Exception {
@@ -416,6 +448,9 @@ public class AbstractInformationPanel extends JScrollPane {
                 .openRequirementsTab();
     }
 
+    /**
+     * Validate requirement view.
+     */
     private void validateRequirementView() {
         System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null || getRequirement().getSelectedItem().equals("None")) {
@@ -425,9 +460,8 @@ public class AbstractInformationPanel extends JScrollPane {
         }
     }
 
-
     /**
-     * Disables all of the text fields based on boolean io
+     * Disables all of the text fields based on boolean io.
      *
      * @param io is a flag that if true disables fields, if false enables all fields.
      */
@@ -458,13 +492,20 @@ public class AbstractInformationPanel extends JScrollPane {
     }
 
     /**
+     * Gets the task.
+     *
      * @return Task
      */
-    public Task getTask() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("GetTask() is an unsupported operation.");
+    public Task getTask() {
+        return null;
     }
-}
 
+    /**
+     * Validate assignee buttons
+     */
+    public void validateAssigneeButtons() {};
+
+}
 
 
 /**
@@ -477,11 +518,9 @@ class IterationComparator implements Comparator<Iteration> {
         int result = 0;
         if (I1.getStart() == null) {
             result = -1;
-        }
-        else if (I2.getStart() == null) {
+        } else if (I2.getStart() == null) {
             result = 1;
-        }
-        else {
+        } else {
             result = I1.getStart().getDate().compareTo(I2.getStart().getDate());
         }
         return result;

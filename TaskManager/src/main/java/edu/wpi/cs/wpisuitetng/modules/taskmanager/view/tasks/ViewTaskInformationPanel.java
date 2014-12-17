@@ -30,12 +30,13 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 /**
  * The Class ViewTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
+    /** The requirements. */
     private final List<Requirement> requirements = new ArrayList<Requirement>();
 
     /**
@@ -215,7 +216,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
-     * Sets up listeners for members of panel
+     * Sets up listeners for members of panel.
      */
     protected void setupListeners() {
         buttonOpenRequirement.addActionListener(new ActionListener() {
@@ -229,18 +230,23 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     /**
      * Returns the formatted due date of a task.
      *
-     * @param t A given Task Object
+     * @param date the date
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
      */
     private String formatDate(Date date) {
+        if (date == null) {
+            return "";
+        }
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         final String dateString = dateFormatter.format(date);
         return dateString;
     }
 
     /**
+     * Gets the current requirement.
+     *
      * @return selected requirement object
-     * @throws Exception
+     * @throws Exception the exception
      */
     private Requirement getCurrentRequirement() throws Exception {
         final String reqName = parentPanel.aTask.getRequirement();
@@ -255,7 +261,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
-     * @throws Exception invalid requirement selected
+     * Open requirement.
      */
     @Override
     protected void openRequirement() {

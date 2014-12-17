@@ -12,16 +12,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
 
 /**
  * The Class NewTaskInformationPanel.
  *
- * @author R2-Team2
  * @version $Revision: 1.0 $
+ * @author R2-Team2
  */
 @SuppressWarnings("serial")
 public class NewTaskInformationPanel extends AbstractInformationPanel {
@@ -44,23 +47,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
      * Sets up listeners for text validation.
      */
     protected void setupListeners() {
-        // Text Field Listeners
-        boxTitle.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parentPanel.buttonPanel.isTaskInfoValid();
-            }
-        });
 
         buttonAdd.addActionListener(new ActionListener() {
             @Override
@@ -71,12 +57,7 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = possibleAssigneeModel.remove(toAdd[i]);
                         chosenAssigneeModel.add(chosenAssigneeModel.size(), transfer);
                     }
-                    if (possibleAssigneeModel.size() == 0) {
-                        buttonAdd.setEnabled(false);
-                    }
-                    if (chosenAssigneeModel.size() > 0) {
-                        buttonRemove.setEnabled(true);
-                    }
+                    buttonAdd.setEnabled(false);
                 }
             }
         });
@@ -90,15 +71,9 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
                     }
-                    if (chosenAssigneeModel.size() == 0) {
-                        buttonRemove.setEnabled(false);
-                    }
-                    if (possibleAssigneeModel.size() > 0) {
-                        buttonAdd.setEnabled(true);
-                    }
+                    buttonRemove.setEnabled(false);
                 }
             }
-
         });
 
         /**
@@ -171,10 +146,39 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
             }
         });
 
+        /**
+         * Chosen assignee list Listener
+         */
+        chosenAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
+
+        /**
+         * Possible assignee list Listener
+         */
+        possibleAssigneeList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                parentPanel.buttonPanel.isTaskInfoValid();
+            }
+        });
     }
 
-    // @Override
-    // public Task getTask() throws UnsupportedOperationException {
-    // throw new UnsupportedOperationException("GetTask() is an unsupported operation.");
-    // }
+    @Override
+    public Task getTask() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Validate assignee buttons
+     */
+    @Override
+    public void validateAssigneeButtons() {
+        buttonAdd.setEnabled(!possibleAssigneeList.isSelectionEmpty());
+        buttonRemove.setEnabled(!chosenAssigneeList.isSelectionEmpty());
+    };
 }
