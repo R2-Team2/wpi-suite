@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
@@ -27,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.UpdateTaskController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
@@ -86,7 +89,7 @@ public class TaskCommentPanel extends JPanel {
 
         // Create new scroll pane for notes
         commentScroll
-        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -197,6 +200,13 @@ public class TaskCommentPanel extends JPanel {
 
                     // Add comment to Task
                     currentTask.addComment(msg);
+                    // Code inspired by mkyong
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+                    final Date date = new Date();
+                    final String user = ConfigManager.getConfig().getUserName();
+                    final String createActivity =
+                            "Comment added at " + dateFormat.format(date) + " (by " + user + ")";
+                    currentTask.addActivity(createActivity); // add activity entry to activity list
 
                     taskUpdater.updateTask(currentTask);
 

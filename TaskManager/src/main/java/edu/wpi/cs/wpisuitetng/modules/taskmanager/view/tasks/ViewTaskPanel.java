@@ -52,7 +52,6 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         setLayout(new BorderLayout());
         this.add(infoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
-        System.out.println("THIS IS NOT NULL:  " + aTask.getActivityList());
     }
 
     /**

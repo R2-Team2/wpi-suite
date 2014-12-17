@@ -63,7 +63,6 @@ public class EditTaskPanel extends AbstractTaskPanel {
 
         // create a task, send to to controller
         final Task updatedTask = ((EditTaskInformationPanel) infoPanel).getTaskFromFields();
-        System.out.println("ACTIVITY LIST:  " + updatedTask.getActivityList());
         final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
         updateTaskCntrlr.updateTask(updatedTask);
         // RetrieveTasksController retrieveTasks = new RetrieveTasksController();

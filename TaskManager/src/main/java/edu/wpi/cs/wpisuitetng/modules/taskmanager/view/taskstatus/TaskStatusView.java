@@ -140,6 +140,7 @@ public class TaskStatusView extends JPanel {
             panel.add(card, "newline");
         }
         revalidate();
+        repaint();
     }
 
     /**
@@ -187,8 +188,7 @@ public class TaskStatusView extends JPanel {
                             shouldAppear
                                     || t.getRequirementTitle().toLowerCase()
                                             .contains(filterString.toLowerCase());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("Could not find Requirement");
                 }
             }

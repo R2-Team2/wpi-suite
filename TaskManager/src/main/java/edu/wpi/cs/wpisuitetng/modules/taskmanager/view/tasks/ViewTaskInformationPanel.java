@@ -109,7 +109,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Comment Box
         commentScroll = new JScrollPane();
         commentScroll
-                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -155,7 +155,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         } else {
             requirementText =
                     RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
-                            .getName();
+                    .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -213,7 +213,20 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Activity Title and Separator
         contentPanel.add(labelActivityLog, "cell 0 11, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 11, growx, wrap");
-        activities = new JList(viewTask.getActivityList().toArray());
+        List<String> tempList = new ArrayList();
+        for (int i = 0; i < viewTask.getActivityList().size(); i++) {
+            if (viewTask.getActivityList().get(i).length() > 75) {
+                tempList.add("<html>"
+                        + viewTask.getActivityList().get(i).substring(0, 75)
+                        + "<br/>"
+                        + viewTask.getActivityList().get(i)
+                                .substring(76, viewTask.getActivityList().get(i).length())
+                        + "</html>");
+            } else {
+                tempList.add("<html>" + viewTask.getActivityList().get(i) + "</html>");
+            }
+        }
+        activities = new JList(tempList.toArray());
         contentPanel.add(activities, "cell 0 12,grow");
 
         setViewportView(contentPanel);
@@ -224,7 +237,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      */
     public void setupTask() {
         final Task viewTask = parentPanel.aTask;
-        System.out.println("Pay attention to me: " + viewTask.getActivityList());
 
         // viewTask.getTaskID();
         final String t = viewTask.getTitle();
@@ -255,8 +267,10 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     }
 
     /**
-     * <<<<<<< HEAD Returns the formatted due date of a task. ======= >>>>>>> develop Returns the
-     * formatted due date of a task. >>>>>>> develop
+     * <<<<<<< HEAD <<<<<<< HEAD >>>>>>> develop Returns the formatted due date of a task. =======
+     * Returns the formatted due date of a task. >>>>>>> origin/feature-143-activities_to_edit
+     * ======= <<<<<<< HEAD Returns the formatted due date of a task. ======= >>>>>>> develop
+     * Returns the formatted due date of a task. >>>>>>> develop >>>>>>> develop
      *
      * @param date the date
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
@@ -304,9 +318,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-                    .getInstance().editRequirement(getCurrentRequirement());
+            .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-                    .openRequirementsTab();
+            .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }

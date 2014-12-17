@@ -36,7 +36,7 @@ public class WorkFlowView extends AbsWorkFlowView {
 
     /** The task status views. */
     List<TaskStatusView> views;
-    
+
     final JButton collapseSideButton;
 
     /**
@@ -51,15 +51,15 @@ public class WorkFlowView extends AbsWorkFlowView {
         setLayout(new BorderLayout());
 
         final JScrollBar hbar = new JScrollBar(java.awt.Adjustable.HORIZONTAL, 30, 20, 0, 300);
-        
+
         final JPanel collapseButtonPanel = new JPanel();
         collapseSideButton = new JButton(">");
         collapseButtonPanel.setLayout(new MigLayout());
         collapseSideButton.setBounds(10, 10, 10, 10);
         collapseButtonPanel.add(collapseSideButton, "");
         this.add(collapseButtonPanel, BorderLayout.EAST);
-        
-        
+
+
 
         taskStatusPanel = new JPanel();
         this.add(new JScrollPane(taskStatusPanel), BorderLayout.CENTER);
@@ -71,10 +71,9 @@ public class WorkFlowView extends AbsWorkFlowView {
         final TaskStatusView taskStatusDone = new TaskStatusView(new TaskStatus("Completed"));
         final TaskStatusView taskStatusArchived = new TaskStatusView(new TaskStatus("Archived"));
 
-        taskStatusPanel
-        .setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
-                        + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
+        taskStatusPanel.setLayout(new MigLayout("", "[350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left][350px:n:500px,grow,left]"
+                + "[350px:n:500px,grow,left]", "[278px,grow 500]"));
 
         // Hard Coded Task Statuses, move this to database soon
         taskStatusPanel.add(taskStatusNew, "cell 0 0,grow");
@@ -145,11 +144,9 @@ public class WorkFlowView extends AbsWorkFlowView {
             taskStatusPanel.add(t, "cell 4 0,grow");
             views.add(t);
             refresh();
-        }
-        else {
+        } else {
             taskStatusPanel.remove(t);
             views.remove(t);
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             refresh();
         }
 
