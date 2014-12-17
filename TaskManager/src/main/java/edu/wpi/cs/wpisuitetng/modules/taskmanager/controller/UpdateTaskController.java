@@ -32,6 +32,10 @@ public class UpdateTaskController {
         this.view = view;
     }
 
+    public UpdateTaskController() {
+        view = null;
+    }
+
     /**
      * Calls the request from the request observer.
      *

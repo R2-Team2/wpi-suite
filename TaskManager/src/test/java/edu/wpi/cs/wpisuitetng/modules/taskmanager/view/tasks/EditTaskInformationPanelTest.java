@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -37,8 +38,8 @@ public class EditTaskInformationPanelTest {
         activityList.add("Activity 1");
         List<String> userList = new ArrayList<String>();
         userList.add("User 1");
-        List<Comment> commentList = new ArrayList<Comment>();
-        commentList.add(new Comment(1010, "User 1", 0, "Comment 1"));
+        CommentList commentList = new CommentList();
+        commentList.add("Comment 1");
 
         when(mockTask.getTaskID()).thenReturn((long) 1);
         when(mockTask.getActualEffort()).thenReturn(1);
@@ -48,7 +49,7 @@ public class EditTaskInformationPanelTest {
         when(mockTask.getDescription()).thenReturn("Test EditTaskInformationPanelTest");
         when(mockTask.getDueDate()).thenReturn(new Date());
         when(mockTask.getEstimatedEffort()).thenReturn(2);
-        when(mockTask.getRequirement()).thenReturn("Requirement 1");
+        when(mockTask.getRequirement()).thenReturn(-1);
         when(mockTask.getStartDate()).thenReturn(new Date());
         when(mockTask.getTitle()).thenReturn("Mock Task");
         when(mockTask.getUserForTaskCard()).thenReturn("Tester");

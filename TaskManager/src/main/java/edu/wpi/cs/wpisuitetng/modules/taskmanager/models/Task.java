@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
@@ -66,7 +66,7 @@ public class Task extends AbstractModel {
     private List<String> activityList = new ArrayList<String>();
 
     /** The comment thread on the task. */
-    private final List<Comment> comments = new LinkedList<Comment>();
+    private CommentList comments;
 
     /**
      * Instantiates a new task.
@@ -97,8 +97,34 @@ public class Task extends AbstractModel {
         this.dueDate = dueDate;
         this.assignedUsers = (assignedUsers != null) ? new ArrayList<String>(assignedUsers) : null;
         this.activityList = activityList;
+        comments = new CommentList();
     }
-
+    
+    /**
+     * Initiates a new Task with comments
+     * 
+     * @param taskID the task id
+     * @param title the title
+     * @param description the description
+     * @param estimatedEffort the estimated effort
+     * @param actualEffort the actual effort
+     * @param status the status
+     * @param requirement the requirement
+     * @param startDate the start date
+     * @param dueDate the due date
+     * @param assignedUsers2 the assigned users
+     * @param activityList the activity list
+     * @param commentList the object holding the list of comments
+     */
+    public Task(long taskID, String title, String description, int estimatedEffort,
+            int actualEffort, TaskStatus status, int requirement, Date startDate, Date dueDate,
+            List<String> assignedUsers2, List<String> activityList, CommentList commentList) {
+        this(taskID, title, description, estimatedEffort, actualEffort, status, requirement,
+                startDate, dueDate, assignedUsers2, activityList);
+        if (commentList != null) {
+            comments = commentList;
+        }
+    }
 
     /*
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.models.ITask#getTitle()
@@ -373,8 +399,16 @@ public class Task extends AbstractModel {
         return activityList;
     }
 
+    /**
+     * Adds a message to the list of comments
+     * @param msg
+     */
+    public void addComment(String msg) {
+        comments.add(msg);
+    }
 
-    public List<Comment> getComments() {
+    public CommentList getComments() {
+
         return comments;
     }
 
@@ -488,6 +522,7 @@ public class Task extends AbstractModel {
         activityList = toCopyFrom.activityList;
         requirement = toCopyFrom.requirement;
         status = toCopyFrom.status;
+        comments = toCopyFrom.comments;
     }
 }
 

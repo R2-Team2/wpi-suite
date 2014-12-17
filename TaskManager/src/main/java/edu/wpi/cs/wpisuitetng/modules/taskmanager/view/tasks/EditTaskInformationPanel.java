@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 
 /**
  * The Class EditTaskInformationPanel.
@@ -116,8 +117,8 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!chosenAssigneeList.isSelectionEmpty()) {
-                    final int[] toRemove = chosenAssigneeList.getSelectedIndices();
+                if (!possibleAssigneeList.isSelectionEmpty()) {
+                    final int[] toRemove = possibleAssigneeList.getSelectedIndices();
                     for (int i = toRemove.length - 1; i >= 0; i--) {
                         User transfer = chosenAssigneeModel.remove(toRemove[i]);
                         possibleAssigneeModel.add(possibleAssigneeModel.size(), transfer);
@@ -288,13 +289,13 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             }
         });
     }
-
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
+    
+    /**
+     * Returns a new task with all of the fields from
+     * the task in the Parent Panel
+     * @return Task
      */
-    @Override
-    public Task getTask() {
+    public Task getTaskFromFields() {
         final long id = parentPanel.aTask.getTaskID();
         final String title = getTitle().getText();
         final String description = getDescription().getText();
@@ -318,9 +319,15 @@ public class EditTaskInformationPanel extends AbstractInformationPanel {
             createActivity = "Archived Task at " + dateFormat.format(date) + " (by " + user + ")";
         }
         final Task updatedTask;
+        final CommentList commentList;
+        if (attributePane == null) {
+            commentList = null;
+        } else {
+            commentList = attributePane.getComments();
+        }
         updatedTask =
                 new Task(id, title, description, estimatedEffort, actualEffort, status,
-                        requirement, startDate, dueDate, assignedUsers, activityList);
+                        requirement, startDate, dueDate, assignedUsers, activityList, commentList);
         updatedTask.addActivity(createActivity); // add activity entry to activity list
         return updatedTask;
     }
