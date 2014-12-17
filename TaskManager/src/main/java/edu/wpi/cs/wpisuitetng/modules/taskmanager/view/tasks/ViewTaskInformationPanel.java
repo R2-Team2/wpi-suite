@@ -74,12 +74,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Instantiate GUI Elements
         // Labels
         final Task viewTask = parentPanel.aTask;
-        final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle()
-                + "</h1></html>");
-        final JLabel labelDescr = new JLabel(
-                "<html><h3>Description</h3></html>");
-        final JLabel labelDescrBody = new JLabel("<html>"
-                + viewTask.getDescription() + "</html>");
+        final JLabel labelTitle = new JLabel("<html><h1>" + viewTask.getTitle() + "</h1></html>");
+        final JLabel labelDescr = new JLabel("<html><h3>Description</h3></html>");
+        final JLabel labelDescrBody = new JLabel("<html>" + viewTask.getDescription() + "</html>");
         final JLabel labelDetails = new JLabel("<html><h3>Details</h3></html>");
         final JLabel labelStatus = new JLabel("Status: ");
         final JLabel labelEstimatedEffort = new JLabel("Estimated Effort: ");
@@ -134,8 +131,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         if (requirementText == null || requirementText.equals("None")) {
             requirementText = "None";
             buttonOpenRequirement.setEnabled(false);
-        }
-        else {
+        } else {
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -249,7 +245,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return dateString;
     }
 
-    <<<<<<< HEAD
     /*
      * (non-Javadoc)
      * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractInformationPanel#getTask()
@@ -260,15 +255,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         return null;
     }
 
-    =======
-            >>>>>>> develop
-            /**
-             * Gets the current requirement.
-             *
-             * @return selected requirement object
-             * @throws Exception the exception
-             */
-            private Requirement getCurrentRequirement() throws Exception {
+    /**
+     * Gets the current requirement.
+     *
+     * @return selected requirement object
+     * @throws Exception the exception
+     */
+    private Requirement getCurrentRequirement() throws Exception {
         final String reqName = parentPanel.aTask.getRequirement();
 
         for (Requirement requirement : requirements) {
@@ -287,9 +280,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-            .getInstance().editRequirement(getCurrentRequirement());
-            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController
-            .getInstance().openRequirementsTab();
+                    .getInstance().editRequirement(getCurrentRequirement());
+            edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
+                    .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
