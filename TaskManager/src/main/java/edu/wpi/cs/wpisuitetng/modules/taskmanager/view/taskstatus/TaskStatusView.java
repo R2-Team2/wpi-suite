@@ -174,17 +174,16 @@ public class TaskStatusView extends JPanel {
             if (description) {
                 shouldAppear =
                         shouldAppear
-                        || t.getDescription().toLowerCase()
-                        .contains(filterString.toLowerCase());
+                                || t.getDescription().toLowerCase()
+                                        .contains(filterString.toLowerCase());
             }
             if (requirement) {
                 try {
                     shouldAppear =
                             shouldAppear
-                            || t.getRequirementTitle().toLowerCase()
-                            .contains(filterString.toLowerCase());
+                                    || t.getRequirementTitle().toLowerCase()
+                                            .contains(filterString.toLowerCase());
                 } catch (Exception e) {
-                    System.out.println("Could not find Requirement");
                 }
             }
             if (assignee) {
@@ -195,7 +194,7 @@ public class TaskStatusView extends JPanel {
                                 + user);
                         shouldAppear =
                                 shouldAppear
-                                || user.toLowerCase().contains(filterString.toLowerCase());
+                                        || user.toLowerCase().contains(filterString.toLowerCase());
                     }
                 } catch (NullPointerException e) {
                     System.out.println("For the task \"" + t.getTitle()

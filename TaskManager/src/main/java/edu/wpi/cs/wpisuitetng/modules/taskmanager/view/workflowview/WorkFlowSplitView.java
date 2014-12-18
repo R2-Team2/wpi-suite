@@ -110,11 +110,9 @@ public class WorkFlowSplitView extends JSplitPane {
     public void movePanel() {
         if (expanded) {
             collapsePanel();
-        }
-        else if (!expanded) {
+        } else if (!expanded) {
             expandPanel();
-        }
-        else {
+        } else {
             System.out.println("Side Panel is in an Unknown State (collapseSidePanel Listener)");
         }
     }
@@ -125,14 +123,12 @@ public class WorkFlowSplitView extends JSplitPane {
     public void updateCollapseButtonText() {
         if (workflowSplitTabbedPanel.getTabCount() > 0) {
             workflowObj.collapseSideButton.setEnabled(true);
-        }
-        else {
+        } else {
             workflowObj.collapseSideButton.setEnabled(false);
         }
         if (expanded) {
             workflowObj.collapseSideButton.setText(">");
-        }
-        else {
+        } else {
             workflowObj.collapseSideButton.setText("< " + workflowSplitTabbedPanel.getTabCount());
         }
     }

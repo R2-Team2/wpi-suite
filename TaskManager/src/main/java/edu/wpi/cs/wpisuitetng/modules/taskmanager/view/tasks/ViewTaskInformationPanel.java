@@ -104,8 +104,8 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
         // Comment Box
         commentScroll = new JScrollPane();
-        commentScroll.setVerticalScrollBarPolicy(
-                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll
+                .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -151,7 +151,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         } else {
             requirementText =
                     RequirementModel.getInstance().getRequirement(viewTask.getRequirement())
-                    .getName();
+                            .getName();
             buttonOpenRequirement.setEnabled(true);
         }
         detailsPanel.add(new JLabel(requirementText), "cell 1 3");
@@ -216,7 +216,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
                         + viewTask.getActivityList().get(i).substring(0, 75)
                         + "<br/>"
                         + viewTask.getActivityList().get(i)
-                                .substring(76, viewTask.getActivityList().get(i).length())
+                        .substring(76, viewTask.getActivityList().get(i).length())
                         + "</html>");
             } else {
                 tempList.add("<html>" + viewTask.getActivityList().get(i) + "</html>");
@@ -275,11 +275,11 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
 
         if (date == null) {
             strDate = "...";
+        } else {
+            final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+            final String dateString = dateFormatter.format(date);
+            strDate = dateString;
         }
-        final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
-        final String dateString = dateFormatter.format(date);
-        strDate = dateString;
-
         return strDate;
     }
 
@@ -317,9 +317,9 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     protected void openRequirement() {
         try {
             edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController
-            .getInstance().editRequirement(getCurrentRequirement());
+                    .getInstance().editRequirement(getCurrentRequirement());
             edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController.getInstance()
-            .openRequirementsTab();
+                    .openRequirementsTab();
         } catch (Exception e1) {
             e1.printStackTrace();
         }

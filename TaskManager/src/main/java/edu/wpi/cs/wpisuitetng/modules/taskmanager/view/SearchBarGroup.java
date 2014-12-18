@@ -128,7 +128,6 @@ public class SearchBarGroup extends ToolbarGroupView {
     }
 
     private void searchBarTextChanged() {
-        System.out.println("Search string: " + searchBar.getText());
         ViewEventController.getInstance().filterTasksWithParameters(searchBar.getText(),
                 chckbxDescription.isSelected(), chckbxRequirements.isSelected(),
                 chckbxAssignee.isSelected(), chckbxArchieved.isSelected());

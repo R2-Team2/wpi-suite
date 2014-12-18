@@ -169,9 +169,6 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         }
 
         final int index = indexOfTab(title);
-        for (int i = 0; i < getTabCount(); i++) {
-            System.out.println();
-        }
         if (index > -1) {
             setSelectedIndex(index);
             repaint();

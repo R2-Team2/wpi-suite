@@ -47,20 +47,17 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public Task makeEntity(Session s, String content) throws WPISuiteException {
-        System.out.println("begin make entity");
         final Task newMessage = Task.fromJson(content);
         final List<Model> idList = db.retrieveAll(new IDNum(db));
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
         if (idArry.length == 0)
         {
-            System.out.println("Creating new IDNum object");
             // Initialize ID
             final IDNum idStore = new IDNum(db);
             db.save(idStore);
 
             newMessage.setTaskID(idStore.getAndIncID());
-            System.out.println("gave task new id: " + newMessage.toJson());
 
             if (!db.save(newMessage, s.getProject())) {
                 throw new WPISuiteException("Unable to save TNG");
@@ -70,11 +67,8 @@ public class TaskEntityManager implements EntityManager<Task> {
         }
         else
         {
-            System.out.println("retrieved id list");
-            System.out.println("id object: " + idArry[0].toJson());
             newMessage.setTaskID(idArry[0].getAndIncID());
 
-            System.out.println("id: " + idList.get(0).toJson());
 
 
             // IDNum idObj[] = idList.toArray(new IDNum[0]);
@@ -84,7 +78,6 @@ public class TaskEntityManager implements EntityManager<Task> {
             }
 
             db.save(newMessage, s.getProject());
-            System.out.println("New Message TaskID: " + newMessage.getTaskID());
         }
 
         return newMessage;
@@ -116,10 +109,8 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public Task update(Session s, String content) throws WPISuiteException {
-        System.out.println("update method called in Task Entity Manager");
 
         final Task updatedTask = Task.fromJson(content);
-        System.out.println("updatedTask: " + updatedTask.toJson());
 
         /*
          * Because of the disconnected objects problem in db4o, we can't just save tasks. We have to
@@ -142,7 +133,6 @@ public class TaskEntityManager implements EntityManager<Task> {
             throw new WPISuiteException("Task save to database failed!");
         }
 
-        System.out.println("Updated Task Success: " + existingTask.toJson());
         return existingTask;
     }
 
@@ -154,7 +144,6 @@ public class TaskEntityManager implements EntityManager<Task> {
      */
     @Override
     public void save(Session s, Task model) {
-        System.out.println("Task Entity Manager is Saving");
         db.save(model);
     }
 
@@ -221,7 +210,6 @@ public class TaskEntityManager implements EntityManager<Task> {
 
     @Override
     public String advancedPost(Session s, String string, String content) {
-        System.out.println("Task Entity Manager is in advancedPost");
 
         return null;
     }

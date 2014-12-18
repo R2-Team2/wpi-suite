@@ -60,10 +60,8 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         final Task passTask = aTask;
 
         final AbstractTaskPanel editView = new EditTaskPanel(parentPanel, passTask);
-        System.out.println("Edit Pressed");
         ViewEventController.getInstance().removeSplitTab();
         ViewEventController.getInstance().refreshWorkFlowView();
-        System.out.println("Removed view, adding edit panels");
         parentPanel.getParent().createViewTaskPanel(editView);
     }
 

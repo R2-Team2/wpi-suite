@@ -110,12 +110,10 @@ public class WorkFlowView extends AbsWorkFlowView {
     @Override
     public void refresh() {
         for (TaskStatusView v : views) {
-            System.out.println("Currently in Refresh method");
             v.requestTasksFromDb();
         }
         revalidate();
         repaint();
-        System.out.println("Refresh Done");
     }
 
     @Override

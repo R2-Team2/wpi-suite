@@ -64,20 +64,20 @@ public class AddTaskController {
         final List<String> activityList = new ArrayList<String>();
         final Task newTask;
         // Create Task
-        newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
-                status, requirement, startDate, dueDate, assignedUsers, activityList);
+        newTask =
+                new Task(taskID, title, description, estimatedEffort, actualEffort, status,
+                        requirement, startDate, dueDate, assignedUsers, activityList);
 
         // Create activity entry
         // Code inspired by mkyong
         final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
         final Date date = new Date();
         final String user = ConfigManager.getConfig().getUserName();
-        final String createActivity = "Created task at " + dateFormat.format(date) + " (by "
-                + user + ")";
+        final String createActivity =
+                "Created task at " + dateFormat.format(date) + " (by " + user + ")";
         newTask.addActivity(createActivity); // add activity entry to activity list
 
         // Send a request to the core to save this message
-        System.out.println("Activity List:  " + newTask.getActivityList());
         final Request request =
                 Network.getInstance().makeRequest("taskmanager/task", HttpMethod.PUT); // PUT ==
         // create
