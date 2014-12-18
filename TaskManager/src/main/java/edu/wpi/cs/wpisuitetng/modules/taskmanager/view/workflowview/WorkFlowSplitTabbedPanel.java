@@ -56,20 +56,6 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         this.parentPanel = parentPanel;
 
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        // this.setMaximumSize(new Dimension(100,100));
-        closeAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ViewEventController.getInstance().closeAllTabs();
-            }
-        });
-
-        closeOthers.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ViewEventController.getInstance().closeOthers();
-            }
-        });
 
         popup.add(closeAll);
         popup.add(closeOthers);
@@ -183,7 +169,7 @@ public class WorkFlowSplitTabbedPanel extends JTabbedPane {
         }
 
         final int index = indexOfTab(title);
-        for (int i = 0; i < this.getTabCount(); i++) {
+        for (int i = 0; i < getTabCount(); i++) {
             System.out.println();
         }
         if (index > -1) {

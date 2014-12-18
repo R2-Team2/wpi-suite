@@ -21,7 +21,6 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-// TODO: Auto-generated Javadoc
 /**
  * This controller responds when the user clicks the Submit button by adding the contents of the
  * task text field to the model as a new task.
@@ -64,8 +63,6 @@ public class AddTaskController {
         }
         final List<String> activityList = new ArrayList<String>();
         final Task newTask;
-        // TODO: Create a comment section
-        // final String comment = view.getComment();
         // Create Task
         newTask = new Task(taskID, title, description, estimatedEffort, actualEffort,
                 status, requirement, startDate, dueDate, assignedUsers, activityList);
@@ -78,11 +75,6 @@ public class AddTaskController {
         final String createActivity = "Created task at " + dateFormat.format(date) + " (by "
                 + user + ")";
         newTask.addActivity(createActivity); // add activity entry to activity list
-
-        // TODO: Add comment
-        // if (myString != null && !myString.equals("")) {
-        // newTask.addActivity(comment);
-        // }
 
         // Send a request to the core to save this message
         System.out.println("Activity List:  " + newTask.getActivityList());

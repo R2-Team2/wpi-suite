@@ -17,8 +17,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.WorkFlowSplitTabbedPanel;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskPanel.
  *
@@ -65,10 +63,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         final Task updatedTask = ((EditTaskInformationPanel) infoPanel).getTaskFromFields();
         final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
         updateTaskCntrlr.updateTask(updatedTask);
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-        // TODO: create task card
-        // TODO: put task card in proper task status
+
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
         ViewEventController.getInstance().viewTask(updatedTask);
@@ -83,11 +78,11 @@ public class EditTaskPanel extends AbstractTaskPanel {
         if (!triedQuit && ((EditTaskButtonPanel) buttonPanel).wasChange()) {
             ((EditTaskButtonPanel) buttonPanel).setWarning(true);
             triedQuit = true;
-            return;
         }
-
-        ViewEventController.getInstance().removeSplitTab();
-        parentPanel.checkForHide();
+        else {
+            ViewEventController.getInstance().removeSplitTab();
+            parentPanel.checkForHide();
+        }
     }
 
 
@@ -205,13 +200,4 @@ public class EditTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
-     */
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
-
-    }
 }

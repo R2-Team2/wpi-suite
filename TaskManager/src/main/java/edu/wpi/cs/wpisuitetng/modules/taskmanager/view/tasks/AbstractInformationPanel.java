@@ -54,7 +54,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.tabs.TaskTabPane;
  */
 
 @SuppressWarnings("serial")
-public abstract class AbstractInformationPanel extends JScrollPane {
+public class AbstractInformationPanel extends JScrollPane {
 
     /** The parent panel. */
     protected AbstractTaskPanel parentPanel;
@@ -136,12 +136,12 @@ public abstract class AbstractInformationPanel extends JScrollPane {
     /**
      * Builds the layout.
      */
+    @SuppressWarnings("unchecked")
     protected void buildLayout() {
         setMinimumSize(new Dimension(540, 200));
         // Set the Panel
         final ScrollablePanel contentPanel = new ScrollablePanel();
         contentPanel.setLayout(new MigLayout("", "20[]20", "shrink"));
-        // contentPanel.setLayout(new MigLayout("", "[500px:n:500px,left]", "shrink"));
 
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
@@ -171,9 +171,7 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
-        // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
-        // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
         // Text Areas
@@ -217,10 +215,8 @@ public abstract class AbstractInformationPanel extends JScrollPane {
         // Calendars
         calStartDate = new JXDatePicker();
         calStartDate.setName("start date");
-        // calStartDate.setDate(Calendar.getInstance().getTime());
         calDueDate = new JXDatePicker();
         calDueDate.setName("due date");
-        // calDueDate.setDate(Calendar.getInstance().getTime());
         icon = new ImageIcon(this.getClass().getResource("calendar.png"));
         final ImageIcon scaledIcon =
                 new ImageIcon(icon.getImage()
@@ -365,7 +361,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      *
      * @return JComboBox<Requirement>
      */
-    // TODO rename this to getRequirementComboBox
     public JComboBox<Requirement> getRequirement() {
         return dropdownRequirement;
     }
@@ -449,7 +444,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      * Validate requirement view.
      */
     private void validateRequirementView() {
-        // System.out.println(getRequirement().getSelectedItem());
         if (getRequirement() == null
                 || ((Requirement) getRequirement().getSelectedItem()).getId() == -1) {
             buttonOpenRequirement.setEnabled(false);
@@ -465,7 +459,6 @@ public abstract class AbstractInformationPanel extends JScrollPane {
      */
     public void disableAll(Boolean io) {
         io = !io;
-        // aTask.getTaskID();
         boxTitle.setEnabled(io);
         boxDescription.setEnabled(io);
         dropdownStatus.setEnabled(io);

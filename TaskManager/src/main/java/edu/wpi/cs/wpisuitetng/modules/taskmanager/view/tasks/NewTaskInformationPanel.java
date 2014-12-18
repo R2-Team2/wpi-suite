@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveUsersController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 
-
 /**
  * The Class NewTaskInformationPanel.
  *
@@ -36,7 +35,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
      */
     public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
         this.parentPanel = parentPanel;
-        // this.setMinimumSize(new Dimension(540, 200));
 
         buildLayout();
         new RetrieveUsersController(possibleAssigneeModel).requestAllUsers();

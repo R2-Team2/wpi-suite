@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class ViewTaskButtonPanel.
  *
@@ -22,7 +20,7 @@ import javax.swing.JButton;
  */
 @SuppressWarnings("serial")
 public class ViewTaskButtonPanel extends AbstractButtonPanel {
-    
+
     /** The parent panel. */
     protected ViewTaskPanel parentPanel;
 
@@ -48,8 +46,7 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
         buttonArchive = new JButton(archiveString);
         this.add(buttonEdit);
         this.add(buttonCancel);
-        // this.add(buttonArchive); //TODO: make this work
-        // super.setupListeners();
+
         setupListeners();
     }
 
@@ -79,8 +76,10 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
         });
     }
 
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#isTaskInfoValid()
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#isTaskInfoValid()
      */
     @Override
     public boolean isTaskInfoValid() {
@@ -88,8 +87,10 @@ public class ViewTaskButtonPanel extends AbstractButtonPanel {
                 "ViewTaskButtonPanel.validateTaskInfo() should not be called");
     }
 
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#validateTaskDate()
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractButtonPanel#validateTaskDate()
      */
     @Override
     public void validateTaskDate() {

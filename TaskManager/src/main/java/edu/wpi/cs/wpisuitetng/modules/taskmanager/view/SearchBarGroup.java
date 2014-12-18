@@ -17,7 +17,7 @@ import javax.swing.event.DocumentListener;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 /**
- * @author dbogatov
+ * @author R2-Team2
  * @version 0.1
  */
 public class SearchBarGroup extends ToolbarGroupView {

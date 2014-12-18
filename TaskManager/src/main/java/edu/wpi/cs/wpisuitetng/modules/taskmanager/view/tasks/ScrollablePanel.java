@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ScrollablePanel.
  *

@@ -12,7 +12,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * An asynchronous update interface for receiving notifications about RetrieveTasksRequest
  * information as the RetrieveTasksRequest is constructed.
@@ -37,7 +36,6 @@ public class RetrieveTasksRequestObserver implements RequestObserver {
 
     @Override
     public void responseSuccess(IRequest iReq) {
-        // TODO Auto-generated method stub
         final ResponseModel response = iReq.getResponse();
         final String responseBody = response.getBody();
         controller.displayTasks(Task.fromJsonArray(responseBody));

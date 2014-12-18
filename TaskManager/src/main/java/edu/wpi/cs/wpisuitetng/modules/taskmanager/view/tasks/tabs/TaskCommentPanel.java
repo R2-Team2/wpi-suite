@@ -89,7 +89,8 @@ public class TaskCommentPanel extends JPanel {
 
         // Create new scroll pane for notes
         commentScroll
-        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        .setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         // Always show scroll bar
         commentScroll.setMinimumSize(new Dimension(100, 300));
 
@@ -142,7 +143,6 @@ public class TaskCommentPanel extends JPanel {
      * Refreshes the note panel
      */
     private void refresh() {
-        // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
         final JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE); // Background color is white

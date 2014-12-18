@@ -52,6 +52,6 @@ public class UpdateTaskController {
         request.send(); // send the request
         System.out.println("Task: " + toSave.toJson());
         System.out.println("Sent task to database");
-        // }
+
     }
 }

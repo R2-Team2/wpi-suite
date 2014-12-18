@@ -45,15 +45,13 @@ public class IDNum extends AbstractModel {
     }
 
     @Override
-    public void save() {
-        // TODO Auto-generated method stub
-
+    public void save() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Save() is an unsupported operation.");
     }
 
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
-
+    public void delete() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Delete() is an unsupported operation.");
     }
 
     @Override
@@ -62,9 +60,8 @@ public class IDNum extends AbstractModel {
     }
 
     @Override
-    public Boolean identify(Object o) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean identify(Object o) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Identify(o) is an unsupported operation.");
     }
 
     /**
@@ -75,7 +72,6 @@ public class IDNum extends AbstractModel {
         Num += 1;
 
         IDNum.db.save(this);
-        // IDNum.db.update(IDNum.class, "id", 0, "Num", this.Num);
         return oldIDNum;
     }
 

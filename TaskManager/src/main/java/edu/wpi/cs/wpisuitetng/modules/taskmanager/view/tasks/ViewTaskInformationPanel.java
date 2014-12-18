@@ -60,8 +60,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         parentPanel = aParentPanel;
         buildLayout();
         setupListeners();
-        // this.disableAll(true);
-        // setTask();
 
         final List<Iteration> iterations = IterationModel.getInstance().getIterations();
         Collections.sort(iterations, new IterationComparator());
@@ -101,15 +99,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         final JLabel labelComments = new JLabel("<html><h3>Comments</h3></html>");
         final JLabel labelActivityLog = new JLabel("<html><h3>Activity Log</h3></html>");
 
-        // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
-        // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
         // Comment Box
         commentScroll = new JScrollPane();
-        commentScroll
-        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -213,7 +209,7 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         // Activity Title and Separator
         contentPanel.add(labelActivityLog, "cell 0 11, split 2, span");
         contentPanel.add(new JSeparator(), "cell 0 11, growx, wrap");
-        List<String> tempList = new ArrayList();
+        final List<String> tempList = new ArrayList();
         for (int i = 0; i < viewTask.getActivityList().size(); i++) {
             if (viewTask.getActivityList().get(i).length() > 75) {
                 tempList.add("<html>"
@@ -238,7 +234,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
     public void setupTask() {
         final Task viewTask = parentPanel.aTask;
 
-        // viewTask.getTaskID();
         final String t = viewTask.getTitle();
         boxTitle.setText(t);
         boxDescription.setText(viewTask.getDescription());
@@ -276,12 +271,16 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
      */
     private String formatDate(Date date) {
+        String strDate = null;
+
         if (date == null) {
-            return "...";
+            strDate = "...";
         }
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         final String dateString = dateFormatter.format(date);
-        return dateString;
+        strDate = dateString;
+
+        return strDate;
     }
 
     /*
@@ -331,7 +330,6 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * Refreshes the note panel
      */
     private void fillCommentScroll() {
-        // noteScroll.setViewportView(CommentPanel.createList(currentRequirement.getNotes()));
 
         final JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE); // Background color is white

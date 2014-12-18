@@ -27,12 +27,10 @@ import javax.swing.text.StyledDocument;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveTasksController;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.controller.RetrieveWorkflowController;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.TaskCard;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TaskStatusView.
  *
@@ -116,9 +114,6 @@ public class TaskStatusView extends JPanel {
      * @param taskArray the task array
      */
     public void fillTaskList(Task[] taskArray) {
-        final RetrieveWorkflowController controller = new RetrieveWorkflowController();
-        controller.requestWorkflow();
-
         taskStatusObj.setTaskList(new ArrayList<Task>());
         for (Task t : taskArray) {
             if (t.getStatus() != null && taskStatusObj.getName().equals(t.getStatus().getName())) {
@@ -179,15 +174,15 @@ public class TaskStatusView extends JPanel {
             if (description) {
                 shouldAppear =
                         shouldAppear
-                                || t.getDescription().toLowerCase()
-                                        .contains(filterString.toLowerCase());
+                        || t.getDescription().toLowerCase()
+                        .contains(filterString.toLowerCase());
             }
             if (requirement) {
                 try {
                     shouldAppear =
                             shouldAppear
-                                    || t.getRequirementTitle().toLowerCase()
-                                            .contains(filterString.toLowerCase());
+                            || t.getRequirementTitle().toLowerCase()
+                            .contains(filterString.toLowerCase());
                 } catch (Exception e) {
                     System.out.println("Could not find Requirement");
                 }
@@ -200,15 +195,12 @@ public class TaskStatusView extends JPanel {
                                 + user);
                         shouldAppear =
                                 shouldAppear
-                                        || user.toLowerCase().contains(filterString.toLowerCase());
+                                || user.toLowerCase().contains(filterString.toLowerCase());
                     }
                 } catch (NullPointerException e) {
                     System.out.println("For the task \"" + t.getTitle()
                             + "\" assignee are not defined!");
                 }
-            }
-            if (archived) {
-                // TODO implement this branch if we decide to use archiving
             }
 
             if (shouldAppear) {

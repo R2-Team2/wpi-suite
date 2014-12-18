@@ -18,11 +18,11 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
+
 
 /**
  * The Class Task.
@@ -99,10 +99,10 @@ public class Task extends AbstractModel {
         this.activityList = activityList;
         comments = new CommentList();
     }
-    
+
     /**
      * Initiates a new Task with comments
-     * 
+     *
      * @param taskID the task id
      * @param title the title
      * @param description the description
@@ -251,27 +251,35 @@ public class Task extends AbstractModel {
      * @throws Exception
      */
     public String getRequirementTitle() throws Exception {
-        if (getRequirement() == -1) {
-            return "";
+        String reqTitle = null;
+
+        if (requirement == -1) {
+            reqTitle = "";
         }
         // get latest list of requirement objects and sort them
         // (code partially from requirements module overviewtreepanel.java)
-        final List<Iteration> iterations = IterationModel.getInstance().getIterations();
-        Collections.sort(iterations, new IterationComparator());
-        final List<Requirement> requirements = new ArrayList<Requirement>();
-        for (int i = 0; i < iterations.size(); i++) {
-            // gets the list of requirements that is associated with the iteration
-            requirements.addAll(iterations.get(i).getRequirements());
-        }
-        Collections.sort(requirements, new RequirementComparator());
+        else {
+            final List<Iteration> iterations = IterationModel.getInstance().getIterations();
+            Collections.sort(iterations, new IterationComparator());
+            final List<Requirement> requirements = new ArrayList<Requirement>();
+            for (int i = 0; i < iterations.size(); i++) {
+                // gets the list of requirements that is associated with the iteration
+                requirements.addAll(iterations.get(i).getRequirements());
+            }
+            Collections.sort(requirements, new RequirementComparator());
 
-        for (Requirement requirement : requirements) {
-            if (requirement.getId() == getRequirement()) {
-                return requirement.getName();
+            for (Requirement req : requirements) {
+                if (req.getId() == requirement) {
+                    reqTitle = req.getName();
+                }
+            }
+
+            if (reqTitle == null) {
+                throw new Exception("No Requirement found with ID '" + requirement + "' ");
             }
         }
 
-        throw new Exception("No Requirement found with ID '" + getRequirement() + "' ");
+        return reqTitle;
     }
 
     /**
@@ -401,6 +409,7 @@ public class Task extends AbstractModel {
 
     /**
      * Adds a message to the list of comments
+     *
      * @param msg
      */
     public void addComment(String msg) {
@@ -485,7 +494,7 @@ public class Task extends AbstractModel {
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
-    
+
     /**
      * Sets this Task's status to archived
      */
@@ -526,8 +535,8 @@ public class Task extends AbstractModel {
     }
 }
 
+
 /**
- * TODO FIXME copied directly from RequirementManager
  * @version legacy
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
@@ -548,8 +557,8 @@ class IterationComparator implements Comparator<Iteration> {
     }
 }
 
+
 /**
- * TODO FIXME copied directly from RequirementManager
  * @version legacy
  * @author Kevin from the requirements manager sorts Requirements by name
  */

@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
-    private WorkFlow workFlowObj;
+    private final WorkFlow workFlowObj;
 
     /** The task status views. */
     List<TaskStatusView> views;
@@ -85,26 +85,6 @@ public class WorkFlowView extends AbsWorkFlowView {
         views.add(taskStatusSelDev);
         views.add(taskStatusInDev);
         views.add(taskStatusDone);
-    }
-
-    /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    @Override
-    public WorkFlow getWorkFlowObj() {
-        return workFlowObj;
-    }
-
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    @Override
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        this.workFlowObj = workFlowObj;
     }
 
     /**

@@ -13,8 +13,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class EditTaskButtonPanel.
  *
@@ -57,7 +55,6 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         this.add(buttonSave);
         this.add(buttonCancel);
         this.add(warningLabel, "left ");
-        // parentPanel.createPressed();
 
         setupListeners();
     }
@@ -115,7 +112,8 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
                 || !(areDatesValid())
                 || (!(((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
                         .equals("Archived") || ((String) parentPanel.infoPanel.dropdownStatus
-                                .getSelectedItem()).equals("New")) && parentPanel.infoPanel.chosenAssigneeList
+                                .getSelectedItem()).equals("New"))
+                && parentPanel.infoPanel.chosenAssigneeList
                                 .getModel().getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;
@@ -152,12 +150,17 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
      */
     @Override
     public boolean areDatesValid() {
+        boolean result;
+
         if (parentPanel.infoPanel.getDueDate() != null
                 && parentPanel.infoPanel.getStartDate() != null) {
-            return (parentPanel.infoPanel.getDueDate().after(parentPanel.infoPanel.getStartDate()));
+            result = parentPanel.infoPanel.getDueDate()
+                    .after(parentPanel.infoPanel.getStartDate());
         } else {
-            return true;
+            result = true;
         }
+
+        return result;
     }
 
 }

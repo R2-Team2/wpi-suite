@@ -50,14 +50,11 @@ public class WorkFlowViewTest {
     public void testConstructor() {
         WorkFlowView newView = new WorkFlowView();
         assertNotNull(newView);
-
-        assertEquals(new ArrayList<TaskStatus>(), newView.getWorkFlowObj().getTaskStatusList());
     }
 
     @Test
     public void testSetWorkFlowObj() {
         WorkFlowView newView = new WorkFlowView();
-        newView.setWorkFlowObj(mockWorkFlow);
 
         List<Long> mockTaskStatusList = new ArrayList<Long>();
         mockTaskStatusList.add((long) 1);
@@ -66,7 +63,6 @@ public class WorkFlowViewTest {
         mockTaskStatusList.add((long) 4);
 
         assertEquals(mockWorkFlow.getWorkFlowID(), 0);
-        assertEquals(newView.getWorkFlowObj().getTaskStatusList(), mockTaskStatusList);
 
     }
 
