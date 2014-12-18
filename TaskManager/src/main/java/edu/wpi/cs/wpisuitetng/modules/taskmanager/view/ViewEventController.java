@@ -186,7 +186,6 @@ public class ViewEventController {
      * @param t TaskStatusView
      */
     public void showArchived(Boolean b, TaskStatusView t) {
-        // TODO Auto-generated method stub
         workflow.showArchived(b, t);
 
     }

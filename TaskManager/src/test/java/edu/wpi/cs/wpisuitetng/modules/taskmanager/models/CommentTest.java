@@ -9,8 +9,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.models;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
@@ -38,18 +36,6 @@ public class CommentTest extends TestCase {
     public CommentTest(String name) {
         super(name);
     }
-
-    /**
-     * To be run before every test.
-     */
-    @Before
-    public void setupTest() {}
-
-    /**
-     * To be run after every test.
-     */
-    @After
-    public void teardownTest() {}
 
     /**
      * Test constructor.

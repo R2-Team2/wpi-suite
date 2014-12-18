@@ -57,7 +57,6 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
         this.add(buttonSave);
         this.add(buttonCancel);
         this.add(warningLabel, "left ");
-        // parentPanel.createPressed();
 
         setupListeners();
     }
@@ -115,7 +114,8 @@ public class EditTaskButtonPanel extends AbstractButtonPanel {
                 || !(areDatesValid())
                 || (!(((String) parentPanel.infoPanel.dropdownStatus.getSelectedItem())
                         .equals("Archived") || ((String) parentPanel.infoPanel.dropdownStatus
-                                .getSelectedItem()).equals("New")) && parentPanel.infoPanel.chosenAssigneeList
+                                .getSelectedItem()).equals("New"))
+                && parentPanel.infoPanel.chosenAssigneeList
                                 .getModel().getSize() == 0)) {
             buttonSave.setEnabled(false);
             result = false;

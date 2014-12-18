@@ -66,7 +66,6 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         ViewEventController.getInstance().refreshWorkFlowView();
         System.out.println("Removed view, adding edit panels");
         parentPanel.getParent().createViewTaskPanel(editView);
-        // addViewTaskTab(editView);
     }
 
     /**
@@ -98,7 +97,6 @@ public class ViewTaskPanel extends AbstractTaskPanel {
      */
     @Override
     public String getTitle() {
-        // return infoPanel.getTitle().getText();
         return aTask.getTitle();
     }
 
@@ -184,7 +182,6 @@ public class ViewTaskPanel extends AbstractTaskPanel {
     }
 
     /*
-     * (non-Javadoc)
      * @see
      * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
      * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
@@ -207,13 +204,4 @@ public class ViewTaskPanel extends AbstractTaskPanel {
         buttonPanel = aPanel;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#createPressed()
-     */
-    @Override
-    public void createPressed() {
-        // TODO Auto-generated method stub
-
-    }
 }

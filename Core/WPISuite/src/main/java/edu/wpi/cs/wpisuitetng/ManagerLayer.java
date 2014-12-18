@@ -31,8 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers.TaskEntityManager;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers.TaskStatusEntityManager;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.entitymanagers.WorkFlowEntityManager;
 
 /**
  * This singleton class responds to API requests directed at models by contacting their respective
@@ -69,12 +67,10 @@ public class ManagerLayer {
         map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
         map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
         map.put("taskmanager" + "task", new TaskEntityManager(data));
-        map.put("taskmanager" + "taskstatus", new TaskStatusEntityManager(data));
-        map.put("taskmanager" + "workflow", new WorkFlowEntityManager(data));
 
         // add just your module to this list
         String[] fullModuleList =
-                {"core", "defecttracker", "postboard", "requirementmanager", "taskmanager"};
+        {"core", "defecttracker", "postboard", "requirementmanager", "taskmanager"};
         ((ProjectManager) map.get("coreproject")).setAllModules(fullModuleList);
         String ssid = null;
 
@@ -104,7 +100,7 @@ public class ManagerLayer {
 
     /**
      * Returns the single ManagerLayer instance
-     * 
+     *
      * @return ManagerLayer
      */
     public static ManagerLayer getInstance()
@@ -117,7 +113,7 @@ public class ManagerLayer {
      * Returns the single ManagerLayer instance This is a test managerlayer with dummy
      * EntityManagers This call is not a true singleton call, and will return a new managerlayer
      * everytime it is accessed
-     * 
+     *
      * @return ManagerLayer
      */
     protected static ManagerLayer getTestInstance(
@@ -128,7 +124,7 @@ public class ManagerLayer {
 
     /**
      * Exposes the SessionManager for this ManagerLayer.
-     * 
+     *
      * @return sessions
      */
     public synchronized SessionManager getSessions()
@@ -138,7 +134,7 @@ public class ManagerLayer {
 
     /**
      * Exposes the Users in the database for direct access.
-     * 
+     *
      * @return The UserManager instance
      * @throws WPISuiteException
      */
@@ -150,7 +146,7 @@ public class ManagerLayer {
 
     /**
      * Exposes the Users in the database for direct access.
-     * 
+     *
      * @return The UserManager instance
      */
     public UserManager getUsers()
@@ -161,7 +157,7 @@ public class ManagerLayer {
 
     /**
      * Exposes the Projects in the database for direct access.
-     * 
+     *
      * @return the ProjectManager instance
      */
     public ProjectManager getProjects()
@@ -173,7 +169,7 @@ public class ManagerLayer {
     /**
      * read() Reads the WPISuite cookie and returns the session associated with it in JSON form
      * String args[] - {module,model,identifier}
-     * 
+     *
      * @param args - a string array of the parameters, where args[length-1] == null
      * @return a JSON String representing the requested data
      */
@@ -215,7 +211,7 @@ public class ManagerLayer {
     /**
      * create() Creates a JSON representation of the model created from the content passed in in the
      * arguments. * String args[] - {module,model,identifier}
-     * 
+     *
      * @param args - a string array of the parameters
      * @param content - the content of the create request
      * @return a JSON String of the newly created data if successful, null otherwise
@@ -234,7 +230,7 @@ public class ManagerLayer {
     /**
      * update Updates the model with the content stored in the content argument * String args[] -
      * {module,model,identifier}
-     * 
+     *
      * @param args - A string array of the parameters
      * @param content - a JSON String of the content to update
      * @return a JSON String of the updated element
@@ -254,7 +250,7 @@ public class ManagerLayer {
     /**
      * delete * String args[] - {module,model,identifier} Deletes a model identified by the cookie
      * and content of the model.
-     * 
+     *
      * @param args - A String array of the parameters
      * @return String "null" if the delete was successful, a message otherwise
      */
@@ -270,7 +266,7 @@ public class ManagerLayer {
 
     /**
      * Advanced Get forwards advanced get requests to the correct entity manager
-     * 
+     *
      * @param args - A String array of the parameters
      * @param cook - The cookie forward
      * @return String - the returned value from the advancedGet call
@@ -287,7 +283,7 @@ public class ManagerLayer {
      * contain any line breaks. only the first line will be passed through to the function.
      * ********************** does the same thing as advanced GET except that it also forwards as
      * well as the path arguments
-     * 
+     *
      * @param args - the path arguments of the request
      * @param content - the content body of the request
      * @param cook - the cookie sent along with the request
@@ -305,7 +301,7 @@ public class ManagerLayer {
      * ADvanced Post ********************** A note about advanced post. the content body should not
      * contain any line breaks. only the first line will be passed through to the function.
      * **********************
-     * 
+     *
      * @param path
      * @param readLine
      * @param cookies
@@ -321,7 +317,7 @@ public class ManagerLayer {
     }
 
     private Session getSessionFromCookies(Cookie[] cook) throws AuthenticationException,
-            UnauthorizedException
+    UnauthorizedException
     {
         Session s = null;
         if (cook != null)

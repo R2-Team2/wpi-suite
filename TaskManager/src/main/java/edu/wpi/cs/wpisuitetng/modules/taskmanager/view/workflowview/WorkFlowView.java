@@ -88,26 +88,6 @@ public class WorkFlowView extends AbsWorkFlowView {
     }
 
     /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    @Override
-    public WorkFlow getWorkFlowObj() {
-        return workFlowObj;
-    }
-
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    @Override
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        this.workFlowObj = workFlowObj;
-    }
-
-    /**
      * Filters task cards considering title, description, assignee, requirement and archived tasks.
      *
      * @param filterString search string

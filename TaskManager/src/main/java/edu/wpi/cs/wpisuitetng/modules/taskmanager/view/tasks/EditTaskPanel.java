@@ -65,10 +65,7 @@ public class EditTaskPanel extends AbstractTaskPanel {
         final Task updatedTask = ((EditTaskInformationPanel) infoPanel).getTaskFromFields();
         final UpdateTaskController updateTaskCntrlr = new UpdateTaskController(this);
         updateTaskCntrlr.updateTask(updatedTask);
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-        // TODO: create task card
-        // TODO: put task card in proper task status
+
         ViewEventController.getInstance().removeSplitTab();
         parentPanel.checkForHide();
         ViewEventController.getInstance().viewTask(updatedTask);

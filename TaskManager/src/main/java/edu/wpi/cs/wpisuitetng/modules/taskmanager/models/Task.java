@@ -18,11 +18,11 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.Comment;
+import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.attributes.CommentList;
+
 
 /**
  * The Class Task.
@@ -99,10 +99,10 @@ public class Task extends AbstractModel {
         this.activityList = activityList;
         comments = new CommentList();
     }
-    
+
     /**
      * Initiates a new Task with comments
-     * 
+     *
      * @param taskID the task id
      * @param title the title
      * @param description the description
@@ -401,6 +401,7 @@ public class Task extends AbstractModel {
 
     /**
      * Adds a message to the list of comments
+     *
      * @param msg
      */
     public void addComment(String msg) {
@@ -485,7 +486,7 @@ public class Task extends AbstractModel {
         requirement = updatedTask.requirement;
         status = updatedTask.status;
     }
-    
+
     /**
      * Sets this Task's status to archived
      */
@@ -526,8 +527,8 @@ public class Task extends AbstractModel {
     }
 }
 
+
 /**
- * TODO FIXME copied directly from RequirementManager
  * @version legacy
  * @author Kevin from the requirements manager sorts the Iterations by date
  */
@@ -548,8 +549,8 @@ class IterationComparator implements Comparator<Iteration> {
     }
 }
 
+
 /**
- * TODO FIXME copied directly from RequirementManager
  * @version legacy
  * @author Kevin from the requirements manager sorts Requirements by name
  */

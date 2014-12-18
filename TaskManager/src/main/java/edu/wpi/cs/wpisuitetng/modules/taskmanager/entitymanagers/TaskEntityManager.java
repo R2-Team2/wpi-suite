@@ -24,8 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.IDNum;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class TaskEntityManager.
  *
@@ -52,7 +50,6 @@ public class TaskEntityManager implements EntityManager<Task> {
         System.out.println("begin make entity");
         final Task newMessage = Task.fromJson(content);
         final List<Model> idList = db.retrieveAll(new IDNum(db));
-        // List<Model> idList = db.retrieve(IDNum.class, "db", this.db, s.getProject());
 
         final IDNum[] idArry = idList.toArray(new IDNum[0]);
         if (idArry.length == 0)
@@ -144,8 +141,6 @@ public class TaskEntityManager implements EntityManager<Task> {
         if (!db.save(existingTask, s.getProject())) {
             throw new WPISuiteException("Task save to database failed!");
         }
-
-        // db.save(updatedTask, s.getProject());
 
         System.out.println("Updated Task Success: " + existingTask.toJson());
         return existingTask;

@@ -70,11 +70,6 @@ public class NewTaskPanel extends AbstractTaskPanel {
         final AddTaskController addNewTask = new AddTaskController(this);
         addNewTask.addTask();
 
-        // RetrieveTasksController retrieveTasks = new RetrieveTasksController();
-        // retrieveTasks.requestTasks();
-
-        // TODO: create task card
-        // TODO: put task card in proper task status
         ViewEventController.getInstance().removeSplitTab();
         ViewEventController.getInstance().refreshWorkFlowView();
         parentPanel.checkForHide();
@@ -179,8 +174,11 @@ public class NewTaskPanel extends AbstractTaskPanel {
         return infoPanel.getAssignedUsers();
     }
 
-    /* (non-Javadoc)
-     * @see edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
+    /*
+     * (non-Javadoc)
+     * @see
+     * edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.AbstractTaskPanel#setInfoPanel(edu.
+     * wpi.cs.wpisuitetng.modules.taskmanager.view.tasks.NewTaskInformationPanel)
      */
     @Override
     public void setInfoPanel(NewTaskInformationPanel aPanel) {

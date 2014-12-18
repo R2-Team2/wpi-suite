@@ -13,8 +13,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-
-
 /**
  * The Class WorkFlow.
  *

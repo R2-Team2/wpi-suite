@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 
 /**
@@ -25,9 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
  */
 @SuppressWarnings("serial")
 public class AbsWorkFlowView extends JPanel {
-
-    /** The work flow obj. */
-    private WorkFlow workFlowObj;
 
     /** The task status panel. */
     protected JPanel taskStatusPanel;
@@ -40,7 +36,6 @@ public class AbsWorkFlowView extends JPanel {
      * Constructor for AbsWorkFlowView.
      */
     protected AbsWorkFlowView() {
-        workFlowObj = new WorkFlow();
         views = new ArrayList<TaskStatusView>();
         views.add(new TaskStatusView(new TaskStatus("New")));
         views.add(new TaskStatusView(new TaskStatus("Selected for Development")));
@@ -88,22 +83,6 @@ public class AbsWorkFlowView extends JPanel {
     public JPanel getTaskStatusPanel() {
         return taskStatusPanel;
     }
-    
-    /**
-     * Returns the stored workflow Object
-     * @return WorkFlow
-     */
-    public WorkFlow getWorkFlowObj() {
-        return workFlowObj;
-    }
-
-    /**
-     * Sets the current WorkFlow Object
-     * @param workFlowObj2
-     */
-    public void setWorkFlowObj(WorkFlow workFlowObj2) {
-        workFlowObj = workFlowObj2;
-    }
 
     /**
      * Refresh.
@@ -113,9 +92,10 @@ public class AbsWorkFlowView extends JPanel {
             v.requestTasksFromDb();
         }
     }
-    
+
     /**
      * returns the list of TaskStatusViews in the Workflow
+     *
      * @return List<TaskStatusView>
      */
     public List<TaskStatusView> getViews() {

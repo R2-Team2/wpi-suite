@@ -23,10 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
  */
 @SuppressWarnings("serial")
 public class NewTaskButtonPanel extends AbstractButtonPanel {
-    // Class Variables
 
-    // /** The button create. */
-    // protected JButton buttonCreate;
     /** The parent panel. */
     protected NewTaskPanel parentPanel;
 
@@ -110,8 +107,8 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
                 && parentPanel.infoPanel.getStartDate() != null) {
             if (parentPanel.infoPanel.getDueDate().before(parentPanel.infoPanel.getStartDate())) {
                 parentPanel.infoPanel.labelDueDate
-                .setText("<html>Due Date: <font color='CC0000'>"
-                        + "Preceeds Start Date</font></html>");
+                        .setText("<html>Due Date: <font color='CC0000'>"
+                                + "Preceeds Start Date</font></html>");
             } else {
                 parentPanel.infoPanel.labelDueDate.setText("Due Date: ");
             }

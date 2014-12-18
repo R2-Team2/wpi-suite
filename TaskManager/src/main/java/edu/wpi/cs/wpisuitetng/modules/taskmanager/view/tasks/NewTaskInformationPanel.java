@@ -36,7 +36,6 @@ public class NewTaskInformationPanel extends AbstractInformationPanel {
      */
     public NewTaskInformationPanel(AbstractTaskPanel parentPanel) {
         this.parentPanel = parentPanel;
-        // this.setMinimumSize(new Dimension(540, 200));
 
         buildLayout();
         new RetrieveUsersController(possibleAssigneeModel).requestAllUsers();

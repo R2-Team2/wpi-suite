@@ -26,7 +26,6 @@ import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.taskmanager.models.WorkFlow;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView;
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.workflowview.AbsWorkFlowView;
 
@@ -107,26 +106,6 @@ public class WorkFlowEditView extends AbsWorkFlowView {
                 model.addElement(t);
             }
         }
-    }
-
-    /**
-     * Gets the work flow obj.
-     *
-     * @return the work flow obj
-     */
-    @Override
-    public WorkFlow getWorkFlowObj() {
-        return super.getWorkFlowObj();
-    }
-
-    /**
-     * Sets the work flow obj.
-     *
-     * @param workFlowObj the new work flow obj
-     */
-    @Override
-    public void setWorkFlowObj(WorkFlow workFlowObj) {
-        setWorkFlowObj(workFlowObj);
     }
 
     /**
