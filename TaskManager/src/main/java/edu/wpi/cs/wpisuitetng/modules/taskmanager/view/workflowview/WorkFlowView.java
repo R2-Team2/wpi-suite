@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.taskstatus.TaskStatusView
 public class WorkFlowView extends AbsWorkFlowView {
 
     /** The work flow obj. */
-    private WorkFlow workFlowObj;
+    private final WorkFlow workFlowObj;
 
     /** The task status views. */
     List<TaskStatusView> views;

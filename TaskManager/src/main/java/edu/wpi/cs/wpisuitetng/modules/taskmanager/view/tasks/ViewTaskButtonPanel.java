@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class ViewTaskButtonPanel.
  *

@@ -13,7 +13,6 @@ import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * Custom cell renderer for lists of Users. This changes the text that JLists displays for Users to
  * username instead of the output of .toString()
@@ -21,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version $Revision: 1.0 $
  * @author R2-Team2
  */
+@SuppressWarnings("serial")
 public class UserRenderer extends DefaultListCellRenderer {
 
     /*

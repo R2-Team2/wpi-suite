@@ -14,7 +14,6 @@ import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.taskmanager.view.ViewEventController;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NewTaskButtonPanel.
  *
@@ -122,13 +121,18 @@ public class NewTaskButtonPanel extends AbstractButtonPanel {
      */
     @Override
     public boolean areDatesValid() {
+        boolean result;
+
         if (parentPanel.infoPanel.getDueDate() != null
                 && parentPanel.infoPanel.getStartDate() != null) {
-            return (parentPanel.infoPanel.getDueDate().after(parentPanel.infoPanel.getStartDate()));
+            result = (parentPanel.infoPanel.getDueDate()
+                    .after(parentPanel.infoPanel.getStartDate()));
         }
         else {
-            return true;
+            result = true;
         }
+
+        return result;
     }
 
 }

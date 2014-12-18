@@ -171,9 +171,7 @@ public class AbstractInformationPanel extends JScrollPane {
         final JLabel labelPossibleAssignee = new JLabel("Open Assignees: ");
         final JLabel labelChosenAssignee = new JLabel("Chosen Assignees: ");
 
-        // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
-        // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
         // Text Areas
@@ -363,7 +361,6 @@ public class AbstractInformationPanel extends JScrollPane {
      *
      * @return JComboBox<Requirement>
      */
-    // TODO rename this to getRequirementComboBox
     public JComboBox<Requirement> getRequirement() {
         return dropdownRequirement;
     }

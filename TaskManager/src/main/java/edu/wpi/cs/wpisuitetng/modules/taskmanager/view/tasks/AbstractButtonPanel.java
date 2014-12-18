@@ -9,7 +9,6 @@ package edu.wpi.cs.wpisuitetng.modules.taskmanager.view.tasks;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractButtonPanel.
  *

@@ -99,15 +99,13 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
         final JLabel labelComments = new JLabel("<html><h3>Comments</h3></html>");
         final JLabel labelActivityLog = new JLabel("<html><h3>Activity Log</h3></html>");
 
-        // TODO use a nice icon
         buttonOpenRequirement = new JButton("<");
-        // TODO force the button to be this small
         buttonOpenRequirement.setPreferredSize(new Dimension(16, 16));
 
         // Comment Box
         commentScroll = new JScrollPane();
-        commentScroll
-        .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        commentScroll.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         commentScroll.setMinimumSize(new Dimension(100, 150));
         commentScroll.setMaximumSize(new Dimension(800, 300));
         fillCommentScroll();
@@ -273,12 +271,16 @@ public class ViewTaskInformationPanel extends AbstractInformationPanel {
      * @return dateString Formatted Due Date of Task t in mm/dd/yy
      */
     private String formatDate(Date date) {
+        String strDate = null;
+
         if (date == null) {
-            return "...";
+            strDate = "...";
         }
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         final String dateString = dateFormatter.format(date);
-        return dateString;
+        strDate = dateString;
+
+        return strDate;
     }
 
     /*
