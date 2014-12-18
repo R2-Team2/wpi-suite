@@ -177,7 +177,10 @@ public class ViewEventController {
         workflow.showArchived(b, t);
 
     }
-
+    
+    /**
+     * Repaints and validates the workflow
+     */
     public void repaintWorkFlow() {
         workflow.repaint();
         workflow.revalidate();
